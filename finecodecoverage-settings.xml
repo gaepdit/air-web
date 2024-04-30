@@ -1,0 +1,14 @@
+﻿<FineCodeCoverage>
+  <Enabled>
+		True
+  </Enabled>
+  <Exclude>
+        [AppServicesTests]*
+        [DomainTests]*
+        [EfRepositoryTests]*
+        [LocalRepositoryTests]*
+        [WebAppTests]*
+        [TestData]*
+        [EfRepository]MyApp.EfRepository.Migrations.*
+  </Exclude>
+</FineCodeCoverage>

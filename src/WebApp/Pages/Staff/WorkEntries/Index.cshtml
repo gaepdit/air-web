@@ -1,0 +1,132 @@
+@page "{handler?}"
+@using MyApp.AppServices.WorkEntries.QueryDto
+@using MyApp.Domain.Entities.WorkEntries
+@using MyApp.WebApp.Platform.PageModelHelpers
+@model IndexModel
+@{
+    ViewData["Title"] = "Work Entry Search";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
+            <div class="text-body-secondary pb-2">
+                <em>All fields are optional.</em>
+            </div>
+            <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
+                <h2 class="h4">Status</h2>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Status" name="@nameof(Model.Spec.Status)" asp-items="Html.GetEnumSelectList<WorkEntryStatus>()" class="form-select">
+                                <option value="">@SelectOptions.SelectTextAny</option>
+                            </select>
+                            <label asp-for="Spec.Status" class="form-label"></label>
+                        </div>
+                    </div>
+                    @if (Model.CanViewDeletedWorkEntries)
+                    {
+                        <div class="col-md mb-3">
+                            <div class="form-floating">
+                                <select asp-for="Spec.DeletedStatus" name="@nameof(Model.Spec.DeletedStatus)" 
+                                        asp-items="Html.GetEnumSelectList<SearchDeleteStatus>()" class="form-select">
+                                    <option value="">Not Deleted</option>
+                                </select>
+                                <label asp-for="Spec.DeletedStatus" class="form-label"></label>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <label asp-for="Spec.ReceivedFrom" class="form-label px-2 mb-0">Date Work Entry Received</label>
+                        <div class="input-group">
+                            <div class="form-floating">
+                                <input asp-for="Spec.ReceivedFrom" name="@nameof(Model.Spec.ReceivedFrom)" class="form-control" />
+                                <label asp-for="Spec.ReceivedFrom" class="form-label"></label>
+                            </div>
+                            <div class="form-floating">
+                                <input asp-for="Spec.ReceivedTo" name="@nameof(Model.Spec.ReceivedTo)" class="form-control" />
+                                <label asp-for="Spec.ReceivedTo" class="form-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.ReceivedBy" name="@nameof(Model.Spec.ReceivedBy)" asp-items="Model.ReceivedBySelectList" class="form-select">
+                                <option value="">@SelectOptions.SelectTextAny</option>
+                            </select>
+                            <label asp-for="Spec.ReceivedBy" class="form-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="h4">Work Entry Details</h2>
+                <div class="row">
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.EntryType" name="@nameof(Model.Spec.EntryType)" asp-items="Model.EntryTypesSelectList"
+                                    class="form-select" aria-describedby="EntryTypeHelpBlock">
+                                <option value="">@SelectOptions.SelectTextAny</option>
+                            </select>
+                            <label asp-for="Spec.EntryType" class="form-label"></label>
+                        </div>
+                        <small id="EntryTypeHelpBlock" class="form-text text-body-secondary d-block px-2">Searches both primary and secondary areas of EntryType.</small>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Spec.Text" name="@nameof(Model.Spec.Text)" class="form-control" aria-describedby="DescriptionHelpBlock" />
+                            <label asp-for="Spec.Text" class="form-label"></label>
+                        </div>
+                        <small id="DescriptionHelpBlock" class="form-text text-body-secondary d-block px-2">
+                            (A word or phrase to search for within the Notes field.)
+                        </small>
+                    </div>
+                </div>
+
+                <div class="mt-3 mb-1">
+                    <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
+                    <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3">Clear Form</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (Model.ShowResults)
+{
+    <div id="SearchResults" class="mt-4">
+        <div class="container-full">
+            <div class="row col-lg-9 justify-content-between align-items-start g-0 my-1">
+                <div class="col">
+                    <h3>Search Results</h3>
+                </div>
+                @if (Model.SearchResults.TotalCount > 0)
+                {
+                    <div class="col-auto d-print-none ms-2">
+                        <a asp-page="DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()" class="btn btn-sm btn-outline-secondary">
+                            💾 Download search results
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model.SearchResults.TotalCount == 0)
+        {
+            <p class="lead text-info">No matching results found.</p>
+        }
+        else
+        {
+            <partial name="Shared/_SearchResultPartial" model="Model.ResultsDisplay" />
+        }
+    </div>
+}
+
+@section Scripts {
+    <script src="~/js/formSearch.js"></script>
+}

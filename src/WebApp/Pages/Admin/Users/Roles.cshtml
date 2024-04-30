@@ -1,0 +1,68 @@
+﻿@page
+@model RolesModel
+@{
+    ViewData["Title"] = "User Roles and Capabilities";
+}
+
+<h1 class="mb-3">@ViewData["Title"]</h1>
+
+<h2 class="h4">Public</h2>
+
+<p><em>Visitors</em> to this site who are not logged in can only do the following:</p>
+
+<ul>
+    <li><b>List capabilities for public visitors.</b></li>
+</ul>
+
+<h2 class="h4">User</h2>
+
+<p>All active <em>Users</em> with work accounts who are logged into the application can:</p>
+
+<ul>
+    <li><b>List additional capabilities for Users.</b></li>
+    <li>Search for and view Application Users.</li>
+    <li>View the lists of maintenance items.</li>
+    <li>View the list of roles and capabilities.</li>
+    <li>Edit account info for themselves, including changing assigned Office.</li>
+</ul>
+
+<p>
+    Note: Users who still have current work accounts can be marked "Inactive" by a user account administrator. Inactive
+    users are not able to sign in to the application.
+</p>
+
+<h2 class="h4" id="app-roles">Application Roles</h2>
+
+<p><em>Users</em> can be granted one or more of the following roles.</p>
+
+<h3 class="h5">Staff</h3>
+
+<p>Users in the <em>Staff</em> role can:</p>
+
+<ul>
+    <li><b>List capabilities for Staff.</b></li>
+</ul>
+
+<h3 class="h5">Manager</h3>
+
+<p>Users in the <em>Manager</em> role have all the capabilities of the <em>Staff</em> role. Plus they can:</p>
+
+<ul>
+    <li><b>List capabilities for Managers.</b></li>
+</ul>
+
+<h3 class="h5">User Account Admin</h3>
+
+<p>Users in the <em>User Account Admin</em> role can:</p>
+
+<ul>
+    <li>Manage Application User accounts and assign roles.</li>
+</ul>
+
+<h3 class="h5">Site Maintenance</h3>
+
+<p>Users in the <em>Site Maintenance</em> role can:</p>
+
+<ul>
+    <li>Edit the lookup tables used for drop-down lists.</li>
+</ul>

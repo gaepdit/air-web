@@ -1,0 +1,71 @@
+# Workflow to register a new application version with both GitHub Releases and Raygun deployment tracking.
+
+### NOTE: If Raygun deployment tracking is to be used, then enable this workflow and disable/delete 
+### the "github-release" workflow. This workflow handles both GitHub Releases and Raygun deployment tracking.
+
+# The workflow is triggered when a tag in the format "v1.0.0" is pushed to GitHub.
+#
+# To use this workflow, you must add two "Action secrets" in the GitHub repository settings:
+#
+#    * RAYGUN_APIKEY = the API key for the Raygun project
+#    * RAYGUN_AUTHTOKEN = a "Personal Access Token" for your user account
+#      (generated at https://app.raygun.com/user/tokens)
+#
+# Learn more about Raygun Deployment Tracking at:
+# https://raygun.com/documentation/product-guides/deployment-tracking/overview/
+#
+# Learn more about the GitHub release action at:
+# https://github.com/marketplace/actions/git-release
+
+name: Release Tracking
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release-tracking:
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ false }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the version number
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Send to the Raygun Deployments API
+        id: raygun_deployment
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: https://api.raygun.com/v3/applications/api-key/${{ secrets.RAYGUN_APIKEY }}/deployments
+          method: POST
+          bearerToken: ${{ secrets.RAYGUN_AUTHTOKEN }}
+          data: >-
+            {
+              "version": "${{ steps.get_version.outputs.VERSION }}",
+              "ownerName": "${{ github.event.pusher.name }}",
+              "emailAddress": "${{ github.event.pusher.email }}",
+              "scmIdentifier": "${{ github.sha }}",
+              "scmType": "GitHub"
+            }
+
+      - name: Show Raygun response
+        run: echo ${{ steps.raygun_deployment.outputs.response }}
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        id: github_release
+        uses: docker://ghcr.io/anton-yurchenko/git-release:v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show GitHub response
+        run: echo ${{ steps.github_release.outputs.response }}

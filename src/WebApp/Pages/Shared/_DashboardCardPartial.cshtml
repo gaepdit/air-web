@@ -1,0 +1,43 @@
+﻿@using MyApp.WebApp.Pages.Shared.DisplayTemplates
+@model MyApp.WebApp.Pages.Staff.DashboardIndexModel.DashboardCard
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h2 id="@Model.CardId" class="h5">@Model.Title</h2>
+    </div>
+    <div class="card-body">
+
+        @if (Model.WorkEntries.Count == 0)
+        {
+            <p>
+                <em>None.</em>
+            </p>
+        }
+        else
+        {
+            <div class="table-responsive-md">
+                <table class="table table-borderless table-hover" aria-describedby="@Model.CardId">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Received</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var entry in Model.WorkEntries)
+                    {
+                        <tr>
+                            <th scope="row">
+                                <a asp-page="WorkEntries/Details" asp-route-id="@entry.Id.ToString()" class="btn btn-outline-primary btn-sm">@entry.Id.ToString()</a>
+                            </th>
+                            <td class="text-nowrap">@Html.DisplayFor(_ => entry.ReceivedDate, DisplayTemplate.ShortDate)</td>
+                            <td>@Html.DisplayFor(_ => entry.Status)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

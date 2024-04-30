@@ -1,0 +1,30 @@
+﻿@page
+@using MyApp.WebApp.Platform.Settings
+@model SupportModel
+@{
+    ViewData["Title"] = "Support";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    For general support and policy questions, contact
+    <a href="mailto:@AppSettings.SupportSettings.CustomerSupportEmail">@AppSettings.SupportSettings.CustomerSupportEmail</a>.
+</p>
+
+@if (Model.ActiveUser)
+{
+    <p>For technical support, contact <a href="@AppSettings.SupportSettings.TechnicalSupportSite" target="_blank" rel="noopener">EPD IT support</a>.</p>
+}
+
+<div class="callout">
+    <small>
+        The MY_APP_NAME was developed by Georgia EPD-IT.<br/>
+        @if (Model.Version is not null)
+        {
+            @:Current version: <em>@Model.Version</em>.<br/>
+        }
+        Source code available on
+        <a href="https://github.com/gaepdit/template-app" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">GitHub</a>.
+    </small>
+</div>

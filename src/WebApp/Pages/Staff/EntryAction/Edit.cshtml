@@ -1,0 +1,47 @@
+﻿@page "{actionId:Guid?}"
+@using MyApp.WebApp.Pages.Shared.EditorTemplates
+@model EditActionModel
+
+@{
+    ViewData["Title"] = "Edit Action";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle mb-3">
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                @Html.EditorFor(model => model.UpdateDto.ActionDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                @Html.EditorFor(model => model.UpdateDto.Comments, EditorTemplate.Textarea, new { Rows = 3 })
+            </div>
+        </div>
+
+        <div class="mt-3 mb-1">
+            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
+            <a asp-page="../WorkEntries/Details" asp-route-id="@Model.WorkEntryView.Id.ToString()" asp-fragment="@Model.EntryActionId" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+        <div class="text-danger-emphasis">* denotes a required field</div>
+        <input asp-for="EntryActionId" type="hidden" />
+    </form>
+</div>
+
+<div class="p-3 border rounded-3 bg-dark-subtle text-dark-emphasis">
+    <h2 class="h3">For Work Entry ID @Model.WorkEntryView.Id.ToString()</h2>
+    <partial name="Shared/_WorkEntrySummaryPartial" model="Model.WorkEntryView" />
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,76 @@
+﻿@page "{id:Guid?}"
+@using MyApp.WebApp.Pages.Shared.DisplayTemplates
+@model DetailsModel
+@{
+    ViewData["Title"] = "User Profile: " + Model.DisplayStaff.Name;
+}
+
+<h1>User Profile</h1>
+<hr />
+
+<h2>
+    @if (!Model.DisplayStaff.Active)
+    {
+        <em class="text-warning">Inactive:</em>
+    }
+    @Model.DisplayStaff.Name
+    @if (Model.DisplayStaff.Email!.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
+    {
+        <a asp-page="/Account/Index">
+            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">YOU</span>
+        </a>
+    }
+</h2>
+
+@if (Model.IsUserAdministrator)
+{
+    <p>
+        <a asp-page="Edit" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+    </p>
+}
+
+<dl class="row">
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.DisplayStaff.Email</dd>
+
+    <dt class="col-sm-3">Phone</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.DisplayStaff.PhoneNumber, DisplayTemplate.StringOrPlaceholder, new { Placeholder = "none" })</dd>
+
+    <dt class="col-sm-3">Office</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.OfficeName, DisplayTemplate.StringOrPlaceholder, new { Placeholder = "none" })</dd>
+</dl>
+<hr />
+
+<h3>Roles</h3>
+
+@if (Model.IsUserAdministrator)
+{
+    <p>
+        <a asp-page="EditRoles" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit User Roles</a>
+    </p>
+}
+
+@if (Model.Roles.Count == 0)
+{
+    <p>
+        This account has no application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
+}
+else
+{
+    <p>
+        This account has the following application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
+
+    <dl class="p-3 border rounded-3 bg-light-subtle">
+        @foreach (var role in Model.Roles)
+        {
+            <dt>@role.DisplayName</dt>
+            <dd>
+                <p class="text-body-secondary">@role.Description</p>
+            </dd>
+        }
+    </dl>
+}

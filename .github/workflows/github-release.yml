@@ -1,0 +1,33 @@
+# Workflow to register a new application version with GitHub Releases.
+
+### NOTE: If Raygun deployment tracking is to be used, then disable/delete this workflow and enable 
+### the "release-tracking" workflow instead. It handles both GitHub Releases and Raygun deployment tracking. 
+
+# The workflow is triggered when a tag in the format "v1.0.0" is pushed to GitHub.
+#
+# Learn more about the GitHub release action at:
+# https://github.com/marketplace/actions/git-release
+
+name: GitHub Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  github-release:
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ false }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Release
+        id: github_release
+        uses: docker://ghcr.io/anton-yurchenko/git-release:v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show GitHub response
+        run: echo ${{ steps.github_release.outputs.response }}

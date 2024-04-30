@@ -1,0 +1,203 @@
+@page "{id:Guid?}"
+@using GaEpd.AppLibrary.Extensions
+@using MyApp.AppServices.WorkEntries.Permissions
+@using MyApp.WebApp.Pages.Shared.DisplayTemplates
+@using MyApp.WebApp.Pages.Shared.EditorTemplates
+@model DetailsModel
+@{
+    ViewData["Title"] = $"WorkEntry ID {Model.ItemView.Id.ToString()}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.ItemView.IsDeleted && Model.UserCan[WorkEntryOperation.ManageDeletions])
+{
+    <div class="callout callout-danger mb-3">
+        <div class="container-full">
+            <div class="row justify-content-between align-items-end g-0 my-1">
+                <div class="col">
+                    <h4 class="text-danger-emphasis">Deleted Work Entry</h4>
+                </div>
+                <div class="col-auto d-print-none ms-2">
+                    <a asp-page="Restore" asp-route-id="@Model.ItemView.Id.ToString()" class="btn btn-outline-warning">Restore deleted Work Entry</a>
+                </div>
+            </div>
+        </div>
+        <p>
+            Deleted by @Html.DisplayFor(model => model.ItemView.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => model.ItemView.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
+        </p>
+        <h5>Comments</h5>
+        <p class="text-break text-pre-line">@Html.DisplayFor(model => model.ItemView.DeleteComments, DisplayTemplate.StringOrPlaceholder)</p>
+    </div>
+}
+
+@if (!Model.ItemView.IsDeleted)
+{
+    <div class="d-print-none mb-3">
+        @if (Model.UserCan[WorkEntryOperation.EditWorkEntry])
+        {
+            <a asp-page="Edit" asp-route-id="@Model.ItemView.Id.ToString()" class="btn btn-outline-primary me-2">Edit details</a>
+        }
+        @if (Model.UserCan[WorkEntryOperation.ManageDeletions])
+        {
+            <a asp-page="Delete" asp-route-id="@Model.ItemView.Id.ToString()" class="btn btn-outline-danger me-2">Delete</a>
+        }
+    </div>
+}
+
+<h2 id="status">Status: <em class="text-info-emphasis">@Model.ItemView.Status.GetDisplayName()</em></h2>
+
+<div class="d-print-none mb-2">
+    @if (Model.UserCan[WorkEntryOperation.EditWorkEntry])
+    {
+        @if (Model.ItemView.Closed)
+        {
+            <a asp-page="Reopen" asp-route-id="@Model.ItemView.Id.ToString()" class="btn btn-outline-primary me-2">Reopen</a>
+        }
+        else
+        {
+            <a asp-page="Close" asp-route-id="@Model.ItemView.Id.ToString()" class="btn btn-outline-primary me-2">Close</a>
+        }
+    }
+</div>
+
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ReceivedBy)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @Html.DisplayFor(model => model.ItemView.ReceivedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => model.ItemView.ReceivedDate, DisplayTemplate.LongDateTime)
+        </dd>
+        @if (Model.ItemView.Closed)
+        {
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ClosedDate)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @Html.DisplayFor(model => model.ItemView.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                on @Html.DisplayFor(model => model.ItemView.ClosedDate, DisplayTemplate.LongDateTimeOrNotEntered)
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.ClosedComments)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <div class="text-break text-pre-line">@Html.DisplayFor(_ => Model.ItemView.ClosedComments, DisplayTemplate.StringOrPlaceholder)</div>
+            </dd>
+        }
+    </dl>
+</div>
+
+<h2 class="h3">Notes</h2>
+
+<p class="container text-break text-pre-line">@Html.DisplayFor(_ => Model.ItemView.Notes, DisplayTemplate.StringOrPlaceholder)</p>
+
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ItemView.EntryTypeName)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(model => model.ItemView.EntryTypeName, DisplayTemplate.StringOrPlaceholder)</dd>
+    </dl>
+</div>
+
+<h2 class="h3">Entry Actions</h2>
+
+@if (!Model.ViewableActions)
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+
+@if (Model.UserCan[WorkEntryOperation.EditWorkEntry])
+{
+    <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none">
+        <h3 id="new-action" class="h5">Add An Entry Action</h3>
+
+        <form method="post" asp-page-handler="NewAction" asp-fragment="new-action">
+            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg>
+            </div>
+            <div class="row">
+                <div class="mb-3">
+                    @Html.EditorFor(model => model.NewAction.ActionDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3">
+                    @Html.EditorFor(model => model.NewAction.Comments, EditorTemplate.Textarea, new { Rows = 3 })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Save Entry Action</button>
+            <div class="text-danger-emphasis">* denotes a required field</div>
+            <input asp-for="NewAction.WorkEntryId" type="hidden" />
+        </form>
+    </div>
+}
+
+@if (Model.ViewableActions)
+{
+    <div class="row row-cols-1 g-3 mb-3">
+        @foreach (var action in Model.ItemView.EntryActions.Where(action => !action.IsDeleted || Model.UserCan[WorkEntryOperation.ViewDeletedActions]))
+        {
+            <div class="col">
+                <div class="card @(action.Id == Model.HighlightId ? "border-success" : "") @(action.IsDeleted ? "bg-secondary-subtle" : "")">
+                    <div class="card-header">
+                        <div class="container-full">
+                            <div class="row justify-content-between align-items-start g-0 my-1">
+                                <div class="col">
+                                    <h3 id="@action.Id.ToString()" class="h5 card-title">
+                                        @if (action.IsDeleted)
+                                        {
+                                            <em class="text-body-secondary">(Deleted Action)</em>
+                                        }
+                                    </h3>
+                                    <h4 class="h5 card-subtitle text-body-secondary">
+                                        @Html.DisplayFor(_ => action.ActionDate, DisplayTemplate.DateOnlyOrNotEntered)
+                                    </h4>
+                                </div>
+                                @if (Model.UserCan[WorkEntryOperation.EditWorkEntry])
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        @if (!action.IsDeleted)
+                                        {
+                                            <a asp-page="../EntryAction/Edit" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a asp-page="../EntryAction/Delete" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page="../EntryAction/Restore" asp-route-actionId="@action.Id.ToString()" class="btn btn-sm btn-outline-warning ms-1">Restore</a>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body ">
+                        <div class="text-break text-pre-line">
+                            @Html.DisplayFor(_ => action.Comments, DisplayTemplate.StringOrPlaceholder, new { Placeholder = "none" })
+                        </div>
+                    </div>
+                    @if (action.DeletedBy is not null || action.DeletedAt is not null)
+                    {
+                        <small class="card-footer text-body-secondary">
+                            Deleted
+                            @if (action.DeletedBy is not null)
+                            {
+                                <text>by @action.DeletedBy.Name</text>
+                            }
+                            @if (action.DeletedAt is not null)
+                            {
+                                <text> on @Html.DisplayFor(_ => action.DeletedAt.Value, DisplayTemplate.ShortDate)</text>
+                            }
+                        </small>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

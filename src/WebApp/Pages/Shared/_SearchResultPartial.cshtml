@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MyApp.AppServices.WorkEntries.QueryDto
+@using MyApp.WebApp.Pages.Shared.DisplayTemplates
+@model MyApp.WebApp.Models.SearchResultsDisplay
+
+<partial name="_PaginationNavAndCount" model="Model.Pagination" />
+<div class="table-responsive-md mb-3">
+    <table class="table table-hover" aria-label="Facility search results">
+        <thead>
+        <tr>
+            <th scope="col" class="text-nowrap">
+                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.IdAsc ? nameof(SortBy.IdDesc) : nameof(SortBy.IdAsc))"
+                   class="link-offset-2">
+                    ID @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                           new { up = nameof(SortBy.IdAsc), down = nameof(SortBy.IdDesc) })
+                </a>
+            </th>
+            <th scope="col" class="text-nowrap">
+                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.ReceivedDateAsc ? nameof(SortBy.ReceivedDateDesc) : nameof(SortBy.ReceivedDateAsc))"
+                   class="link-offset-2">
+                    Date Received @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                                      new { up = nameof(SortBy.ReceivedDateAsc), down = nameof(SortBy.ReceivedDateDesc) })
+                </a>
+            </th>
+            <th scope="col" class="text-nowrap">
+                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.StatusAsc ? nameof(SortBy.StatusDesc) : nameof(SortBy.StatusAsc))"
+                   class="link-offset-2">
+                    Status @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                               new { up = nameof(SortBy.StatusAsc), down = nameof(SortBy.StatusDesc) })
+                </a>
+            </th>
+            <th scope="col">Entry Type</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.SearchResults.Items)
+        {
+            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+                <th scope="row">
+                    <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
+                </th>
+                <td class="text-nowrap">@Html.DisplayFor(_ => item.ReceivedDate, DisplayTemplate.ShortDate)</td>
+                <td>
+                    @if (item.IsDeleted)
+                    {
+                        <strong>DELETED</strong>
+                        <br />
+                    }
+                    @Html.DisplayFor(_ => item.Status)
+                    @if (item is { Closed: true, ClosedDate: not null })
+                    {
+                        <br />
+                        @:on @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDate)
+                    }
+                </td>
+                <td>@Html.DisplayFor(_ => item.EntryTypeName, DisplayTemplate.StringOrPlaceholder)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<partial name="_PaginationNav" model="Model.Pagination" />

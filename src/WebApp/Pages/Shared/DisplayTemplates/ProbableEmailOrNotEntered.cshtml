@@ -1,0 +1,19 @@
+﻿@using Domain.DataProcessing
+@model string?
+@{
+}
+@if (string.IsNullOrEmpty(Model))
+{
+    <span class="text-body-secondary fw-lighter">[Not entered]</span>
+}
+else
+{
+    @if (Regexes.EmailRegex().IsMatch(Model))
+    {
+        <a href="mailto:@Model">@Model</a>
+    }
+    else
+    {
+        @Model
+    }
+}

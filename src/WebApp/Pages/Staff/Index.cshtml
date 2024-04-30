@@ -1,0 +1,16 @@
+﻿@page
+@model DashboardIndexModel
+@{
+    ViewData["Title"] = "Staff Dashboard";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.IsStaff)
+{
+    <partial name="Shared/_DashboardCardPartial" model="Model.OpenWorkEntries" />
+}
+else
+{
+    <p>See your manager to discuss application access if needed.</p>
+}

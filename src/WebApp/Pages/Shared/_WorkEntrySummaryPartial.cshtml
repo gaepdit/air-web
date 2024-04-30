@@ -1,0 +1,16 @@
+﻿@using GaEpd.AppLibrary.Extensions
+@using MyApp.WebApp.Pages.Shared.DisplayTemplates
+@model MyApp.AppServices.WorkEntries.QueryDto.WorkEntryViewDto
+
+<div class="container small">
+    <dl class="row">
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(dto => dto.Status)</dt>
+        <dd class="col-md-8 col-lg-9">@Model.Status.GetDisplayName()</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(dto => dto.EntryTypeName)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(dto => dto.EntryTypeName, DisplayTemplate.StringOrPlaceholder)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ReceivedDate)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(dto => dto.ReceivedDate, DisplayTemplate.LongDate)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(dto => dto.Notes)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(dto => dto.Notes, DisplayTemplate.TruncateText)</dd>
+    </dl>
+</div>

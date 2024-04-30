@@ -1,0 +1,49 @@
+@page "{handler?}"
+@model IndexModel
+@{
+    ViewData["Title"] = "Template Application";
+}
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="callout callout-info">
+            This application is a template for use in creating new web applications.
+        </div>
+    </div>
+</div>
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="card mt-4 border-info shadow">
+    <div class="card-header text-bg-info">
+        <h2 class="h5">Some helpful temporary development links</h2>
+    </div>
+    <div class="card-body">
+        <h3>Public pages</h3>
+        <ul>
+            <li>
+                Add links to useful public pages.
+            </li>
+            <li>
+                @* ReSharper disable once Html.PathError *@
+                <a href="api-docs/">API docs</a>
+            </li>
+        </ul>
+
+        <h3>Staff pages</h3>
+        <ul>
+            <li>
+                Add links to useful staff pages.
+            </li>
+            <li>
+                <a asp-page="/Account/Index">Account page</a>
+            </li>
+            <li>
+                <a asp-page="/Admin/Users/Index">All users</a>
+            </li>
+            <li>
+                <a asp-page="/Admin/Maintenance/Index">Site maintenance</a>
+            </li>
+        </ul>
+    </div>
+</div>
