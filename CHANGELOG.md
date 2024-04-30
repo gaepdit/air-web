@@ -4,4 +4,4 @@
 
 _Add a changelog using the [Common Changelog](https://common-changelog.org/) format._
 
-[X.Y.Z]: https://github.com/gaepdit/template-app/releases/tag/vX.Y.Z
+[X.Y.Z]: https://github.com/gaepdit/air-web/releases/tag/vX.Y.Z

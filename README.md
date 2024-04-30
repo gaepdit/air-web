@@ -3,10 +3,10 @@
 This repository contains a template for use in creating new web applications. See [the instructions](TEMPLATE-HOW-TO.md) for setup and use.
 
 [![Georgia EPD-IT](https://raw.githubusercontent.com/gaepdit/gaepd-brand/main/blinkies/blinkies.cafe-gaepdit.gif)](https://github.com/gaepdit)
-[![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
-[![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
+[![.NET Test](https://github.com/gaepdit/air-web/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/air-web/actions/workflows/dotnet-test.yml)
+[![CodeQL](https://github.com/gaepdit/air-web/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/air-web/actions/workflows/codeql-analysis.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 
 *[The SonarCloud badges require a SonarCloud project to be configured.]*
 
