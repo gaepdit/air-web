@@ -1,4 +1,4 @@
-namespace MyApp.WebApp.Pages.Admin.Maintenance;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance;
 
 public class MaintenanceOption
 {

@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.Staff.Dto;
+namespace AirWeb.AppServices.Staff.Dto;
 
 public record StaffUpdateDto
 {

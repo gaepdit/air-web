@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
-using MyApp.TestData;
-using MyApp.TestData.Identity;
+using AirWeb.Domain.Identity;
+using AirWeb.TestData;
+using AirWeb.TestData.Identity;
 
-namespace MyApp.EfRepository.DbContext.DevData;
+namespace AirWeb.EfRepository.DbContext.DevData;
 
 public static class DbSeedDataHelpers
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyApp.AppServices.RegisterServices;
+namespace AirWeb.AppServices.RegisterServices;
 
 public static class Validators
 {

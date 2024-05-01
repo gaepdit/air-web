@@ -1,3 +1,3 @@
-﻿namespace MyApp.Domain.Entities.EntryActions;
+﻿namespace AirWeb.Domain.Entities.EntryActions;
 
 public interface IEntryActionRepository : IRepository<EntryAction>;

@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.WorkEntries;
-using MyApp.Domain.Identity;
+﻿using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.Domain.Entities.EntryActions;
+namespace AirWeb.Domain.Entities.EntryActions;
 
 public class EntryAction : AuditableSoftDeleteEntity
 {

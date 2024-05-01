@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Offices.Validators;
-using MyApp.Domain.Entities.Offices;
-using MyApp.TestData.Constants;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Offices.Validators;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.Offices.Validators;
 

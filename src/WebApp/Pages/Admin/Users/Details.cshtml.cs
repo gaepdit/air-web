@@ -1,10 +1,10 @@
-﻿using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
+﻿using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.WebApp.Pages.Admin.Users;
+namespace AirWeb.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DetailsModel : PageModel

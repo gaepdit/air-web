@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Identity;
-using MyApp.EfRepository.DbContext;
-using MyApp.EfRepository.DbContext.DevData;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.Domain.Identity;
+using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.DbContext.DevData;
+using AirWeb.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Platform.AppConfiguration;
+namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public class MigratorHostedService(IServiceProvider serviceProvider, IConfiguration configuration) : IHostedService
 {

@@ -1,8 +1,8 @@
-﻿using MyApp.AppServices.Offices;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
 
-namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel

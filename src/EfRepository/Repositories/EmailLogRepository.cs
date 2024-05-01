@@ -1,7 +1,7 @@
 ﻿using GaEpd.EmailService.Repository;
-using MyApp.EfRepository.DbContext;
+using AirWeb.EfRepository.DbContext;
 
-namespace MyApp.EfRepository.Repositories;
+namespace AirWeb.EfRepository.Repositories;
 
 public sealed class EmailLogRepository(AppDbContext dbContext) : IEmailLogRepository
 {

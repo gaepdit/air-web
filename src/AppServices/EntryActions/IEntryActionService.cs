@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.EntryActions.Dto;
+﻿using AirWeb.AppServices.EntryActions.Dto;
 
-namespace MyApp.AppServices.EntryActions;
+namespace AirWeb.AppServices.EntryActions;
 
 public interface IEntryActionService : IDisposable, IAsyncDisposable
 {

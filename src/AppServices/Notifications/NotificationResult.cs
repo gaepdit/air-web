@@ -1,4 +1,4 @@
-﻿namespace MyApp.AppServices.Notifications;
+﻿namespace AirWeb.AppServices.Notifications;
 
 public record NotificationResult
 {

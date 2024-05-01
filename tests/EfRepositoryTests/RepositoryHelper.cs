@@ -1,13 +1,13 @@
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.EfRepository.DbContext;
-using MyApp.EfRepository.DbContext.DevData;
-using MyApp.EfRepository.Repositories;
-using MyApp.TestData;
-using MyApp.TestData.Identity;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.DbContext.DevData;
+using AirWeb.EfRepository.Repositories;
+using AirWeb.TestData;
+using AirWeb.TestData.Identity;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 

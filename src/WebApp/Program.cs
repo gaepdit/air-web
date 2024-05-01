@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
-using MyApp.AppServices.ErrorLogging;
-using MyApp.AppServices.RegisterServices;
-using MyApp.WebApp.Platform.AppConfiguration;
-using MyApp.WebApp.Platform.ErrorLogging;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.AppServices.ErrorLogging;
+using AirWeb.AppServices.RegisterServices;
+using AirWeb.WebApp.Platform.AppConfiguration;
+using AirWeb.WebApp.Platform.ErrorLogging;
+using AirWeb.WebApp.Platform.Settings;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

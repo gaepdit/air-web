@@ -1,7 +1,7 @@
-using MyApp.AppServices.Staff.Dto;
+using AirWeb.AppServices.Staff.Dto;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.EntryActions.Dto;
+namespace AirWeb.AppServices.EntryActions.Dto;
 
 public record EntryActionViewDto
 {

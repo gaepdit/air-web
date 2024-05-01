@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.WorkEntries.Permissions;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.WorkEntries.Permissions;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Permissions;

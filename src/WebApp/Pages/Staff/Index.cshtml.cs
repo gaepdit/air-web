@@ -1,12 +1,12 @@
 ﻿using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.WebApp.Pages.Staff;
+namespace AirWeb.WebApp.Pages.Staff;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DashboardIndexModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel

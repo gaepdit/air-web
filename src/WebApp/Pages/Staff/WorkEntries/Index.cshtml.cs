@@ -1,17 +1,17 @@
 ﻿using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.Constants;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.Constants;
 
-namespace MyApp.WebApp.Pages.Staff.WorkEntries;
+namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel(

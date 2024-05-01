@@ -1,6 +1,6 @@
-﻿using MyApp.Domain.ValueObjects;
+﻿using AirWeb.Domain.ValueObjects;
 
-namespace MyApp.TestData.Constants;
+namespace AirWeb.TestData.Constants;
 
 public static class ValueObjectData
 {

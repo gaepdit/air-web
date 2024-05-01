@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Notifications;
-using MyApp.AppServices.UserServices;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.CommandDto;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.Domain.Identity;
-using MyApp.TestData.Constants;
+using AirWeb.AppServices.Notifications;
+using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.Identity;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.WorkEntries;
 

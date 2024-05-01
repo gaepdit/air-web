@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.Offices;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.TestData.Constants;
+﻿using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.Staff;
 

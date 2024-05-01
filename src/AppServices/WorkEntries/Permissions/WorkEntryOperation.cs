@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace MyApp.AppServices.WorkEntries.Permissions;
+namespace AirWeb.AppServices.WorkEntries.Permissions;
 
 public class WorkEntryOperation :
     OperationAuthorizationRequirement // implements IAuthorizationRequirement

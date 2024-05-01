@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.UserServices;
-using MyApp.Domain.Identity;
-using MyApp.EfRepository.DbContext;
-using MyApp.LocalRepository.Identity;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.Identity;
+using AirWeb.EfRepository.DbContext;
+using AirWeb.LocalRepository.Identity;
+using AirWeb.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Platform.AppConfiguration;
+namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public static class IdentityStores
 {

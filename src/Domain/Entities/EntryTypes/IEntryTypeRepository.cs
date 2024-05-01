@@ -1,3 +1,3 @@
-﻿namespace MyApp.Domain.Entities.EntryTypes;
+﻿namespace AirWeb.Domain.Entities.EntryTypes;
 
 public interface IEntryTypeRepository : INamedEntityRepository<EntryType>;

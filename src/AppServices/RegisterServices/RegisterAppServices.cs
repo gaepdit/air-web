@@ -1,16 +1,16 @@
 ﻿using GaEpd.EmailService;
 using Microsoft.Extensions.DependencyInjection;
-using MyApp.AppServices.DataExport;
-using MyApp.AppServices.EntryActions;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Notifications;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.WorkEntries;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.EntryActions;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Notifications;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.RegisterServices;
+namespace AirWeb.AppServices.RegisterServices;
 
 public static class RegisterAppServices
 {

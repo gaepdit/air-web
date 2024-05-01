@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MyApp.AppServices.AutoMapper;
+using AirWeb.AppServices.AutoMapper;
 
-namespace MyApp.AppServices.RegisterServices;
+namespace AirWeb.AppServices.RegisterServices;
 
 public static class AutoMapperProfiles
 {

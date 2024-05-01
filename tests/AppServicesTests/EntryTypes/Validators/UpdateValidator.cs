@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.TestHelper;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.EntryTypes.Validators;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.TestData.Constants;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.EntryTypes.Validators;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.EntryTypes.Validators;
 

@@ -1,4 +1,4 @@
-﻿namespace MyApp.AppServices.Permissions.AppClaims;
+﻿namespace AirWeb.AppServices.Permissions.AppClaims;
 
 public static class AppClaimTypes
 {

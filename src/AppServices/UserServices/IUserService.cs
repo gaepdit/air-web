@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
-namespace MyApp.AppServices.UserServices;
+namespace AirWeb.AppServices.UserServices;
 
 public interface IUserService
 {

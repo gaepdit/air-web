@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MyApp.Domain.DataProcessing;
+namespace AirWeb.Domain.DataProcessing;
 
 public static partial class Regexes
 {

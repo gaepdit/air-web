@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Identity;
+﻿namespace AirWeb.Domain.Identity;
 
 public static class UserDomainValidation
 {

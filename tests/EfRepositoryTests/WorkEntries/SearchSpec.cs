@@ -1,7 +1,7 @@
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.TestData;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.TestData;
 
 namespace EfRepositoryTests.WorkEntries;
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // Original namespace Microsoft.Identity.Web
 
-namespace MyApp.AppServices.Staff;
+namespace AirWeb.AppServices.Staff;
 
 /// <summary>
 /// Constants for claim types.

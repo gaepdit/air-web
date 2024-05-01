@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain;
+﻿namespace AirWeb.Domain;
 
 public static class AppConstants
 {

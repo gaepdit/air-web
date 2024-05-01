@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.Permissions;
+﻿using AirWeb.AppServices.Permissions;
 
-namespace MyApp.WebApp.Pages.Admin.Users;
+namespace AirWeb.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class RolesModel : PageModel

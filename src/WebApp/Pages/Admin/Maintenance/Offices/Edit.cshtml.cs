@@ -1,10 +1,10 @@
 using FluentValidation;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Permissions;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Permissions;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace MyApp.WebApp.Pages.Admin.Maintenance.Offices;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public class EditModel(IOfficeService officeService, IValidator<OfficeUpdateDto> validator)

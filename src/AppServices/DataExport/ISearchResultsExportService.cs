@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.WorkEntries.QueryDto;
+﻿using AirWeb.AppServices.WorkEntries.QueryDto;
 
-namespace MyApp.AppServices.DataExport;
+namespace AirWeb.AppServices.DataExport;
 
 public interface ISearchResultsExportService : IDisposable, IAsyncDisposable
 {

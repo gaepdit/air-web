@@ -1,5 +1,5 @@
-using MyApp.Domain.Identity;
-using MyApp.LocalRepository.Identity;
+using AirWeb.Domain.Identity;
+using AirWeb.LocalRepository.Identity;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;

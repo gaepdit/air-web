@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.WorkEntries.CommandDto;
+namespace AirWeb.AppServices.WorkEntries.CommandDto;
 
 public record WorkEntryCreateDto : IWorkEntryCommandDto
 {

@@ -1,7 +1,7 @@
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Identity;
-using MyApp.TestData.Constants;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Identity;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;
 

@@ -4,15 +4,15 @@ using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.AppServices.UserServices;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
-namespace MyApp.AppServices.Staff;
+namespace AirWeb.AppServices.Staff;
 
 public sealed class StaffService(
     IUserService userService,

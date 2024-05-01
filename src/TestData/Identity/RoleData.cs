@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.TestData.Identity;
+namespace AirWeb.TestData.Identity;
 
 internal static partial class UserData
 {

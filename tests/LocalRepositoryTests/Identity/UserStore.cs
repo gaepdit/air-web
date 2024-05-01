@@ -1,8 +1,8 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Identity;
-using MyApp.LocalRepository.Identity;
-using MyApp.TestData.Identity;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Identity;
+using AirWeb.LocalRepository.Identity;
+using AirWeb.TestData.Identity;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;

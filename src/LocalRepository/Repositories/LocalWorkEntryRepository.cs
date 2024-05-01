@@ -1,8 +1,8 @@
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.TestData;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.TestData;
 
-namespace MyApp.LocalRepository.Repositories;
+namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository(IEntryActionRepository entryActionRepository)
     : BaseRepository<WorkEntry>(WorkEntryData.GetData), IWorkEntryRepository

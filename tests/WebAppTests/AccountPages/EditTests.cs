@@ -1,10 +1,10 @@
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.TestData.Constants;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Pages.Account;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.TestData.Constants;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Pages.Account;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.AccountPages;
 

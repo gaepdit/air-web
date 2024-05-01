@@ -1,6 +1,6 @@
-﻿using MyApp.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.WorkEntries;
+namespace AirWeb.AppServices.WorkEntries;
 
 public class WorkEntryCreateResult
 {

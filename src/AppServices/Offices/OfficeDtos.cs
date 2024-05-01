@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.DtoBase;
+﻿using AirWeb.AppServices.DtoBase;
 
-namespace MyApp.AppServices.Offices;
+namespace AirWeb.AppServices.Offices;
 
 public record OfficeViewDto(Guid Id, string Name, bool Active) : StandardNamedEntityViewDto(Id, Name, Active);
 

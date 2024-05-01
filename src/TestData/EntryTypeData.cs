@@ -1,6 +1,6 @@
-using MyApp.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.EntryTypes;
 
-namespace MyApp.TestData;
+namespace AirWeb.TestData;
 
 internal static class EntryTypeData
 {

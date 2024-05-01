@@ -1,6 +1,6 @@
-﻿using MyApp.Domain.Entities.EntryActions;
+﻿using AirWeb.Domain.Entities.EntryActions;
 
-namespace MyApp.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.Entities.WorkEntries;
 
 public interface IWorkEntryRepository : IRepository<WorkEntry>
 {

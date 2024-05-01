@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.UserServices;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.DataExport;
+namespace AirWeb.AppServices.DataExport;
 
 public sealed class SearchResultsExportService(
     IWorkEntryRepository workEntryRepository,

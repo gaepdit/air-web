@@ -1,10 +1,10 @@
 using AutoMapper;
-using MyApp.AppServices.EntryActions.Dto;
-using MyApp.AppServices.UserServices;
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.EntryActions.Dto;
+using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.EntryActions;
+namespace AirWeb.AppServices.EntryActions;
 
 public sealed class EntryActionService(
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor

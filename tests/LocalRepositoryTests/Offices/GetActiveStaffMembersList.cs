@@ -1,4 +1,4 @@
-using MyApp.LocalRepository.Repositories;
+using AirWeb.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.Offices;
 

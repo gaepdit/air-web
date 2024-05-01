@@ -1,11 +1,11 @@
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace MyApp.WebApp.Pages.Admin.Users;
+namespace AirWeb.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditRolesModel(IStaffService staffService) : PageModel

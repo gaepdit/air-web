@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Permissions;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Permissions;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace MyApp.WebApp.Pages.Admin.Maintenance.EntryTypes;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance.EntryTypes;
 
 [Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public class AddModel : PageModel

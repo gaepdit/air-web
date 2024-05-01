@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.WorkEntries.QueryDto;
 using System.Security.Claims;
 
-namespace MyApp.AppServices.WorkEntries.Permissions;
+namespace AirWeb.AppServices.WorkEntries.Permissions;
 
 internal class WorkEntryViewRequirements :
     AuthorizationHandler<WorkEntryOperation, WorkEntryViewDto>

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.Domain.Identity;
+using AirWeb.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Pages.Account;
+namespace AirWeb.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageModel

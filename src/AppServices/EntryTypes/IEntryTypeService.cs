@@ -1,5 +1,5 @@
-﻿using MyApp.AppServices.ServiceBase;
+﻿using AirWeb.AppServices.ServiceBase;
 
-namespace MyApp.AppServices.EntryTypes;
+namespace AirWeb.AppServices.EntryTypes;
 
 public interface IEntryTypeService : IMaintenanceItemService<EntryTypeViewDto, EntryTypeUpdateDto>;

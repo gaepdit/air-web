@@ -1,8 +1,8 @@
-﻿using MyApp.AppServices.DataExport;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.WorkEntries.QueryDto;
+﻿using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.WorkEntries.QueryDto;
 
-namespace MyApp.WebApp.Pages.Staff.WorkEntries;
+namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DownloadSearchModel(ISearchResultsExportService searchResultsExportService) : PageModel

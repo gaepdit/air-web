@@ -1,7 +1,7 @@
-﻿using MyApp.LocalRepository.Identity;
-using MyApp.LocalRepository.Repositories;
-using MyApp.TestData;
-using MyApp.TestData.Identity;
+﻿using AirWeb.LocalRepository.Identity;
+using AirWeb.LocalRepository.Repositories;
+using AirWeb.TestData;
+using AirWeb.TestData.Identity;
 
 namespace LocalRepositoryTests;
 

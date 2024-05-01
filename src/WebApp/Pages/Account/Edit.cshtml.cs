@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace MyApp.WebApp.Pages.Account;
+namespace AirWeb.WebApp.Pages.Account;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class EditModel(IStaffService staffService, IOfficeService officeService, IValidator<StaffUpdateDto> validator)

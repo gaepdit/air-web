@@ -1,9 +1,9 @@
 using GaEpd.AppLibrary.Domain.Predicates;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.WorkEntries;
 using System.Linq.Expressions;
 
-namespace MyApp.AppServices.WorkEntries;
+namespace AirWeb.AppServices.WorkEntries;
 
 internal static class WorkEntryFilters
 {

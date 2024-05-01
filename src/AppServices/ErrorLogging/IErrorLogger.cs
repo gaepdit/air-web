@@ -1,4 +1,4 @@
-﻿namespace MyApp.AppServices.ErrorLogging;
+﻿namespace AirWeb.AppServices.ErrorLogging;
 
 public interface IErrorLogger
 {

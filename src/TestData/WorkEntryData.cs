@@ -1,8 +1,8 @@
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.TestData.Constants;
-using MyApp.TestData.Identity;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.TestData.Constants;
+using AirWeb.TestData.Identity;
 
-namespace MyApp.TestData;
+namespace AirWeb.TestData;
 
 internal static class WorkEntryData
 {

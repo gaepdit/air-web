@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.UserServices;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.TestData.Constants;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.TestData.Constants;
 
 namespace AppServicesTests.EntryTypes;
 

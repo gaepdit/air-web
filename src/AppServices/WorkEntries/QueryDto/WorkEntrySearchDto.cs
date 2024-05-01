@@ -1,8 +1,8 @@
-﻿using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.WorkEntries.QueryDto;
+namespace AirWeb.AppServices.WorkEntries.QueryDto;
 
 public record WorkEntrySearchDto : IBasicSearchDisplay
 {

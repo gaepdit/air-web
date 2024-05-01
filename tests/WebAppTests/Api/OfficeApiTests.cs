@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.Offices;
-using MyApp.TestData.Constants;
-using MyApp.WebApp.Api;
+﻿using AirWeb.AppServices.Offices;
+using AirWeb.TestData.Constants;
+using AirWeb.WebApp.Api;
 
 namespace WebAppTests.Api;
 

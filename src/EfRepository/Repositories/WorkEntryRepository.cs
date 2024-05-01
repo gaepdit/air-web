@@ -1,7 +1,7 @@
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.EfRepository.DbContext;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.EfRepository.DbContext;
 
-namespace MyApp.EfRepository.Repositories;
+namespace AirWeb.EfRepository.Repositories;
 
 public sealed class WorkEntryRepository(AppDbContext context)
     : BaseRepository<WorkEntry, AppDbContext>(context), IWorkEntryRepository

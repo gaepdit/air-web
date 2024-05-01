@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 
-namespace MyApp.AppServices.DataExport;
+namespace AirWeb.AppServices.DataExport;
 
 public static class DataExportUtilities
 {

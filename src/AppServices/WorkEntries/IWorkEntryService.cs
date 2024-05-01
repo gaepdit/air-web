@@ -1,9 +1,9 @@
 ﻿using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.Notifications;
-using MyApp.AppServices.WorkEntries.CommandDto;
-using MyApp.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.Notifications;
+using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.QueryDto;
 
-namespace MyApp.AppServices.WorkEntries;
+namespace AirWeb.AppServices.WorkEntries;
 
 public interface IWorkEntryService : IDisposable, IAsyncDisposable
 {

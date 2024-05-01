@@ -1,4 +1,4 @@
-﻿namespace MyApp.WebApp.Pages;
+﻿namespace AirWeb.WebApp.Pages;
 
 [AllowAnonymous]
 public class IndexModel : PageModel

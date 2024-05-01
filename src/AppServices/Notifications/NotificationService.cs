@@ -2,10 +2,10 @@
 using GaEpd.EmailService.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using MyApp.AppServices.ErrorLogging;
-using MyApp.Domain.Entities.WorkEntries;
+using AirWeb.AppServices.ErrorLogging;
+using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.Notifications;
+namespace AirWeb.AppServices.Notifications;
 
 public class NotificationService(
     IEmailService emailService,

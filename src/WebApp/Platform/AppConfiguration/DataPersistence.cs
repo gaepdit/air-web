@@ -1,17 +1,17 @@
 using GaEpd.EmailService.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.EfRepository.DbConnection;
-using MyApp.EfRepository.DbContext;
-using MyApp.EfRepository.Repositories;
-using MyApp.LocalRepository.Repositories;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.EfRepository.DbConnection;
+using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.Repositories;
+using AirWeb.LocalRepository.Repositories;
+using AirWeb.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Platform.AppConfiguration;
+namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public static class DataPersistence
 {

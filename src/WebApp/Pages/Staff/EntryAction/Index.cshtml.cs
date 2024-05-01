@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.Permissions;
+﻿using AirWeb.AppServices.Permissions;
 
-namespace MyApp.WebApp.Pages.Staff.EntryAction;
+namespace AirWeb.WebApp.Pages.Staff.EntryAction;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class EntryActionIndexModel : PageModel

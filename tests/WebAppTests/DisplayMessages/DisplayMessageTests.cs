@@ -1,6 +1,6 @@
-﻿using MyApp.WebApp.Models;
-using MyApp.WebApp.Pages.Account;
-using MyApp.WebApp.Platform.PageModelHelpers;
+﻿using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Pages.Account;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.DisplayMessages;
 
