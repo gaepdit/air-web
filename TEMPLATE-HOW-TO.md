@@ -5,9 +5,9 @@ The following steps describe how to use the template for a new application.
 ## Initialize the template files
 
 * [x] Run the "create-sln.ps1" file to create a new solution file.
-* [ ] Rename or search and replace the following terms. *(Caution: not all of these will be visible in the Visual Studio solution view.)*
-    - [ ] "MY_APP_NAME" - Replace with the readable display name of the app.
-    - [ ] "MY_APP" - Replace with the short name or acronym of the app.
+* [x] Rename or search and replace the following terms. *(Caution: not all of these will be visible in the Visual Studio solution view.)*
+    - [x] "MY_APP_NAME" - Replace with the readable display name of the app.
+    - [x] "MY_APP" - Replace with the short name or acronym of the app.
     - [x] `MyApp`:
         - [x] Rename the root namespace for the app.
         - [x] Update the `<RootNamespace>` element in each "csproj" file.

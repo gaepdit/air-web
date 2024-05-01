@@ -1,6 +1,6 @@
 {
-	"name": "MY_APP_NAME",
-	"short_name": "MY_APP",
+	"name": "Air Protection Branch Web App",
+	"short_name": "Air Web",
 	"icons": [
 		{
 			"src": "/dev/dev-icon-192.png",

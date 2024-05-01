@@ -78,15 +78,18 @@ builder.Services.AddHostedService<MigratorHostedService>();
 
 // Add API documentation.
 builder.Services.AddMvcCore().AddApiExplorer();
+
+const string ApiVersion = "v1";
+const string ApiTitle = "Air Protection Branch Web App API";
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
+    options.SwaggerDoc(ApiVersion, new OpenApiInfo
     {
-        Version = "v1",
-        Title = "MY_APP API",
+        Version = ApiVersion,
+        Title = ApiTitle,
         Contact = new OpenApiContact
         {
-            Name = "MY_APP Support",
+            Name = $"{ApiTitle} Support",
             Email = builder.Configuration["SupportEmail"],
         },
     });
@@ -127,9 +130,9 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}")
 app.UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/openapi.json"; })
     .UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("v1/openapi.json", "MY_APP API v1");
+        options.SwaggerEndpoint($"{ApiVersion}/openapi.json", $"{ApiTitle} {ApiVersion}");
         options.RoutePrefix = "api-docs";
-        options.DocumentTitle = "MY_APP_NAME API";
+        options.DocumentTitle = ApiTitle;
     });
 
 // Map endpoints.
