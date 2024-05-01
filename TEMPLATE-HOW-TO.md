@@ -19,7 +19,7 @@ The following steps describe how to use the template for a new application.
         - [x] The project key in the "sonarcloud-scan.yml" workflow file.
         - [x] The URLs in the GitHub and SonarCloud badges in the "README.md" file.
         - [x] The URL on the support page.
-* [ ] Change the port numbers in the "launchSettings.json" file to be unique.
+* [x] Change the port numbers in the "launchSettings.json" file to be unique.
 
 ## Customize the application
 
