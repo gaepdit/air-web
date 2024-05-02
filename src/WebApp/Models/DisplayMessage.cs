@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyApp.WebApp.Models;
+namespace AirWeb.WebApp.Models;
 
 public record DisplayMessage(DisplayMessage.AlertContext Context, string Message, List<string> Details)
 {

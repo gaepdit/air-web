@@ -1,6 +1,6 @@
-using MyApp.AppServices.EntryActions.Dto;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.EntryActions.Dto;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
 
 namespace WebAppTests.WorkEntryPages;
 

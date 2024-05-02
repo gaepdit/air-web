@@ -1,6 +1,6 @@
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.TestData.Identity;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.TestData.Identity;
 
 namespace AppServicesTests.Staff;
 

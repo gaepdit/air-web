@@ -1,4 +1,4 @@
-﻿namespace MyApp.WebApp.Platform.PageModelHelpers;
+﻿namespace AirWeb.WebApp.Platform.PageModelHelpers;
 
 internal static class SelectOptions
 {

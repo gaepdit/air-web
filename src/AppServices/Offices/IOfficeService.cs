@@ -1,7 +1,7 @@
 ﻿using GaEpd.AppLibrary.ListItems;
-using MyApp.AppServices.ServiceBase;
+using AirWeb.AppServices.ServiceBase;
 
-namespace MyApp.AppServices.Offices;
+namespace AirWeb.AppServices.Offices;
 
 public interface IOfficeService : IMaintenanceItemService<OfficeViewDto, OfficeUpdateDto>
 {

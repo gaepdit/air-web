@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.DtoBase;
+﻿using AirWeb.AppServices.DtoBase;
 
-namespace MyApp.AppServices.EntryTypes;
+namespace AirWeb.AppServices.EntryTypes;
 
 public record EntryTypeViewDto(Guid Id, string Name, bool Active) : StandardNamedEntityViewDto(Id, Name, Active);
 

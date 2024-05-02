@@ -1,7 +1,7 @@
-﻿using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
 
-namespace MyApp.WebApp.Pages;
+namespace AirWeb.WebApp.Pages;
 
 [AllowAnonymous]
 public class SupportModel(IAuthorizationService authorization) : PageModel

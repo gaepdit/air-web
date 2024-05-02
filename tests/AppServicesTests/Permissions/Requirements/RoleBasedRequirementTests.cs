@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions.Requirements;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Permissions.Requirements;
+using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.Requirements;

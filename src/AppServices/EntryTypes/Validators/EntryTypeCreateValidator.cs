@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using MyApp.Domain;
-using MyApp.Domain.Entities.EntryTypes;
+using AirWeb.Domain;
+using AirWeb.Domain.Entities.EntryTypes;
 
-namespace MyApp.AppServices.EntryTypes.Validators;
+namespace AirWeb.AppServices.EntryTypes.Validators;
 
 public class EntryTypeCreateValidator : AbstractValidator<EntryTypeCreateDto>
 {

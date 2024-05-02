@@ -1,4 +1,4 @@
-﻿namespace MyApp.AppServices.Staff;
+﻿namespace AirWeb.AppServices.Staff;
 
 /// <summary>
 /// The exception that is thrown if the current user can't be found.

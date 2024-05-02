@@ -1,6 +1,6 @@
 ﻿using GaEpd.EmailService.Repository;
 
-namespace MyApp.LocalRepository.Repositories;
+namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalEmailLogRepository : IEmailLogRepository
 {

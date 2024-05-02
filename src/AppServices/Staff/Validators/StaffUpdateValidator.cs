@@ -1,8 +1,8 @@
 using FluentValidation;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.AppServices.Staff.Validators;
+namespace AirWeb.AppServices.Staff.Validators;
 
 [UsedImplicitly]
 public class StaffUpdateValidator : AbstractValidator<StaffUpdateDto>

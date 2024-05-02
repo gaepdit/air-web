@@ -1,6 +1,6 @@
-﻿using MyApp.WebApp.Platform.Settings;
+﻿using AirWeb.WebApp.Platform.Settings;
 
-namespace MyApp.WebApp.Platform.AppConfiguration;
+namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 internal static class SecurityHeaders
 {

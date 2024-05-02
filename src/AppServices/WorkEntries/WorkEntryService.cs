@@ -1,18 +1,18 @@
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Notifications;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.UserServices;
-using MyApp.AppServices.WorkEntries.CommandDto;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Notifications;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.Identity;
 using System.Linq.Expressions;
 
-namespace MyApp.AppServices.WorkEntries;
+namespace AirWeb.AppServices.WorkEntries;
 
 public sealed class WorkEntryService(
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor

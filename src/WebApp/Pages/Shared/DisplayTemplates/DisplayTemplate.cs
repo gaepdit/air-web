@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 
-namespace MyApp.WebApp.Pages.Shared.DisplayTemplates;
+namespace AirWeb.WebApp.Pages.Shared.DisplayTemplates;
 
 /// <summary>
 /// These constants must match the names of the files in the /src/WebApp/Pages/Shared/DisplayTemplates/ directory.

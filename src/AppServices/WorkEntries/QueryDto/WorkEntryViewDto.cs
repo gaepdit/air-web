@@ -1,9 +1,9 @@
-﻿using MyApp.AppServices.EntryActions.Dto;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Entities.WorkEntries;
+﻿using AirWeb.AppServices.EntryActions.Dto;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.WorkEntries.QueryDto;
+namespace AirWeb.AppServices.WorkEntries.QueryDto;
 
 public record WorkEntryViewDto
 {

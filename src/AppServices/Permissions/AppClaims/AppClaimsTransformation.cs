@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
+using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
-namespace MyApp.AppServices.Permissions.AppClaims;
+namespace AirWeb.AppServices.Permissions.AppClaims;
 
 public class AppClaimsTransformation(UserManager<ApplicationUser> userManager) : IClaimsTransformation
 {

@@ -1,13 +1,13 @@
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.CommandDto;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace MyApp.WebApp.Pages.Staff.WorkEntries;
+namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
 public class AddModel(

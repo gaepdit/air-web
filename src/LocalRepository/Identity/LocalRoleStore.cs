@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyApp.TestData.Identity;
+using AirWeb.TestData.Identity;
 
-namespace MyApp.LocalRepository.Identity;
+namespace AirWeb.LocalRepository.Identity;
 
 /// <summary>
 /// This store is intentionally only partially implemented. RoleStore is read-only.

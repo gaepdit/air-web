@@ -1,6 +1,6 @@
 ﻿using FluentAssertions.Equivalency;
 using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
+using AirWeb.Domain.Identity;
 
 namespace LocalRepositoryTests;
 

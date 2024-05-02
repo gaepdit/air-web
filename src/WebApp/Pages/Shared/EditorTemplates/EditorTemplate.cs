@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 
-namespace MyApp.WebApp.Pages.Shared.EditorTemplates;
+namespace AirWeb.WebApp.Pages.Shared.EditorTemplates;
 
 /// <summary>
 /// These constants must match the names of the files in the /src/WebApp/Pages/Shared/EditorTemplates/ directory.

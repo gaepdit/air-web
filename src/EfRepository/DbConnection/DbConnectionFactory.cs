@@ -1,7 +1,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace MyApp.EfRepository.DbConnection;
+namespace AirWeb.EfRepository.DbConnection;
 
 public class DbConnectionFactory(string connectionString) : IDbConnectionFactory
 {

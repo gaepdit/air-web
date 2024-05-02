@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using MyApp.Domain;
-using MyApp.Domain.Entities.Offices;
+using AirWeb.Domain;
+using AirWeb.Domain.Entities.Offices;
 
-namespace MyApp.AppServices.Offices.Validators;
+namespace AirWeb.AppServices.Offices.Validators;
 
 public class OfficeCreateValidator : AbstractValidator<OfficeCreateDto>
 {

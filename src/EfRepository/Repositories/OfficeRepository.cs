@@ -1,8 +1,8 @@
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Identity;
-using MyApp.EfRepository.DbContext;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Identity;
+using AirWeb.EfRepository.DbContext;
 
-namespace MyApp.EfRepository.Repositories;
+namespace AirWeb.EfRepository.Repositories;
 
 public sealed class OfficeRepository(AppDbContext context) :
     NamedEntityRepository<Office, AppDbContext>(context), IOfficeRepository

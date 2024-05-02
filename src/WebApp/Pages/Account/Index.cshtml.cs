@@ -1,9 +1,9 @@
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.WebApp.Pages.Account;
+namespace AirWeb.WebApp.Pages.Account;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class AccountIndexModel : PageModel

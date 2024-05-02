@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Data;
+﻿namespace AirWeb.Domain.Data;
 
 public static partial class Data
 {

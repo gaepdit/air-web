@@ -1,7 +1,7 @@
 using FluentValidation;
-using MyApp.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.CommandDto;
 
-namespace MyApp.AppServices.WorkEntries.Validators;
+namespace AirWeb.AppServices.WorkEntries.Validators;
 
 public class WorkEntryCreateValidator : AbstractValidator<WorkEntryCreateDto>
 {

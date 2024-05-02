@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Identity;
+﻿using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager : IWorkEntryManager
 {

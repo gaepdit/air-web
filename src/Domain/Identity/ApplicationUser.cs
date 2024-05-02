@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.Offices;
 using System.Text;
 
-namespace MyApp.Domain.Identity;
+namespace AirWeb.Domain.Identity;
 
 // Add profile data for application users by adding properties to the ApplicationUser class.
 // (IdentityUser already includes ID, Email, UserName, and PhoneNumber properties.)

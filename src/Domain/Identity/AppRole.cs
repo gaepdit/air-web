@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Identity;
+﻿namespace AirWeb.Domain.Identity;
 
 /// <summary>
 /// User Roles available to the application for authorization.

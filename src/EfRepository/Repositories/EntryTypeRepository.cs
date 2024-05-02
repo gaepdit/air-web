@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.EntryTypes;
-using MyApp.EfRepository.DbContext;
+﻿using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.EfRepository.DbContext;
 
-namespace MyApp.EfRepository.Repositories;
+namespace AirWeb.EfRepository.Repositories;
 
 public sealed class EntryTypeRepository(AppDbContext dbContext) :
     NamedEntityRepository<EntryType, AppDbContext>(dbContext), IEntryTypeRepository;

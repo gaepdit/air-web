@@ -1,8 +1,8 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
-using MyApp.Domain;
+using AirWeb.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.DtoBase;
+namespace AirWeb.AppServices.DtoBase;
 
 public abstract record StandardNamedEntityViewDto(Guid Id, string Name, bool Active) : INamedEntity;
 

@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Entities.EntryTypes;
+﻿namespace AirWeb.Domain.Entities.EntryTypes;
 
 public class EntryType : StandardNamedEntity
 {

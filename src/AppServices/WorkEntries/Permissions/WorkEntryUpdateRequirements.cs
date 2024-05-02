@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.WorkEntries.CommandDto;
 using System.Security.Claims;
 
-namespace MyApp.AppServices.WorkEntries.Permissions;
+namespace AirWeb.AppServices.WorkEntries.Permissions;
 
 public class WorkEntryUpdateRequirements :
     AuthorizationHandler<WorkEntryUpdateRequirements, WorkEntryUpdateDto>, IAuthorizationRequirement

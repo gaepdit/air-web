@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.WorkEntries.CommandDto;
+namespace AirWeb.AppServices.WorkEntries.CommandDto;
 
 // Used for closing, reopening, deleting, and restoring WorkEntries.
 public record WorkEntryChangeStatusDto(Guid WorkEntryId)

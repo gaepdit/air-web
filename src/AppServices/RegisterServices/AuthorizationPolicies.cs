@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using MyApp.AppServices.WorkEntries.Permissions;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.AppClaims;
+using AirWeb.AppServices.WorkEntries.Permissions;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.AppClaims;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MyApp.AppServices.RegisterServices;
+namespace AirWeb.AppServices.RegisterServices;
 
 [SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out")]
 public static class AuthorizationPolicies

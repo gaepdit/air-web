@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.EntryActions;
-using MyApp.TestData.Constants;
+﻿using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.TestData.Constants;
 
-namespace MyApp.TestData;
+namespace AirWeb.TestData;
 
 internal static class EntryActionData
 {

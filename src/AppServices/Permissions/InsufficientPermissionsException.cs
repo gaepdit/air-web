@@ -1,4 +1,4 @@
-﻿namespace MyApp.AppServices.Permissions;
+﻿namespace AirWeb.AppServices.Permissions;
 
 /// <summary>
 /// The exception that is thrown if the current user does not have the required permission.

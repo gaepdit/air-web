@@ -1,10 +1,10 @@
-﻿using MyApp.AppServices.Permissions.AppClaims;
-using MyApp.Domain.Identity;
+﻿using AirWeb.AppServices.Permissions.AppClaims;
+using AirWeb.Domain.Identity;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace MyApp.AppServices.Permissions.Helpers;
+namespace AirWeb.AppServices.Permissions.Helpers;
 
 public static class PrincipalExtensions
 {

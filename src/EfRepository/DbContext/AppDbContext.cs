@@ -1,13 +1,13 @@
 using GaEpd.EmailService.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.Domain.Identity;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.EfRepository.DbContext;
+namespace AirWeb.EfRepository.DbContext;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {

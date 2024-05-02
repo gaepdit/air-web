@@ -1,8 +1,8 @@
-﻿using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
 
-namespace MyApp.WebApp.Pages.Admin.Maintenance.EntryTypes;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance.EntryTypes;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel

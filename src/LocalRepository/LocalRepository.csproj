@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>MyApp.LocalRepository</RootNamespace>
+        <RootNamespace>AirWeb.LocalRepository</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.DataProcessing;
+﻿namespace AirWeb.Domain.DataProcessing;
 
 public static class PersonalInformation
 {

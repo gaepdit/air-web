@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.ErrorLogging;
+﻿using AirWeb.AppServices.ErrorLogging;
 
-namespace MyApp.WebApp.Pages.Dev;
+namespace AirWeb.WebApp.Pages.Dev;
 
 // FUTURE: Remove this page once testing of error handling is complete.
 [AllowAnonymous]

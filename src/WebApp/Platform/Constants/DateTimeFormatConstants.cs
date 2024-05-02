@@ -1,4 +1,4 @@
-﻿namespace MyApp.WebApp.Platform.Constants;
+﻿namespace AirWeb.WebApp.Platform.Constants;
 
 internal static class DateTimeFormatConstants
 {

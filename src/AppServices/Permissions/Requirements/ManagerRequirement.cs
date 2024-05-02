@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Permissions.Helpers;
 
-namespace MyApp.AppServices.Permissions.Requirements;
+namespace AirWeb.AppServices.Permissions.Requirements;
 
 internal class ManagerRequirement :
     AuthorizationHandler<ManagerRequirement>, IAuthorizationRequirement

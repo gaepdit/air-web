@@ -1,7 +1,7 @@
 ﻿using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.QueryDto;
 
-namespace MyApp.WebApp.Models;
+namespace AirWeb.WebApp.Models;
 
 public record SearchResultsDisplay(
     IBasicSearchDisplay Spec,

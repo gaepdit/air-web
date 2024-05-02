@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.EntryTypes;
-using MyApp.TestData;
+﻿using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.TestData;
 
-namespace MyApp.LocalRepository.Repositories;
+namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalEntryTypeRepository()
     : NamedEntityRepository<EntryType>(EntryTypeData.GetData), IEntryTypeRepository;

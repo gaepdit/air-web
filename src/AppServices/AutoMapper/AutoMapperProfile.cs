@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using MyApp.AppServices.EntryActions.Dto;
-using MyApp.AppServices.EntryTypes;
-using MyApp.AppServices.Offices;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.AppServices.WorkEntries.CommandDto;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.EntryTypes;
-using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.EntryActions.Dto;
+using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.AppServices.AutoMapper;
+namespace AirWeb.AppServices.AutoMapper;
 
 public class AutoMapperProfile : Profile
 {

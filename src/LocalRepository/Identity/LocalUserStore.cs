@@ -1,10 +1,10 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Identity;
-using MyApp.TestData;
-using MyApp.TestData.Identity;
+using AirWeb.Domain.Identity;
+using AirWeb.TestData;
+using AirWeb.TestData.Identity;
 
-namespace MyApp.LocalRepository.Identity;
+namespace AirWeb.LocalRepository.Identity;
 
 public sealed class LocalUserStore :
     IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>

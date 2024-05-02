@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.AppServices.EntryActions.Dto;
+namespace AirWeb.AppServices.EntryActions.Dto;
 
 public record EntryActionCreateDto(Guid WorkEntryId)
 {

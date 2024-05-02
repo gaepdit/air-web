@@ -1,4 +1,4 @@
-﻿namespace MyApp.Domain.Exceptions;
+﻿namespace AirWeb.Domain.Exceptions;
 
 /// <summary>
 /// The exception that is thrown if an attachment is created with an invalid file type.

@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
-using MyApp.WebApp.Models;
-using MyApp.WebApp.Platform.PageModelHelpers;
-using MyApp.WebApp.Platform.Settings;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
+using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
+using AirWeb.WebApp.Platform.Settings;
 using System.Security.Claims;
 
-namespace MyApp.WebApp.Pages.Account;
+namespace AirWeb.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class ExternalLoginModel(

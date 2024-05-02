@@ -1,7 +1,7 @@
-﻿using MyApp.AppServices.Offices;
-using MyApp.TestData.Constants;
-using MyApp.WebApp.Pages.Admin.Maintenance.Offices;
-using MyApp.WebApp.Platform.PageModelHelpers;
+﻿using AirWeb.AppServices.Offices;
+using AirWeb.TestData.Constants;
+using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
+using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.MaintenancePages.Offices;
 

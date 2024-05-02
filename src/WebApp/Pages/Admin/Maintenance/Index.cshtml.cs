@@ -1,6 +1,6 @@
-﻿using MyApp.AppServices.Permissions;
+﻿using AirWeb.AppServices.Permissions;
 
-namespace MyApp.WebApp.Pages.Admin.Maintenance;
+namespace AirWeb.WebApp.Pages.Admin.Maintenance;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class MaintenanceIndexModel : PageModel

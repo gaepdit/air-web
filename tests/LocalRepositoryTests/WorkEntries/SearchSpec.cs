@@ -1,8 +1,8 @@
-﻿using MyApp.AppServices.WorkEntries;
-using MyApp.AppServices.WorkEntries.QueryDto;
-using MyApp.Domain.Entities.EntryActions;
-using MyApp.Domain.Entities.WorkEntries;
-using MyApp.LocalRepository.Repositories;
+﻿using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.WorkEntries;
 

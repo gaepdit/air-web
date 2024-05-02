@@ -1,8 +1,8 @@
-﻿using MyApp.AppServices.Permissions;
-using MyApp.AppServices.Permissions.Helpers;
-using MyApp.WebApp.Pages.Account;
+﻿using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.WebApp.Pages.Account;
 
-namespace MyApp.WebApp.Pages.Shared.Components.MainMenu;
+namespace AirWeb.WebApp.Pages.Shared.Components.MainMenu;
 
 public class MainMenuViewComponent(IAuthorizationService authorization) : ViewComponent
 {

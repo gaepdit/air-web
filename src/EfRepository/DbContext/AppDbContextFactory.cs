@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace MyApp.EfRepository.DbContext;
+namespace AirWeb.EfRepository.DbContext;
 
 /// <summary>
 /// Facilitates some EF Core Tools commands. See "Design-time DbContext Creation":

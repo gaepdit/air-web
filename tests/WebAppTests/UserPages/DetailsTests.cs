@@ -1,8 +1,8 @@
-using MyApp.AppServices.Staff;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
-using MyApp.TestData.Constants;
-using MyApp.WebApp.Pages.Admin.Users;
+using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
+using AirWeb.TestData.Constants;
+using AirWeb.WebApp.Pages.Admin.Users;
 
 namespace WebAppTests.UserPages;
 

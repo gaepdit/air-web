@@ -5,7 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>MyApp.WebApp</RootNamespace>
+        <RootNamespace>AirWeb.WebApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

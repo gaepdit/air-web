@@ -1,6 +1,6 @@
-﻿using MyApp.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.Entities.WorkEntries;
 
-namespace MyApp.AppServices.Notifications;
+namespace AirWeb.AppServices.Notifications;
 
 public interface INotificationService
 {

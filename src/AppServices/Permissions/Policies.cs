@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MyApp.AppServices.Permissions.Requirements;
+using AirWeb.AppServices.Permissions.Requirements;
 
-namespace MyApp.AppServices.Permissions;
+namespace AirWeb.AppServices.Permissions;
 
 #pragma warning disable S125 // Sections of code should not be commented out
 //

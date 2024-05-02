@@ -1,9 +1,9 @@
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
-using MyApp.AppServices.Staff.Dto;
-using MyApp.Domain.Identity;
+using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.Identity;
 
-namespace MyApp.AppServices.Staff;
+namespace AirWeb.AppServices.Staff;
 
 public static class StaffFilters
 {

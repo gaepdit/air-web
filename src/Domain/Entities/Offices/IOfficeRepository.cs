@@ -1,6 +1,6 @@
-﻿using MyApp.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
-namespace MyApp.Domain.Entities.Offices;
+namespace AirWeb.Domain.Entities.Offices;
 
 public interface IOfficeRepository : INamedEntityRepository<Office>
 {

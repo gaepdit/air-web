@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>MyApp.EfRepository</RootNamespace>
+        <RootNamespace>AirWeb.EfRepository</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

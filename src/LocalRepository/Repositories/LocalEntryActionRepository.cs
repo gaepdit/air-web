@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Entities.EntryActions;
-using MyApp.TestData;
+﻿using AirWeb.Domain.Entities.EntryActions;
+using AirWeb.TestData;
 
-namespace MyApp.LocalRepository.Repositories;
+namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalEntryActionRepository() 
     : BaseRepository<EntryAction, Guid>(EntryActionData.GetData), IEntryActionRepository;

@@ -1,7 +1,7 @@
-﻿using MyApp.Domain.Identity;
-using MyApp.TestData.Constants;
+﻿using AirWeb.Domain.Identity;
+using AirWeb.TestData.Constants;
 
-namespace MyApp.TestData.Identity;
+namespace AirWeb.TestData.Identity;
 
 internal static partial class UserData
 {

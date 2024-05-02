@@ -1,9 +1,9 @@
-﻿using MyApp.Domain.Entities.Offices;
-using MyApp.Domain.Identity;
-using MyApp.LocalRepository.Identity;
-using MyApp.TestData;
+﻿using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.Identity;
+using AirWeb.LocalRepository.Identity;
+using AirWeb.TestData;
 
-namespace MyApp.LocalRepository.Repositories;
+namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalOfficeRepository()
     : NamedEntityRepository<Office>(OfficeData.GetData), IOfficeRepository

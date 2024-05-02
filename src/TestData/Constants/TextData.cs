@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MyApp.TestData.Constants;
+namespace AirWeb.TestData.Constants;
 
 [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
 public static class TextData
