@@ -1,6 +1,6 @@
-# Template Application
+# Air Web Application
 
-This repository contains a template for use in creating new web applications. See [the instructions](TEMPLATE-HOW-TO.md) for setup and use.
+The Air Web app is operated to collect and organize the data required to operate an efficient air quality regulatory program for the State of Georgia Environmental Protection Division (EPD) Air Protection Branch (APB).
 
 [![Georgia EPD-IT](https://raw.githubusercontent.com/gaepdit/gaepd-brand/main/blinkies/blinkies.cafe-gaepdit.gif)](https://github.com/gaepdit)
 [![.NET Test](https://github.com/gaepdit/air-web/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/air-web/actions/workflows/dotnet-test.yml)
@@ -8,11 +8,15 @@ This repository contains a template for use in creating new web applications. Se
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 
-*[The SonarCloud badges require a SonarCloud project to be configured.]*
-
 ## Background and project requirements
 
-*Add background and project requirements.*
+The application is under active development to replace similar functionality currently housed in the [Integrated Air Information Platform](https://github.com/gaepdit/iaip) (IAIP). As each new module is developed, it will be removed from the IAIP until all functionality has been migrated and the IAIP can be retired.
+
+This long-term project began with the [Small Business Environmental Assistance Program](https://github.com/gaepdit/sbeap) which was migrated into a standalone application.
+
+The current effort focuses on the Stationary Source Compliance Program, specifically the compliance monitoring and enforcement modules (which are also used by the EPD District Offices). This effort will also require updates to our [ICIS-Air data flows](https://github.com/gaepdit/icis-air-data-exchange).
+
+The remaining IAIP modules are described in [this discussion topic](https://github.com/gaepdit/air-web/discussions/50). 
 
 ---
 
@@ -22,7 +26,7 @@ This is an ASP.NET web application.
 
 ### Project ownership
 
-*Add project ownership details.*
+The overall project is owned by the Air Protection Branch. Various modules are owned by the appropriate Programs within the Branch.
 
 ### Prerequisites for development
 
@@ -74,7 +78,7 @@ The following settings configure the data stores and authentication for developm
 }
 ```
 
-- *UseDevSettings* — Indicates whether the Dev settings should be applied.
+- *UseDevSettings* — Indicates whether the following Dev settings should be applied.
 - *UseInMemoryData*
     - When `true`, the "LocalRepository" project is used for repositories and data stores. Data is initially seeded from the "TestData" project. 
     - When `false`, the "EfRepository" project is used, and a SQL Server database (as specified by the connection string) is created. <small>(If the connection string is missing, then a temporary EF Core in-memory database provider is used. This option is included for convenience and is not recommended.)</small>
@@ -86,11 +90,14 @@ The following settings configure the data stores and authentication for developm
 - *LocalUserIsAdmin* — Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)     <small>An alternative way to create admin users is to add them to the `SeedAdminUsers` setting as an array of email addresses.</small>
 - *UseSecurityHeadersLocally* — Sets whether to include HTTP security headers when running locally in the Development environment.
 
+#### Production defaults
+
 When `UseDevSettings` is missing or set to `false` or if the `DevSettings` section is missing, the settings are automatically set to production defaults as follows:
 
 ```csharp
 UseInMemoryData = false,
 UseEfMigrations = true,
+DeleteAndRebuildDatabase = false,
 UseAzureAd = true,
 LocalUserIsAuthenticated = false,
 LocalUserIsStaff = false,
@@ -155,15 +162,3 @@ flowchart LR
         B --> D
     end
 ```
-
-### Entity Framework database migrations
-
-Instructions for adding a new Entity Framework database migration:
-
-1. Build the solution.
-
-2. Open a command prompt to the "./src/EfRepository/" folder.
-
-3. Run the following command with an appropriate migration name:
-
-   `dotnet ef migrations add NAME_OF_MIGRATION`
