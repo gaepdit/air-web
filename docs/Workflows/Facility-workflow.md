@@ -1,25 +1,26 @@
 # Facility Workflow
 
-* A new Inspection can be entered from a Facility.
 * A new FCE can be entered from a Facility.
 * A new ACC can be entered from a Facility.
+* A new Inspection can be entered from a Facility.
+* A new RMP Inspection can be entered from a Facility.
 
 ```mermaid
-flowchart
+flowchart LR
     FAC{{"`**Facility**`"}}
+    FCE{{FCE}}
     ACC{{ACC}}
     INS{{Inspection}}
-    FCE{{FCE}}
+    RMP{{RMP Inspection}}
 
+    fce([Generate FCE])
     acc([Enter new ACC])
     ins([Enter new Inspection])
-    fce([Generate FCE])
+    rmp([Enter new RMP Inspection])
 
-    FAC -.-> acc
-    FAC -.-> ins
-    FAC -.-> fce
+    FAC -.-> fce -->|Creates| FCE
+    FAC -.-> acc -->|Creates| ACC
+    FAC -.-> ins -->|Creates| INS
+    FAC -.-> rmp -->|Creates| RMP
 
-    acc -->|Creates| ACC
-    ins -->|Creates| INS
-    fce -->|Creates| FCE
 ```
