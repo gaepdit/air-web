@@ -27,7 +27,7 @@ flowchart
     enforce([Start new Enforcement])
     print([Print])
     close(["`Close/*Reopen*`"])
-    updateComment([Edit Comment])
+    editComment([Edit Comment])
 
     FAC -.-> enter
     ACC -.-> edit
@@ -35,7 +35,7 @@ flowchart
     ACC -.-> print
     ACC -..-> comment
     ACC -..-> enforce
-    CMT -.-> updateComment
+    CMT -.-> editComment
 
     close -->|"`Enables/*disables*`"| print
     close -->|"`Disables/*enables*`"| edit
@@ -43,7 +43,7 @@ flowchart
     enter -->|Creates| ACC
     edit -->|Updates| ACC
     close -->|"`Closes/*reopens*`"| ACC
-    updateComment -->|Updates| CMT
+    editComment -->|Updates| CMT
     print -->|Opens| RPT
     comment -->|Adds| CMT
     enforce -->|Creates| ENF

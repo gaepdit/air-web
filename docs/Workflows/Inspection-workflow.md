@@ -22,22 +22,22 @@ flowchart
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
-    updateComment([Edit Comment])
+    editComment([Edit Comment])
     fce([Generate FCE])
 
     FAC -.-> enter
     INS -.-> edit
-    INS -..-> comment
-    INS -..-> enforce
-    INS -..-> fce
-    CMT -.-> updateComment
+    INS -.-> comment
+    INS -.-> enforce
+    INS -.-> fce
+    CMT -.-> editComment
 
     enter -->|Creates| INS
     edit -->|Updates| INS
-    updateComment -->|Updates| CMT
-    comment -->|Adds| CMT
-    fce -->|Creates| FCE
-    enforce -->|Creates| ENF
+    editComment -->|Updates| CMT
+    comment --->|Adds| CMT
+    fce --->|Creates| FCE
+    enforce --->|Creates| ENF
     enter -->|Updates| DX
     edit --->|Updates| DX
 

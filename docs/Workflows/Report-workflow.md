@@ -11,32 +11,28 @@
 ```mermaid
 flowchart
     FAC{{Facility}}
-    INS{{"`**Inspection**`"}}
+    REP{{"`**Report**`"}}
     DX{{Data Exchange}}
     CMT{{Comment}}
-    FCE{{FCE}}
     ENF{{Enforcement}}
 
-    enter([Enter new Inspection])
+    enter([Enter new Report])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
-    updateComment([Edit Comment])
-    fce([Generate FCE])
+    editComment([Edit Comment])
 
     FAC -.-> enter
-    INS -.-> edit
-    INS -..-> comment
-    INS -..-> enforce
-    INS -..-> fce
-    CMT -.-> updateComment
+    REP -.-> edit
+    REP -.-> comment
+    REP -.-> enforce
+    CMT -.-> editComment
 
-    enter -->|Creates| INS
-    edit -->|Updates| INS
-    updateComment -->|Updates| CMT
-    comment -->|Adds| CMT
-    fce -->|Creates| FCE
-    enforce -->|Creates| ENF
+    enter -->|Creates| REP
+    edit -->|Updates| REP
+    editComment -->|Updates| CMT
+    comment --->|Adds| CMT
+    enforce --->|Creates| ENF
     enter -->|Updates| DX
     edit --->|Updates| DX
 
