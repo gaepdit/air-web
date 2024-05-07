@@ -9,7 +9,7 @@
 * The ACC report can be printed.
 * Enforcement can be started from an ACC.
 * An ACC can be deleted/restored *(not shown)*.
-* Comments can be edited.
+* Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
 
 ```mermaid

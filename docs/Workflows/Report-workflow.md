@@ -1,11 +1,10 @@
-# Inspection Workflow
+# Report Entry Workflow
 
-* A new Inspection can be entered from a Facility.
-* The Inspection can be edited.
-* Saving an Inspection updates the data exchange.
-* Enforcement can be started from an Inspection.
-* A new FCE can be entered from an Inspection.
-* An Inspection can be deleted/restored *(not shown)*.
+* A new Report can be entered from a Facility.
+* The Report entry can be edited.
+* Saving a Report entry updates the data exchange.
+* Enforcement can be started from a Report entry.
+* A Report entry can be deleted/restored *(not shown)*.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
 

@@ -2,10 +2,9 @@
 
 * A new RMP Inspection can be entered from a Facility.
 * The RMP Inspection can be edited.
-* Additional comments can be added at any time.
 * Enforcement can be started from an RMP Inspection.
 * An RMP Inspection can be deleted/restored *(not shown)*.
-* Comments can be edited.
+* Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
 
 ```mermaid
