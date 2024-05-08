@@ -18,7 +18,7 @@
         - SMR: Source Monitoring Review
         - REP: Report
     - NOT: Notification
-    - PX: Permit revocation †
+    - REV: Permit revocation †
 - ENF: Enforcement
 
 † Indicates a change in hierarchy compared to the IAIP.
@@ -58,6 +58,8 @@ WRK["Work Entry"] {
         REP["Report"]
 
     NOT["Notification"]
+    
+    REV["Permit Revocation"]
 
 COM["Comment"] {
     Guid Id PK
@@ -81,6 +83,7 @@ COM }o--|| WRK : "comments on"
 
 CME |o--|| WRK : "is a type of"
 NOT |o--|| WRK : "is a type of"
+REV |o--|| WRK : "is a type of"
 
 SMR |o--|| MON : "evaluates"
 
