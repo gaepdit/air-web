@@ -15,7 +15,7 @@
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: RMP Inspection
-        - STR: Source Monitoring Review
+        - SMR: Source Monitoring Review
         - REP: Report
     - NOT: Notification
     - PX: Permit revocation †
@@ -49,7 +49,7 @@ WRK["Work Entry"] {
 
     CME["Compliance Event"]
 
-        STR["Source Monitoring Review"] {
+        SMR["Source Monitoring Review"] {
             string referenceNumber FK
         }
         ACC["ACC"]
@@ -59,6 +59,11 @@ WRK["Work Entry"] {
 
     NOT["Notification"]
 
+COM["Comment"] {
+    Guid Id PK
+    int workEntryId FK
+}
+
 ENF["Enforcement"] {
     int Id PK
     string airsNumber FK
@@ -66,22 +71,24 @@ ENF["Enforcement"] {
 }
 
 
-STR }o--|| CME : "is a type of"
-ACC }o--|| CME : "is a type of"
-INS }o--|| CME : "is a type of"
-RMP }o--|| CME : "is a type of"
-REP }o--|| CME : "is a type of"
+SMR |o--|| CME : "is a type of"
+ACC |o--|| CME : "is a type of"
+INS |o--|| CME : "is a type of"
+RMP |o--|| CME : "is a type of"
+REP |o--|| CME : "is a type of"
 
-CME }o--|| WRK : "is a type of"
-NOT }o--|| WRK : "is a type of"
+COM }o--|| WRK : "comments on"
 
-STR |o--|| MON : "evaluates"
+CME |o--|| WRK : "is a type of"
+NOT |o--|| WRK : "is a type of"
+
+SMR |o--|| MON : "evaluates"
 
 MON }o--|| FAC : "is conducted at"
 WRK }o--|| FAC : "is entered for"
 FCE }o--|| FAC : "is completed for"
 ENF }o--|| FAC : "is issued to"
 
-ENF }o--|{ CME : "addresses"
+ENF }o..|{ CME : "addresses"
 
 ```
