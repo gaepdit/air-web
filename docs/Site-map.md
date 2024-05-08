@@ -72,13 +72,13 @@ These pages are only available to logged-in staff.
 * `/Staff/Enforcement` Enforcement search form.
 * `/Staff/Enforcement/Details/{enforcementId:int}` Enforcement details.
 
-### Enforcement Initiation
+#### Enforcement Initiation
 
 * `/Staff/Enforcement/Add` Start new enforcement.
 * `/Staff/Enforcement/Add/{facilityId}` Start new enforcement for the facility.
 * `/Staff/Enforcement/Add/{facilityId}/ComplianceEvent/{entryId:int}` Start new enforcement for the work entry.
 
-### Enforcement Workflow
+#### Enforcement Workflow
 
 TBD
 
