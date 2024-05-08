@@ -13,13 +13,19 @@ Shown when user is not logged in.
 Shown when staff is logged in.
 
 * {Logo} Title (`/Staff`)
-* ▼ Search
+* ▼ 🔍︎ Search
     * Facilities (`/Staff/Facility`)
     * Compliance Events/FCEs (`/Staff/Compliance`)
     * Source Monitoring (`/Staff/SourceMonitoring`)
-    * Enforcement (`/Staff/Enforcement`) 
+    * Enforcement (`/Staff/Enforcement`)
 - ▭ *(flexible space)*
-* ▼ ＋New
+* ▼ 🡽 Go To
+    * Facility *(form)*
+    * —
+    * Compliance Event *(form)*
+    * Source Monitoring *(form)*
+    * Enforcement *(form)*
+* ▼ ＋Add New
     * Compliance Work Entry (`/Staff/Compliance/WorkEntry/Add`)
     * Full Compliance Evaluation (`/Staff/Compliance/FCE/Add`)
     * Enforcement (`/Staff/Enforcement/Add`)
@@ -31,5 +37,6 @@ Shown when staff is logged in.
 * ▼ Account
     * Your profile (`/Account`)
     * Settings (`/Account/Settings`)
+    * —
     * Sign out *(form)*
 * ◐	Theme toggle

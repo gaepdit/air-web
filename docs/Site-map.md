@@ -41,13 +41,23 @@ These pages are only available to logged-in staff.
 * `/Staff/Compliance/WorkEntry/{entryId:int}` Compliance work entry details page (compliance events, notifications, and
   permit revocations).
 
-#### Compliance Workflow
+#### Compliance Monitoring Workflow
 
-* `/Staff/Compliance/[FCE,WorkEntry]/Add` Add a new FCE/Work Entry.
-* `/Staff/Compliance/[FCE,WorkEntry]/Add/{facilityId}` Add a new FCE/Work Entry for the Facility.
-* `/Staff/Compliance/[FCE,WorkEntry]/Edit/{fceId:int}` Edit an FCE/Work Entry.
-* `/Staff/Compliance/[FCE,WorkEntry]/Delete/{fceId:int}` Delete an FCE/Work Entry.
-* `/Staff/Compliance/[FCE,WorkEntry]/Restore/{fceId:int}` Restore an FCE/Work Entry.
+* `/Staff/Compliance/WorkEntry/Add` Add a new Work Entry.
+* `/Staff/Compliance/WorkEntry/Add/{facilityId}` Add a new Work Entry for the Facility.
+* `/Staff/Compliance/WorkEntry/Add/[work entry type]` Add a new Work Entry of the specified type.
+* `/Staff/Compliance/WorkEntry/Add/[work entry type]/{facilityId}` Add a new Work Entry of the specified type for the Facility.
+* `/Staff/Compliance/WorkEntry/Edit/{id:int}` Edit a Work Entry.
+* `/Staff/Compliance/WorkEntry/Delete/{id:int}` Delete a Work Entry.
+* `/Staff/Compliance/WorkEntry/Restore/{id:int}` Restore a Work Entry.
+
+#### FCE Workflow
+
+* `/Staff/Compliance/FCE/Add` Add a new FCE.
+* `/Staff/Compliance/FCE/Add/{facilityId}` Add a new FCE for the Facility.
+* `/Staff/Compliance/FCE/Edit/{id:int}` Edit an FCE.
+* `/Staff/Compliance/FCE/Delete/{id:int}` Delete an FCE.
+* `/Staff/Compliance/FCE/Restore/{id:int}` Restore an FCE.
 
 ### Source Monitoring
 
