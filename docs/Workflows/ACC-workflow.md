@@ -2,7 +2,6 @@
 
 * A new ACC can be entered from a Facility.
 * The ACC can be edited while open.
-* Additional comments can be added at any time.
 * Closing an ACC disables updating and enables printing.
 * Reopening an ACC enables updating and disables printing.
 * Closing or Reopening an ACC updates the data exchange.

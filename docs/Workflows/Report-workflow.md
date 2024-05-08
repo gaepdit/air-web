@@ -31,9 +31,9 @@ flowchart
     enter -->|Creates| REP
     edit -->|Updates| REP
     editComment -->|Updates| CMT
-    comment --->|Adds| CMT
-    enforce --->|Creates| ENF
+    comment -->|Adds| CMT
+    enforce -->|Creates| ENF
     enter -->|Updates| DX
-    edit --->|Updates| DX
+    edit -->|Updates| DX
 
 ```

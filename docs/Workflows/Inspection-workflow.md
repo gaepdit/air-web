@@ -35,10 +35,10 @@ flowchart
     enter -->|Creates| INS
     edit -->|Updates| INS
     editComment -->|Updates| CMT
-    comment --->|Adds| CMT
-    fce --->|Creates| FCE
-    enforce --->|Creates| ENF
+    comment -->|Adds| CMT
+    fce -->|Creates| FCE
+    enforce -->|Creates| ENF
     enter -->|Updates| DX
-    edit --->|Updates| DX
+    edit -->|Updates| DX
 
 ```
