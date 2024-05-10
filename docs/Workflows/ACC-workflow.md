@@ -4,7 +4,7 @@
 * The ACC can be edited while open.
 * Closing an ACC disables updating and enables printing.
 * Reopening an ACC enables updating and disables printing.
-* Closing or Reopening an ACC updates the data exchange.
+* Closing or Reopening an ACC updates the Data Exchange.
 * The ACC report can be printed.
 * Enforcement can be started from an ACC.
 * An ACC can be deleted/restored *(not shown)*.

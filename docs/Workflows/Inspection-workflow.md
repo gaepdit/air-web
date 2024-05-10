@@ -2,7 +2,7 @@
 
 * A new Inspection can be entered from a Facility.
 * The Inspection can be edited.
-* Saving an Inspection updates the data exchange.
+* Saving an Inspection updates the Data Exchange.
 * Enforcement can be started from an Inspection.
 * A new FCE can be entered from an Inspection.
 * An Inspection can be deleted/restored *(not shown)*.
