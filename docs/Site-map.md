@@ -17,9 +17,9 @@ These pages are available to the public.
 
 Pages must be named "report" because "reports" is reserved by the ArcGIS application.
 
-* `/report/facility/{facilityId}/acc/{id:int}` Printable ACC report page.
+* `/report/facility/{facilityId}/acc/{accId:int}` Printable ACC report page.
 * `/report/facility/{facilityId}/source-monitoring/{referenceNumber:int}` Printable source monitoring report page.
-* `/report/facility/{facilityId}/fce/{id:int}` Printable FCE report page.
+* `/report/facility/{facilityId}/fce/{fcdId:int}` Printable FCE report page.
 
 ---
 
@@ -44,20 +44,21 @@ These pages are only available to logged-in staff.
 #### Compliance Monitoring Workflow
 
 * `/Staff/Compliance/WorkEntry/Add` Add a new Work Entry.
-* `/Staff/Compliance/WorkEntry/Add/{facilityId}` Add a new Work Entry for the Facility.
-* `/Staff/Compliance/WorkEntry/Add/[work entry type]` Add a new Work Entry of the specified type.
-* `/Staff/Compliance/WorkEntry/Add/[work entry type]/{facilityId}` Add a new Work Entry of the specified type for the Facility.
-* `/Staff/Compliance/WorkEntry/Edit/{id:int}` Edit a Work Entry.
-* `/Staff/Compliance/WorkEntry/Delete/{id:int}` Delete a Work Entry.
-* `/Staff/Compliance/WorkEntry/Restore/{id:int}` Restore a Work Entry.
+* `/Staff/Compliance/WorkEntry/Add?{facilityId}` Add a new Work Entry for the Facility.
+* `/Staff/Compliance/WorkEntry/Add?{workEntryType}` Add a new Work Entry of the specified type.
+* `/Staff/Compliance/WorkEntry/Add?{workEntryType}&{facilityId}` Add a new Work Entry of the specified type for the
+  specified Facility.
+* `/Staff/Compliance/WorkEntry/Edit/{entryId:int}` Edit a Work Entry.
+* `/Staff/Compliance/WorkEntry/Delete/{entryId:int}` Delete a Work Entry.
+* `/Staff/Compliance/WorkEntry/Restore/{entryId:int}` Restore a Work Entry.
 
 #### FCE Workflow
 
 * `/Staff/Compliance/FCE/Add` Add a new FCE.
-* `/Staff/Compliance/FCE/Add/{facilityId}` Add a new FCE for the Facility.
-* `/Staff/Compliance/FCE/Edit/{id:int}` Edit an FCE.
-* `/Staff/Compliance/FCE/Delete/{id:int}` Delete an FCE.
-* `/Staff/Compliance/FCE/Restore/{id:int}` Restore an FCE.
+* `/Staff/Compliance/FCE/Add?{facilityId}` Add a new FCE for the specified Facility.
+* `/Staff/Compliance/FCE/Edit/{fceId:int}` Edit an FCE.
+* `/Staff/Compliance/FCE/Delete/{fceId:int}` Delete an FCE.
+* `/Staff/Compliance/FCE/Restore/{fceId:int}` Restore an FCE.
 
 ### Source Monitoring
 
@@ -75,12 +76,21 @@ These pages are only available to logged-in staff.
 #### Enforcement Initiation
 
 * `/Staff/Enforcement/Add` Start new enforcement.
-* `/Staff/Enforcement/Add/{facilityId}` Start new enforcement for the facility.
-* `/Staff/Enforcement/Add/{facilityId}/ComplianceEvent/{entryId:int}` Start new enforcement for the work entry.
+* `/Staff/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
+* `/Staff/Enforcement/Add?{facilityId}&{entryId:int}` Start new enforcement case for the specified work entry.
 
 #### Enforcement Workflow
 
-TBD
+
+* `/Staff/Enforcement/Edit/{enforcementId:int}` Edit enforcement details.
+* `/Staff/Enforcement/[Close|Reopen]/{enforcementId:int}` Close/reopen an enforcement case.
+* `/Staff/Enforcement/Link/{enforcementId:int}` Link an enforcement case to a compliance event.
+* `/Staff/Enforcement/Action/Details/{enforcementId:int}` View enforcement action details.
+* `/Staff/Enforcement/Action/Add/{enforcementId:int}` Add an enforcement action to an enforcement case.
+* `/Staff/Enforcement/Action/Edit/{actionId:Guid}` Edit an enforcement action details.
+* `/Staff/Enforcement/Action/RequestReview/{actionId:Guid}` Request review for an enforcement action.
+* `/Staff/Enforcement/Action/[Approve/Return]/{actionId:Guid}` Approve or return an enforcement action review.
+* `/Staff/Enforcement/Action/Issue/{actionId:Guid}` Issue (and close) an enforcement action.
 
 ## User Account
 
