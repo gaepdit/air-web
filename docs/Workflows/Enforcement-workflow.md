@@ -27,21 +27,25 @@
 
 ## Data Exchange/Internal Auditing
 
+* Submitting to EPA will enable the Data Exchange.
 * Any of the following will update the Data Exchange and generate an audit point *(not shown)*:
     * Adding or editing an Enforcement or Enforcement Action.
     * Closing or reopening the Enforcement.
     * Linking a Compliance Event.
     * Issuing an Enforcement Action.
 
+## Flow Chart
+
 ```mermaid
 flowchart
-    EVT{{Compliance Event}}
     FAC{{Facility}}
+    EVT{{Compliance Event}}
     ENF{{"`**Enforcement**`"}}
     CMT{{Enforcement Comment}}
     ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}
     CMA{{Action Comment}}
+    STP{{Stipulated Penalty}}
 
     link([Link Event])
     add([Enter new LON/Case File])
@@ -55,15 +59,18 @@ flowchart
     editCommentAction([Edit Action Comment])
     review([Submit for Review])
     respond([Approve/Return])
-    issue([Issue Action])
+    issue([Issue/Abandon])
+    epa([Submit to EPA])
+    penalty([Add Penalty])
 
-    ENF -.-> link
     FAC -.-> add
+    ENF -.-> link
     EVT -.-> add
     ENF -.-> editEnf
     ENF -.-> close
     ENF -..-> comment
     ENF -.-> addAction
+    ENF -.-> epa
     CMT -.-> editComment
     ACT -.-> commentAction
     ACT -.-> editAction
@@ -71,6 +78,7 @@ flowchart
     ACT -.-> issue
     CMA -.-> editCommentAction
     REV -.-> respond
+    ACT -..-> penalty
 
     close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| addAction
@@ -79,12 +87,15 @@ flowchart
     issue -->|Disables| commentAction
     issue -->|Disables| review
 
-    link -->|Links To| EVT
+    link -->|Links to| EVT
     add -->|Creates| ENF
     editEnf -->|Updates| ENF
     editAction -->|Updates| ACT
     issue -->|Closes| ACT
+    issue -->|Updates status| ENF
     close -->|"`Closes/*reopens*`"| ENF
+    close -->|Closes all| ACT
+    close -->|Disables| penalty
     editComment -->|Updates| CMT
     editCommentAction -->|Updates| CMA
     comment -->|Adds| CMT
@@ -92,5 +103,79 @@ flowchart
     addAction -->|Adds| ACT
     review -->|Starts| REV
     respond -->|Updates| ACT
+    penalty -->|Adds| STP
+
+```
+
+## Detailed Entity Relationship Diagram
+
+
+```mermaid
+erDiagram
+
+FAC["Facility"] {
+    string airsNumber PK
+}
+
+CWE["Compliance Event (Work Entry)"] {
+    int Id PK
+    string airsNumber FK
+}
+
+ENF["Enforcement"] {
+    int Id PK
+    string airsNumber FK
+}
+
+CEL["Compliance Event/Enforcement Linkage"] {
+    int enforcementId FK
+    int workEntryId FK
+}
+
+ECM["Enforcement Comment"] {
+    Guid Id PK
+    int enforcementId FK
+}
+
+ACT["Enforcement Action"] {
+    Guid Id PK
+    int enforcementId FK
+}
+
+REV["Enforcement Action Review"] {
+    Guid Id PK
+    int enforcementId FK
+}
+
+CMA["Action Comment"] {
+    Guid Id PK
+    Guid actionId FK
+}
+
+DOC["LON, NOV, AO, NFA"]
+CO["Consent Order"]
+POL["Pollutant"]
+PGM["Air Program"]
+STP["Stipulated Penalty"]
+
+CWE }o--|| FAC : "is entered for"
+ENF }o--|| FAC : "is issued to"
+
+CEL }o--|| CWE : "is triggered by"
+CEL }o--|| ENF : "is addressed by"
+
+ECM }o--|| ENF : "comments on"
+ACT }|--|| ENF : "advances"
+
+ENF ||--o{ POL : "is associated with"
+ENF ||--o{ PGM : "is associated with"
+
+DOC |o--|| ACT : "is a type of"
+CO |o--|| ACT : "is a type of"
+
+REV }|--|| ACT : "reviews"
+CMA }o--|| ACT : "comments on"
+
+STP }o--|| CO : "may be required by"
 
 ```

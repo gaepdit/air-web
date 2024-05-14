@@ -61,25 +61,21 @@ WRK["Work Entry"] {
     
     REV["Permit Revocation"]
 
-COM["Comment"] {
-    Guid Id PK
-    int workEntryId FK
-}
-
 ENF["Enforcement"] {
     int Id PK
     string airsNumber FK
-    int workEntryId FK
 }
 
+CEL["Compliance/Enforcement Linkage"] {
+    int enforcementId FK
+    int workEntryId FK
+}
 
 SMR |o--|| CME : "is a type of"
 ACC |o--|| CME : "is a type of"
 INS |o--|| CME : "is a type of"
 RMP |o--|| CME : "is a type of"
 REP |o--|| CME : "is a type of"
-
-COM }o--|| WRK : "comments on"
 
 CME |o--|| WRK : "is a type of"
 NOT |o--|| WRK : "is a type of"
@@ -92,6 +88,7 @@ WRK }o--|| FAC : "is entered for"
 FCE }o--|| FAC : "is completed for"
 ENF }o--|| FAC : "is issued to"
 
-ENF }o..|{ CME : "addresses"
+CEL }o--|| ENF : "addresses"
+CEL }o--|| CME : "is linked to"
 
 ```
