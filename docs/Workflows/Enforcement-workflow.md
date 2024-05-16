@@ -42,7 +42,7 @@
 flowchart
     EVT{{Compliance Event}}
     FAC{{Facility}}
-    ENF{{"`**Enforcement**`"}}
+    ENF{{"`**Enforcement Case**`"}}
     CTE{{Enforcement Comment}}
     ACT{{"`**Enforcement Action/Document**`"}}
     REV{{"Enforcement Action Review"}}
