@@ -2,7 +2,7 @@
 
 * A new FCE can be entered from a Facility or an Inspection.
 * The FCE can be edited.
-* Saving an FCE updates the data exchange.
+* Saving an FCE updates the Data Exchange.
 * The FCE report can be printed.
 * An FCE can be deleted/restored *(not shown)*.
 

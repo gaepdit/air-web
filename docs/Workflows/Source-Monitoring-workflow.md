@@ -2,7 +2,7 @@
 
 * A new Source Monitoring Compliance Review can be entered from a Source Monitoring Report.
 * The Review entry can be edited.
-* Saving a Review entry updates the data exchange.
+* Saving a Review entry updates the Data Exchange.
 * Enforcement can be started from a Review entry.
 * A Review entry can be deleted/restored *(not shown)*.
 * Comments can be added and edited.
