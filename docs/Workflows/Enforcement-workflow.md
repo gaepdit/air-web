@@ -11,9 +11,11 @@
 * A Comment can be deleted *(not shown)*.
 * An Enforcement can be deleted *(not shown)*.
 
-## Enforcement Action
+## Enforcement Action/Document
 
 * An Enforcement Action can be added to an Enforcement.
+* An Enforcement Action can be started from another Enforcement Action where a linkage exists (e.g., an NFA from an NOV
+  or a public notice from a CO).
 * An Enforcement Action can be edited while the Enforcement is open.
 * Issuing an Enforcement Action closes it and disables all editing.
 * Comments can be added and edited.
@@ -27,7 +29,7 @@
 
 ## Data Exchange/Internal Auditing
 
-* Submitting to EPA will enable the Data Exchange.
+* Submitting to EPA will enable the Data Exchange *(not shown)*.
 * Any of the following will update the Data Exchange and generate an audit point *(not shown)*:
     * Adding or editing an Enforcement or Enforcement Action.
     * Closing or reopening the Enforcement.
@@ -38,30 +40,32 @@
 
 ```mermaid
 flowchart
-    FAC{{Facility}}
     EVT{{Compliance Event}}
+    FAC{{Facility}}
     ENF{{"`**Enforcement**`"}}
-    CMT{{Enforcement Comment}}
-    ACT{{"`**Enforcement Action**`"}}
+    CTE{{Enforcement Comment}}
+    ACT{{"`**Enforcement Action/Document**`"}}
     REV{{"Enforcement Action Review"}}
-    CMA{{Action Comment}}
+    CTA{{Action Comment}}
     STP{{Stipulated Penalty}}
 
     link([Link Event])
-    add([Enter new LON/Case File])
+    add([Enter new Case File])
     comment([Add Comment])
     editEnf([Edit])
-    addAction([Add Enforcement Action])
+    addAction([Add Action])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     editAction([Edit Action])
+    addLinkedAction([Add Linked Action])
     commentAction([Add Comment])
-    editCommentAction([Edit Action Comment])
+    editCommentAction([Edit Comment])
     review([Submit for Review])
     respond([Approve/Return])
-    issue([Issue/Abandon])
-    epa([Submit to EPA])
+    issue([Issue])
     penalty([Add Penalty])
+
+    IfCO>If Consent Order]
 
     FAC -.-> add
     ENF -.-> link
@@ -70,112 +74,113 @@ flowchart
     ENF -.-> close
     ENF -..-> comment
     ENF -.-> addAction
-    ENF -.-> epa
-    CMT -.-> editComment
-    ACT -.-> commentAction
+    ACT -.-> addLinkedAction
+    CTE -.-> editComment
+    ACT -..-> commentAction
     ACT -.-> editAction
     ACT -.-> review
     ACT -.-> issue
-    CMA -.-> editCommentAction
+    CTA -.-> editCommentAction
     REV -.-> respond
-    ACT -..-> penalty
+    ACT -.-> IfCO -.-> penalty
 
-    close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| addAction
+    close -->|"`Disables/*enables*`"| addLinkedAction
+    close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| link
     issue -->|Disables| editAction
-    issue -->|Disables| commentAction
     issue -->|Disables| review
 
-    link -->|Links to| EVT
     add -->|Creates| ENF
-    editEnf -->|Updates| ENF
-    editAction -->|Updates| ACT
-    issue -->|Closes| ACT
-    issue -->|Updates status| ENF
-    close -->|"`Closes/*reopens*`"| ENF
-    close -->|Closes all| ACT
-    close -->|Disables| penalty
-    editComment -->|Updates| CMT
-    editCommentAction -->|Updates| CMA
-    comment -->|Adds| CMT
-    commentAction -->|Adds| CMA
     addAction -->|Adds| ACT
-    review -->|Starts| REV
-    respond -->|Updates| ACT
+    addLinkedAction -->|Adds| ACT
+    close -->|"`Closes/*reopens*`"| ENF
+    close -->|Disables| penalty
+    comment -->|Adds| CTE
+    commentAction -->|Adds| CTA
+    editAction -->|Updates| ACT
+    editComment -->|Updates| CTE
+    editCommentAction -->|Updates| CTA
+    editEnf -->|Updates| ENF
+    issue -->|Updates status| ENF
+    link -->|Links to| EVT
     penalty -->|Adds| STP
+    respond -->|Updates| ACT
+    review -->|Starts| REV
 
 ```
 
-## Detailed Entity Relationship Diagram
-
+## Entity Relationship Diagram
 
 ```mermaid
 erDiagram
+    FAC["Facility"] {
+        string airsNumber PK
+    }
 
-FAC["Facility"] {
-    string airsNumber PK
-}
+    CWE["Compliance Event (Work Entry)"] {
+        int Id PK
+        string airsNumber FK
+    }
 
-CWE["Compliance Event (Work Entry)"] {
-    int Id PK
-    string airsNumber FK
-}
+    ENF["Enforcement"] {
+        int Id PK
+        string airsNumber FK
+    }
 
-ENF["Enforcement"] {
-    int Id PK
-    string airsNumber FK
-}
+    LNK["Compliance Event/Enforcement Linkage"] {
+        int enforcementId FK
+        int workEntryId FK
+    }
 
-CEL["Compliance Event/Enforcement Linkage"] {
-    int enforcementId FK
-    int workEntryId FK
-}
+    CTE["Enforcement Comment"] {
+        Guid Id PK
+        int enforcementId FK
+    }
 
-ECM["Enforcement Comment"] {
-    Guid Id PK
-    int enforcementId FK
-}
+    DOC["Document"] {
+        Guid Id PK
+        int enforcementId FK
+    }
 
-ACT["Enforcement Action"] {
-    Guid Id PK
-    int enforcementId FK
-}
+    ACT["Enforcement Action"]
 
-REV["Enforcement Action Review"] {
-    Guid Id PK
-    int enforcementId FK
-}
+    REV["Enforcement Action Review"] {
+        Guid Id PK
+        int enforcementId FK
+    }
 
-CMA["Action Comment"] {
-    Guid Id PK
-    Guid actionId FK
-}
+    CTA["Document Comment"] {
+        Guid Id PK
+        Guid documentId FK
+    }
 
-DOC["LON, NOV, AO, NFA"]
-CO["Consent Order"]
-POL["Pollutant"]
-PGM["Air Program"]
-STP["Stipulated Penalty"]
+    EAO["LON, NOV, AO, NFA"]
+    CO["Consent Order"]
+    POL["Pollutant"]
+    PGM["Air Program"]
+    STP["Stipulated Penalty"]
 
-CWE }o--|| FAC : "is entered for"
-ENF }o--|| FAC : "is issued to"
+    CWE }o--|| FAC: "is entered for"
+    ENF }o--|| FAC: "is issued to"
 
-CEL }o--|| CWE : "is triggered by"
-CEL }o--|| ENF : "is addressed by"
+    CWE }o..o{ ENF: "are linked"
+    LNK }o--|| CWE: "is triggered by"
+    LNK }o--|| ENF: "is addressed by"
 
-ECM }o--|| ENF : "comments on"
-ACT }|--|| ENF : "advances"
+    CTE }o--|| ENF: "comments on"
+    DOC }|--|| ENF: "advances"
+    ACT |o--|| DOC: "is a type of"
 
-ENF ||--o{ POL : "is associated with"
-ENF ||--o{ PGM : "is associated with"
+    ENF }o..o{ POL: "are linked"
+    ENF }o..o{ PGM: "are linked"
 
-DOC |o--|| ACT : "is a type of"
-CO |o--|| ACT : "is a type of"
+    EAO |o--|| ACT: "are types of"
+    CO |o--|| ACT: "is a type of"
+    REV }|--|| ACT: "reviews"
+    
+    CTA }o--|| DOC: "comments on"
 
-REV }|--|| ACT : "reviews"
-CMA }o--|| ACT : "comments on"
-
-STP }o--|| CO : "may be required by"
+    STP }o--|| CO: "may be required by"
 
 ```
