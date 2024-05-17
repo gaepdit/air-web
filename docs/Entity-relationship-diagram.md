@@ -33,7 +33,7 @@ FAC["Facility"] {
 }
 
 MON["Source Monitoring"] {
-    string referenceNumber PK
+    int referenceNumber PK
     string facilityId FK
 }
 
@@ -50,7 +50,7 @@ WRK["Work Entry"] {
     CME["Compliance Event"]
 
         SMR["Source Monitoring Review"] {
-            string referenceNumber FK
+            int referenceNumber FK
         }
         ACC["ACC"]
         INS["Inspection"]
