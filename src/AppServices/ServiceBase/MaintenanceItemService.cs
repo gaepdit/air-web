@@ -1,8 +1,8 @@
+using AirWeb.AppServices.CommonDto;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;
-using AirWeb.AppServices.DtoBase;
 using AirWeb.AppServices.UserServices;
 
 namespace AirWeb.AppServices.ServiceBase;

@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.CommonDto;
+using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
 using AirWeb.AppServices.WorkEntries.Permissions;
 using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.WebApp.Models;
@@ -13,7 +13,7 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class DeleteModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     [BindProperty]
-    public WorkEntryChangeStatusDto EntryDto { get; set; } = default!;
+    public ChangeEntityStatusDto<Guid> EntityStatusDto { get; set; } = default!;
 
     public WorkEntryViewDto ItemView { get; private set; } = default!;
 
@@ -33,7 +33,7 @@ public class DeleteModel(IWorkEntryService workEntryService, IAuthorizationServi
             return RedirectToPage("Details", routeValues: new { id });
         }
 
-        EntryDto = new WorkEntryChangeStatusDto(id.Value);
+        EntityStatusDto = new ChangeEntityStatusDto<Guid>(id.Value);
         ItemView = workEntryView;
         return Page();
     }
@@ -42,14 +42,14 @@ public class DeleteModel(IWorkEntryService workEntryService, IAuthorizationServi
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var workEntryView = await workEntryService.FindAsync(EntryDto.WorkEntryId);
+        var workEntryView = await workEntryService.FindAsync(EntityStatusDto.Id);
         if (workEntryView is null || workEntryView.IsDeleted || !await UserCanManageDeletionsAsync(workEntryView))
             return BadRequest();
 
-        await workEntryService.DeleteAsync(EntryDto);
+        await workEntryService.DeleteAsync(EntityStatusDto);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Work Entry successfully deleted.");
 
-        return RedirectToPage("Details", new { id = EntryDto.WorkEntryId });
+        return RedirectToPage("Details", new { id = EntityStatusDto.Id });
     }
 
     private Task<bool> UserCanManageDeletionsAsync(WorkEntryViewDto item) =>

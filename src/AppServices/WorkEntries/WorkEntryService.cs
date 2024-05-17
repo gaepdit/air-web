@@ -1,6 +1,4 @@
-using AutoMapper;
-using GaEpd.AppLibrary.Pagination;
-using Microsoft.AspNetCore.Authorization;
+using AirWeb.AppServices.CommonDto;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
@@ -10,6 +8,9 @@ using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
+using AutoMapper;
+using GaEpd.AppLibrary.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.WorkEntries;
@@ -87,19 +88,19 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
     }
 
-    public async Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
+    public async Task CloseAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Close(workEntry, resource.Comments, currentUser);
+        workEntryManager.Close(workEntry, resource.Comment, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource,
+    public async Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<Guid> resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Reopen(workEntry, currentUser);
@@ -109,18 +110,18 @@ public sealed class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
     }
 
-    public async Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
+    public async Task DeleteAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Delete(workEntry, resource.Comments, currentUser);
+        workEntryManager.Delete(workEntry, resource.Comment, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
+    public async Task RestoreAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Restore(workEntry, currentUser);

@@ -1,7 +1,8 @@
-﻿using GaEpd.AppLibrary.Pagination;
+using AirWeb.AppServices.CommonDto;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.WorkEntries.CommandDto;
 using AirWeb.AppServices.WorkEntries.QueryDto;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.WorkEntries;
 
@@ -18,11 +19,11 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
 
     Task UpdateAsync(Guid id, WorkEntryUpdateDto resource, CancellationToken token = default);
 
-    Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
+    Task CloseAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default);
 
-    Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
+    Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default);
 
-    Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
+    Task DeleteAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default);
 
-    Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
+    Task RestoreAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default);
 }
