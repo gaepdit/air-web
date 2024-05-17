@@ -115,17 +115,17 @@ flowchart
 ```mermaid
 erDiagram
     FAC["Facility"] {
-        string airsNumber PK
+        string facilityId PK
     }
 
     CWE["Compliance Event (Work Entry)"] {
         int Id PK
-        string airsNumber FK
+        string facilityId FK
     }
 
     ENF["Enforcement"] {
         int Id PK
-        string airsNumber FK
+        string facilityId FK
     }
 
     LNK["Compliance Event/Enforcement Linkage"] {

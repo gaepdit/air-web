@@ -29,22 +29,22 @@
 erDiagram
 
 FAC["Facility"] {
-    string airsNumber PK
+    string facilityId PK
 }
 
 MON["Source Monitoring"] {
     string referenceNumber PK
-    string airsNumber FK
+    string facilityId FK
 }
 
 FCE["FCE"] {
     int Id PK
-    string airsNumber FK
+    string facilityId FK
 }
 
 WRK["Work Entry"] {
     int Id PK
-    string airsNumber FK
+    string facilityId FK
 }
 
     CME["Compliance Event"]
@@ -63,7 +63,7 @@ WRK["Work Entry"] {
 
 ENF["Enforcement"] {
     int Id PK
-    string airsNumber FK
+    string facilityId FK
 }
 
 CEL["Compliance/Enforcement Linkage"] {
