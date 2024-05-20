@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonDto;
+﻿using AirWeb.AppServices.CommonDtos;
 
 namespace AirWeb.AppServices.Offices;
 

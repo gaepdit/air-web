@@ -1,4 +1,4 @@
-using AirWeb.AppServices.CommonDto;
+using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.WorkEntries.CommandDto;
 using AirWeb.AppServices.WorkEntries.QueryDto;

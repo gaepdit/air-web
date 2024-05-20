@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.CommonDto;
+namespace AirWeb.AppServices.CommonDtos;
 
 // Used for closing, reopening, deleting, and restoring Entities.
 public record ChangeEntityStatusDto<TKey>(TKey Id)

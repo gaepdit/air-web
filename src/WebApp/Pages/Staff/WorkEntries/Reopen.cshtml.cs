@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonDto;
+﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.WorkEntries;

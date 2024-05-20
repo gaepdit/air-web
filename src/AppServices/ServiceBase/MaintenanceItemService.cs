@@ -1,4 +1,4 @@
-using AirWeb.AppServices.CommonDto;
+using AirWeb.AppServices.CommonDtos;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;

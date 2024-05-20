@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.CommonDto;
+﻿using AirWeb.AppServices.CommonDtos;
 
 namespace AirWeb.AppServices.Fces;
 

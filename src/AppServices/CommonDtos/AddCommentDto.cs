@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.Comments;
+namespace AirWeb.AppServices.CommonDtos;
 
 public record AddCommentDto<TKey>(TKey Id)
     where TKey : IEquatable<TKey>
