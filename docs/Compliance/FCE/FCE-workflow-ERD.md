@@ -1,4 +1,4 @@
-# Full Compliance Evaluation (FCE) Workflow
+# Full Compliance Evaluation (FCE) Workflow and ERD
 
 * A new FCE can be entered from a Facility or an Inspection.
 * The FCE can be edited.
