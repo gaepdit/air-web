@@ -7,7 +7,7 @@ namespace AirWeb.AppServices.WorkEntries.QueryDto;
 
 public record WorkEntryViewDto
 {
-    public Guid Id { get; init; }
+    public int Id { get; init; }
 
     public WorkEntryStatus Status { get; init; }
 

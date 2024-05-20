@@ -36,7 +36,7 @@ public class EditPageTests
     public async Task OnGet_ReturnsPage()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 909;
         var dto = new WorkEntryUpdateDto();
 
         var workEntryService = Substitute.For<IWorkEntryService>();
@@ -68,7 +68,7 @@ public class EditPageTests
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
         {
-            Id = Guid.NewGuid(),
+            Id = 910,
             Item = new WorkEntryUpdateDto(),
             TempData = WebAppTestsSetup.PageTempData(),
         };
@@ -97,7 +97,7 @@ public class EditPageTests
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
         {
-            Id = Guid.NewGuid(),
+            Id = 911,
             TempData = WebAppTestsSetup.PageTempData(),
         };
 
@@ -117,7 +117,7 @@ public class EditPageTests
         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
-            { Id = Guid.NewGuid() };
+            { Id = 912 };
 
         _workEntryService.FindForUpdateAsync(page.Id)
             .Returns(new WorkEntryUpdateDto());
@@ -141,7 +141,7 @@ public class EditPageTests
         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
-            { Id = Guid.NewGuid() };
+            { Id = 913 };
 
         page.ModelState.AddModelError("test", "test error");
 

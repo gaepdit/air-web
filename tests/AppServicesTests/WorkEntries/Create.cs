@@ -16,7 +16,7 @@ public class Create
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 901;
         var user = new ApplicationUser { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
         var workEntry = new WorkEntry(id) { ReceivedBy = user };
 

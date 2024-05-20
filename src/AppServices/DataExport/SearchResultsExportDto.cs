@@ -20,7 +20,7 @@ public record SearchResultsExportDto
     }
 
     [XLColumn(Header = "Work Entry ID")]
-    public Guid WorkEntryId { get; init; }
+    public int WorkEntryId { get; init; }
 
     [XLColumn(Header = "Date Received")]
     public DateTimeOffset ReceivedDate { get; init; }

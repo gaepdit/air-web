@@ -9,13 +9,13 @@ public class WorkEntryCreateResult
     /// </summary>
     /// <param name="workEntryId">The ID of the new WorkEntry.</param>
     /// <returns><see cref="WorkEntryCreateResult"/> indicating a successful operation.</returns>
-    public WorkEntryCreateResult(Guid workEntryId) => WorkEntryId = workEntryId;
+    public WorkEntryCreateResult(int workEntryId) => WorkEntryId = workEntryId;
 
     /// <summary>
     /// If the <see cref="WorkEntry"/> is successfully created, contains the ID of the new WorkEntry. 
     /// </summary>
     /// <value>The WorkEntry ID if the operation succeeded, otherwise null.</value>
-    public Guid? WorkEntryId { get; protected init; }
+    public int? WorkEntryId { get; protected init; }
 
     /// <summary>
     /// <see cref="List{T}"/> of <see cref="string"/> containing warnings that occurred during the operation.

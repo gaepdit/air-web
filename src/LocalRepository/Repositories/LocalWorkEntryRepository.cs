@@ -5,9 +5,12 @@ using AirWeb.TestData;
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository(IEntryActionRepository entryActionRepository)
-    : BaseRepository<WorkEntry>(WorkEntryData.GetData), IWorkEntryRepository
+    : BaseRepository<WorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
-    public async Task<WorkEntry?> FindIncludeAllAsync(Guid id, bool includeDeletedActions = false,
+    // Local repository requires ID to be manually set.
+    public int? GetNextId() => Items.Select(e => e.Id).Max() + 1;
+
+    public async Task<WorkEntry?> FindIncludeAllAsync(int id, bool includeDeletedActions = false,
         CancellationToken token = default) =>
         await GetWorkEntryDetailsAsync(await FindAsync(id, token).ConfigureAwait(false), includeDeletedActions, token)
             .ConfigureAwait(false);

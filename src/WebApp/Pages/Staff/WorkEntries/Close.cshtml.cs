@@ -13,11 +13,11 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class CloseModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     [BindProperty]
-    public ChangeEntityStatusDto<Guid> EntityStatusDto { get; set; } = default!;
+    public ChangeEntityStatusDto<int> EntityStatusDto { get; set; } = default!;
 
     public WorkEntryViewDto ItemView { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null) return RedirectToPage("Index");
 
@@ -26,7 +26,7 @@ public class CloseModel(IWorkEntryService workEntryService, IAuthorizationServic
 
         if (!await UserCanReviewAsync(workEntryView)) return Forbid();
 
-        EntityStatusDto = new ChangeEntityStatusDto<Guid>(id.Value);
+        EntityStatusDto = new ChangeEntityStatusDto<int>(id.Value);
         ItemView = workEntryView;
         return Page();
     }

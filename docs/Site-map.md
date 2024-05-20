@@ -37,16 +37,15 @@ These pages are only available to logged-in staff.
 ### Compliance
 
 * `/Staff/Compliance` Compliance search form (combined search for FCEs and Work Entries).
-* `/Staff/Compliance/FCE/{fceId}` FCE details page.
-* `/Staff/Compliance/WorkEntry/{entryId}` Compliance work entry details page (compliance events, notifications, and
-  permit revocations).
 
 #### Compliance Monitoring Workflow
 
+* `/Staff/Compliance/WorkEntry/{entryId}` Compliance work entry details page (compliance events, notifications, and
+  permit revocations).
 * `/Staff/Compliance/WorkEntry/Add` Add a new Work Entry.
 * `/Staff/Compliance/WorkEntry/Add?{facilityId}` Add a new Work Entry for the Facility.
-* `/Staff/Compliance/WorkEntry/Add?{workEntryType}` Add a new Work Entry of the specified type.
-* `/Staff/Compliance/WorkEntry/Add?{workEntryType}&{facilityId}` Add a new Work Entry of the specified type for the
+* `/Staff/Compliance/WorkEntry/Add/{workEntryType}` Add a new Work Entry of the specified type.
+* `/Staff/Compliance/WorkEntry/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
   specified Facility.
 * `/Staff/Compliance/WorkEntry/Edit/{entryId}` Edit a Work Entry.
 * `/Staff/Compliance/WorkEntry/Delete/{entryId}` Delete a Work Entry.
@@ -54,6 +53,7 @@ These pages are only available to logged-in staff.
 
 #### FCE Workflow
 
+* `/Staff/Compliance/FCE/{fceId}` FCE details page.
 * `/Staff/Compliance/FCE/Add` Add a new FCE.
 * `/Staff/Compliance/FCE/Add?{facilityId}` Add a new FCE for the specified Facility.
 * `/Staff/Compliance/FCE/Edit/{fceId}` Edit an FCE.

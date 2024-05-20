@@ -10,7 +10,7 @@ public class DetailsPagePostNewActionTests
     public async Task OnPostAsync_NullId_ReturnsRedirectToPageResult()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 905;
         var dto = new EntryActionCreateDto(id);
         var page = PageModelHelpers.BuildDetailsPageModel();
 
@@ -25,7 +25,7 @@ public class DetailsPagePostNewActionTests
     public async Task OnPostAsync_EntryNotFound_ReturnsBadRequestResult()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 906;
         var dto = new EntryActionCreateDto(id);
         var workEntryService = Substitute.For<IWorkEntryService>();
         workEntryService.FindAsync(id).Returns((WorkEntryViewDto?)null);
@@ -42,12 +42,12 @@ public class DetailsPagePostNewActionTests
     public async Task OnPostAsync_MismatchedId_ReturnsBadRequest()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 907;
         var dto = new EntryActionCreateDto(id);
         var page = PageModelHelpers.BuildDetailsPageModel(Substitute.For<IWorkEntryService>());
 
         // Act
-        var result = await page.OnPostNewActionAsync(Guid.NewGuid(), dto, CancellationToken.None);
+        var result = await page.OnPostNewActionAsync(908, dto, CancellationToken.None);
 
         // Assert
         result.Should().BeOfType<BadRequestResult>();

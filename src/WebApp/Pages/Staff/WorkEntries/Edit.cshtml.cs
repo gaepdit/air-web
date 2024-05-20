@@ -19,14 +19,14 @@ public class EditModel(
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [BindProperty]
     public WorkEntryUpdateDto Item { get; set; } = default!;
 
     public SelectList EntryTypesSelectList { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null) return RedirectToPage("Index");
         var item = await workEntryService.FindForUpdateAsync(id.Value);

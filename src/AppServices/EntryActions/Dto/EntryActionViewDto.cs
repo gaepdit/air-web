@@ -6,7 +6,7 @@ namespace AirWeb.AppServices.EntryActions.Dto;
 public record EntryActionViewDto
 {
     public Guid Id { get; [UsedImplicitly] init; }
-    public Guid WorkEntryId { get; [UsedImplicitly] init; }
+    public int WorkEntryId { get; [UsedImplicitly] init; }
 
     [Display(Name = "Action Date")]
     public DateOnly ActionDate { get; init; }

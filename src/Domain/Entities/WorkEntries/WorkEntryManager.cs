@@ -3,11 +3,11 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class WorkEntryManager : IWorkEntryManager
+public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
     public WorkEntry Create(ApplicationUser? user)
     {
-        var item = new WorkEntry(Guid.NewGuid()) { ReceivedBy = user };
+        var item = new WorkEntry(repository.GetNextId()) { ReceivedBy = user };
         item.SetCreator(user?.Id);
         return item;
     }

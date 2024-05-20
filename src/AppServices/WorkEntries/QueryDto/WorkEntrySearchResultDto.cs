@@ -4,7 +4,7 @@ namespace AirWeb.AppServices.WorkEntries.QueryDto;
 
 public record WorkEntrySearchResultDto
 {
-    public Guid Id { get; init; }
+    public int Id { get; init; }
     public DateTimeOffset ReceivedDate { get; init; }
     public WorkEntryStatus Status { get; init; }
     public bool Closed { get; init; }

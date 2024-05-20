@@ -25,7 +25,7 @@ public sealed class WorkEntryService(
     IUserService userService,
     IAuthorizationService authorization) : IWorkEntryService
 {
-    public async Task<WorkEntryViewDto?> FindAsync(Guid id, bool includeDeletedActions = false,
+    public async Task<WorkEntryViewDto?> FindAsync(int id, bool includeDeletedActions = false,
         CancellationToken token = default)
     {
         var principal = userService.GetCurrentPrincipal();
@@ -36,7 +36,7 @@ public sealed class WorkEntryService(
         return workEntry is null ? null : mapper.Map<WorkEntryViewDto>(workEntry);
     }
 
-    public async Task<WorkEntryUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
+    public async Task<WorkEntryUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
         mapper.Map<WorkEntryUpdateDto>(await workEntryRepository
             .FindAsync(entry => entry.Id == id && !entry.IsDeleted, token)
             .ConfigureAwait(false));
@@ -80,7 +80,7 @@ public sealed class WorkEntryService(
         return result;
     }
 
-    public async Task UpdateAsync(Guid id, WorkEntryUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(int id, WorkEntryUpdateDto resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
@@ -88,7 +88,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
     }
 
-    public async Task CloseAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
+    public async Task CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -97,7 +97,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<Guid> resource,
+    public async Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource,
         CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
@@ -110,7 +110,7 @@ public sealed class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
     }
 
-    public async Task DeleteAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
+    public async Task DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -119,7 +119,7 @@ public sealed class WorkEntryService(
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
     }
 
-    public async Task RestoreAsync(ChangeEntityStatusDto<Guid> resource, CancellationToken token = default)
+    public async Task RestoreAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
