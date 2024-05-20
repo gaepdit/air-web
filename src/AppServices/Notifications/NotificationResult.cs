@@ -10,4 +10,5 @@ public record NotificationResult
 
     public static NotificationResult SuccessResult() => new();
     public static NotificationResult FailureResult(string failureMessage) => new(failureMessage);
+    public static NotificationResult UndefinedResult() => throw new NotImplementedException();
 }

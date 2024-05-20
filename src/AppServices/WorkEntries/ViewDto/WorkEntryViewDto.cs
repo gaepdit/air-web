@@ -1,15 +1,12 @@
-﻿using AirWeb.AppServices.EntryActions.Dto;
-using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.WorkEntries.QueryDto;
+namespace AirWeb.AppServices.WorkEntries.ViewDto;
 
-public record WorkEntryViewDto
+public record WorkEntryViewDto : IWorkEntryViewDto
 {
     public int Id { get; init; }
-
-    public WorkEntryStatus Status { get; init; }
 
     [Display(Name = "Date Received")]
     public DateTimeOffset ReceivedDate { get; init; }
@@ -52,6 +49,5 @@ public record WorkEntryViewDto
 
     // === Lists ===
 
-    [UsedImplicitly]
-    public List<EntryActionViewDto> EntryActions { get; } = [];
+    public List<Comment> Comments { get; } = [];
 }

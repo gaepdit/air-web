@@ -9,11 +9,10 @@ public sealed class WorkEntryRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public Task<WorkEntry?> FindIncludeAllAsync(int id, bool includeDeletedActions = false,
-        CancellationToken token = default) =>
+    public Task<WorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default) =>
         Context.Set<WorkEntry>().AsNoTracking()
             .Include(entry => entry.EntryActions
-                .Where(action => !action.IsDeleted || includeDeletedActions)
+                .Where(action => !action.IsDeleted)
                 .OrderByDescending(action => action.ActionDate)
                 .ThenBy(action => action.Id)
             ).ThenInclude(action => action.DeletedBy)

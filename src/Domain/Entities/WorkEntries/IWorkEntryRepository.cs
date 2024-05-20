@@ -13,9 +13,8 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// properties (<see cref="EntryAction"/>). Returns null if there are no matches.
     /// </summary>
     /// <param name="id">The Id of the WorkEntry.</param>
-    /// <param name="includeDeletedActions">Whether to include deleted WorkEntry Actions in the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <exception cref="InvalidOperationException">Thrown if there are multiple matches.</exception>
     /// <returns>A WorkEntry entity.</returns>
-    Task<WorkEntry?> FindIncludeAllAsync(int id, bool includeDeletedActions = false, CancellationToken token = default);
+    Task<WorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default);
 }

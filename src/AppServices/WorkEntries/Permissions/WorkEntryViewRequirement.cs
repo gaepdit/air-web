@@ -1,20 +1,20 @@
 using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.ViewDto;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.WorkEntries.Permissions;
 
-internal class WorkEntryViewRequirements :
-    AuthorizationHandler<WorkEntryOperation, WorkEntryViewDto>
+internal class WorkEntryViewRequirement :
+    AuthorizationHandler<WorkEntryOperation, IWorkEntryViewDto>
 {
     private ClaimsPrincipal _user = default!;
-    private WorkEntryViewDto _resource = default!;
+    private IWorkEntryViewDto _resource = default!;
 
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         WorkEntryOperation requirement,
-        WorkEntryViewDto resource)
+        IWorkEntryViewDto resource)
     {
         if (context.User.Identity is not { IsAuthenticated: true })
             return Task.FromResult(0);

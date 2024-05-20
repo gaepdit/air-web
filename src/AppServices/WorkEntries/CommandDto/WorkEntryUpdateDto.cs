@@ -2,14 +2,10 @@
 
 namespace AirWeb.AppServices.WorkEntries.CommandDto;
 
-public record WorkEntryUpdateDto : IWorkEntryCommandDto
+public record WorkEntryUpdateDto : IWorkEntryUpdateDto, IWorkEntryCreateDto
 {
-    // Authorization handler assist properties
-    public bool WorkEntryClosed { get; init; }
+    public bool IsClosed { get; init; }
     public bool IsDeleted { get; init; }
-
-    // Data
-    public Guid EntryTypeId { get; init; }
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]

@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Entities.WorkEntries;
 
-namespace AirWeb.AppServices.WorkEntries.QueryDto;
+namespace AirWeb.AppServices.WorkEntries.SearchDto;
 
 public record WorkEntrySearchResultDto
 {

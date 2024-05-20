@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData;
@@ -37,7 +37,7 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
+            Substitute.For<WorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
@@ -72,7 +72,7 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
+            Substitute.For<WorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(),
             authorizationMock);
 

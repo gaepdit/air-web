@@ -1,7 +1,7 @@
-﻿using FluentValidation.TestHelper;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+﻿using AirWeb.AppServices.WorkEntries.CommandDto;
 using AirWeb.AppServices.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
+using FluentValidation.TestHelper;
 
 namespace AppServicesTests.WorkEntries.Validators;
 
@@ -13,7 +13,6 @@ public class CreateValidator
         // Arrange
         var model = new WorkEntryCreateDto
         {
-            EntryTypeId = Guid.NewGuid(),
             Notes = TextData.Paragraph,
         };
 
@@ -24,7 +23,6 @@ public class CreateValidator
 
         // Assert
         using var scope = new AssertionScope();
-        result.ShouldNotHaveValidationErrorFor(dto => dto.EntryTypeId);
         result.ShouldNotHaveValidationErrorFor(dto => dto.Notes);
     }
 
@@ -34,7 +32,6 @@ public class CreateValidator
         // Arrange
         var model = new WorkEntryCreateDto
         {
-            EntryTypeId = Guid.NewGuid(),
             Notes = string.Empty,
         };
 

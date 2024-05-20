@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries;
@@ -17,7 +16,7 @@ public class Find
         var item = new WorkEntry(902);
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(item);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -26,7 +25,7 @@ public class Find
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<IWorkEntryManager>(),
+            Substitute.For<IWorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
@@ -42,7 +41,7 @@ public class Find
     {
         // Arrange
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns((WorkEntry?)null);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -51,7 +50,7 @@ public class Find
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<IWorkEntryManager>(),
+            Substitute.For<IWorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act

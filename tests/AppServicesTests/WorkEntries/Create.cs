@@ -40,17 +40,19 @@ public class Create
             .Returns(NotificationResult.SuccessResult());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IEntryTypeRepository>(), workEntryManagerMock, notificationMock, userServiceMock,
+            workEntryManagerMock, notificationMock, userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new WorkEntryCreateDto { EntryTypeId = Guid.Empty, Notes = TextData.Phrase };
+        var item = new WorkEntryCreateDto {  Notes = TextData.Phrase };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);
 
         // Assert
         using var scope = new AssertionScope();
-        result.HasWarnings.Should().BeFalse();
-        result.WorkEntryId.Should().Be(id);
+        result.NotificationResult.Should().NotBeNull();
+        result.NotificationResult!.Success.Should().BeTrue();
+        result.NotificationResult.FailureMessage.Should().BeEmpty();
+        result.Id.Should().Be(id);
     }
 }

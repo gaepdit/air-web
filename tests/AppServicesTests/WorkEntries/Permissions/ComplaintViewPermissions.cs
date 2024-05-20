@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.WorkEntries.Permissions;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.ViewDto;
 using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
@@ -19,7 +19,7 @@ public class WorkEntryViewPermissions
             "Basic"));
         var resource = new WorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirements();
+        var handler = new WorkEntryViewRequirement();
 
         await handler.HandleAsync(context);
 
@@ -35,7 +35,7 @@ public class WorkEntryViewPermissions
             new Claim[] { new(ClaimTypes.Role, RoleName.Manager) }));
         var resource = new WorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirements();
+        var handler = new WorkEntryViewRequirement();
 
         await handler.HandleAsync(context);
 
@@ -49,7 +49,7 @@ public class WorkEntryViewPermissions
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
         var resource = new WorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirements();
+        var handler = new WorkEntryViewRequirement();
 
         await handler.HandleAsync(context);
 

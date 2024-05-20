@@ -3,7 +3,7 @@ using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using AirWeb.Domain.Entities.WorkEntries;
 
 namespace AirWeb.AppServices.DataExport;

@@ -1,7 +1,7 @@
 ﻿namespace AirWeb.AppServices.WorkEntries.CommandDto;
 
-public interface IWorkEntryCommandDto
+public interface IWorkEntryCreateDto
 {
-    public Guid EntryTypeId { get; }
+    // Data
     public string Notes { get; }
 }
