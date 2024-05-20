@@ -29,6 +29,6 @@ public record FceCreateDto
         
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    [Display(Name = "Initial comments")]
-    public string Comment { get; init; } = string.Empty;
+    [Display(Name = "Notes")]
+    public string Notes { get; init; } = string.Empty;
 }

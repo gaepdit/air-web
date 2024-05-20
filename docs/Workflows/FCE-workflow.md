@@ -58,7 +58,7 @@ FCE["FCE"] {
     int fceYear
     date completedDate
     bool onsiteInsection
-    string comment
+    string notes
 }
 
 STF["Staff"] {

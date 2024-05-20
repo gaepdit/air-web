@@ -21,6 +21,6 @@ public record FceViewDto
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    [Display(Name = "Initial comments")]
-    public string Comment { get; init; } = string.Empty;
+    [Display(Name = "Notes")]
+    public string Notes { get; init; } = string.Empty;
 }
