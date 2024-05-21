@@ -1,4 +1,4 @@
-# Enforcement Entity Relationship Diagram
+# Enforcement ERD
 
 ```mermaid
 erDiagram

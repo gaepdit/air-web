@@ -1,4 +1,4 @@
-# Entity relationship diagram
+# Compliance Workflow
 
 ## Entities
 
@@ -23,7 +23,7 @@
 
 † Indicates a change in hierarchy compared to the IAIP.
 
-## SSCP Diagram
+## ERD
 
 ```mermaid
 erDiagram
