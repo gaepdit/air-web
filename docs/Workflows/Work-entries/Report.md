@@ -44,15 +44,15 @@ flowchart
 erDiagram
     SourceMonitoringReview {
         date ReceivedDate
-        enum ReportType
+        enum ReportingPeriodType
         date ReportingPeriodStart
         date ReportingPeriodEnd
         string ReportingPeriodComment
         date DueDate
         date SentDate
-        bool IsReportComplete
+        bool ReportComplete
         bool ReportsDeviations
-        bool IsEnforcementNeeded
+        bool EnforcementNeeded
     }
 ```
 
@@ -61,14 +61,14 @@ erDiagram
 | Column                                 | Type          | Migrate | Destination            |
 |----------------------------------------|---------------|:-------:|------------------------|
 | SSCPITEMMASTER.DATRECEIVEDDATE         | datetime2(0)  |    ✔    | ReceivedDate           |
-| SSCPREPORTS.STRREPORTPERIOD            | varchar(25)   |    ✔    | ReportType             |
+| SSCPREPORTS.STRREPORTPERIOD            | varchar(25)   |    ✔    | ReportingPeriodType             |
 | SSCPREPORTS.DATREPORTINGPERIODSTART    | datetime2(0)  |    ✔    | ReportingPeriodStart   |
 | SSCPREPORTS.DATREPORTINGPERIODEND      | datetime2(0)  |    ✔    | ReportingPeriodEnd     |
 | SSCPREPORTS.STRREPORTINGPERIODCOMMENTS | varchar(4000) |    ✔    | ReportingPeriodComment |
 | SSCPREPORTS.DATREPORTDUEDATE           | datetime2(0)  |    ✔    | DueDate                |
 | SSCPREPORTS.DATSENTBYFACILITYDATE      | datetime2(0)  |    ✔    | SentDate               |
-| SSCPREPORTS.STRCOMPLETESTATUS          | varchar(5)    |    ✔    | IsReportComplete       |
-| SSCPREPORTS.STRENFORCEMENTNEEDED       | varchar(5)    |    ✔    | IsEnforcementNeeded    |
+| SSCPREPORTS.STRCOMPLETESTATUS          | varchar(5)    |    ✔    | ReportComplete       |
+| SSCPREPORTS.STRENFORCEMENTNEEDED       | varchar(5)    |    ✔    | EnforcementNeeded    |
 | SSCPREPORTS.STRSHOWDEVIATION           | varchar(5)    |    ✔    | ReportsDeviations      |
 | SSCPREPORTS.STRGENERALCOMMENTS         | varchar(4000) |    ✔    | base.Notes             |
 | SSCPREPORTS.STRMODIFINGPERSON          | varchar(3)    |    ?    | base.UpdatedById       |
