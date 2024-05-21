@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class WorkEntry : AuditableSoftDeleteEntity<int>
+public abstract class WorkEntry : AuditableSoftDeleteEntity<int>
 {
     // Constants
 
@@ -15,7 +15,7 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>
     [UsedImplicitly] // Used by ORM.
     private WorkEntry() { }
 
-    internal WorkEntry(int? id)
+    private protected WorkEntry(int? id)
     {
         if (id is not null) Id = id.Value;
     }

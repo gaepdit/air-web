@@ -5,9 +5,13 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public WorkEntry Create(ApplicationUser? user)
+    public WorkEntry Create(WorkEntryType type, ApplicationUser? user)
     {
-        var item = new WorkEntry(repository.GetNextId()) { ReceivedBy = user };
+        WorkEntry item =default!;
+
+        if (type == WorkEntryType.Notification)
+            item = new Notification(repository.GetNextId()) { ReceivedBy = user };
+
         item.SetCreator(user?.Id);
         return item;
     }
