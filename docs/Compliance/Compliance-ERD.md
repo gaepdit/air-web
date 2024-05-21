@@ -29,29 +29,24 @@
 erDiagram
 
 FAC["Facility"] {
-    string facilityId PK
+    string FacilityId PK
 }
 
 MON["Source Monitoring"] {
-    int referenceNumber PK
-    string facilityId FK
+    int ReferenceNumber PK
 }
 
 FCE["FCE"] {
     int Id PK
-    string facilityId FK
 }
 
 WRK["Work Entry"] {
     int Id PK
-    string facilityId FK
 }
 
     CME["Compliance Event"]
 
-        SMR["Source Monitoring Review"] {
-            int referenceNumber FK
-        }
+        SMR["Source Monitoring Review"]
         ACC["ACC"]
         INS["Inspection"]
         RMP["RMP Inspection"]
@@ -63,12 +58,11 @@ WRK["Work Entry"] {
 
 ENF["Enforcement"] {
     int Id PK
-    string facilityId FK
 }
 
 CEL["Compliance/Enforcement Linkage"] {
-    int enforcementId FK
-    int workEntryId FK
+    int EnforcementId FK
+    int WorkEntryId FK
 }
 
 SMR |o--|| CME : "is a type of"
