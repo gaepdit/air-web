@@ -16,12 +16,6 @@ public abstract record BaseWorkEntryCreateDto : IWorkEntryCreateDto
     [Display(Name = "Staff Responsible")]
     public string? ResponsibleStaffId { get; init; }
 
-    [Display(Name = "Closed")]
-    public bool IsClosed { get; init; }
-
-    [Display(Name = "Date Completed")]
-    public DateOnly? ClosedDate { get; init; }
-
     [Display(Name = "Date Acknowledgment Letter Sent")]
     public DateOnly? AcknowledgmentLetterDate { get; init; }
 

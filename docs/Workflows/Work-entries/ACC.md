@@ -57,37 +57,37 @@ erDiagram
         date ReceivedDate
         int AccReportingYear
         date PostmarkedDate
-        bool IsPostmarkedOnTime
-        bool IsSignedByRO
-        bool IsOnCorrectForms
-        bool IncludesAllTVConditions
-        bool IsCorrectlyCompleted
+        bool PostmarkedOnTime
+        bool SignedByRo
+        bool OnCorrectForms
+        bool IncludesAllTvConditions
+        bool CorrectlyCompleted
         bool ReportsDeviations
         bool IncludesPreviouslyUnreportedDeviations
         bool ReportsAllKnownDeviations
-        bool IsResubmittalRequired
-        bool IsEnforcementNeeded
+        bool ResubmittalRequired
+        bool EnforcementNeeded
     }
 ```
 
 ## Original IAIP table columns
 
-| Column                              | Type          | Migrate | Destination                            |
-|-------------------------------------|---------------|:-------:|----------------------------------------|
-| SSCPITEMMASTER.DATRECEIVEDDATE      | datetime2(0)  |    ✔    | ReceivedDate                           |
-| SSCPACCS.STRSUBMITTALNUMBER         | numeric(3)    |    ✖    | *none*                                 |
-| SSCPACCS.STRPOSTMARKEDONTIME        | varchar(5)    |    ✔    | PostmarkedOnTime                       |
-| SSCPACCS.DATPOSTMARKDATE            | datetime2(0)  |    ✔    | PostmarkedDate                         |
-| SSCPACCS.STRSIGNEDBYRO              | varchar(5)    |    ✔    |                                        |
-| SSCPACCS.STRCORRECTACCFORMS         | varchar(5)    |    ✔    | OnCorrectForms                         |
-| SSCPACCS.STRTITLEVCONDITIONSLISTED  | varchar(5)    |    ✔    | IncludesAllTVConditions                |
-| SSCPACCS.STRACCCORRECTLYFILLEDOUT   | varchar(5)    |    ✔    | IsCorrectlyCompleted                   |
-| SSCPACCS.STRREPORTEDDEVIATIONS      | varchar(5)    |    ✔    | ReportsDeviations                      |
+| Column                              | Type          | Migrate | Destination                          |
+|-------------------------------------|---------------|:-------:|--------------------------------------|
+| SSCPITEMMASTER.DATRECEIVEDDATE      | datetime2(0)  |    ✔    | ReceivedDate                         |
+| SSCPACCS.STRSUBMITTALNUMBER         | numeric(3)    |    ✖    | *none*                               |
+| SSCPACCS.STRPOSTMARKEDONTIME        | varchar(5)    |    ✔    | PostmarkedOnTime                     |
+| SSCPACCS.DATPOSTMARKDATE            | datetime2(0)  |    ✔    | PostmarkedDate                       |
+| SSCPACCS.STRSIGNEDBYRO              | varchar(5)    |    ✔    | SignedByRo                           |
+| SSCPACCS.STRCORRECTACCFORMS         | varchar(5)    |    ✔    | OnCorrectForms                       |
+| SSCPACCS.STRTITLEVCONDITIONSLISTED  | varchar(5)    |    ✔    | IncludesAllTvConditions              |
+| SSCPACCS.STRACCCORRECTLYFILLEDOUT   | varchar(5)    |    ✔    | CorrectlyCompleted                 |
+| SSCPACCS.STRREPORTEDDEVIATIONS      | varchar(5)    |    ✔    | ReportsDeviations                    |
 | SSCPACCS.STRDEVIATIONSUNREPORTED    | varchar(5)    |    ✔    | IncludesPreviouslyUnreportedDeviations |
-| SSCPACCS.STRCOMMENTS                | varchar(4000) |    ✔    | base.Notes                             |
-| SSCPACCS.STRENFORCEMENTNEEDED       | varchar(5)    |    ✔    | IsEnforcementNeeded                    |
-| SSCPACCS.STRMODIFINGPERSON          | varchar(3)    |    ?    | base.UpdatedById                       |
-| SSCPACCS.DATMODIFINGDATE            | datetime2(0)  |    ?    | base.UpdatedAt                         |
-| SSCPACCS.DATACCREPORTINGYEAR        | datetime2(0)  |    ✔    | AccReportingYear                       |
-| SSCPACCS.STRKNOWNDEVIATIONSREPORTED | varchar(5)    |    ✔    | ReportsAllKnownDeviations              |
-| SSCPACCS.STRRESUBMITTALREQUIRED     | varchar(5)    |    ✔    | IsResubmittalRequired                  |
+| SSCPACCS.STRCOMMENTS                | varchar(4000) |    ✔    | base.Notes                           |
+| SSCPACCS.STRENFORCEMENTNEEDED       | varchar(5)    |    ✔    | EnforcementNeeded                  |
+| SSCPACCS.STRMODIFINGPERSON          | varchar(3)    |    ?    | base.UpdatedById                     |
+| SSCPACCS.DATMODIFINGDATE            | datetime2(0)  |    ?    | base.UpdatedAt                       |
+| SSCPACCS.DATACCREPORTINGYEAR        | datetime2(0)  |    ✔    | AccReportingYear                     |
+| SSCPACCS.STRKNOWNDEVIATIONSREPORTED | varchar(5)    |    ✔    | ReportsAllKnownDeviations            |
+| SSCPACCS.STRRESUBMITTALREQUIRED     | varchar(5)    |    ✔    | ResubmittalRequired                |
