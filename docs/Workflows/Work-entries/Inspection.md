@@ -53,7 +53,7 @@ erDiagram
         enum InspectionReason
         string WeatherConditions
         string InspectionGuide
-        bool WasFacilityOperating
+        bool FacilityOperating
         enum ComplianceStatus
         bool FollowupTaken
     }

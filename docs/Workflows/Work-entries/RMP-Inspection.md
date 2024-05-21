@@ -44,7 +44,7 @@ erDiagram
         enum InspectionReason
         string WeatherConditions
         string InspectionGuide
-        bool WasFacilityOperating
+        bool FacilityOperating
         enum ComplianceStatus
         bool FollowupTaken
     }
@@ -60,7 +60,7 @@ erDiagram
 | SSCPINSPECTIONS.STRINSPECTIONREASON           | varchar(35)   |    ✔    | InspectionReason     |
 | SSCPINSPECTIONS.STRWEATHERCONDITIONS          | varchar(100)  |    ✔    | WeatherConditions    |
 | SSCPINSPECTIONS.STRINSPECTIONGUIDE            | varchar(100)  |    ✔    | InspectionGuide      |
-| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✔    | WasFacilityOperating |
+| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✔    | FacilityOperating    |
 | SSCPINSPECTIONS.STRINSPECTIONCOMPLIANCESTATUS | varchar(35)   |    ✔    | ComplianceStatus     |
 | SSCPINSPECTIONS.STRINSPECTIONCOMMENTS         | varchar(4000) |    ✔    | base.Notes           |
 | SSCPINSPECTIONS.STRINSPECTIONFOLLOWUP         | varchar(5)    |    ✔    | FollowupTaken        |
