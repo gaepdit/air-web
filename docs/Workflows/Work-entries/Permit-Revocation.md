@@ -1,7 +1,7 @@
 # Permit Revocation Workflow
 
 * A new Permit Revocation can be started from a Facility.
-* The Permit Revocation can be edited while open.
+* The Permit Revocation can be edited.
 * Finalizing a Permit Revocation disables updating.
 * A Permit Revocation can be deleted/restored *(not shown)*.
 * Comments can be added and edited.
@@ -38,11 +38,9 @@ flowchart
 ```mermaid
 erDiagram
     PermitRevocation {
-        enum NotificationType
-        string NotificationDescription
+        date ReceivedDate
         date PermitRevocationDate
         date PhysicalShutdownDate
-        date SentDate
         bool FollowupTaken
     }
 ```
