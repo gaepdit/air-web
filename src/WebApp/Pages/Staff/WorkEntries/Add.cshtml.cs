@@ -3,7 +3,7 @@ using GaEpd.AppLibrary.ListItems;
 using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseCommandDto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 

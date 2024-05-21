@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AirWeb.AppServices.WorkEntries.BaseViewDto;
+using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.WorkEntries.Permissions;
-using AirWeb.AppServices.WorkEntries.ViewDto;
 using AirWeb.Domain.Identity;
 using System.Security.Claims;
 

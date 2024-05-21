@@ -1,5 +1,5 @@
+using AirWeb.AppServices.WorkEntries.BaseCommandDto;
 using FluentValidation;
-using AirWeb.AppServices.WorkEntries.CommandDto;
 
 namespace AirWeb.AppServices.WorkEntries.Validators;
 

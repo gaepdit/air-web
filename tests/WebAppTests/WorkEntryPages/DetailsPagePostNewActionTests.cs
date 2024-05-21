@@ -1,6 +1,6 @@
 using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.ViewDto;
+using AirWeb.AppServices.WorkEntries.BaseViewDto;
 
 namespace WebAppTests.WorkEntryPages;
 

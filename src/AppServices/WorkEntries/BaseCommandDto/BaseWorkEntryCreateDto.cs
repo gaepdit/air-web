@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.WorkEntries.CommandDto;
+namespace AirWeb.AppServices.WorkEntries.BaseCommandDto;
 
 public abstract record BaseWorkEntryCreateDto : IWorkEntryCreateDto
 {

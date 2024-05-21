@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseCommandDto;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

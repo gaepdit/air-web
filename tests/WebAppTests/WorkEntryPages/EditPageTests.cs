@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseCommandDto;
 using AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 namespace WebAppTests.WorkEntryPages;

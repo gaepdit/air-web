@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Entities.WorkEntries;
 
-namespace AirWeb.AppServices.WorkEntries.CommandDto;
+namespace AirWeb.AppServices.WorkEntries.BaseCommandDto;
 
 public interface IWorkEntryCreateDto
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.WorkEntries.CommandDto;
+namespace AirWeb.AppServices.WorkEntries.BaseCommandDto;
 
 public abstract record BaseWorkEntryUpdateDto : IWorkEntryUpdateDto
 {
