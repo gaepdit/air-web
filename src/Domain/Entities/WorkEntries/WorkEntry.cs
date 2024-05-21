@@ -22,6 +22,9 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>
 
     // Properties
 
+    [StringLength(30)]
+    public WorkEntryType WorkEntryType { get; internal set; } = WorkEntryType.Unknown;
+
     // Properties: Status & meta-data
 
     [StringLength(25)]
@@ -64,4 +67,20 @@ public enum WorkEntryStatus
 {
     Open,
     Closed,
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum WorkEntryType
+{
+    Unknown = 0,
+    Report = 1,
+    Inspection = 2,
+    PerformanceTestReview = 3,
+    AnnualComplianceCertification = 4,
+    Notification = 5,
+    RmpInspection = 7,
+    PermitRevocation = 8,
+
+    [Obsolete("Legacy entry number in legacy database")]
+    Reserved = 6,
 }

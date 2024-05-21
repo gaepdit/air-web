@@ -17,7 +17,7 @@ public class WorkEntryViewPermissions
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[] { new(ClaimTypes.Role, RoleName.Manager) },
             "Basic"));
-        var resource = new WorkEntryViewDto();
+        var resource = new BaseWorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new WorkEntryViewRequirement();
 
@@ -33,7 +33,7 @@ public class WorkEntryViewPermissions
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[] { new(ClaimTypes.Role, RoleName.Manager) }));
-        var resource = new WorkEntryViewDto();
+        var resource = new BaseWorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new WorkEntryViewRequirement();
 
@@ -47,7 +47,7 @@ public class WorkEntryViewPermissions
     {
         var requirements = new[] { WorkEntryOperation.ManageDeletions };
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
-        var resource = new WorkEntryViewDto();
+        var resource = new BaseWorkEntryViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new WorkEntryViewRequirement();
 

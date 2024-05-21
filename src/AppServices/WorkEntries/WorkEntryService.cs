@@ -80,7 +80,7 @@ public sealed class WorkEntryService(
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-        MapWorkEntryDetails(workEntry, resource);
+        workEntry.Notes = resource.Notes;
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return NotificationResult.UndefinedResult();
@@ -144,13 +144,8 @@ public sealed class WorkEntryService(
     private WorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
     {
         var workEntry = workEntryManager.Create(currentUser);
-        MapWorkEntryDetails(workEntry, resource);
-        return workEntry;
-    }
-
-    private static void MapWorkEntryDetails(WorkEntry workEntry, IWorkEntryCreateDto resource)
-    {
         workEntry.Notes = resource.Notes;
+        return workEntry;
     }
 
     private async Task<NotificationResult> NotifyOwnerAsync(WorkEntry workEntry, Template template,

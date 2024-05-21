@@ -31,7 +31,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Office, OfficeViewDto>();
 
         CreateMap<WorkEntry, WorkEntrySearchResultDto>();
-        CreateMap<WorkEntry, WorkEntryCreateDto>();
-        CreateMap<WorkEntry, WorkEntryViewDto>();
+        CreateMap<WorkEntry, BaseWorkEntryCreateDto>();
+        CreateMap<WorkEntry, BaseWorkEntryViewDto>();
     }
 }

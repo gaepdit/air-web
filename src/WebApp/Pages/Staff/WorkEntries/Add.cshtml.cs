@@ -13,16 +13,16 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class AddModel(
     IWorkEntryService workEntryService,
     IEntryTypeService entryTypeService,
-    IValidator<WorkEntryCreateDto> validator) : PageModel
+    IValidator<BaseWorkEntryCreateDto> validator) : PageModel
 {
     [BindProperty]
-    public WorkEntryCreateDto Item { get; set; } = default!;
+    public BaseWorkEntryCreateDto Item { get; set; } = default!;
 
     public SelectList EntryTypesSelectList { get; private set; } = default!;
 
     public async Task OnGetAsync()
     {
-        Item = new WorkEntryCreateDto();
+        Item = new BaseWorkEntryCreateDto();
         await PopulateSelectListsAsync();
     }
 

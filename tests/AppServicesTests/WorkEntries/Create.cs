@@ -43,7 +43,7 @@ public class Create
             workEntryManagerMock, notificationMock, userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new WorkEntryCreateDto {  Notes = TextData.Phrase };
+        var item = new BaseWorkEntryCreateDto {  Notes = TextData.Phrase };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);

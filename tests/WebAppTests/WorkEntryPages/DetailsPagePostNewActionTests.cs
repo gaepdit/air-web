@@ -1,6 +1,6 @@
 using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.ViewDto;
 
 namespace WebAppTests.WorkEntryPages;
 
@@ -28,7 +28,7 @@ public class DetailsPagePostNewActionTests
         const int id = 906;
         var dto = new EntryActionCreateDto(id);
         var workEntryService = Substitute.For<IWorkEntryService>();
-        workEntryService.FindAsync(id).Returns((WorkEntryViewDto?)null);
+        workEntryService.FindAsync(id).Returns((BaseWorkEntryViewDto?)null);
         var page = PageModelHelpers.BuildDetailsPageModel(workEntryService);
 
         // Act

@@ -11,7 +11,7 @@ public class CreateValidator
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var model = new WorkEntryCreateDto
+        var model = new BaseWorkEntryCreateDto
         {
             Notes = TextData.Paragraph,
         };
@@ -30,7 +30,7 @@ public class CreateValidator
     public async Task MissingCurrentOffice_ReturnsAsInvalid()
     {
         // Arrange
-        var model = new WorkEntryCreateDto
+        var model = new BaseWorkEntryCreateDto
         {
             Notes = string.Empty,
         };

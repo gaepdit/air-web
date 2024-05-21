@@ -15,14 +15,14 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class EditModel(
     IWorkEntryService workEntryService,
     IEntryTypeService entryTypeService,
-    IValidator<WorkEntryUpdateDto> validator,
+    IValidator<BaseWorkEntryUpdateDto> validator,
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     [BindProperty]
-    public WorkEntryUpdateDto Item { get; set; } = default!;
+    public BaseWorkEntryUpdateDto Item { get; set; } = default!;
 
     public SelectList EntryTypesSelectList { get; private set; } = default!;
 
@@ -62,6 +62,6 @@ public class EditModel(
     private async Task PopulateSelectListsAsync() => 
         EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync()).ToSelectList();
 
-    private Task<bool> UserCanEditAsync(WorkEntryUpdateDto item) =>
+    private Task<bool> UserCanEditAsync(BaseWorkEntryUpdateDto item) =>
         authorization.Succeeded(User, item, new WorkEntryUpdateRequirements());
 }
