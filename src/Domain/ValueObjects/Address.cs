@@ -5,25 +5,25 @@ using Microsoft.EntityFrameworkCore;
 namespace AirWeb.Domain.ValueObjects;
 
 [Owned]
-public record IncompleteAddress : ValueObject
+public record Address : ValueObject
 {
     // Properties
 
     [Display(Name = "Street Address")]
-    public string? Street { get; [UsedImplicitly] init; }
+    public string Street { get; [UsedImplicitly] init; } = string.Empty;
 
     [Display(Name = "Apt / Suite / Other")]
     public string? Street2 { get; [UsedImplicitly] init; }
 
     [Display(Name = "City")]
-    public string? City { get; [UsedImplicitly] init; }
+    public string City { get; [UsedImplicitly] init; } = string.Empty;
 
     [Display(Name = "State")]
-    public string? State { get; [UsedImplicitly] init; }
+    public string State { get; [UsedImplicitly] init; } = string.Empty;
 
     [DataType(DataType.PostalCode)]
     [Display(Name = "Postal Code")]
-    public string? PostalCode { get; [UsedImplicitly] init; }
+    public string PostalCode { get; [UsedImplicitly] init; } = string.Empty;
 
     // Readonly properties
     public string OneLine => new[]
@@ -33,18 +33,16 @@ public record IncompleteAddress : ValueObject
         }
         .ConcatWithSeparator(", ");
 
-    public string CityState => new[] { City, State }.ConcatWithSeparator(", ");
-
     // Empty address
-    private static IncompleteAddress EmptyAddress => new();
+    private static Address EmptyAddress => new();
     public bool IsEmpty => this == EmptyAddress;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Street ?? string.Empty;
+        yield return Street;
         yield return Street2 ?? string.Empty;
-        yield return City ?? string.Empty;
-        yield return State ?? string.Empty;
-        yield return PostalCode ?? string.Empty;
+        yield return City;
+        yield return State;
+        yield return PostalCode;
     }
 }
