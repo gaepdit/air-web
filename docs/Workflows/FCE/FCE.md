@@ -51,7 +51,7 @@ erDiagram
         int Id PK
         string FacilityId FK
         string ConductedBy FK
-        int FceYear
+        int Year
         date CompletedDate
         bool OnsiteInsection
         string Notes
@@ -89,4 +89,4 @@ erDiagram
 | SSCPFCE.STRMODIFINGPERSON       | varchar(3)    |    ✔    | base.UpdatedById |
 | SSCPFCE.DATMODIFINGDATE         | datetime2(0)  |    ✔    | base.UpdatedAt   |
 | SSCPFCE.STRSITEINSPECTION       | varchar(5)    |    ✔    | OnsiteInspection |
-| SSCPFCE.STRFCEYEAR              | varchar(4)    |    ✔    | FceYear          |
+| SSCPFCE.STRFCEYEAR              | varchar(4)    |    ✔    | Year             |
