@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.WorkEntries.SourceMonitoringReviews;
+namespace AirWeb.AppServices.WorkEntries.SourceTestReviews;
 
-public record SourceMonitoringReviewCreateDto : BaseWorkEntryCreateDto
+public record SourceTestReviewCreateDto : BaseWorkEntryCreateDto
 {
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }

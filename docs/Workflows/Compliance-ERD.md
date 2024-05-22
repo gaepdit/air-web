@@ -5,7 +5,7 @@
 ### Mirrored from IAIP
 
 - FAC: Facility
-- MON: Source Monitoring (Performance Test/Stack Test)
+- TST: Source Test Report (Performance Test/Stack Test)
 
 ### Migrated into the Air Web app
 
@@ -15,7 +15,7 @@
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: RMP Inspection
-        - SMR: Source Monitoring Review
+        - STR: Source Test Compliance Review
         - REP: Report
     - NOT: Notification
     - REV: Permit revocation †
@@ -32,7 +32,7 @@ FAC["Facility"] {
     string FacilityId PK
 }
 
-MON["Source Monitoring"] {
+TST["Source Test Report"] {
     int ReferenceNumber PK
 }
 
@@ -46,7 +46,7 @@ WRK["Work Entry"] {
 
     CME["Compliance Event"]
 
-        SMR["Source Monitoring Review"]
+        STR["Source Test Review"]
         ACC["ACC"]
         INS["Inspection"]
         RMP["RMP Inspection"]
@@ -65,7 +65,7 @@ CEL["Compliance/Enforcement Linkage"] {
     int WorkEntryId FK
 }
 
-SMR |o--|| CME : "is a type of"
+STR |o--|| CME : "is a type of"
 ACC |o--|| CME : "is a type of"
 INS |o--|| CME : "is a type of"
 RMP |o--|| CME : "is a type of"
@@ -75,9 +75,9 @@ CME |o--|| WRK : "is a type of"
 NOT |o--|| WRK : "is a type of"
 REV |o--|| WRK : "is a type of"
 
-SMR |o--|| MON : "evaluates"
+STR |o--|| TST : "evaluates"
 
-MON }o--|| FAC : "is conducted at"
+TST }o--|| FAC : "is conducted at"
 WRK }o--|| FAC : "is entered for"
 FCE }o--|| FAC : "is completed for"
 ENF }o--|| FAC : "is issued to"

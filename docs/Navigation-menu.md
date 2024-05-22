@@ -16,14 +16,14 @@ Shown when staff is logged in.
 * ▼ 🔍︎ Search
     * Facilities (`/Staff/Facility`)
     * Compliance Events/FCEs (`/Staff/Compliance`)
-    * Source Monitoring (`/Staff/SourceMonitoring`)
+    * Source Tests (`/Staff/SourceTests`)
     * Enforcement (`/Staff/Enforcement`)
 - ▭ *(flexible space)*
 * ▼ 🡽 Go To
     * Facility *(form)*
     * —
     * Compliance Event *(form)*
-    * Source Monitoring *(form)*
+    * Source Test *(form)*
     * Enforcement *(form)*
 * ▼ ＋Add New
     * Compliance Work Entry (`/Staff/Compliance/WorkEntry/Add`)

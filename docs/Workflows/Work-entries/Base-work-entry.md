@@ -7,7 +7,7 @@
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: RMP Inspection
-        - SMR: Source Monitoring Review
+        - STR: Source Test Compliance Review
         - REP: Report
     - NOT: Notification
     - REV: Permit revocation †

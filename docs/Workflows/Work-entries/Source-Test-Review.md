@@ -1,6 +1,6 @@
-# Source Monitoring Compliance Review Workflow
+# Source Test Compliance Review Workflow
 
-* A new Source Monitoring Compliance Review can be entered from a Source Monitoring Report.
+* A new Source Test Compliance Review can be entered from a Source Test Report.
 * The Review entry can be edited.
 * Saving a Review entry updates the Data Exchange.
 * Enforcement can be started from a Review entry.
@@ -10,8 +10,8 @@
 
 ```mermaid
 flowchart
-    MON{{Source Monitoring Report}}
-    SMR{{"`**Source Monitoring Compliance Review**`"}}
+    TST{{Source Test Report}}
+    STR{{"`**Source Test Compliance Review**`"}}
     DX{{Data Exchange}}
     CMT{{Comment}}
     ENF{{Enforcement}}
@@ -22,14 +22,14 @@ flowchart
     enforce([Start Enforcement])
     editComment([Edit Comment])
 
-    MON -.-> enter
-    SMR -.-> edit
-    SMR -.-> comment
-    SMR -.-> enforce
+    TST -.-> enter
+    STR -.-> edit
+    STR -.-> comment
+    STR -.-> enforce
     CMT -.-> editComment
 
-    enter -->|Creates| SMR
-    edit -->|Updates| SMR
+    enter -->|Creates| STR
+    edit -->|Updates| STR
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
     enforce -->|Creates| ENF
@@ -42,7 +42,7 @@ flowchart
 
 ```mermaid
 erDiagram
-    SourceMonitoringReview {
+    SourceTestReview {
         int ReferenceNumber
         date ReceivedByCompliance
         date TestDue

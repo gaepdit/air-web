@@ -5,9 +5,9 @@ using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.AppServices.StackTests;
+namespace AirWeb.AppServices.SourceTests;
 
-public record StackTestBasicViewDto
+public record SourceTestBasicViewDto
 {
     // Basic test report info
 

@@ -42,7 +42,7 @@ flowchart
 
 ```mermaid
 erDiagram
-    SourceMonitoringReview {
+    Report {
         date ReceivedDate
         enum ReportingPeriodType
         date ReportingPeriodStart

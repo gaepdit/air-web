@@ -18,7 +18,7 @@ These pages are available to the public.
 Pages must be named "report" because "reports" is reserved by the ArcGIS application.
 
 * `/report/facility/{facilityId}/acc/{accId}` Printable ACC report page.
-* `/report/facility/{facilityId}/source-monitoring/{referenceNumber}` Printable source monitoring report page.
+* `/report/facility/{facilityId}/source-test/{referenceNumber}` Printable source test report page.
 * `/report/facility/{facilityId}/fce/{fcdId}` Printable FCE report page.
 
 ---
@@ -38,7 +38,7 @@ These pages are only available to logged-in staff.
 
 * `/Staff/Compliance` Compliance search form (combined search for FCEs and Work Entries).
 
-#### Compliance Monitoring Workflow
+#### Compliance Work Entry Workflow
 
 * `/Staff/Compliance/WorkEntry/{entryId}` Compliance work entry details page (compliance events, notifications, and
   permit revocations).
@@ -60,12 +60,11 @@ These pages are only available to logged-in staff.
 * `/Staff/Compliance/FCE/Delete/{fceId}` Delete an FCE.
 * `/Staff/Compliance/FCE/Restore/{fceId}` Restore an FCE.
 
-### Source Monitoring
+### Source Tests
 
-* `/Staff/SourceMonitoring` Source Monitoring search form (searches IAIP database).
-* `/Staff/SourceMonitoring/Report/{referenceNumber}` Source Monitoring report details page (with compliance work
-  entry details).
-* `/Staff/SourceMonitoring/Report/{referenceNumber}#compliance-review` Embedded form for adding a Source Monitoring
+* `/Staff/SourceTests` Source Test search form (searches IAIP database).
+* `/Staff/SourceTests/Report/{referenceNumber}` Source Test report details page (with compliance review details).
+* `/Staff/SourceTests/Report/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
   Review.
 
 ### Enforcement
@@ -89,10 +88,12 @@ These pages are only available to logged-in staff.
 
 * `/Staff/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
 * `/Staff/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/Add?{actionId}` Add an enforcement action linked from another enforcement action.
+* `/Staff/Enforcement/Details/{enforcementId}/Action/Add?{actionId}` Add an enforcement action linked from another
+  enforcement action.
 * `/Staff/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
 * `/Staff/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement action review.
+* `/Staff/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
+  action review.
 * `/Staff/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
 
 ## User Account
