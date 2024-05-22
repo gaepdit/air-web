@@ -1,5 +1,5 @@
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.BaseViewDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Permissions;
 
 namespace WebAppTests.WorkEntryPages;

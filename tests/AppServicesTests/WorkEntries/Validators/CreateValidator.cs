@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseCommandDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
 using FluentValidation.TestHelper;

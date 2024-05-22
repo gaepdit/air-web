@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseCommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 

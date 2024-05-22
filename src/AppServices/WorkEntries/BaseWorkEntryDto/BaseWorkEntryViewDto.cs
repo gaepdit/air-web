@@ -4,7 +4,7 @@ using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.WorkEntries.BaseViewDto;
+namespace AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 
 public abstract record BaseWorkEntryViewDto : IWorkEntryViewDto
 {

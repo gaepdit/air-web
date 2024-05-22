@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.BaseCommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;

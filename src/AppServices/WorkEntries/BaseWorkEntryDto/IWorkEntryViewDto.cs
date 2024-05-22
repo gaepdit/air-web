@@ -3,7 +3,7 @@ using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.AppServices.WorkEntries.BaseViewDto;
+namespace AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 
 public interface IWorkEntryViewDto
 {

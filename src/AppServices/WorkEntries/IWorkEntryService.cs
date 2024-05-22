@@ -1,7 +1,6 @@
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Notifications;
-using AirWeb.AppServices.WorkEntries.BaseCommandDto;
-using AirWeb.AppServices.WorkEntries.BaseViewDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.SearchDto;
 using GaEpd.AppLibrary.Pagination;
 

@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseViewDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Accs;

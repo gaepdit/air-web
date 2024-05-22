@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries.BaseViewDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.WorkEntries.Permissions;

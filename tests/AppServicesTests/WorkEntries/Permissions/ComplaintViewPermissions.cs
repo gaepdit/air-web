@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseViewDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.WorkEntries.Permissions;
 using AirWeb.Domain.Identity;

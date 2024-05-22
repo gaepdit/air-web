@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseCommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.PermitRevocations;
