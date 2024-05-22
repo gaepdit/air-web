@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.AppServices.WorkEntries.SearchDto;
+namespace AirWeb.AppServices.WorkEntries.Search;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SortBy

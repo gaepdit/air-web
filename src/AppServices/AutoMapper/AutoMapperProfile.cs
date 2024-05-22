@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
-using AirWeb.AppServices.WorkEntries.SearchDto;
+using AirWeb.AppServices.WorkEntries.Search;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;

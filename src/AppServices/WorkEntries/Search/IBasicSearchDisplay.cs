@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.WorkEntries.SearchDto;
+﻿namespace AirWeb.AppServices.WorkEntries.Search;
 
 public interface IBasicSearchDisplay
 {
