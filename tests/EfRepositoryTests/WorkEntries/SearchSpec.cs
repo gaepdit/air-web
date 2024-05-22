@@ -29,7 +29,7 @@ public class SearchSpec
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: false });
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -44,8 +44,8 @@ public class SearchSpec
 
         // Assert
         var expected = WorkEntryData.GetData
-            .Where(entry => entry is { IsDeleted: false, Closed: true });
-        results.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.EntryActions));
+            .Where(entry => entry is { IsDeleted: false, IsClosed: true });
+        results.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class SearchSpec
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: true });
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class SearchSpec
         // Assert
         var expected = WorkEntryData.GetData;
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -105,7 +105,7 @@ public class SearchSpec
             .Where(entry => entry is { IsDeleted: false } &&
                             entry.ReceivedDate.Date == referenceItem.ReceivedDate.Date);
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -123,7 +123,7 @@ public class SearchSpec
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: false } && entry.ReceivedBy == referenceItem.ReceivedBy);
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 
     [Test]
@@ -142,6 +142,6 @@ public class SearchSpec
             .Where(entry => entry is { IsDeleted: false, EntryType: not null } &&
                             entry.EntryType.Id == referenceItem.EntryType.Id);
         results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.EntryActions));
+            options.Excluding(entry => entry.Comments));
     }
 }

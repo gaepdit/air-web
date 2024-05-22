@@ -38,14 +38,14 @@ erDiagram
         string Id PK
     }
 
-    CTE["Comment"] {
+    CMT["Comment"] {
         int Id PK
         int FceId FK
     }
 
     WRK }o--|| FAC: "is entered for"
     STF ||--o{ WRK: "enters"
-    CTE }o--|| WRK: "comments on"
+    CMT }o--|| WRK: "comments on"
 
 ```
 

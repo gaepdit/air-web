@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Entities.EntryActions;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
@@ -7,40 +6,38 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
 {
     public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user)
     {
-        BaseWorkEntry item =default!;
+        var id = repository.GetNextId();
 
-        if (type == WorkEntryType.Notification)
-            item = new Notification(repository.GetNextId()) { ReceivedBy = user };
+        BaseWorkEntry item = type switch
+        {
+            WorkEntryType.Notification => new Notification(id),
+            WorkEntryType.Inspection => new Inspection(id),
+            WorkEntryType.Report => new Report(id),
+            WorkEntryType.PermitRevocation => new PermitRevocation(id),
+            WorkEntryType.RmpInspection => new RmpInspection(id),
+            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
+            WorkEntryType.PerformanceTestReview => new PerformanceTestReview(id),
+            _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
+        };
 
         item.SetCreator(user?.Id);
         return item;
     }
 
-    public EntryAction CreateEntryAction(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
-    {
-        var entryAction = new EntryAction(Guid.NewGuid(), baseWorkEntry);
-        entryAction.SetCreator(user?.Id);
-        return entryAction;
-    }
-
-    public void Close(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user)
+    public void Close(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {
         baseWorkEntry.SetUpdater(user?.Id);
-        baseWorkEntry.Status = WorkEntryStatus.Closed;
-        baseWorkEntry.Closed = true;
-        baseWorkEntry.ClosedDate = DateTime.Now;
+        baseWorkEntry.IsClosed = true;
+        baseWorkEntry.ClosedDate = DateTimeOffset.Now;
         baseWorkEntry.ClosedBy = user;
-        baseWorkEntry.ClosedComments = comment;
     }
 
     public void Reopen(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {
         baseWorkEntry.SetUpdater(user?.Id);
-        baseWorkEntry.Status = WorkEntryStatus.Open;
-        baseWorkEntry.Closed = false;
+        baseWorkEntry.IsClosed = false;
         baseWorkEntry.ClosedDate = null;
         baseWorkEntry.ClosedBy = null;
-        baseWorkEntry.ClosedComments = null;
     }
 
     public void Delete(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user)
@@ -50,7 +47,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         baseWorkEntry.DeleteComments = comment;
     }
 
-    public void Restore(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
+    public void Restore(BaseWorkEntry baseWorkEntry)
     {
         baseWorkEntry.SetNotDeleted();
         baseWorkEntry.DeleteComments = null;

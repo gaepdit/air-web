@@ -1,15 +1,12 @@
-using AirWeb.Domain.Entities.EntryActions;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.ValueObjects;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
 public abstract class BaseWorkEntry : AuditableSoftDeleteEntity<int>
 {
-    // Constants
-
-
     // Constructors
 
     [UsedImplicitly] // Used by ORM.
@@ -20,40 +17,26 @@ public abstract class BaseWorkEntry : AuditableSoftDeleteEntity<int>
         if (id is not null) Id = id.Value;
     }
 
-    // Properties
-
+    // Properties: Basic data
     [StringLength(30)]
-    public WorkEntryType WorkEntryType { get; internal set; } = WorkEntryType.Unknown;
+    public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
 
-    // Properties: Status & meta-data
-
-    [StringLength(25)]
-    public WorkEntryStatus Status { get; internal set; } = WorkEntryStatus.Open;
-
-    public DateTimeOffset ReceivedDate { get; init; } = DateTimeOffset.Now;
-    public ApplicationUser? ReceivedBy { get; init; }
-
-    // Properties: Data
-
-    public EntryType? EntryType { get; set; }
+    public Facility Facility { get; init; } = default!;
+    public ApplicationUser? ResponsibleStaff { get; init; }
+    public DateOnly? AcknowledgmentLetterDate { get; init; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string Notes { get; init; } = string.Empty;
 
-    // Properties: Actions
-    public List<EntryAction> EntryActions { get; } = [];
+    // Properties: Lists
+    public List<Comment> Comments { get; } = [];
 
     // Properties: Closure
-
-    public bool Closed { get; internal set; }
+    public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
     public DateTimeOffset? ClosedDate { get; internal set; }
 
-    [StringLength(7000)]
-    public string? ClosedComments { get; internal set; }
-
     // Properties: Deletion
-
     public ApplicationUser? DeletedBy { get; set; }
 
     [StringLength(7000)]
@@ -61,13 +44,6 @@ public abstract class BaseWorkEntry : AuditableSoftDeleteEntity<int>
 }
 
 // Enums
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum WorkEntryStatus
-{
-    Open,
-    Closed,
-}
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkEntryType

@@ -18,8 +18,8 @@ public sealed class LocalWorkEntryRepository(IEntryActionRepository entryActionR
     {
         if (workEntry is null) return null;
 
-        workEntry.EntryActions.Clear();
-        workEntry.EntryActions.AddRange((await entryActionRepository
+        workEntry.Comments.Clear();
+        workEntry.Comments.AddRange((await entryActionRepository
                 .GetListAsync(action => action.BaseWorkEntry.Id == workEntry.Id && !action.IsDeleted, token)
                 .ConfigureAwait(false))
             .OrderByDescending(action => action.ActionDate)

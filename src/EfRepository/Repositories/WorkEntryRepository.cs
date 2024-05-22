@@ -11,7 +11,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
 
     public Task<BaseWorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default) =>
         Context.Set<BaseWorkEntry>().AsNoTracking()
-            .Include(entry => entry.EntryActions
+            .Include(entry => entry.Comments
                 .Where(action => !action.IsDeleted)
                 .OrderByDescending(action => action.ActionDate)
                 .ThenBy(action => action.Id)

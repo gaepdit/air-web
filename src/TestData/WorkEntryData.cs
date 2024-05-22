@@ -10,7 +10,7 @@ internal static class WorkEntryData
     {
         new(0)
         {
-            Closed = true,
+            IsClosed = true,
             Status = WorkEntryStatus.Closed,
             ReceivedBy = UserData.GetUsers.ElementAt(0),
             EntryType = EntryTypeData.GetData.ElementAt(0),
@@ -18,7 +18,7 @@ internal static class WorkEntryData
         },
         new(1)
         {
-            Closed = false,
+            IsClosed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             ReceivedDate = DateTimeOffset.Now.AddMinutes(30),
@@ -26,7 +26,7 @@ internal static class WorkEntryData
         },
         new(2)
         {
-            Closed = true,
+            IsClosed = true,
             Status = WorkEntryStatus.Closed,
             ReceivedBy = UserData.GetUsers.ElementAt(2),
             EntryType = EntryTypeData.GetData.ElementAt(1),
@@ -34,7 +34,7 @@ internal static class WorkEntryData
         new(3)
         {
             Notes = "Deleted work entry",
-            Closed = true,
+            IsClosed = true,
             Status = WorkEntryStatus.Closed,
             ReceivedBy = UserData.GetUsers.ElementAt(0),
             DeleteComments = TextData.Paragraph,
@@ -42,14 +42,14 @@ internal static class WorkEntryData
         },
         new(4)
         {
-            Closed = false,
+            IsClosed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             EntryType = null,
         },
         new(5)
         {
-            Closed = false,
+            IsClosed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             EntryType = EntryTypeData.GetData.ElementAt(3),
@@ -57,7 +57,7 @@ internal static class WorkEntryData
         new(6)
         {
             Notes = "Open WorkEntry assigned to inactive user.",
-            Closed = false,
+            IsClosed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(3),
             EntryType = EntryTypeData.GetData.ElementAt(0),

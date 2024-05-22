@@ -17,10 +17,10 @@ internal static class WorkEntryFilters
             .ContainsText(spec.Text);
 
     private static Expression<Func<BaseWorkEntry, bool>> IsClosed(this Expression<Func<BaseWorkEntry, bool>> predicate) =>
-        predicate.And(entry => entry.Closed);
+        predicate.And(entry => entry.IsClosed);
 
     private static Expression<Func<BaseWorkEntry, bool>> IsOpen(this Expression<Func<BaseWorkEntry, bool>> predicate) =>
-        predicate.And(workEntry => !workEntry.Closed);
+        predicate.And(workEntry => !workEntry.IsClosed);
 
     private static Expression<Func<BaseWorkEntry, bool>> ByStatus(this Expression<Func<BaseWorkEntry, bool>> predicate,
         WorkEntryStatus? input) => input switch

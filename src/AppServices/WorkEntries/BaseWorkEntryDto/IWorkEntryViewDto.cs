@@ -11,18 +11,20 @@ public interface IWorkEntryViewDto
     public Facility Facility { get; }
     public WorkEntryType WorkEntryType { get; }
     public StaffViewDto? ResponsibleStaff { get; }
+    public DateOnly? AcknowledgmentLetterDate { get; }
+    public string Notes { get; }
+
+    // Properties: Lists
+    public List<Comment> Comments { get; }
+
+    // Properties: Closure
     public bool IsClosed { get; }
     public StaffViewDto? ClosedBy { get; }
     public DateOnly? ClosedDate { get; }
-    public DateOnly? AcknowledgmentLetterDate { get; }
-    public string Notes { get; }
 
     // Properties: Deletion
     public bool IsDeleted { get; }
     public StaffViewDto? DeletedBy { get; }
     public DateTimeOffset? DeletedAt { get; }
     public string? DeleteComments { get; }
-
-    // Properties: Lists
-    public List<Comment> Comments { get; }
 }

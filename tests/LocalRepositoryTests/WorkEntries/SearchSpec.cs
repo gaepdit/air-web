@@ -42,7 +42,7 @@ public class SearchSpec
         var results = await _repository.GetListAsync(predicate);
 
         // Assert
-        var expected = _repository.Items.Where(entry => entry is { IsDeleted: false, Closed: true });
+        var expected = _repository.Items.Where(entry => entry is { IsDeleted: false, IsClosed: true });
         results.Should().BeEquivalentTo(expected);
     }
 
