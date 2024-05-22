@@ -1,4 +1,4 @@
-using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,24 +6,34 @@ namespace AirWeb.AppServices.WorkEntries.Reports;
 
 public record ReportUpdateDto : BaseWorkEntryUpdateDto
 {
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
     [Display(Name = "Report Type")]
     public ReportingPeriodType ReportingPeriodType { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Start")]
     public DateOnly ReportingPeriodStart { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "End")]
-    public DateOnly? ReportingPeriodEnd { get; init; }
+    public DateOnly ReportingPeriodEnd { get; init; }
 
     [Display(Name = "Reporting Period Comment")]
     public string? ReportingPeriodComment { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Report Due Date")]
     public DateOnly? DueDate { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Sent by Facility")]
     public DateOnly? SentDate { get; init; }
 

@@ -1,4 +1,4 @@
-using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Accs;
@@ -8,15 +8,21 @@ public record AccUpdateDto : BaseWorkEntryUpdateDto
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Completed")]
     public DateOnly? ClosedDate { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
     [Display(Name = "ACC reporting year")]
     public int AccReportingYear { get; init; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date postmarked")]
     public DateOnly PostmarkedDate { get; init; }
 
