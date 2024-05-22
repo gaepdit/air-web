@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class WorkEntry : AuditableSoftDeleteEntity
+public abstract class WorkEntry : AuditableSoftDeleteEntity<int>
 {
     // Constants
 
@@ -15,9 +15,15 @@ public class WorkEntry : AuditableSoftDeleteEntity
     [UsedImplicitly] // Used by ORM.
     private WorkEntry() { }
 
-    internal WorkEntry(Guid id) : base(id) { }
+    private protected WorkEntry(int? id)
+    {
+        if (id is not null) Id = id.Value;
+    }
 
     // Properties
+
+    [StringLength(30)]
+    public WorkEntryType WorkEntryType { get; internal set; } = WorkEntryType.Unknown;
 
     // Properties: Status & meta-data
 
@@ -61,4 +67,20 @@ public enum WorkEntryStatus
 {
     Open,
     Closed,
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum WorkEntryType
+{
+    Unknown = 0,
+    Report = 1,
+    Inspection = 2,
+    PerformanceTestReview = 3,
+    AnnualComplianceCertification = 4,
+    Notification = 5,
+    RmpInspection = 7,
+    PermitRevocation = 8,
+
+    [Obsolete("Legacy entry number in legacy database")]
+    Reserved = 6,
 }

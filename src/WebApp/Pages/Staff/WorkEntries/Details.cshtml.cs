@@ -26,7 +26,7 @@ public class DetailsModel(
     public bool ViewableActions => ItemView.EntryActions.Exists(action =>
         !action.IsDeleted || UserCan[WorkEntryOperation.ViewDeletedActions]);
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null) return RedirectToPage("../Index");
 
@@ -42,7 +42,7 @@ public class DetailsModel(
     }
 
     /// PostNewAction is used to add a new Action for this WorkEntry.
-    public async Task<IActionResult> OnPostNewActionAsync(Guid? id, EntryActionCreateDto newAction,
+    public async Task<IActionResult> OnPostNewActionAsync(int? id, EntryActionCreateDto newAction,
         CancellationToken token)
     {
         if (id is null || newAction.WorkEntryId != id) return BadRequest();

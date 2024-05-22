@@ -26,7 +26,7 @@ public static class AuthorizationPolicies
         // Resource/operation-based permission handlers, e.g.:
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
-        services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirements>();
+        services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

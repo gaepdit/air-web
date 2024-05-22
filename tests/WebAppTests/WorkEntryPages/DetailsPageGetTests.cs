@@ -1,19 +1,19 @@
 using AirWeb.AppServices.WorkEntries;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Permissions;
-using AirWeb.AppServices.WorkEntries.QueryDto;
 
 namespace WebAppTests.WorkEntryPages;
 
 public class DetailsPageGetTests
 {
-    private static readonly WorkEntryViewDto ItemTest = new() { Id = Guid.NewGuid() };
+    private static readonly BaseWorkEntryViewDto ItemTest = new() { Id = 903 };
 
     [Test]
     public async Task OnGetReturnsWithCorrectPermissions()
     {
         // Arrange
         var workEntryService = Substitute.For<IWorkEntryService>();
-        workEntryService.FindAsync(Arg.Any<Guid>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        workEntryService.FindAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(ItemTest);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -51,10 +51,10 @@ public class DetailsPageGetTests
     public async Task OnGetAsync_CaseNotFound_ReturnsNotFoundResult()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 904;
 
         var workEntryService = Substitute.For<IWorkEntryService>();
-        workEntryService.FindAsync(id).Returns((WorkEntryViewDto?)null);
+        workEntryService.FindAsync(id).Returns((BaseWorkEntryViewDto?)null);
 
         var page = PageModelHelpers.BuildDetailsPageModel(workEntryService);
 

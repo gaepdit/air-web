@@ -1,7 +1,7 @@
-﻿using FluentValidation.TestHelper;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
+using FluentValidation.TestHelper;
 
 namespace AppServicesTests.WorkEntries.Validators;
 
@@ -11,9 +11,8 @@ public class CreateValidator
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var model = new WorkEntryCreateDto
+        var model = new BaseWorkEntryCreateDto
         {
-            EntryTypeId = Guid.NewGuid(),
             Notes = TextData.Paragraph,
         };
 
@@ -24,7 +23,6 @@ public class CreateValidator
 
         // Assert
         using var scope = new AssertionScope();
-        result.ShouldNotHaveValidationErrorFor(dto => dto.EntryTypeId);
         result.ShouldNotHaveValidationErrorFor(dto => dto.Notes);
     }
 
@@ -32,9 +30,8 @@ public class CreateValidator
     public async Task MissingCurrentOffice_ReturnsAsInvalid()
     {
         // Arrange
-        var model = new WorkEntryCreateDto
+        var model = new BaseWorkEntryCreateDto
         {
-            EntryTypeId = Guid.NewGuid(),
             Notes = string.Empty,
         };
 

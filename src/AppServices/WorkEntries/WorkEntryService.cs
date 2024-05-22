@@ -1,15 +1,15 @@
-using AutoMapper;
-using GaEpd.AppLibrary.Pagination;
-using Microsoft.AspNetCore.Authorization;
+using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
-using AirWeb.AppServices.WorkEntries.CommandDto;
-using AirWeb.AppServices.WorkEntries.QueryDto;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
+using AutoMapper;
+using GaEpd.AppLibrary.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.WorkEntries;
@@ -18,25 +18,21 @@ public sealed class WorkEntryService(
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IWorkEntryRepository workEntryRepository,
-    IEntryTypeRepository entryTypeRepository,
     IWorkEntryManager workEntryManager,
     INotificationService notificationService,
     IUserService userService,
     IAuthorizationService authorization) : IWorkEntryService
 {
-    public async Task<WorkEntryViewDto?> FindAsync(Guid id, bool includeDeletedActions = false,
-        CancellationToken token = default)
+    // Query
+    public async Task<IWorkEntryViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var principal = userService.GetCurrentPrincipal();
-        if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            includeDeletedActions = false;
-        var workEntry = await workEntryRepository.FindIncludeAllAsync(id, includeDeletedActions, token)
+        var workEntry = await workEntryRepository.FindIncludeAllAsync(id, token)
             .ConfigureAwait(false);
-        return workEntry is null ? null : mapper.Map<WorkEntryViewDto>(workEntry);
+        return workEntry is null ? null : mapper.Map<IWorkEntryViewDto>(workEntry);
     }
 
-    public async Task<WorkEntryUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<WorkEntryUpdateDto>(await workEntryRepository
+    public async Task<IWorkEntryUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
+        mapper.Map<IWorkEntryUpdateDto>(await workEntryRepository
             .FindAsync(entry => entry.Id == id && !entry.IsDeleted, token)
             .ConfigureAwait(false));
 
@@ -61,45 +57,56 @@ public sealed class WorkEntryService(
         return new PaginatedResult<WorkEntrySearchResultDto>(items, count, paging);
     }
 
-    public async Task<WorkEntryCreateResult> CreateAsync(WorkEntryCreateDto resource,
-        CancellationToken token = default)
+    // Command
+    public async Task<CreateResultDto<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
+        var workEntry = CreateWorkEntryFromDto(resource, currentUser);
 
         await workEntryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
-        var result = new WorkEntryCreateResult(workEntry.Id);
+        var result = new CreateResultDto<int>(workEntry.Id);
 
         // Send notification
         var template = Template.NewEntry;
-        var notificationResult = await NotifyOwnerAsync(workEntry, template, token).ConfigureAwait(false);
-        if (!notificationResult.Success) result.AddWarning(notificationResult.FailureMessage);
+        result.NotificationResult = await NotifyOwnerAsync(workEntry, template, token).ConfigureAwait(false);
 
         return result;
     }
 
-    public async Task UpdateAsync(Guid id, WorkEntryUpdateDto resource, CancellationToken token = default)
+    public async Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource,
+        CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-        await MapWorkEntryDetailsAsync(workEntry, resource, token).ConfigureAwait(false);
+        workEntry.Notes = resource.Notes;
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+
+        return NotificationResult.UndefinedResult();
     }
 
-    public async Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
-    {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-
-        workEntryManager.Close(workEntry, resource.Comments, currentUser);
-        await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-    }
-
-    public async Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource,
+    public Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        throw new NotImplementedException();
+    }
+
+    public async Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource,
+        CancellationToken token = default)
+    {
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        workEntryManager.Close(workEntry, resource.Comment, currentUser);
+        await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+
+        return NotificationResult.UndefinedResult();
+    }
+
+    public async Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource,
+        CancellationToken token = default)
+    {
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Reopen(workEntry, currentUser);
@@ -109,37 +116,35 @@ public sealed class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
     }
 
-    public async Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
+    public async Task<NotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource,
+        CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Delete(workEntry, resource.Comments, currentUser);
+        workEntryManager.Delete(workEntry, resource.Comment, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+
+        return NotificationResult.UndefinedResult();
     }
 
-    public async Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default)
+    public async Task<NotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource,
+        CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.WorkEntryId, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Restore(workEntry, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+
+        return NotificationResult.UndefinedResult();
     }
 
-    private async Task<WorkEntry> CreateWorkEntryFromDtoAsync(WorkEntryCreateDto resource, ApplicationUser? currentUser,
-        CancellationToken token)
+    private WorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
     {
-        var workEntry = workEntryManager.Create(currentUser);
-        await MapWorkEntryDetailsAsync(workEntry, resource, token).ConfigureAwait(false);
-        return workEntry;
-    }
-
-    private async Task MapWorkEntryDetailsAsync(WorkEntry workEntry, IWorkEntryCommandDto resource,
-        CancellationToken token)
-    {
-        workEntry.EntryType = await entryTypeRepository.GetAsync(resource.EntryTypeId, token).ConfigureAwait(false);
+        var workEntry = workEntryManager.Create(WorkEntryType.Unknown, currentUser);
         workEntry.Notes = resource.Notes;
+        return workEntry;
     }
 
     private async Task<NotificationResult> NotifyOwnerAsync(WorkEntry workEntry, Template template,
@@ -163,13 +168,11 @@ public sealed class WorkEntryService(
     public void Dispose()
     {
         workEntryRepository.Dispose();
-        entryTypeRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await workEntryRepository.DisposeAsync().ConfigureAwait(false);
-        await entryTypeRepository.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

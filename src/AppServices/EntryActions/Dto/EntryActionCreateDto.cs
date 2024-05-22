@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.EntryActions.Dto;
 
-public record EntryActionCreateDto(Guid WorkEntryId)
+public record EntryActionCreateDto(int WorkEntryId)
 {
     [Required]
     [Display(Name = "Action Date")]

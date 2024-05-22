@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
@@ -16,7 +16,7 @@ public class Create
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        const int id = 901;
         var user = new ApplicationUser { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
         var workEntry = new WorkEntry(id) { ReceivedBy = user };
 
@@ -25,7 +25,7 @@ public class Create
         userServiceMock.GetCurrentUserAsync()
             .Returns(user);
 
-        workEntryManagerMock.Create(Arg.Any<ApplicationUser?>())
+        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
             .Returns(workEntry);
 
         userServiceMock.GetUserAsync(Arg.Any<string>())
@@ -40,17 +40,19 @@ public class Create
             .Returns(NotificationResult.SuccessResult());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IEntryTypeRepository>(), workEntryManagerMock, notificationMock, userServiceMock,
+            workEntryManagerMock, notificationMock, userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new WorkEntryCreateDto { EntryTypeId = Guid.Empty, Notes = TextData.Phrase };
+        var item = new BaseWorkEntryCreateDto {  Notes = TextData.Phrase };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);
 
         // Assert
         using var scope = new AssertionScope();
-        result.HasWarnings.Should().BeFalse();
-        result.WorkEntryId.Should().Be(id);
+        result.NotificationResult.Should().NotBeNull();
+        result.NotificationResult!.Success.Should().BeTrue();
+        result.NotificationResult.FailureMessage.Should().BeEmpty();
+        result.Id.Should().Be(id);
     }
 }

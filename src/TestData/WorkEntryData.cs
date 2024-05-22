@@ -8,7 +8,7 @@ internal static class WorkEntryData
 {
     private static IEnumerable<WorkEntry> WorkEntrySeedItems => new List<WorkEntry>
     {
-        new(new Guid("10000000-0000-0000-0000-000000000000")) // 0
+        new(0)
         {
             Closed = true,
             Status = WorkEntryStatus.Closed,
@@ -16,7 +16,7 @@ internal static class WorkEntryData
             EntryType = EntryTypeData.GetData.ElementAt(0),
             Notes = TextData.Paragraph,
         },
-        new(new Guid("10000000-0000-0000-0000-000000000001")) // 1
+        new(1)
         {
             Closed = false,
             Status = WorkEntryStatus.Open,
@@ -24,14 +24,14 @@ internal static class WorkEntryData
             ReceivedDate = DateTimeOffset.Now.AddMinutes(30),
             EntryType = EntryTypeData.GetData.ElementAt(0),
         },
-        new(new Guid("10000000-0000-0000-0000-000000000002")) // 2
+        new(2)
         {
             Closed = true,
             Status = WorkEntryStatus.Closed,
             ReceivedBy = UserData.GetUsers.ElementAt(2),
             EntryType = EntryTypeData.GetData.ElementAt(1),
         },
-        new(new Guid("10000000-0000-0000-0000-000000000003")) // 3
+        new(3)
         {
             Notes = "Deleted work entry",
             Closed = true,
@@ -40,21 +40,21 @@ internal static class WorkEntryData
             DeleteComments = TextData.Paragraph,
             EntryType = EntryTypeData.GetData.ElementAt(2),
         },
-        new(new Guid("10000000-0000-0000-0000-000000000004")) // 4
+        new(4)
         {
             Closed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             EntryType = null,
         },
-        new(new Guid("10000000-0000-0000-0000-000000000005")) // 5
+        new(5)
         {
             Closed = false,
             Status = WorkEntryStatus.Open,
             ReceivedBy = UserData.GetUsers.ElementAt(1),
             EntryType = EntryTypeData.GetData.ElementAt(3),
         },
-        new(new Guid("10000000-0000-0000-0000-000000000006")) // 6
+        new(6)
         {
             Notes = "Open WorkEntry assigned to inactive user.",
             Closed = false,

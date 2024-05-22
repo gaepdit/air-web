@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
 using AirWeb.AppServices.WorkEntries.Permissions;
 using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.WebApp.Models;
@@ -13,11 +13,11 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class CloseModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     [BindProperty]
-    public WorkEntryChangeStatusDto EntryDto { get; set; } = default!;
+    public ChangeEntityStatusDto<int> EntityStatusDto { get; set; } = default!;
 
     public WorkEntryViewDto ItemView { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null) return RedirectToPage("Index");
 
@@ -26,7 +26,7 @@ public class CloseModel(IWorkEntryService workEntryService, IAuthorizationServic
 
         if (!await UserCanReviewAsync(workEntryView)) return Forbid();
 
-        EntryDto = new WorkEntryChangeStatusDto(id.Value);
+        EntityStatusDto = new ChangeEntityStatusDto<int>(id.Value);
         ItemView = workEntryView;
         return Page();
     }
@@ -35,14 +35,14 @@ public class CloseModel(IWorkEntryService workEntryService, IAuthorizationServic
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var workEntryView = await workEntryService.FindAsync(EntryDto.WorkEntryId);
+        var workEntryView = await workEntryService.FindAsync(EntityStatusDto.Id);
         if (workEntryView is null || !await UserCanReviewAsync(workEntryView))
             return BadRequest();
 
-        await workEntryService.CloseAsync(EntryDto);
+        await workEntryService.CloseAsync(EntityStatusDto);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "The Work Entry has been closed.");
 
-        return RedirectToPage("Details", new { id = EntryDto.WorkEntryId });
+        return RedirectToPage("Details", new { id = EntityStatusDto.Id });
     }
 
     private Task<bool> UserCanReviewAsync(WorkEntryViewDto item) =>

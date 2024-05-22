@@ -4,7 +4,7 @@ using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -15,18 +15,18 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class EditModel(
     IWorkEntryService workEntryService,
     IEntryTypeService entryTypeService,
-    IValidator<WorkEntryUpdateDto> validator,
+    IValidator<BaseWorkEntryUpdateDto> validator,
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [BindProperty]
-    public WorkEntryUpdateDto Item { get; set; } = default!;
+    public BaseWorkEntryUpdateDto Item { get; set; } = default!;
 
     public SelectList EntryTypesSelectList { get; private set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null) return RedirectToPage("Index");
         var item = await workEntryService.FindForUpdateAsync(id.Value);
@@ -62,6 +62,6 @@ public class EditModel(
     private async Task PopulateSelectListsAsync() => 
         EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync()).ToSelectList();
 
-    private Task<bool> UserCanEditAsync(WorkEntryUpdateDto item) =>
+    private Task<bool> UserCanEditAsync(BaseWorkEntryUpdateDto item) =>
         authorization.Succeeded(User, item, new WorkEntryUpdateRequirements());
 }

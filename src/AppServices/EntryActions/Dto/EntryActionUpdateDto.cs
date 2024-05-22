@@ -4,7 +4,7 @@ namespace AirWeb.AppServices.EntryActions.Dto;
 
 public record EntryActionUpdateDto
 {
-    public Guid WorkEntryId { get; init; }
+    public int WorkEntryId { get; init; }
 
     [Required]
     [Display(Name = "Action Date")]

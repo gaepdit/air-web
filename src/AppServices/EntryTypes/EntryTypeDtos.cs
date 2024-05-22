@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DtoBase;
+﻿using AirWeb.AppServices.CommonDtos;
 
 namespace AirWeb.AppServices.EntryTypes;
 

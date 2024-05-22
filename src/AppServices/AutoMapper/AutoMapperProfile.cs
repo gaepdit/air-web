@@ -3,8 +3,8 @@ using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Offices;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.AppServices.WorkEntries.CommandDto;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
@@ -30,7 +30,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Office, OfficeViewDto>();
 
         CreateMap<WorkEntry, WorkEntrySearchResultDto>();
-        CreateMap<WorkEntry, WorkEntryCreateDto>();
-        CreateMap<WorkEntry, WorkEntryViewDto>();
+        CreateMap<WorkEntry, BaseWorkEntryCreateDto>();
+        CreateMap<WorkEntry, BaseWorkEntryViewDto>();
     }
 }

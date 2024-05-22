@@ -8,9 +8,10 @@ public interface IWorkEntryManager
     /// <summary>
     /// Creates a new <see cref="WorkEntry"/>.
     /// </summary>
+    /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
-    /// <returns>The Entry that was created.</returns>
-    WorkEntry Create(ApplicationUser? user);
+    /// <returns>The Work Entry that was created.</returns>
+    WorkEntry Create(WorkEntryType type,ApplicationUser? user);
 
     /// <summary>
     /// Creates a new <see cref="EntryAction"/>.

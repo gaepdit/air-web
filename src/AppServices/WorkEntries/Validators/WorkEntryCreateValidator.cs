@@ -1,9 +1,9 @@
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using FluentValidation;
-using AirWeb.AppServices.WorkEntries.CommandDto;
 
 namespace AirWeb.AppServices.WorkEntries.Validators;
 
-public class WorkEntryCreateValidator : AbstractValidator<WorkEntryCreateDto>
+public class WorkEntryCreateValidator : AbstractValidator<BaseWorkEntryCreateDto>
 {
     public WorkEntryCreateValidator()
     {

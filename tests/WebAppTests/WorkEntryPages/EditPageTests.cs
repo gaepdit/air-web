@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.CommandDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 namespace WebAppTests.WorkEntryPages;
@@ -36,8 +36,8 @@ public class EditPageTests
     public async Task OnGet_ReturnsPage()
     {
         // Arrange
-        var id = Guid.NewGuid();
-        var dto = new WorkEntryUpdateDto();
+        const int id = 909;
+        var dto = new BaseWorkEntryUpdateDto();
 
         var workEntryService = Substitute.For<IWorkEntryService>();
         workEntryService.FindForUpdateAsync(id).Returns(dto);
@@ -47,7 +47,7 @@ public class EditPageTests
                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var page = new EditModel(workEntryService, _entryTypeService, Substitute.For<IValidator<WorkEntryUpdateDto>>(),
+        var page = new EditModel(workEntryService, _entryTypeService, Substitute.For<IValidator<BaseWorkEntryUpdateDto>>(),
             authorization);
 
         // Act
@@ -56,7 +56,7 @@ public class EditPageTests
         // Assert
         using var scope = new AssertionScope();
         result.Should().BeOfType<PageResult>();
-        page.Item.Should().BeOfType<WorkEntryUpdateDto>();
+        page.Item.Should().BeOfType<BaseWorkEntryUpdateDto>();
         page.Item.Should().Be(dto);
     }
 
@@ -64,12 +64,12 @@ public class EditPageTests
     public async Task OnPost_ReturnsRedirectResultWhenModelIsValid()
     {
         // Arrange
-        var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
+        var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
         {
-            Id = Guid.NewGuid(),
-            Item = new WorkEntryUpdateDto(),
+            Id = 910,
+            Item = new BaseWorkEntryUpdateDto(),
             TempData = WebAppTestsSetup.PageTempData(),
         };
 
@@ -79,7 +79,7 @@ public class EditPageTests
                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
+        validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
             .Returns(new ValidationResult());
 
         // Act
@@ -93,15 +93,15 @@ public class EditPageTests
     public async Task OnPost_ReturnsBadRequestWhenOriginalEntryIsNull()
     {
         // Arrange
-        var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
+        var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
         {
-            Id = Guid.NewGuid(),
+            Id = 911,
             TempData = WebAppTestsSetup.PageTempData(),
         };
 
-        _workEntryService.FindForUpdateAsync(page.Id).Returns((WorkEntryUpdateDto?)null);
+        _workEntryService.FindForUpdateAsync(page.Id).Returns((BaseWorkEntryUpdateDto?)null);
 
         // Act
         var result = await page.OnPostAsync();
@@ -114,17 +114,17 @@ public class EditPageTests
     public async Task OnPost_ReturnsBadRequestWhenUserCannotEdit()
     {
         // Arrange
-        var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
+        var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
-            { Id = Guid.NewGuid() };
+            { Id = 912 };
 
         _workEntryService.FindForUpdateAsync(page.Id)
-            .Returns(new WorkEntryUpdateDto());
+            .Returns(new BaseWorkEntryUpdateDto());
         authorization.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Any<object?>(),
                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Failed());
-        validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
+        validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
             .Returns(new ValidationResult());
 
         // Act
@@ -138,19 +138,19 @@ public class EditPageTests
     public async Task OnPost_ReturnsPageResultWhenModelStateIsNotValid()
     {
         // Arrange
-        var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
+        var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
         var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
-            { Id = Guid.NewGuid() };
+            { Id = 913 };
 
         page.ModelState.AddModelError("test", "test error");
 
         _workEntryService.FindForUpdateAsync(page.Id)
-            .Returns(new WorkEntryUpdateDto());
+            .Returns(new BaseWorkEntryUpdateDto());
         authorization.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Any<object?>(),
                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
-        validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
+        validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
             .Returns(new ValidationResult());
 
         // Act

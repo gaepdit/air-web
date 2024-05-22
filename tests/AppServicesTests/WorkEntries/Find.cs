@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries;
@@ -14,10 +13,10 @@ public class Find
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var item = new WorkEntry(Guid.NewGuid());
+        var item = new WorkEntry(902);
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.FindIncludeAllAsync(Arg.Any<Guid>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(item);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -26,7 +25,7 @@ public class Find
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
+            Substitute.For<IWorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
@@ -42,7 +41,7 @@ public class Find
     {
         // Arrange
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.FindIncludeAllAsync(Arg.Any<Guid>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns((WorkEntry?)null);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -51,11 +50,11 @@ public class Find
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IEntryTypeRepository>(), Substitute.For<WorkEntryManager>(),
+            Substitute.For<IWorkEntryManager>(),
             Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
-        var result = await appService.FindAsync(Guid.Empty);
+        var result = await appService.FindAsync(-1);
 
         // Assert
         result.Should().BeNull();

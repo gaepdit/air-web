@@ -1,5 +1,5 @@
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using GaEpd.AppLibrary.Domain.Predicates;
-using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.Linq.Expressions;
 

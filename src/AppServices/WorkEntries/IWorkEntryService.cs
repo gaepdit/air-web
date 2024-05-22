@@ -1,28 +1,26 @@
-﻿using GaEpd.AppLibrary.Pagination;
+using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Notifications;
-using AirWeb.AppServices.WorkEntries.CommandDto;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.WorkEntries;
 
 public interface IWorkEntryService : IDisposable, IAsyncDisposable
 {
-    Task<WorkEntryViewDto?> FindAsync(Guid id, bool includeDeletedActions = false, CancellationToken token = default);
-
-    Task<WorkEntryUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
+    // Query
+    Task<IWorkEntryViewDto?> FindAsync(int id, CancellationToken token = default);
+    Task<IWorkEntryUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default);
 
     Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec, PaginatedRequest paging,
         CancellationToken token = default);
 
-    Task<WorkEntryCreateResult> CreateAsync(WorkEntryCreateDto resource, CancellationToken token = default);
-
-    Task UpdateAsync(Guid id, WorkEntryUpdateDto resource, CancellationToken token = default);
-
-    Task CloseAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
-
-    Task<NotificationResult> ReopenAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
-
-    Task DeleteAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
-
-    Task RestoreAsync(WorkEntryChangeStatusDto resource, CancellationToken token = default);
+    // Command
+    Task<CreateResultDto<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
+    Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
+    Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
+    Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<NotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<NotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
 }

@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
+using AirWeb.AppServices.WorkEntries.SearchDto;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.LocalRepository.Repositories;
