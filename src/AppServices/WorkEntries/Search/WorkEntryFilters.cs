@@ -6,8 +6,8 @@ namespace AirWeb.AppServices.WorkEntries.Search;
 
 internal static class WorkEntryFilters
 {
-    public static Expression<Func<WorkEntry, bool>> SearchPredicate(WorkEntrySearchDto spec) =>
-        PredicateBuilder.True<WorkEntry>()
+    public static Expression<Func<BaseWorkEntry, bool>> SearchPredicate(WorkEntrySearchDto spec) =>
+        PredicateBuilder.True<BaseWorkEntry>()
             .ByStatus(spec.Status)
             .ByDeletedStatus(spec.DeletedStatus)
             .FromReceivedDate(spec.ReceivedFrom)
@@ -16,13 +16,13 @@ internal static class WorkEntryFilters
             .IsEntryType(spec.EntryType)
             .ContainsText(spec.Text);
 
-    private static Expression<Func<WorkEntry, bool>> IsClosed(this Expression<Func<WorkEntry, bool>> predicate) =>
+    private static Expression<Func<BaseWorkEntry, bool>> IsClosed(this Expression<Func<BaseWorkEntry, bool>> predicate) =>
         predicate.And(entry => entry.Closed);
 
-    private static Expression<Func<WorkEntry, bool>> IsOpen(this Expression<Func<WorkEntry, bool>> predicate) =>
+    private static Expression<Func<BaseWorkEntry, bool>> IsOpen(this Expression<Func<BaseWorkEntry, bool>> predicate) =>
         predicate.And(workEntry => !workEntry.Closed);
 
-    private static Expression<Func<WorkEntry, bool>> ByStatus(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> ByStatus(this Expression<Func<BaseWorkEntry, bool>> predicate,
         WorkEntryStatus? input) => input switch
     {
         WorkEntryStatus.Open => predicate.IsOpen(),
@@ -30,7 +30,7 @@ internal static class WorkEntryFilters
         _ => predicate,
     };
 
-    private static Expression<Func<WorkEntry, bool>> ByDeletedStatus(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> ByDeletedStatus(this Expression<Func<BaseWorkEntry, bool>> predicate,
         SearchDeleteStatus? input) => input switch
     {
         SearchDeleteStatus.All => predicate,
@@ -38,31 +38,31 @@ internal static class WorkEntryFilters
         _ => predicate.And(workEntry => !workEntry.IsDeleted),
     };
 
-    private static Expression<Func<WorkEntry, bool>> FromReceivedDate(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> FromReceivedDate(this Expression<Func<BaseWorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.ReceivedDate.Date >= input.Value.ToDateTime(TimeOnly.MinValue));
 
-    private static Expression<Func<WorkEntry, bool>> ToReceivedDate(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> ToReceivedDate(this Expression<Func<BaseWorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.ReceivedDate.Date <= input.Value.ToDateTime(TimeOnly.MinValue));
 
-    private static Expression<Func<WorkEntry, bool>> ReceivedBy(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> ReceivedBy(this Expression<Func<BaseWorkEntry, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
             : predicate.And(entry => entry.ReceivedBy != null && entry.ReceivedBy.Id == input);
 
-    private static Expression<Func<WorkEntry, bool>> IsEntryType(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> IsEntryType(this Expression<Func<BaseWorkEntry, bool>> predicate,
         Guid? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.EntryType != null && entry.EntryType.Id == input);
 
-    private static Expression<Func<WorkEntry, bool>> ContainsText(this Expression<Func<WorkEntry, bool>> predicate,
+    private static Expression<Func<BaseWorkEntry, bool>> ContainsText(this Expression<Func<BaseWorkEntry, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(entry => entry.Notes.Contains(input));
 }

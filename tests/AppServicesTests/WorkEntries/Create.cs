@@ -18,7 +18,7 @@ public class Create
         // Arrange
         const int id = 901;
         var user = new ApplicationUser { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
-        var workEntry = new WorkEntry(id) { ReceivedBy = user };
+        var workEntry = new BaseWorkEntry(id) { ReceivedBy = user };
 
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
         var userServiceMock = Substitute.For<IUserService>();
@@ -35,7 +35,7 @@ public class Create
 
         var notificationMock = Substitute.For<INotificationService>();
         notificationMock
-            .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<WorkEntry>(),
+            .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<BaseWorkEntry>(),
                 Arg.Any<CancellationToken>())
             .Returns(NotificationResult.SuccessResult());
 

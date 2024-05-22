@@ -4,13 +4,13 @@ using AirWeb.EfRepository.DbContext;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class WorkEntryRepository(AppDbContext context)
-    : BaseRepository<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
+    : BaseRepository<BaseWorkEntry, int, AppDbContext>(context), IWorkEntryRepository
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public Task<WorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default) =>
-        Context.Set<WorkEntry>().AsNoTracking()
+    public Task<BaseWorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default) =>
+        Context.Set<BaseWorkEntry>().AsNoTracking()
             .Include(entry => entry.EntryActions
                 .Where(action => !action.IsDeleted)
                 .OrderByDescending(action => action.ActionDate)

@@ -6,48 +6,48 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 public interface IWorkEntryManager
 {
     /// <summary>
-    /// Creates a new <see cref="WorkEntry"/>.
+    /// Creates a new <see cref="BaseWorkEntry"/>.
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The Work Entry that was created.</returns>
-    WorkEntry Create(WorkEntryType type,ApplicationUser? user);
+    BaseWorkEntry Create(WorkEntryType type,ApplicationUser? user);
 
     /// <summary>
     /// Creates a new <see cref="EntryAction"/>.
     /// </summary>
-    /// <param name="workEntry">The <see cref="WorkEntry"/> this Action belongs to.</param>
+    /// <param name="baseWorkEntry">The <see cref="BaseWorkEntry"/> this Action belongs to.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The WorkEntryAction that was created.</returns>
-    EntryAction CreateEntryAction(WorkEntry workEntry,  ApplicationUser? user);
+    EntryAction CreateEntryAction(BaseWorkEntry baseWorkEntry,  ApplicationUser? user);
     
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
+    /// Updates the properties of a <see cref="BaseWorkEntry"/> to indicate that it was reviewed and closed.
     /// </summary>
-    /// <param name="workEntry">The Entry that was closed.</param>
+    /// <param name="baseWorkEntry">The Entry that was closed.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>
     /// <param name="user">The user committing the change.</param>
-    void Close(WorkEntry workEntry, string? comment, ApplicationUser? user);
+    void Close(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a closed <see cref="WorkEntry"/> to indicate that it was reopened.
+    /// Updates the properties of a closed <see cref="BaseWorkEntry"/> to indicate that it was reopened.
     /// </summary>
-    /// <param name="workEntry">The Entry that was reopened.</param>
+    /// <param name="baseWorkEntry">The Entry that was reopened.</param>
     /// <param name="user">The user committing the change.</param>
-    void Reopen(WorkEntry workEntry, ApplicationUser? user);
+    void Reopen(BaseWorkEntry baseWorkEntry, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was deleted.
+    /// Updates the properties of a <see cref="BaseWorkEntry"/> to indicate that it was deleted.
     /// </summary>
-    /// <param name="workEntry">The Entry which was deleted.</param>
+    /// <param name="baseWorkEntry">The Entry which was deleted.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>
     /// <param name="user">The user committing the change.</param>
-    void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user);
+    void Delete(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a deleted <see cref="WorkEntry"/> to indicate that it was restored.
+    /// Updates the properties of a deleted <see cref="BaseWorkEntry"/> to indicate that it was restored.
     /// </summary>
-    /// <param name="workEntry">The Entry which was restored.</param>
+    /// <param name="baseWorkEntry">The Entry which was restored.</param>
     /// <param name="user">The user committing the change.</param>
-    void Restore(WorkEntry workEntry, ApplicationUser? user);
+    void Restore(BaseWorkEntry baseWorkEntry, ApplicationUser? user);
 }

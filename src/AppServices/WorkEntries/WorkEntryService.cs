@@ -47,7 +47,7 @@ public sealed class WorkEntryService(
     }
 
     private async Task<IPaginatedResult<WorkEntrySearchResultDto>> PerformPagedSearchAsync(PaginatedRequest paging,
-        Expression<Func<WorkEntry, bool>> predicate, CancellationToken token)
+        Expression<Func<BaseWorkEntry, bool>> predicate, CancellationToken token)
     {
         var count = await workEntryRepository.CountAsync(predicate, token).ConfigureAwait(false);
         var items = count > 0
@@ -140,17 +140,17 @@ public sealed class WorkEntryService(
         return NotificationResult.UndefinedResult();
     }
 
-    private WorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
+    private BaseWorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
     {
         var workEntry = workEntryManager.Create(WorkEntryType.Unknown, currentUser);
         workEntry.Notes = resource.Notes;
         return workEntry;
     }
 
-    private async Task<NotificationResult> NotifyOwnerAsync(WorkEntry workEntry, Template template,
+    private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
         CancellationToken token)
     {
-        var recipient = workEntry.ReceivedBy;
+        var recipient = baseWorkEntry.ReceivedBy;
 
         if (recipient is null)
             return NotificationResult.FailureResult("This Work Entry does not have an available recipient.");
@@ -159,7 +159,7 @@ public sealed class WorkEntryService(
         if (recipient.Email is null)
             return NotificationResult.FailureResult("The Work Entry recipient cannot be emailed.");
 
-        return await notificationService.SendNotificationAsync(template, recipient.Email, workEntry, token)
+        return await notificationService.SendNotificationAsync(template, recipient.Email, baseWorkEntry, token)
             .ConfigureAwait(false);
     }
 

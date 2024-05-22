@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Notification : WorkEntry
+public class Notification : BaseWorkEntry
 {
     internal Notification(int? id) : base(id) => WorkEntryType = WorkEntryType.Notification;
 

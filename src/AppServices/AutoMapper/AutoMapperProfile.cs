@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Offices;
@@ -29,8 +29,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Office, OfficeUpdateDto>();
         CreateMap<Office, OfficeViewDto>();
 
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>();
-        CreateMap<WorkEntry, BaseWorkEntryCreateDto>();
-        CreateMap<WorkEntry, BaseWorkEntryViewDto>();
+        CreateMap<BaseWorkEntry, WorkEntrySearchResultDto>();
+        CreateMap<BaseWorkEntry, BaseWorkEntryCreateDto>();
+        CreateMap<BaseWorkEntry, BaseWorkEntryViewDto>();
     }
 }

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Report : WorkEntry
+public class Report : BaseWorkEntry
 {
     internal Report(int? id) : base(id) => WorkEntryType = WorkEntryType.Report;
 

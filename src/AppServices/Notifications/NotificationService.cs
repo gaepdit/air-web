@@ -17,7 +17,7 @@ public class NotificationService(
     private const string FailurePrefix = "Notification email not sent:";
 
     public async Task<NotificationResult> SendNotificationAsync(Template template, string recipientEmail,
-        WorkEntry workEntry, CancellationToken token = default)
+        BaseWorkEntry baseWorkEntry, CancellationToken token = default)
     {
         var subjectPrefix = environment.EnvironmentName switch
         {
@@ -27,8 +27,8 @@ public class NotificationService(
         };
 
         var subject = $"{subjectPrefix} {template.Subject}";
-        var textBody = string.Format(template.TextBody + Template.TextSignature, workEntry.Id.ToString());
-        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, workEntry.Id.ToString());
+        var textBody = string.Format(template.TextBody + Template.TextSignature, baseWorkEntry.Id.ToString());
+        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, baseWorkEntry.Id.ToString());
 
         var settings = new EmailServiceSettings();
         configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Inspection : WorkEntry
+public class Inspection : BaseWorkEntry
 {
     internal Inspection(int? id) : base(id) => WorkEntryType = WorkEntryType.Inspection;
 

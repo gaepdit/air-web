@@ -7,16 +7,16 @@ namespace AirWeb.AppServices.DataExport;
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record SearchResultsExportDto
 {
-    public SearchResultsExportDto(WorkEntry workEntry)
+    public SearchResultsExportDto(BaseWorkEntry baseWorkEntry)
     {
-        WorkEntryId = workEntry.Id;
-        ReceivedDate = workEntry.ReceivedDate;
-        ReceivedByName = workEntry.ReceivedBy?.SortableFullName;
-        Status = workEntry.Status.GetDisplayName();
-        EntryType = workEntry.EntryType?.Name;
-        DateClosed = workEntry.ClosedDate;
-        Notes = workEntry.Notes;
-        Deleted = workEntry.IsDeleted ? "Deleted" : "No";
+        WorkEntryId = baseWorkEntry.Id;
+        ReceivedDate = baseWorkEntry.ReceivedDate;
+        ReceivedByName = baseWorkEntry.ReceivedBy?.SortableFullName;
+        Status = baseWorkEntry.Status.GetDisplayName();
+        EntryType = baseWorkEntry.EntryType?.Name;
+        DateClosed = baseWorkEntry.ClosedDate;
+        Notes = baseWorkEntry.Notes;
+        Deleted = baseWorkEntry.IsDeleted ? "Deleted" : "No";
     }
 
     [XLColumn(Header = "Work Entry ID")]

@@ -10,11 +10,11 @@ public class EntryAction : AuditableSoftDeleteEntity
     [UsedImplicitly] // Used by ORM.
     private EntryAction() { }
 
-    internal EntryAction(Guid id, WorkEntry workEntry) : base(id) => WorkEntry = workEntry;
+    internal EntryAction(Guid id, BaseWorkEntry baseWorkEntry) : base(id) => BaseWorkEntry = baseWorkEntry;
 
     // Properties
 
-    public WorkEntry WorkEntry { get; private init; } = default!;
+    public BaseWorkEntry BaseWorkEntry { get; private init; } = default!;
 
     public DateOnly ActionDate { get; set; }
 

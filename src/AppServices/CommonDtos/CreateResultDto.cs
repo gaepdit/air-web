@@ -16,7 +16,7 @@ public record CreateResultDto<TKey>
     public CreateResultDto(TKey id) => Id = id;
 
     /// <summary>
-    /// If the <see cref="WorkEntry"/> is successfully created, contains the ID of the new WorkEntry. 
+    /// If the <see cref="BaseWorkEntry"/> is successfully created, contains the ID of the new WorkEntry. 
     /// </summary>
     /// <value>The WorkEntry ID if the operation succeeded, otherwise null.</value>
     public TKey? Id { get; }

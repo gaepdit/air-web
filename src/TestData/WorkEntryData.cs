@@ -6,7 +6,7 @@ namespace AirWeb.TestData;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<WorkEntry> WorkEntrySeedItems => new List<WorkEntry>
+    private static IEnumerable<BaseWorkEntry> WorkEntrySeedItems => new List<BaseWorkEntry>
     {
         new(0)
         {
@@ -64,9 +64,9 @@ internal static class WorkEntryData
         },
     };
 
-    private static IEnumerable<WorkEntry>? _workEntries;
+    private static IEnumerable<BaseWorkEntry>? _workEntries;
 
-    public static IEnumerable<WorkEntry> GetData
+    public static IEnumerable<BaseWorkEntry> GetData
     {
         get
         {

@@ -13,7 +13,7 @@ public class Find
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var item = new WorkEntry(902);
+        var item = new BaseWorkEntry(902);
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
@@ -42,7 +42,7 @@ public class Find
         // Arrange
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.FindIncludeAllAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
-            .Returns((WorkEntry?)null);
+            .Returns((BaseWorkEntry?)null);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
         authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),

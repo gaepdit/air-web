@@ -1,4 +1,4 @@
-using GaEpd.AppLibrary.Pagination;
+﻿using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
@@ -19,16 +19,16 @@ public class Search
     public async Task WhenItemsExist_ReturnsPagedList()
     {
         // Arrange
-        var itemList = new ReadOnlyCollection<WorkEntry>(WorkEntryData.GetData.ToList());
+        var itemList = new ReadOnlyCollection<BaseWorkEntry>(WorkEntryData.GetData.ToList());
         var count = WorkEntryData.GetData.Count();
 
         var paging = new PaginatedRequest(1, 100);
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<BaseWorkEntry, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(itemList);
-        repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        repoMock.CountAsync(Arg.Any<Expression<Func<BaseWorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
@@ -53,17 +53,17 @@ public class Search
     public async Task WhenDoesNotExist_ReturnsEmptyPagedList()
     {
         // Arrange
-        var itemList = new ReadOnlyCollection<WorkEntry>(new List<WorkEntry>());
+        var itemList = new ReadOnlyCollection<BaseWorkEntry>(new List<BaseWorkEntry>());
         const int count = 0;
 
         var paging = new PaginatedRequest(1, 100);
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<BaseWorkEntry, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(itemList);
         repoMock.CountAsync(
-                Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+                Arg.Any<Expression<Func<BaseWorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();

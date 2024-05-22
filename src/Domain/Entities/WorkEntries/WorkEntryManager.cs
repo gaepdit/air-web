@@ -5,9 +5,9 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public WorkEntry Create(WorkEntryType type, ApplicationUser? user)
+    public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user)
     {
-        WorkEntry item =default!;
+        BaseWorkEntry item =default!;
 
         if (type == WorkEntryType.Notification)
             item = new Notification(repository.GetNextId()) { ReceivedBy = user };
@@ -16,43 +16,43 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         return item;
     }
 
-    public EntryAction CreateEntryAction(WorkEntry workEntry, ApplicationUser? user)
+    public EntryAction CreateEntryAction(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {
-        var entryAction = new EntryAction(Guid.NewGuid(), workEntry);
+        var entryAction = new EntryAction(Guid.NewGuid(), baseWorkEntry);
         entryAction.SetCreator(user?.Id);
         return entryAction;
     }
 
-    public void Close(WorkEntry workEntry, string? comment, ApplicationUser? user)
+    public void Close(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user)
     {
-        workEntry.SetUpdater(user?.Id);
-        workEntry.Status = WorkEntryStatus.Closed;
-        workEntry.Closed = true;
-        workEntry.ClosedDate = DateTime.Now;
-        workEntry.ClosedBy = user;
-        workEntry.ClosedComments = comment;
+        baseWorkEntry.SetUpdater(user?.Id);
+        baseWorkEntry.Status = WorkEntryStatus.Closed;
+        baseWorkEntry.Closed = true;
+        baseWorkEntry.ClosedDate = DateTime.Now;
+        baseWorkEntry.ClosedBy = user;
+        baseWorkEntry.ClosedComments = comment;
     }
 
-    public void Reopen(WorkEntry workEntry, ApplicationUser? user)
+    public void Reopen(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {
-        workEntry.SetUpdater(user?.Id);
-        workEntry.Status = WorkEntryStatus.Open;
-        workEntry.Closed = false;
-        workEntry.ClosedDate = null;
-        workEntry.ClosedBy = null;
-        workEntry.ClosedComments = null;
+        baseWorkEntry.SetUpdater(user?.Id);
+        baseWorkEntry.Status = WorkEntryStatus.Open;
+        baseWorkEntry.Closed = false;
+        baseWorkEntry.ClosedDate = null;
+        baseWorkEntry.ClosedBy = null;
+        baseWorkEntry.ClosedComments = null;
     }
 
-    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
+    public void Delete(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user)
     {
-        workEntry.SetDeleted(user?.Id);
-        workEntry.DeletedBy = user;
-        workEntry.DeleteComments = comment;
+        baseWorkEntry.SetDeleted(user?.Id);
+        baseWorkEntry.DeletedBy = user;
+        baseWorkEntry.DeleteComments = comment;
     }
 
-    public void Restore(WorkEntry workEntry, ApplicationUser? user)
+    public void Restore(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {
-        workEntry.SetNotDeleted();
-        workEntry.DeleteComments = null;
+        baseWorkEntry.SetNotDeleted();
+        baseWorkEntry.DeleteComments = null;
     }
 }
