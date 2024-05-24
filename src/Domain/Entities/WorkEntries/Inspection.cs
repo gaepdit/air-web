@@ -12,10 +12,10 @@ public class Inspection : BaseComplianceEvent
     }
 
     [StringLength(18)]
-    public InspectionReason? InspectionReason { get; init; }
+    public InspectionReason? InspectionReason { get; set; }
 
     [StringLength(15)]
-    public ComplianceStatus ComplianceStatus { get; init; }
+    public ComplianceStatus ComplianceStatus { get; set; }
 }
 
 // Enums

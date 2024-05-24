@@ -8,12 +8,12 @@ public class Notification : BaseWorkEntry
     internal Notification(int? id) : base(id) => WorkEntryType = WorkEntryType.Notification;
 
     [StringLength(14)]
-    public NotificationType NotificationType { get; init; }
+    public NotificationType NotificationType { get; set; }
 
-    public DateOnly ReceivedDate { get; init; }
-    public DateOnly? DueDate { get; init; }
-    public DateOnly? SentDate { get; init; }
-    public bool FollowupTaken { get; init; }
+    public DateOnly ReceivedDate { get; set; }
+    public DateOnly? DueDate { get; set; }
+    public DateOnly? SentDate { get; set; }
+    public bool FollowupTaken { get; set; }
 }
 
 // Enums

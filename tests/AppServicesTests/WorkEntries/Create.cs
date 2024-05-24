@@ -24,7 +24,7 @@ public class Create
         userServiceMock.GetCurrentUserAsync()
             .Returns(user);
 
-        workEntryManagerMock.CreateWorkEntry(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
+        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
             .Returns(workEntry);
 
         userServiceMock.GetUserAsync(Arg.Any<string>())

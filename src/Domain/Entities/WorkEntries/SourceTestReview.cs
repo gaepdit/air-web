@@ -8,8 +8,8 @@ public class SourceTestReview : BaseComplianceEvent
         ComplianceEventType = ComplianceEventType.SourceTestReview;
     }
 
-    public int ReferenceNumber { get; init; }
-    public DateOnly ReceivedByCompliance { get; init; }
-    public DateOnly? DueDate { get; init; }
-    public bool FollowupTaken { get; init; }
+    public int ReferenceNumber { get; set; }
+    public DateOnly ReceivedByCompliance { get; set; }
+    public DateOnly? DueDate { get; set; }
+    public bool FollowupTaken { get; set; }
 }

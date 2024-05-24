@@ -4,7 +4,8 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public BaseWorkEntry CreateWorkEntry(WorkEntryType type, ApplicationUser? user)
+    public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user,
+        ComplianceEventType? complianceEventType = null)
     {
         var id = repository.GetNextId();
 
@@ -13,6 +14,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         {
             WorkEntryType.Notification => new Notification(id),
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
+            WorkEntryType.ComplianceEvent => CreateComplianceEvent(complianceEventType, id),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
@@ -20,24 +22,18 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         return item;
     }
 
-    public BaseComplianceEvent CreateComplianceEvent(ComplianceEventType type, ApplicationUser? user)
-    {
-        var id = repository.GetNextId();
-
+    private static BaseComplianceEvent CreateComplianceEvent(ComplianceEventType? type, int? id) =>
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
-        BaseComplianceEvent item = type switch
+        type switch
         {
             ComplianceEventType.Inspection => new Inspection(id),
             ComplianceEventType.Report => new Report(id),
             ComplianceEventType.RmpInspection => new RmpInspection(id),
             ComplianceEventType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
             ComplianceEventType.SourceTestReview => new SourceTestReview(id),
-            _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
+            null => throw new ArgumentException("Missing compliance event type.", nameof(type)),
+            _ => throw new ArgumentException("Invalid compliance event type.", nameof(type)),
         };
-
-        item.SetCreator(user?.Id);
-        return item;
-    }
 
     public void Close(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
     {

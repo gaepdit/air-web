@@ -8,6 +8,6 @@ public class RmpInspection : BaseComplianceEvent
         ComplianceEventType = ComplianceEventType.RmpInspection;
     }
 
-    public InspectionReason? InspectionReason { get; init; }
-    public ComplianceStatus ComplianceStatus { get; init; }
+    public InspectionReason? InspectionReason { get; set; }
+    public ComplianceStatus ComplianceStatus { get; set; }
 }

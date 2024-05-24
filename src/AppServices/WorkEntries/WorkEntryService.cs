@@ -5,8 +5,8 @@ using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.WorkEntries.Search;
+using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
-using AirWeb.Domain.Identity;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +14,13 @@ using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.WorkEntries;
 
-public sealed class WorkEntryService(
+public sealed partial class WorkEntryService(
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IWorkEntryRepository workEntryRepository,
     IWorkEntryManager workEntryManager,
     INotificationService notificationService,
+    IFacilityRepository facilityRepository,
     IUserService userService,
     IAuthorizationService authorization) : IWorkEntryService
 {
@@ -61,10 +62,8 @@ public sealed class WorkEntryService(
     public async Task<CreateResultDto<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var workEntry = CreateWorkEntryFromDto(resource, currentUser);
-
+        var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await workEntryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-
         var result = new CreateResultDto<int>(workEntry.Id);
 
         // Send notification
@@ -138,13 +137,6 @@ public sealed class WorkEntryService(
         return NotificationResult.UndefinedResult();
     }
 
-    private BaseWorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
-    {
-        var workEntry = workEntryManager.CreateWorkEntry(WorkEntryType.Unknown, currentUser);
-        workEntry.Notes = resource.Notes;
-        return workEntry;
-    }
-
     private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
         CancellationToken token)
     {
@@ -166,11 +158,13 @@ public sealed class WorkEntryService(
     public void Dispose()
     {
         workEntryRepository.Dispose();
+        facilityRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await workEntryRepository.DisposeAsync().ConfigureAwait(false);
+        await facilityRepository.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

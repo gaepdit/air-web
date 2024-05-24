@@ -11,19 +11,19 @@ public class Report : BaseComplianceEvent
         ComplianceEventType = ComplianceEventType.Report;
     }
 
-    public DateOnly ReceivedDate { get; init; }
+    public DateOnly ReceivedDate { get; set; }
 
     [StringLength(29)]
-    public ReportingPeriodType ReportingPeriodType { get; init; }
+    public ReportingPeriodType ReportingPeriodType { get; set; }
 
-    public DateOnly ReportingPeriodStart { get; init; }
-    public DateOnly? ReportingPeriodEnd { get; init; }
-    public string? ReportingPeriodComment { get; init; }
-    public DateOnly? DueDate { get; init; }
-    public DateOnly? SentDate { get; init; }
-    public bool ReportComplete { get; init; }
-    public bool ReportsDeviations { get; init; }
-    public bool EnforcementNeeded { get; init; }
+    public DateOnly ReportingPeriodStart { get; set; }
+    public DateOnly? ReportingPeriodEnd { get; set; }
+    public string? ReportingPeriodComment { get; set; }
+    public DateOnly? DueDate { get; set; }
+    public DateOnly? SentDate { get; set; }
+    public bool ReportComplete { get; set; }
+    public bool ReportsDeviations { get; set; }
+    public bool EnforcementNeeded { get; set; }
 }
 
 // Enums

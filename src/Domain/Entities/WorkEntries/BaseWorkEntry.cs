@@ -22,9 +22,9 @@ public abstract class BaseWorkEntry : AuditableSoftDeleteEntity<int>
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
 
-    public Facility Facility { get; init; } = default!;
-    public ApplicationUser? ResponsibleStaff { get; init; }
-    public DateOnly? AcknowledgmentLetterDate { get; init; }
+    public Facility Facility { get; set; } = default!;
+    public ApplicationUser? ResponsibleStaff { get; set; }
+    public DateOnly? AcknowledgmentLetterDate { get; set; }
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;

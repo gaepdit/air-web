@@ -10,6 +10,7 @@ public interface IWorkEntryViewDto
     public int Id { get; }
     public Facility Facility { get; }
     public WorkEntryType WorkEntryType { get; }
+    public ComplianceEventType ComplianceEventType { get; }
     public StaffViewDto? ResponsibleStaff { get; }
     public DateOnly? AcknowledgmentLetterDate { get; }
     public string Notes { get; }
