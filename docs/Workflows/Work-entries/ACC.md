@@ -1,15 +1,14 @@
-# Annual Compliance Certification (ACC) Workflow
+# Annual Compliance Certification (ACC)
 
-* A new ACC can be entered from a Facility.
-* The ACC can be edited while open.
+## Workflow additions
+
+* The ACC can only be edited while open.
 * Closing an ACC disables updating and enables printing.
 * Reopening an ACC enables updating and disables printing.
 * Closing or Reopening an ACC updates the Data Exchange.
 * The ACC report can be printed.
-* Enforcement can be started from an ACC.
-* An ACC can be deleted/restored *(not shown)*.
-* Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+
+## Flowchart
 
 ```mermaid
 flowchart

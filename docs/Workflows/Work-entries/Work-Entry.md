@@ -1,4 +1,14 @@
-# Base Work Entry
+# Work Entry
+
+## General Workflow
+
+* A new Work Entry can be entered from a Facility.
+* The Work Entry can be edited.
+* Saving a Compliance Event-type Work Entry updates the Data Exchange.
+* Enforcement can be started from a Compliance Event-type Work Entry.
+* A Work Entry can be deleted/restored *(not shown)*.
+* Comments can be added and edited.
+* A Comment can be deleted *(not shown)*.
 
 ## Entities
 
