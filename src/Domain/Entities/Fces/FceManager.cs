@@ -8,8 +8,7 @@ public class FceManager(IWorkEntryRepository repository) : IFceManager
 {
     public Fce Create(FacilityId facility, int year, ApplicationUser? user)
     {
-        var id = repository.GetNextId();
-        var item = new Fce(id);
+        var item = new Fce(repository.GetNextId());
         item.SetCreator(user?.Id);
         return item;
     }

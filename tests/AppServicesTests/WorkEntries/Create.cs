@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
 using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.WorkEntries;
 
@@ -25,7 +24,7 @@ public class Create
         userServiceMock.GetCurrentUserAsync()
             .Returns(user);
 
-        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
+        workEntryManagerMock.CreateWorkEntry(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
             .Returns(workEntry);
 
         userServiceMock.GetUserAsync(Arg.Any<string>())
@@ -43,7 +42,7 @@ public class Create
             workEntryManagerMock, notificationMock, userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new BaseWorkEntryCreateDto {  Notes = TextData.Phrase };
+        var item = new BaseWorkEntryCreateDto { Notes = TextData.Phrase };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);

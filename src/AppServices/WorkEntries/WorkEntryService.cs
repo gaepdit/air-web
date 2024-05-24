@@ -140,7 +140,7 @@ public sealed class WorkEntryService(
 
     private BaseWorkEntry CreateWorkEntryFromDto(IWorkEntryCreateDto resource, ApplicationUser? currentUser)
     {
-        var workEntry = workEntryManager.Create(WorkEntryType.Unknown, currentUser);
+        var workEntry = workEntryManager.CreateWorkEntry(WorkEntryType.Unknown, currentUser);
         workEntry.Notes = resource.Notes;
         return workEntry;
     }

@@ -4,7 +4,7 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user)
+    public BaseWorkEntry CreateWorkEntry(WorkEntryType type, ApplicationUser? user)
     {
         var id = repository.GetNextId();
 
@@ -12,12 +12,26 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         BaseWorkEntry item = type switch
         {
             WorkEntryType.Notification => new Notification(id),
-            WorkEntryType.Inspection => new Inspection(id),
-            WorkEntryType.Report => new Report(id),
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
-            WorkEntryType.RmpInspection => new RmpInspection(id),
-            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
-            WorkEntryType.SourceTestReview => new SourceTestReview(id),
+            _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
+        };
+
+        item.SetCreator(user?.Id);
+        return item;
+    }
+
+    public BaseComplianceEvent CreateComplianceEvent(ComplianceEventType type, ApplicationUser? user)
+    {
+        var id = repository.GetNextId();
+
+        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+        BaseComplianceEvent item = type switch
+        {
+            ComplianceEventType.Inspection => new Inspection(id),
+            ComplianceEventType.Report => new Report(id),
+            ComplianceEventType.RmpInspection => new RmpInspection(id),
+            ComplianceEventType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
+            ComplianceEventType.SourceTestReview => new SourceTestReview(id),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
