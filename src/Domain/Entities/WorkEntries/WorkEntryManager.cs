@@ -8,6 +8,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     {
         var id = repository.GetNextId();
 
+        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         BaseWorkEntry item = type switch
         {
             WorkEntryType.Notification => new Notification(id),
@@ -16,7 +17,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
             WorkEntryType.RmpInspection => new RmpInspection(id),
             WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
-            WorkEntryType.PerformanceTestReview => new PerformanceTestReview(id),
+            WorkEntryType.SourceTestReview => new SourceTestReview(id),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 

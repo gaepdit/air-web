@@ -51,7 +51,7 @@ public enum WorkEntryType
     Unknown = 0,
     Report = 1,
     Inspection = 2,
-    PerformanceTestReview = 3,
+    SourceTestReview = 3,
     AnnualComplianceCertification = 4,
     Notification = 5,
     RmpInspection = 7,
