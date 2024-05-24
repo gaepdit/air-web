@@ -1,11 +1,11 @@
-using GaEpd.EmailService.Repository;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
+using GaEpd.EmailService.Repository;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AirWeb.EfRepository.DbContext;
 
@@ -34,15 +34,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         // Work Entries
         var workEntryEntity = builder.Entity<BaseWorkEntry>();
-        workEntryEntity.Navigation(entry => entry.EntryType).AutoInclude();
-        workEntryEntity.Navigation(entry => entry.ReceivedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
 
         // === Additional configuration ===
 
         // Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<BaseWorkEntry>().Property(entry => entry.Status).HasConversion<string>();
+        builder.Entity<BaseWorkEntry>().Property(entry => entry.WorkEntryType).HasConversion<string>();
 
         // ## The following configurations are Sqlite only. ##
         if (Database.ProviderName != SqliteProvider) return;

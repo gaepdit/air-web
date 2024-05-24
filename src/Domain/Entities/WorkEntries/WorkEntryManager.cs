@@ -51,6 +51,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     public void Restore(BaseWorkEntry baseWorkEntry)
     {
         baseWorkEntry.SetNotDeleted();
+        baseWorkEntry.DeletedBy = null;
         baseWorkEntry.DeleteComments = null;
     }
 }

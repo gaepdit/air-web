@@ -97,7 +97,7 @@ public sealed class WorkEntryService(
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        workEntryManager.Close(workEntry, resource.Comment, currentUser);
+        workEntryManager.Close(workEntry, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
         return NotificationResult.UndefinedResult();
@@ -132,9 +132,7 @@ public sealed class WorkEntryService(
         CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-
-        workEntryManager.Restore(workEntry, currentUser);
+        workEntryManager.Restore(workEntry);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
         return NotificationResult.UndefinedResult();
@@ -150,7 +148,7 @@ public sealed class WorkEntryService(
     private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
         CancellationToken token)
     {
-        var recipient = baseWorkEntry.ReceivedBy;
+        var recipient = baseWorkEntry.ResponsibleStaff;
 
         if (recipient is null)
             return NotificationResult.FailureResult("This Work Entry does not have an available recipient.");

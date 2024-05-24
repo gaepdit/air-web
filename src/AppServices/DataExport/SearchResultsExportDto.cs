@@ -1,6 +1,6 @@
-﻿using ClosedXML.Attributes;
+﻿using AirWeb.Domain.Entities.WorkEntries;
+using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
-using AirWeb.Domain.Entities.WorkEntries;
 
 namespace AirWeb.AppServices.DataExport;
 
@@ -10,10 +10,10 @@ public record SearchResultsExportDto
     public SearchResultsExportDto(BaseWorkEntry baseWorkEntry)
     {
         WorkEntryId = baseWorkEntry.Id;
-        ReceivedDate = baseWorkEntry.ReceivedDate;
-        ReceivedByName = baseWorkEntry.ReceivedBy?.SortableFullName;
-        Status = baseWorkEntry.Status.GetDisplayName();
-        EntryType = baseWorkEntry.EntryType?.Name;
+        WorkEntryType = baseWorkEntry.WorkEntryType.GetDescription();
+        FacilityId = baseWorkEntry.Facility.Id;
+        Facility = baseWorkEntry.Facility.CompanyName;
+        ResponsibleStaff = baseWorkEntry.ResponsibleStaff?.SortableFullName;
         DateClosed = baseWorkEntry.ClosedDate;
         Notes = baseWorkEntry.Notes;
         Deleted = baseWorkEntry.IsDeleted ? "Deleted" : "No";
@@ -22,17 +22,17 @@ public record SearchResultsExportDto
     [XLColumn(Header = "Work Entry ID")]
     public int WorkEntryId { get; init; }
 
-    [XLColumn(Header = "Date Received")]
-    public DateTimeOffset ReceivedDate { get; init; }
+    [XLColumn(Header = "Work Entry Type")]
+    public string WorkEntryType { get; init; }
 
-    [XLColumn(Header = "Received By")]
-    public string? ReceivedByName { get; init; }
+    [XLColumn(Header = "Facility ID")]
+    public string FacilityId { get; init; }
 
-    [XLColumn(Header = "Status")]
-    public string Status { get; init; }
+    [XLColumn(Header = "Facility")]
+    public string Facility { get; init; }
 
-    [XLColumn(Header = "Entry Type")]
-    public string? EntryType { get; init; }
+    [XLColumn(Header = "Staff Responsible")]
+    public string? ResponsibleStaff { get; init; }
 
     [XLColumn(Header = "Date Closed")]
     public DateTimeOffset? DateClosed { get; init; }
