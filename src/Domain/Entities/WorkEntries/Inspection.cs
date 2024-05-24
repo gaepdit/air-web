@@ -3,9 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Inspection : BaseWorkEntry
+public class Inspection : BaseComplianceEvent
 {
-    internal Inspection(int? id) : base(id) => WorkEntryType = WorkEntryType.Inspection;
+    internal Inspection(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.Inspection;
+    }
 
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; init; }

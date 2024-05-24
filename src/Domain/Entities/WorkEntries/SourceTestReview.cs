@@ -1,8 +1,12 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class SourceTestReview : BaseWorkEntry
+public class SourceTestReview : BaseComplianceEvent
 {
-    internal SourceTestReview(int? id) : base(id) => WorkEntryType = WorkEntryType.SourceTestReview;
+    internal SourceTestReview(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.SourceTestReview;
+    }
 
     public int ReferenceNumber { get; init; }
     public DateOnly ReceivedByCompliance { get; init; }

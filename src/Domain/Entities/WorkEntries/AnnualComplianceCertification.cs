@@ -1,9 +1,12 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class AnnualComplianceCertification : BaseWorkEntry
+public class AnnualComplianceCertification : BaseComplianceEvent
 {
-    internal AnnualComplianceCertification(int? id) : base(id) =>
-        WorkEntryType = WorkEntryType.AnnualComplianceCertification;
+    internal AnnualComplianceCertification(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.AnnualComplianceCertification;
+    }
 
     public DateOnly ReceivedDate { get; init; }
     public int AccReportingYear { get; init; }

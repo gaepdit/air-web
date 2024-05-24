@@ -3,9 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Report : BaseWorkEntry
+public class Report : BaseComplianceEvent
 {
-    internal Report(int? id) : base(id) => WorkEntryType = WorkEntryType.Report;
+    internal Report(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.Report;
+    }
 
     public DateOnly ReceivedDate { get; init; }
 
