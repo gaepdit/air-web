@@ -19,7 +19,7 @@ public abstract class BaseWorkEntry : AuditableSoftDeleteEntity<int>
     }
 
     // Properties: Basic data
-    [StringLength(30)]
+    [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
 
     public Facility Facility { get; init; } = default!;

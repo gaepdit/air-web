@@ -8,7 +8,10 @@ public class Report : BaseWorkEntry
     internal Report(int? id) : base(id) => WorkEntryType = WorkEntryType.Report;
 
     public DateOnly ReceivedDate { get; init; }
+
+    [StringLength(29)]
     public ReportingPeriodType ReportingPeriodType { get; init; }
+
     public DateOnly ReportingPeriodStart { get; init; }
     public DateOnly? ReportingPeriodEnd { get; init; }
     public string? ReportingPeriodComment { get; init; }

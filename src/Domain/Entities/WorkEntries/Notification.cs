@@ -7,7 +7,9 @@ public class Notification : BaseWorkEntry
 {
     internal Notification(int? id) : base(id) => WorkEntryType = WorkEntryType.Notification;
 
+    [StringLength(14)]
     public NotificationType NotificationType { get; init; }
+
     public DateOnly ReceivedDate { get; init; }
     public DateOnly? DueDate { get; init; }
     public DateOnly? SentDate { get; init; }

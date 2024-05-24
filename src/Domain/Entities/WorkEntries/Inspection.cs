@@ -7,7 +7,10 @@ public class Inspection : BaseWorkEntry
 {
     internal Inspection(int? id) : base(id) => WorkEntryType = WorkEntryType.Inspection;
 
+    [StringLength(18)]
     public InspectionReason? InspectionReason { get; init; }
+
+    [StringLength(15)]
     public ComplianceStatus ComplianceStatus { get; init; }
 }
 
