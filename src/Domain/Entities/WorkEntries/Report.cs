@@ -7,7 +7,16 @@ public class Report : BaseWorkEntry
 {
     internal Report(int? id) : base(id) => WorkEntryType = WorkEntryType.Report;
 
+    public DateOnly ReceivedDate { get; init; }
     public ReportingPeriodType ReportingPeriodType { get; init; }
+    public DateOnly ReportingPeriodStart { get; init; }
+    public DateOnly? ReportingPeriodEnd { get; init; }
+    public string? ReportingPeriodComment { get; init; }
+    public DateOnly? DueDate { get; init; }
+    public DateOnly? SentDate { get; init; }
+    public bool ReportComplete { get; init; }
+    public bool ReportsDeviations { get; init; }
+    public bool EnforcementNeeded { get; init; }
 }
 
 // Enums
