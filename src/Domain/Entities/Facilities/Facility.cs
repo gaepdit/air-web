@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.ValueObjects;
-using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.Domain.Entities.Facilities;
 
@@ -16,11 +15,7 @@ public record Facility
     public string County { get; init; } = string.Empty;
     public GeoCoordinates? GeoCoordinates { get; init; }
 
-    // Operating status
+    // Status
     public FacilityOperatingStatus OperatingStatusCode { get; [UsedImplicitly] init; }
-    public string OperatingStatus => OperatingStatusCode.GetDescription();
-
-    // Classifications
     public FacilityClassification ClassificationCode { get; [UsedImplicitly] init; }
-    public string Classification => ClassificationCode.GetDescription();
 }

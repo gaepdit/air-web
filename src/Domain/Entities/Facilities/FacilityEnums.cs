@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace AirWeb.Domain.Entities.Facilities;
 
 /// <summary>
-///     The operational status of a facility.
+/// The operational status of a facility.
 /// </summary>
 /// <remarks>Stored in the database as a single-character string.</remarks>
 public enum FacilityOperatingStatus
@@ -19,16 +19,16 @@ public enum FacilityOperatingStatus
 }
 
 /// <summary>
-///     The source classification of a facility (based on permit type).
+/// The source classification of a facility (based on permit type).
 /// </summary>
-/// <remarks>Stored in the database as a two-character string.</remarks>
+/// <remarks>Stored in the database as a one-character string.</remarks>
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum FacilityClassification
 {
-    [Description("Unspecified")] Unspecified,
+    [Description("Unspecified")] U,
     [Description("Major source")] A,
     [Description("Minor source")] B,
-    [Description("Synthetic minor")] SM,
-    [Description("Permit by rule")] PR,
+    [Description("Synthetic minor")] S,
+    [Description("Permit by rule")] P,
     [Description("Unclassified")] C,
 }

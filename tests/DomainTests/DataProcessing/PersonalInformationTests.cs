@@ -1,12 +1,16 @@
-﻿namespace DomainTests.DataProcessing;
+﻿using AirWeb.Domain.DataProcessing;
 
-public class PersonalInformation
+namespace DomainTests.DataProcessing;
+
+[TestFixture]
+[TestOf(typeof(PersonalInformation))]
+public class PersonalInformationTests
 {
     [Test]
     public void PersonalInformationShouldBeRemoved()
     {
         const string data = "Phone: 404-555-1212; Email: test@example.net!";
-        var result = AirWeb.Domain.DataProcessing.PersonalInformation.RedactPersonalInformation(data);
+        var result = PersonalInformation.RedactPersonalInformation(data);
         result.Should().Be("Phone: 404-[phone number removed]; Email: [email@removed.invalid]!");
     }
 }
