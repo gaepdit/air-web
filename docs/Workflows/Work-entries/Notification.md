@@ -35,7 +35,6 @@ flowchart
 erDiagram
     Notification {
         enum NotificationType
-        string NotificationDescription
         date ReceivedDate
         date DueDate
         date SentDate

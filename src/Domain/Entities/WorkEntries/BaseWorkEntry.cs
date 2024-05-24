@@ -57,6 +57,8 @@ public enum WorkEntryType
     RmpInspection = 7,
     PermitRevocation = 8,
 
+#pragma warning disable S1133 : FUTURE: remove after data migration is validated
     [Obsolete("Legacy entry number in legacy database")]
     Reserved = 6,
+#pragma warning restore S1133
 }
