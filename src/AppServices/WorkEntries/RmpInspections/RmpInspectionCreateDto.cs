@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.RmpInspections;
 
-public record RmpInspectionCreateDto : BaseWorkEntryCreateDto
+public record RmpInspectionCreateDto : BaseWorkEntryCreateDto, IRmpInspectionCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

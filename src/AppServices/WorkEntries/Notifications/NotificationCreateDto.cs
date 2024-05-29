@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Notifications;
 
-public record NotificationCreateDto : BaseWorkEntryCreateDto
+public record NotificationCreateDto : BaseWorkEntryCreateDto, INotificationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

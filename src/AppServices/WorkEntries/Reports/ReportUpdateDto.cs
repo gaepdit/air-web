@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Reports;
 
-public record ReportUpdateDto : BaseWorkEntryUpdateDto
+public record ReportUpdateDto : BaseWorkEntryUpdateDto, IReportCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

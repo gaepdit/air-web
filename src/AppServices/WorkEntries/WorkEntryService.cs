@@ -139,10 +139,12 @@ public sealed partial class WorkEntryService(
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-        workEntry.Notes = resource.Notes;
+        await UpdateWorkEntryFromDtoAsync(resource, workEntry).ConfigureAwait(false);
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
-        return NotificationResult.UndefinedResult();
+        // Send notification
+        var template = Template.UpdatedEntry;
+        return await NotifyOwnerAsync(workEntry, template, token).ConfigureAwait(false);
     }
 
     public Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,

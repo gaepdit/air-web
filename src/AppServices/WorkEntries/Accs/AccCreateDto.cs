@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Accs;
 
-public record AccCreateDto : BaseWorkEntryCreateDto
+public record AccCreateDto : BaseWorkEntryCreateDto, IAccCommandDto
 {
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }

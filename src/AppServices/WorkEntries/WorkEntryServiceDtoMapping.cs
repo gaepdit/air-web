@@ -33,11 +33,11 @@ public sealed partial class WorkEntryService
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
-        await MapWorkEntryDetailsAsync((BaseWorkEntryCreateDto)resource, workEntry, token).ConfigureAwait(false);
+        await MapWorkEntryDetailsAsync(resource, workEntry, token).ConfigureAwait(false);
         return workEntry;
     }
 
-    private async Task MapWorkEntryDetailsAsync(BaseWorkEntryCreateDto resource, BaseWorkEntry workEntry,
+    private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, BaseWorkEntry workEntry,
         CancellationToken token = default)
     {
         workEntry.Facility = await facilityRepository.GetFacilityAsync(resource.FacilityId, token)
@@ -48,24 +48,71 @@ public sealed partial class WorkEntryService
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
         workEntry.Notes = resource.Notes;
 
-        switch (workEntry.WorkEntryType)
+        switch (resource)
         {
-            case WorkEntryType.Notification:
-                MapNotification((NotificationCreateDto)resource, (Notification)workEntry);
+            case NotificationCreateDto dto:
+                MapNotification(dto, (Notification)workEntry);
                 break;
-            case WorkEntryType.PermitRevocation:
-                MapPermitRevocation((PermitRevocationCreateDto)resource, (PermitRevocation)workEntry);
+            case PermitRevocationCreateDto dto:
+                MapPermitRevocation(dto, (PermitRevocation)workEntry);
                 break;
-            case WorkEntryType.ComplianceEvent:
-                MapComplianceEventDetails(resource, (BaseComplianceEvent)workEntry);
+            case AccCreateDto dto:
+                MapAcc(dto, (AnnualComplianceCertification)workEntry);
                 break;
-            case WorkEntryType.Unknown:
+            case InspectionCreateDto dto:
+                MapInspection(dto, (Inspection)workEntry);
+                break;
+            case SourceTestReviewCreateDto dto:
+                MapStr(dto, (SourceTestReview)workEntry);
+                break;
+            case ReportCreateDto dto:
+                MapReport(dto, (Report)workEntry);
+                break;
+            case RmpInspectionCreateDto dto:
+                MapRmp(dto, (RmpInspection)workEntry);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
         }
     }
 
-    private static void MapNotification(NotificationCreateDto resource, Notification workEntry)
+    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, BaseWorkEntry workEntry)
+    {
+        workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
+            ? null
+            : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
+        workEntry.Notes = resource.Notes;
+
+        switch (resource)
+        {
+            case NotificationUpdateDto dto:
+                MapNotification(dto, (Notification)workEntry);
+                break;
+            case PermitRevocationUpdateDto dto:
+                MapPermitRevocation(dto, (PermitRevocation)workEntry);
+                break;
+            case AccUpdateDto dto:
+                MapAcc(dto, (AnnualComplianceCertification)workEntry);
+                break;
+            case InspectionUpdateDto dto:
+                MapInspection(dto, (Inspection)workEntry);
+                break;
+            case SourceTestReviewUpdateDto dto:
+                MapStr(dto, (SourceTestReview)workEntry);
+                break;
+            case ReportUpdateDto dto:
+                MapReport(dto, (Report)workEntry);
+                break;
+            case RmpInspectionUpdateDto dto:
+                MapRmp(dto, (RmpInspection)workEntry);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
+        }
+    }
+
+    private static void MapNotification(INotificationCommandDto resource, Notification workEntry)
     {
         workEntry.NotificationType = resource.NotificationType;
         workEntry.ReceivedDate = resource.ReceivedDate;
@@ -74,7 +121,7 @@ public sealed partial class WorkEntryService
         workEntry.FollowupTaken = resource.FollowupTaken;
     }
 
-    private static void MapPermitRevocation(PermitRevocationCreateDto resource, PermitRevocation workEntry)
+    private static void MapPermitRevocation(IPermitRevocationCommandDto resource, PermitRevocation workEntry)
     {
         workEntry.ReceivedDate = resource.ReceivedDate;
         workEntry.PermitRevocationDate = resource.PermitRevocationDate;
@@ -82,32 +129,7 @@ public sealed partial class WorkEntryService
         workEntry.FollowupTaken = resource.FollowupTaken;
     }
 
-    private static void MapComplianceEventDetails(BaseWorkEntryCreateDto resource, BaseComplianceEvent complianceEvent)
-    {
-        switch (complianceEvent.ComplianceEventType)
-        {
-            case ComplianceEventType.AnnualComplianceCertification:
-                MapAcc((AccCreateDto)resource, (AnnualComplianceCertification)complianceEvent);
-                break;
-            case ComplianceEventType.Inspection:
-                MapInspection((InspectionCreateDto)resource, (Inspection)complianceEvent);
-                break;
-            case ComplianceEventType.SourceTestReview:
-                MapStr((SourceTestReviewCreateDto)resource, (SourceTestReview)complianceEvent);
-                break;
-            case ComplianceEventType.Report:
-                MapReport((ReportCreateDto)resource, (Report)complianceEvent);
-                break;
-            case ComplianceEventType.RmpInspection:
-                MapRmp((RmpInspectionCreateDto)resource, (RmpInspection)complianceEvent);
-                break;
-            case ComplianceEventType.Unknown:
-            default:
-                throw new ArgumentOutOfRangeException(nameof(complianceEvent), "Invalid compliance event type.");
-        }
-    }
-
-    private static void MapAcc(AccCreateDto resource, AnnualComplianceCertification acc)
+    private static void MapAcc(IAccCommandDto resource, AnnualComplianceCertification acc)
     {
         acc.ReceivedDate = resource.ReceivedDate;
         acc.AccReportingYear = resource.AccReportingYear;
@@ -124,13 +146,13 @@ public sealed partial class WorkEntryService
         acc.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapInspection(InspectionCreateDto resource, Inspection inspection)
+    private static void MapInspection(IInspectionCommandDto resource, Inspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
         inspection.ComplianceStatus = resource.ComplianceStatus;
     }
 
-    private static void MapReport(ReportCreateDto resource, Report report)
+    private static void MapReport(IReportCommandDto resource, Report report)
     {
         report.ReceivedDate = resource.ReceivedDate;
         report.ReportingPeriodType = resource.ReportingPeriodType;
@@ -144,13 +166,13 @@ public sealed partial class WorkEntryService
         report.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapRmp(RmpInspectionCreateDto resource, RmpInspection inspection)
+    private static void MapRmp(IRmpInspectionCommandDto resource, RmpInspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
         inspection.ComplianceStatus = resource.ComplianceStatus;
     }
 
-    private static void MapStr(SourceTestReviewCreateDto resource, SourceTestReview str)
+    private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)
     {
         str.ReferenceNumber = resource.ReferenceNumber;
         str.ReceivedByCompliance = resource.ReceivedByCompliance;
