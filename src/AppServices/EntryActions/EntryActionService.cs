@@ -1,8 +1,8 @@
-using AutoMapper;
 using AirWeb.AppServices.EntryActions.Dto;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.WorkEntries;
+using AutoMapper;
 
 namespace AirWeb.AppServices.EntryActions;
 
@@ -34,7 +34,7 @@ public sealed class EntryActionService(
 
     public async Task<EntryActionUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         mapper.Map<EntryActionUpdateDto>(
-            await entryActionRepository.FindAsync(action => action.Id == id && !action.IsDeleted, token)
+            await entryActionRepository.FindAsync(action => action.Id.Equals(id) && !action.IsDeleted, token)
                 .ConfigureAwait(false));
 
     public async Task UpdateAsync(Guid id, EntryActionUpdateDto resource, CancellationToken token = default)

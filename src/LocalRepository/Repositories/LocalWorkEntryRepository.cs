@@ -1,30 +1,26 @@
-using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData;
+using System.Linq.Expressions;
 
 namespace AirWeb.LocalRepository.Repositories;
 
-public sealed class LocalWorkEntryRepository(IEntryActionRepository entryActionRepository)
+public sealed class LocalWorkEntryRepository()
     : BaseRepository<BaseWorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
     // Local repository requires ID to be manually set.
-    public int? GetNextId() => Items.Select(e => e.Id).Max() + 1;
+    public int? GetNextId() => Items.Select(entry => entry.Id).Max() + 1;
 
-    public async Task<BaseWorkEntry?> FindIncludeAllAsync(int id, CancellationToken token = default) =>
-        await GetWorkEntryDetailsAsync(await FindAsync(id, token).ConfigureAwait(false), token)
-            .ConfigureAwait(false);
+    public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+        Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
 
-    private async Task<BaseWorkEntry?> GetWorkEntryDetailsAsync(BaseWorkEntry? workEntry, CancellationToken token)
-    {
-        if (workEntry is null) return null;
+    public Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default) =>
+        Task.FromResult(((BaseComplianceEvent)Items.Single(entry => entry.Id.Equals(id))).ComplianceEventType);
 
-        workEntry.Comments.Clear();
-        workEntry.Comments.AddRange((await entryActionRepository
-                .GetListAsync(action => action.BaseWorkEntry.Id == workEntry.Id && !action.IsDeleted, token)
-                .ConfigureAwait(false))
-            .OrderByDescending(action => action.ActionDate)
-            .ThenBy(action => action.Id));
+    public async Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
+        where TEntry : BaseWorkEntry =>
+        (TEntry?)await FindAsync(id, token).ConfigureAwait(false);
 
-        return workEntry;
-    }
+    public Task<BaseWorkEntry?> FindAsync(Expression<Func<BaseWorkEntry, bool>> predicate, string[] includeProperties,
+        CancellationToken token = default) =>
+        FindAsync(predicate, token);
 }
