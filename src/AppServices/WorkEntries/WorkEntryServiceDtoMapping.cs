@@ -60,12 +60,6 @@ public sealed partial class WorkEntryService
                 MapComplianceEventDetails(resource, (BaseComplianceEvent)workEntry);
                 break;
             case WorkEntryType.Unknown:
-            case WorkEntryType.Report:
-            case WorkEntryType.Inspection:
-            case WorkEntryType.SourceTestReview:
-            case WorkEntryType.AnnualComplianceCertification:
-            case WorkEntryType.Reserved:
-            case WorkEntryType.RmpInspection:
             default:
                 throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
         }
@@ -108,9 +102,6 @@ public sealed partial class WorkEntryService
                 MapRmp((RmpInspectionCreateDto)resource, (RmpInspection)complianceEvent);
                 break;
             case ComplianceEventType.Unknown:
-            case ComplianceEventType.Notification:
-            case ComplianceEventType.AccDuplicate:
-            case ComplianceEventType.PermitRevocation:
             default:
                 throw new ArgumentOutOfRangeException(nameof(complianceEvent), "Invalid compliance event type.");
         }

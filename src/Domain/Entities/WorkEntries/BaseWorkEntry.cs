@@ -54,12 +54,10 @@ public enum WorkEntryType
     [Description("Permit Revocation")] PermitRevocation = 8,
     [Description("Compliance Event")] ComplianceEvent = 9,
 
-#pragma warning disable S1133 : FUTURE: remove after data migration is validated
-    [Obsolete("Moved to compliance event type")] Report = 1,
-    [Obsolete("Moved to compliance event type")] Inspection = 2,
-    [Obsolete("Moved to compliance event type")] SourceTestReview = 3,
-    [Obsolete("Moved to compliance event type")] AnnualComplianceCertification = 4,
-    [Obsolete("Legacy entry number in legacy database")] Reserved = 6,
-    [Obsolete("Moved to compliance event type")] RmpInspection = 7,
-#pragma warning restore S1133
+    // [Obsolete("Moved to compliance event type")] Report = 1,
+    // [Obsolete("Moved to compliance event type")] Inspection = 2,
+    // [Obsolete("Moved to compliance event type")] SourceTestReview = 3,
+    // [Obsolete("Moved to compliance event type")] AnnualComplianceCertification = 4,
+    // [Obsolete("Legacy entry number in legacy database")] Reserved = 6,
+    // [Obsolete("Moved to compliance event type")] RmpInspection = 7,
 }

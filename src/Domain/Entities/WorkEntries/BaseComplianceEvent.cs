@@ -32,9 +32,7 @@ public enum ComplianceEventType
     [Description("Annual Compliance Certification")] AnnualComplianceCertification = 4,
     [Description("RMP Inspection")] RmpInspection = 7,
 
-#pragma warning disable S1133 : FUTURE: remove after data migration is validated
-    [Obsolete("Non-compliance event work entry")] Notification = 5,
-    [Obsolete("Legacy entry number in legacy database")] AccDuplicate = 6,
-    [Obsolete("Non-compliance event work entry")] PermitRevocation = 8,
-#pragma warning restore S1133
+    // [Obsolete("Non-compliance event work entry")] Notification = 5,
+    // [Obsolete("Legacy entry number in legacy database")] AccDuplicate = 6,
+    // [Obsolete("Non-compliance event work entry")] PermitRevocation = 8,
 }

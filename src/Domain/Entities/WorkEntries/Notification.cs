@@ -27,9 +27,7 @@ public enum NotificationType
     Malfunction = 7,
     Deviation = 8,
 
-#pragma warning disable S1133 : FUTURE: remove after data migration is validated
-    [Obsolete("Permit Revocation was moved to separate entity")]
-#pragma warning restore S1133
-    [Description("Permit Revocation")]
-    PermitRevocation = 3,
+    // [Obsolete("Permit Revocation was moved to separate entity")]
+    // [Description("Permit Revocation")]
+    // PermitRevocation = 3,
 }
