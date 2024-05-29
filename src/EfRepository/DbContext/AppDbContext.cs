@@ -1,5 +1,3 @@
-using AirWeb.Domain.Entities.EntryActions;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
@@ -15,8 +13,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     private const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
     // Domain entities
-    public DbSet<EntryAction> EntryActions => Set<EntryAction>();
-    public DbSet<EntryType> EntryTypes => Set<EntryType>();
     public DbSet<Office> Offices => Set<Office>();
     public DbSet<BaseWorkEntry> WorkEntries => Set<BaseWorkEntry>();
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();

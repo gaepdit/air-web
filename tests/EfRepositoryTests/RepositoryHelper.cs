@@ -1,6 +1,3 @@
-using GaEpd.AppLibrary.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.EfRepository.DbContext;
@@ -8,6 +5,8 @@ using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData;
 using AirWeb.TestData.Identity;
+using GaEpd.AppLibrary.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -120,8 +119,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private static void ClearAllStaticData()
     {
         WorkEntryData.ClearData();
-        EntryActionData.ClearData();
-        EntryTypeData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
     }
@@ -136,18 +133,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         DbSeedDataHelpers.SeedAllData(_context);
         Context = new AppDbContext(_options);
         return new WorkEntryRepository(Context);
-    }
-
-    /// <summary>
-    /// Seeds data and returns an instance of EntryTypeRepository.
-    /// </summary>
-    /// <returns>An <see cref="EntryTypeRepository"/>.</returns>
-    public IEntryTypeRepository GetEntryTypeRepository()
-    {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedEntryTypeData(_context);
-        Context = new AppDbContext(_options);
-        return new EntryTypeRepository(Context);
     }
 
     /// <summary>
