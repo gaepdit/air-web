@@ -1,12 +1,12 @@
-﻿using GaEpd.AppLibrary.Pagination;
-using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.AppServices.WorkEntries;
 using AirWeb.AppServices.WorkEntries.Search;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData;
+using GaEpd.AppLibrary.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -37,8 +37,8 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<WorkEntryManager>(),
-            Substitute.For<INotificationService>(), Substitute.For<IUserService>(), authorizationMock);
+            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.SearchAsync(new WorkEntrySearchDto(), paging, CancellationToken.None);
@@ -72,9 +72,8 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<WorkEntryManager>(),
-            Substitute.For<INotificationService>(), Substitute.For<IUserService>(),
-            authorizationMock);
+            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.SearchAsync(new WorkEntrySearchDto(), paging, CancellationToken.None);
