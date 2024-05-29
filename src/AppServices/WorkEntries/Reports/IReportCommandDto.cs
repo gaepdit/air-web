@@ -14,5 +14,4 @@ public interface IReportCommandDto
     public bool ReportComplete { get; }
     public bool ReportsDeviations { get; }
     public bool EnforcementNeeded { get; }
-    public bool FollowupTaken { get; }
 }
