@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Identity;
 using AirWeb.Domain.Entities.Offices;
+using GaEpd.AppLibrary.Extensions;
+using Microsoft.AspNetCore.Identity;
 using System.Text;
 
 namespace AirWeb.Domain.Identity;
@@ -46,8 +47,8 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     public string? ObjectIdentifier { get; set; }
 
     // Display properties
-    public string SortableFullName =>
-        string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
+    public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
+    public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator();
 
     public string SortableNameWithInactive
     {

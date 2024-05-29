@@ -13,6 +13,7 @@ using AirWeb.AppServices.WorkEntries.Search;
 using AirWeb.AppServices.WorkEntries.SourceTestReviews;
 using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ValueObjects;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
@@ -125,13 +126,11 @@ public sealed partial class WorkEntryService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await workEntryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        var result = new CreateResultDto<int>(workEntry.Id);
 
-        // Send notification
-        var template = Template.NewEntry;
-        result.NotificationResult = await NotifyOwnerAsync(workEntry, template, token).ConfigureAwait(false);
-
-        return result;
+        return new CreateResultDto<int>(workEntry.Id)
+        {
+            NotificationResult = await NotifyOwnerAsync(workEntry, Template.NewEntry, token).ConfigureAwait(false),
+        };
     }
 
     public async Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource,
@@ -142,15 +141,18 @@ public sealed partial class WorkEntryService(
         await UpdateWorkEntryFromDtoAsync(resource, workEntry).ConfigureAwait(false);
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
-        // Send notification
-        var template = Template.UpdatedEntry;
-        return await NotifyOwnerAsync(workEntry, template, token).ConfigureAwait(false);
+        return await NotifyOwnerAsync(workEntry, Template.UpdatedEntry, token).ConfigureAwait(false);
     }
 
-    public Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
+    public async Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
         CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var comment = workEntryManager.CreateComment(resource.Comment, currentUser);
+        await workEntryRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
+
+        var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
+        return await NotifyOwnerAsync(workEntry, Template.CommentAdded, token, comment).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource,
@@ -173,8 +175,6 @@ public sealed partial class WorkEntryService(
 
         workEntryManager.Reopen(workEntry, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-
-        // Send notification
         return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
     }
 
@@ -201,7 +201,7 @@ public sealed partial class WorkEntryService(
     }
 
     private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
-        CancellationToken token)
+        CancellationToken token, Comment? comment = null)
     {
         var recipient = baseWorkEntry.ResponsibleStaff;
 
@@ -212,8 +212,13 @@ public sealed partial class WorkEntryService(
         if (recipient.Email is null)
             return NotificationResult.FailureResult("The Work Entry recipient cannot be emailed.");
 
-        return await notificationService.SendNotificationAsync(template, recipient.Email, baseWorkEntry, token)
-            .ConfigureAwait(false);
+        return comment is null
+            ? await notificationService.SendNotificationAsync(template, recipient.Email, token,
+                baseWorkEntry.Id.ToString()).ConfigureAwait(false)
+            : await notificationService.SendNotificationAsync(template, recipient.Email, token,
+                    baseWorkEntry.Id.ToString(), comment.Text, comment.CommentedAt.ToString(),
+                    comment.CommentBy?.FullName)
+                .ConfigureAwait(false);
     }
 
     #region IDisposable,  IAsyncDisposable

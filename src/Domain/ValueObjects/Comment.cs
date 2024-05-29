@@ -1,3 +1,4 @@
+using AirWeb.Domain.Identity;
 using GaEpd.AppLibrary.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +9,16 @@ public record Comment : ValueObject
 {
     public Guid Id { get; init; }
 
-    [StringLength(7000)]
-    public string Text { get; [UsedImplicitly] init; } = string.Empty;
+    [StringLength(15_000)]
+    public string Text { get; init; } = string.Empty;
 
-    public DateTimeOffset CommentedAt { get; [UsedImplicitly] init; } = DateTimeOffset.Now;
+    public ApplicationUser? CommentBy { get; init; }
+    public DateTimeOffset CommentedAt { get; init; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Text;
         yield return CommentedAt;
+        yield return Text;
+        yield return CommentBy ?? new ApplicationUser();
     }
 }

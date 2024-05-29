@@ -1,4 +1,5 @@
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData;
 using System.Linq.Expressions;
 
@@ -23,4 +24,10 @@ public sealed class LocalWorkEntryRepository()
     public Task<BaseWorkEntry?> FindAsync(Expression<Func<BaseWorkEntry, bool>> predicate, string[] includeProperties,
         CancellationToken token = default) =>
         FindAsync(predicate, token);
+
+    public Task<BaseWorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
+        GetAsync(id, token);
+
+    public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>
+        (await GetAsync(id, token).ConfigureAwait(false)).Comments.Add(comment);
 }

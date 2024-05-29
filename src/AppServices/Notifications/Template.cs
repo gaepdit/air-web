@@ -22,6 +22,13 @@ public class Template
         HtmlBody = "<p>Work Entry ID {0} has been updated.",
     };
 
+    public static readonly Template CommentAdded = new()
+    {
+        Subject = "New Comment on Work Entry",
+        TextBody = "Work Entry ID {0} has a new comment.",
+        HtmlBody = "<p>Work Entry ID {0} has a new comment.",
+    };
+
     public static readonly Template Reopened = new()
     {
         Subject = "Work Entry Reopened",
