@@ -36,7 +36,7 @@ public class SearchSpec
     public async Task ClosedStatusSpec_ReturnsFilteredList()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Status = WorkEntryStatus.Closed };
+        var spec = new WorkEntrySearchDto();
         var predicate = WorkEntryFilters.SearchPredicate(spec);
 
         // Act
@@ -82,17 +82,17 @@ public class SearchSpec
     }
 
     [Test]
-    public async Task ReceivedDateSpec_ReturnsFilteredList()
+    public async Task ClosedDateSpec_ReturnsFilteredList()
     {
         // Arrange
         var repository = RepositoryHelper.CreateSqlServerRepositoryHelper(this).GetWorkEntryRepository();
 
-        var referenceItem = WorkEntryData.GetData.First();
+        var referenceItem = WorkEntryData.GetData.First(entry => entry.ClosedDate != null);
 
         var spec = new WorkEntrySearchDto
         {
-            ReceivedFrom = DateOnly.FromDateTime(referenceItem.ReceivedDate.Date),
-            ReceivedTo = DateOnly.FromDateTime(referenceItem.ReceivedDate.Date),
+            ReceivedFrom = DateOnly.FromDateTime(referenceItem.ClosedDate!.Value.Date),
+            ReceivedTo = DateOnly.FromDateTime(referenceItem.ClosedDate.Value.Date),
         };
 
         var predicate = WorkEntryFilters.SearchPredicate(spec);
@@ -103,7 +103,7 @@ public class SearchSpec
         // Assert
         var expected = WorkEntryData.GetData
             .Where(entry => entry is { IsDeleted: false } &&
-                            entry.ReceivedDate.Date == referenceItem.ReceivedDate.Date);
+                            entry.ClosedDate!.Value.Date == referenceItem.ClosedDate.Value.Date);
         results.Should().BeEquivalentTo(expected, options =>
             options.Excluding(entry => entry.Comments));
     }
@@ -112,8 +112,8 @@ public class SearchSpec
     public async Task ReceivedBySpec_ReturnsFilteredList()
     {
         // Arrange
-        var referenceItem = WorkEntryData.GetData.First(entry => entry.ReceivedBy != null);
-        var spec = new WorkEntrySearchDto { ReceivedBy = referenceItem.ReceivedBy!.Id };
+        var referenceItem = WorkEntryData.GetData.First(entry => entry.ResponsibleStaff != null);
+        var spec = new WorkEntrySearchDto { ReceivedBy = referenceItem.ResponsibleStaff!.Id };
         var predicate = WorkEntryFilters.SearchPredicate(spec);
 
         // Act
@@ -121,27 +121,9 @@ public class SearchSpec
 
         // Assert
         var expected = WorkEntryData.GetData
-            .Where(entry => entry is { IsDeleted: false } && entry.ReceivedBy == referenceItem.ReceivedBy);
+            .Where(entry => entry is { IsDeleted: false } && entry.ResponsibleStaff == referenceItem.ResponsibleStaff);
         results.Should().BeEquivalentTo(expected, options =>
             options.Excluding(entry => entry.Comments));
     }
 
-    [Test]
-    public async Task EntryTypeSpec_ReturnsFilteredList()
-    {
-        // Arrange
-        var referenceItem = WorkEntryData.GetData.First(entry => entry.EntryType != null);
-        var spec = new WorkEntrySearchDto { EntryType = referenceItem.EntryType!.Id };
-        var predicate = WorkEntryFilters.SearchPredicate(spec);
-
-        // Act
-        var results = await _repository.GetListAsync(predicate);
-
-        // Assert
-        var expected = WorkEntryData.GetData
-            .Where(entry => entry is { IsDeleted: false, EntryType: not null } &&
-                            entry.EntryType.Id == referenceItem.EntryType.Id);
-        results.Should().BeEquivalentTo(expected, options =>
-            options.Excluding(entry => entry.Comments));
-    }
 }

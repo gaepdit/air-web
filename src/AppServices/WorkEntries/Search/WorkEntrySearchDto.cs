@@ -7,9 +7,6 @@ public record WorkEntrySearchDto : IBasicSearchDisplay
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 
-    [Display(Name = "WorkEntry Status")]
-    public WorkEntryStatus? Status { get; init; }
-
     [Display(Name = "Deletion Status")]
     public SearchDeleteStatus? DeletedStatus { get; set; }
 
@@ -36,7 +33,6 @@ public record WorkEntrySearchDto : IBasicSearchDisplay
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
         { nameof(Sort), Sort.ToString() },
-        { nameof(Status), Status?.ToString() },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
         { nameof(ReceivedFrom), ReceivedFrom?.ToString("d") },
         { nameof(ReceivedTo), ReceivedTo?.ToString("d") },
