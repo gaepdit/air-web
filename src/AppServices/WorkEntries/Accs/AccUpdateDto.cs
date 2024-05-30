@@ -10,11 +10,6 @@ public record AccUpdateDto : BaseWorkEntryUpdateDto, IAccCommandDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly? ClosedDate { get; init; }
-
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 

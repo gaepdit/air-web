@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Fces;
+﻿using AirWeb.AppServices.Facilities;
+using AirWeb.AppServices.Fces;
 using AirWeb.AppServices.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.AppServices.WorkEntries.Accs;
@@ -8,6 +9,7 @@ using AirWeb.AppServices.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.WorkEntries.Reports;
 using AirWeb.AppServices.WorkEntries.RmpInspections;
 using AirWeb.AppServices.WorkEntries.SourceTestReviews;
+using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
@@ -20,39 +22,78 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
+        // Users
         CreateMap<ApplicationUser, StaffSearchResultDto>();
         CreateMap<ApplicationUser, StaffViewDto>();
-
         CreateMap<Office, OfficeUpdateDto>();
         CreateMap<Office, OfficeViewDto>();
 
+        // Facilities
+        CreateMap<Facility, FacilityViewDto>();
+
+        // FCEs
+        CreateMap<Fce, FceUpdateDto>();
+        CreateMap<Fce, FceViewDto>();
+
         // Work entries
-        CreateMap<AnnualComplianceCertification, AccCreateDto>();
         CreateMap<AnnualComplianceCertification, AccUpdateDto>();
-        CreateMap<AnnualComplianceCertification, AccViewDto>();
+        CreateMap<AnnualComplianceCertification, AccViewDto>()
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<Inspection, InspectionCreateDto>();
-        CreateMap<Inspection, InspectionUpdateDto>();
-        CreateMap<Inspection, InspectionViewDto>();
+        CreateMap<Inspection, InspectionUpdateDto>()
+            .ForMember(dto => dto.InspectionStartedDate, expression =>
+                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
+            .ForMember(dto => dto.InspectionStartedTime, expression =>
+                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionStarted.TimeOfDay)))
+            .ForMember(dto => dto.InspectionEndedDate, expression =>
+                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
+            .ForMember(dto => dto.InspectionEndedTime, expression =>
+                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
+        CreateMap<Inspection, InspectionViewDto>()
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<Notification, NotificationCreateDto>();
         CreateMap<Notification, NotificationUpdateDto>();
-        CreateMap<Notification, NotificationViewDto>();
+        CreateMap<Notification, NotificationViewDto>()
+            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<PermitRevocation, PermitRevocationCreateDto>();
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
-        CreateMap<PermitRevocation, PermitRevocationViewDto>();
+        CreateMap<PermitRevocation, PermitRevocationViewDto>()
+            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<Report, ReportCreateDto>();
         CreateMap<Report, ReportUpdateDto>();
-        CreateMap<Report, ReportViewDto>();
+        CreateMap<Report, ReportViewDto>()
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<RmpInspection, RmpInspectionCreateDto>();
-        CreateMap<RmpInspection, RmpInspectionUpdateDto>();
-        CreateMap<RmpInspection, RmpInspectionViewDto>();
+        CreateMap<RmpInspection, RmpInspectionUpdateDto>()
+            .ForMember(dto => dto.InspectionStartedDate, expression =>
+                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
+            .ForMember(dto => dto.InspectionStartedTime, expression =>
+                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionStarted.TimeOfDay)))
+            .ForMember(dto => dto.InspectionEndedDate, expression =>
+                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
+            .ForMember(dto => dto.InspectionEndedTime, expression =>
+                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
+        CreateMap<RmpInspection, RmpInspectionViewDto>()
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
 
-        CreateMap<SourceTestReview, SourceTestReviewCreateDto>();
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
-        CreateMap<SourceTestReview, SourceTestReviewViewDto>();
+        CreateMap<SourceTestReview, SourceTestReviewViewDto>()
+            .ForMember(dto => dto.ClosedDate, expression =>
+                expression.MapFrom<DateOnly?>(entry =>
+                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
     }
 }

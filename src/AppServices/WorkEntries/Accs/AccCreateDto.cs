@@ -10,11 +10,6 @@ public record AccCreateDto : BaseWorkEntryCreateDto, IAccCommandDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly? ClosedDate { get; init; }
-
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date received")]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 

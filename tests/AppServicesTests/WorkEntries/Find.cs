@@ -19,8 +19,10 @@ public class Find
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
-        repoMock.FindAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        repoMock.FindAsync<PermitRevocation>(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(item);
+        repoMock.GetWorkEntryTypeAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(WorkEntryType.PermitRevocation);
 
         var authorizationMock = Substitute.For<IAuthorizationService>();
         authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),

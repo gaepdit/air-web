@@ -3,7 +3,6 @@
 public interface IAccCommandDto
 {
     public bool IsClosed { get; }
-    public DateOnly? ClosedDate { get; }
     public DateOnly ReceivedDate { get; }
     public int AccReportingYear { get; }
     public DateOnly Postmarked { get; }

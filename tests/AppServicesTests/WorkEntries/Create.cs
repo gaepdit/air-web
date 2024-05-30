@@ -17,18 +17,16 @@ public class Create
     {
         // Arrange
         const int id = 901;
-        var user = new ApplicationUser { Id = Guid.Empty.ToString(), Email = TextData.ValidEmail };
-
+        var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = TextData.ValidEmail };
         var workEntry = new PermitRevocation(id);
+
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
+        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
+            .Returns(workEntry);
 
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync()
             .Returns(user);
-
-        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
-            .Returns(workEntry);
-
         userServiceMock.GetUserAsync(Arg.Any<string>())
             .Returns(user);
         userServiceMock.FindUserAsync(Arg.Any<string>())
@@ -44,7 +42,7 @@ public class Create
             workEntryManagerMock, notificationMock, Substitute.For<IFacilityRepository>(), userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new PermitRevocationCreateDto { Notes = TextData.Phrase };
+        var item = new PermitRevocationCreateDto { Notes = TextData.Phrase, ResponsibleStaffId = user.Id };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);
