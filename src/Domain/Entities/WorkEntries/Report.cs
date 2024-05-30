@@ -3,11 +3,27 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Report : WorkEntry
+public class Report : BaseComplianceEvent
 {
-    internal Report(int? id) : base(id) => WorkEntryType = WorkEntryType.Report;
+    internal Report(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.Report;
+    }
 
-    public ReportingPeriodType ReportingPeriodType { get; init; }
+    public DateOnly ReceivedDate { get; set; }
+
+    [StringLength(29)]
+    public ReportingPeriodType ReportingPeriodType { get; set; }
+
+    public DateOnly ReportingPeriodStart { get; set; }
+    public DateOnly? ReportingPeriodEnd { get; set; }
+    public string? ReportingPeriodComment { get; set; }
+    public DateOnly? DueDate { get; set; }
+    public DateOnly? SentDate { get; set; }
+    public bool ReportComplete { get; set; }
+    public bool ReportsDeviations { get; set; }
+    public bool EnforcementNeeded { get; set; }
 }
 
 // Enums

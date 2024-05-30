@@ -1,3 +1,4 @@
+using AirWeb.Domain.Identity;
 using GaEpd.AppLibrary.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,18 @@ namespace AirWeb.Domain.ValueObjects;
 [Owned]
 public record Comment : ValueObject
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 
-    [StringLength(7000)]
-    public string Text { get; [UsedImplicitly] init; } = string.Empty;
+    [StringLength(15_000)]
+    public string Text { get; init; } = string.Empty;
 
-    protected override IEnumerable<object> GetEqualityComponents() => new List<object> { Text }.AsReadOnly();
+    public ApplicationUser? CommentBy { get; init; }
+    public DateTimeOffset CommentedAt { get; init; }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return CommentedAt;
+        yield return Text;
+        yield return CommentBy ?? new ApplicationUser();
+    }
 }

@@ -35,7 +35,4 @@ public record ReportViewDto : BaseWorkEntryViewDto
 
     [Display(Name = "Enforcement needed")]
     public bool EnforcementNeeded { get; init; }
-
-    [Display(Name = "Follow-up Action Taken")]
-    public bool FollowupTaken { get; init; }
 }

@@ -1,72 +1,37 @@
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData.Constants;
-using AirWeb.TestData.Identity;
 
 namespace AirWeb.TestData;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<WorkEntry> WorkEntrySeedItems => new List<WorkEntry>
+    private static IEnumerable<BaseWorkEntry> WorkEntrySeedItems => new List<BaseWorkEntry>
     {
-        new(0)
+        new PermitRevocation(0)
         {
-            Closed = true,
-            Status = WorkEntryStatus.Closed,
-            ReceivedBy = UserData.GetUsers.ElementAt(0),
-            EntryType = EntryTypeData.GetData.ElementAt(0),
+            IsClosed = true,
             Notes = TextData.Paragraph,
         },
-        new(1)
+        new PermitRevocation(1)
         {
-            Closed = false,
-            Status = WorkEntryStatus.Open,
-            ReceivedBy = UserData.GetUsers.ElementAt(1),
-            ReceivedDate = DateTimeOffset.Now.AddMinutes(30),
-            EntryType = EntryTypeData.GetData.ElementAt(0),
+            IsClosed = false,
+            ReceivedDate =DateOnly.FromDateTime( DateTime.Now),
         },
-        new(2)
+        new PermitRevocation(2)
         {
-            Closed = true,
-            Status = WorkEntryStatus.Closed,
-            ReceivedBy = UserData.GetUsers.ElementAt(2),
-            EntryType = EntryTypeData.GetData.ElementAt(1),
+            IsClosed = true,
         },
-        new(3)
+        new PermitRevocation(3)
         {
             Notes = "Deleted work entry",
-            Closed = true,
-            Status = WorkEntryStatus.Closed,
-            ReceivedBy = UserData.GetUsers.ElementAt(0),
+            IsClosed = true,
             DeleteComments = TextData.Paragraph,
-            EntryType = EntryTypeData.GetData.ElementAt(2),
-        },
-        new(4)
-        {
-            Closed = false,
-            Status = WorkEntryStatus.Open,
-            ReceivedBy = UserData.GetUsers.ElementAt(1),
-            EntryType = null,
-        },
-        new(5)
-        {
-            Closed = false,
-            Status = WorkEntryStatus.Open,
-            ReceivedBy = UserData.GetUsers.ElementAt(1),
-            EntryType = EntryTypeData.GetData.ElementAt(3),
-        },
-        new(6)
-        {
-            Notes = "Open WorkEntry assigned to inactive user.",
-            Closed = false,
-            Status = WorkEntryStatus.Open,
-            ReceivedBy = UserData.GetUsers.ElementAt(3),
-            EntryType = EntryTypeData.GetData.ElementAt(0),
         },
     };
 
-    private static IEnumerable<WorkEntry>? _workEntries;
+    private static IEnumerable<BaseWorkEntry>? _workEntries;
 
-    public static IEnumerable<WorkEntry> GetData
+    public static IEnumerable<BaseWorkEntry> GetData
     {
         get
         {

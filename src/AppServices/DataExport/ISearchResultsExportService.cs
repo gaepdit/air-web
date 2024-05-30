@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.SearchDto;
+﻿using AirWeb.AppServices.WorkEntries.Search;
 
 namespace AirWeb.AppServices.DataExport;
 

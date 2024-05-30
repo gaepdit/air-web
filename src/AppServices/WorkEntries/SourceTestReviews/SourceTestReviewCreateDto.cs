@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.SourceTestReviews;
 
-public record SourceTestReviewCreateDto : BaseWorkEntryCreateDto
+public record SourceTestReviewCreateDto : BaseWorkEntryCreateDto, ISourceTestReviewCommandDto
 {
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }

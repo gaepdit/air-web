@@ -1,12 +1,10 @@
 # Source Test Compliance Review Workflow
 
+## Workflow additions
+
 * A new Source Test Compliance Review can be entered from a Source Test Report.
-* The Review entry can be edited.
-* Saving a Review entry updates the Data Exchange.
-* Enforcement can be started from a Review entry.
-* A Review entry can be deleted/restored *(not shown)*.
-* Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+
+## Flowchart
 
 ```mermaid
 flowchart

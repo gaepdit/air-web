@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.SearchDto;
+using AirWeb.AppServices.WorkEntries.Search;
 using AirWeb.Domain.Entities.EntryActions;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.LocalRepository.Repositories;
@@ -42,7 +42,7 @@ public class SearchSpec
         var results = await _repository.GetListAsync(predicate);
 
         // Assert
-        var expected = _repository.Items.Where(entry => entry is { IsDeleted: false, Closed: true });
+        var expected = _repository.Items.Where(entry => entry is { IsDeleted: false, IsClosed: true });
         results.Should().BeEquivalentTo(expected);
     }
 

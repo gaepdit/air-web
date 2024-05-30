@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.PermitRevocations;
 
-public record PermitRevocationCreateDto : BaseWorkEntryCreateDto
+public record PermitRevocationCreateDto : BaseWorkEntryCreateDto, IPermitRevocationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

@@ -3,15 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Accs;
 
-public record AccCreateDto : BaseWorkEntryCreateDto
+public record AccCreateDto : BaseWorkEntryCreateDto, IAccCommandDto
 {
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }
-
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly? ClosedDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

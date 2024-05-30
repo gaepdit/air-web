@@ -1,25 +1,30 @@
-﻿using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace AirWeb.Domain.Entities.Facilities;
 
 public partial record FacilityId
 {
-    [JsonIgnore]
-    public string Id { get; }
+    // Constructor
+    
+    private readonly string _value;
 
     public FacilityId(string id) =>
-        Id = IsValidFormat(id)
+        _value = IsValidFormat(id)
             ? id.Replace("-", "")
             : throw new ArgumentException($"{id} is not a valid Facility ID format.");
 
-    public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
-    public string EpaFacilityIdentifier => $"GA00000013{Id}";
+    // Properties
 
-    public static implicit operator FacilityId(string id) => new(id);
-    public override string ToString() => FormattedId;
+    public string Id => $"{_value[..3]}-{_value[3..8]}";
+    public string EpaFacilityIdentifier => $"GA00000013{_value}";
 
-    // Facility ID format
+    // Operators
+
+    public static implicit operator string(FacilityId id) => id.Id;
+    public static explicit operator FacilityId(string id) => new(id);
+    public override string ToString() => Id;
+
+    // Format validation
 
     private static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 

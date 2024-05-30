@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Facilities;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Fces;
@@ -23,4 +24,7 @@ public record FceViewDto
 
     [Display(Name = "Notes")]
     public string Notes { get; init; } = string.Empty;
+    
+    [Display(Name = "Comments")]
+    public List<Comment> Comments { get; } = [];
 }

@@ -3,12 +3,32 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Inspection : WorkEntry
+public class Inspection : BaseComplianceEvent
 {
-    internal Inspection(int? id) : base(id) => WorkEntryType = WorkEntryType.Inspection;
+    internal Inspection(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.ComplianceEvent;
+        ComplianceEventType = ComplianceEventType.Inspection;
+    }
 
-    public InspectionReason? InspectionReason { get; init; }
-    public ComplianceStatus ComplianceStatus { get; init; }
+    [StringLength(18)]
+    public InspectionReason? InspectionReason { get; set; }
+
+    public DateTime InspectionStarted { get; init; }
+    public DateTime InspectionEnded { get; init; }
+
+    // TODO: Limit string length.
+    public string WeatherConditions { get; init; } = string.Empty;
+
+    // TODO: Limit string length.
+    public string InspectionGuide { get; init; } = string.Empty;
+
+    public bool FacilityOperating { get; init; }
+
+    [StringLength(15)]
+    public ComplianceStatus ComplianceStatus { get; set; }
+
+    public bool FollowupTaken { get; init; }
 }
 
 // Enums

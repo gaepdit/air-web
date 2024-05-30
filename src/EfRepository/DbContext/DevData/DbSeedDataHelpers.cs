@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 using AirWeb.TestData;
 using AirWeb.TestData.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.EfRepository.DbContext.DevData;
 
@@ -11,33 +11,14 @@ public static class DbSeedDataHelpers
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
-        SeedEntryTypeData(context);
         SeedWorkEntryData(context);
-    }
-
-    public static void SeedEntryTypeData(AppDbContext context)
-    {
-        if (context.EntryTypes.Any()) return;
-        context.EntryTypes.AddRange(EntryTypeData.GetData);
-        context.SaveChanges();
     }
 
     private static void SeedWorkEntryData(AppDbContext context)
     {
         if (context.WorkEntries.Any()) return;
-
-        context.Database.BeginTransaction();
-
         context.WorkEntries.AddRange(WorkEntryData.GetData);
         context.SaveChanges();
-
-        if (!context.EntryActions.Any())
-        {
-            context.EntryActions.AddRange(EntryActionData.GetData);
-            context.SaveChanges();
-        }
-
-        context.Database.CommitTransaction();
     }
 
     internal static void SeedOfficeData(AppDbContext context)

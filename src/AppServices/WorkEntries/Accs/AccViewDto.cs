@@ -12,7 +12,7 @@ public record AccViewDto : BaseWorkEntryViewDto
     public int AccReportingYear { get; init; }
 
     [Display(Name = "Date postmarked")]
-    public DateOnly PostmarkedDate { get; init; }
+    public DateOnly Postmarked { get; init; }
 
     [Display(Name = "Postmarked by deadline")]
     public bool PostmarkedOnTime { get; init; }

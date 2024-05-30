@@ -1,5 +1,5 @@
-﻿using GaEpd.AppLibrary.Pagination;
-using AirWeb.AppServices.WorkEntries.SearchDto;
+﻿using AirWeb.AppServices.WorkEntries.Search;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Models;
 

@@ -23,7 +23,6 @@ public static class RepositoryHelper
     {
         OfficeData.ClearData();
         UserData.ClearData();
-        EntryActionData.ClearData();
         WorkEntryData.ClearData();
     }
 }

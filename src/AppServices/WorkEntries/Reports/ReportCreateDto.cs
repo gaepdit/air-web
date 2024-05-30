@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Reports;
 
-public record ReportCreateDto : BaseWorkEntryCreateDto
+public record ReportCreateDto : BaseWorkEntryCreateDto, IReportCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
@@ -45,7 +45,4 @@ public record ReportCreateDto : BaseWorkEntryCreateDto
 
     [Display(Name = "Enforcement needed")]
     public bool EnforcementNeeded { get; init; }
-
-    [Display(Name = "Follow-up Action Taken")]
-    public bool FollowupTaken { get; init; }
 }

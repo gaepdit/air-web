@@ -13,7 +13,8 @@ public abstract record BaseWorkEntryViewDto : IWorkEntryViewDto
     [Display(Name = "Facility")]
     public Facility Facility { get; init; } = default!;
 
-    public WorkEntryType WorkEntryType { get; init; } = WorkEntryType.Unknown;
+    public WorkEntryType WorkEntryType { get; init; }
+    public ComplianceEventType? ComplianceEventType { get; init; }
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }

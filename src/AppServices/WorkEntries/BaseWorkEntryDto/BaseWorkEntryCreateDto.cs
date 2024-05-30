@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Entities.WorkEntries;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 
@@ -8,9 +7,6 @@ public abstract record BaseWorkEntryCreateDto : IWorkEntryCreateDto
     [Required]
     [Display(Name = "Facility")]
     public string FacilityId { get; init; } = string.Empty;
-
-    [Required]
-    public WorkEntryType WorkEntryType { get; init; } = WorkEntryType.Unknown;
 
     [Required]
     [Display(Name = "Staff Responsible")]

@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Notifications;
+namespace AirWeb.AppServices.Notifications;
 
 public class Template
 {
@@ -13,6 +13,20 @@ public class Template
         Subject = "New Work Entry",
         TextBody = "Work Entry ID {0} has been created.",
         HtmlBody = "<p>Work Entry ID {0} has been created.",
+    };
+
+    public static readonly Template UpdatedEntry = new()
+    {
+        Subject = "Updated Work Entry",
+        TextBody = "Work Entry ID {0} has been updated.",
+        HtmlBody = "<p>Work Entry ID {0} has been updated.",
+    };
+
+    public static readonly Template CommentAdded = new()
+    {
+        Subject = "New Comment on Work Entry",
+        TextBody = "Work Entry ID {0} has a new comment.",
+        HtmlBody = "<p>Work Entry ID {0} has a new comment.",
     };
 
     public static readonly Template Reopened = new()

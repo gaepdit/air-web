@@ -3,15 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Accs;
 
-public record AccUpdateDto : BaseWorkEntryUpdateDto
+public record AccUpdateDto : BaseWorkEntryUpdateDto, IAccCommandDto
 {
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }
-
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly? ClosedDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
@@ -24,7 +19,7 @@ public record AccUpdateDto : BaseWorkEntryUpdateDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date postmarked")]
-    public DateOnly PostmarkedDate { get; init; }
+    public DateOnly Postmarked { get; init; }
 
     [Display(Name = "Postmarked by deadline")]
     public bool PostmarkedOnTime { get; init; }

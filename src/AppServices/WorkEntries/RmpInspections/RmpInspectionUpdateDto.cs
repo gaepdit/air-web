@@ -4,25 +4,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.RmpInspections;
 
-public record RmpInspectionUpdateDto : BaseWorkEntryUpdateDto
+public record RmpInspectionUpdateDto : BaseWorkEntryUpdateDto, IRmpInspectionCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Start Date")]
-    public DateOnly InspectionStartedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly InspectionStartedDate { get; init; }
 
     [DataType(DataType.Time)]
     [Display(Name = "Start Time")]
-    public TimeOnly InspectionStartedTime { get; init; } = new(8, 0);
+    public TimeOnly InspectionStartedTime { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "End Date")]
-    public DateOnly InspectionEndedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly InspectionEndedDate { get; init; }
 
     [DataType(DataType.Time)]
     [Display(Name = "End Time")]
-    public TimeOnly InspectionEndedTime { get; init; } = new(12, 0);
+    public TimeOnly InspectionEndedTime { get; init; }
 
     [Display(Name = "Inspection Reason")]
     public InspectionReason? InspectionReason { get; init; }

@@ -1,13 +1,10 @@
 # Inspection Workflow
 
-* A new Inspection can be entered from a Facility.
-* The Inspection can be edited.
-* Saving an Inspection updates the Data Exchange.
-* Enforcement can be started from an Inspection.
+## Workflow additions
+
 * A new FCE can be entered from an Inspection.
-* An Inspection can be deleted/restored *(not shown)*.
-* Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+
+## Flowchart
 
 ```mermaid
 flowchart

@@ -1,9 +1,8 @@
-﻿using GaEpd.EmailService;
+﻿using AirWeb.AppServices.ErrorLogging;
+using GaEpd.EmailService;
 using GaEpd.EmailService.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using AirWeb.AppServices.ErrorLogging;
-using AirWeb.Domain.Entities.WorkEntries;
 
 namespace AirWeb.AppServices.Notifications;
 
@@ -17,7 +16,7 @@ public class NotificationService(
     private const string FailurePrefix = "Notification email not sent:";
 
     public async Task<NotificationResult> SendNotificationAsync(Template template, string recipientEmail,
-        WorkEntry workEntry, CancellationToken token = default)
+        CancellationToken token, params object?[] values)
     {
         var subjectPrefix = environment.EnvironmentName switch
         {
@@ -27,8 +26,8 @@ public class NotificationService(
         };
 
         var subject = $"{subjectPrefix} {template.Subject}";
-        var textBody = string.Format(template.TextBody + Template.TextSignature, workEntry.Id.ToString());
-        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, workEntry.Id.ToString());
+        var textBody = string.Format(template.TextBody + Template.TextSignature, values);
+        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, values);
 
         var settings = new EmailServiceSettings();
         configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);

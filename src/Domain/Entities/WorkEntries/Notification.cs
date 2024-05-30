@@ -3,11 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Notification : WorkEntry
+public class Notification : BaseWorkEntry
 {
     internal Notification(int? id) : base(id) => WorkEntryType = WorkEntryType.Notification;
 
-    public NotificationType NotificationType { get; init; }
+    [StringLength(14)]
+    public NotificationType NotificationType { get; set; }
+
+    public DateOnly ReceivedDate { get; set; }
+    public DateOnly? DueDate { get; set; }
+    public DateOnly? SentDate { get; set; }
+    public bool FollowupTaken { get; set; }
 }
 
 // Enums
@@ -21,6 +27,7 @@ public enum NotificationType
     Malfunction = 7,
     Deviation = 8,
 
-    [Obsolete("Permit Revocation was moved to separate entity")] [Description("Permit Revocation")]
-    PermitRevocation = 3,
+    // [Obsolete("Permit Revocation was moved to separate entity")]
+    // [Description("Permit Revocation")]
+    // PermitRevocation = 3,
 }

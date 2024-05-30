@@ -1,9 +1,7 @@
-﻿using AirWeb.Domain.Entities.WorkEntries;
-
-namespace AirWeb.AppServices.Notifications;
+﻿namespace AirWeb.AppServices.Notifications;
 
 public interface INotificationService
 {
-    Task<NotificationResult> SendNotificationAsync(Template template, string recipientEmail, WorkEntry workEntry,
-        CancellationToken token = default);
+    Task<NotificationResult> SendNotificationAsync(Template template, string recipientEmail, CancellationToken token,
+        params object?[] values);
 }

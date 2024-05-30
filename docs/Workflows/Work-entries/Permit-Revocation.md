@@ -1,11 +1,10 @@
 # Permit Revocation Workflow
 
-* A new Permit Revocation can be started from a Facility.
-* The Permit Revocation can be edited.
+## Workflow additions
+
 * Finalizing a Permit Revocation disables updating.
-* A Permit Revocation can be deleted/restored *(not shown)*.
-* Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+
+## Flowchart
 
 ```mermaid
 flowchart

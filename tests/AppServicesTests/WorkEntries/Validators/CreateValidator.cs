@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
 using FluentValidation.TestHelper;
@@ -11,10 +11,7 @@ public class CreateValidator
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var model = new BaseWorkEntryCreateDto
-        {
-            Notes = TextData.Paragraph,
-        };
+        var model = new PermitRevocationCreateDto { Notes = TextData.Paragraph };
 
         var validator = new WorkEntryCreateValidator();
 
@@ -30,10 +27,7 @@ public class CreateValidator
     public async Task MissingCurrentOffice_ReturnsAsInvalid()
     {
         // Arrange
-        var model = new BaseWorkEntryCreateDto
-        {
-            Notes = string.Empty,
-        };
+        var model = new PermitRevocationCreateDto { Notes = string.Empty };
 
         var validator = new WorkEntryCreateValidator();
 
