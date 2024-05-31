@@ -10,9 +10,9 @@ using AirWeb.AppServices.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.WorkEntries.Reports;
 using AirWeb.AppServices.WorkEntries.RmpInspections;
 using AirWeb.AppServices.WorkEntries.SourceTestReviews;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.Fces;
+using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
@@ -32,8 +32,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Office, OfficeViewDto>();
 
         // Maintenance items
-        CreateMap<EntryType, EntryTypeUpdateDto>();
-        CreateMap<EntryType, EntryTypeViewDto>();
+        CreateMap<NotificationType, EntryTypeUpdateDto>();
+        CreateMap<NotificationType, EntryTypeViewDto>();
 
         // Facilities
         CreateMap<Facility, FacilityViewDto>();

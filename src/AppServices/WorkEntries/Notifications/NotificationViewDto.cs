@@ -16,7 +16,7 @@ public record NotificationViewDto : BaseWorkEntryViewDto
     public DateOnly? SentDate { get; init; }
 
     [Display(Name = "Notification Type")]
-    public NotificationType NotificationType { get; init; }
+    public string? NotificationType { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }

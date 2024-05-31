@@ -1,15 +1,15 @@
 using AutoMapper;
 using AirWeb.AppServices.ServiceBase;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 
 namespace AirWeb.AppServices.EntryTypes;
 
 public sealed class EntryTypeService(
     IMapper mapper,
-    IEntryTypeRepository repository,
-    IEntryTypeManager manager,
+    INotificationTypeRepository repository,
+    INotificationTypeManager manager,
     IUserService userService)
-    : MaintenanceItemService<EntryType, EntryTypeViewDto, EntryTypeUpdateDto>
+    : MaintenanceItemService<NotificationType, EntryTypeViewDto, EntryTypeUpdateDto>
         (mapper, repository, manager, userService),
         IEntryTypeService;

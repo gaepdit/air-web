@@ -51,7 +51,7 @@ public sealed partial class WorkEntryService
         switch (resource)
         {
             case NotificationCreateDto dto:
-                MapNotification(dto, (Notification)workEntry);
+                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
                 break;
             case PermitRevocationCreateDto dto:
                 MapPermitRevocation(dto, (PermitRevocation)workEntry);
@@ -76,7 +76,8 @@ public sealed partial class WorkEntryService
         }
     }
 
-    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, BaseWorkEntry workEntry)
+    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, BaseWorkEntry workEntry,
+        CancellationToken token)
     {
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
@@ -87,7 +88,7 @@ public sealed partial class WorkEntryService
         switch (resource)
         {
             case NotificationUpdateDto dto:
-                MapNotification(dto, (Notification)workEntry);
+                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
                 break;
             case PermitRevocationUpdateDto dto:
                 MapPermitRevocation(dto, (PermitRevocation)workEntry);
@@ -112,9 +113,11 @@ public sealed partial class WorkEntryService
         }
     }
 
-    private static void MapNotification(INotificationCommandDto resource, Notification workEntry)
+    private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
+        CancellationToken token)
     {
-        workEntry.NotificationType = resource.NotificationType;
+        workEntry.NotificationType = await notificationTypeRepository
+            .GetAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
         workEntry.ReceivedDate = resource.ReceivedDate;
         workEntry.DueDate = resource.DueDate;
         workEntry.SentDate = resource.SentDate;

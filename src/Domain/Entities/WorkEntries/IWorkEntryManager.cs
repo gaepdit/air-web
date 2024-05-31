@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Entities.NotificationTypes;
+using AirWeb.Domain.Identity;
 using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
@@ -10,9 +11,11 @@ public interface IWorkEntryManager
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
-    /// <param name="complianceEventType">The <see cref="ComplianceEventType"/> of the entry to create if it is a Compliance Event.</param>
+    /// <param name="complianceEventType">The <see cref="ComplianceEventType"/> of the entry if it is a Compliance Event.</param>
+    /// <param name="notificationType">The <see cref="NotificationType"/> of the entry if it is a Notification.</param>
     /// <returns>The Work Entry that was created.</returns>
-    BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user, ComplianceEventType? complianceEventType = null);
+    BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user, ComplianceEventType? complianceEventType = null,
+        NotificationType? notificationType = null);
 
     /// <summary>
     /// Creates a new <see cref="Comment"/>.

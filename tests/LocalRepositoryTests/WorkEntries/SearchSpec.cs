@@ -1,7 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.Search;
-using AirWeb.Domain.Entities.EntryActions;
-using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.AppServices.WorkEntries.Search;
 using AirWeb.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.WorkEntries;
@@ -11,7 +8,7 @@ public class SearchSpec
     private LocalWorkEntryRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalWorkEntryRepository(Substitute.For<IEntryActionRepository>());
+    public void SetUp() => _repository = new LocalWorkEntryRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -95,7 +92,8 @@ public class SearchSpec
 
         // Assert
         var expected = _repository.Items
-            .Where(entry => entry is { IsDeleted: false } && entry.ReceivedDate.Date == referenceItem.ReceivedDate.Date);
+            .Where(entry =>
+                entry is { IsDeleted: false } && entry.ReceivedDate.Date == referenceItem.ReceivedDate.Date);
         results.Should().BeEquivalentTo(expected);
     }
 

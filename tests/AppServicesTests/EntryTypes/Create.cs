@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.Constants;
 
@@ -11,9 +11,9 @@ public class Create
     [Test]
     public async Task WhenResourceIsValid_ReturnsId()
     {
-        var item = new EntryType(Guid.NewGuid(), TextData.ValidName);
-        var repoMock = Substitute.For<IEntryTypeRepository>();
-        var managerMock = Substitute.For<IEntryTypeManager>();
+        var item = new NotificationType(Guid.NewGuid(), TextData.ValidName);
+        var repoMock = Substitute.For<INotificationTypeRepository>();
+        var managerMock = Substitute.For<INotificationTypeManager>();
         managerMock.CreateAsync(Arg.Any<string>(), Arg.Any<string?>(), Arg.Any<CancellationToken>())
             .Returns(item);
         var userServiceMock = Substitute.For<IUserService>();

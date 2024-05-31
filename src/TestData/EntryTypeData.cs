@@ -1,10 +1,10 @@
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 
 namespace AirWeb.TestData;
 
 internal static class EntryTypeData
 {
-    private static IEnumerable<EntryType> EntryTypeSeedItems => new List<EntryType>
+    private static IEnumerable<NotificationType> EntryTypeSeedItems => new List<NotificationType>
     {
         new(new Guid("20000000-0000-0000-0000-000000000000"), "Entry Type Zero"), // 0
         new(new Guid("20000000-0000-0000-0000-000000000001"), "Entry Type One"), // 1
@@ -12,9 +12,9 @@ internal static class EntryTypeData
         new(new Guid("20000000-0000-0000-0000-000000000003"), "Inactive Entry Type") { Active = false }, // 3
     };
 
-    private static IEnumerable<EntryType>? _entryTypes;
+    private static IEnumerable<NotificationType>? _entryTypes;
 
-    public static IEnumerable<EntryType> GetData
+    public static IEnumerable<NotificationType> GetData
     {
         get
         {

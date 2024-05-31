@@ -1,33 +1,23 @@
-﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
+﻿using AirWeb.Domain.Entities.NotificationTypes;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class Notification : BaseWorkEntry
 {
-    internal Notification(int? id) : base(id) => WorkEntryType = WorkEntryType.Notification;
+    // Constructors
 
-    [StringLength(14)]
-    public NotificationType NotificationType { get; set; }
+    [UsedImplicitly] // Used by ORM.
+    private Notification() { }
 
+    internal Notification(int? id, NotificationType notificationType) : base(id)
+    {
+        WorkEntryType = WorkEntryType.Notification;
+        NotificationType = notificationType;
+    }
+
+    public NotificationType NotificationType { get; set; } = default!;
     public DateOnly ReceivedDate { get; set; }
     public DateOnly? DueDate { get; set; }
     public DateOnly? SentDate { get; set; }
     public bool FollowupTaken { get; set; }
-}
-
-// Enums
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum NotificationType
-{
-    Other = 1,
-    Startup = 2,
-    [Description("Response Letter")] ResponseLetter = 6,
-    Malfunction = 7,
-    Deviation = 8,
-
-    // [Obsolete("Permit Revocation was moved to separate entity")]
-    // [Description("Permit Revocation")]
-    // PermitRevocation = 3,
 }

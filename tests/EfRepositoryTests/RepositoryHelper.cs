@@ -1,6 +1,6 @@
+using AirWeb.Domain.Entities.NotificationTypes;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.EfRepository.DbContext;
@@ -140,13 +140,13 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <summary>
     /// Seeds data and returns an instance of EntryTypeRepository.
     /// </summary>
-    /// <returns>An <see cref="EntryTypeRepository"/>.</returns>
-    public IEntryTypeRepository GetEntryTypeRepository()
+    /// <returns>An <see cref="NotificationTypeRepository"/>.</returns>
+    public INotificationTypeRepository GetEntryTypeRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedEntryTypeData(_context);
         Context = new AppDbContext(_options);
-        return new EntryTypeRepository(Context);
+        return new NotificationTypeRepository(Context);
     }
 
     /// <summary>

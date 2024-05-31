@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 using System.Linq.Expressions;
 
 namespace AppServicesTests.EntryTypes;
@@ -11,17 +11,17 @@ public class GetActiveListItems
     public async Task GetAsListItems_ReturnsListOfListItems()
     {
         // Arrange
-        var itemList = new List<EntryType>
+        var itemList = new List<NotificationType>
         {
             new(Guid.Empty, "One"),
             new(Guid.Empty, "Two"),
         };
 
-        var repoMock = Substitute.For<IEntryTypeRepository>();
-        repoMock.GetOrderedListAsync(Arg.Any<Expression<Func<EntryType, bool>>>(), Arg.Any<CancellationToken>())
+        var repoMock = Substitute.For<INotificationTypeRepository>();
+        repoMock.GetOrderedListAsync(Arg.Any<Expression<Func<NotificationType, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(itemList);
 
-        var managerMock = Substitute.For<IEntryTypeManager>();
+        var managerMock = Substitute.For<INotificationTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService = new EntryTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
 

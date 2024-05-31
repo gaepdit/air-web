@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
-using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.WorkEntries.Notifications;
@@ -21,8 +20,9 @@ public record NotificationUpdateDto : BaseWorkEntryUpdateDto, INotificationComma
     [Display(Name = "Date Sent by Facility")]
     public DateOnly? SentDate { get; init; }
 
+    [Required]
     [Display(Name = "Notification Type")]
-    public NotificationType NotificationType { get; init; }
+    public Guid? NotificationTypeId { get; [UsedImplicitly] init; }
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }

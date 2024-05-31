@@ -30,7 +30,7 @@ flowchart
 ```mermaid
 erDiagram
     Notification {
-        enum NotificationType
+        Guid NotificationType
         date ReceivedDate
         date DueDate
         date SentDate

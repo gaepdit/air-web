@@ -12,6 +12,7 @@ using AirWeb.AppServices.WorkEntries.RmpInspections;
 using AirWeb.AppServices.WorkEntries.Search;
 using AirWeb.AppServices.WorkEntries.SourceTestReviews;
 using AirWeb.Domain.Entities.Facilities;
+using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 using AutoMapper;
@@ -26,6 +27,7 @@ public sealed partial class WorkEntryService(
     IMapper mapper,
     IWorkEntryRepository workEntryRepository,
     IWorkEntryManager workEntryManager,
+    INotificationTypeRepository notificationTypeRepository,
     INotificationService notificationService,
     IFacilityRepository facilityRepository,
     IUserService userService,
@@ -138,7 +140,7 @@ public sealed partial class WorkEntryService(
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-        await UpdateWorkEntryFromDtoAsync(resource, workEntry).ConfigureAwait(false);
+        await UpdateWorkEntryFromDtoAsync(resource, workEntry,token).ConfigureAwait(false);
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await NotifyOwnerAsync(workEntry, Template.UpdatedEntry, token).ConfigureAwait(false);

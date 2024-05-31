@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Entities.NotificationTypes;
+using AirWeb.Domain.Identity;
 using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
@@ -6,14 +7,16 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
     public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user,
-        ComplianceEventType? complianceEventType = null)
+        ComplianceEventType? complianceEventType = null, NotificationType? notificationType = null)
     {
         var id = repository.GetNextId();
 
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         BaseWorkEntry item = type switch
         {
-            WorkEntryType.Notification => new Notification(id),
+            WorkEntryType.Notification => new Notification(id,
+                notificationType ??
+                throw new ArgumentException("Missing notification type.", nameof(notificationType))),
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
             WorkEntryType.ComplianceEvent => CreateComplianceEvent(complianceEventType, id),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),

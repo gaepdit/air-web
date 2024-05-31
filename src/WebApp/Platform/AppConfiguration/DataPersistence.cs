@@ -2,7 +2,7 @@ using GaEpd.EmailService.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using AirWeb.Domain.Entities.EntryActions;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.EfRepository.DbConnection;
@@ -23,7 +23,7 @@ public static class DataPersistence
             // Use in-memory data for all repositories.
             services.AddSingleton<IEmailLogRepository, LocalEmailLogRepository>();
             services.AddSingleton<IEntryActionRepository, LocalEntryActionRepository>();
-            services.AddSingleton<IEntryTypeRepository,LocalEntryTypeRepository>();
+            services.AddSingleton<INotificationTypeRepository,LocalNotificationTypeRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
             services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
 
@@ -56,7 +56,7 @@ public static class DataPersistence
         // Repositories
         services.AddScoped<IEmailLogRepository, EmailLogRepository>();
         services.AddScoped<IEntryActionRepository, EntryActionRepository>();
-        services.AddScoped<IEntryTypeRepository,EntryTypeRepository>();
+        services.AddScoped<INotificationTypeRepository,NotificationTypeRepository>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
     }

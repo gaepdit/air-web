@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
 using AirWeb.Domain;
-using AirWeb.Domain.Entities.EntryTypes;
+using AirWeb.Domain.Entities.NotificationTypes;
 
 namespace AirWeb.AppServices.EntryTypes.Validators;
 
 public class EntryTypeUpdateValidator : AbstractValidator<EntryTypeUpdateDto>
 {
-    private readonly IEntryTypeRepository _repository;
+    private readonly INotificationTypeRepository _repository;
 
-    public EntryTypeUpdateValidator(IEntryTypeRepository repository)
+    public EntryTypeUpdateValidator(INotificationTypeRepository repository)
     {
         _repository = repository;
 
