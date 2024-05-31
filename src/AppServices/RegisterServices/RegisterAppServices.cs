@@ -1,7 +1,9 @@
 ﻿using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.EntryTypes;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.Offices;
 using AirWeb.AppServices.WorkEntries;
+using AirWeb.Domain.Entities.EntryTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using GaEpd.EmailService;
@@ -17,6 +19,10 @@ public static class RegisterAppServices
         services.AddScoped<IWorkEntryManager, WorkEntryManager>();
         services.AddScoped<IWorkEntryService, WorkEntryService>();
 
+        // Entry Types
+        services.AddScoped<IEntryTypeManager, EntryTypeManager>();
+        services.AddScoped<IEntryTypeService, EntryTypeService>();
+        
         // Email
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
