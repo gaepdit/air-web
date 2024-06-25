@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Offices;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.TestData.Constants;
 using AirWeb.WebApp.Api;
 
@@ -15,7 +15,7 @@ public class OfficeApiTests
 
         var serviceMock = Substitute.For<IOfficeService>();
         serviceMock.GetListAsync(CancellationToken.None).Returns(officeList);
-        
+
         var apiController = new OfficeApiController(serviceMock, Substitute.For<IAuthorizationService>());
 
         // Act

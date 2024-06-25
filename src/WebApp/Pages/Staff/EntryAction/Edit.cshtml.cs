@@ -1,10 +1,6 @@
-﻿using AirWeb.AppServices.EntryActions;
-using AirWeb.AppServices.EntryActions.Dto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.Permissions;
-using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 

@@ -1,10 +1,9 @@
-﻿using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
+using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.Search;
-using AirWeb.Domain.Entities.Facilities;
-using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
@@ -38,9 +37,8 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationTypeRepository>(),
-            Substitute.For<INotificationService>(), Substitute.For<IFacilityRepository>(),
-            Substitute.For<IUserService>(), authorizationMock);
+            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.SearchAsync(new WorkEntrySearchDto(), paging, CancellationToken.None);
@@ -74,9 +72,8 @@ public class Search
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationTypeRepository>(),
-            Substitute.For<INotificationService>(), Substitute.For<IFacilityRepository>(),
-            Substitute.For<IUserService>(), authorizationMock);
+            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.SearchAsync(new WorkEntrySearchDto(), paging, CancellationToken.None);

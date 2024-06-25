@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.EntryActions;
-using AirWeb.AppServices.WorkEntries;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
 using AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 namespace WebAppTests;

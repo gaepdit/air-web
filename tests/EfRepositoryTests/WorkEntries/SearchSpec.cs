@@ -1,5 +1,4 @@
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.Search;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData;
 
@@ -125,5 +124,4 @@ public class SearchSpec
         results.Should().BeEquivalentTo(expected, options =>
             options.Excluding(entry => entry.Comments));
     }
-
 }

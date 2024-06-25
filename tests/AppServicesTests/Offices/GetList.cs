@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Offices;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.TestData.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.Offices;
 
@@ -17,10 +17,10 @@ public class GetList
 
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
-        
+
         var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
             Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
-        
+
         // Act
         var result = await appService.GetListAsync();
 
@@ -34,7 +34,7 @@ public class GetList
         // Arrange
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Office>());
-        
+
         var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
             Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 

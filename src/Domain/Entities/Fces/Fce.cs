@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.Facilities;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.ValueObjects;
 
@@ -29,7 +29,7 @@ public class Fce : AuditableSoftDeleteEntity<int>
 
     // Properties: Lists
     public List<Comment> Comments { get; } = [];
-    
+
     // Properties: Deletion
     public ApplicationUser? DeletedBy { get; set; }
 

@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using FluentValidation.TestHelper;
-using AirWeb.AppServices.Offices;
-using AirWeb.AppServices.Offices.Validators;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.DomainEntities.Offices.Validators;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.TestData.Constants;
+using FluentValidation;
+using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Offices.Validators;
 

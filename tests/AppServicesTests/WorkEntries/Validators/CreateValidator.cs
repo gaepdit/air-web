@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.WorkEntries.Validators;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
 using FluentValidation.TestHelper;
 

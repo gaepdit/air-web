@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.DataExport;
-using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.DomainEntities.WorkEntries;
 using AirWeb.AppServices.Notifications;
-using AirWeb.AppServices.Offices;
-using AirWeb.AppServices.WorkEntries;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
@@ -21,8 +21,8 @@ public static class RegisterAppServices
 
         // Entry Types
         services.AddScoped<INotificationTypeManager, NotificationTypeManager>();
-        services.AddScoped<IEntryTypeService, EntryTypeService>();
-        
+        services.AddScoped<INotificationTypeService, NotificationTypeService>();
+
         // Email
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();

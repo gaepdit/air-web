@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.WorkEntries.Search;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
 using AirWeb.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.WorkEntries;

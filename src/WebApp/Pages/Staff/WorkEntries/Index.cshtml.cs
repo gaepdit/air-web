@@ -1,15 +1,13 @@
-﻿using GaEpd.AppLibrary.Extensions;
-using GaEpd.AppLibrary.ListItems;
-using GaEpd.AppLibrary.Pagination;
-using AirWeb.AppServices.EntryTypes;
-using AirWeb.AppServices.Offices;
+﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.DomainEntities.WorkEntries;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Constants;
+using GaEpd.AppLibrary.ListItems;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
@@ -17,7 +15,7 @@ namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 public class IndexModel(
     IWorkEntryService workEntryService,
     IStaffService staff,
-    IEntryTypeService entryTypeService,
+    INotificationTypeService notificationTypeService,
     IOfficeService offices,
     IAuthorizationService authorization)
     : PageModel
@@ -54,7 +52,8 @@ public class IndexModel(
     private async Task PopulateSelectListsAsync()
     {
         ReceivedBySelectList = (await staff.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
-        EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
+        EntryTypesSelectList =
+            (await notificationTypeService.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
     }
 }

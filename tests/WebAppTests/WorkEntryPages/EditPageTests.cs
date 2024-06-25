@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.EntryTypes;
+﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 namespace WebAppTests.WorkEntryPages;
@@ -11,15 +11,15 @@ public class EditPageTests
 {
     private IWorkEntryService _workEntryService = null!;
     private IStaffService _staffService = null!;
-    private IEntryTypeService _entryTypeService = null!;
+    private INotificationTypeService _notificationTypeService = null!;
 
     [SetUp]
     public void Setup()
     {
         _workEntryService = Substitute.For<IWorkEntryService>();
         _staffService = Substitute.For<IStaffService>();
-        _entryTypeService = Substitute.For<IEntryTypeService>();
-        _entryTypeService.GetAsListItemsAsync(Arg.Any<bool>(), Arg.Any<CancellationToken>())
+        _notificationTypeService = Substitute.For<INotificationTypeService>();
+        _notificationTypeService.GetAsListItemsAsync(Arg.Any<bool>(), Arg.Any<CancellationToken>())
             .Returns(new List<ListItem>());
         _staffService.GetAsListItemsAsync(Arg.Any<bool>()).Returns(new List<ListItem<string>>());
     }
@@ -29,7 +29,7 @@ public class EditPageTests
     {
         _workEntryService.Dispose();
         _staffService.Dispose();
-        _entryTypeService.Dispose();
+        _notificationTypeService.Dispose();
     }
 
     [Test]
@@ -47,7 +47,8 @@ public class EditPageTests
                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var page = new EditModel(workEntryService, _entryTypeService, Substitute.For<IValidator<BaseWorkEntryUpdateDto>>(),
+        var page = new EditModel(workEntryService, _notificationTypeService,
+            Substitute.For<IValidator<BaseWorkEntryUpdateDto>>(),
             authorization);
 
         // Act
@@ -66,7 +67,7 @@ public class EditPageTests
         // Arrange
         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
-        var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
+        var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
         {
             Id = 910,
             Item = new BaseWorkEntryUpdateDto(),
@@ -95,7 +96,7 @@ public class EditPageTests
         // Arrange
         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
-        var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
+        var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
         {
             Id = 911,
             TempData = WebAppTestsSetup.PageTempData(),
@@ -116,7 +117,7 @@ public class EditPageTests
         // Arrange
         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
-        var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
+        var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
             { Id = 912 };
 
         _workEntryService.FindForUpdateAsync(page.Id)
@@ -140,7 +141,7 @@ public class EditPageTests
         // Arrange
         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
         var authorization = Substitute.For<IAuthorizationService>();
-        var page = new EditModel(_workEntryService, _entryTypeService, validator, authorization)
+        var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
             { Id = 913 };
 
         page.ModelState.AddModelError("test", "test error");

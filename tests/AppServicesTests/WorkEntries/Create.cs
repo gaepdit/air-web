@@ -1,10 +1,9 @@
-﻿using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.PermitRevocations;
-using AirWeb.Domain.Entities.Facilities;
-using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.Constants;
 using Microsoft.AspNetCore.Authorization;
@@ -40,8 +39,8 @@ public class Create
             .Returns(NotificationResult.SuccessResult());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, Substitute.For<INotificationTypeRepository>(), notificationMock,
-            Substitute.For<IFacilityRepository>(), userServiceMock, Substitute.For<IAuthorizationService>());
+            workEntryManagerMock, notificationMock, Substitute.For<IFacilityRepository>(), userServiceMock,
+            Substitute.For<IAuthorizationService>());
 
         var item = new PermitRevocationCreateDto { Notes = TextData.Phrase, ResponsibleStaffId = user.Id };
 

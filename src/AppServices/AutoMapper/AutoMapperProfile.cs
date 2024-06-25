@@ -1,20 +1,20 @@
-using AirWeb.AppServices.EntryTypes;
-using AirWeb.AppServices.Facilities;
-using AirWeb.AppServices.Fces;
-using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.DomainEntities.Facilities;
+using AirWeb.AppServices.DomainEntities.Fces;
+using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Accs;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
+using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
+using AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
+using AirWeb.AppServices.DomainEntities.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.AppServices.WorkEntries.Accs;
-using AirWeb.AppServices.WorkEntries.Inspections;
-using AirWeb.AppServices.WorkEntries.Notifications;
-using AirWeb.AppServices.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.WorkEntries.Reports;
-using AirWeb.AppServices.WorkEntries.RmpInspections;
-using AirWeb.AppServices.WorkEntries.SourceTestReviews;
-using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AutoMapper;
 
@@ -24,31 +24,56 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        // Users
+        CreateMapsForUsers();
+        CreateMapsForMaintenanceItems();
+        CreateMapsForFacilities();
+        CreateMapsForFces();
+        CreateMapsForAccs();
+        CreateMapsForInspections();
+        CreateMapsForNotifications();
+        CreateMapsForPermitRevocations();
+        CreateMapsForReports();
+        CreateMapsForRmpInspections();
+        CreateMapsForSourceTestReviews();
+    }
+
+    private void CreateMapsForUsers()
+    {
         CreateMap<ApplicationUser, StaffSearchResultDto>();
         CreateMap<ApplicationUser, StaffViewDto>();
+    }
 
+    private void CreateMapsForMaintenanceItems()
+    {
         CreateMap<Office, OfficeUpdateDto>();
         CreateMap<Office, OfficeViewDto>();
 
-        // Maintenance items
-        CreateMap<NotificationType, EntryTypeUpdateDto>();
-        CreateMap<NotificationType, EntryTypeViewDto>();
+        CreateMap<NotificationType, NotificationTypeUpdateDto>();
+        CreateMap<NotificationType, NotificationTypeViewDto>();
+    }
 
-        // Facilities
+    private void CreateMapsForFacilities()
+    {
         CreateMap<Facility, FacilityViewDto>();
+    }
 
-        // FCEs
+    private void CreateMapsForFces()
+    {
         CreateMap<Fce, FceUpdateDto>();
         CreateMap<Fce, FceViewDto>();
+    }
 
-        // Work entries
+    private void CreateMapsForAccs()
+    {
         CreateMap<AnnualComplianceCertification, AccUpdateDto>();
         CreateMap<AnnualComplianceCertification, AccViewDto>()
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForInspections()
+    {
         CreateMap<Inspection, InspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
@@ -62,27 +87,39 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForNotifications()
+    {
         CreateMap<Notification, NotificationUpdateDto>();
         CreateMap<Notification, NotificationViewDto>()
             .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForPermitRevocations()
+    {
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
         CreateMap<PermitRevocation, PermitRevocationViewDto>()
             .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForReports()
+    {
         CreateMap<Report, ReportUpdateDto>();
         CreateMap<Report, ReportViewDto>()
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForRmpInspections()
+    {
         CreateMap<RmpInspection, RmpInspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
@@ -96,7 +133,10 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.ClosedDate, expression =>
                 expression.MapFrom<DateOnly?>(entry =>
                     entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+    }
 
+    private void CreateMapsForSourceTestReviews()
+    {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
             .ForMember(dto => dto.ClosedDate, expression =>

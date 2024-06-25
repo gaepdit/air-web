@@ -1,8 +1,8 @@
-using FluentValidation;
-using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 

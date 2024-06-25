@@ -1,6 +1,6 @@
-﻿using GaEpd.AppLibrary.Domain.Entities;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
+using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Extensions;
-using AirWeb.AppServices.Offices;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;

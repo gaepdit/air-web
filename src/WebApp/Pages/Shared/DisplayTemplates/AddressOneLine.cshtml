@@ -1,0 +1,9 @@
+﻿@model Domain.ValueObjects.Address?
+@if (Model is null || Model.IsEmpty)
+{
+    <span class="text-body-secondary">[Not entered]</span>
+}
+else
+{
+    @Model.OneLine
+}
