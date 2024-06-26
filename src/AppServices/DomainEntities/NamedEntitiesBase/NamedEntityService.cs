@@ -1,25 +1,24 @@
-using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.UserServices;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.AppServices.DomainEntities.MaintenanceItemsBase;
+namespace AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
-public class MaintenanceItemService<TEntity, TViewDto, TUpdateDto> : IMaintenanceItemService<TViewDto, TUpdateDto>
-    where TEntity : StandardNamedEntity
-    where TUpdateDto : StandardNamedEntityUpdateDto
-#pragma warning restore S2436
 
+public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntityService<TViewDto, TUpdateDto>
+    where TEntity : StandardNamedEntity
+    where TUpdateDto : NamedEntityUpdateDto
+#pragma warning restore S2436
 {
     private readonly IMapper _mapper;
     private readonly INamedEntityRepository<TEntity> _repository;
     private readonly INamedEntityManager<TEntity> _manager;
     private readonly IUserService _userService;
 
-    protected MaintenanceItemService(IMapper mapper,
+    protected NamedEntityService(IMapper mapper,
         // ReSharper disable once SuggestBaseTypeForParameterInConstructor
         INamedEntityRepository<TEntity> repository,
         INamedEntityManager<TEntity> manager,

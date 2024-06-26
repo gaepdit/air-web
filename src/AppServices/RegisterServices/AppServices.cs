@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.RegisterServices;
 
-public static class RegisterAppServices
+public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {

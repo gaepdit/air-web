@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.MaintenanceItemsBase;
+﻿using AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
@@ -15,7 +15,7 @@ public class OfficeService(
     IOfficeManager manager,
     IUserService userService,
     IAuthorizationService authorization)
-    : MaintenanceItemService<Office, OfficeViewDto, OfficeUpdateDto>
+    : NamedEntityService<Office, OfficeViewDto, OfficeUpdateDto>
         (mapper, repository, manager, userService),
         IOfficeService
 {

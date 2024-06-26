@@ -1,8 +1,8 @@
 ﻿using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.AppServices.DomainEntities.MaintenanceItemsBase;
+namespace AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
 
-public interface IMaintenanceItemService<TViewDto, TUpdateDto> : IDisposable, IAsyncDisposable
+public interface INamedEntityService<TViewDto, TUpdateDto> : IDisposable, IAsyncDisposable
 {
     Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);

@@ -1,14 +1,21 @@
 ﻿using AirWeb.Domain;
-using AirWeb.Domain.Entities.NotificationTypes;
 using FluentValidation;
+using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Domain.Repositories;
 
-namespace AirWeb.AppServices.DomainEntities.NotificationTypes.Validators;
+namespace AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
 
-public class NotificationTypeCreateValidator : AbstractValidator<NotificationTypeCreateDto>
+#pragma warning disable S2436 // Types and methods should not have too many generic parameters
+
+public class NamedEntityCreateValidator<TDto, TRepository, TEntity> : AbstractValidator<TDto>
+    where TDto : NamedEntityCreateDto
+    where TRepository : INamedEntityRepository<TEntity>
+    where TEntity : IEntity, INamedEntity
+#pragma warning restore S2436
 {
-    private readonly INotificationTypeRepository _repository;
+    private readonly TRepository _repository;
 
-    public NotificationTypeCreateValidator(INotificationTypeRepository repository)
+    protected NamedEntityCreateValidator(TRepository repository)
     {
         _repository = repository;
 

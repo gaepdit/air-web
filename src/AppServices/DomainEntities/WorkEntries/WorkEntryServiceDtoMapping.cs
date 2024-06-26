@@ -7,6 +7,7 @@ using AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
 using AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.SourceTestReviews;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries;
@@ -40,7 +41,7 @@ public sealed partial class WorkEntryService
     private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, BaseWorkEntry workEntry,
         CancellationToken token = default)
     {
-        workEntry.Facility = await facilityRepository.GetFacilityAsync(resource.FacilityId, token)
+        workEntry.Facility = await facilityRepository.GetFacilityAsync((FacilityId)resource.FacilityId, token)
             .ConfigureAwait(false);
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
@@ -116,8 +117,8 @@ public sealed partial class WorkEntryService
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
         CancellationToken token)
     {
-        workEntry.NotificationType = await notificationTypeRepository
-            .GetAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
+        workEntry.NotificationType = await workEntryRepository
+            .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
         workEntry.ReceivedDate = resource.ReceivedDate;
         workEntry.DueDate = resource.DueDate;
         workEntry.SentDate = resource.SentDate;

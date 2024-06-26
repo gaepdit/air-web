@@ -1,10 +1,9 @@
 ﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
-using AirWeb.AppServices.DomainEntities.NotificationTypes.Validators;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.TestData.Constants;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.NotificationTypes.Validators;
+namespace AppServicesTests.NamedEntityValidators;
 
 public class CreateValidator
 {
