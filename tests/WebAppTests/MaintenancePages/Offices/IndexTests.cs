@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
@@ -8,7 +8,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 public class IndexTests
 {
     private static readonly List<OfficeViewDto> ListTest =
-        [new OfficeViewDto(Guid.NewGuid(), TextData.ValidName, true)];
+        [new OfficeViewDto(Guid.NewGuid(), SampleText.ValidName, true)];
 
     [Test]
     public async Task OnGet_ReturnsWithList()

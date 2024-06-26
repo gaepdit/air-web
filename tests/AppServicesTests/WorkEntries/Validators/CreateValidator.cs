@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Validators;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
 namespace AppServicesTests.WorkEntries.Validators;
@@ -11,7 +11,7 @@ public class CreateValidator
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var model = new PermitRevocationCreateDto { Notes = TextData.Paragraph };
+        var model = new PermitRevocationCreateDto { Notes = SampleText.ValidName };
 
         var validator = new WorkEntryCreateValidator();
 

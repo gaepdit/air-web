@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Api;
 
 namespace WebAppTests.Api;
@@ -11,7 +11,7 @@ public class OfficeApiTests
     public async Task ListOffices_ReturnsListOfOffices()
     {
         // Arrange
-        List<OfficeViewDto> officeList = [new OfficeViewDto(Guid.NewGuid(), TextData.ValidName, true)];
+        List<OfficeViewDto> officeList = [new OfficeViewDto(Guid.NewGuid(), SampleText.ValidName, true)];
 
         var serviceMock = Substitute.For<IOfficeService>();
         serviceMock.GetListAsync(CancellationToken.None).Returns(officeList);

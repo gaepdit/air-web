@@ -35,7 +35,8 @@ public class BaseWorkEntry : AuditableSoftDeleteEntity<int>
     // Properties: Closure
     public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
-    public DateTimeOffset? ClosedDate { get; internal set; }
+
+    public DateOnly? ClosedDate { get; internal set; }
 
     // Properties: Deletion
     public ApplicationUser? DeletedBy { get; set; }
@@ -53,11 +54,4 @@ public enum WorkEntryType
     Notification = 5,
     [Description("Permit Revocation")] PermitRevocation = 8,
     [Description("Compliance Event")] ComplianceEvent = 9,
-
-    // [Obsolete("Moved to compliance event type")] Report = 1,
-    // [Obsolete("Moved to compliance event type")] Inspection = 2,
-    // [Obsolete("Moved to compliance event type")] SourceTestReview = 3,
-    // [Obsolete("Moved to compliance event type")] AnnualComplianceCertification = 4,
-    // [Obsolete("Legacy entry number in legacy database")] Reserved = 6,
-    // [Obsolete("Moved to compliance event type")] RmpInspection = 7,
 }

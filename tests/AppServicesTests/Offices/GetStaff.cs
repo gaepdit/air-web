@@ -2,7 +2,7 @@
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -17,9 +17,9 @@ public class GetStaff
         var user = new ApplicationUser
         {
             Id = Guid.NewGuid().ToString(),
-            GivenName = TextData.ValidName,
-            FamilyName = TextData.NewValidName,
-            Email = TextData.ValidEmail,
+            GivenName = SampleText.ValidName,
+            FamilyName = SampleText.NewValidName,
+            Email = SampleText.ValidEmail,
             Active = false,
         };
 

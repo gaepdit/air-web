@@ -6,6 +6,7 @@ public class SourceTestReview : BaseComplianceEvent
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.SourceTestReview;
+        IsClosed = true;
     }
 
     public int ReferenceNumber { get; set; }

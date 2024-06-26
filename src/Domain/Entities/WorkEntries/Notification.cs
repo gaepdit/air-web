@@ -13,6 +13,7 @@ public class Notification : BaseWorkEntry
     {
         WorkEntryType = WorkEntryType.Notification;
         NotificationType = notificationType;
+        IsClosed = true;
     }
 
     public NotificationType NotificationType { get; set; } = default!;

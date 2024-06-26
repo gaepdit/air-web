@@ -66,10 +66,7 @@ public class AutoMapperProfile : Profile
     private void CreateMapsForAccs()
     {
         CreateMap<AnnualComplianceCertification, AccUpdateDto>();
-        CreateMap<AnnualComplianceCertification, AccViewDto>()
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+        CreateMap<AnnualComplianceCertification, AccViewDto>();
     }
 
     private void CreateMapsForInspections()
@@ -83,39 +80,27 @@ public class AutoMapperProfile : Profile
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
                 expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
-        CreateMap<Inspection, InspectionViewDto>()
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+        CreateMap<Inspection, InspectionViewDto>();
     }
 
     private void CreateMapsForNotifications()
     {
         CreateMap<Notification, NotificationUpdateDto>();
         CreateMap<Notification, NotificationViewDto>()
-            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore());
     }
 
     private void CreateMapsForPermitRevocations()
     {
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
         CreateMap<PermitRevocation, PermitRevocationViewDto>()
-            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore())
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore());
     }
 
     private void CreateMapsForReports()
     {
         CreateMap<Report, ReportUpdateDto>();
-        CreateMap<Report, ReportViewDto>()
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+        CreateMap<Report, ReportViewDto>();
     }
 
     private void CreateMapsForRmpInspections()
@@ -129,18 +114,12 @@ public class AutoMapperProfile : Profile
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
                 expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
-        CreateMap<RmpInspection, RmpInspectionViewDto>()
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+        CreateMap<RmpInspection, RmpInspectionViewDto>();
     }
 
     private void CreateMapsForSourceTestReviews()
     {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
-        CreateMap<SourceTestReview, SourceTestReviewViewDto>()
-            .ForMember(dto => dto.ClosedDate, expression =>
-                expression.MapFrom<DateOnly?>(entry =>
-                    entry.ClosedDate != null ? DateOnly.FromDateTime(entry.ClosedDate.Value.Date) : null));
+        CreateMap<SourceTestReview, SourceTestReviewViewDto>();
     }
 }

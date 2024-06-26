@@ -1,6 +1,6 @@
 using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.Staff;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -9,7 +9,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 
 public class AddTests
 {
-    private static readonly OfficeCreateDto ItemTest = new(TextData.ValidName);
+    private static readonly OfficeCreateDto ItemTest = new(SampleText.ValidName);
 
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()

@@ -1,9 +1,10 @@
 ﻿// ReSharper disable StringLiteralTypo
+
 namespace AirWeb.Domain.Data;
 
 public static partial class Data
 {
-    public static IEnumerable<string> Counties { get; } =
+    public static List<string> Counties { get; } =
     [
         "Appling",
         "Atkinson",

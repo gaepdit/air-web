@@ -1,0 +1,65 @@
+using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.TestData.SampleData;
+
+namespace AirWeb.TestData.Entities;
+
+internal static class FacilityData
+{
+    private static IEnumerable<Facility> FacilitySeedItems =>
+    [
+        new Facility("001-00001")
+        {
+            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+            FacilityAddress = AddressData.GetRandomAddress(),
+            County = DomainData.GetRandomCounty(),
+            GeoCoordinates = GeoCoordinateData.GetRandomGeoCoordinates(),
+            OperatingStatusCode = FacilityOperatingStatus.O,
+            ClassificationCode = FacilityClassification.A,
+        },
+        new Facility("002-00002")
+        {
+            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            Description = string.Empty,
+            FacilityAddress = AddressData.GetRandomAddress(),
+            County = DomainData.GetRandomCounty(),
+            GeoCoordinates = GeoCoordinateData.GetRandomGeoCoordinates(),
+            OperatingStatusCode = FacilityOperatingStatus.O,
+            ClassificationCode = FacilityClassification.S,
+        },
+        new Facility("003-00003")
+        {
+            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+            FacilityAddress = AddressData.GetRandomAddress(),
+            County = DomainData.GetRandomCounty(),
+            GeoCoordinates = GeoCoordinateData.GetRandomGeoCoordinates(),
+            OperatingStatusCode = FacilityOperatingStatus.X,
+            ClassificationCode = FacilityClassification.A,
+        },
+        new Facility("004-00004")
+        {
+            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+            FacilityAddress = AddressData.GetRandomAddress(),
+            County = DomainData.GetRandomCounty(),
+            GeoCoordinates = GeoCoordinateData.GetRandomGeoCoordinates(),
+            OperatingStatusCode = FacilityOperatingStatus.C,
+            ClassificationCode = FacilityClassification.B,
+        },
+    ];
+
+    private static List<Facility>? _facilities;
+
+    public static List<Facility> GetData
+    {
+        get
+        {
+            if (_facilities is not null) return _facilities;
+            _facilities = FacilitySeedItems.ToList();
+            return _facilities;
+        }
+    }
+
+    public static void ClearData() => _facilities = null;
+}

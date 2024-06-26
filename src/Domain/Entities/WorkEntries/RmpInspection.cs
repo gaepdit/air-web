@@ -6,6 +6,7 @@ public class RmpInspection : BaseComplianceEvent
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.RmpInspection;
+        IsClosed = true;
     }
 
     [StringLength(18)]

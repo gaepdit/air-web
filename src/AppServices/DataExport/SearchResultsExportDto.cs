@@ -35,7 +35,7 @@ public record SearchResultsExportDto
     public string? ResponsibleStaff { get; init; }
 
     [XLColumn(Header = "Date Closed")]
-    public DateTimeOffset? DateClosed { get; init; }
+    public DateOnly? DateClosed { get; init; }
 
     [XLColumn(Header = "Notes")]
     public string? Notes { get; init; }

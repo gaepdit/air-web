@@ -9,6 +9,7 @@ public class Inspection : BaseComplianceEvent
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.Inspection;
+        IsClosed = true;
     }
 
     [StringLength(18)]

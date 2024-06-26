@@ -1,13 +1,14 @@
 using AirWeb.Domain.Entities.NotificationTypes;
-using GaEpd.AppLibrary.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData;
+using AirWeb.TestData.Entities;
+using AirWeb.TestData.Entities.WorkEntries;
 using AirWeb.TestData.Identity;
+using GaEpd.AppLibrary.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -119,8 +120,8 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 
     private static void ClearAllStaticData()
     {
-        WorkEntryData.ClearData();
-        EntryTypeData.ClearData();
+        AllWorkEntryData.ClearData();
+        NotificationTypeData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
     }
@@ -138,13 +139,13 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of EntryTypeRepository.
+    /// Seeds data and returns an instance of NotificationTypeRepository.
     /// </summary>
     /// <returns>An <see cref="NotificationTypeRepository"/>.</returns>
-    public INotificationTypeRepository GetEntryTypeRepository()
+    public INotificationTypeRepository GetNotificationTypeRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedEntryTypeData(_context);
+        DbSeedDataHelpers.SeedNotificationTypeData(_context);
         Context = new AppDbContext(_options);
         return new NotificationTypeRepository(Context);
     }

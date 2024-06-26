@@ -1,3 +1,4 @@
+using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.EfRepository.DbContext;
@@ -35,6 +36,11 @@ public sealed class WorkEntryRepository(AppDbContext context)
         Context.Set<BaseComplianceEvent>().AsNoTracking()
             .Where(complianceEvent => complianceEvent.Id.Equals(id))
             .Select(complianceEvent => complianceEvent.ComplianceEventType).SingleOrDefaultAsync(token);
+
+    public Task<NotificationType> GetNotificationTypeAsync(Guid id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {

@@ -1,5 +1,5 @@
 using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -8,7 +8,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 
 public class EditTests
 {
-    private static readonly OfficeUpdateDto ItemTest = new(TextData.ValidName, true);
+    private static readonly OfficeUpdateDto ItemTest = new(SampleText.ValidName, true);
 
     [Test]
     public async Task OnGet_ReturnsWithItem()

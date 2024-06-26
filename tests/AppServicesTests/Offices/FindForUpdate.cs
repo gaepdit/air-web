@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.Offices;
@@ -12,7 +12,7 @@ public class FindForUpdate
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var office = new Office(Guid.Empty, TextData.ValidName);
+        var office = new Office(Guid.Empty, SampleText.ValidName);
 
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);

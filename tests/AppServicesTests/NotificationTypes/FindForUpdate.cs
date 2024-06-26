@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AutoMapper;
 
 namespace AppServicesTests.NotificationTypes;
@@ -11,7 +11,7 @@ public class FindForUpdate
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
     {
-        var item = new NotificationType(Guid.Empty, TextData.ValidName);
+        var item = new NotificationType(Guid.Empty, SampleText.ValidName);
         var repoMock = Substitute.For<INotificationTypeRepository>();
         repoMock.FindAsync(item.Id, Arg.Any<CancellationToken>())
             .Returns(item);

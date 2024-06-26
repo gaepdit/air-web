@@ -1,7 +1,7 @@
 using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Users;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -10,14 +10,14 @@ namespace WebAppTests.UserPages;
 
 public class EditTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new(Guid.NewGuid(), TextData.ValidName, true);
+    private static readonly OfficeViewDto OfficeViewTest = new(Guid.NewGuid(), SampleText.ValidName, true);
 
     private static readonly StaffViewDto StaffViewTest = new()
     {
         Id = Guid.NewGuid().ToString(),
-        FamilyName = TextData.ValidName,
-        GivenName = TextData.ValidName,
-        Email = TextData.ValidEmail,
+        FamilyName = SampleText.ValidName,
+        GivenName = SampleText.ValidName,
+        Email = SampleText.ValidEmail,
         Office = OfficeViewTest,
         Active = true,
     };

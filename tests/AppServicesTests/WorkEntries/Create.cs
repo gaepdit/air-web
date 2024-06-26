@@ -5,7 +5,7 @@ using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.WorkEntries;
@@ -17,7 +17,7 @@ public class Create
     {
         // Arrange
         const int id = 901;
-        var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = TextData.ValidEmail };
+        var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = SampleText.ValidEmail };
         var workEntry = new PermitRevocation(id);
 
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
@@ -45,7 +45,7 @@ public class Create
         var item = new PermitRevocationCreateDto
         {
             FacilityId = (FacilityId)"00100001",
-            Notes = TextData.Phrase,
+            Notes = SampleText.ValidName,
             ResponsibleStaffId = user.Id,
         };
 
