@@ -7,3 +7,8 @@ public class Office : StandardNamedEntity
     public Office() { }
     internal Office(Guid id, string name) : base(id, name) { }
 }
+
+public interface IOfficeManager : INamedEntityManager<Office>;
+
+public class OfficeManager(IOfficeRepository repository)
+    : NamedEntityManager<Office, IOfficeRepository>(repository), IOfficeManager;

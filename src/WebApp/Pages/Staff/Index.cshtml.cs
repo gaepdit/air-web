@@ -1,10 +1,7 @@
-﻿using GaEpd.AppLibrary.Extensions;
-using GaEpd.AppLibrary.Pagination;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.QueryDto;
-using AirWeb.Domain.Entities.WorkEntries;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Staff;
 

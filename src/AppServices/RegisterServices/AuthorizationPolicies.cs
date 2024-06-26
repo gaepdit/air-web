@@ -1,9 +1,9 @@
+using AirWeb.AppServices.DomainEntities.WorkEntries.Permissions;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.AppClaims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using AirWeb.AppServices.WorkEntries.Permissions;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.AppClaims;
 using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.AppServices.RegisterServices;

@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
+using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.Search;
-using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;

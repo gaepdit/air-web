@@ -11,6 +11,9 @@
 </p>
 
 <div class="list-group">
-    <a asp-page="./EntryTypes/Index" class="list-group-item list-group-item-action">@MaintenanceOption.EntryType.PluralName</a>
+    <a asp-page="./EntryTypes/Index"
+       class="list-group-item list-group-item-action">
+        @MaintenanceOption.NotificationType.PluralName
+    </a>
     <a asp-page="./Offices/Index" class="list-group-item list-group-item-action">@MaintenanceOption.Office.PluralName</a>
 </div>

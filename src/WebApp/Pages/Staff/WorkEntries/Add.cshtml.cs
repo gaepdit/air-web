@@ -1,18 +1,18 @@
-using FluentValidation;
-using GaEpd.AppLibrary.ListItems;
-using AirWeb.AppServices.EntryTypes;
+using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
+using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
 public class AddModel(
     IWorkEntryService workEntryService,
-    IEntryTypeService entryTypeService,
+    INotificationTypeService notificationTypeService,
     IValidator<BaseWorkEntryCreateDto> validator) : PageModel
 {
     [BindProperty]
@@ -46,5 +46,5 @@ public class AddModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync()).ToSelectList();
+        EntryTypesSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
 }

@@ -11,7 +11,15 @@ public static class DbSeedDataHelpers
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
+        SeedEntryTypeData(context);
         SeedWorkEntryData(context);
+    }
+
+    public static void SeedEntryTypeData(AppDbContext context)
+    {
+        if (context.EntryTypes.Any()) return;
+        context.EntryTypes.AddRange(EntryTypeData.GetData);
+        context.SaveChanges();
     }
 
     private static void SeedWorkEntryData(AppDbContext context)

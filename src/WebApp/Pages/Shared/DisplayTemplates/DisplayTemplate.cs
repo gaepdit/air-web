@@ -16,8 +16,8 @@ public static class DisplayTemplate
     public const string FileSize = nameof(FileSize);
     public const string FileTypeIcon = nameof(FileTypeIcon);
     public const string FullStaffView = nameof(FullStaffView);
-    public const string IncompleteAddress = nameof(IncompleteAddress);
-    public const string IncompleteAddressOneLine = nameof(IncompleteAddressOneLine);
+    public const string Address = nameof(Address);
+    public const string AddressOneLine = nameof(AddressOneLine);
     public const string LongDate = nameof(LongDate);
     public const string LongDateOnly = nameof(LongDateOnly);
     public const string LongDateTime = nameof(LongDateTime);

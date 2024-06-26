@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using GaEpd.AppLibrary.ListItems;
-using AirWeb.AppServices.Offices;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
+using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Account;
 

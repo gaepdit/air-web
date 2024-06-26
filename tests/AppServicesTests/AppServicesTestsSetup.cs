@@ -1,9 +1,9 @@
-﻿using AutoMapper;
+﻿using AirWeb.AppServices.AutoMapper;
+using AirWeb.Domain.Identity;
+using AutoMapper;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using Microsoft.AspNetCore.Identity;
-using AirWeb.AppServices.AutoMapper;
-using AirWeb.Domain.Identity;
 
 namespace AppServicesTests;
 
@@ -17,7 +17,7 @@ public class AppServicesTestsSetup
     public void OneTimeSetUp()
     {
         // AutoMapper profiles are added here.
-        MapperConfig = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfile()));
+        MapperConfig = new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()));
         Mapper = MapperConfig.CreateMapper();
 
         AssertionOptions.AssertEquivalencyUsing(opts => opts
@@ -39,8 +39,9 @@ public class AppServicesTestsSetup
     {
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context) =>
-            selectedMembers.Where(e => !(e.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
-                e.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
+            selectedMembers.Where(member =>
+                !(member.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
+                  member.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
 
         public bool IncludesMembers => false;
         public override string ToString() => "Exclude SecurityStamp and ConcurrencyStamp from IdentityUser";

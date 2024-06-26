@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Offices;
+using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.TestData.Constants;
 

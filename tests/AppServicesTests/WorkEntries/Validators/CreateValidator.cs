@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.WorkEntries.Validators;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Validators;
 using AirWeb.TestData.Constants;
 using FluentValidation.TestHelper;
 
@@ -20,6 +20,7 @@ public class CreateValidator
 
         // Assert
         using var scope = new AssertionScope();
+        result.IsValid.Should().BeTrue();
         result.ShouldNotHaveValidationErrorFor(dto => dto.Notes);
     }
 
@@ -35,6 +36,8 @@ public class CreateValidator
         var result = await validator.TestValidateAsync(model);
 
         // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.Notes);
     }
 }

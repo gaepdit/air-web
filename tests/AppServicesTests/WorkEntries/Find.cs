@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.Domain.Entities.Facilities;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

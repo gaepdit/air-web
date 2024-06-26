@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Offices;
+﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.TestData.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.Offices;
 

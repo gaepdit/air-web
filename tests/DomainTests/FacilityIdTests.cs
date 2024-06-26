@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Entities.Facilities;
+﻿using AirWeb.Domain.ExternalEntities.Facilities;
 
 namespace DomainTests;
 

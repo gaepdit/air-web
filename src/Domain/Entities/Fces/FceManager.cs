@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.Entities.Facilities;
-using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.Entities.Fces;

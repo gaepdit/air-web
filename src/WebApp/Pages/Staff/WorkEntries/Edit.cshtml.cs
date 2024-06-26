@@ -1,20 +1,18 @@
-﻿using FluentValidation;
-using GaEpd.AppLibrary.ListItems;
-using AirWeb.AppServices.EntryTypes;
+﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
+using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.WorkEntries;
-using AirWeb.AppServices.WorkEntries.BaseWorkEntryDto;
-using AirWeb.AppServices.WorkEntries.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
+using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
 public class EditModel(
     IWorkEntryService workEntryService,
-    IEntryTypeService entryTypeService,
+    INotificationTypeService notificationTypeService,
     IValidator<BaseWorkEntryUpdateDto> validator,
     IAuthorizationService authorization) : PageModel
 {
@@ -59,8 +57,8 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task PopulateSelectListsAsync() => 
-        EntryTypesSelectList = (await entryTypeService.GetAsListItemsAsync()).ToSelectList();
+    private async Task PopulateSelectListsAsync() =>
+        EntryTypesSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
 
     private Task<bool> UserCanEditAsync(BaseWorkEntryUpdateDto item) =>
         authorization.Succeeded(User, item, new WorkEntryUpdateRequirements());
