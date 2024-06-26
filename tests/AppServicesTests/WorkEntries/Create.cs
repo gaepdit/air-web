@@ -42,7 +42,12 @@ public class Create
             workEntryManagerMock, notificationMock, Substitute.For<IFacilityRepository>(), userServiceMock,
             Substitute.For<IAuthorizationService>());
 
-        var item = new PermitRevocationCreateDto { Notes = TextData.Phrase, ResponsibleStaffId = user.Id };
+        var item = new PermitRevocationCreateDto
+        {
+            FacilityId = (FacilityId)"00100001",
+            Notes = TextData.Phrase,
+            ResponsibleStaffId = user.Id,
+        };
 
         // Act
         var result = await appService.CreateAsync(item, CancellationToken.None);

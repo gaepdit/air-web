@@ -2,8 +2,10 @@
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 
-public abstract record BaseWorkEntryUpdateDto : IWorkEntryUpdateDto
+public record BaseWorkEntryUpdateDto : IWorkEntryUpdateDto
 {
+    protected BaseWorkEntryUpdateDto() { }
+
     // Authorization handler assist properties
     public bool IsDeleted { get; init; }
 

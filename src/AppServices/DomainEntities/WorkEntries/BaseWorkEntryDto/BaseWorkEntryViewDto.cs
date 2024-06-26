@@ -6,8 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 
-public abstract record BaseWorkEntryViewDto : IWorkEntryViewDto
+public record BaseWorkEntryViewDto : IWorkEntryViewDto
 {
+    protected BaseWorkEntryViewDto() { }
+
     public int Id { get; init; }
 
     [Display(Name = "Facility")]

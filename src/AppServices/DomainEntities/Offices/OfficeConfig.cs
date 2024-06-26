@@ -14,9 +14,7 @@ public record OfficeUpdateDto(string Name, bool Active) : NamedEntityUpdateDto(N
 // Validators
 
 public class OfficeCreateValidator(IOfficeRepository repository)
-    : NamedEntityCreateValidator<OfficeCreateDto, IOfficeRepository, Office>
-        (repository);
+    : NamedEntityCreateValidator<OfficeCreateDto, IOfficeRepository, Office>(repository);
 
 public class OfficeUpdateValidator(IOfficeRepository repository)
-    : NamedEntityUpdateValidator<OfficeUpdateDto, IOfficeRepository, Office>
-        (repository);
+    : NamedEntityUpdateValidator<OfficeUpdateDto, IOfficeRepository, Office>(repository);

@@ -13,6 +13,7 @@ public class FceCreateValidator : AbstractValidator<FceCreateDto>
         _repository = repository;
 
         RuleFor(dto => dto.FacilityId)
+            .Cascade(CascadeMode.Stop)
             .NotNull();
 
         RuleFor(dto => dto)

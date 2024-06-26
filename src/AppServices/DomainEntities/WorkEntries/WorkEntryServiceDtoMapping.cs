@@ -41,7 +41,7 @@ public sealed partial class WorkEntryService
     private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, BaseWorkEntry workEntry,
         CancellationToken token = default)
     {
-        workEntry.Facility = await facilityRepository.GetFacilityAsync((FacilityId)resource.FacilityId, token)
+        workEntry.Facility = await facilityRepository.GetFacilityAsync((FacilityId)resource.FacilityId!, token)
             .ConfigureAwait(false);
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null

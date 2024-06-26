@@ -20,6 +20,7 @@ public class CreateValidator
 
         // Assert
         using var scope = new AssertionScope();
+        result.IsValid.Should().BeTrue();
         result.ShouldNotHaveValidationErrorFor(dto => dto.Notes);
     }
 
@@ -35,6 +36,8 @@ public class CreateValidator
         var result = await validator.TestValidateAsync(model);
 
         // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.Notes);
     }
 }

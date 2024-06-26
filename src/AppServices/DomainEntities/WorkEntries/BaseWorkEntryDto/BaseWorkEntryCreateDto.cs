@@ -2,11 +2,13 @@
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 
-public abstract record BaseWorkEntryCreateDto : IWorkEntryCreateDto
+public record BaseWorkEntryCreateDto : IWorkEntryCreateDto
 {
+    protected BaseWorkEntryCreateDto() { }
+
     [Required]
     [Display(Name = "Facility")]
-    public string FacilityId { get; init; } = string.Empty;
+    public string? FacilityId { get; init; }
 
     [Required]
     [Display(Name = "Staff Responsible")]

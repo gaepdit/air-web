@@ -15,7 +15,7 @@ public class NamedEntityUpdateValidator<TDto, TRepository, TEntity> : AbstractVa
 {
     private readonly TRepository _repository;
 
-    public NamedEntityUpdateValidator(TRepository repository)
+    protected NamedEntityUpdateValidator(TRepository repository)
     {
         _repository = repository;
 
