@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace AirWeb.Domain.ValueObjects;
 
 [Owned]
-public record GeoCoordinates : ValueObject
+public record GeoCoordinates(
+    [property: Column(TypeName = "decimal(8, 6)")] decimal Latitude,
+    [property: Column(TypeName = "decimal(9, 6)")] decimal Longitude) : ValueObject
 {
-    public decimal Latitude { get; [UsedImplicitly] init; }
-    public decimal Longitude { get; [UsedImplicitly] init; }
-
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Latitude;

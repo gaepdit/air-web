@@ -14,7 +14,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     private const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
     // Domain entities
-    public DbSet<NotificationType> EntryTypes => Set<NotificationType>();
+    public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
     public DbSet<BaseWorkEntry> WorkEntries => Set<BaseWorkEntry>();
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();

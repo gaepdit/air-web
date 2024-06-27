@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.TestData;
+using AirWeb.TestData.Entities;
 
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalNotificationTypeRepository()
-    : NamedEntityRepository<NotificationType>(EntryTypeData.GetData), INotificationTypeRepository;
+    : NamedEntityRepository<NotificationType>(NotificationTypeData.GetData), INotificationTypeRepository;

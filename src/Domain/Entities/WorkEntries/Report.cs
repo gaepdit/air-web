@@ -9,6 +9,7 @@ public class Report : BaseComplianceEvent
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.Report;
+        IsClosed = true;
     }
 
     public DateOnly ReceivedDate { get; set; }

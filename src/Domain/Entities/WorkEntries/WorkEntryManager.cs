@@ -53,7 +53,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     {
         baseWorkEntry.SetUpdater(user?.Id);
         baseWorkEntry.IsClosed = true;
-        baseWorkEntry.ClosedDate = DateTimeOffset.Now;
+        baseWorkEntry.ClosedDate = DateOnly.FromDateTime(DateTime.Now);
         baseWorkEntry.ClosedBy = user;
     }
 

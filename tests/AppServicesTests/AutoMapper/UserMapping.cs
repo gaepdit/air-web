@@ -1,7 +1,7 @@
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.AutoMapper;
 
@@ -10,11 +10,11 @@ public class UserMapping
     private readonly ApplicationUser _item = new()
     {
         Id = Guid.NewGuid().ToString(),
-        GivenName = TextData.ValidName,
-        FamilyName = TextData.NewValidName,
-        Email = TextData.ValidEmail,
-        PhoneNumber = TextData.ValidPhoneNumber,
-        Office = new Office(Guid.NewGuid(), TextData.ValidName),
+        GivenName = SampleText.ValidName,
+        FamilyName = SampleText.NewValidName,
+        Email = SampleText.ValidEmail,
+        PhoneNumber = SampleText.ValidPhoneNumber,
+        Office = new Office(Guid.NewGuid(), SampleText.ValidName),
     };
 
     [Test]

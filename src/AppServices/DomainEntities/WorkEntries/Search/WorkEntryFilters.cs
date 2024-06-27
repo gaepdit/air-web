@@ -28,14 +28,14 @@ internal static class WorkEntryFilters
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.ClosedDate >= input.Value.ToDateTime(TimeOnly.MinValue));
+            : predicate.And(entry => entry.ClosedDate >= input.Value);
 
     private static Expression<Func<BaseWorkEntry, bool>> ToClosedDate(
         this Expression<Func<BaseWorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.ClosedDate <= input.Value.ToDateTime(TimeOnly.MinValue));
+            : predicate.And(entry => entry.ClosedDate <= input.Value);
 
     private static Expression<Func<BaseWorkEntry, bool>> ReceivedBy(
         this Expression<Func<BaseWorkEntry, bool>> predicate,

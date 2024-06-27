@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
 using AirWeb.LocalRepository.Identity;
-using AirWeb.TestData;
+using AirWeb.TestData.Entities;
 
 namespace AirWeb.LocalRepository.Repositories;
 

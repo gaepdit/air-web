@@ -2,7 +2,7 @@
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.Offices;
@@ -13,7 +13,7 @@ public class Create
     public async Task WhenResourceIsValid_ReturnsId()
     {
         // Arrange
-        var item = new Office(Guid.NewGuid(), TextData.ValidName);
+        var item = new Office(Guid.NewGuid(), SampleText.ValidName);
 
         var managerMock = Substitute.For<IOfficeManager>();
         managerMock.CreateAsync(Arg.Any<string>(), Arg.Is((string?)null), Arg.Any<CancellationToken>()).Returns(item);
@@ -25,7 +25,7 @@ public class Create
             managerMock, userServiceMock, Substitute.For<IAuthorizationService>());
 
         // Act
-        var result = await appService.CreateAsync(TextData.ValidName);
+        var result = await appService.CreateAsync(SampleText.ValidName);
 
         // Assert
         result.Should().Be(item.Id);

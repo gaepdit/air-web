@@ -1,5 +1,5 @@
 using AirWeb.Domain.Entities.Offices;
-using AirWeb.TestData;
+using AirWeb.TestData.Entities;
 
 namespace EfRepositoryTests.Offices;
 

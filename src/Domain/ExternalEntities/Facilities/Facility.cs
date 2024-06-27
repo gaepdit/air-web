@@ -4,6 +4,10 @@ namespace AirWeb.Domain.ExternalEntities.Facilities;
 
 public record Facility
 {
+    public Facility() { }
+    public Facility(FacilityId id) => Id = id;
+    public Facility(string id) => Id = (FacilityId)id;
+
     public FacilityId Id { get; init; } = default!;
 
     // Description

@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Offices;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.Offices;
@@ -12,7 +12,7 @@ public class GetList
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
         // Arrange
-        var office = new Office(Guid.Empty, TextData.ValidName);
+        var office = new Office(Guid.Empty, SampleText.ValidName);
         var itemList = new List<Office> { office };
 
         var repoMock = Substitute.For<IOfficeRepository>();

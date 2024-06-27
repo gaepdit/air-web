@@ -2,7 +2,7 @@ using AirWeb.AppServices.DomainEntities.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Users;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -11,14 +11,14 @@ namespace WebAppTests.UserPages;
 
 public class EditRolesTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new(Guid.NewGuid(), TextData.ValidName, true);
+    private static readonly OfficeViewDto OfficeViewTest = new(Guid.NewGuid(), SampleText.ValidName, true);
 
     private static readonly StaffViewDto StaffViewTest = new()
     {
         Id = Guid.NewGuid().ToString(),
-        FamilyName = TextData.ValidName,
-        GivenName = TextData.ValidName,
-        Email = TextData.ValidEmail,
+        FamilyName = SampleText.ValidName,
+        GivenName = SampleText.ValidName,
+        Email = SampleText.ValidEmail,
         Office = OfficeViewTest,
         Active = true,
     };
@@ -27,9 +27,9 @@ public class EditRolesTests
     [
         new EditRolesModel.RoleSetting
         {
-            Name = TextData.ValidName,
-            DisplayName = TextData.ValidName,
-            Description = TextData.ValidName,
+            Name = SampleText.ValidName,
+            DisplayName = SampleText.ValidName,
+            Description = SampleText.ValidName,
             IsSelected = true,
         },
     ];
@@ -63,7 +63,7 @@ public class EditRolesTests
         using var scope = new AssertionScope();
         result.Should().BeOfType<PageResult>();
         pageModel.DisplayStaff.Should().Be(StaffViewTest);
-        pageModel.OfficeName.Should().Be(TextData.ValidName);
+        pageModel.OfficeName.Should().Be(SampleText.ValidName);
         pageModel.UserId.Should().Be(StaffViewTest.Id);
         pageModel.RoleSettings.Should().BeEquivalentTo(expectedRoleSettings);
     }

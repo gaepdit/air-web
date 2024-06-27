@@ -7,10 +7,7 @@ using AirWeb.WebApp.Platform.PageModelHelpers;
 namespace AirWeb.WebApp.Pages.Staff.WorkEntries;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
-public class DetailsModel(
-    IWorkEntryService workEntryService,
-    IEntryActionService entryActionService,
-    IAuthorizationService authorization) : PageModel
+public class DetailsModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     public WorkEntryViewDto ItemView { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; private set; } = new();

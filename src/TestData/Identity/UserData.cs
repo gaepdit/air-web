@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.Identity;
-using AirWeb.TestData.Constants;
+using AirWeb.TestData.Entities;
+using AirWeb.TestData.SampleData;
 
 namespace AirWeb.TestData.Identity;
 
@@ -13,7 +14,7 @@ internal static partial class UserData
             GivenName = "Admin",
             FamilyName = "User1",
             Email = "admin.user@example.net",
-            PhoneNumber = TextData.ValidPhoneNumber,
+            PhoneNumber = SampleText.ValidPhoneNumber,
             Office = OfficeData.GetData.ElementAt(0),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
