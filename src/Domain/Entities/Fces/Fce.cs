@@ -20,12 +20,12 @@ public class Fce : AuditableSoftDeleteEntity<int>
 
     public Facility Facility { get; init; } = default!;
     public int Year { get; init; }
-    public ApplicationUser? ReviewedBy { get; init; }
-    public DateOnly CompletedDate { get; init; }
-    public bool OnsiteInspection { get; init; }
+    public ApplicationUser? ReviewedBy { get; set; }
+    public DateOnly CompletedDate { get; set; }
+    public bool OnsiteInspection { get; set; }
 
     [StringLength(7000)]
-    public string Notes { get; init; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
 
     // Properties: Lists
     public List<Comment> Comments { get; } = [];

@@ -1,14 +1,13 @@
-﻿using AirWeb.Domain.Entities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
+﻿using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.Entities.Fces;
 
-public class FceManager(IWorkEntryRepository repository) : IFceManager
+public class FceManager(IFceRepository repository) : IFceManager
 {
-    public Fce Create(FacilityId facility, int year, ApplicationUser? user)
+    public Fce Create(Facility facility, int year, ApplicationUser? user)
     {
-        var item = new Fce(repository.GetNextId());
+        var item = new Fce(repository.GetNextId()) { Facility = facility, Year = year };
         item.SetCreator(user?.Id);
         return item;
     }

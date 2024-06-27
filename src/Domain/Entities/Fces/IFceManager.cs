@@ -8,11 +8,11 @@ public interface IFceManager
     /// <summary>
     /// Creates a new <see cref="Fce"/>.
     /// </summary>
-    /// <param name="facility">The <see cref="FacilityId"/> to create the FCE for.</param>
+    /// <param name="facility">The <see cref="Facility"/> to create the FCE for.</param>
     /// <param name="year">The year to create the FCE for.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The created FCE.</returns>
-    Fce Create(FacilityId facility, int year, ApplicationUser? user);
+    Fce Create(Facility facility, int year, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="Fce"/> to indicate that it was deleted.

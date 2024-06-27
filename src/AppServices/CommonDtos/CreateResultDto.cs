@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Notifications;
-using AirWeb.Domain.Entities.WorkEntries;
 
 namespace AirWeb.AppServices.CommonDtos;
 
@@ -16,10 +15,13 @@ public record CreateResultDto<TKey>
     public CreateResultDto(TKey id) => Id = id;
 
     /// <summary>
-    /// If the <see cref="BaseWorkEntry"/> is successfully created, contains the ID of the new WorkEntry. 
+    /// If the entity is successfully created, contains its ID. 
     /// </summary>
-    /// <value>The WorkEntry ID if the operation succeeded, otherwise null.</value>
+    /// <value>The ID of the entity if the operation succeeded, otherwise null.</value>
     public TKey? Id { get; }
 
+    /// <summary>
+    /// Contains the <see cref="NotificationResult"/> generated from an attempted notification.
+    /// </summary>
     public NotificationResult? NotificationResult { get; set; }
 }

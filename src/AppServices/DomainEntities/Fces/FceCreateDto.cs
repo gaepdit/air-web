@@ -25,7 +25,7 @@ public record FceCreateDto
 
     [Required]
     [Display(Name = "With on-site inspection")]
-    public bool? OnsiteInspection { get; init; }
+    public bool OnsiteInspection { get; init; } = true;
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
