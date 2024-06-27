@@ -4,6 +4,10 @@ namespace AirWeb.Domain.Entities.Fces;
 
 public interface IFceRepository : IRepository<Fce, int>
 {
+    // Will return the next available ID if the repository requires it for adding new entities (e.g., local repository).
+    // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
+    int? GetNextId();
+
     /// <summary>
     /// Returns a boolean indicating whether an <see cref="Fce"/> with the given parameters exists.
     /// </summary>

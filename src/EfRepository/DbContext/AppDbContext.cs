@@ -1,3 +1,4 @@
+using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
@@ -16,6 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // Domain entities
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
+    public DbSet<Fce> Fces => Set<Fce>();
     public DbSet<BaseWorkEntry> WorkEntries => Set<BaseWorkEntry>();
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
 

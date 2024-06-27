@@ -4,8 +4,8 @@ using AirWeb.EfRepository.DbContext;
 
 namespace AirWeb.EfRepository.Repositories;
 
-public sealed class OfficeRepository(AppDbContext context) :
-    NamedEntityRepository<Office, AppDbContext>(context), IOfficeRepository
+public sealed class OfficeRepository(AppDbContext context)
+    : NamedEntityRepository<Office, AppDbContext>(context), IOfficeRepository
 {
     public Task<List<ApplicationUser>> GetStaffMembersListAsync(Guid id, bool includeInactive,
         CancellationToken token = default) =>

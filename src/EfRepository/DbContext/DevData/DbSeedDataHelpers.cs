@@ -12,6 +12,7 @@ public static class DbSeedDataHelpers
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
+        SeedFceData(context);
         SeedWorkEntryData(context);
     }
 
@@ -19,6 +20,13 @@ public static class DbSeedDataHelpers
     {
         if (context.WorkEntries.Any()) return;
         context.WorkEntries.AddRange(AllWorkEntryData.GetData);
+        context.SaveChanges();
+    }
+
+    private static void SeedFceData(AppDbContext context)
+    {
+        if (context.Fces.Any()) return;
+        context.Fces.AddRange(FceData.GetData);
         context.SaveChanges();
     }
 
