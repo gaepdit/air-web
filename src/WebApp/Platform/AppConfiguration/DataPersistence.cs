@@ -1,3 +1,4 @@
+using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
@@ -23,6 +24,7 @@ public static class DataPersistence
             services.AddSingleton<IEmailLogRepository, LocalEmailLogRepository>();
             services.AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
+            services.AddSingleton<IFceRepository, LocalFceRepository>();
             services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
 
             return;
@@ -55,6 +57,7 @@ public static class DataPersistence
         services.AddScoped<IEmailLogRepository, EmailLogRepository>();
         services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();
+        services.AddScoped<IFceRepository, FceRepository>();
         services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
     }
 }
