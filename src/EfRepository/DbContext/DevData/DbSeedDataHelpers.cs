@@ -7,7 +7,7 @@ namespace AirWeb.EfRepository.DbContext.DevData;
 
 public static class DbSeedDataHelpers
 {
-    public static void SeedAllData(AppDbContext context)
+    internal static void SeedAllData(AppDbContext context)
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
@@ -22,7 +22,7 @@ public static class DbSeedDataHelpers
         // context.SaveChanges();
     }
 
-    private static void SeedFceData(AppDbContext context)
+    internal static void SeedFceData(AppDbContext context)
     {
         if (context.Fces.Any()) return;
         context.Fces.AddRange(FceData.GetData);

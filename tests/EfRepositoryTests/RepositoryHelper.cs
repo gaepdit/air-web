@@ -1,3 +1,4 @@
+using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
@@ -111,7 +112,10 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Deletes all data from the EF database table for the specified entity.
     /// </summary>
     /// <typeparam name="TEntity">The entity whose data is to be deleted.</typeparam>
-    public async Task ClearTableAsync<TEntity>() where TEntity : AuditableEntity
+    /// <typeparam name="TKey">The type of the primary key.</typeparam>
+    public async Task ClearTableAsync<TEntity, TKey>()
+        where TEntity : AuditableEntity<TKey, string>
+        where TKey : IEquatable<TKey>
     {
         Context.RemoveRange(Context.Set<TEntity>());
         await Context.SaveChangesAsync();
@@ -120,6 +124,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 
     private static void ClearAllStaticData()
     {
+        FceData.ClearData();
         AllWorkEntryData.ClearData();
         NotificationTypeData.ClearData();
         OfficeData.ClearData();
@@ -127,9 +132,9 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of WorkEntryRepository.
+    /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
     /// </summary>
-    /// <returns>An <see cref="WorkEntryRepository"/>.</returns>
+    /// <returns>An WorkEntryRepository.</returns>
     public IWorkEntryRepository GetWorkEntryRepository()
     {
         ClearAllStaticData();
@@ -139,9 +144,21 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of NotificationTypeRepository.
+    /// Seeds data and returns an instance of <see cref="FceRepository"/>.
     /// </summary>
-    /// <returns>An <see cref="NotificationTypeRepository"/>.</returns>
+    /// <returns>An FCE Repository.</returns>
+    public IFceRepository GetFceRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedFceData(_context);
+        Context = new AppDbContext(_options);
+        return new FceRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data and returns an instance of <see cref="NotificationTypeRepository"/>.
+    /// </summary>
+    /// <returns>An NotificationTypeRepository.</returns>
     public INotificationTypeRepository GetNotificationTypeRepository()
     {
         ClearAllStaticData();
@@ -151,9 +168,9 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of OfficeRepository.
+    /// Seeds data and returns an instance of <see cref="OfficeRepository"/>.
     /// </summary>
-    /// <returns>An <see cref="OfficeRepository"/>.</returns>
+    /// <returns>An OfficeRepository.</returns>
     public IOfficeRepository GetOfficeRepository()
     {
         ClearAllStaticData();
