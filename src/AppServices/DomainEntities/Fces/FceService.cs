@@ -3,6 +3,7 @@ using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.Domain.ValueObjects;
 using AutoMapper;
 
 namespace AirWeb.AppServices.DomainEntities.Fces;
@@ -13,14 +14,14 @@ public sealed class FceService(
     IUserService userService,
     IFceRepository fceRepository,
     IFceManager manager,
-    IFacilityRepository facilityRepository)
+    INotificationService notificationService)
     : IFceService
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
         var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
         if (fce is null) return null;
-        fce.Facility = await facilityRepository.GetFacilityAsync(fce.FacilityId, token).ConfigureAwait(false);
+        await manager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
         return mapper.Map<FceViewDto>(fce);
     }
 
@@ -28,11 +29,11 @@ public sealed class FceService(
         mapper.Map<FceUpdateDto?>(await fceRepository.FindAsync(fce => fce.Id.Equals(id) && !fce.IsDeleted, token)
             .ConfigureAwait(false));
 
-    public async Task<int> CreateAsync(FceCreateDto resource, CancellationToken token = default)
+    public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
     {
-        var facility = await facilityRepository.GetFacilityAsync(resource.FacilityId!, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var fce = manager.Create(facility, resource.Year, currentUser);
+        var fce = await manager.CreateAsync(resource.FacilityId!, resource.Year, currentUser, token)
+            .ConfigureAwait(false);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
         fce.CompletedDate = resource.CompletedDate;
@@ -40,12 +41,26 @@ public sealed class FceService(
         fce.Notes = resource.Notes;
 
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
-        return fce.Id;
+
+        return new CreateResult<int>(fce.Id)
+        {
+            NotificationResult = await NotifyOwnerAsync(fce, Template.FceCreated, token).ConfigureAwait(false),
+        };
     }
 
     public async Task<NotificationResult> UpdateAsync(int id, FceUpdateDto resource, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
+        fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+
+        fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
+        fce.CompletedDate = resource.CompletedDate;
+        fce.OnsiteInspection = resource.OnsiteInspection;
+        fce.Notes = resource.Notes;
+
+        await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
+
+        return await NotifyOwnerAsync(fce, Template.FceUpdated, token).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
@@ -66,18 +81,36 @@ public sealed class FceService(
         throw new NotImplementedException();
     }
 
+    private async Task<NotificationResult> NotifyOwnerAsync(Fce fce, Template template,
+        CancellationToken token, Comment? comment = null)
+    {
+        var recipient = fce.ReviewedBy;
+
+        if (recipient is null)
+            return NotificationResult.NotAttemptedResult();
+        if (!recipient.Active)
+            return NotificationResult.FailureResult("The recipient is not an active user.");
+        if (recipient.Email is null)
+            return NotificationResult.FailureResult("The recipient cannot be emailed.");
+
+        return comment is null
+            ? await notificationService.SendNotificationAsync(template, recipient.Email, token, fce.Id.ToString())
+                .ConfigureAwait(false)
+            : await notificationService.SendNotificationAsync(template, recipient.Email, token, fce.Id.ToString(),
+                    comment.Text, comment.CommentedAt.ToString(), comment.CommentBy?.FullName)
+                .ConfigureAwait(false);
+    }
+
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()
     {
         fceRepository.Dispose();
-        facilityRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await fceRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityRepository.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

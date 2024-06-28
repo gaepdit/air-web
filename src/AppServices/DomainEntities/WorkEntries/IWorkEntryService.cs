@@ -16,7 +16,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
         CancellationToken token = default);
 
     // Command
-    Task<CreateResultDto<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
     Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
     Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
     Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
