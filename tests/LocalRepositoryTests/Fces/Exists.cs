@@ -8,7 +8,7 @@ public class Exists
     private LocalFceRepository _repository = default!;
 
     [SetUp]
-    public void Setup() => _repository = new LocalFceRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetFceRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

@@ -18,7 +18,21 @@ public class Fce : AuditableSoftDeleteEntity<int>
 
     // Properties
 
-    public Facility Facility { get; init; } = default!;
+    public FacilityId FacilityId { get; private set; } = default!;
+
+    private Facility _facility = default!;
+
+    [NotMapped]
+    public Facility Facility
+    {
+        get => _facility;
+        set
+        {
+            _facility = value;
+            FacilityId = value.Id;
+        }
+    }
+
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
     public DateOnly CompletedDate { get; set; }

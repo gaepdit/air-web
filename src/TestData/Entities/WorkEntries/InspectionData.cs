@@ -4,9 +4,9 @@ using AirWeb.TestData.SampleData;
 
 namespace AirWeb.TestData.Entities.WorkEntries;
 
-internal static partial class AllWorkEntryData
+internal static partial class WorkEntries
 {
-    private static IEnumerable<Inspection> InspectionData =>
+    internal static IEnumerable<Inspection> InspectionData =>
     [
         new Inspection(6001)
         {

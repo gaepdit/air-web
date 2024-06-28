@@ -4,7 +4,7 @@ using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.TestData.Entities.WorkEntries;
+using AirWeb.TestData.Entities;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.ObjectModel;
@@ -19,8 +19,8 @@ public class Search
     public async Task WhenItemsExist_ReturnsPagedList()
     {
         // Arrange
-        var itemList = new ReadOnlyCollection<BaseWorkEntry>(AllWorkEntryData.GetData.ToList());
-        var count = AllWorkEntryData.GetData.Count();
+        var itemList = new ReadOnlyCollection<BaseWorkEntry>(WorkEntryData.GetData.ToList());
+        var count = WorkEntryData.GetData.Count();
 
         var paging = new PaginatedRequest(1, 100);
 

@@ -19,11 +19,18 @@ public static class RepositoryHelper
         ClearAllStaticData();
         return new LocalOfficeRepository();
     }
+    public static LocalFceRepository GetFceRepository()
+    {
+        ClearAllStaticData();
+        return new LocalFceRepository();
+    }
 
     private static void ClearAllStaticData()
     {
+        FceData.ClearData();
+        WorkEntryData.ClearData();
+        NotificationTypeData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
-        AllWorkEntryData.ClearData();
     }
 }

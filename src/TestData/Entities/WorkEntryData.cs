@@ -1,9 +1,10 @@
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData.SampleData;
+using static AirWeb.TestData.Entities.WorkEntries.WorkEntries;
 
-namespace AirWeb.TestData.Entities.WorkEntries;
+namespace AirWeb.TestData.Entities;
 
-internal static partial class AllWorkEntryData
+internal static class WorkEntryData
 {
     private static IEnumerable<BaseWorkEntry> WorkEntrySeedItems
     {

@@ -16,8 +16,13 @@ public sealed class FceService(
     IFacilityRepository facilityRepository)
     : IFceService
 {
-    public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default) =>
-        mapper.Map<FceViewDto?>(await fceRepository.FindAsync(id, token).ConfigureAwait(false));
+    public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
+    {
+        var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
+        if (fce is null) return null;
+        fce.Facility = await facilityRepository.GetFacilityAsync(fce.FacilityId, token).ConfigureAwait(false);
+        return mapper.Map<FceViewDto>(fce);
+    }
 
     public async Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
         mapper.Map<FceUpdateDto?>(await fceRepository.FindAsync(fce => fce.Id.Equals(id) && !fce.IsDeleted, token)

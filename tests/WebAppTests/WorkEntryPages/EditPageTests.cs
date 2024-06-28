@@ -14,7 +14,7 @@ public class EditPageTests
     private INotificationTypeService _notificationTypeService = null!;
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
         _workEntryService = Substitute.For<IWorkEntryService>();
         _staffService = Substitute.For<IStaffService>();
@@ -25,7 +25,7 @@ public class EditPageTests
     }
 
     [TearDown]
-    public void Teardown()
+    public void TearDown()
     {
         _workEntryService.Dispose();
         _staffService.Dispose();
