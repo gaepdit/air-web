@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Identity;
 using AirWeb.TestData.Entities;
-using AirWeb.TestData.Entities.WorkEntries;
 using AirWeb.TestData.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -18,9 +17,9 @@ public static class DbSeedDataHelpers
 
     private static void SeedWorkEntryData(AppDbContext context)
     {
-        if (context.WorkEntries.Any()) return;
-        context.WorkEntries.AddRange(AllWorkEntryData.GetData);
-        context.SaveChanges();
+        // if (context.WorkEntries.Any()) return;
+        // context.WorkEntries.AddRange(AllWorkEntryData.GetData);
+        // context.SaveChanges();
     }
 
     private static void SeedFceData(AppDbContext context)

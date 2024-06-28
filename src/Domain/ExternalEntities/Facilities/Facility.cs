@@ -8,6 +8,8 @@ public record Facility
     public Facility(FacilityId id) => Id = id;
     public Facility(string id) => Id = (FacilityId)id;
 
+    [Key]
+    [Column(TypeName = "nvarchar(9)")]
     public FacilityId Id { get; init; } = default!;
 
     // Description

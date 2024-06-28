@@ -4,9 +4,10 @@ namespace AirWeb.Domain.ExternalEntities.Facilities;
 
 public partial record FacilityId
 {
+    private readonly string _value;
+
     // Constructor
 
-    private readonly string _value;
 
     public FacilityId(string id) =>
         _value = IsValidFormat(id)
@@ -28,6 +29,7 @@ public partial record FacilityId
 
     private static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
+    // FUTURE: Update regex to limit first three digits based on county list.
     // Test at https://regex101.com/r/2uYyHl/4
     // language:regex
     private const string FacilityIdPattern = @"^\d{3}-?\d{5}$";
