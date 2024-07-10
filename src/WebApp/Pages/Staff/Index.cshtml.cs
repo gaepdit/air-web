@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
+using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
+using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Staff;
@@ -17,7 +19,7 @@ public class DashboardIndexModel(IWorkEntryService workEntryService, IAuthorizat
 
         if (!IsStaff) return Page();
 
-        var spec = new WorkEntrySearchDto { Status = WorkEntryStatus.Open };
+        var spec = new WorkEntrySearchDto();
         var paging = new PaginatedRequest(1, 5, SortBy.ReceivedDateDesc.GetDescription());
         OpenWorkEntries = new DashboardCard("Recent Open Work Entries")
             { WorkEntries = (await workEntryService.SearchAsync(spec, paging, token)).Items.ToList() };
