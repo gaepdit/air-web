@@ -8,41 +8,24 @@ internal static class FceData
 {
     private static IEnumerable<Fce> FceSeedItems =>
     [
-        new Fce(401)
+        new Fce(401, DomainData.GetRandomFacility(), 2020)
         {
-            Facility = DomainData.GetRandomFacility(),
-            Year = 2020,
             ReviewedBy = UserData.GetUsers.ElementAt(0),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
         },
-        new Fce(402)
+        new Fce(402, DomainData.GetRandomFacility(), 2021)
         {
-            Facility = DomainData.GetRandomFacility(),
-            Year = 2021,
-            ReviewedBy = UserData.GetUsers.ElementAt(1),
+            ReviewedBy = null,
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-12).Date),
             OnsiteInspection = false,
-            Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+            Notes = string.Empty,
         },
-        new Fce(403)
+        new Fce(403, DomainData.GetRandomFacility(), 2022)
         {
-            Facility = DomainData.GetRandomFacility(),
-            Year = 2022,
-            ReviewedBy = UserData.GetUsers.ElementAt(2),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-14).Date),
-            OnsiteInspection = true,
-            Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-        },
-        new Fce(404)
-        {
-            Facility = DomainData.GetRandomFacility(),
-            Year = 2023,
-            ReviewedBy = UserData.GetUsers.ElementAt(3),
-            CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-18).Date),
-            OnsiteInspection = true,
-            Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+            Notes = "Deleted FCE",
         },
     ];
 
@@ -58,6 +41,7 @@ internal static class FceData
             foreach (var fce in _fces)
                 fce.Comments.AddRange(CommentData.GetRandomCommentsList());
 
+            _fces.Single(fce => fce.Id == 403).SetDeleted(SampleText.ValidGuidString);
             return _fces;
         }
     }

@@ -16,10 +16,10 @@ public record FceUpdateDto
 
     [Required]
     [Display(Name = "With on-site inspection")]
-    public bool? OnsiteInspection { get; init; }
+    public bool OnsiteInspection { get; init; }
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public string? Notes { get; init; } = string.Empty;
+    public string Notes { get; init; } = string.Empty;
 }

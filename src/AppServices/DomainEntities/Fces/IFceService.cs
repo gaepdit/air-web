@@ -10,7 +10,7 @@ public interface IFceService : IDisposable, IAsyncDisposable
     Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default);
 
     // Command
-    Task<CreateResultDto<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);
     Task<NotificationResult> UpdateAsync(int id, FceUpdateDto resource, CancellationToken token = default);
     Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
     Task<NotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);

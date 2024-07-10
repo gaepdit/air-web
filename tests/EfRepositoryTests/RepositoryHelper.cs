@@ -6,7 +6,6 @@ using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Entities;
-using AirWeb.TestData.Entities.WorkEntries;
 using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -125,22 +124,10 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private static void ClearAllStaticData()
     {
         FceData.ClearData();
-        AllWorkEntryData.ClearData();
+        WorkEntryData.ClearData();
         NotificationTypeData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
-    }
-
-    /// <summary>
-    /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
-    /// </summary>
-    /// <returns>An WorkEntryRepository.</returns>
-    public IWorkEntryRepository GetWorkEntryRepository()
-    {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
-        Context = new AppDbContext(_options);
-        return new WorkEntryRepository(Context);
     }
 
     /// <summary>
@@ -153,6 +140,18 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         DbSeedDataHelpers.SeedFceData(_context);
         Context = new AppDbContext(_options);
         return new FceRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
+    /// </summary>
+    /// <returns>An WorkEntryRepository.</returns>
+    public IWorkEntryRepository GetWorkEntryRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedAllData(_context);
+        Context = new AppDbContext(_options);
+        return new WorkEntryRepository(Context);
     }
 
     /// <summary>

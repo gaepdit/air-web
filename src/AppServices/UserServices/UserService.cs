@@ -1,7 +1,7 @@
-﻿using GaEpd.AppLibrary.Domain.Repositories;
+﻿using AirWeb.Domain.Identity;
+using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using AirWeb.Domain.Identity;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.UserServices;
@@ -19,8 +19,8 @@ public class UserService(UserManager<ApplicationUser> userManager, IHttpContextA
         await FindUserAsync(id).ConfigureAwait(false)
         ?? throw new EntityNotFoundException<ApplicationUser>(id);
 
-    public Task<ApplicationUser?> FindUserAsync(string id) =>
-        userManager.FindByIdAsync(id);
+    public async Task<ApplicationUser?> FindUserAsync(string? id) =>
+        id is null ? null : await userManager.FindByIdAsync(id).ConfigureAwait(false);
 
     public ClaimsPrincipal? GetCurrentPrincipal() => httpContextAccessor.HttpContext?.User;
 }

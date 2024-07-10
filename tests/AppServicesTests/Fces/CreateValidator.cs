@@ -13,7 +13,6 @@ public class CreateValidator
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-
         var repoMock = Substitute.For<IFceRepository>();
         repoMock.ExistsAsync(_model.FacilityId!, _model.Year)
             .Returns(false);
@@ -31,7 +30,6 @@ public class CreateValidator
     public async Task NonUniqueFacilityYear_ReturnsAsInvalid()
     {
         // Arrange
-
         var repoMock = Substitute.For<IFceRepository>();
         repoMock.ExistsAsync(_model.FacilityId!, _model.Year)
             .Returns(true);

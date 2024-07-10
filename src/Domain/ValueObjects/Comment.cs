@@ -13,7 +13,7 @@ public record Comment : ValueObject
     public string Text { get; init; } = string.Empty;
 
     public ApplicationUser? CommentBy { get; init; }
-    public DateTimeOffset CommentedAt { get; init; }
+    public DateTimeOffset CommentedAt { get; init; } = DateTimeOffset.Now;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

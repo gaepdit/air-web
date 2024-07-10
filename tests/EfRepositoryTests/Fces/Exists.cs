@@ -8,7 +8,7 @@ public class Exists
     private IFceRepository _repository = default!;
 
     [SetUp]
-    public void Setup() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -20,7 +20,7 @@ public class Exists
         var fce = FceData.GetData.First();
 
         // Act
-        var result = await _repository.ExistsAsync(fce.Facility.Id, fce.Year);
+        var result = await _repository.ExistsAsync(fce.FacilityId, fce.Year);
 
         // Assert
         result.Should().BeTrue();
@@ -34,7 +34,7 @@ public class Exists
         var fce = FceData.GetData.First();
 
         // Act
-        var result = await _repository.ExistsAsync(fce.Facility.Id, year: 0);
+        var result = await _repository.ExistsAsync(fce.FacilityId, year: 0);
 
         // Assert
         result.Should().BeFalse();
