@@ -1,5 +1,6 @@
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData.Entities;
 
 namespace AirWeb.LocalRepository.Repositories;
@@ -12,4 +13,7 @@ public sealed class LocalFceRepository()
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, CancellationToken token = default) =>
         Task.FromResult(Items.Any(fce => fce.Facility.Id == facilityId && fce.Year.Equals(year)));
+
+    public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>
+        (await GetAsync(id, token).ConfigureAwait(false)).Comments.Add(comment);
 }

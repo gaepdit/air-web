@@ -11,21 +11,44 @@ public class Fce : AuditableSoftDeleteEntity<int>
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
-    internal Fce(int? id)
+    internal Fce(int? id, Facility facility, int year)
     {
         if (id is not null) Id = id.Value;
+        Facility = facility;
+        Year = year;
+    }
+
+    internal Fce(int? id, FacilityId facilityId, int year)
+    {
+        if (id is not null) Id = id.Value;
+        FacilityId = facilityId;
+        Year = year;
     }
 
     // Properties
 
-    public Facility Facility { get; init; } = default!;
+    public FacilityId FacilityId { get; private set; } = default!;
+
+    private Facility _facility = default!;
+
+    [NotMapped]
+    public Facility Facility
+    {
+        get => _facility;
+        set
+        {
+            _facility = value;
+            FacilityId = value.Id;
+        }
+    }
+
     public int Year { get; init; }
-    public ApplicationUser? ReviewedBy { get; init; }
-    public DateOnly CompletedDate { get; init; }
-    public bool OnsiteInspection { get; init; }
+    public ApplicationUser? ReviewedBy { get; set; }
+    public DateOnly CompletedDate { get; set; }
+    public bool OnsiteInspection { get; set; }
 
     [StringLength(7000)]
-    public string Notes { get; init; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
 
     // Properties: Lists
     public List<Comment> Comments { get; } = [];

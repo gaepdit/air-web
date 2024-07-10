@@ -1,13 +1,13 @@
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
-using AirWeb.TestData.Entities.WorkEntries;
+using AirWeb.TestData.Entities;
 using System.Linq.Expressions;
 
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository()
-    : BaseRepository<BaseWorkEntry, int>(AllWorkEntryData.GetData), IWorkEntryRepository
+    : BaseRepository<BaseWorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Select(entry => entry.Id).Max() + 1;

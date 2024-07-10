@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.Fces;
 
@@ -16,4 +17,12 @@ public interface IFceRepository : IRepository<Fce, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>True if the FCE exists; otherwise false.</returns>
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, CancellationToken token = default);
+
+    /// <summary>
+    /// Adds a <see cref="Comment"/> to an <see cref="Fce"/>.
+    /// </summary>
+    /// <param name="id">The ID of the FCE.</param>
+    /// <param name="comment">The comment to add.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    Task AddCommentAsync(int id, Comment comment, CancellationToken token = default);
 }

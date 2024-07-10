@@ -35,7 +35,6 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
             CommentedAt = DateTimeOffset.Now,
         };
 
-
     private static BaseComplianceEvent CreateComplianceEvent(ComplianceEventType? type, int? id) =>
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         type switch

@@ -121,16 +121,14 @@ public sealed partial class WorkEntryService(
     }
 
     // Command
-    public async Task<CreateResultDto<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
+    public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await workEntryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
-        return new CreateResultDto<int>(workEntry.Id)
-        {
-            NotificationResult = await NotifyOwnerAsync(workEntry, Template.NewEntry, token).ConfigureAwait(false),
-        };
+        return new CreateResult<int>(workEntry.Id,
+            await NotifyOwnerAsync(workEntry, Template.EntryCreated, token).ConfigureAwait(false));
     }
 
     public async Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource,
@@ -141,7 +139,7 @@ public sealed partial class WorkEntryService(
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
         await workEntryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
-        return await NotifyOwnerAsync(workEntry, Template.UpdatedEntry, token).ConfigureAwait(false);
+        return await NotifyOwnerAsync(workEntry, Template.EntryUpdated, token).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
@@ -152,7 +150,7 @@ public sealed partial class WorkEntryService(
         await workEntryRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
 
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry, Template.CommentAdded, token, comment).ConfigureAwait(false);
+        return await NotifyOwnerAsync(workEntry, Template.EntryCommentAdded, token, comment).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource,
@@ -163,8 +161,7 @@ public sealed partial class WorkEntryService(
 
         workEntryManager.Close(workEntry, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-
-        return NotificationResult.UndefinedResult();
+        return await NotifyOwnerAsync(workEntry, Template.EntryClosed, token).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource,
@@ -175,7 +172,7 @@ public sealed partial class WorkEntryService(
 
         workEntryManager.Reopen(workEntry, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry, Template.Reopened, token).ConfigureAwait(false);
+        return await NotifyOwnerAsync(workEntry, Template.EntryReopened, token).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource,
@@ -186,8 +183,7 @@ public sealed partial class WorkEntryService(
 
         workEntryManager.Delete(workEntry, resource.Comment, currentUser);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-
-        return NotificationResult.UndefinedResult();
+        return await NotifyOwnerAsync(workEntry, Template.EntryDeleted, token).ConfigureAwait(false);
     }
 
     public async Task<NotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource,
@@ -196,8 +192,7 @@ public sealed partial class WorkEntryService(
         var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
         workEntryManager.Restore(workEntry);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-
-        return NotificationResult.UndefinedResult();
+        return await NotifyOwnerAsync(workEntry, Template.EntryRestored, token).ConfigureAwait(false);
     }
 
     private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
