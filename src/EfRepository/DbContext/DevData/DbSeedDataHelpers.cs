@@ -7,7 +7,7 @@ namespace AirWeb.EfRepository.DbContext.DevData;
 
 public static class DbSeedDataHelpers
 {
-    internal static void SeedAllData(AppDbContext context)
+    public static void SeedAllData(AppDbContext context)
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
