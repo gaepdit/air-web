@@ -2,6 +2,7 @@ using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.EfRepository.DbConnection;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.Repositories;
@@ -26,6 +27,7 @@ public static class DataPersistence
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
             services.AddSingleton<IFceRepository, LocalFceRepository>();
             services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
+            services.AddSingleton<IFacilityRepository, LocalFacilityRepository>();
 
             return;
         }

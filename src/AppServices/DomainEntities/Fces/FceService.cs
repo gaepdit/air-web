@@ -113,15 +113,8 @@ public sealed class FceService(
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose()
-    {
-        fceRepository.Dispose();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await fceRepository.DisposeAsync().ConfigureAwait(false);
-    }
+    public void Dispose() => fceRepository.Dispose();
+    public async ValueTask DisposeAsync() => await fceRepository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }
