@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.DomainEntities.Facilities;
 using AirWeb.AppServices.DomainEntities.Fces;
 using AirWeb.AppServices.DomainEntities.NotificationTypes;
 using AirWeb.AppServices.DomainEntities.Offices;
@@ -17,6 +18,9 @@ public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
+        // Facilities
+        services.AddScoped<IFacilityService, FacilityService>();
+
         // Work Entries
         services.AddScoped<IWorkEntryManager, WorkEntryManager>();
         services.AddScoped<IWorkEntryService, WorkEntryService>();
