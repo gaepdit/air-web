@@ -1,54 +1,31 @@
 using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.AppServices.Permissions;
-using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.PageModelHelpers;
+using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Policy = nameof(Policies.SiteMaintainer))]
-public class EditModel(IOfficeService officeService, IValidator<OfficeUpdateDto> validator)
-    : PageModel
+public class EditModel(IOfficeService service, IValidator<OfficeUpdateDto> validator) : EditBase
 {
-    [FromRoute]
-    public Guid Id { get; set; }
-
     [BindProperty]
     public OfficeUpdateDto Item { get; set; } = default!;
 
-    [BindProperty]
-    public string OriginalName { get; set; } = string.Empty;
-
-    [TempData]
-    public Guid HighlightId { get; set; }
-
-    public static MaintenanceOption ThisOption => MaintenanceOption.Office;
-
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (id is null) return RedirectToPage("Index");
-        var item = await officeService.FindForUpdateAsync(id.Value);
-        if (item is null) return NotFound();
+        ThisOption = MaintenanceOption.Office;
 
-        Item = item;
-        OriginalName = Item.Name;
+        if (Id is null) return RedirectToPage("Index");
+        var originalItem = await service.FindForUpdateAsync(Id.Value);
+        if (originalItem is null) return NotFound();
+
+        OriginalName = originalItem.Name;
+        Item = originalItem;
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await validator.ApplyValidationAsync(Item, ModelState, Id);
-
-        if (!ModelState.IsValid)
-        {
-            return Page();
-        }
-
-        await officeService.UpdateAsync(Id, Item);
-
-        HighlightId = Id;
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully updated.");
-        return RedirectToPage("Index");
+        ThisOption = MaintenanceOption.Office;
+        return await DoPost(service, validator, Item);
     }
 }

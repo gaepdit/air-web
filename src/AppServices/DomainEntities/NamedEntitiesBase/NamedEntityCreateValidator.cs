@@ -7,8 +7,8 @@ namespace AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 
-public class NamedEntityCreateValidator<TDto, TRepository, TEntity> : AbstractValidator<TDto>
-    where TDto : NamedEntityCreateDto
+public abstract class NamedEntityCreateValidator<TCreateDto, TRepository, TEntity> : AbstractValidator<TCreateDto>
+    where TCreateDto : NamedEntityCreateDto
     where TRepository : INamedEntityRepository<TEntity>
     where TEntity : IEntity, INamedEntity
 #pragma warning restore S2436
