@@ -7,9 +7,9 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public abstract class IndexBase : PageModel
 {
-    public IReadOnlyList<NamedEntityViewDto> Items { get; protected set; } = default!;
-    public MaintenanceOption ThisOption { get; protected set; } = default!;
-    public bool IsSiteMaintainer { get; protected set; }
+    public IReadOnlyList<NamedEntityViewDto> Items { get; private set; } = default!;
+    public MaintenanceOption ThisOption { get; private set; } = default!;
+    public bool IsSiteMaintainer { get; private set; }
 
     [TempData]
     public Guid? HighlightId { get; set; }

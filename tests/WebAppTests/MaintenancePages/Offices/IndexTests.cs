@@ -8,7 +8,9 @@ namespace WebAppTests.MaintenancePages.Offices;
 public class IndexTests
 {
     private static readonly List<OfficeViewDto> ListTest =
-        [new OfficeViewDto(Guid.NewGuid(), SampleText.ValidName, true)];
+    [
+        new OfficeViewDto { Id = Guid.NewGuid(), Name = SampleText.ValidName, Active = true },
+    ];
 
     [Test]
     public async Task OnGet_ReturnsWithList()

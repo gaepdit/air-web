@@ -7,7 +7,7 @@ using FluentValidation;
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 [Authorize(Policy = nameof(Policies.SiteMaintainer))]
-public class EditBase : PageModel
+public abstract class EditBase : PageModel
 {
     [FromRoute]
     public Guid? Id { get; set; }

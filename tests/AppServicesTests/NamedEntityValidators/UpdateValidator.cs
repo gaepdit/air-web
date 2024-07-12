@@ -19,7 +19,7 @@ public class UpdateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((NotificationType?)null);
 
-        var model = new NotificationTypeUpdateDto(SampleText.ValidName, true);
+        var model = new NotificationTypeUpdateDto {Name = SampleText.ValidName, Active = true};
 
         // Act
         var result = await new NotificationTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
@@ -36,7 +36,7 @@ public class UpdateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new NotificationType(Guid.NewGuid(), SampleText.ValidName));
 
-        var model = new NotificationTypeUpdateDto(SampleText.ValidName, true);
+        var model = new NotificationTypeUpdateDto {Name = SampleText.ValidName, Active = true};
 
         // Act
         var result = await new NotificationTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
@@ -54,7 +54,7 @@ public class UpdateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new NotificationType(Guid.Empty, SampleText.ValidName));
 
-        var model = new NotificationTypeUpdateDto(SampleText.ValidName, true);
+        var model = new NotificationTypeUpdateDto {Name = SampleText.ValidName, Active = true};
 
         // Act
         var result = await new NotificationTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
@@ -71,7 +71,7 @@ public class UpdateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((NotificationType?)null);
 
-        var model = new NotificationTypeUpdateDto(SampleText.ShortName, true);
+        var model = new NotificationTypeUpdateDto {Name = SampleText.ShortName, Active = true};
 
         // Act
         var result = await new NotificationTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
