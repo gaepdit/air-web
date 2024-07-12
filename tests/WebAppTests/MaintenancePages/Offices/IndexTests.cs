@@ -8,7 +8,9 @@ namespace WebAppTests.MaintenancePages.Offices;
 public class IndexTests
 {
     private static readonly List<OfficeViewDto> ListTest =
-        [new OfficeViewDto(Guid.NewGuid(), SampleText.ValidName, true)];
+    [
+        new OfficeViewDto { Id = Guid.NewGuid(), Name = SampleText.ValidName, Active = true },
+    ];
 
     [Test]
     public async Task OnGet_ReturnsWithList()
@@ -22,7 +24,7 @@ public class IndexTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var page = new IndexModel { TempData = WebAppTestsSetup.PageTempData() };
+        var page = new OfficeIndexModel { TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
         await page.OnGetAsync(serviceMock, authorizationMock);

@@ -1,11 +1,12 @@
 ﻿@page "{id:Guid?}"
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model EditModel
 @{
-    ViewData["Title"] = $"Edit {EditModel.ThisOption.SingularName}";
+    ViewData["Title"] = $"Edit {Model.ThisOption.SingularName}";
     ViewData["NoAnchors"] = "True";
 }
 
-<h1>Edit @EditModel.ThisOption.SingularName</h1>
+<h1>Edit @Model.ThisOption.SingularName</h1>
 <hr />
 
 <h2>@Model.OriginalName</h2>
@@ -20,14 +21,11 @@
         </div>
         <div class="col-md-8 mb-3">
             <div class="form-floating">
-                <input asp-for="Item.Name" class="form-control" />
-                <label asp-for="Item.Name" class="form-label"></label>
-                <span asp-validation-for="Item.Name" class="invalid-feedback"></span>
+                @Html.EditorFor(model => model.Item.Name, EditorTemplate.Input)
             </div>
         </div>
         <div class="mb-3">
-            <input asp-for="Item.Active" class="form-check-input" />
-            <label asp-for="Item.Active" class="form-check-label"></label>
+            @Html.EditorFor(model => model.Item.Active, EditorTemplate.Checkbox)
         </div>
         <div class="mt-3 mb-1">
             <input asp-for="OriginalName" type="hidden" />

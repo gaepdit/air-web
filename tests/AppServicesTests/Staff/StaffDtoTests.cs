@@ -51,7 +51,7 @@ public class StaffDtoTests
             Id = Guid.NewGuid().ToString(),
             Active = true,
             PhoneNumber = SampleText.ValidPhoneNumber,
-            Office = new OfficeViewDto(Guid.NewGuid(), SampleText.ValidName, true),
+            Office = new OfficeViewDto{Id = Guid.NewGuid(), Name = SampleText.ValidName,Active = true},
         };
 
         var result = staffViewDto.AsUpdateDto();

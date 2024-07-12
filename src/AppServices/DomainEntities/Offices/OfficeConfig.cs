@@ -5,11 +5,11 @@ namespace AirWeb.AppServices.DomainEntities.Offices;
 
 // DTOs
 
-public record OfficeViewDto(Guid Id, string Name, bool Active) : NamedEntityViewDto(Id, Name, Active);
+public record OfficeViewDto : NamedEntityViewDto;
 
-public record OfficeCreateDto(string Name) : NamedEntityCreateDto(Name);
+public record OfficeCreateDto : NamedEntityCreateDto;
 
-public record OfficeUpdateDto(string Name, bool Active) : NamedEntityUpdateDto(Name, Active);
+public record OfficeUpdateDto : NamedEntityUpdateDto;
 
 // Validators
 

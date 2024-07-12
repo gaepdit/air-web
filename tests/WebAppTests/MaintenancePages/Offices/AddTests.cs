@@ -9,7 +9,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 
 public class AddTests
 {
-    private static readonly OfficeCreateDto ItemTest = new(SampleText.ValidName);
+    private static readonly OfficeCreateDto ItemTest = new() { Name = SampleText.ValidName };
 
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
@@ -23,14 +23,14 @@ public class AddTests
         validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
 
-        var page = new AddModel(officeServiceMock, validatorMock)
+        var page = new AddModel()
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully added.", []);
 
         // Act
-        var result = await page.OnPostAsync();
+        var result = await page.OnPostAsync(officeServiceMock, validatorMock);
 
         // Assert
         using var scope = new AssertionScope();
@@ -54,11 +54,11 @@ public class AddTests
         validatorMock.ValidateAsync(Arg.Any<OfficeCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
 
-        var page = new AddModel(Substitute.For<IOfficeService>(), validatorMock)
+        var page = new AddModel()
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
-        var result = await page.OnPostAsync();
+        var result = await page.OnPostAsync(Substitute.For<IOfficeService>(), validatorMock);
 
         // Assert
         using var scope = new AssertionScope();

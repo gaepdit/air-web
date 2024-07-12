@@ -7,11 +7,11 @@ namespace AirWeb.AppServices.DomainEntities.NotificationTypes;
 
 // DTOs
 
-public record NotificationTypeViewDto(Guid Id, string Name, bool Active) : NamedEntityViewDto(Id, Name, Active);
+public record NotificationTypeViewDto : NamedEntityViewDto;
 
-public record NotificationTypeCreateDto(string Name) : NamedEntityCreateDto(Name);
+public record NotificationTypeCreateDto : NamedEntityCreateDto;
 
-public record NotificationTypeUpdateDto(string Name, bool Active) : NamedEntityUpdateDto(Name, Active);
+public record NotificationTypeUpdateDto : NamedEntityUpdateDto;
 
 // App Services
 
@@ -28,8 +28,7 @@ public class NotificationTypeService(
 // Validators
 
 public class NotificationTypeCreateValidator(INotificationTypeRepository repository)
-    : NamedEntityCreateValidator<NotificationTypeCreateDto, INotificationTypeRepository, NotificationType>
-        (repository);
+    : NamedEntityCreateValidator<NotificationTypeCreateDto, INotificationTypeRepository, NotificationType>(repository);
 
 public class NotificationTypeUpdateValidator(INotificationTypeRepository repository)
     : NamedEntityUpdateValidator<NotificationTypeUpdateDto, INotificationTypeRepository, NotificationType>

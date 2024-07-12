@@ -8,7 +8,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 
 public class EditTests
 {
-    private static readonly OfficeUpdateDto ItemTest = new(SampleText.ValidName, true);
+    private static readonly OfficeUpdateDto ItemTest = new() { Name = SampleText.ValidName, Active = true };
 
     [Test]
     public async Task OnGet_ReturnsWithItem()
@@ -17,11 +17,13 @@ public class EditTests
         var officeServiceMock = Substitute.For<IOfficeService>();
         officeServiceMock.FindForUpdateAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(ItemTest);
 
+        var id = Guid.NewGuid();
+
         var page = new EditModel(officeServiceMock, Substitute.For<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsSetup.PageTempData() };
+            { Id = id, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
-        await page.OnGetAsync(Guid.Empty);
+        await page.OnGetAsync();
 
         // Assert
         using var scope = new AssertionScope();
@@ -35,10 +37,10 @@ public class EditTests
     {
         // Arrange
         var page = new EditModel(Substitute.For<IOfficeService>(), Substitute.For<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsSetup.PageTempData() };
+            { Id = null, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
-        var result = await page.OnGetAsync(null);
+        var result = await page.OnGetAsync();
 
         // Assert
         using var scope = new AssertionScope();
@@ -55,10 +57,10 @@ public class EditTests
             .Returns((OfficeUpdateDto?)null);
 
         var page = new EditModel(officeServiceMock, Substitute.For<IValidator<OfficeUpdateDto>>())
-            { TempData = WebAppTestsSetup.PageTempData() };
+            { Id = Guid.Empty, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
-        var result = await page.OnGetAsync(Guid.Empty);
+        var result = await page.OnGetAsync();
 
         // Assert
         result.Should().BeOfType<NotFoundResult>();
@@ -83,7 +85,7 @@ public class EditTests
 
         // Assert
         using var scope = new AssertionScope();
-        page.HighlightId.Should().Be(page.Id);
+        page.HighlightId.Should().Be(page.Id.Value);
         page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Index");

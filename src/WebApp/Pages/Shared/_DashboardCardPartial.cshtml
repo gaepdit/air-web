@@ -21,6 +21,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Received</th>
+                        <th scope="col">Entry Type</th>
                         <th scope="col">Status</th>
                     </tr>
                     </thead>
@@ -32,7 +33,8 @@
                                 <a asp-page="WorkEntries/Details" asp-route-id="@entry.Id.ToString()" class="btn btn-outline-primary btn-sm">@entry.Id.ToString()</a>
                             </th>
                             <td class="text-nowrap">@Html.DisplayFor(_ => entry.ReceivedDate, DisplayTemplate.ShortDate)</td>
-                            <td>@Html.DisplayFor(_ => entry.Status)</td>
+                            <td>@Html.DisplayFor(_ => entry.EntryTypeName, DisplayTemplate.StringOrPlaceholder, additionalViewData: new { Placeholder = "Error" })</td>
+                            <td>@Html.DisplayFor(_ => entry.Closed, DisplayTemplate.BoolClosed)</td>
                         </tr>
                     }
                     </tbody>
