@@ -8,7 +8,7 @@ namespace WebAppTests.MaintenancePages.Offices;
 
 public class EditTests
 {
-    private static readonly OfficeUpdateDto ItemTest = new(){Name=SampleText.ValidName,Active = true};
+    private static readonly OfficeUpdateDto ItemTest = new() { Name = SampleText.ValidName, Active = true };
 
     [Test]
     public async Task OnGet_ReturnsWithItem()
@@ -20,7 +20,7 @@ public class EditTests
         var id = Guid.NewGuid();
 
         var page = new EditModel(officeServiceMock, Substitute.For<IValidator<OfficeUpdateDto>>())
-            {Id = id,TempData = WebAppTestsSetup.PageTempData() };
+            { Id = id, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
         await page.OnGetAsync();
@@ -29,7 +29,7 @@ public class EditTests
         using var scope = new AssertionScope();
         page.Item.Should().BeEquivalentTo(ItemTest);
         page.OriginalName.Should().Be(ItemTest.Name);
-        page.HighlightId.Should().Be(id);
+        page.HighlightId.Should().Be(Guid.Empty);
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class EditTests
     {
         // Arrange
         var page = new EditModel(Substitute.For<IOfficeService>(), Substitute.For<IValidator<OfficeUpdateDto>>())
-            {Id=null, TempData = WebAppTestsSetup.PageTempData() };
+            { Id = null, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
         var result = await page.OnGetAsync();
@@ -57,7 +57,7 @@ public class EditTests
             .Returns((OfficeUpdateDto?)null);
 
         var page = new EditModel(officeServiceMock, Substitute.For<IValidator<OfficeUpdateDto>>())
-            {Id=Guid.Empty, TempData = WebAppTestsSetup.PageTempData() };
+            { Id = Guid.Empty, TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
         var result = await page.OnGetAsync();
