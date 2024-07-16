@@ -27,7 +27,8 @@ public class Fce : AuditableSoftDeleteEntity<int>
 
     // Facility Properties
 
-    public FacilityId FacilityId { get; private set; } = default!;
+    [MaxLength(9)]
+    public string FacilityId { get; private set; } = string.Empty;
 
     private Facility _facility = default!;
 
