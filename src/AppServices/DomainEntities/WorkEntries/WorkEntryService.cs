@@ -146,7 +146,7 @@ public sealed partial class WorkEntryService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var comment = workEntryManager.CreateComment(resource.Comment, currentUser);
+        var comment = Comment.CreateComment(resource.Comment, currentUser);
         await workEntryRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
 
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);

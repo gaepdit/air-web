@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
@@ -25,15 +24,6 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         item.SetCreator(user?.Id);
         return item;
     }
-
-    public Comment CreateComment(string text, ApplicationUser? user) =>
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Text = text,
-            CommentBy = user,
-            CommentedAt = DateTimeOffset.Now,
-        };
 
     private static BaseComplianceEvent CreateComplianceEvent(ComplianceEventType? type, int? id) =>
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault

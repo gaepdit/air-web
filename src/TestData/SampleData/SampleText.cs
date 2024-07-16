@@ -14,7 +14,7 @@ public static class SampleText
     public const string ValidUrl = "https://example.net";
     public const string ValidPhoneNumber = "404-555-1212";
     public const int ValidReferenceNumber = 201100999;
-    public const string ValidGuidString = "99999999-0000-0000-0000-999999999999";
+    public const string UnassignedGuidString = "99999999-0000-0000-0000-999999999999";
 
     // Words and phrases
     public enum TextLength

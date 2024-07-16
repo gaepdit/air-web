@@ -1,4 +1,5 @@
 using AirWeb.Domain.Entities.Fces;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.Entities;
 
 namespace EfRepositoryTests.Fces;
@@ -20,7 +21,7 @@ public class Exists
         var fce = FceData.GetData.First();
 
         // Act
-        var result = await _repository.ExistsAsync(fce.FacilityId, fce.Year);
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year);
 
         // Assert
         result.Should().BeTrue();
@@ -34,7 +35,7 @@ public class Exists
         var fce = FceData.GetData.First();
 
         // Act
-        var result = await _repository.ExistsAsync(fce.FacilityId, year: 0);
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, year: 0);
 
         // Assert
         result.Should().BeFalse();

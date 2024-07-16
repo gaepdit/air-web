@@ -7,6 +7,14 @@ namespace AirWeb.Domain.ValueObjects;
 [Owned]
 public record Comment : ValueObject
 {
+    public static Comment CreateComment(string text, ApplicationUser? user) => new()
+    {
+        Id = Guid.NewGuid(),
+        Text = text,
+        CommentBy = user,
+    };
+
+    // Properties
     public Guid Id { get; init; }
 
     [StringLength(15_000)]

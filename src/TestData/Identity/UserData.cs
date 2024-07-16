@@ -6,11 +6,13 @@ namespace AirWeb.TestData.Identity;
 
 internal static partial class UserData
 {
+    public const string AdminUserId = "00000000-0000-0000-0000-000000000001";
+
     private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
     {
         new() // 0
         {
-            Id = "00000000-0000-0000-0000-000000000001",
+            Id = AdminUserId,
             GivenName = "Admin",
             FamilyName = "User1",
             Email = "admin.user@example.net",

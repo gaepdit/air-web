@@ -25,8 +25,17 @@ public static class DbSeedDataHelpers
     internal static void SeedFceData(AppDbContext context)
     {
         if (context.Fces.Any()) return;
+
+        context.Database.BeginTransaction();
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces ON");
+
         context.Fces.AddRange(FceData.GetData);
         context.SaveChanges();
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces OFF");
+        context.Database.CommitTransaction();
     }
 
     internal static void SeedNotificationTypeData(AppDbContext context)

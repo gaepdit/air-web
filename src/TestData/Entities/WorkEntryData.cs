@@ -1,4 +1,5 @@
 using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 using static AirWeb.TestData.Entities.WorkEntries.WorkEntries;
 
@@ -36,13 +37,13 @@ internal static class WorkEntryData
                 workEntry.Comments.AddRange(CommentData.GetRandomCommentsList());
 
             // Set as deleted
-            _workEntries.Single(entry => entry.Id == 5003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 6003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 7003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 8003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 9003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 10003).SetDeleted(SampleText.ValidGuidString);
-            _workEntries.Single(entry => entry.Id == 11003).SetDeleted(SampleText.ValidGuidString);
+            _workEntries.Single(entry => entry.Id == 5003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 6003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 7003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 8003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 9003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 10003).SetDeleted(UserData.AdminUserId);
+            _workEntries.Single(entry => entry.Id == 11003).SetDeleted(UserData.AdminUserId);
 
             return _workEntries;
         }
