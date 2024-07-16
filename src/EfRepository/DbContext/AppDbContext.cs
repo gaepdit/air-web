@@ -47,17 +47,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
         builder.Entity<BaseWorkEntry>().Property(entry => entry.WorkEntryType).HasConversion<string>();
 
-        // === The following configurations are for Sqlite only.
-        if (Database.ProviderName != SqliteProvider) return;
-
         // == Collections of owned types
         // Sqlite and EF Core are in conflict on how to handle collections of owned types.
         // See: https://stackoverflow.com/a/69826156/212978
         // and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
-
         builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
         {
             owned.ToTable("Fce_Comments");
+            if (Database.ProviderName != SqliteProvider) return;
             owned.HasKey(propertyNames: "Id");
             owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
         });
@@ -65,12 +62,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         builder.Entity<BaseWorkEntry>().OwnsMany(entry => entry.Comments, owned =>
         {
             owned.ToTable("WorkEntry_Comments");
+            if (Database.ProviderName != SqliteProvider) return;
             owned.HasKey(propertyNames: "Id");
             owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
         });
 
         // == "Handling DateTimeOffset in SQLite with Entity Framework Core"
         // https://blog.dangl.me/archive/handling-datetimeoffset-in-sqlite-with-entity-framework-core/
+        if (Database.ProviderName != SqliteProvider) return;
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
             // This doesn't work with owned types which instead are configured above.

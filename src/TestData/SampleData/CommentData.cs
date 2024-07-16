@@ -8,8 +8,8 @@ public static class CommentData
     public static List<Comment> GetRandomCommentsList()
     {
         var commentList = new List<Comment>();
-
-        for (var i = 0; i < new Random().Next(4); i++)
+        var commentCount = new Random().Next(4);
+        for (var i = 0; i < commentCount; i++)
         {
             commentList.Add(new Comment
             {
