@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.Fces;
 
@@ -20,14 +19,6 @@ public class FceManager(IFceRepository repository, IFacilityRepository facilityR
         item.SetCreator(user?.Id);
         return item;
     }
-
-    public Comment CreateComment(string text, ApplicationUser? user) =>
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Text = text,
-            CommentBy = user,
-        };
 
     public void Delete(Fce fce, string? comment, ApplicationUser? user)
     {

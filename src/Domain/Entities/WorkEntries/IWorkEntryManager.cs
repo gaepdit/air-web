@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
@@ -16,14 +15,6 @@ public interface IWorkEntryManager
     /// <returns>The Work Entry that was created.</returns>
     BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user, ComplianceEventType? complianceEventType = null,
         NotificationType? notificationType = null);
-
-    /// <summary>
-    /// Creates a new <see cref="Comment"/>.
-    /// </summary>
-    /// <param name="text">The text of the comment.</param>
-    /// <param name="user">The <see cref="ApplicationUser"/> who wrote the comment.</param>
-    /// <returns>The Comment that was created.</returns>
-    Comment CreateComment(string text, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="BaseWorkEntry"/> to indicate that it was reviewed and closed.

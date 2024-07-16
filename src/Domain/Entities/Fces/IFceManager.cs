@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.Entities.Fces;
 
@@ -22,14 +21,6 @@ public interface IFceManager
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>The created FCE.</returns>
     Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user, CancellationToken token = default);
-
-    /// <summary>
-    /// Creates a new <see cref="Comment"/>.
-    /// </summary>
-    /// <param name="text">The text of the comment.</param>
-    /// <param name="user">The <see cref="ApplicationUser"/> who wrote the comment.</param>
-    /// <returns>The Comment that was created.</returns>
-    Comment CreateComment(string text, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="Fce"/> to indicate that it was deleted.

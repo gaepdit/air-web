@@ -63,7 +63,7 @@ public sealed class FceService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var comment = fceManager.CreateComment(resource.Comment, currentUser);
+        var comment = Comment.CreateComment(resource.Comment, currentUser);
         await fceRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
 
         var fce = await fceRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
