@@ -25,7 +25,7 @@ public class Fce : AuditableSoftDeleteEntity<int>
         Year = year;
     }
 
-    // Properties
+    // Facility Properties
 
     public FacilityId FacilityId { get; private set; } = default!;
 
@@ -41,6 +41,8 @@ public class Fce : AuditableSoftDeleteEntity<int>
             FacilityId = value.Id;
         }
     }
+
+    // FCE Properties
 
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }

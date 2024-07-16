@@ -4,29 +4,39 @@ namespace AirWeb.Domain.ExternalEntities.Facilities;
 
 public partial record FacilityId
 {
-    private readonly string _value;
+    private readonly string _id = string.Empty;
 
     // Constructor
 
+    [UsedImplicitly] // Used by ORM.
+    private FacilityId() { }
 
-    public FacilityId(string id) =>
-        _value = IsValidFormat(id)
-            ? id.Replace("-", "")
-            : throw new ArgumentException($"{id} is not a valid Facility ID format.");
+    public FacilityId(string id) => Id = id;
 
     // Properties
 
-    public string Id => $"{_value[..3]}-{_value[3..8]}";
-    public string EpaFacilityIdentifier => $"GA00000013{_value}";
+    [Key]
+    public string Id
+    {
+        get => !string.IsNullOrEmpty(_id)
+            ? _id
+            : throw new InvalidOperationException("Id not initialized.");
+
+        private init => _id = IsValidFormat(value)
+            ? value.Replace("-", "")
+            : throw new ArgumentException($"The value '{value}' is not a valid Facility ID format.");
+    }
+
+    public string FormattedId => $"{_id[..3]}-{_id[3..8]}";
+    public string EpaFacilityIdentifier => $"GA00000013{_id}";
 
     // Operators
 
-    public static implicit operator string(FacilityId id) => id.Id;
+    public static implicit operator string(FacilityId id) => id.FormattedId;
     public static explicit operator FacilityId(string id) => new(id);
-    public override string ToString() => Id;
+    public override string ToString() => FormattedId;
 
     // Format validation
-
     private static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
     // FUTURE: Update regex to limit first three digits based on county list.

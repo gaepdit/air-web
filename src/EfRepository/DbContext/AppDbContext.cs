@@ -57,12 +57,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
         {
+            owned.ToTable("Fce_Comments");
             owned.HasKey(propertyNames: "Id");
             owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
         });
 
         builder.Entity<BaseWorkEntry>().OwnsMany(entry => entry.Comments, owned =>
         {
+            owned.ToTable("WorkEntry_Comments");
             owned.HasKey(propertyNames: "Id");
             owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
         });

@@ -9,6 +9,7 @@ using AirWeb.TestData.Entities;
 using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -37,7 +38,12 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// </summary>
     private RepositoryHelper()
     {
-        _options = SqliteInMemory.CreateOptions<AppDbContext>();
+        _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
+            builder.LogTo(
+                Console.WriteLine,
+                new[] { DbLoggerCategory.Database.Command.Name },
+                LogLevel.Information));
+
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();
     }
@@ -50,7 +56,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper(object callingClass, string callingMember)
     {
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
-            builder: opts => opts.UseSqlServer());
+            builder: dbBuilder => dbBuilder.UseSqlServer());
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
     }
@@ -137,6 +143,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public IFceRepository GetFceRepository()
     {
         ClearAllStaticData();
+        DbSeedDataHelpers.SeedIdentityData(_context);
         DbSeedDataHelpers.SeedFceData(_context);
         Context = new AppDbContext(_options);
         return new FceRepository(Context);

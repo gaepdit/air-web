@@ -1,13 +1,13 @@
-using GaEpd.FileService;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.OpenApi.Models;
-using Mindscape.Raygun4Net;
-using Mindscape.Raygun4Net.AspNetCore;
 using AirWeb.AppServices.ErrorLogging;
 using AirWeb.AppServices.RegisterServices;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.ErrorLogging;
 using AirWeb.WebApp.Platform.Settings;
+using GaEpd.FileService;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.OpenApi.Models;
+using Mindscape.Raygun4Net;
+using Mindscape.Raygun4Net.AspNetCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,7 +70,7 @@ builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
 // Add data stores.
-builder.Services.AddDataPersistence(builder.Configuration);
+builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);
 builder.Services.AddFileServices(builder.Configuration);
 
 // Initialize database.
@@ -79,17 +79,17 @@ builder.Services.AddHostedService<MigratorHostedService>();
 // Add API documentation.
 builder.Services.AddMvcCore().AddApiExplorer();
 
-const string ApiVersion = "v1";
-const string ApiTitle = "Air Protection Branch Web App API";
+const string apiVersion = "v1";
+const string apiTitle = "Air Protection Branch Web App API";
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc(ApiVersion, new OpenApiInfo
+    options.SwaggerDoc(apiVersion, new OpenApiInfo
     {
-        Version = ApiVersion,
-        Title = ApiTitle,
+        Version = apiVersion,
+        Title = apiTitle,
         Contact = new OpenApiContact
         {
-            Name = $"{ApiTitle} Support",
+            Name = $"{apiTitle} Support",
             Email = builder.Configuration["SupportEmail"],
         },
     });
@@ -130,9 +130,9 @@ app.UseStatusCodePagesWithReExecute("/Error/{0}")
 app.UseSwagger(options => { options.RouteTemplate = "api-docs/{documentName}/openapi.json"; })
     .UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint($"{ApiVersion}/openapi.json", $"{ApiTitle} {ApiVersion}");
+        options.SwaggerEndpoint($"{apiVersion}/openapi.json", $"{apiTitle} {apiVersion}");
         options.RoutePrefix = "api-docs";
-        options.DocumentTitle = ApiTitle;
+        options.DocumentTitle = apiTitle;
     });
 
 // Map endpoints.
@@ -140,4 +140,4 @@ app.MapRazorPages();
 app.MapControllers();
 
 // Make it so.
-app.Run();
+await app.RunAsync();

@@ -41,7 +41,7 @@ internal static class FceData
             foreach (var fce in _fces)
                 fce.Comments.AddRange(CommentData.GetRandomCommentsList());
 
-            _fces.Single(fce => fce.Id == 403).SetDeleted(SampleText.ValidGuidString);
+            _fces.Single(fce => fce.Id == 403).SetDeleted(UserData.AdminUserId);
             return _fces;
         }
     }

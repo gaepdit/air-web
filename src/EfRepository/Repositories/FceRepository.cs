@@ -12,7 +12,7 @@ public sealed class FceRepository(AppDbContext context)
     public int? GetNextId() => null;
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, CancellationToken token = default) =>
-        Context.Fces.AsNoTracking().AnyAsync(fce => fce.Facility.Id == facilityId && fce.Year.Equals(year), token);
+        Context.Fces.AsNoTracking().AnyAsync(fce => fce.FacilityId == facilityId && fce.Year.Equals(year), token);
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {
