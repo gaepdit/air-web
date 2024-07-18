@@ -11,13 +11,6 @@ public class Fce : AuditableSoftDeleteEntity<int>
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
-    internal Fce(int? id, Facility facility, int year)
-    {
-        if (id is not null) Id = id.Value;
-        Facility = facility;
-        Year = year;
-    }
-
     internal Fce(int? id, FacilityId facilityId, int year)
     {
         if (id is not null) Id = id.Value;
