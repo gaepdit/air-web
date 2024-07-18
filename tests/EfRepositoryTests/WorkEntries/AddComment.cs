@@ -1,7 +1,7 @@
 using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData.Entities;
 
-namespace LocalRepositoryTests.WorkEntries;
+namespace EfRepositoryTests.WorkEntries;
 
 public class AddComment
 {
@@ -9,13 +9,15 @@ public class AddComment
     public async Task AddComment_AddsComment()
     {
         // Arrange
-        await using var repository = RepositoryHelper.GetWorkEntryRepository();
+        await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
+        await using var repository = repositoryHelper.GetWorkEntryRepository();
 
         var entryId = WorkEntryData.GetData.First().Id;
         var newComment = Comment.CreateComment("abc", null);
 
         // Act
         await repository.AddCommentAsync(entryId, newComment);
+        repositoryHelper.ClearChangeTracker();
         var entryInRepo = await repository.GetAsync(entryId);
 
         // Assert

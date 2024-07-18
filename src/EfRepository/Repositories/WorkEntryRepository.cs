@@ -36,7 +36,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceEvent>().AsNoTracking()
             .Where(complianceEvent => complianceEvent.Id.Equals(id))
-            .Select(complianceEvent => complianceEvent.ComplianceEventType).SingleOrDefaultAsync(token);
+            .Select(complianceEvent => complianceEvent.ComplianceEventType).SingleAsync(token);
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
@@ -44,9 +44,8 @@ public sealed class WorkEntryRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {
-        var entry = await Context.Set<WorkEntry>().AsNoTracking()
-            .SingleAsync(entry => entry.Id.Equals(id), token).ConfigureAwait(false);
+        var entry = await GetAsync(id, token).ConfigureAwait(false);
         entry.Comments.Add(comment);
-        await UpdateAsync(entry, true, token).ConfigureAwait(false);
+        await SaveChangesAsync(token).ConfigureAwait(false);
     }
 }

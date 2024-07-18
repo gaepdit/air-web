@@ -39,7 +39,7 @@ internal static class FceData
             _fces = FceSeedItems.ToList();
 
             foreach (var fce in _fces)
-                fce.Comments.AddRange(CommentData.GetRandomCommentsList());
+                fce.Comments.AddRange(CommentData.GetRandomCommentsList(1));
 
             _fces.Single(fce => fce.Id == 403).SetDeleted(UserData.AdminUserId);
             return _fces;

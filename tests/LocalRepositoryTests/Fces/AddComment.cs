@@ -1,31 +1,25 @@
 using AirWeb.Domain.ValueObjects;
-using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Entities;
 
 namespace LocalRepositoryTests.Fces;
 
 public class AddComment
 {
-    private LocalFceRepository _repository = default!;
-
-    [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetFceRepository();
-
-    [TearDown]
-    public void TearDown() => _repository.Dispose();
-
     [Test]
     public async Task AddComment_AddsComment()
     {
         // Arrange
-        var fce = FceData.GetData.First();
-        var comment = Comment.CreateComment("abc", null);
-        await _repository.AddCommentAsync(fce.Id, comment);
+        await using var repository = RepositoryHelper.GetFceRepository();
+
+        var fceId = FceData.GetData.First().Id;
+        var newComment = Comment.CreateComment("abc", null);
 
         // Act
-        var fceInRepo = await _repository.GetAsync(fce.Id);
+        await repository.AddCommentAsync(fceId, newComment);
+        var fceInRepo = await repository.GetAsync(fceId);
 
         // Assert
-        fceInRepo.Comments[^1].Should().BeEquivalentTo(comment);
+        fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+            .Should().BeEquivalentTo(newComment);
     }
 }

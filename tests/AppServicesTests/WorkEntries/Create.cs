@@ -38,13 +38,20 @@ public class Create
                 Arg.Any<object?[]>())
             .Returns(NotificationResult.SuccessResult());
 
+        var facilityId = (FacilityId)"00100001";
+        var facility = new Facility(facilityId);
+
+        var facilityRepository = Substitute.For<IFacilityRepository>();
+        facilityRepository.GetFacilityAsync(facilityId, Arg.Any<CancellationToken>())
+            .Returns(facility);
+
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, notificationMock, Substitute.For<IFacilityRepository>(), userServiceMock,
+            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock,
             Substitute.For<IAuthorizationService>());
 
         var item = new PermitRevocationCreateDto
         {
-            FacilityId = (FacilityId)"00100001",
+            FacilityId = facilityId,
             Notes = SampleText.ValidName,
             ResponsibleStaffId = user.Id,
         };

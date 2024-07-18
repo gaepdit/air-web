@@ -4,7 +4,7 @@ namespace AirWeb.Domain.ExternalEntities.Facilities;
 
 public partial record FacilityId
 {
-    private readonly string _id = string.Empty;
+    private readonly string? _id = string.Empty;
 
     // Constructor
 
@@ -18,17 +18,15 @@ public partial record FacilityId
     [Key]
     public string Id
     {
-        get => !string.IsNullOrEmpty(_id)
-            ? _id
-            : throw new InvalidOperationException("Id not initialized.");
+        get => _id ?? throw new InvalidOperationException("Id not initialized.");
 
         private init => _id = IsValidFormat(value)
             ? value.Replace("-", "")
             : throw new ArgumentException($"The value '{value}' is not a valid Facility ID format.");
     }
 
-    public string FormattedId => $"{_id[..3]}-{_id[3..8]}";
-    public string EpaFacilityIdentifier => $"GA00000013{_id}";
+    public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
+    public string EpaFacilityIdentifier => $"GA00000013{Id}";
 
     // Operators
 

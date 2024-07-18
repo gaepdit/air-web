@@ -1,14 +1,14 @@
-using AirWeb.LocalRepository.Repositories;
+using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData.Entities;
 
-namespace LocalRepositoryTests.WorkEntries;
+namespace EfRepositoryTests.WorkEntries;
 
 public class GetNotificationType
 {
-    private LocalWorkEntryRepository _repository = default!;
+    private IWorkEntryRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

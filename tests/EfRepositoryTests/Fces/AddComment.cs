@@ -1,4 +1,3 @@
-using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData.Entities;
 
@@ -6,26 +5,43 @@ namespace EfRepositoryTests.Fces;
 
 public class AddComment
 {
-    private IFceRepository _repository = default!;
-
-    [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();
-
-    [TearDown]
-    public void TearDown() => _repository.Dispose();
-
     [Test]
-    public async Task AddComment_AddsComment()
+    public async Task AddComment_InSqlServer_AddsComment()
     {
         // Arrange
-        var fce = FceData.GetData.First();
-        var comment = Comment.CreateComment("abc", null);
-        await _repository.AddCommentAsync(fce.Id, comment);
+        await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
+        await using var repository = repositoryHelper.GetFceRepository();
+
+        var fceId = FceData.GetData.First().Id;
+        var newComment = Comment.CreateComment("abc", null);
 
         // Act
-        var fceInRepo = await _repository.GetAsync(fce.Id);
+        await repository.AddCommentAsync(fceId, newComment);
+        repositoryHelper.ClearChangeTracker();
+        var fceInRepo = await repository.GetAsync(fceId);
 
         // Assert
-        fceInRepo.Comments[^1].Should().BeEquivalentTo(comment);
+        fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+            .Should().BeEquivalentTo(newComment);
+    }
+
+    [Test]
+    public async Task AddComment_InSqlite_AddsComment()
+    {
+        // Arrange
+        await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
+        await using var repository = repositoryHelper.GetFceRepository();
+
+        var fceId = FceData.GetData.First().Id;
+        var newComment = Comment.CreateComment("abc", null);
+
+        // Act
+        await repository.AddCommentAsync(fceId, newComment);
+        repositoryHelper.ClearChangeTracker();
+        var fceInRepo = await repository.GetAsync(fceId);
+
+        // Assert
+        fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+            .Should().BeEquivalentTo(newComment);
     }
 }

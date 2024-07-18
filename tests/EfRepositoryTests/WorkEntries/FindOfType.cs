@@ -1,23 +1,30 @@
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.TestData.Entities;
 
-namespace LocalRepositoryTests.WorkEntries;
+namespace EfRepositoryTests.WorkEntries;
 
 public class FindOfType
 {
+    private IWorkEntryRepository _repository = default!;
+
+    [SetUp]
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
+
+    [TearDown]
+    public void TearDown() => _repository.Dispose();
+
     [Test]
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        await using var repository = RepositoryHelper.GetWorkEntryRepository();
         var entry = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(WorkEntryType.Notification));
 
         // Act
-        var result = await repository.FindAsync<Notification>(entry.Id);
+        var result = await _repository.FindAsync<Notification>(entry.Id);
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(entry);
+        result.Should().BeEquivalentTo(entry, options => options.Excluding(workEntry => workEntry.Facility));
         result!.WorkEntryType.Should().Be(WorkEntryType.Notification);
         result.Should().BeOfType<Notification>();
     }
@@ -25,11 +32,8 @@ public class FindOfType
     [Test]
     public async Task GivenNonexistentId_ReturnsNull()
     {
-        // Arrange
-        await using var repository = RepositoryHelper.GetWorkEntryRepository();
-
         // Act
-        var result = await repository.FindAsync<Notification>(id: 0);
+        var result = await _repository.FindAsync<Notification>(id: 0);
 
         // Assert
         result.Should().BeNull();
