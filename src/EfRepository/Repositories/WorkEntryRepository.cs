@@ -25,7 +25,8 @@ public sealed class WorkEntryRepository(AppDbContext context)
                 (queryable, includeProperty) => queryable.Include(includeProperty))
             .SingleOrDefaultAsync(predicate, token);
 
-    public Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default) where TEntry : WorkEntry =>
+    public Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
+        where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking().SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
@@ -37,10 +38,9 @@ public sealed class WorkEntryRepository(AppDbContext context)
             .Where(complianceEvent => complianceEvent.Id.Equals(id))
             .Select(complianceEvent => complianceEvent.ComplianceEventType).SingleOrDefaultAsync(token);
 
-    public Task<NotificationType> GetNotificationTypeAsync(Guid id, CancellationToken token = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
+        Context.Set<NotificationType>().AsNoTracking()
+            .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {
