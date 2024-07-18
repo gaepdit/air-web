@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository()
-    : BaseRepository<BaseWorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
+    : BaseRepository<WorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Select(entry => entry.Id).Max() + 1;
@@ -16,7 +16,7 @@ public sealed class LocalWorkEntryRepository()
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
 
     public Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(((BaseComplianceEvent)Items.Single(entry => entry.Id.Equals(id))).ComplianceEventType);
+        Task.FromResult(((ComplianceEvent)Items.Single(entry => entry.Id.Equals(id))).ComplianceEventType);
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid id, CancellationToken token = default)
     {
@@ -24,14 +24,14 @@ public sealed class LocalWorkEntryRepository()
     }
 
     public async Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
-        where TEntry : BaseWorkEntry =>
+        where TEntry : WorkEntry =>
         (TEntry?)await FindAsync(id, token).ConfigureAwait(false);
 
-    public Task<BaseWorkEntry?> FindAsync(Expression<Func<BaseWorkEntry, bool>> predicate, string[] includeProperties,
+    public Task<WorkEntry?> FindAsync(Expression<Func<WorkEntry, bool>> predicate, string[] includeProperties,
         CancellationToken token = default) =>
         FindAsync(predicate, token);
 
-    public Task<BaseWorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
+    public Task<WorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
         GetAsync(id, token);
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>

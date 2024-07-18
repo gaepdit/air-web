@@ -5,13 +5,13 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public BaseWorkEntry Create(WorkEntryType type, ApplicationUser? user,
+    public WorkEntry Create(WorkEntryType type, ApplicationUser? user,
         ComplianceEventType? complianceEventType = null, NotificationType? notificationType = null)
     {
         var id = repository.GetNextId();
 
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
-        BaseWorkEntry item = type switch
+        WorkEntry item = type switch
         {
             WorkEntryType.Notification => new Notification(id,
                 notificationType ??
@@ -25,7 +25,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         return item;
     }
 
-    private static BaseComplianceEvent CreateComplianceEvent(ComplianceEventType? type, int? id) =>
+    private static ComplianceEvent CreateComplianceEvent(ComplianceEventType? type, int? id) =>
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         type switch
         {
@@ -38,33 +38,33 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
             _ => throw new ArgumentException("Invalid compliance event type.", nameof(type)),
         };
 
-    public void Close(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
+    public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
-        baseWorkEntry.SetUpdater(user?.Id);
-        baseWorkEntry.IsClosed = true;
-        baseWorkEntry.ClosedDate = DateOnly.FromDateTime(DateTime.Now);
-        baseWorkEntry.ClosedBy = user;
+        workEntry.SetUpdater(user?.Id);
+        workEntry.IsClosed = true;
+        workEntry.ClosedDate = DateOnly.FromDateTime(DateTime.Now);
+        workEntry.ClosedBy = user;
     }
 
-    public void Reopen(BaseWorkEntry baseWorkEntry, ApplicationUser? user)
+    public void Reopen(WorkEntry workEntry, ApplicationUser? user)
     {
-        baseWorkEntry.SetUpdater(user?.Id);
-        baseWorkEntry.IsClosed = false;
-        baseWorkEntry.ClosedDate = null;
-        baseWorkEntry.ClosedBy = null;
+        workEntry.SetUpdater(user?.Id);
+        workEntry.IsClosed = false;
+        workEntry.ClosedDate = null;
+        workEntry.ClosedBy = null;
     }
 
-    public void Delete(BaseWorkEntry baseWorkEntry, string? comment, ApplicationUser? user)
+    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
     {
-        baseWorkEntry.SetDeleted(user?.Id);
-        baseWorkEntry.DeletedBy = user;
-        baseWorkEntry.DeleteComments = comment;
+        workEntry.SetDeleted(user?.Id);
+        workEntry.DeletedBy = user;
+        workEntry.DeleteComments = comment;
     }
 
-    public void Restore(BaseWorkEntry baseWorkEntry)
+    public void Restore(WorkEntry workEntry)
     {
-        baseWorkEntry.SetNotDeleted();
-        baseWorkEntry.DeletedBy = null;
-        baseWorkEntry.DeleteComments = null;
+        workEntry.SetNotDeleted();
+        workEntry.DeletedBy = null;
+        workEntry.DeleteComments = null;
     }
 }

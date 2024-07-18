@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class PermitRevocation : BaseWorkEntry
+public class PermitRevocation : WorkEntry
 {
     // Constructors
 

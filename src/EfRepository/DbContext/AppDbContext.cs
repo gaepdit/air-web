@@ -28,12 +28,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
     // Work entries
-    public DbSet<BaseWorkEntry> WorkEntries => Set<BaseWorkEntry>();
+    public DbSet<WorkEntry> WorkEntries => Set<WorkEntry>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
 
     // Compliance events
-    public DbSet<BaseComplianceEvent> ComplianceEvents => Set<BaseComplianceEvent>();
+    public DbSet<ComplianceEvent> ComplianceEvents => Set<ComplianceEvent>();
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
     public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
@@ -55,7 +55,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         builder.Entity<ApplicationUser>().Navigation(e => e.Office).AutoInclude();
 
         // Work Entries
-        var workEntryEntity = builder.Entity<BaseWorkEntry>();
+        var workEntryEntity = builder.Entity<WorkEntry>();
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
 
         // === Additional configuration ===
@@ -69,8 +69,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         // Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<BaseWorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
-        builder.Entity<BaseComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
+        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
 
         // == Collections of owned types
         // Sqlite and EF Core are in conflict on how to handle collections of owned types.
@@ -84,7 +84,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
         });
 
-        builder.Entity<BaseWorkEntry>().OwnsMany(entry => entry.Comments, owned =>
+        builder.Entity<WorkEntry>().OwnsMany(entry => entry.Comments, owned =>
         {
             owned.ToTable("WorkEntry_Comments");
             if (Database.ProviderName != SqliteProvider) return;

@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class RmpInspection : BaseComplianceEvent
+public class RmpInspection : ComplianceEvent
 {
     // Constructors
 

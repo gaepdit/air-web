@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
 
-public record PermitRevocationCreateDto : BaseWorkEntryCreateDto, IPermitRevocationCommandDto
+public record PermitRevocationCreateDto : WorkEntryCreateDto, IPermitRevocationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

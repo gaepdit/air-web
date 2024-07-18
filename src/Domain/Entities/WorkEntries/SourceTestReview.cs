@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class SourceTestReview : BaseComplianceEvent
+public class SourceTestReview : ComplianceEvent
 {
     // Constructors
 

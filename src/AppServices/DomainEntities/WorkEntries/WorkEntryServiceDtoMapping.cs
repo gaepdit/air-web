@@ -1,11 +1,11 @@
 using AirWeb.AppServices.DomainEntities.WorkEntries.Accs;
-using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
 using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
 using AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
@@ -14,7 +14,7 @@ namespace AirWeb.AppServices.DomainEntities.WorkEntries;
 
 public sealed partial class WorkEntryService
 {
-    private async Task<BaseWorkEntry> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
+    private async Task<WorkEntry> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
         ApplicationUser? currentUser, CancellationToken token = default)
     {
         var workEntry = resource switch
@@ -38,7 +38,7 @@ public sealed partial class WorkEntryService
         return workEntry;
     }
 
-    private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, BaseWorkEntry workEntry,
+    private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, WorkEntry workEntry,
         CancellationToken token = default)
     {
         workEntry.Facility = await facilityRepository.GetFacilityAsync((FacilityId)resource.FacilityId!, token)
@@ -77,7 +77,7 @@ public sealed partial class WorkEntryService
         }
     }
 
-    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, BaseWorkEntry workEntry,
+    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, WorkEntry workEntry,
         CancellationToken token)
     {
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null

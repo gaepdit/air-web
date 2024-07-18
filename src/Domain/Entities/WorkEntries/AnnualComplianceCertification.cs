@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class AnnualComplianceCertification : BaseComplianceEvent
+public class AnnualComplianceCertification : ComplianceEvent
 {
     // Constructors
 

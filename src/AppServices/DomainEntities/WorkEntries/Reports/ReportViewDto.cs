@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
 
-public record ReportViewDto : BaseWorkEntryViewDto
+public record ReportViewDto : WorkEntryViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

@@ -4,11 +4,11 @@ using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+namespace AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 
-public record BaseWorkEntryViewDto : IWorkEntryViewDto
+public record WorkEntryViewDto : IWorkEntryViewDto
 {
-    protected BaseWorkEntryViewDto() { }
+    protected WorkEntryViewDto() { }
 
     public int Id { get; init; }
 

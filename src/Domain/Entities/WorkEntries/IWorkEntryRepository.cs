@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
+public interface IWorkEntryRepository : IRepository<WorkEntry, int>
 {
     // Will return the next available ID if the repository requires it for adding new entities (e.g., local repository).
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
@@ -12,18 +12,18 @@ public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
 
     // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
-    /// Returns the <see cref="BaseWorkEntry"/> with the given <paramref name="id"/>.
+    /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/>.
     /// </summary>
     /// <param name="id">The ID of the entity.</param>
     /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no entity exists with the given Id.</exception>
     /// <returns>An entity.</returns>
-    Task<BaseWorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default);
+    Task<WorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default);
 
     // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
-    /// Returns the <see cref="BaseWorkEntry"/> matching the conditions of the <paramref name="predicate"/>.
+    /// Returns the <see cref="WorkEntry"/> matching the conditions of the <paramref name="predicate"/>.
     /// Returns null if there are no matches.
     /// </summary>
     /// <param name="predicate">The search conditions.</param>
@@ -31,7 +31,7 @@ public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <exception cref="InvalidOperationException">Thrown if there are multiple matches.</exception>
     /// <returns>An entity or null.</returns>
-    Task<BaseWorkEntry?> FindAsync(Expression<Func<BaseWorkEntry, bool>> predicate, string[] includeProperties,
+    Task<WorkEntry?> FindAsync(Expression<Func<WorkEntry, bool>> predicate, string[] includeProperties,
         CancellationToken token = default);
 
     /// <summary>
@@ -41,10 +41,10 @@ public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
     /// <param name="id">The ID of the entity.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An entity or null.</returns>
-    Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default) where TEntry : BaseWorkEntry;
+    Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default) where TEntry : WorkEntry;
 
     /// <summary>
-    /// Gets the <see cref="WorkEntryType"/> for the <see cref="BaseWorkEntry"/> with the specified ID.
+    /// Gets the <see cref="WorkEntryType"/> for the <see cref="WorkEntry"/> with the specified ID.
     /// </summary>
     /// <param name="id">The ID of the Entry to look up.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
@@ -52,7 +52,7 @@ public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
     Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
     /// <summary>
-    /// Gets the <see cref="ComplianceEventType"/> for the <see cref="BaseComplianceEvent"/> with the specified ID.
+    /// Gets the <see cref="ComplianceEventType"/> for the <see cref="ComplianceEvent"/> with the specified ID.
     /// </summary>
     /// <param name="id">The ID of the Entry to look up.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
@@ -69,7 +69,7 @@ public interface IWorkEntryRepository : IRepository<BaseWorkEntry, int>
     Task<NotificationType> GetNotificationTypeAsync(Guid id, CancellationToken token = default);
 
     /// <summary>
-    /// Adds a <see cref="Comment"/> to a <see cref="BaseWorkEntry"/>.
+    /// Adds a <see cref="Comment"/> to a <see cref="WorkEntry"/>.
     /// </summary>
     /// <param name="id">The ID of the work entry.</param>
     /// <param name="comment">The comment to add.</param>

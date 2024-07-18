@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Report : BaseComplianceEvent
+public class Report : ComplianceEvent
 {
     // Constructors
 

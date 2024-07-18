@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Notification : BaseWorkEntry
+public class Notification : WorkEntry
 {
     // Constructors
 

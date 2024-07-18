@@ -7,11 +7,11 @@ namespace AirWeb.TestData.Entities;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<BaseWorkEntry> WorkEntrySeedItems
+    private static IEnumerable<WorkEntry> WorkEntrySeedItems
     {
         get
         {
-            var entries = new List<BaseWorkEntry>();
+            var entries = new List<WorkEntry>();
             entries.AddRange(AccData);
             entries.AddRange(InspectionData);
             entries.AddRange(NotificationData);
@@ -23,9 +23,9 @@ internal static class WorkEntryData
         }
     }
 
-    private static IEnumerable<BaseWorkEntry>? _workEntries;
+    private static IEnumerable<WorkEntry>? _workEntries;
 
-    public static IEnumerable<BaseWorkEntry> GetData
+    public static IEnumerable<WorkEntry> GetData
     {
         get
         {

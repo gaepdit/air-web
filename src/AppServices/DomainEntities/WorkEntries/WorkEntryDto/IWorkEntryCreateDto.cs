@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿namespace AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 
 public interface IWorkEntryCreateDto
 {

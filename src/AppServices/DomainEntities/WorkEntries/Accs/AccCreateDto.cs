@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.Accs;
 
-public record AccCreateDto : BaseWorkEntryCreateDto, IAccCommandDto
+public record AccCreateDto : WorkEntryCreateDto, IAccCommandDto
 {
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }

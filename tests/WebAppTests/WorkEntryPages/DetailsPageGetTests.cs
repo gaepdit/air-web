@@ -1,12 +1,8 @@
-using AirWeb.AppServices.DomainEntities.WorkEntries;
-using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
-using AirWeb.AppServices.DomainEntities.WorkEntries.Permissions;
-
 namespace WebAppTests.WorkEntryPages;
 
 public class DetailsPageGetTests
 {
-    // private static readonly BaseWorkEntryViewDto ItemTest = new() { Id = 903 };
+    // private static readonly WorkEntryViewDto ItemTest = new() { Id = 903 };
     //
     // [Test]
     // public async Task OnGetReturnsWithCorrectPermissions()
@@ -54,7 +50,7 @@ public class DetailsPageGetTests
     //     const int id = 904;
     //
     //     var workEntryService = Substitute.For<IWorkEntryService>();
-    //     workEntryService.FindAsync(id).Returns((BaseWorkEntryViewDto?)null);
+    //     workEntryService.FindAsync(id).Returns((WorkEntryViewDto?)null);
     //
     //     var page = PageModelHelper.BuildDetailsPageModel(workEntryService);
     //
