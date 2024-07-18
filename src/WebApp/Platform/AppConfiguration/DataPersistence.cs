@@ -46,19 +46,12 @@ public static class DataPersistence
             // Entity Framework context
             services.AddDbContext<AppDbContext>(dbBuilder =>
             {
-                dbBuilder.UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure());
+                dbBuilder
+                    .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
+                    .ConfigureWarnings(warningsBuilder =>
+                        warningsBuilder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
 
-                if (environment.IsDevelopment())
-                {
-                    dbBuilder.EnableSensitiveDataLogging();
-                    dbBuilder.LogTo(
-                        Console.WriteLine,
-                        new[] { DbLoggerCategory.Database.Command.Name },
-                        LogLevel.Information);
-                }
-
-                dbBuilder.ConfigureWarnings(warningsBuilder =>
-                    warningsBuilder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+                if (environment.IsDevelopment()) dbBuilder.EnableSensitiveDataLogging();
             });
 
             // Dapper DB connection

@@ -12,14 +12,8 @@ public static class DbSeedDataHelpers
         SeedOfficeData(context);
         SeedIdentityData(context);
         SeedFceData(context);
+        SeedNotificationTypeData(context);
         SeedWorkEntryData(context);
-    }
-
-    private static void SeedWorkEntryData(AppDbContext context)
-    {
-        // if (context.WorkEntries.Any()) return;
-        // context.WorkEntries.AddRange(AllWorkEntryData.GetData);
-        // context.SaveChanges();
     }
 
     internal static void SeedFceData(AppDbContext context)
@@ -43,6 +37,21 @@ public static class DbSeedDataHelpers
         if (context.NotificationTypes.Any()) return;
         context.NotificationTypes.AddRange(NotificationTypeData.GetData);
         context.SaveChanges();
+    }
+
+    private static void SeedWorkEntryData(AppDbContext context)
+    {
+        context.Database.BeginTransaction();
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries ON");
+
+        if (context.WorkEntries.Any()) return;
+        context.WorkEntries.AddRange(WorkEntryData.GetData);
+        context.SaveChanges();
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries OFF");
+        context.Database.CommitTransaction();
     }
 
     internal static void SeedOfficeData(AppDbContext context)

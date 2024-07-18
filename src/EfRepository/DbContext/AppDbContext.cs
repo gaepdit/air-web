@@ -2,7 +2,6 @@ using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using GaEpd.EmailService.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,11 +14,33 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     internal const string SqlServerProvider = "Microsoft.EntityFrameworkCore.SqlServer";
     private const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
-    // Domain entities
+    // Maintenance items
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
+
+    // Domain entities
     public DbSet<Fce> Fces => Set<Fce>();
+
+    // Work entry/compliance event hierarchy
+    //   By default, Entity Framework uses the TPH strategy for modeling inheritance. All work entries and compliance
+    //   events will be stored in a single table with a discriminator column. Each subtype and each base type are all
+    //   available as DbSets for querying.
+    //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
+
+    // Work entries
     public DbSet<BaseWorkEntry> WorkEntries => Set<BaseWorkEntry>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
+
+    // Compliance events
+    public DbSet<BaseComplianceEvent> ComplianceEvents => Set<BaseComplianceEvent>();
+    public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
+    public DbSet<Inspection> Inspections => Set<Inspection>();
+    public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
+    public DbSet<Report> Reports => Set<Report>();
+    public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
+
+    // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -39,13 +60,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         // === Additional configuration ===
 
-        // Convert Facility ID to a string for use as primary key.
-        builder.Entity<Facility>().Property(facility => facility.Id)
-            .HasConversion(facilityId => facilityId.ToString(), s => (FacilityId)s);
+#pragma warning disable S125
+        // // FUTURE: Convert Facility ID to a string for use as primary key.
+        // // (When Facility is added as an entity in this DbContext, the following code will be useful.)
+        // builder.Entity<Facility>().Property(facility => facility.Id)
+        //     .HasConversion(facilityId => facilityId.ToString(), s => (FacilityId)s);
+#pragma warning restore S125
 
         // Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<BaseWorkEntry>().Property(entry => entry.WorkEntryType).HasConversion<string>();
+        builder.Entity<BaseWorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+        builder.Entity<BaseComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
 
         // == Collections of owned types
         // Sqlite and EF Core are in conflict on how to handle collections of owned types.

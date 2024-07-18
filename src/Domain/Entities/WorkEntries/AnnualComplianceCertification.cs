@@ -2,12 +2,18 @@
 
 public class AnnualComplianceCertification : BaseComplianceEvent
 {
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private AnnualComplianceCertification() { }
+
     internal AnnualComplianceCertification(int? id) : base(id)
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.AnnualComplianceCertification;
     }
 
+    // Properties
     public DateOnly ReceivedDate { get; set; }
     public int AccReportingYear { get; set; }
     public DateOnly Postmarked { get; set; }

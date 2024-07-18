@@ -16,6 +16,8 @@ public class Notification : BaseWorkEntry
         IsClosed = true;
     }
 
+    // Properties
+
     public NotificationType NotificationType { get; set; } = default!;
     public DateOnly ReceivedDate { get; set; }
     public DateOnly? DueDate { get; set; }

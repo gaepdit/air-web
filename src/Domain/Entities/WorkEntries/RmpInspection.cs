@@ -2,12 +2,19 @@
 
 public class RmpInspection : BaseComplianceEvent
 {
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private RmpInspection() { }
+
     internal RmpInspection(int? id) : base(id)
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.RmpInspection;
         IsClosed = true;
     }
+
+    // Properties
 
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }

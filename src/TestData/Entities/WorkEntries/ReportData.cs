@@ -57,6 +57,11 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Report",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            ReportingPeriodType = ReportingPeriodType.Other,
+            ReportingPeriodStart = new DateOnly(2020, 1, 1),
+            ReportingPeriodEnd = new DateOnly(2020, 12, 31),
         },
     ];
 }

@@ -18,11 +18,29 @@ public class BaseWorkEntry : AuditableSoftDeleteEntity<int>
         if (id is not null) Id = id.Value;
     }
 
+    // Properties: Facility
+
+    [MaxLength(9)]
+    public string FacilityId { get; private set; } = string.Empty;
+
+    private Facility _facility = default!;
+
+    [NotMapped]
+    public Facility Facility
+    {
+        get => _facility;
+        set
+        {
+            _facility = value;
+            FacilityId = value.Id;
+        }
+    }
+
     // Properties: Basic data
+
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
 
-    public Facility Facility { get; set; } = default!;
     public ApplicationUser? ResponsibleStaff { get; set; }
     public DateOnly? AcknowledgmentLetterDate { get; set; }
 

@@ -17,14 +17,42 @@
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: RMP Inspection
+      - REP: Report
         - STR: Source Test Compliance Review
-        - REP: Report
     - NOT: Notification
     - REV: Permit revocation †
 
-† Indicates a change in hierarchy compared to the IAIP.
+<small>† Indicates a change in hierarchy compared to the IAIP.</small>
 
-## ERD
+```mermaid
+flowchart TD
+
+WRK["Work Entry"]
+
+    CME["Compliance Event"]
+
+        STR["Source Test Review"]
+        ACC["ACC"]
+        INS["Inspection"]
+        RMP["RMP Inspection"]
+        REP["Report"]
+
+    NOT["Notification"]
+    
+    REV["Permit Revocation"]
+
+ACC --> CME 
+INS --> CME 
+RMP --> CME 
+REP --> CME 
+STR --> CME 
+
+CME --> WRK 
+NOT ---> WRK 
+REV ---> WRK 
+```
+
+## Base ERD
 
 ```mermaid
 erDiagram

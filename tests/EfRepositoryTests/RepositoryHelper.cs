@@ -9,7 +9,7 @@ using AirWeb.TestData.Entities;
 using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -39,10 +39,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper()
     {
         _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
-            builder.LogTo(
-                Console.WriteLine,
-                new[] { DbLoggerCategory.Database.Command.Name },
-                LogLevel.Information));
+            builder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted }));
 
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();

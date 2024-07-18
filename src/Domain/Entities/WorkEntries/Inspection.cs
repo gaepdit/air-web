@@ -5,12 +5,19 @@ namespace AirWeb.Domain.Entities.WorkEntries;
 
 public class Inspection : BaseComplianceEvent
 {
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private Inspection() { }
+
     internal Inspection(int? id) : base(id)
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.Inspection;
         IsClosed = true;
     }
+
+    // Properties
 
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }

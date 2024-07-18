@@ -45,6 +45,8 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
         },
     ];
 }

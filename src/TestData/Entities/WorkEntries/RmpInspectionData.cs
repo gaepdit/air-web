@@ -53,6 +53,9 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted RMP Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            InspectionStarted = DateTime.Now.AddYears(-3).AddDays(-1),
+            InspectionEnded = DateTime.Now.AddYears(-3).AddDays(-1).AddHours(3),
         },
     ];
 }
