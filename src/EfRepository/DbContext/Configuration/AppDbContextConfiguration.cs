@@ -106,15 +106,13 @@ internal static class AppDbContextConfiguration
     internal static ModelBuilder ConfigureOwnedTypeCollections(this ModelBuilder builder, string? dbProviderName)
     {
         // == Collections of owned types
-        // TODO: Try using a hierarchy of inherited Comment types and see if TPH can be used to put all Comments in a single table.
-        // Collections of the same owned types by different owners should be stored in different tables.
-        // Comments should include all User data.
-        // Sqlite and EF Core are in conflict on how to handle collections of owned types.
-        // See: https://stackoverflow.com/a/69826156/212978
-        // and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
+        // * Comments should auto-include User data.
+        // * Sqlite is in conflict with EF Core on how to handle collections of owned types.
+        //   See: https://stackoverflow.com/a/69826156/212978
+        //   and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
         builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
         {
-            owned.ToTable("Fce_Comments");
+            owned.ToTable("FceComments");
             owned.Navigation(comment => comment.CommentBy).AutoInclude();
             if (dbProviderName != AppDbContext.SqliteProvider) return;
             owned.HasKey(propertyNames: "Id");
@@ -123,7 +121,7 @@ internal static class AppDbContextConfiguration
 
         builder.Entity<WorkEntry>().OwnsMany(entry => entry.Comments, owned =>
         {
-            owned.ToTable("WorkEntry_Comments");
+            owned.ToTable("WorkEntryComments");
             owned.Navigation(comment => comment.CommentBy).AutoInclude();
             if (dbProviderName != AppDbContext.SqliteProvider) return;
             owned.HasKey(propertyNames: "Id");
