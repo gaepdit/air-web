@@ -18,7 +18,7 @@
         - INS: Inspection
         - RMP: RMP Inspection
       - REP: Report
-        - STR: Source Test Compliance Review
+          - STR: Source Test Compliance Review
     - NOT: Notification
     - REV: Permit revocation †
 
@@ -26,30 +26,23 @@
 
 ```mermaid
 flowchart TD
-
-WRK["Work Entry"]
-
+    WRK["Work Entry"]
     CME["Compliance Event"]
-
-        STR["Source Test Review"]
-        ACC["ACC"]
-        INS["Inspection"]
-        RMP["RMP Inspection"]
-        REP["Report"]
-
+    STR["Source Test Review"]
+    ACC["ACC"]
+    INS["Inspection"]
+    RMP["RMP Inspection"]
+    REP["Report"]
     NOT["Notification"]
-    
     REV["Permit Revocation"]
-
-ACC --> CME 
-INS --> CME 
-RMP --> CME 
-REP --> CME 
-STR --> CME 
-
-CME --> WRK 
-NOT ---> WRK 
-REV ---> WRK 
+    ACC --> CME
+    INS --> CME
+    RMP --> CME
+    REP --> CME
+    STR --> CME
+    CME --> WRK
+    NOT ---> WRK
+    REV ---> WRK 
 ```
 
 ## Base ERD
@@ -81,9 +74,15 @@ erDiagram
         int FceId FK
     }
 
+    CME["Compliance Event"] {
+        enum ComplianceEventType
+        enum EpaDxStatus
+    }
+
     WRK }o--|| FAC: "is entered for"
     STF ||--o{ WRK: "enters"
     CMT }o--|| WRK: "comments on"
+    CME |o--|| WRK: "is an enforceable type of"
 
 ```
 
@@ -102,4 +101,4 @@ erDiagram
 | SSCPITEMMASTER.STRDELETE                  | varchar(5)   |    ✔    | base.IsDeleted           |
 | SSCPITEMMASTER.DATACKNOLEDGMENTLETTERSENT | datetime2(0) |    ✔    | AcknowledgmentLetterDate |
 | SSCPITEMMASTER.DATINFORMATIONREQUESTDATE  | datetime2(0) |    ✖    | *none*                   |
-| SSCPITEMMASTER.ICIS_STATUSIND             | varchar      | *defer* |                          |
+| SSCPITEMMASTER.ICIS_STATUSIND             | varchar      | *defer* | EpaDxStatus              |

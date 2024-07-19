@@ -1,8 +1,8 @@
-# Compliance Entities and ERD
+# Compliance Monitoring and Enforcement
 
 ## Entities
 
-### Mirrored from IAIP
+### Retrieved from IAIP
 
 - FAC: Facility
 - TST: Source Test Report (Performance Test/Stack Test)

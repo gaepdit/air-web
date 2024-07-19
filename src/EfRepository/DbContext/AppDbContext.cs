@@ -3,6 +3,7 @@ using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
+using AirWeb.EfRepository.DbContext.Configuration;
 using GaEpd.EmailService.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -66,7 +67,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
 
-        // == TODO: TPH column sharing
+        // == TPH column sharing
+        // https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
+        AppDbContextConfiguration.ConfigureTphColumnSharing(builder);
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
