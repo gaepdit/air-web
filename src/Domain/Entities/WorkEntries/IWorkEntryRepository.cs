@@ -10,6 +10,8 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
     int? GetNextId();
 
+    // TODO: Add unit tests for the following.
+    
     // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/>.

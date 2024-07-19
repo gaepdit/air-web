@@ -66,7 +66,7 @@ public static class DataPersistence
         services.AddScoped<IFceRepository, FceRepository>();
         services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
 
-        // TODO: Replace this with EF repository.
+        // TODO: Replace this with Dapper repository.
         services.AddSingleton<IFacilityRepository, LocalFacilityRepository>();
     }
 }
