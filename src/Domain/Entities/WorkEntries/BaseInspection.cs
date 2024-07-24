@@ -24,12 +24,10 @@ public abstract class BaseInspection : ComplianceEvent
     public DateTime InspectionStarted { get; init; }
     public DateTime InspectionEnded { get; init; }
 
-    // TODO: Limit string length.
-    [StringLength(7000)]
+    [StringLength(250)]
     public string WeatherConditions { get; init; } = string.Empty;
 
-    // TODO: Limit string length.
-    [StringLength(7000)]
+    [StringLength(250)]
     public string InspectionGuide { get; init; } = string.Empty;
 
     public bool FacilityOperating { get; init; }
