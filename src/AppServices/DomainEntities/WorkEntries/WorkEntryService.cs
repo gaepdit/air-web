@@ -1,4 +1,5 @@
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.DomainEntities.Facilities;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
 using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
@@ -36,7 +37,7 @@ public sealed partial class WorkEntryService(
     {
         if (!await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
-        return await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+        var entry = await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
         {
             WorkEntryType.Notification => mapper.Map<NotificationViewDto>(await workEntryRepository
                 .FindAsync<Notification>(id, token).ConfigureAwait(false)),
@@ -46,6 +47,11 @@ public sealed partial class WorkEntryService(
 
             _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
         };
+
+        var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
+            .ConfigureAwait(false);
+        entry.Facility = mapper.Map<FacilityViewDto>(facility);
+        return entry;
     }
 
     private async Task<IWorkEntryViewDto?> FindComplianceEventAsync(int id, CancellationToken token) =>
