@@ -48,7 +48,7 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>
     public string Notes { get; set; } = string.Empty;
 
     // Properties: Lists
-    public List<Comment> Comments { get; } = [];
+    public List<WorkEntryComment> Comments { get; } = [];
 
     // Properties: Closure
     public bool IsClosed { get; internal set; }
@@ -61,6 +61,16 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>
 
     [StringLength(7000)]
     public string? DeleteComments { get; set; }
+}
+
+public record WorkEntryComment : Comment
+{
+    [UsedImplicitly] // Used by ORM.
+    private WorkEntryComment() { }
+
+    private WorkEntryComment(Comment c) : base(c) { }
+    public WorkEntryComment(Comment c, int workEntryId) : this(c) => WorkEntryId = workEntryId;
+    public int WorkEntryId { get; init; }
 }
 
 // Enums

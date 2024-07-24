@@ -17,14 +17,15 @@ public class FindOfType
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var entry = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(WorkEntryType.Notification));
+        var expected = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(WorkEntryType.Notification));
 
         // Act
-        var result = await _repository.FindAsync<Notification>(entry.Id);
+        var result = await _repository.FindAsync<Notification>(expected.Id);
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(entry, options => options.Excluding(workEntry => workEntry.Facility));
+        result.Should().BeEquivalentTo(expected,
+            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
         result!.WorkEntryType.Should().Be(WorkEntryType.Notification);
         result.Should().BeOfType<Notification>();
     }

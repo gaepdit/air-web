@@ -17,13 +17,14 @@ public class FindWorkEntry
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var entry = WorkEntryData.GetData.First();
+        var expected = WorkEntryData.GetData.First();
 
         // Act
-        var result = await _repository.FindAsync(entry.Id);
+        var result = await _repository.FindAsync(expected.Id);
 
         // Assert
-        result.Should().BeEquivalentTo(entry, options => options.Excluding(workEntry => workEntry.Facility));
+        result.Should().BeEquivalentTo(expected,
+            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
     }
 
     [Test]

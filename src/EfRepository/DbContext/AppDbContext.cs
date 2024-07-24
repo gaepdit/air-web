@@ -41,6 +41,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
 
     // Ancillary tables
+    public DbSet<FceComment> FceComments => Set<FceComment>();
+    public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)

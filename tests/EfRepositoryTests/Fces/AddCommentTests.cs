@@ -1,9 +1,11 @@
+using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData.Entities;
+using AirWeb.TestData.SampleData;
 
 namespace EfRepositoryTests.Fces;
 
-public class AddComment
+public class AddCommentTests
 {
     [Test]
     public async Task AddComment_InSqlServer_AddsComment()
@@ -13,12 +15,12 @@ public class AddComment
         await using var repository = repositoryHelper.GetFceRepository();
 
         var fceId = FceData.GetData.First().Id;
-        var newComment = Comment.CreateComment("abc", null);
+        var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
         await repository.AddCommentAsync(fceId, newComment);
         repositoryHelper.ClearChangeTracker();
-        var fceInRepo = await repository.GetAsync(fceId);
+        var fceInRepo = await repository.GetAsync(fceId, IFceRepository.IncludeComments);
 
         // Assert
         fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
@@ -33,12 +35,12 @@ public class AddComment
         await using var repository = repositoryHelper.GetFceRepository();
 
         var fceId = FceData.GetData.First().Id;
-        var newComment = Comment.CreateComment("abc", null);
+        var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
         await repository.AddCommentAsync(fceId, newComment);
         repositoryHelper.ClearChangeTracker();
-        var fceInRepo = await repository.GetAsync(fceId);
+        var fceInRepo = await repository.GetAsync(fceId, IFceRepository.IncludeComments);
 
         // Assert
         fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()

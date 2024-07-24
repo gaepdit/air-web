@@ -1,8 +1,9 @@
-using GaEpd.AppLibrary.Domain.Repositories;
 using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
 using AirWeb.LocalRepository.Identity;
 using AirWeb.TestData.Identity;
+using AirWeb.TestData.SampleData;
+using GaEpd.AppLibrary.Domain.Repositories;
 using System.Diagnostics;
 
 namespace LocalRepositoryTests.Identity;
@@ -47,7 +48,7 @@ public class UserStore
         var store = RepositoryHelper.GetUserStore();
         var user = store.UserStore.First();
         user.PhoneNumber = "1";
-        user.Office = new Office(Guid.NewGuid(), "abc");
+        user.Office = new Office(Guid.NewGuid(), SampleText.ValidName);
 
         var result = await store.UpdateAsync(user, CancellationToken.None);
         var updatedUser = await store.FindByIdAsync(user.Id, CancellationToken.None);

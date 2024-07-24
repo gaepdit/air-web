@@ -1,17 +1,18 @@
 ﻿using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.ValueObjects;
-using System.Linq.Expressions;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
 public interface IWorkEntryRepository : IRepository<WorkEntry, int>
 {
+    public static string[] IncludeComments => [nameof(WorkEntry.Comments)];
+
     // Will return the next available ID if the repository requires it for adding new entities (e.g., local repository).
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
     int? GetNextId();
 
     // TODO: Add unit tests for the following.
-    
+
     // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/>.
@@ -28,13 +29,12 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// Returns the <see cref="WorkEntry"/> matching the conditions of the <paramref name="predicate"/>.
     /// Returns null if there are no matches.
     /// </summary>
-    /// <param name="predicate">The search conditions.</param>
+    /// <param name="id">The ID of the entity.</param>
     /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <exception cref="InvalidOperationException">Thrown if there are multiple matches.</exception>
     /// <returns>An entity or null.</returns>
-    Task<WorkEntry?> FindAsync(Expression<Func<WorkEntry, bool>> predicate, string[] includeProperties,
-        CancellationToken token = default);
+    Task<WorkEntry?> FindAsync(int id, string[] includeProperties, CancellationToken token = default);
 
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
@@ -44,6 +44,17 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Work Entry of type TEntry or null.</returns>
     Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
+        where TEntry : WorkEntry;
+
+    /// <summary>
+    /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
+    /// <see cref="TEntry"/> type, including any <see cref="WorkEntry.Comments"/>.
+    /// Returns null if no entity exists with the given ID.
+    /// </summary>
+    /// <param name="id">The ID of the WorkEntry.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A Work Entry of type TEntry or null.</returns>
+    Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry;
 
     /// <summary>

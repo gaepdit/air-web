@@ -1,11 +1,10 @@
 using AirWeb.Domain.Entities.Offices;
+using AirWeb.TestData.SampleData;
 
 namespace EfRepositoryTests.Offices;
 
 public class Insert
 {
-    private const string Name = "abc";
-
     [Test]
     public async Task InsertItem_InSqlServer_IncreasesCount()
     {
@@ -14,7 +13,7 @@ public class Insert
         await using var repository = repositoryHelper.GetOfficeRepository();
 
         var initialCount = repositoryHelper.Context.Set<Office>().Count();
-        var entity = new Office(Guid.NewGuid(), Name);
+        var entity = new Office(Guid.NewGuid(), SampleText.ValidName);
 
         // Act
         await repository.InsertAsync(entity);
@@ -32,7 +31,7 @@ public class Insert
         await using var repository = repositoryHelper.GetOfficeRepository();
 
         var initialCount = repositoryHelper.Context.Set<Office>().Count();
-        var entity = new Office(Guid.NewGuid(), Name);
+        var entity = new Office(Guid.NewGuid(), SampleText.ValidName);
 
         // Act
         await repository.InsertAsync(entity);

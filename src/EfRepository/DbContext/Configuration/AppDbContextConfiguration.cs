@@ -1,6 +1,7 @@
-﻿using AirWeb.Domain.Entities.Fces;
+using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AirWeb.EfRepository.DbContext.Configuration;
@@ -16,16 +17,19 @@ internal static class AppDbContextConfiguration
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Notification>().Navigation(notification => notification.NotificationType).AutoInclude();
 
-        // FCEs should include all User data.
+        // FCEs should include User data.
         var fceEntity = builder.Entity<Fce>();
         fceEntity.Navigation(fce => fce.DeletedBy).AutoInclude();
         fceEntity.Navigation(fce => fce.ReviewedBy).AutoInclude();
 
-        // Work Entries should include all User data.
+        // Work Entries should include User data.
         var workEntryEntity = builder.Entity<WorkEntry>();
         workEntryEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
+
+        // Comments should include User data.
+        builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();
 
         return builder;
     }
@@ -106,27 +110,32 @@ internal static class AppDbContextConfiguration
     internal static ModelBuilder ConfigureOwnedTypeCollections(this ModelBuilder builder, string? dbProviderName)
     {
         // == Collections of owned types
+
+        // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
+        // directly exposed as a DbSet).
+        builder.Entity<Comment>().UseTphMappingStrategy().ToTable("Comments");
+
         // * Comments should auto-include User data.
         // * Sqlite is in conflict with EF Core on how to handle collections of owned types.
         //   See: https://stackoverflow.com/a/69826156/212978
         //   and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
-        builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
-        {
-            owned.ToTable("FceComments");
-            owned.Navigation(comment => comment.CommentBy).AutoInclude();
-            if (dbProviderName != AppDbContext.SqliteProvider) return;
-            owned.HasKey(propertyNames: "Id");
-            owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
-        });
-
-        builder.Entity<WorkEntry>().OwnsMany(entry => entry.Comments, owned =>
-        {
-            owned.ToTable("WorkEntryComments");
-            owned.Navigation(comment => comment.CommentBy).AutoInclude();
-            if (dbProviderName != AppDbContext.SqliteProvider) return;
-            owned.HasKey(propertyNames: "Id");
-            owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
-        });
+        // builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
+        // {
+        //     owned.ToTable("FceComments");
+        //     owned.Navigation(comment => comment.CommentBy).AutoInclude();
+        //     if (dbProviderName != AppDbContext.SqliteProvider) return;
+        //     owned.HasKey(propertyNames: "Id");
+        //     owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
+        // });
+        //
+        // builder.Entity<WorkEntry>().OwnsMany(entry => entry.Comments, owned =>
+        // {
+        //     owned.ToTable("WorkEntryComments");
+        //     owned.Navigation(comment => comment.CommentBy).AutoInclude();
+        //     if (dbProviderName != AppDbContext.SqliteProvider) return;
+        //     owned.HasKey(propertyNames: "Id");
+        //     owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
+        // });
 
         return builder;
     }

@@ -1,0 +1,47 @@
+using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.TestData.Entities;
+
+namespace EfRepositoryTests.WorkEntries;
+
+public class GetIncludeComments
+{
+    private IWorkEntryRepository _repository = default!;
+
+    [SetUp]
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
+
+    [TearDown]
+    public void TearDown() => _repository.Dispose();
+
+    [Test]
+    public async Task WhenRequestingProperty_ReturnsEntityWithProperty()
+    {
+        // Arrange
+        var expected = WorkEntryData.GetData.FirstOrDefault(entry => entry.Comments.Count > 0);
+        if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
+
+        // Act
+        var result = await _repository.GetAsync(expected.Id, IWorkEntryRepository.IncludeComments);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Facility));
+        result.Comments.Count.Should().Be(expected.Comments.Count);
+    }
+
+    [Test]
+    public async Task WhenNotRequestingProperty_ReturnsEntityWithoutProperty()
+    {
+        // Arrange
+        var expected = WorkEntryData.GetData.First();
+
+        // Act
+        var result = await _repository.GetAsync(expected.Id, []);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.Should().BeEquivalentTo(expected,
+            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
+        result.Comments.Count.Should().Be(expected: 0);
+    }
+}

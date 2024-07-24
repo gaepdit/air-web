@@ -3,7 +3,6 @@ using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.EfRepository.DbContext;
 using GaEpd.AppLibrary.Domain.Repositories;
-using System.Linq.Expressions;
 
 namespace AirWeb.EfRepository.Repositories;
 
@@ -19,15 +18,20 @@ public sealed class WorkEntryRepository(AppDbContext context)
             .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token).ConfigureAwait(false)
         ?? throw new EntityNotFoundException<WorkEntry>(id);
 
-    public Task<WorkEntry?> FindAsync(Expression<Func<WorkEntry, bool>> predicate,
-        string[] includeProperties, CancellationToken token = default) =>
+    public Task<WorkEntry?> FindAsync(int id, string[] includeProperties, CancellationToken token = default) =>
         includeProperties.Aggregate(Context.Set<WorkEntry>().AsNoTracking(),
                 (queryable, includeProperty) => queryable.Include(includeProperty))
-            .SingleOrDefaultAsync(predicate, token);
+            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 
     public Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking().SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
+
+    public Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
+        where TEntry : WorkEntry =>
+        Context.Set<TEntry>().AsNoTracking()
+            .Include(entry => entry.Comments)
+            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<WorkEntry>().AsNoTracking()
@@ -44,8 +48,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {
-        var entry = await GetAsync(id, token).ConfigureAwait(false);
-        entry.Comments.Add(comment);
+        Context.WorkEntryComments.Add(new WorkEntryComment(comment, id));
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 }
