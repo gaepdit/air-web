@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
 
-public record ReportUpdateDto : BaseWorkEntryUpdateDto, IReportCommandDto
+public record ReportUpdateDto : WorkEntryUpdateDto, IReportCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

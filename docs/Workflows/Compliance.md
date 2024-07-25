@@ -1,8 +1,8 @@
-# Compliance Entities and ERD
+# Compliance Monitoring and Enforcement
 
 ## Entities
 
-### Mirrored from IAIP
+### Retrieved from IAIP
 
 - FAC: Facility
 - TST: Source Test Report (Performance Test/Stack Test)
@@ -27,20 +27,19 @@
 
 ```mermaid
 erDiagram
-
-FAC["Facility"] {
+    FAC["Facility 🛩️"] {
     string FacilityId PK
 }
 
-TST["Source Test Report"] {
+    TST["Source Test Report 🛩️"] {
     int ReferenceNumber PK
 }
 
-FCE["FCE"] {
+    FCE["FCE ⚓"] {
     int Id PK
 }
 
-WRK["Work Entry"] {
+    WRK["Work Entry ⚓"] {
     int Id PK
 }
 
@@ -56,11 +55,11 @@ WRK["Work Entry"] {
     
     REV["Permit Revocation"]
 
-ENF["Enforcement"] {
+    ENF["Enforcement ⚓"] {
     int Id PK
 }
 
-CEL["Compliance/Enforcement Linkage"] {
+    CEL["Compliance Event-Enforcement 🔗"] {
     int EnforcementId FK
     int WorkEntryId FK
 }

@@ -1,5 +1,5 @@
 using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+using AirWeb.AppServices.DomainEntities.Facilities;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
 using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
@@ -7,6 +7,7 @@ using AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
 using AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
 using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
 using AirWeb.AppServices.DomainEntities.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
@@ -36,7 +37,7 @@ public sealed partial class WorkEntryService(
     {
         if (!await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
-        return await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+        var entry = await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
         {
             WorkEntryType.Notification => mapper.Map<NotificationViewDto>(await workEntryRepository
                 .FindAsync<Notification>(id, token).ConfigureAwait(false)),
@@ -46,6 +47,11 @@ public sealed partial class WorkEntryService(
 
             _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
         };
+
+        var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
+            .ConfigureAwait(false);
+        entry.Facility = mapper.Map<FacilityViewDto>(facility);
+        return entry;
     }
 
     private async Task<IWorkEntryViewDto?> FindComplianceEventAsync(int id, CancellationToken token) =>
@@ -110,7 +116,7 @@ public sealed partial class WorkEntryService(
     }
 
     private async Task<IPaginatedResult<WorkEntrySearchResultDto>> PerformPagedSearchAsync(PaginatedRequest paging,
-        Expression<Func<BaseWorkEntry, bool>> predicate, CancellationToken token)
+        Expression<Func<WorkEntry, bool>> predicate, CancellationToken token)
     {
         var count = await workEntryRepository.CountAsync(predicate, token).ConfigureAwait(false);
         var items = count > 0
@@ -195,10 +201,10 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryRestored, token).ConfigureAwait(false);
     }
 
-    private async Task<NotificationResult> NotifyOwnerAsync(BaseWorkEntry baseWorkEntry, Template template,
+    private async Task<NotificationResult> NotifyOwnerAsync(WorkEntry workEntry, Template template,
         CancellationToken token, Comment? comment = null)
     {
-        var recipient = baseWorkEntry.ResponsibleStaff;
+        var recipient = workEntry.ResponsibleStaff;
 
         if (recipient is null)
             return NotificationResult.FailureResult("This Work Entry does not have an available recipient.");
@@ -209,9 +215,9 @@ public sealed partial class WorkEntryService(
 
         return comment is null
             ? await notificationService.SendNotificationAsync(template, recipient.Email, token,
-                baseWorkEntry.Id.ToString()).ConfigureAwait(false)
+                workEntry.Id.ToString()).ConfigureAwait(false)
             : await notificationService.SendNotificationAsync(template, recipient.Email, token,
-                    baseWorkEntry.Id.ToString(), comment.Text, comment.CommentedAt.ToString(),
+                    workEntry.Id.ToString(), comment.Text, comment.CommentedAt.ToString(),
                     comment.CommentBy?.FullName)
                 .ConfigureAwait(false);
     }

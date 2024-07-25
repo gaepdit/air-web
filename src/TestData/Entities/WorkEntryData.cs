@@ -7,11 +7,11 @@ namespace AirWeb.TestData.Entities;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<BaseWorkEntry> WorkEntrySeedItems
+    private static IEnumerable<WorkEntry> WorkEntrySeedItems
     {
         get
         {
-            var entries = new List<BaseWorkEntry>();
+            var entries = new List<WorkEntry>();
             entries.AddRange(AccData);
             entries.AddRange(InspectionData);
             entries.AddRange(NotificationData);
@@ -23,9 +23,9 @@ internal static class WorkEntryData
         }
     }
 
-    private static IEnumerable<BaseWorkEntry>? _workEntries;
+    private static IEnumerable<WorkEntry>? _workEntries;
 
-    public static IEnumerable<BaseWorkEntry> GetData
+    public static IEnumerable<WorkEntry> GetData
     {
         get
         {
@@ -34,7 +34,25 @@ internal static class WorkEntryData
 
             // Add comments
             foreach (var workEntry in _workEntries)
-                workEntry.Comments.AddRange(CommentData.GetRandomCommentsList());
+            {
+                // For testing purposes, different entry types will get different numbers of comments.
+                switch (workEntry)
+                {
+                    case RmpInspection:
+                        // Don't add comments to RMP Inspections.
+                        continue;
+                    case Notification:
+                        // Add at least one comment to each Notification.
+                        workEntry.Comments.AddRange(CommentData.GetRandomCommentsList(1)
+                            .Select(comment => new WorkEntryComment(comment, workEntry.Id)));
+                        break;
+                    default:
+                        // All others get zero or more comments.
+                        workEntry.Comments.AddRange(CommentData.GetRandomCommentsList()
+                            .Select(comment => new WorkEntryComment(comment, workEntry.Id)));
+                        break;
+                }
+            }
 
             // Set as deleted
             _workEntries.Single(entry => entry.Id == 5003).SetDeleted(UserData.AdminUserId);

@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Notification : BaseWorkEntry
+public class Notification : WorkEntry
 {
     // Constructors
 
@@ -15,6 +15,8 @@ public class Notification : BaseWorkEntry
         NotificationType = notificationType;
         IsClosed = true;
     }
+
+    // Properties
 
     public NotificationType NotificationType { get; set; } = default!;
     public DateOnly ReceivedDate { get; set; }

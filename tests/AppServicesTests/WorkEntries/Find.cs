@@ -3,6 +3,7 @@ using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -14,7 +15,7 @@ public class Find
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var item = new PermitRevocation(902);
+        var item = new PermitRevocation(902) { Facility = new Facility(SampleText.ValidFacilityId) };
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
@@ -24,6 +25,10 @@ public class Find
         repoMock.GetWorkEntryTypeAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(WorkEntryType.PermitRevocation);
 
+        var facilityRepoMock = Substitute.For<IFacilityRepository>();
+        facilityRepoMock.GetFacilityAsync(item.Facility.Id)
+            .Returns(item.Facility);
+
         var authorizationMock = Substitute.For<IAuthorizationService>();
         authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
@@ -31,7 +36,7 @@ public class Find
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
-            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(), authorizationMock);
+            facilityRepoMock, Substitute.For<IUserService>(), authorizationMock);
 
         // Act
         var result = await appService.FindAsync(item.Id);

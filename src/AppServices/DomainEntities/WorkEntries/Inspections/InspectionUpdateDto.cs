@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
 
-public record InspectionUpdateDto : BaseWorkEntryUpdateDto, IInspectionCommandDto
+public record InspectionUpdateDto : WorkEntryUpdateDto, IInspectionCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

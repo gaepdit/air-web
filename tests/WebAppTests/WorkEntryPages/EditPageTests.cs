@@ -31,7 +31,7 @@
 //     {
 //         // Arrange
 //         const int id = 909;
-//         var dto = new BaseWorkEntryUpdateDto();
+//         var dto = new WorkEntryUpdateDto();
 //     
 //         var workEntryService = Substitute.For<IWorkEntryService>();
 //         workEntryService.FindForUpdateAsync(id).Returns(dto);
@@ -42,7 +42,7 @@
 //             .Returns(AuthorizationResult.Success());
 //     
 //         var page = new EditModel(workEntryService, _notificationTypeService,
-//             Substitute.For<IValidator<BaseWorkEntryUpdateDto>>(),
+//             Substitute.For<IValidator<WorkEntryUpdateDto>>(),
 //             authorization);
 //     
 //         // Act
@@ -51,7 +51,7 @@
 //         // Assert
 //         using var scope = new AssertionScope();
 //         result.Should().BeOfType<PageResult>();
-//         page.Item.Should().BeOfType<BaseWorkEntryUpdateDto>();
+//         page.Item.Should().BeOfType<WorkEntryUpdateDto>();
 //         page.Item.Should().Be(dto);
 //     }
 //     
@@ -59,12 +59,12 @@
 //     public async Task OnPost_ReturnsRedirectResultWhenModelIsValid()
 //     {
 //         // Arrange
-//         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
+//         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
 //         var authorization = Substitute.For<IAuthorizationService>();
 //         var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
 //         {
 //             Id = 910,
-//             Item = new BaseWorkEntryUpdateDto(),
+//             Item = new WorkEntryUpdateDto(),
 //             TempData = WebAppTestsSetup.PageTempData(),
 //         };
 //     
@@ -74,7 +74,7 @@
 //                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
 //             .Returns(AuthorizationResult.Success());
 //     
-//         validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
+//         validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
 //             .Returns(new ValidationResult());
 //     
 //         // Act
@@ -88,7 +88,7 @@
 //     public async Task OnPost_ReturnsBadRequestWhenOriginalEntryIsNull()
 //     {
 //         // Arrange
-//         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
+//         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
 //         var authorization = Substitute.For<IAuthorizationService>();
 //         var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
 //         {
@@ -96,7 +96,7 @@
 //             TempData = WebAppTestsSetup.PageTempData(),
 //         };
 //     
-//         _workEntryService.FindForUpdateAsync(page.Id).Returns((BaseWorkEntryUpdateDto?)null);
+//         _workEntryService.FindForUpdateAsync(page.Id).Returns((WorkEntryUpdateDto?)null);
 //     
 //         // Act
 //         var result = await page.OnPostAsync();
@@ -109,17 +109,17 @@
 //     public async Task OnPost_ReturnsBadRequestWhenUserCannotEdit()
 //     {
 //         // Arrange
-//         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
+//         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
 //         var authorization = Substitute.For<IAuthorizationService>();
 //         var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
 //             { Id = 912 };
 //     
 //         _workEntryService.FindForUpdateAsync(page.Id)
-//             .Returns(new BaseWorkEntryUpdateDto());
+//             .Returns(new WorkEntryUpdateDto());
 //         authorization.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Any<object?>(),
 //                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
 //             .Returns(AuthorizationResult.Failed());
-//         validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
+//         validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
 //             .Returns(new ValidationResult());
 //     
 //         // Act
@@ -133,7 +133,7 @@
 //     public async Task OnPost_ReturnsPageResultWhenModelStateIsNotValid()
 //     {
 //         // Arrange
-//         var validator = Substitute.For<IValidator<BaseWorkEntryUpdateDto>>();
+//         var validator = Substitute.For<IValidator<WorkEntryUpdateDto>>();
 //         var authorization = Substitute.For<IAuthorizationService>();
 //         var page = new EditModel(_workEntryService, _notificationTypeService, validator, authorization)
 //             { Id = 913 };
@@ -141,11 +141,11 @@
 //         page.ModelState.AddModelError("test", "test error");
 //     
 //         _workEntryService.FindForUpdateAsync(page.Id)
-//             .Returns(new BaseWorkEntryUpdateDto());
+//             .Returns(new WorkEntryUpdateDto());
 //         authorization.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Any<object?>(),
 //                 Arg.Any<IEnumerable<IAuthorizationRequirement>>())
 //             .Returns(AuthorizationResult.Success());
-//         validator.ValidateAsync(Arg.Any<BaseWorkEntryUpdateDto>())
+//         validator.ValidateAsync(Arg.Any<WorkEntryUpdateDto>())
 //             .Returns(new ValidationResult());
 //     
 //         // Act

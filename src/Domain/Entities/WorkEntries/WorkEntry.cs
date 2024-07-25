@@ -6,23 +6,41 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class BaseWorkEntry : AuditableSoftDeleteEntity<int>
+public class WorkEntry : AuditableSoftDeleteEntity<int>
 {
     // Constructors
 
     [UsedImplicitly] // Used by ORM.
-    private protected BaseWorkEntry() { }
+    private protected WorkEntry() { }
 
-    private protected BaseWorkEntry(int? id)
+    private protected WorkEntry(int? id)
     {
         if (id is not null) Id = id.Value;
     }
 
+    // Properties: Facility
+
+    [MaxLength(9)]
+    public string FacilityId { get; private set; } = string.Empty;
+
+    private Facility _facility = default!;
+
+    [NotMapped]
+    public Facility Facility
+    {
+        get => _facility;
+        set
+        {
+            _facility = value;
+            FacilityId = value.Id;
+        }
+    }
+
     // Properties: Basic data
+
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
 
-    public Facility Facility { get; set; } = default!;
     public ApplicationUser? ResponsibleStaff { get; set; }
     public DateOnly? AcknowledgmentLetterDate { get; set; }
 
@@ -30,7 +48,7 @@ public class BaseWorkEntry : AuditableSoftDeleteEntity<int>
     public string Notes { get; set; } = string.Empty;
 
     // Properties: Lists
-    public List<Comment> Comments { get; } = [];
+    public List<WorkEntryComment> Comments { get; } = [];
 
     // Properties: Closure
     public bool IsClosed { get; internal set; }
@@ -43,6 +61,16 @@ public class BaseWorkEntry : AuditableSoftDeleteEntity<int>
 
     [StringLength(7000)]
     public string? DeleteComments { get; set; }
+}
+
+public record WorkEntryComment : Comment
+{
+    [UsedImplicitly] // Used by ORM.
+    private WorkEntryComment() { }
+
+    private WorkEntryComment(Comment c) : base(c) { }
+    public WorkEntryComment(Comment c, int workEntryId) : this(c) => WorkEntryId = workEntryId;
+    public int WorkEntryId { get; init; }
 }
 
 // Enums

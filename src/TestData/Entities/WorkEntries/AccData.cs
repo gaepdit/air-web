@@ -62,6 +62,10 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted ACC",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            AccReportingYear = 2002,
+            Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
         },
     ];
 }

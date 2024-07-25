@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
 
-public record PermitRevocationViewDto : BaseWorkEntryViewDto
+public record PermitRevocationViewDto : WorkEntryViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

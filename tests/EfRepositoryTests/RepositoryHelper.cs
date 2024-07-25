@@ -9,7 +9,7 @@ using AirWeb.TestData.Entities;
 using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -28,7 +28,7 @@ namespace EfRepositoryTests;
 /// </summary>
 public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 {
-    private AppDbContext Context { get; set; } = default!;
+    public AppDbContext Context { get; set; } = default!;
 
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
@@ -39,10 +39,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper()
     {
         _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
-            builder.LogTo(
-                Console.WriteLine,
-                new[] { DbLoggerCategory.Database.Command.Name },
-                LogLevel.Information));
+            builder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted }));
 
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();
@@ -56,7 +53,9 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper(object callingClass, string callingMember)
     {
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
-            builder: dbBuilder => dbBuilder.UseSqlServer());
+            builder: builder => builder.UseSqlServer()
+                .LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted }));
+
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
     }

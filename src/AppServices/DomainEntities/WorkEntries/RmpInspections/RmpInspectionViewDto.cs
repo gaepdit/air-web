@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.Entities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
 
-public record RmpInspectionViewDto : BaseWorkEntryViewDto
+public record RmpInspectionViewDto : WorkEntryViewDto
 {
     [Display(Name = "Start")]
     public DateTime InspectionStarted { get; init; }

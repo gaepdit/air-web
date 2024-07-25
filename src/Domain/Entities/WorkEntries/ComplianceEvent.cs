@@ -3,9 +3,16 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class BaseComplianceEvent : BaseWorkEntry
+public class ComplianceEvent : WorkEntry
 {
-    protected BaseComplianceEvent(int? id) : base(id) { }
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private protected ComplianceEvent() { }
+
+    private protected ComplianceEvent(int? id) : base(id) { }
+
+    // Properties
 
     [StringLength(29)]
     public ComplianceEventType ComplianceEventType { get; internal init; } = ComplianceEventType.Unknown;

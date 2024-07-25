@@ -18,7 +18,7 @@ public class GetActiveStaffMembersList
         // Arrange
         var officeId = _repository.Items.First(e => e.Active).Id;
         var expected = _repository.Staff.Users
-            .Where(e => e.Office != null && e.Office.Id == officeId);
+            .Where(e => e.Office != null && e.Office.Id.Equals(officeId));
 
         // Act
         var result = await _repository.GetStaffMembersListAsync(officeId, true);

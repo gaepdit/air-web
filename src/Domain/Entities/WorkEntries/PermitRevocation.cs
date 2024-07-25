@@ -1,8 +1,18 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class PermitRevocation : BaseWorkEntry
+public class PermitRevocation : WorkEntry
 {
-    internal PermitRevocation(int? id) : base(id) => WorkEntryType = WorkEntryType.PermitRevocation;
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private PermitRevocation() { }
+
+    internal PermitRevocation(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.PermitRevocation;
+    }
+
+    // Properties
 
     public DateOnly ReceivedDate { get; set; }
     public DateOnly PermitRevocationDate { get; set; }

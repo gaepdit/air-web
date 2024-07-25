@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+﻿using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
 
-public record NotificationViewDto : BaseWorkEntryViewDto
+public record NotificationViewDto : WorkEntryViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

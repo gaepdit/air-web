@@ -45,6 +45,9 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Source Test Review",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            ReferenceNumber = SampleText.ValidReferenceNumber + 1,
+            ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
         },
     ];
 }

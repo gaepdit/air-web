@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+using AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 

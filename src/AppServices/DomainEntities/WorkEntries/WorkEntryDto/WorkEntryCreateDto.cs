@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.DomainEntities.WorkEntries.BaseWorkEntryDto;
+namespace AirWeb.AppServices.DomainEntities.WorkEntries.WorkEntryDto;
 
-public record BaseWorkEntryUpdateDto : IWorkEntryUpdateDto
+public record WorkEntryCreateDto : IWorkEntryCreateDto
 {
-    protected BaseWorkEntryUpdateDto() { }
+    protected WorkEntryCreateDto() { }
 
-    // Authorization handler assist properties
-    public bool IsDeleted { get; init; }
+    [Required]
+    [Display(Name = "Facility")]
+    public string? FacilityId { get; init; }
 
-    // Data
     [Required]
     [Display(Name = "Staff Responsible")]
     public string? ResponsibleStaffId { get; init; }

@@ -44,6 +44,9 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate = null,
             Notes = "Deleted permit revocation",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+
+            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            PermitRevocationDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-1).Date),
         },
     ];
 }

@@ -15,6 +15,7 @@ public record Comment : ValueObject
     };
 
     // Properties
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; init; }
 
     [StringLength(15_000)]

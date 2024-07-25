@@ -3,14 +3,21 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class Report : BaseComplianceEvent
+public class Report : ComplianceEvent
 {
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private Report() { }
+
     internal Report(int? id) : base(id)
     {
         WorkEntryType = WorkEntryType.ComplianceEvent;
         ComplianceEventType = ComplianceEventType.Report;
         IsClosed = true;
     }
+
+    // Properties
 
     public DateOnly ReceivedDate { get; set; }
 

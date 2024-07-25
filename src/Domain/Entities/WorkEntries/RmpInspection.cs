@@ -1,30 +1,11 @@
 ﻿namespace AirWeb.Domain.Entities.WorkEntries;
 
-public class RmpInspection : BaseComplianceEvent
+public class RmpInspection : BaseInspection
 {
-    internal RmpInspection(int? id) : base(id)
-    {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        ComplianceEventType = ComplianceEventType.RmpInspection;
-        IsClosed = true;
-    }
+    // Constructors
 
-    [StringLength(18)]
-    public InspectionReason? InspectionReason { get; set; }
+    [UsedImplicitly] // Used by ORM.
+    private RmpInspection() { }
 
-    public DateTime InspectionStarted { get; init; }
-    public DateTime InspectionEnded { get; init; }
-
-    // TODO: Limit string length.
-    public string WeatherConditions { get; init; } = string.Empty;
-
-    // TODO: Limit string length.
-    public string InspectionGuide { get; init; } = string.Empty;
-
-    public bool FacilityOperating { get; init; }
-
-    [StringLength(15)]
-    public ComplianceStatus ComplianceStatus { get; set; }
-
-    public bool FollowupTaken { get; init; }
+    internal RmpInspection(int? id) : base(id) => ComplianceEventType = ComplianceEventType.RmpInspection;
 }

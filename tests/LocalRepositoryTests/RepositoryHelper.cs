@@ -25,6 +25,12 @@ public static class RepositoryHelper
         return new LocalFceRepository();
     }
 
+    public static LocalWorkEntryRepository GetWorkEntryRepository()
+    {
+        ClearAllStaticData();
+        return new LocalWorkEntryRepository();
+    }
+
     private static void ClearAllStaticData()
     {
         FceData.ClearData();

@@ -13,7 +13,8 @@ public static class SampleText
     public const string ValidEmail = "test@example.net";
     public const string ValidUrl = "https://example.net";
     public const string ValidPhoneNumber = "404-555-1212";
-    public const int ValidReferenceNumber = 201100999;
+    public const string ValidFacilityId = "00109999";
+    public const int ValidReferenceNumber = 202209999;
     public const string UnassignedGuidString = "99999999-0000-0000-0000-999999999999";
 
     // Words and phrases
