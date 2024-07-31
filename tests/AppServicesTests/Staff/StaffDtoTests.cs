@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.Offices;
+﻿using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.TestData.SampleData;
 
@@ -51,7 +51,7 @@ public class StaffDtoTests
             Id = Guid.NewGuid().ToString(),
             Active = true,
             PhoneNumber = SampleText.ValidPhoneNumber,
-            Office = new OfficeViewDto{Id = Guid.NewGuid(), Name = SampleText.ValidName,Active = true},
+            Office = new OfficeViewDto { Id = Guid.NewGuid(), Name = SampleText.ValidName, Active = true },
         };
 
         var result = staffViewDto.AsUpdateDto();

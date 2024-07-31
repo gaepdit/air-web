@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.WebApp.Pages.Admin.Users;

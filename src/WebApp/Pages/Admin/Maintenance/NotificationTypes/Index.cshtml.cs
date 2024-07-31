@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
+﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;

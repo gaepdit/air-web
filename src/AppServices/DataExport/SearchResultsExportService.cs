@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
@@ -13,18 +13,18 @@ public sealed class SearchResultsExportService(
     IAuthorizationService authorization)
     : ISearchResultsExportService
 {
-    public async Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token)
+    public async Task<int> CountAsync(ComplianceSearchDto spec, CancellationToken token)
     {
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
             spec.DeletedStatus = null;
 
-        return await workEntryRepository.CountAsync(WorkEntryFilters.SearchPredicate(spec), token)
+        return await workEntryRepository.CountAsync(ComplianceSearchFilters.SearchPredicate(spec), token)
             .ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(WorkEntrySearchDto spec,
+    public async Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(ComplianceSearchDto spec,
         CancellationToken token)
     {
         spec.TrimAll();
@@ -32,7 +32,7 @@ public sealed class SearchResultsExportService(
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
             spec.DeletedStatus = null;
 
-        return (await workEntryRepository.GetListAsync(WorkEntryFilters.SearchPredicate(spec), token)
+        return (await workEntryRepository.GetListAsync(ComplianceSearchFilters.SearchPredicate(spec), token)
                 .ConfigureAwait(false))
             .Select(entry => new SearchResultsExportDto(entry)).ToList();
     }

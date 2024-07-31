@@ -1,9 +1,10 @@
-﻿using AirWeb.AppServices.DataExport;
-using AirWeb.AppServices.DomainEntities.Facilities;
-using AirWeb.AppServices.DomainEntities.Fces;
-using AirWeb.AppServices.DomainEntities.NotificationTypes;
-using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.AppServices.DomainEntities.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.ExternalEntities.Facilities;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Notifications;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
@@ -28,6 +29,9 @@ public static class AppServices
         // FCEs
         services.AddScoped<IFceManager, FceManager>();
         services.AddScoped<IFceService, FceService>();
+
+        // Compliance search
+        services.AddScoped<IComplianceSearchService, ComplianceSearchService>();
 
         // Notification Types
         services.AddScoped<INotificationTypeManager, NotificationTypeManager>();

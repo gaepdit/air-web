@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
+﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Identity;

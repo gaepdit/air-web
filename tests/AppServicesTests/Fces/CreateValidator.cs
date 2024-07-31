@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.Fces;
+﻿using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using FluentValidation.TestHelper;

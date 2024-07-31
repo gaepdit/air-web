@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.TestData.SampleData;
@@ -10,7 +10,8 @@ namespace WebAppTests.UserPages;
 
 public class EditTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new(){Id=Guid.NewGuid(),Name= SampleText.ValidName, Active=true};
+    private static readonly OfficeViewDto OfficeViewTest = new()
+        { Id = Guid.NewGuid(), Name = SampleText.ValidName, Active = true };
 
     private static readonly StaffViewDto StaffViewTest = new()
     {

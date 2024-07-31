@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
+﻿using AirWeb.AppServices.Compliance.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Models;
 
 public record SearchResultsDisplay(
     IBasicSearchDisplay Spec,
-    IPaginatedResult<WorkEntrySearchResultDto> SearchResults,
+    IPaginatedResult<ComplianceSearchResultDto> SearchResults,
     PaginationNavModel Pagination,
     bool IsPublic)
 {

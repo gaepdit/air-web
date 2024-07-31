@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
-using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+﻿using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
