@@ -1,6 +1,6 @@
+using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
-using AirWeb.AppServices.Notifications;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -12,10 +12,10 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
 
     // Command
     Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
-    Task<NotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
-    Task<NotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
-    Task<NotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<NotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<NotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<NotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
+    Task<AppNotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
 }

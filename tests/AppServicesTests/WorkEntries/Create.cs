@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.Notifications;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
@@ -32,11 +32,11 @@ public class Create
         userServiceMock.FindUserAsync(Arg.Any<string>())
             .Returns(user);
 
-        var notificationMock = Substitute.For<INotificationService>();
+        var notificationMock = Substitute.For<IAppNotificationService>();
         notificationMock
             .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<CancellationToken>(),
                 Arg.Any<object?[]>())
-            .Returns(NotificationResult.SuccessResult());
+            .Returns(AppNotificationResult.SuccessResult());
 
         var facilityId = (FacilityId)"00100001";
         var facility = new Facility(facilityId);
@@ -61,9 +61,9 @@ public class Create
 
         // Assert
         using var scope = new AssertionScope();
-        result.NotificationResult.Should().NotBeNull();
-        result.NotificationResult!.Success.Should().BeTrue();
-        result.NotificationResult.FailureMessage.Should().BeEmpty();
+        result.AppNotificationResult.Should().NotBeNull();
+        result.AppNotificationResult!.Success.Should().BeTrue();
+        result.AppNotificationResult.FailureMessage.Should().BeEmpty();
         result.Id.Should().Be(id);
     }
 }

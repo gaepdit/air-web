@@ -1,4 +1,4 @@
-namespace AirWeb.AppServices.Notifications;
+namespace AirWeb.AppServices.AppNotifications;
 
 public class Template
 {

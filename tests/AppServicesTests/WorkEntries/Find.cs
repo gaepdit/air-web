@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.Entities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
@@ -35,7 +35,7 @@ public class Find
             .Returns(AuthorizationResult.Success());
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
             facilityRepoMock, Substitute.For<IUserService>(), authorizationMock);
 
         // Act
@@ -55,7 +55,7 @@ public class Find
             .Returns(false);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
             Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(),
             Substitute.For<IAuthorizationService>());
 

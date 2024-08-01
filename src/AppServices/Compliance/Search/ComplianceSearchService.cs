@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Notifications;
+using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
@@ -16,7 +16,7 @@ public sealed partial class ComplianceSearchService(
     IMapper mapper,
     IWorkEntryRepository workEntryRepository,
     IWorkEntryManager workEntryManager,
-    INotificationService notificationService,
+    IAppNotificationService appNotificationService,
     IFacilityRepository facilityRepository,
     IUserService userService,
     IAuthorizationService authorization) : IComplianceSearchService

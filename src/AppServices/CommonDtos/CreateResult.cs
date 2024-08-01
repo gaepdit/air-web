@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.AppNotifications;
 
 namespace AirWeb.AppServices.CommonDtos;
 
@@ -10,21 +10,21 @@ public record CreateResult<TKey>
     /// Returns <see cref="CreateResult{TKey}"/> indicating a successfully created entity.
     /// </summary>
     /// <param name="id">The ID of the new entity.</param>
-    /// <returns><see cref="CreateResult{TKey}"/> indicating a successful operation with no NotificationResult.</returns>
+    /// <returns><see cref="CreateResult{TKey}"/> indicating a successful operation with no <see cref="AppNotificationResult"/>.</returns>
     public CreateResult(TKey id) => Id = id;
 
     /// <summary>
     /// Returns <see cref="CreateResult{TKey}"/> indicating a successfully created entity.
     /// </summary>
     /// <param name="id">The ID of the new entity.</param>
-    /// <param name="notificationResult">The <see cref="NotificationResult"/> generated from an attempted
+    /// <param name="appNotificationResult">The <see cref="AppNotificationResult"/> generated from an attempted
     /// notification.</param>
-    /// <returns><see cref="CreateResult{TKey}"/> indicating a successful operation with a NotificationResult
+    /// <returns><see cref="CreateResult{TKey}"/> indicating a successful operation with a <see cref="AppNotificationResult"/>
     /// indicating the status of any notifications sent.</returns>
-    public CreateResult(TKey id, NotificationResult notificationResult)
+    public CreateResult(TKey id, AppNotificationResult appNotificationResult)
     {
         Id = id;
-        NotificationResult = notificationResult;
+        AppNotificationResult = appNotificationResult;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public record CreateResult<TKey>
     public TKey Id { get; }
 
     /// <summary>
-    /// Contains the <see cref="NotificationResult"/> generated from an attempted notification.
+    /// Contains the <see cref="AppNotificationResult"/> generated from an attempted app notification.
     /// </summary>
-    public NotificationResult? NotificationResult { get; private set; }
+    public AppNotificationResult? AppNotificationResult { get; private set; }
 }

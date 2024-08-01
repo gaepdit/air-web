@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.DataExport;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
-using AirWeb.AppServices.Notifications;
 using AirWeb.Domain.Entities.Fces;
 using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Entities.Offices;
@@ -39,7 +39,7 @@ public static class AppServices
 
         // Email
         services.AddTransient<IEmailService, EmailService>();
-        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IAppNotificationService, AppNotificationService>();
 
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();
