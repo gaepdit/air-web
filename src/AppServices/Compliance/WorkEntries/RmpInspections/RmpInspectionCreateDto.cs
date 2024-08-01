@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;

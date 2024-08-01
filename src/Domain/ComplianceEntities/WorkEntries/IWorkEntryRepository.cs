@@ -1,7 +1,7 @@
-﻿using AirWeb.Domain.Entities.NotificationTypes;
+﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public interface IWorkEntryRepository : IRepository<WorkEntry, int>
 {

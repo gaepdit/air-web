@@ -6,7 +6,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 

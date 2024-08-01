@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.Entities.NotificationTypes;
+﻿namespace AirWeb.Domain.NamedEntities.NotificationTypes;
 
 public class NotificationType : StandardNamedEntity
 {

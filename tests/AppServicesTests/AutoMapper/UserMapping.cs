@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.AutoMapper;

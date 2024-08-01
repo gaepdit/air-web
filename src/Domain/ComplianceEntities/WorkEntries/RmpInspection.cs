@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.Entities.WorkEntries;
+﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class RmpInspection : BaseInspection
 {

@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using AirWeb.Domain.Entities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.TestData.SampleData;
 using FluentValidation;
 using FluentValidation.TestHelper;

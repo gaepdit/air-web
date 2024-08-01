@@ -1,5 +1,5 @@
-using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.LocalRepository.Identity;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;

@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.NamedEntities.Offices;
 
 namespace AirWeb.AppServices.NamedEntities.Offices;
 

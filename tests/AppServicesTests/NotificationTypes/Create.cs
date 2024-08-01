@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.NotificationTypes;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.NotificationTypes;

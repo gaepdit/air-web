@@ -10,12 +10,12 @@ using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Entities.Fces;
-using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Entities.Offices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.Offices;
 using AutoMapper;
 
 namespace AirWeb.AppServices.AutoMapper;

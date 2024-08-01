@@ -12,7 +12,7 @@ using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 using AutoMapper;

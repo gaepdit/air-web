@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.TestData.Entities;
 using AirWeb.TestData.SampleData;

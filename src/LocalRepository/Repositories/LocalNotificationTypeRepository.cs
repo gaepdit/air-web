@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Entities.NotificationTypes;
+﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.TestData.Entities;
 
 namespace AirWeb.LocalRepository.Repositories;

@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;

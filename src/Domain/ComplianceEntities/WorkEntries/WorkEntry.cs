@@ -4,7 +4,7 @@ using AirWeb.Domain.ValueObjects;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class WorkEntry : AuditableSoftDeleteEntity<int>
 {

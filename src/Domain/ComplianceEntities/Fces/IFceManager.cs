@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.Entities.Fces;
+namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public interface IFceManager
 {

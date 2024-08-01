@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
 

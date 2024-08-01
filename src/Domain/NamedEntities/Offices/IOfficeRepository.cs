@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.Entities.Offices;
+namespace AirWeb.Domain.NamedEntities.Offices;
 
 public interface IOfficeRepository : INamedEntityRepository<Office>
 {

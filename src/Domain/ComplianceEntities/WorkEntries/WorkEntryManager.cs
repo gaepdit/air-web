@@ -1,7 +1,7 @@
-﻿using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 
-namespace AirWeb.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {

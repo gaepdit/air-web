@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 

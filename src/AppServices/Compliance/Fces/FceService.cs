@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.Fces;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ValueObjects;
 using AutoMapper;
 

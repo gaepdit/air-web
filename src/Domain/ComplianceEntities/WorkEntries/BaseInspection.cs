@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public abstract class BaseInspection : ComplianceEvent
 {

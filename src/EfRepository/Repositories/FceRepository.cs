@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.Fces;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.EfRepository.DbContext;

@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.NamedEntities.Offices;
 
 namespace AirWeb.TestData.Entities;
 

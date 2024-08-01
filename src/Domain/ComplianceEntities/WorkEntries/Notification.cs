@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.Entities.NotificationTypes;
+﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
 
-namespace AirWeb.Domain.Entities.WorkEntries;
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class Notification : WorkEntry
 {

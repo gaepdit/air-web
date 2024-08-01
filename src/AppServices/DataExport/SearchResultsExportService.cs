@@ -2,7 +2,7 @@ using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.DataExport;

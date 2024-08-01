@@ -2,7 +2,7 @@ using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;

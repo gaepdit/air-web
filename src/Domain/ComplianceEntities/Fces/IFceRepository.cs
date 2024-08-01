@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.Domain.Entities.Fces;
+namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public interface IFceRepository : IRepository<Fce, int>
 {
