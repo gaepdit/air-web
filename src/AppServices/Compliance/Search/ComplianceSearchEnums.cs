@@ -16,12 +16,20 @@ public enum SortBy
     [Description("Status desc, Id")] StatusDesc,
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum OpenStatus
+{
+    [Description("Only Open")] Open = 0,
+    [Description("Only Closed")] Closed = 1,
+    [Description("All")] All = 2,
+}
+
 // "Not Deleted" is included as an additional Delete Status option in the UI representing the null default state.
 // "Deleted" = only deleted entries
-// "All" = all entries
+// "All" = both deleted and not-deleted entries
 // "Not Deleted" (null) = only non-deleted entries
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SearchDeleteStatus
+public enum DeleteStatus
 {
     Deleted = 0,
     All = 1,
