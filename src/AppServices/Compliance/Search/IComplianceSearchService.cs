@@ -4,7 +4,9 @@ namespace AirWeb.AppServices.Compliance.Search;
 
 public interface IComplianceSearchService : IDisposable, IAsyncDisposable
 {
-    // Search
-    Task<IPaginatedResult<ComplianceSearchResultDto>> SearchAsync(ComplianceSearchDto spec, PaginatedRequest paging,
-        CancellationToken token = default);
+    Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
+        PaginatedRequest paging, CancellationToken token = default);
+
+    Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
+        PaginatedRequest paging, CancellationToken token = default);
 }

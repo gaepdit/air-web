@@ -61,6 +61,43 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>
 
     [StringLength(7000)]
     public string? DeleteComments { get; set; }
+
+    // Calculated properties
+    public RecordType RecordType => WorkEntryType switch
+    {
+        WorkEntryType.Unknown => RecordType.Unknown,
+        WorkEntryType.Notification => RecordType.Notification,
+        WorkEntryType.PermitRevocation => RecordType.PermitRevocation,
+        WorkEntryType.ComplianceEvent => (this as ComplianceEvent)!.ComplianceEventType switch
+        {
+            ComplianceEventType.Inspection => RecordType.Inspection,
+            ComplianceEventType.Unknown => RecordType.Unknown,
+            ComplianceEventType.Report => RecordType.Report,
+            ComplianceEventType.SourceTestReview => RecordType.SourceTestReview,
+            ComplianceEventType.AnnualComplianceCertification => RecordType.AnnualComplianceCertification,
+            ComplianceEventType.RmpInspection => RecordType.RmpInspection,
+            _ => RecordType.Unknown,
+        },
+        _ => RecordType.Unknown,
+    };
+
+    public DateOnly EventDate => WorkEntryType switch
+    {
+        WorkEntryType.Unknown => DateOnly.FromDateTime(CreatedAt?.Date ?? DateTime.Today),
+        WorkEntryType.Notification => (this as Notification)!.ReceivedDate,
+        WorkEntryType.PermitRevocation => (this as PermitRevocation)!.ReceivedDate,
+        WorkEntryType.ComplianceEvent => (this as ComplianceEvent)!.ComplianceEventType switch
+        {
+            ComplianceEventType.Unknown => DateOnly.FromDateTime(CreatedAt?.Date ?? DateTime.Today),
+            ComplianceEventType.Report => (this as Report)!.ReceivedDate,
+            ComplianceEventType.Inspection => DateOnly.FromDateTime((this as Inspection)!.InspectionStarted),
+            ComplianceEventType.SourceTestReview => (this as SourceTestReview)!.ReceivedByCompliance,
+            ComplianceEventType.AnnualComplianceCertification => (this as AnnualComplianceCertification)!.ReceivedDate,
+            ComplianceEventType.RmpInspection => DateOnly.FromDateTime((this as RmpInspection)!.InspectionStarted),
+            _ => DateOnly.MinValue,
+        },
+        _ => DateOnly.MinValue,
+    };
 }
 
 public record WorkEntryComment : Comment
@@ -82,4 +119,16 @@ public enum WorkEntryType
     Notification = 5,
     [Description("Permit Revocation")] PermitRevocation = 8,
     [Description("Compliance Event")] ComplianceEvent = 9,
+}
+
+public enum RecordType
+{
+    Unknown,
+    Inspection,
+    [Description("Annual Compliance Certification")] AnnualComplianceCertification,
+    [Description("Permit Revocation")] PermitRevocation,
+    Notification,
+    Report,
+    [Description("RMP Inspection")] RmpInspection,
+    [Description("Source Test Review")] SourceTestReview,
 }
