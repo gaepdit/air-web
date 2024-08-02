@@ -2,6 +2,7 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Search;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
@@ -158,6 +159,18 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         DbSeedDataHelpers.SeedAllData(_context);
         Context = new AppDbContext(_options);
         return new WorkEntryRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
+    /// </summary>
+    /// <returns>An WorkEntryRepository.</returns>
+    public ISearchRepository GetComplianceSearchRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedAllData(_context);
+        Context = new AppDbContext(_options);
+        return new SearchRepository(Context);
     }
 
     /// <summary>

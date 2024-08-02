@@ -1,16 +1,16 @@
-﻿using GaEpd.EmailService.Repository;
-using AirWeb.EfRepository.DbContext;
+﻿using AirWeb.EfRepository.DbContext;
+using GaEpd.EmailService.Repository;
 
 namespace AirWeb.EfRepository.Repositories;
 
-public sealed class EmailLogRepository(AppDbContext dbContext) : IEmailLogRepository
+public sealed class EmailLogRepository(AppDbContext context) : IEmailLogRepository
 {
     public async Task InsertAsync(EmailLog emailLog, CancellationToken token = default)
     {
-        await dbContext.EmailLogs.AddAsync(emailLog, token).ConfigureAwait(false);
-        await dbContext.SaveChangesAsync(token).ConfigureAwait(false);
+        await context.EmailLogs.AddAsync(emailLog, token).ConfigureAwait(false);
+        await context.SaveChangesAsync(token).ConfigureAwait(false);
     }
 
-    public void Dispose() => dbContext.Dispose();
-    public ValueTask DisposeAsync() => dbContext.DisposeAsync();
+    public void Dispose() => context.Dispose();
+    public ValueTask DisposeAsync() => context.DisposeAsync();
 }
