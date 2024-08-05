@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record FceSearchDto : IBasicSearchDisplay
+public record FceSearchDto : IBasicSearchDisplay, IDeleteStatusSearch
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 
@@ -52,7 +50,7 @@ public record FceSearchDto : IBasicSearchDisplay
             { nameof(Sort), Sort.ToString() },
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
             { nameof(PartialFacilityId), PartialFacilityId },
-            { nameof(Year), Year.ToString()},
+            { nameof(Year), Year.ToString() },
             { nameof(ReviewedBy), ReviewedBy },
             { nameof(DateFrom), DateFrom?.ToString("d") },
             { nameof(DateTo), DateTo?.ToString("d") },

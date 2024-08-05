@@ -4,8 +4,8 @@ namespace AirWeb.AppServices.DataExport;
 
 public interface ISearchResultsExportService : IDisposable, IAsyncDisposable
 {
-    Task<int> CountAsync(ComplianceSearchDto spec, CancellationToken token);
+    Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token);
 
-    Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(ComplianceSearchDto spec,
+    Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(WorkEntrySearchDto spec,
         CancellationToken token);
 }

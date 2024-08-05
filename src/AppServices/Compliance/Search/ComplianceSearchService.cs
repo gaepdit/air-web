@@ -1,58 +1,83 @@
-using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
+using AirWeb.Domain.Search;
 using AutoMapper;
+using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public sealed partial class ComplianceSearchService(
+public sealed class ComplianceSearchService(
+    ISearchRepository searchRepository,
+    IFacilityRepository facilityRepository,
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
-    IWorkEntryRepository workEntryRepository,
-    IWorkEntryManager workEntryManager,
-    IAppNotificationService appNotificationService,
-    IFacilityRepository facilityRepository,
     IUserService userService,
     IAuthorizationService authorization) : IComplianceSearchService
 {
-    public async Task<IPaginatedResult<ComplianceSearchResultDto>> SearchAsync(ComplianceSearchDto spec,
+    public async Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
         PaginatedRequest paging, CancellationToken token = default)
+    {
+        await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
+        var expression = WorkEntryFilters.SearchPredicate(spec.TrimAll());
+        return await SearchAsync<WorkEntrySearchResultDto, WorkEntry>(paging, expression, token).ConfigureAwait(false);
+    }
+
+    public async Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
+        PaginatedRequest paging, CancellationToken token = default)
+    {
+        await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
+        var expression = FceFilters.SearchPredicate(spec.TrimAll());
+        return await SearchAsync<FceSearchResultDto, Fce>(paging, expression, token).ConfigureAwait(false);
+    }
+
+    private async Task CheckDeleteStatusAuth<TSearchDto>(TSearchDto spec)
+        where TSearchDto : IDeleteStatusSearch
     {
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            spec.DeletedStatus = null;
-        return await PerformPagedSearchAsync(paging, ComplianceSearchFilters.SearchPredicate(spec), token)
-            .ConfigureAwait(false);
+            spec.DeleteStatus = null;
     }
 
-    private async Task<IPaginatedResult<ComplianceSearchResultDto>> PerformPagedSearchAsync(PaginatedRequest paging,
-        Expression<Func<WorkEntry, bool>> predicate, CancellationToken token)
+    private async Task<IPaginatedResult<TResultDto>> SearchAsync<TResultDto, TEntity>(PaginatedRequest paging,
+        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        where TResultDto : class, IFacilityInfo
+        where TEntity : class, IEntity<int>
     {
-        var count = await workEntryRepository.CountAsync(predicate, token).ConfigureAwait(false);
-        var items = count > 0
-            ? mapper.Map<IEnumerable<ComplianceSearchResultDto>>(await workEntryRepository
-                .GetPagedListAsync(predicate, paging, token).ConfigureAwait(false))
+        var count = await searchRepository.CountRecordsAsync(expression, token).ConfigureAwait(false);
+        var collection = count > 0
+            ? mapper.Map<IEnumerable<TResultDto>>(await searchRepository
+                .GetFilteredRecordsAsync(expression, paging, token).ConfigureAwait(false))
             : [];
-        return new PaginatedResult<ComplianceSearchResultDto>(items, count, paging);
+
+        var items = collection as TResultDto[] ?? collection.ToArray();
+
+        foreach (var dto in items)
+        {
+            dto.FacilityName = await facilityRepository.GetFacilityNameAsync((FacilityId)dto.FacilityId, token)
+                .ConfigureAwait(false);
+        }
+
+        return new PaginatedResult<TResultDto>(items, count, paging);
     }
 
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()
     {
-        workEntryRepository.Dispose();
+        searchRepository.Dispose();
         facilityRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await workEntryRepository.DisposeAsync().ConfigureAwait(false);
+        await searchRepository.DisposeAsync().ConfigureAwait(false);
         await facilityRepository.DisposeAsync().ConfigureAwait(false);
     }
 

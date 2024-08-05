@@ -13,26 +13,26 @@ public sealed class SearchResultsExportService(
     IAuthorizationService authorization)
     : ISearchResultsExportService
 {
-    public async Task<int> CountAsync(ComplianceSearchDto spec, CancellationToken token)
+    public async Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token)
     {
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            spec.DeletedStatus = null;
+            spec.DeleteStatus = null;
 
-        return await workEntryRepository.CountAsync(ComplianceSearchFilters.SearchPredicate(spec), token)
+        return await workEntryRepository.CountAsync(WorkEntryFilters.SearchPredicate(spec), token)
             .ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(ComplianceSearchDto spec,
+    public async Task<IReadOnlyList<SearchResultsExportDto>> ExportSearchResultsAsync(WorkEntrySearchDto spec,
         CancellationToken token)
     {
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            spec.DeletedStatus = null;
+            spec.DeleteStatus = null;
 
-        return (await workEntryRepository.GetListAsync(ComplianceSearchFilters.SearchPredicate(spec), token)
+        return (await workEntryRepository.GetListAsync(WorkEntryFilters.SearchPredicate(spec), token)
                 .ConfigureAwait(false))
             .Select(entry => new SearchResultsExportDto(entry)).ToList();
     }

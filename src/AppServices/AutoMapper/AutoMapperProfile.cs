@@ -1,4 +1,5 @@
 using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
@@ -35,6 +36,7 @@ public class AutoMapperProfile : Profile
         CreateMapsForReports();
         CreateMapsForRmpInspections();
         CreateMapsForSourceTestReviews();
+        CreateMapsForSearchResults();
     }
 
     private void CreateMapsForUsers()
@@ -121,5 +123,13 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>();
+    }
+
+    private void CreateMapsForSearchResults()
+    {
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }
