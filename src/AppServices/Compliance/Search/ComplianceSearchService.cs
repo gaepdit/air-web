@@ -58,11 +58,9 @@ public sealed class ComplianceSearchService(
 
         var items = collection as TResultDto[] ?? collection.ToArray();
 
-        foreach (var dto in items)
-        {
-            dto.FacilityName = await facilityRepository.GetFacilityNameAsync((FacilityId)dto.FacilityId, token)
-                .ConfigureAwait(false);
-        }
+        var facilityIds = items.Select(dto => dto.FacilityId).Distinct().ToArray();
+        var facilityNames = await facilityRepository.GetFacilityNamesAsync(facilityIds, token).ConfigureAwait(false);
+        foreach (var dto in items) dto.FacilityName = facilityNames[dto.FacilityId];
 
         return new PaginatedResult<TResultDto>(items, count, paging);
     }
