@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record FceSearchDto : IBasicSearchDisplay, IDeleteStatusSearch
+public record FceSearchDto : IStandardSearch
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 

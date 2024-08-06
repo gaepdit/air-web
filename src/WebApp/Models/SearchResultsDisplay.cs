@@ -4,7 +4,7 @@ using GaEpd.AppLibrary.Pagination;
 namespace AirWeb.WebApp.Models;
 
 public record SearchResultsDisplay(
-    IBasicSearchDisplay Spec,
+    IStandardSearch Spec,
     IPaginatedResult<WorkEntrySearchResultDto> SearchResults,
     PaginationNavModel Pagination,
     bool IsPublic)

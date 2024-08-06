@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record FceSearchResultDto : IFacilityInfo
+public record FceSearchResultDto : IStandardSearchResult
 {
     public int Id { get; init; }
     public string FacilityId { get; init; } = string.Empty;

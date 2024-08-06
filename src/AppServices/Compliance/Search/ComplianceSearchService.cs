@@ -38,7 +38,7 @@ public sealed class ComplianceSearchService(
     }
 
     private async Task CheckDeleteStatusAuth<TSearchDto>(TSearchDto spec)
-        where TSearchDto : IDeleteStatusSearch
+        where TSearchDto : IStandardSearch
     {
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
@@ -47,7 +47,7 @@ public sealed class ComplianceSearchService(
 
     private async Task<IPaginatedResult<TResultDto>> SearchAsync<TResultDto, TEntity>(PaginatedRequest paging,
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
-        where TResultDto : class, IFacilityInfo
+        where TResultDto : class, IStandardSearchResult
         where TEntity : class, IEntity<int>
     {
         var count = await searchRepository.CountRecordsAsync(expression, token).ConfigureAwait(false);

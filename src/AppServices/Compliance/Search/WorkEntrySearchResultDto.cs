@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record WorkEntrySearchResultDto : IFacilityInfo
+public record WorkEntrySearchResultDto : IStandardSearchResult
 {
     public int Id { get; init; }
     public RecordType RecordType { get; init; }
