@@ -5,7 +5,7 @@ namespace AirWeb.WebApp.Models;
 
 public record SearchResultsDisplay(
     IBasicSearchDisplay Spec,
-    IPaginatedResult<ComplianceSearchResultDto> SearchResults,
+    IPaginatedResult<WorkEntrySearchResultDto> SearchResults,
     PaginationNavModel Pagination,
     bool IsPublic)
 {

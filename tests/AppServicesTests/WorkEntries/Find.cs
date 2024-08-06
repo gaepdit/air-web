@@ -4,8 +4,6 @@ using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.SampleData;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries;
 
@@ -29,14 +27,9 @@ public class Find
         facilityRepoMock.GetFacilityAsync(item.Facility.Id)
             .Returns(item.Facility);
 
-        var authorizationMock = Substitute.For<IAuthorizationService>();
-        authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),
-                requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
-            .Returns(AuthorizationResult.Success());
-
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
-            facilityRepoMock, Substitute.For<IUserService>(), authorizationMock);
+            facilityRepoMock, Substitute.For<IUserService>());
 
         // Act
         var result = await appService.FindAsync(item.Id);
@@ -56,8 +49,7 @@ public class Find
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
             Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
-            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(),
-            Substitute.For<IAuthorizationService>());
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>());
 
         // Act
         var result = await appService.FindAsync(-1);

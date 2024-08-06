@@ -18,24 +18,15 @@
             </th>
             <th scope="col" class="text-nowrap">
                 <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                   asp-route-Sort="@(Model.Spec.Sort == SortBy.ReceivedDateAsc ? nameof(SortBy.ReceivedDateDesc) : nameof(SortBy.ReceivedDateAsc))"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.EventDateAsc ? nameof(SortBy.EventDateDesc) : nameof(SortBy.EventDateAsc))"
                    class="link-offset-2">
                     Date Received @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
-                                      new { up = nameof(SortBy.ReceivedDateAsc), down = nameof(SortBy.ReceivedDateDesc) })
+                                      new { up = nameof(SortBy.EventDateAsc), down = nameof(SortBy.EventDateDesc) })
                 </a>
             </th>
-            <th scope="col" class="text-nowrap">
-                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                   asp-route-Sort="@(Model.Spec.Sort == SortBy.StatusAsc ? nameof(SortBy.StatusDesc) : nameof(SortBy.StatusAsc))"
-                   class="link-offset-2">
-                    Status @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
-                               new { up = nameof(SortBy.StatusAsc), down = nameof(SortBy.StatusDesc) })
-                </a>
-            </th>
-            <th scope="col">Entry Type</th>
         </tr>
         </thead>
-
+        
         <tbody>
         @foreach (var item in Model.SearchResults.Items)
         {
@@ -43,20 +34,7 @@
                 <th scope="row">
                     <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
                 </th>
-                <td class="text-nowrap">@Html.DisplayFor(_ => item.ReceivedDate, DisplayTemplate.ShortDate)</td>
-                <td>
-                    @if (item.IsDeleted)
-                    {
-                        <strong>DELETED</strong>
-                        <br />
-                    }
-                    @Html.DisplayFor(_ => item.Closed, DisplayTemplate.BoolClosed)
-                    @if (item is { Closed: true, ClosedDate: not null })
-                    {
-                        @:on @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDate)
-                    }
-                </td>
-                <td>@Html.DisplayFor(_ => item.EntryTypeName, DisplayTemplate.StringOrPlaceholder)</td>
+                <td class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDate)</td>
             </tr>
         }
         </tbody>

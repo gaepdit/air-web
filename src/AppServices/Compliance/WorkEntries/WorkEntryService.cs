@@ -13,7 +13,6 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -24,8 +23,7 @@ public sealed partial class WorkEntryService(
     IWorkEntryManager workEntryManager,
     IAppNotificationService appNotificationService,
     IFacilityRepository facilityRepository,
-    IUserService userService,
-    IAuthorizationService authorization) : IWorkEntryService
+    IUserService userService) : IWorkEntryService
 {
     // Query
     public async Task<IWorkEntryViewDto?> FindAsync(int id, CancellationToken token = default)

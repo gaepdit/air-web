@@ -6,7 +6,6 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.WorkEntries;
 
@@ -46,8 +45,7 @@ public class Create
             .Returns(facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock,
-            Substitute.For<IAuthorizationService>());
+            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock);
 
         var item = new PermitRevocationCreateDto
         {

@@ -19,17 +19,17 @@ public class DashboardIndexModel(IComplianceSearchService searchService, IAuthor
 
         if (!IsStaff) return Page();
 
-        var spec = new ComplianceSearchDto();
-        var paging = new PaginatedRequest(1, 5, SortBy.ReceivedDateDesc.GetDescription());
+        var spec = new WorkEntrySearchDto();
+        var paging = new PaginatedRequest(1, 5, SortBy.EventDateDesc.GetDescription());
         OpenWorkEntries = new DashboardCard("Recent Open Work Entries")
-            { WorkEntries = (await searchService.SearchAsync(spec, paging, token)).Items.ToList() };
+            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token)).Items.ToList() };
 
         return Page();
     }
 
     public record DashboardCard(string Title)
     {
-        public required IReadOnlyCollection<ComplianceSearchResultDto> WorkEntries { get; init; }
+        public required IReadOnlyCollection<WorkEntrySearchResultDto> WorkEntries { get; init; }
         public string CardId => Title.ToLowerInvariant().Replace(oldChar: ' ', newChar: '-');
     }
 }
