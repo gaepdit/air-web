@@ -1,8 +1,8 @@
-using AirWeb.Domain.Entities.Fces;
-using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Entities.Offices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.DbContext.Configuration;
 using GaEpd.EmailService.Repository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

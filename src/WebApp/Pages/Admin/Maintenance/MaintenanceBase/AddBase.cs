@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.DomainEntities.NamedEntitiesBase;
+﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;

@@ -1,5 +1,5 @@
-using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.EfRepository.DbContext;
 using GaEpd.AppLibrary.Domain.Repositories;

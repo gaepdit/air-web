@@ -61,5 +61,17 @@ internal static class FacilityData
         }
     }
 
+    private static Dictionary<string, string>? _facilityNames;
+
+    public static Dictionary<string, string> FacilityNames
+    {
+        get
+        {
+            if (_facilityNames is not null) return _facilityNames;
+            _facilityNames = GetData.ToDictionary(facility => facility.Id.ToString(), facility => facility.CompanyName);
+            return _facilityNames;
+        }
+    }
+
     public static void ClearData() => _facilities = null;
 }

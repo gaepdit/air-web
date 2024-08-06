@@ -1,5 +1,5 @@
-using AirWeb.Domain.Entities.Offices;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.DbContext;
 
 namespace AirWeb.EfRepository.Repositories;

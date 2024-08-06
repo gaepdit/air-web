@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Entities;
 
 namespace EfRepositoryTests.WorkEntries;

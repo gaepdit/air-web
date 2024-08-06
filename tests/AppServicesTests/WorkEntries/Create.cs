@@ -1,12 +1,11 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
-using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AppServicesTests.WorkEntries;
 
@@ -32,11 +31,11 @@ public class Create
         userServiceMock.FindUserAsync(Arg.Any<string>())
             .Returns(user);
 
-        var notificationMock = Substitute.For<INotificationService>();
+        var notificationMock = Substitute.For<IAppNotificationService>();
         notificationMock
             .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<CancellationToken>(),
                 Arg.Any<object?[]>())
-            .Returns(NotificationResult.SuccessResult());
+            .Returns(AppNotificationResult.SuccessResult());
 
         var facilityId = (FacilityId)"00100001";
         var facility = new Facility(facilityId);
@@ -46,8 +45,7 @@ public class Create
             .Returns(facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock,
-            Substitute.For<IAuthorizationService>());
+            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock);
 
         var item = new PermitRevocationCreateDto
         {
@@ -61,9 +59,9 @@ public class Create
 
         // Assert
         using var scope = new AssertionScope();
-        result.NotificationResult.Should().NotBeNull();
-        result.NotificationResult!.Success.Should().BeTrue();
-        result.NotificationResult.FailureMessage.Should().BeEmpty();
+        result.AppNotificationResult.Should().NotBeNull();
+        result.AppNotificationResult!.Success.Should().BeTrue();
+        result.AppNotificationResult.FailureMessage.Should().BeEmpty();
         result.Id.Should().Be(id);
     }
 }

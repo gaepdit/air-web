@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.Facilities;
+using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.Entities;
 

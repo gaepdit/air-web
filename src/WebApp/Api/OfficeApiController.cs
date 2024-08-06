@@ -1,4 +1,4 @@
-using AirWeb.AppServices.DomainEntities.Offices;
+using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 

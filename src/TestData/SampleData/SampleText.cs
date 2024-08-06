@@ -15,7 +15,7 @@ public static class SampleText
     public const string ValidPhoneNumber = "404-555-1212";
     public const string ValidFacilityId = "00109999";
     public const int ValidReferenceNumber = 202209999;
-    public const string UnassignedGuidString = "99999999-0000-0000-0000-999999999999";
+    public static Guid UnassignedGuid => new Guid("99999999-0000-0000-0000-999999999999");
 
     // Words and phrases
     public enum TextLength

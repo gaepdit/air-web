@@ -1,5 +1,5 @@
-using AirWeb.Domain.Entities.Fces;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;

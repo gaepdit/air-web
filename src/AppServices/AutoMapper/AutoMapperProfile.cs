@@ -1,21 +1,22 @@
-using AirWeb.AppServices.DomainEntities.Facilities;
-using AirWeb.AppServices.DomainEntities.Fces;
-using AirWeb.AppServices.DomainEntities.NotificationTypes;
-using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.AppServices.DomainEntities.WorkEntries.Accs;
-using AirWeb.AppServices.DomainEntities.WorkEntries.Inspections;
-using AirWeb.AppServices.DomainEntities.WorkEntries.Notifications;
-using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.DomainEntities.WorkEntries.Reports;
-using AirWeb.AppServices.DomainEntities.WorkEntries.RmpInspections;
-using AirWeb.AppServices.DomainEntities.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Accs;
+using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
+using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.Compliance.WorkEntries.Reports;
+using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;
+using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.ExternalEntities.Facilities;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Entities.Fces;
-using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Entities.Offices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.Offices;
 using AutoMapper;
 
 namespace AirWeb.AppServices.AutoMapper;
@@ -35,6 +36,7 @@ public class AutoMapperProfile : Profile
         CreateMapsForReports();
         CreateMapsForRmpInspections();
         CreateMapsForSourceTestReviews();
+        CreateMapsForSearchResults();
     }
 
     private void CreateMapsForUsers()
@@ -121,5 +123,13 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>();
+    }
+
+    private void CreateMapsForSearchResults()
+    {
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }

@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.TestData.Entities;
 

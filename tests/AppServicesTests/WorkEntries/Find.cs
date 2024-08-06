@@ -1,11 +1,9 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries;
-using AirWeb.AppServices.Notifications;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.SampleData;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries;
 
@@ -29,14 +27,9 @@ public class Find
         facilityRepoMock.GetFacilityAsync(item.Facility.Id)
             .Returns(item.Facility);
 
-        var authorizationMock = Substitute.For<IAuthorizationService>();
-        authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),
-                requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
-            .Returns(AuthorizationResult.Success());
-
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
-            facilityRepoMock, Substitute.For<IUserService>(), authorizationMock);
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
+            facilityRepoMock, Substitute.For<IUserService>());
 
         // Act
         var result = await appService.FindAsync(item.Id);
@@ -55,9 +48,8 @@ public class Find
             .Returns(false);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IWorkEntryManager>(), Substitute.For<INotificationService>(),
-            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>(),
-            Substitute.For<IAuthorizationService>());
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
+            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>());
 
         // Act
         var result = await appService.FindAsync(-1);

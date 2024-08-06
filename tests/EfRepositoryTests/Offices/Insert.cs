@@ -1,4 +1,4 @@
-using AirWeb.Domain.Entities.Offices;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.TestData.SampleData;
 
 namespace EfRepositoryTests.Offices;

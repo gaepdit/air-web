@@ -1,14 +1,15 @@
-﻿using AirWeb.AppServices.DataExport;
-using AirWeb.AppServices.DomainEntities.Facilities;
-using AirWeb.AppServices.DomainEntities.Fces;
-using AirWeb.AppServices.DomainEntities.NotificationTypes;
-using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.AppServices.DomainEntities.WorkEntries;
-using AirWeb.AppServices.Notifications;
-using AirWeb.Domain.Entities.Fces;
-using AirWeb.Domain.Entities.NotificationTypes;
-using AirWeb.Domain.Entities.Offices;
-using AirWeb.Domain.Entities.WorkEntries;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.DataExport;
+using AirWeb.AppServices.ExternalEntities.Facilities;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.Offices;
 using GaEpd.EmailService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,13 +30,16 @@ public static class AppServices
         services.AddScoped<IFceManager, FceManager>();
         services.AddScoped<IFceService, FceService>();
 
+        // Compliance search
+        services.AddScoped<IComplianceSearchService, ComplianceSearchService>();
+
         // Notification Types
         services.AddScoped<INotificationTypeManager, NotificationTypeManager>();
         services.AddScoped<INotificationTypeService, NotificationTypeService>();
 
         // Email
         services.AddTransient<IEmailService, EmailService>();
-        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IAppNotificationService, AppNotificationService>();
 
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();

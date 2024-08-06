@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.DomainEntities.NotificationTypes;
-using AirWeb.Domain.Entities.NotificationTypes;
+﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -14,8 +14,8 @@ public class CreateValidator
         var repoMock = Substitute.For<INotificationTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((NotificationType?)null);
-        
-        var model = new NotificationTypeCreateDto {Name = SampleText.ValidName};
+
+        var model = new NotificationTypeCreateDto { Name = SampleText.ValidName };
 
         // Act
         var result = await new NotificationTypeCreateValidator(repoMock).TestValidateAsync(model);
@@ -32,7 +32,7 @@ public class CreateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new NotificationType(Guid.Empty, SampleText.ValidName));
 
-        var model = new NotificationTypeCreateDto {Name = SampleText.ValidName};
+        var model = new NotificationTypeCreateDto { Name = SampleText.ValidName };
 
         // Act
         var result = await new NotificationTypeCreateValidator(repoMock).TestValidateAsync(model);
@@ -50,7 +50,7 @@ public class CreateValidator
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns((NotificationType?)null);
 
-        var model = new NotificationTypeCreateDto {Name = SampleText.ShortName};
+        var model = new NotificationTypeCreateDto { Name = SampleText.ShortName };
 
         // Act
         var result = await new NotificationTypeCreateValidator(repoMock).TestValidateAsync(model);

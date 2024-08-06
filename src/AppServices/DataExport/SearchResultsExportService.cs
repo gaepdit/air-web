@@ -1,8 +1,8 @@
-using AirWeb.AppServices.DomainEntities.WorkEntries.Search;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
-using AirWeb.Domain.Entities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.DataExport;
@@ -18,7 +18,7 @@ public sealed class SearchResultsExportService(
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            spec.DeletedStatus = null;
+            spec.DeleteStatus = null;
 
         return await workEntryRepository.CountAsync(WorkEntryFilters.SearchPredicate(spec), token)
             .ConfigureAwait(false);
@@ -30,7 +30,7 @@ public sealed class SearchResultsExportService(
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
-            spec.DeletedStatus = null;
+            spec.DeleteStatus = null;
 
         return (await workEntryRepository.GetListAsync(WorkEntryFilters.SearchPredicate(spec), token)
                 .ConfigureAwait(false))

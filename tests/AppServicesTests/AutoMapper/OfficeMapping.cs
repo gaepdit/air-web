@@ -1,5 +1,5 @@
-using AirWeb.AppServices.DomainEntities.Offices;
-using AirWeb.Domain.Entities.Offices;
+using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.AutoMapper;

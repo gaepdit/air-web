@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.DomainEntities.WorkEntries.Permissions;
-using AirWeb.AppServices.DomainEntities.WorkEntries.PermitRevocations;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
