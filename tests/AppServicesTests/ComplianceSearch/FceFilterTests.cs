@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.TestData.Entities;
-using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.ComplianceSearch;
 
@@ -197,12 +196,12 @@ public class FceFilterTests
     }
 
     [Test]
-    public void Office_Single_Match()
+    public void Office_Match()
     {
         // Arrange
         var officeId = FceData.GetData
             .First(fce => fce.ReviewedBy is { Office: not null }).ReviewedBy!.Office!.Id;
-        var spec = new FceSearchDto { Offices = [officeId] };
+        var spec = new FceSearchDto { Office = officeId };
         var expression = FceFilters.SearchPredicate(spec);
 
         var expected = FceData.GetData.Where(fce =>
@@ -216,48 +215,10 @@ public class FceFilterTests
     }
 
     [Test]
-    public void Office_Single_NoMatch()
+    public void Office_NoMatch()
     {
         // Arrange
-        var spec = new FceSearchDto { Offices = [Guid.Empty] };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEmpty();
-    }
-
-    [Test]
-    public void Office_Multiple_Match()
-    {
-        // Arrange
-        var officeId1 = FceData.GetData
-            .First(fce => fce.ReviewedBy is { Office: not null }).ReviewedBy!.Office!.Id;
-        var officeId2 = FceData.GetData
-            .First(fce => fce.ReviewedBy is { Office: not null } && fce.ReviewedBy.Office.Id != officeId1)
-            .ReviewedBy!.Office!.Id;
-
-        var spec = new FceSearchDto { Offices = [officeId1, officeId2] };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce =>
-            fce.ReviewedBy is { Office: not null } &&
-            (fce.ReviewedBy.Office.Id == officeId1 || fce.ReviewedBy.Office.Id == officeId2));
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Office_Multiple_NoMatch()
-    {
-        // Arrange
-        var spec = new FceSearchDto { Offices = [Guid.Empty, SampleText.UnassignedGuid] };
+        var spec = new FceSearchDto { Office = Guid.Empty };
         var expression = FceFilters.SearchPredicate(spec);
 
         // Act

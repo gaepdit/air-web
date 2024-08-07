@@ -12,7 +12,7 @@ internal static class FceFilters
             .ByFacilityId(spec.PartialFacilityId)
             .ByYear(spec.Year)
             .ByReviewer(spec.ReviewedBy)
-            .ByOffice(spec.Offices)
+            .ByOffice(spec.Office)
             .FromDate(spec.DateFrom)
             .ToDate(spec.DateTo)
             .ByOnsiteStatus(spec.Onsite)
@@ -32,13 +32,13 @@ internal static class FceFilters
 
     private static Expression<Func<Fce, bool>> ByOffice(
         this Expression<Func<Fce, bool>> predicate,
-        List<Guid> input) =>
-        input.Count == 0
+        Guid? input) =>
+        input is null
             ? predicate
             : predicate.And(fce =>
                 fce.ReviewedBy != null &&
                 fce.ReviewedBy.Office != null &&
-                input.Contains(fce.ReviewedBy.Office.Id));
+                fce.ReviewedBy.Office.Id == input);
 
     private static Expression<Func<Fce, bool>> FromDate(
         this Expression<Func<Fce, bool>> predicate,

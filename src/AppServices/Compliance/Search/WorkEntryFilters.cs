@@ -12,7 +12,7 @@ internal static class WorkEntryFilters
             .ByClosedStatus(spec.Closed)
             .ByWorkType(spec.Include)
             .ByFacilityId(spec.PartialFacilityId)
-            .ByOffice(spec.Offices)
+            .ByOffice(spec.Office)
             .ByResponsibleStaff(spec.ResponsibleStaff)
             .FromEventDate(spec.EventDateFrom)
             .ToEventDate(spec.EventDateTo)
@@ -80,13 +80,13 @@ internal static class WorkEntryFilters
 
     private static Expression<Func<WorkEntry, bool>> ByOffice(
         this Expression<Func<WorkEntry, bool>> predicate,
-        List<Guid> input) =>
-        input.Count == 0
+        Guid? input) =>
+        input is null
             ? predicate
             : predicate.And(entry =>
                 entry.ResponsibleStaff != null &&
                 entry.ResponsibleStaff.Office != null &&
-                input.Contains(entry.ResponsibleStaff.Office.Id));
+                entry.ResponsibleStaff.Office.Id == input);
 
     private static Expression<Func<WorkEntry, bool>> FromEventDate(
         this Expression<Func<WorkEntry, bool>> predicate,

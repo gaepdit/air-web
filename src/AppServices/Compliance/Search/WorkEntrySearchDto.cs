@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Utilities;
+﻿using AirWeb.AppServices.Utilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
@@ -25,18 +25,14 @@ public record WorkEntrySearchDto : IStandardSearch
     [StringLength(9)]
     public string? PartialFacilityId { get; init; }
 
-    // TODO: May need to postpone this feature if it requires too much effort.
-    // [Display(Name = "Facility Name")]
-    // public string? FacilityName { get; init; }
-
     // == Staff ==
 
     [Display(Name = "Responsible Staff")]
     // Guid as string
     public string? ResponsibleStaff { get; init; }
 
-    [Display(Name = "Offices")]
-    public List<Guid> Offices { get; init; } = [];
+    [Display(Name = "Office")]
+    public Guid? Office { get; init; }
 
     // == Dates ==
 
@@ -75,15 +71,13 @@ public record WorkEntrySearchDto : IStandardSearch
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
             { nameof(PartialFacilityId), PartialFacilityId },
             { nameof(ResponsibleStaff), ResponsibleStaff },
+            { nameof(Office), Office.ToString() },
             { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
             { nameof(EventDateTo), EventDateTo?.ToString("d") },
             { nameof(ClosedDateFrom), ClosedDateFrom?.ToString("d") },
             { nameof(ClosedDateTo), ClosedDateTo?.ToString("d") },
             { nameof(Notes), Notes },
         };
-
-        foreach (var office in Offices)
-            asRouteValues.Add(nameof(Offices), office.ToString());
 
         foreach (var workType in Include)
             asRouteValues.Add(nameof(Include), workType.ToString());

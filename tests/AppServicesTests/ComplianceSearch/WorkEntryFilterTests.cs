@@ -1,7 +1,6 @@
-using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Entities;
-using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.ComplianceSearch;
 
@@ -292,12 +291,12 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Office_Single_Match()
+    public void Office_Match()
     {
         // Arrange
         var officeId = WorkEntryData.GetData
             .First(entry => entry.ResponsibleStaff is { Office: not null }).ResponsibleStaff!.Office!.Id;
-        var spec = new WorkEntrySearchDto { Offices = [officeId] };
+        var spec = new WorkEntrySearchDto { Office = officeId };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
@@ -312,50 +311,10 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Office_Single_NoMatch()
+    public void Office_NoMatch()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Offices = [Guid.Empty] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEmpty();
-    }
-
-    [Test]
-    public void Office_Multiple_Match()
-    {
-        // Arrange
-        var officeId1 = WorkEntryData.GetData
-            .First(entry => entry is { IsDeleted: false, ResponsibleStaff.Office: not null }).ResponsibleStaff!.Office!
-            .Id;
-        var officeId2 = WorkEntryData.GetData
-            .First(entry => entry is { IsDeleted: false, ResponsibleStaff.Office: not null } &&
-                            entry.ResponsibleStaff.Office.Id != officeId1)
-            .ResponsibleStaff!.Office!.Id;
-
-        var spec = new WorkEntrySearchDto { Offices = [officeId1, officeId2] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, ResponsibleStaff.Office: not null } &&
-            (entry.ResponsibleStaff.Office.Id == officeId1 || entry.ResponsibleStaff.Office.Id == officeId2));
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Office_Multiple_NoMatch()
-    {
-        // Arrange
-        var spec = new WorkEntrySearchDto { Offices = [Guid.Empty, SampleText.UnassignedGuid] };
+        var spec = new WorkEntrySearchDto { Office = Guid.Empty };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         // Act
