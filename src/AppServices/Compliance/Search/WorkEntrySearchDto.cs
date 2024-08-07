@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using AirWeb.AppServices.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
@@ -21,6 +22,7 @@ public record WorkEntrySearchDto : IStandardSearch
     // == Facility ==
 
     [Display(Name = "AIRS Number")]
+    [StringLength(9)]
     public string? PartialFacilityId { get; init; }
 
     // TODO: May need to postpone this feature if it requires too much effort.
@@ -91,7 +93,7 @@ public record WorkEntrySearchDto : IStandardSearch
 
     public WorkEntrySearchDto TrimAll() => this with
     {
-        PartialFacilityId = PartialFacilityId?.Trim(),
+        PartialFacilityId = PartialFacilityId?.CleanFacilityId(),
         Notes = Notes?.Trim(),
     };
 }

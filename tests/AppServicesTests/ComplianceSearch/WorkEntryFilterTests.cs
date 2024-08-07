@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Entities;
 using AirWeb.TestData.SampleData;
@@ -178,7 +178,7 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void FacilityId_FullMatch()
+    public void FacilityId_FullMatch_WithHyphen()
     {
         // Arrange
         var facilityId = WorkEntryData.GetData.First(entry => !entry.IsDeleted).FacilityId;
@@ -195,11 +195,45 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void FacilityId_PartialMatch()
+    public void FacilityId_PartialMatch_WithHyphen()
     {
         // Arrange
-        var facilityId = WorkEntryData.GetData.First().FacilityId[8..];
+        var facilityId = WorkEntryData.GetData.First().FacilityId[..5];
         var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId };
+        var expression = WorkEntryFilters.SearchPredicate(spec);
+
+        var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId.Contains(facilityId));
+
+        // Act
+        var result = WorkEntryData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_FullMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = WorkEntryData.GetData.First(entry => !entry.IsDeleted).FacilityId;
+        var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId.Trim('-') };
+        var expression = WorkEntryFilters.SearchPredicate(spec);
+
+        var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId == facilityId);
+
+        // Act
+        var result = WorkEntryData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_PartialMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = WorkEntryData.GetData.First().FacilityId[..5];
+        var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId.Trim('-') };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId.Contains(facilityId));

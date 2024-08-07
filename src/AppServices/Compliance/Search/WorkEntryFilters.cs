@@ -20,15 +20,6 @@ internal static class WorkEntryFilters
             .ToClosedDate(spec.ClosedDateTo)
             .ByNotesText(spec.Notes);
 
-    private static Expression<Func<WorkEntry, bool>> ByDeletedStatus(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        DeleteStatus? input) => input switch
-    {
-        DeleteStatus.All => predicate,
-        DeleteStatus.Deleted => predicate.And(entry => entry.IsDeleted),
-        _ => predicate.And(entry => !entry.IsDeleted),
-    };
-
     private static Expression<Func<WorkEntry, bool>> ByClosedStatus(
         this Expression<Func<WorkEntry, bool>> predicate,
         YesNoAny? input) => input switch
@@ -80,11 +71,6 @@ internal static class WorkEntryFilters
         return predicate.And(includePredicate);
     }
 
-    private static Expression<Func<WorkEntry, bool>> ByFacilityId(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(fce => fce.FacilityId.Contains(input));
-
     private static Expression<Func<WorkEntry, bool>> ByResponsibleStaff(
         this Expression<Func<WorkEntry, bool>> predicate,
         string? input) =>
@@ -129,9 +115,4 @@ internal static class WorkEntryFilters
         input is null
             ? predicate
             : predicate.And(entry => entry.ClosedDate <= input);
-
-    private static Expression<Func<WorkEntry, bool>> ByNotesText(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(entry => entry.Notes.Contains(input));
 }

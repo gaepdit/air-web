@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public class WorkEntry : AuditableSoftDeleteEntity<int>
+public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
 {
     // Constructors
 

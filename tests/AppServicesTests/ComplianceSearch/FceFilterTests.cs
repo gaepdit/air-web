@@ -52,7 +52,7 @@ public class FceFilterTests
     }
 
     [Test]
-    public void FacilityId_FullMatch()
+    public void FacilityId_FullMatch_WithHyphen()
     {
         // Arrange
         var facilityId = FceData.GetData.First(fce => !fce.IsDeleted).FacilityId;
@@ -69,11 +69,45 @@ public class FceFilterTests
     }
 
     [Test]
-    public void FacilityId_PartialMatch()
+    public void FacilityId_PartialMatch_WithHyphen()
     {
         // Arrange
-        var facilityId = FceData.GetData.First(fce => !fce.IsDeleted).FacilityId[8..];
+        var facilityId = FceData.GetData.First().FacilityId[..5];
         var spec = new FceSearchDto { PartialFacilityId = facilityId };
+        var expression = FceFilters.SearchPredicate(spec);
+
+        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId.Contains(facilityId));
+
+        // Act
+        var result = FceData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_FullMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = FceData.GetData.First(fce => !fce.IsDeleted).FacilityId;
+        var spec = new FceSearchDto { PartialFacilityId = facilityId.Trim('-') };
+        var expression = FceFilters.SearchPredicate(spec);
+
+        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId == facilityId);
+
+        // Act
+        var result = FceData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_PartialMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = FceData.GetData.First().FacilityId[..5];
+        var spec = new FceSearchDto { PartialFacilityId = facilityId.Trim('-') };
         var expression = FceFilters.SearchPredicate(spec);
 
         var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId.Contains(facilityId));

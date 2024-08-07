@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using AirWeb.AppServices.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
@@ -10,6 +11,7 @@ public record FceSearchDto : IStandardSearch
     public DeleteStatus? DeleteStatus { get; set; }
 
     [Display(Name = "AIRS Number")]
+    [StringLength(9)]
     public string? PartialFacilityId { get; init; }
 
     // TODO: May need to postpone this feature if it requires too much effort.
@@ -66,7 +68,7 @@ public record FceSearchDto : IStandardSearch
 
     public FceSearchDto TrimAll() => this with
     {
-        PartialFacilityId = PartialFacilityId?.Trim(),
+        PartialFacilityId = PartialFacilityId?.CleanFacilityId(),
         Notes = Notes?.Trim(),
     };
 }
