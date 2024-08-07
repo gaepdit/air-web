@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Identity;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using AirWeb.WebApp.Platform.Settings;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace AirWeb.WebApp.Pages.Account;
@@ -235,7 +235,7 @@ public class ExternalLoginModel(
 
     private IActionResult LocalRedirectOrHome()
     {
-        if (ReturnUrl is null) return RedirectToPage("/Staff/Index");
+        if (ReturnUrl is null) return RedirectToPage("/Home/Index");
         return LocalRedirect(ReturnUrl);
     }
 }
