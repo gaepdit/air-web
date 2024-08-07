@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model AirWeb.WebApp.Models.SearchResultsDisplay
 
-<partial name="_PaginationNavAndCount" model="Model.Pagination" />
+<partial name="_PaginationNavAndCount" model="Model" />
 <div class="table-responsive-md mb-3">
     <table class="table table-hover" aria-label="Facility search results">
         <thead>
@@ -40,4 +40,4 @@
         </tbody>
     </table>
 </div>
-<partial name="_PaginationNav" model="Model.Pagination" />
+<partial name="_PaginationNav" model="Model" />
