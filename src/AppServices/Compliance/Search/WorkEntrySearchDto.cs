@@ -21,7 +21,7 @@ public record WorkEntrySearchDto : IStandardSearch
 
     // == Facility ==
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
     public string? PartialFacilityId { get; init; }
 
@@ -36,22 +36,22 @@ public record WorkEntrySearchDto : IStandardSearch
 
     // == Dates ==
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? EventDateFrom { get; init; }
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? EventDateTo { get; init; }
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateFrom { get; init; }
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateTo { get; init; }
