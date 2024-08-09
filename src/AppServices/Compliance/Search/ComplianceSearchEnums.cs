@@ -39,7 +39,7 @@ public enum DeleteStatus
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum WorkEntryTypes
+public enum WorkTypeSearch
 {
     [Description("Annual Compliance Certifications")] Acc,
     [Description("Inspections")] Inspection,

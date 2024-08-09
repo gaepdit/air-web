@@ -2,6 +2,7 @@
 
 namespace AirWeb.AppServices.DataExport;
 
+// TODO: Combine with search service.
 public interface ISearchResultsExportService : IDisposable, IAsyncDisposable
 {
     Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token);

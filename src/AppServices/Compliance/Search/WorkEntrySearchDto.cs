@@ -17,7 +17,7 @@ public record WorkEntrySearchDto : IStandardSearch
 
     // == Work types ==
 
-    public List<WorkEntryTypes> Include { get; init; } = [];
+    public List<WorkTypeSearch> Include { get; init; } = [];
 
     // == Facility ==
 
@@ -79,8 +79,11 @@ public record WorkEntrySearchDto : IStandardSearch
             { nameof(Notes), Notes },
         };
 
+        var i = 0;
         foreach (var workType in Include)
-            asRouteValues.Add(nameof(Include), workType.ToString());
+        {
+            asRouteValues.Add($"{nameof(Include)}[{i++}]", workType.ToString());
+        }
 
         return asRouteValues;
     }

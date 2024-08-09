@@ -63,22 +63,22 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     public string? DeleteComments { get; set; }
 
     // Calculated properties
-    public RecordType RecordType => WorkEntryType switch
+    public WorkType WorkType => WorkEntryType switch
     {
-        WorkEntryType.Unknown => RecordType.Unknown,
-        WorkEntryType.Notification => RecordType.Notification,
-        WorkEntryType.PermitRevocation => RecordType.PermitRevocation,
+        WorkEntryType.Unknown => WorkType.Unknown,
+        WorkEntryType.Notification => WorkType.Notification,
+        WorkEntryType.PermitRevocation => WorkType.PermitRevocation,
         WorkEntryType.ComplianceEvent => (this as ComplianceEvent)!.ComplianceEventType switch
         {
-            ComplianceEventType.Inspection => RecordType.Inspection,
-            ComplianceEventType.Unknown => RecordType.Unknown,
-            ComplianceEventType.Report => RecordType.Report,
-            ComplianceEventType.SourceTestReview => RecordType.SourceTestReview,
-            ComplianceEventType.AnnualComplianceCertification => RecordType.AnnualComplianceCertification,
-            ComplianceEventType.RmpInspection => RecordType.RmpInspection,
-            _ => RecordType.Unknown,
+            ComplianceEventType.Inspection => WorkType.Inspection,
+            ComplianceEventType.Unknown => WorkType.Unknown,
+            ComplianceEventType.Report => WorkType.Report,
+            ComplianceEventType.SourceTestReview => WorkType.SourceTestReview,
+            ComplianceEventType.AnnualComplianceCertification => WorkType.AnnualComplianceCertification,
+            ComplianceEventType.RmpInspection => WorkType.RmpInspection,
+            _ => WorkType.Unknown,
         },
-        _ => RecordType.Unknown,
+        _ => WorkType.Unknown,
     };
 
     public DateOnly EventDate => WorkEntryType switch
@@ -121,7 +121,7 @@ public enum WorkEntryType
     [Description("Compliance Event")] ComplianceEvent = 9,
 }
 
-public enum RecordType
+public enum WorkType
 {
     Unknown,
     Inspection,
