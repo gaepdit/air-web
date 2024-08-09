@@ -34,13 +34,9 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
     {
-        // == Let's save enums in the database as strings.
-        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
-        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
-
+        builder.Entity<WorkEntry>().HasDiscriminator(entry => entry.WorkType);
         return builder;
     }
 
@@ -104,6 +100,32 @@ internal static class AppDbContextConfiguration
             .HasColumnName(nameof(AnnualComplianceCertification.ReportsDeviations));
         repEntity.Property(e => e.ReportsDeviations).HasColumnName(nameof(Report.ReportsDeviations));
 
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
+    {
+        // == Let's save enums in the database as strings.
+        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
+        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureCalculatedColumns(this ModelBuilder builder)
+    {
+        builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
+            .HasComputedColumnSql("""
+                                  case
+                                      when WorkType = 'Unknown' then convert(date, CreatedAt)
+                                      when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                          then convert(date, ReceivedDate)
+                                      when WorkType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
+                                      when WorkType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                      else convert(date, '1900-1-1')
+                                  end
+                                  """);
         return builder;
     }
 

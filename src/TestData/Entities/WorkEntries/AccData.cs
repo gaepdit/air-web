@@ -10,6 +10,7 @@ internal static partial class WorkEntries
     [
         new AnnualComplianceCertification(5001)
         {
+            WorkType = "AnnualComplianceCertification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -17,6 +18,7 @@ internal static partial class WorkEntries
             Notes = "Open ACC",
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
             AccReportingYear = 2000,
             Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-21).Date),
             PostmarkedOnTime = true,
@@ -32,6 +34,7 @@ internal static partial class WorkEntries
         },
         new AnnualComplianceCertification(5002)
         {
+            WorkType = "AnnualComplianceCertification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -42,6 +45,7 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
             AccReportingYear = 2002,
             Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
             PostmarkedOnTime = false,
@@ -57,6 +61,7 @@ internal static partial class WorkEntries
         },
         new AnnualComplianceCertification(5003)
         {
+            WorkType = "AnnualComplianceCertification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
@@ -64,6 +69,7 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
             AccReportingYear = 2002,
             Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
         },

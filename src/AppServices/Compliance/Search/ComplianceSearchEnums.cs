@@ -10,8 +10,8 @@ public enum SortBy
 {
     [Description("Id")] IdAsc,
     [Description("Id desc")] IdDesc,
-    [Description("FacilityId")] FacilityIdAsc,
-    [Description("FacilityId desc")] FacilityIdDesc,
+    [Description("FacilityId, Id")] FacilityIdAsc,
+    [Description("FacilityId desc, Id")] FacilityIdDesc,
     [Description("WorkType, Id")] WorkTypeAsc,
     [Description("WorkType desc, Id")] WorkTypeDesc,
     [Description("EventDate, Id")] EventDateAsc,

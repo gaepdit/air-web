@@ -52,8 +52,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
+            .ConfigureTphDiscriminatorColumn()
             .ConfigureTphColumnSharing()
             .ConfigureEnumValues()
+            .ConfigureCalculatedColumns()
             .ConfigureOwnedTypeCollections(Database.ProviderName)
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
 

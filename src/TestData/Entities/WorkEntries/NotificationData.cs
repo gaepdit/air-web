@@ -10,6 +10,7 @@ internal static partial class WorkEntries
     [
         new Notification(7001, DomainData.GetRandomNotificationType())
         {
+            WorkType = "Notification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -19,12 +20,14 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-15)),
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-12)),
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
         new Notification(7002, DomainData.GetRandomNotificationType())
         {
+            WorkType = "Notification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -34,12 +37,14 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
             DueDate = null,
             SentDate = null,
             FollowupTaken = false,
         },
         new Notification(7003, DomainData.GetRandomNotificationType())
         {
+            WorkType = "Notification",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
@@ -47,6 +52,7 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
         },
     ];
 }

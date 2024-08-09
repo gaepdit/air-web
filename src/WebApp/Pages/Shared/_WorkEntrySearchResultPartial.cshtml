@@ -18,12 +18,32 @@
             </th>
             <th scope="col" class="text-nowrap">
                 <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                   asp-route-Sort="@(Model.Spec.Sort == SortBy.EventDateAsc ? nameof(SortBy.EventDateDesc) : nameof(SortBy.EventDateAsc))"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.WorkTypeAsc ? nameof(SortBy.WorkTypeDesc) : nameof(SortBy.WorkTypeAsc))"
                    class="link-offset-2">
-                    Date Received @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
-                                      new { up = nameof(SortBy.EventDateAsc), down = nameof(SortBy.EventDateDesc) })
+                    Work Type @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                                  new { up = nameof(SortBy.WorkTypeAsc), down = nameof(SortBy.WorkTypeDesc) })
                 </a>
             </th>
+            <th scope="col" class="text-nowrap">
+                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()"
+                   asp-route-handler="search"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.FacilityIdAsc ? nameof(SortBy.FacilityIdDesc) : nameof(SortBy.FacilityIdAsc))"
+                   class="link-offset-2">
+                    Facility @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                                 new { up = nameof(SortBy.FacilityIdAsc), down = nameof(SortBy.FacilityIdDesc) })
+                </a>
+            </th>
+            <th scope="col" class="text-nowrap">
+                <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()"
+                   asp-route-handler="search"
+                   asp-route-Sort="@(Model.Spec.Sort == SortBy.EventDateAsc ? nameof(SortBy.EventDateDesc) : nameof(SortBy.EventDateAsc))"
+                   class="link-offset-2">
+                    Event Date @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow,
+                                   new { up = nameof(SortBy.EventDateAsc), down = nameof(SortBy.EventDateDesc) })
+                </a>
+            </th>
+            <th scope="col" class="text-nowrap">Staff</th>
+            <th scope="col" class="text-nowrap">Status</th>
         </tr>
         </thead>
 
@@ -32,9 +52,30 @@
         {
             <tr class="@(item.IsDeleted ? "table-danger" : "")">
                 <th scope="row">
+                    @if (item.IsDeleted)
+                    {
+                        <strong>DELETED</strong>
+                        <br />
+                    }
                     <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
                 </th>
-                <td class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.DateOnly)</td>
+                <td class="text-nowrap">@item.WorkTypeDisplay</td>
+                <td class="text-nowrap">
+                    @item.FacilityId<br />@item.FacilityName
+                </td>
+                <td class="text-nowrap">
+                    @Html.DisplayFor(_ => item.EventDate, DisplayTemplate.DateOnly)<br />
+                    @item.EventDateName
+                </td>
+                <td class="text-nowrap">@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                <td class="text-nowrap">
+                    @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                    @if (item.IsClosed)
+                    {
+                        <br />
+                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.DateOnly)
+                    }
+                </td>
             </tr>
         }
         </tbody>
