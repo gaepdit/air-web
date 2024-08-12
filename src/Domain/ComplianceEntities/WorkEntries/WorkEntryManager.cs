@@ -1,11 +1,10 @@
 ﻿using AirWeb.Domain.Identity;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public WorkEntry Create(WorkEntryType type, ApplicationUser? user, NotificationType? notificationType = null)
+    public WorkEntry Create(WorkEntryType type, ApplicationUser? user)
     {
         var id = repository.GetNextId();
 
@@ -14,9 +13,7 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         {
             WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
             WorkEntryType.Inspection => new Inspection(id),
-            WorkEntryType.Notification => new Notification(id,
-                notificationType ??
-                throw new ArgumentException("Missing notification type.", nameof(notificationType))),
+            WorkEntryType.Notification => new Notification(id),
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
             WorkEntryType.Report => new Report(id),
             WorkEntryType.RmpInspection => new RmpInspection(id),

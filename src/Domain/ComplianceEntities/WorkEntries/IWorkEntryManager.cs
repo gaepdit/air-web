@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Identity;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -10,9 +9,8 @@ public interface IWorkEntryManager
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
-    /// <param name="notificationType">The <see cref="NotificationType"/> of the entry if it is a Notification.</param>
     /// <returns>The Work Entry that was created.</returns>
-    WorkEntry Create(WorkEntryType type, ApplicationUser? user, NotificationType? notificationType = null);
+    WorkEntry Create(WorkEntryType type, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
