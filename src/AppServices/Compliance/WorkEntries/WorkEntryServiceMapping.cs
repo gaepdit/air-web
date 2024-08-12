@@ -19,18 +19,13 @@ public sealed partial class WorkEntryService
     {
         var workEntry = resource switch
         {
-            AccCreateDto => workEntryManager.Create(WorkEntryType.ComplianceEvent, currentUser,
-                ComplianceEventType.AnnualComplianceCertification),
-            InspectionCreateDto => workEntryManager.Create(WorkEntryType.ComplianceEvent, currentUser,
-                ComplianceEventType.Inspection),
+            AccCreateDto => workEntryManager.Create(WorkEntryType.AnnualComplianceCertification, currentUser),
+            InspectionCreateDto => workEntryManager.Create(WorkEntryType.Inspection, currentUser),
             NotificationCreateDto => workEntryManager.Create(WorkEntryType.Notification, currentUser),
             PermitRevocationCreateDto => workEntryManager.Create(WorkEntryType.PermitRevocation, currentUser),
-            ReportCreateDto => workEntryManager.Create(WorkEntryType.ComplianceEvent, currentUser,
-                ComplianceEventType.Report),
-            RmpInspectionCreateDto => workEntryManager.Create(WorkEntryType.ComplianceEvent, currentUser,
-                ComplianceEventType.RmpInspection),
-            SourceTestReviewCreateDto => workEntryManager.Create(WorkEntryType.ComplianceEvent, currentUser,
-                ComplianceEventType.SourceTestReview),
+            ReportCreateDto => workEntryManager.Create(WorkEntryType.Report, currentUser),
+            RmpInspectionCreateDto => workEntryManager.Create(WorkEntryType.RmpInspection, currentUser),
+            SourceTestReviewCreateDto => workEntryManager.Create(WorkEntryType.SourceTestReview, currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
@@ -51,26 +46,26 @@ public sealed partial class WorkEntryService
 
         switch (resource)
         {
-            case NotificationCreateDto dto:
-                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
-                break;
-            case PermitRevocationCreateDto dto:
-                MapPermitRevocation(dto, (PermitRevocation)workEntry);
-                break;
             case AccCreateDto dto:
                 MapAcc(dto, (AnnualComplianceCertification)workEntry);
                 break;
             case InspectionCreateDto dto:
                 MapInspection(dto, (Inspection)workEntry);
                 break;
-            case SourceTestReviewCreateDto dto:
-                MapStr(dto, (SourceTestReview)workEntry);
+            case NotificationCreateDto dto:
+                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
+                break;
+            case PermitRevocationCreateDto dto:
+                MapPermitRevocation(dto, (PermitRevocation)workEntry);
                 break;
             case ReportCreateDto dto:
                 MapReport(dto, (Report)workEntry);
                 break;
             case RmpInspectionCreateDto dto:
                 MapRmp(dto, (RmpInspection)workEntry);
+                break;
+            case SourceTestReviewCreateDto dto:
+                MapStr(dto, (SourceTestReview)workEntry);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
@@ -88,20 +83,17 @@ public sealed partial class WorkEntryService
 
         switch (resource)
         {
-            case NotificationUpdateDto dto:
-                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
-                break;
-            case PermitRevocationUpdateDto dto:
-                MapPermitRevocation(dto, (PermitRevocation)workEntry);
-                break;
             case AccUpdateDto dto:
                 MapAcc(dto, (AnnualComplianceCertification)workEntry);
                 break;
             case InspectionUpdateDto dto:
                 MapInspection(dto, (Inspection)workEntry);
                 break;
-            case SourceTestReviewUpdateDto dto:
-                MapStr(dto, (SourceTestReview)workEntry);
+            case NotificationUpdateDto dto:
+                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
+                break;
+            case PermitRevocationUpdateDto dto:
+                MapPermitRevocation(dto, (PermitRevocation)workEntry);
                 break;
             case ReportUpdateDto dto:
                 MapReport(dto, (Report)workEntry);
@@ -109,28 +101,12 @@ public sealed partial class WorkEntryService
             case RmpInspectionUpdateDto dto:
                 MapRmp(dto, (RmpInspection)workEntry);
                 break;
+            case SourceTestReviewUpdateDto dto:
+                MapStr(dto, (SourceTestReview)workEntry);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
         }
-    }
-
-    private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
-        CancellationToken token)
-    {
-        workEntry.NotificationType = await workEntryRepository
-            .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
-        workEntry.ReceivedDate = resource.ReceivedDate;
-        workEntry.DueDate = resource.DueDate;
-        workEntry.SentDate = resource.SentDate;
-        workEntry.FollowupTaken = resource.FollowupTaken;
-    }
-
-    private static void MapPermitRevocation(IPermitRevocationCommandDto resource, PermitRevocation workEntry)
-    {
-        workEntry.ReceivedDate = resource.ReceivedDate;
-        workEntry.PermitRevocationDate = resource.PermitRevocationDate;
-        workEntry.PhysicalShutdownDate = resource.PhysicalShutdownDate;
-        workEntry.FollowupTaken = resource.FollowupTaken;
     }
 
     private static void MapAcc(IAccCommandDto resource, AnnualComplianceCertification acc)
@@ -154,6 +130,25 @@ public sealed partial class WorkEntryService
     {
         inspection.InspectionReason = resource.InspectionReason;
         inspection.ComplianceStatus = resource.ComplianceStatus;
+    }
+
+    private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
+        CancellationToken token)
+    {
+        workEntry.NotificationType = await workEntryRepository
+            .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
+        workEntry.ReceivedDate = resource.ReceivedDate;
+        workEntry.DueDate = resource.DueDate;
+        workEntry.SentDate = resource.SentDate;
+        workEntry.FollowupTaken = resource.FollowupTaken;
+    }
+
+    private static void MapPermitRevocation(IPermitRevocationCommandDto resource, PermitRevocation workEntry)
+    {
+        workEntry.ReceivedDate = resource.ReceivedDate;
+        workEntry.PermitRevocationDate = resource.PermitRevocationDate;
+        workEntry.PhysicalShutdownDate = resource.PhysicalShutdownDate;
+        workEntry.FollowupTaken = resource.FollowupTaken;
     }
 
     private static void MapReport(IReportCommandDto resource, Report report)

@@ -86,17 +86,14 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Include_NonCompliance_Single_Match()
+    public void Include_Single_Match()
     {
         // Arrange
         var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry is
-            {
-                IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
-            });
+            entry is { IsDeleted: false, WorkEntryType: WorkEntryType.Notification });
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());
@@ -106,84 +103,18 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Include_Compliance_Single_Match()
-    {
-        // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        var expected = WorkEntryData.GetData.Where(entry =>
-            entry is
-            {
-                IsDeleted: false,
-                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent
-            } &&
-            ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification);
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Include_NonCompliance_Multiple_Match()
-    {
-        // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Notification, WorkTypeSearch.PermitRevocation] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        var expected = WorkEntryData.GetData.Where(entry =>
-            entry is
-            {
-                IsDeleted: false,
-                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
-                or AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.PermitRevocation
-            });
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Include_Compliance_Multiple_Match()
-    {
-        // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc, WorkTypeSearch.Inspection] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        var expected = WorkEntryData.GetData.Where(entry =>
-            entry is
-            {
-                IsDeleted: false,
-                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent
-            } &&
-            ((ComplianceEvent)entry).ComplianceEventType is ComplianceEventType.AnnualComplianceCertification
-            or ComplianceEventType.Inspection);
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Include_ComplianceAndNonCompliance_Match()
+    public void Include_Multiple_Match()
     {
         // Arrange
         var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc, WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            !entry.IsDeleted &&
-            (entry.WorkEntryType == AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification ||
-             (entry.WorkEntryType == AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-              ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification)));
+            entry is
+            {
+                IsDeleted: false,
+                WorkEntryType: WorkEntryType.AnnualComplianceCertification or WorkEntryType.Notification,
+            });
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());
@@ -370,9 +301,7 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-        {
-            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
-        }) as Notification)!.ReceivedDate;
+            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
         var spec = new WorkEntrySearchDto { EventDateFrom = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
@@ -392,9 +321,7 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-        {
-            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
-        }) as Notification)!.ReceivedDate;
+            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
         var spec = new WorkEntrySearchDto { EventDateTo = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
@@ -414,9 +341,7 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-        {
-            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
-        }) as Notification)!.ReceivedDate;
+            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
         var spec = new WorkEntrySearchDto
             { EventDateTo = eventDate, EventDateFrom = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);

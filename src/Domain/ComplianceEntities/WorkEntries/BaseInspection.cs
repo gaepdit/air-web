@@ -17,6 +17,7 @@ public abstract class BaseInspection : ComplianceEvent
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }
 
+    // TODO: split into separate DateOnly and TimeOnly properties
     public DateTime InspectionStarted { get; init; }
     public DateTime InspectionEnded { get; init; }
 
