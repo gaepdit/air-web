@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.Identity;
 using AirWeb.TestData.Entities;
 using AirWeb.TestData.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -45,8 +46,55 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries ON");
 
-        if (context.WorkEntries.Any()) return;
-        context.WorkEntries.AddRange(WorkEntryData.GetData);
+        if (!context.Accs.Any())
+        {
+            context.Accs.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification)
+                .Cast<AnnualComplianceCertification>());
+        }
+
+        if (!context.Inspections.Any())
+        {
+            context.Inspections.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.Inspection)
+                .Cast<Inspection>());
+        }
+
+        if (!context.Notifications.Any())
+        {
+            context.Notifications.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.Notification)
+                .Cast<Notification>());
+        }
+
+        if (!context.PermitRevocations.Any())
+        {
+            context.PermitRevocations.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.PermitRevocation)
+                .Cast<PermitRevocation>());
+        }
+
+        if (!context.Reports.Any())
+        {
+            context.Reports.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.Report)
+                .Cast<Report>());
+        }
+
+        if (!context.RmpInspections.Any())
+        {
+            context.RmpInspections.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.RmpInspection)
+                .Cast<RmpInspection>());
+        }
+
+        if (!context.SourceTestReviews.Any())
+        {
+            context.SourceTestReviews.AddRange(WorkEntryData.GetData
+                .Where(entry => entry.WorkEntryType == WorkEntryType.SourceTestReview)
+                .Cast<SourceTestReview>());
+        }
+
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)

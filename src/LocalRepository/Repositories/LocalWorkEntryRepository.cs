@@ -50,7 +50,6 @@ public sealed class LocalWorkEntryRepository()
         WorkEntryType.Report => (entry as Report)!.ReceivedDate,
         WorkEntryType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
         WorkEntryType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByCompliance,
-        WorkEntryType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
         _ => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.MinValue),
     };
 }

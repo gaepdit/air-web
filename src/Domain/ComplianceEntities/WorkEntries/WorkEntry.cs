@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
+public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
 {
     // Constructors
 
@@ -75,7 +75,6 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     [UsedImplicitly]
     public string EventDateName => WorkEntryType switch
     {
-        WorkEntryType.Unknown => "Date Created",
         WorkEntryType.Notification or WorkEntryType.PermitRevocation => "Date Received",
         WorkEntryType.Report or WorkEntryType.AnnualComplianceCertification => "Date Received",
         WorkEntryType.Inspection or WorkEntryType.RmpInspection => "Inspection Date",
@@ -100,7 +99,6 @@ public record WorkEntryComment : Comment
 // Numbering is based on historic values in previous database; may not be needed going forward.
 public enum WorkEntryType
 {
-    Unknown = 0,
     [Description("Annual Compliance Certification")] AnnualComplianceCertification = 4,
     Inspection = 2,
     Notification = 5,

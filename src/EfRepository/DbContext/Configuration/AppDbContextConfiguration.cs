@@ -34,11 +34,12 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphMappingStrategy(this ModelBuilder builder)
     {
         builder.Entity<WorkEntry>()
+            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
+            .ToTable("WorkEntries")
             .HasDiscriminator(entry => entry.WorkEntryType)
-            .HasValue<WorkEntry>(WorkEntryType.Unknown)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
             .HasValue<Inspection>(WorkEntryType.Inspection)
             .HasValue<Notification>(WorkEntryType.Notification)
@@ -128,7 +129,6 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkEntryType = 'Unknown' then convert(date, CreatedAt)
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then convert(date, ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
@@ -142,7 +142,6 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkEntryType = 'Unknown' then date(CreatedAt)
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then date(ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
@@ -155,7 +154,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphMappingStrategyForComments(this ModelBuilder builder)
     {
         // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
         // directly exposed as a DbSet).
