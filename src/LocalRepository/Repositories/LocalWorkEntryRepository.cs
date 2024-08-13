@@ -28,9 +28,6 @@ public sealed class LocalWorkEntryRepository()
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
 
-    public Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(((ComplianceEvent)Items.Single(entry => entry.Id.Equals(id))).ComplianceEventType);
-
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));
 
@@ -51,19 +48,14 @@ public sealed class LocalWorkEntryRepository()
 
     private static DateOnly EventDate(WorkEntry entry) => entry.WorkEntryType switch
     {
-        WorkEntryType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
+        WorkEntryType.AnnualComplianceCertification => (entry as AnnualComplianceCertification)!.ReceivedDate,
+        WorkEntryType.Inspection => DateOnly.FromDateTime((entry as Inspection)!.InspectionStarted),
         WorkEntryType.Notification => (entry as Notification)!.ReceivedDate,
         WorkEntryType.PermitRevocation => (entry as PermitRevocation)!.ReceivedDate,
-        WorkEntryType.ComplianceEvent => (entry as ComplianceEvent)!.ComplianceEventType switch
-        {
-            ComplianceEventType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
-            ComplianceEventType.Report => (entry as Report)!.ReceivedDate,
-            ComplianceEventType.Inspection => DateOnly.FromDateTime((entry as Inspection)!.InspectionStarted),
-            ComplianceEventType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByCompliance,
-            ComplianceEventType.AnnualComplianceCertification => (entry as AnnualComplianceCertification)!.ReceivedDate,
-            ComplianceEventType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
-            _ => DateOnly.MinValue,
-        },
-        _ => DateOnly.MinValue,
+        WorkEntryType.Report => (entry as Report)!.ReceivedDate,
+        WorkEntryType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
+        WorkEntryType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByCompliance,
+        WorkEntryType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
+        _ => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.MinValue),
     };
 }

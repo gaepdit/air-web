@@ -14,9 +14,10 @@ public class GetWorkEntryType
     [TearDown]
     public void TearDown() => _repository.Dispose();
 
+    [TestCase(WorkEntryType.AnnualComplianceCertification)]
     [TestCase(WorkEntryType.Notification)]
-    [TestCase(WorkEntryType.ComplianceEvent)]
     [TestCase(WorkEntryType.PermitRevocation)]
+    [TestCase(WorkEntryType.SourceTestReview)]
     public async Task GivenExistingItem_ReturnsValue(WorkEntryType type)
     {
         // Arrange
@@ -30,7 +31,7 @@ public class GetWorkEntryType
     }
 
     [Test]
-    public async Task GivenNonexistentId_ReturnsNull()
+    public async Task GivenNonexistentId_Throws()
     {
         // Act
         var func = async () => await _repository.GetWorkEntryTypeAsync(id: 0);

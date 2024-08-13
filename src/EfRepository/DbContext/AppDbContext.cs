@@ -33,7 +33,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
 
     // Compliance events
-    public DbSet<ComplianceEvent> ComplianceEvents => Set<ComplianceEvent>();
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
     public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();

@@ -36,7 +36,10 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
     {
-        builder.Entity<WorkEntry>().HasDiscriminator(entry => entry.WorkType);
+        // == Let's save enums in the database as strings.
+        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
+
+        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
         return builder;
     }
 
