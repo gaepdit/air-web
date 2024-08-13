@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new Notification(7001)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
@@ -28,7 +28,7 @@ internal static partial class WorkEntries
         },
         new Notification(7002)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
@@ -46,7 +46,7 @@ internal static partial class WorkEntries
         },
         new Notification(7003)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),

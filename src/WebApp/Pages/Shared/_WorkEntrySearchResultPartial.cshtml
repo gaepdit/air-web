@@ -1,5 +1,6 @@
 ﻿@using AirWeb.AppServices.Compliance.Search
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model AirWeb.WebApp.Models.SearchResultsDisplay
 
@@ -59,7 +60,7 @@
                     }
                     <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
                 </th>
-                <td class="text-nowrap">@item.WorkTypeDisplay</td>
+                <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>
                 <td class="text-nowrap">
                     @item.FacilityId<br />@item.FacilityName
                 </td>

@@ -39,7 +39,7 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     // Properties: Basic data
 
     [StringLength(29)]
-    public WorkEntryType WorkEntryType { get; internal init; } = WorkEntryType.Unknown;
+    public WorkEntryType WorkEntryType { get; internal init; }
 
     public ApplicationUser? ResponsibleStaff { get; set; }
     public DateOnly? AcknowledgmentLetterDate { get; set; }
@@ -51,7 +51,6 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     public List<WorkEntryComment> Comments { get; } = [];
 
     // Compliance Event Properties
-
     public bool IsComplianceEvent { get; internal init; }
 
     // FUTURE: Placeholder for managing the EPA data exchange status.
@@ -69,10 +68,6 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
 
     [StringLength(7000)]
     public string? DeleteComments { get; set; }
-
-    // TPH discriminator
-    [StringLength(34)]
-    public string WorkType { get; set; }
 
     // Calculated properties
     public DateOnly EventDate { get; set; }
@@ -105,6 +100,7 @@ public record WorkEntryComment : Comment
 // Numbering is based on historic values in previous database; may not be needed going forward.
 public enum WorkEntryType
 {
+    Unknown = 0,
     [Description("Annual Compliance Certification")] AnnualComplianceCertification = 4,
     Inspection = 2,
     Notification = 5,
@@ -112,7 +108,6 @@ public enum WorkEntryType
     Report = 1,
     [Description("RMP Inspection")] RmpInspection = 7,
     [Description("Source Test Review")] SourceTestReview = 3,
-    Unknown = 0,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

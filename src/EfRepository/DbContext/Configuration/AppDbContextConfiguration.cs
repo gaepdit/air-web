@@ -36,10 +36,16 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
     {
-        // == Let's save enums in the database as strings.
-        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-
-        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+        builder.Entity<WorkEntry>()
+            .HasDiscriminator(entry => entry.WorkEntryType)
+            .HasValue<WorkEntry>(WorkEntryType.Unknown)
+            .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
+            .HasValue<Inspection>(WorkEntryType.Inspection)
+            .HasValue<Notification>(WorkEntryType.Notification)
+            .HasValue<PermitRevocation>(WorkEntryType.PermitRevocation)
+            .HasValue<Report>(WorkEntryType.Report)
+            .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
+            .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
         return builder;
     }
 
@@ -111,7 +117,6 @@ internal static class AppDbContextConfiguration
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
         builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
-        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
 
         return builder;
     }
@@ -123,11 +128,11 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkType = 'Unknown' then convert(date, CreatedAt)
-                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                          when WorkEntryType = 'Unknown' then convert(date, CreatedAt)
+                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then convert(date, ReceivedDate)
-                                          when WorkType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                                          when WorkType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                          when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
+                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
                                           else convert(date, '1900-1-1')
                                       end
                                       """);
@@ -137,11 +142,11 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkType = 'Unknown' then date(CreatedAt)
-                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                          when WorkEntryType = 'Unknown' then date(CreatedAt)
+                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then date(ReceivedDate)
-                                          when WorkType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                                          when WorkType = 'SourceTestReview' then date(ReceivedByCompliance)
+                                          when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
+                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByCompliance)
                                           else '1900-1-1'
                                       end
                                       """);

@@ -36,15 +36,10 @@ public sealed class LocalWorkEntryRepository()
 
     public new Task InsertAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
     {
-        entity.WorkType = WorkType(entity);
         entity.EventDate = EventDate(entity);
         Items.Add(entity);
         return Task.CompletedTask;
     }
-
-    private static string WorkType(WorkEntry entry) => entry.WorkEntryType == WorkEntryType.ComplianceEvent
-        ? (entry as ComplianceEvent)!.ComplianceEventType.ToString()
-        : entry.WorkEntryType.ToString();
 
     private static DateOnly EventDate(WorkEntry entry) => entry.WorkEntryType switch
     {

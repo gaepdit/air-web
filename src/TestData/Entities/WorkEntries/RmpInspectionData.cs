@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new RmpInspection(10001)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -31,7 +31,7 @@ internal static partial class WorkEntries
         },
         new RmpInspection(10002)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -52,7 +52,7 @@ internal static partial class WorkEntries
         },
         new RmpInspection(10003)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

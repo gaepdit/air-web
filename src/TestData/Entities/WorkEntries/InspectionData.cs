@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new Inspection(6001)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -31,7 +31,7 @@ internal static partial class WorkEntries
         },
         new Inspection(6002)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -52,7 +52,7 @@ internal static partial class WorkEntries
         },
         new Inspection(6003)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new AnnualComplianceCertification(5001)
         {
-            WorkType = "AnnualComplianceCertification",
+            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -34,7 +34,7 @@ internal static partial class WorkEntries
         },
         new AnnualComplianceCertification(5002)
         {
-            WorkType = "AnnualComplianceCertification",
+            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -61,7 +61,7 @@ internal static partial class WorkEntries
         },
         new AnnualComplianceCertification(5003)
         {
-            WorkType = "AnnualComplianceCertification",
+            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

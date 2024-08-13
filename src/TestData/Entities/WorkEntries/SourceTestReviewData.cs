@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new SourceTestReview(11001)
         {
-            WorkType = "SourceTestReview",
+            WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -27,7 +27,7 @@ internal static partial class WorkEntries
         },
         new SourceTestReview(11002)
         {
-            WorkType = "SourceTestReview",
+            WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -44,7 +44,7 @@ internal static partial class WorkEntries
         },
         new SourceTestReview(11003)
         {
-            WorkType = "SourceTestReview",
+            WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
