@@ -28,16 +28,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
     // Work entries
-    public DbSet<WorkEntry> WorkEntries => Set<WorkEntry>();
-    public DbSet<Notification> Notifications => Set<Notification>();
-    public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
-
-    // Compliance events
-    public DbSet<ComplianceEvent> ComplianceEvents => Set<ComplianceEvent>();
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
-    public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
     public DbSet<Report> Reports => Set<Report>();
+    public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
     public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
 
     // Ancillary tables
@@ -52,11 +48,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
-            .ConfigureTphDiscriminatorColumn()
+            .ConfigureTphMappingStrategy()
             .ConfigureTphColumnSharing()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
-            .ConfigureCommentsMappingStrategy()
+            .ConfigureTphMappingStrategyForComments()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
 
 #pragma warning disable S125

@@ -12,8 +12,7 @@ public class Report : ComplianceEvent
 
     internal Report(int? id) : base(id)
     {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        ComplianceEventType = ComplianceEventType.Report;
+        WorkEntryType = WorkEntryType.Report;
         IsClosed = true;
     }
 
@@ -26,6 +25,8 @@ public class Report : ComplianceEvent
 
     public DateOnly ReportingPeriodStart { get; set; }
     public DateOnly? ReportingPeriodEnd { get; set; }
+
+    // TODO: fix unlimited string length
     public string? ReportingPeriodComment { get; set; }
     public DateOnly? DueDate { get; set; }
     public DateOnly? SentDate { get; set; }

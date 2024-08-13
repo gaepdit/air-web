@@ -12,6 +12,6 @@ public interface IInspectionCommandDto
     public string WeatherConditions { get; }
     public string InspectionGuide { get; }
     public bool FacilityOperating { get; }
-    public ComplianceStatus ComplianceStatus { get; }
+    public bool DeviationsNoted { get; }
     public bool FollowupTaken { get; }
 }

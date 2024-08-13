@@ -38,37 +38,32 @@ internal static class WorkEntryFilters
         var includePredicate = PredicateBuilder.False<WorkEntry>();
 
         if (input.Contains(WorkTypeSearch.Acc))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-                ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification);
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification);
 
         if (input.Contains(WorkTypeSearch.Inspection))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-                ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.Inspection);
-
-        if (input.Contains(WorkTypeSearch.Rmp))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-                ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.RmpInspection);
-
-        if (input.Contains(WorkTypeSearch.Report))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-                ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.Report);
-
-        if (input.Contains(WorkTypeSearch.Str))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
-                ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.SourceTestReview);
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.Inspection);
 
         if (input.Contains(WorkTypeSearch.Notification))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification);
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.Notification);
 
         if (input.Contains(WorkTypeSearch.PermitRevocation))
-            includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.PermitRevocation);
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.PermitRevocation);
+
+        if (input.Contains(WorkTypeSearch.Report))
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.Report);
+
+        if (input.Contains(WorkTypeSearch.Rmp))
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.RmpInspection);
+
+        if (input.Contains(WorkTypeSearch.Str))
+            includePredicate = includePredicate
+                .Or(entry => entry.WorkEntryType == WorkEntryType.SourceTestReview);
 
         return predicate.And(includePredicate);
     }

@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new Inspection(6001)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -26,12 +26,12 @@ internal static partial class WorkEntries
             WeatherConditions = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             InspectionGuide = SampleText.GetRandomText(SampleText.TextLength.Word),
             FacilityOperating = true,
-            ComplianceStatus = ComplianceStatus.InCompliance,
+            DeviationsNoted = false,
             FollowupTaken = false,
         },
         new Inspection(6002)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -47,12 +47,12 @@ internal static partial class WorkEntries
             WeatherConditions = string.Empty,
             InspectionGuide = string.Empty,
             FacilityOperating = false,
-            ComplianceStatus = ComplianceStatus.DeviationsNoted,
+            DeviationsNoted = true,
             FollowupTaken = true,
         },
         new Inspection(6003)
         {
-            WorkType = "Inspection",
+            WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

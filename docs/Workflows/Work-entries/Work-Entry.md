@@ -4,8 +4,8 @@
 
 * A new Work Entry can be entered from a Facility.
 * The Work Entry can be edited.
-* Saving a Compliance Event-type Work Entry updates the Data Exchange.
 * Enforcement can be started from a Compliance Event-type Work Entry.
+* Saving a Compliance Event updates the Data Exchange.
 * A Work Entry can be deleted/restored *(not shown)*.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
@@ -13,37 +13,15 @@
 ## Entities
 
 - WRK: Work Entry
-    - CME: Compliance Event
-        - ACC: Annual Compliance Certification (ACC)
-        - INS: Inspection
-        - RMP: RMP Inspection
-      - REP: Report
-          - STR: Source Test Compliance Review
+    - ACC: Annual Compliance Certification (ACC) †
+    - INS: Inspection †
+    - RMP: RMP Inspection †
+    - REP: Report †
+    - STR: Source Test Compliance Review †
     - NOT: Notification
-    - REV: Permit revocation †
+    - REV: Permit revocation
 
-<small>† Indicates a change in hierarchy compared to the IAIP.</small>
-
-```mermaid
-flowchart TD
-    WRK["Work Entry"]
-    CME["Compliance Event"]
-    STR["Source Test Review"]
-    ACC["ACC"]
-    INS["Inspection"]
-    RMP["RMP Inspection"]
-    REP["Report"]
-    NOT["Notification"]
-    REV["Permit Revocation"]
-    ACC --> CME
-    INS --> CME
-    RMP --> CME
-    REP --> CME
-    STR --> CME
-    CME --> WRK
-    NOT ---> WRK
-    REV ---> WRK 
-```
+<small>† Indicates a Compliance Event (available as an enforcement discovery event).</small>
 
 ## Base ERD
 
@@ -63,6 +41,8 @@ erDiagram
         string ClosedByStaffId FK
         date AcknowledgmentLetterDate
         string Notes
+        bool IsComplianceEvent
+        enum EpaDxStatus
     }
 
     STF["Staff"] {
@@ -74,15 +54,9 @@ erDiagram
         int FceId FK
     }
 
-    CME["Compliance Event"] {
-        enum ComplianceEventType
-        enum EpaDxStatus
-    }
-
     WRK }o--|| FAC: "is entered for"
     STF ||--o{ WRK: "enters"
     CMT }o--|| WRK: "comments on"
-    CME |o--|| WRK: "is an enforceable type of"
 
 ```
 

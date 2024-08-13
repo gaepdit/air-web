@@ -8,9 +8,10 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Notification> NotificationData =>
     [
-        new Notification(7001, DomainData.GetRandomNotificationType())
+        new Notification(7001)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
+            NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -25,9 +26,10 @@ internal static partial class WorkEntries
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
-        new Notification(7002, DomainData.GetRandomNotificationType())
+        new Notification(7002)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
+            NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -42,9 +44,10 @@ internal static partial class WorkEntries
             SentDate = null,
             FollowupTaken = false,
         },
-        new Notification(7003, DomainData.GetRandomNotificationType())
+        new Notification(7003)
         {
-            WorkType = "Notification",
+            WorkEntryType = WorkEntryType.Notification,
+            NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

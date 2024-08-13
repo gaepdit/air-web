@@ -88,15 +88,13 @@ public class AutoMapperProfile : Profile
     private void CreateMapsForNotifications()
     {
         CreateMap<Notification, NotificationUpdateDto>();
-        CreateMap<Notification, NotificationViewDto>()
-            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore());
+        CreateMap<Notification, NotificationViewDto>();
     }
 
     private void CreateMapsForPermitRevocations()
     {
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
-        CreateMap<PermitRevocation, PermitRevocationViewDto>()
-            .ForMember(dto => dto.ComplianceEventType, expression => expression.Ignore());
+        CreateMap<PermitRevocation, PermitRevocationViewDto>();
     }
 
     private void CreateMapsForReports()

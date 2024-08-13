@@ -40,24 +40,24 @@ erDiagram
         string WeatherConditions
         string InspectionGuide
         bool FacilityOperating
-        enum ComplianceStatus
+        bool DeviationsNoted
         bool FollowupTaken
     }
 ```
 
 ## Original IAIP table columns
 
-| Column                                        | Type          | Migrate | Destination          |
-|-----------------------------------------------|---------------|:-------:|----------------------|
-| SSCPITEMMASTER.DATRECEIVEDDATE                | datetime2(0)  |    ✔    | ReceivedDate         |
-| SSCPINSPECTIONS.DATINSPECTIONDATESTART        | datetime2(0)  |    ✔    | InspectionStarted    |
-| SSCPINSPECTIONS.DATINSPECTIONDATEEND          | datetime2(0)  |    ✔    | InspectionEnded      |
-| SSCPINSPECTIONS.STRINSPECTIONREASON           | varchar(35)   |    ✔    | InspectionReason     |
-| SSCPINSPECTIONS.STRWEATHERCONDITIONS          | varchar(100)  |    ✔    | WeatherConditions    |
-| SSCPINSPECTIONS.STRINSPECTIONGUIDE            | varchar(100)  |    ✔    | InspectionGuide      |
-| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✔    | FacilityOperating    |
-| SSCPINSPECTIONS.STRINSPECTIONCOMPLIANCESTATUS | varchar(35)   |    ✔    | ComplianceStatus     |
-| SSCPINSPECTIONS.STRINSPECTIONCOMMENTS         | varchar(4000) |    ✔    | base.Notes           |
-| SSCPINSPECTIONS.STRINSPECTIONFOLLOWUP         | varchar(5)    |    ✔    | FollowupTaken        |
-| SSCPINSPECTIONS.STRMODIFINGPERSON             | varchar(3)    |    ?    | base.UpdatedById     |
-| SSCPINSPECTIONS.DATMODIFINGDATE               | datetime2(0)  |    ?    | base.UpdatedAt       |
+| Column                                        | Type          | Migrate | Destination       |
+|-----------------------------------------------|---------------|:-------:|-------------------|
+| SSCPITEMMASTER.DATRECEIVEDDATE                | datetime2(0)  |    ✔    | ReceivedDate      |
+| SSCPINSPECTIONS.DATINSPECTIONDATESTART        | datetime2(0)  |    ✔    | InspectionStarted |
+| SSCPINSPECTIONS.DATINSPECTIONDATEEND          | datetime2(0)  |    ✔    | InspectionEnded   |
+| SSCPINSPECTIONS.STRINSPECTIONREASON           | varchar(35)   |    ✔    | InspectionReason  |
+| SSCPINSPECTIONS.STRWEATHERCONDITIONS          | varchar(100)  |    ✔    | WeatherConditions |
+| SSCPINSPECTIONS.STRINSPECTIONGUIDE            | varchar(100)  |    ✔    | InspectionGuide   |
+| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✔    | FacilityOperating |
+| SSCPINSPECTIONS.STRINSPECTIONCOMPLIANCESTATUS | varchar(35)   |    ✔    | DeviationsNoted   |
+| SSCPINSPECTIONS.STRINSPECTIONCOMMENTS         | varchar(4000) |    ✔    | base.Notes        |
+| SSCPINSPECTIONS.STRINSPECTIONFOLLOWUP         | varchar(5)    |    ✔    | FollowupTaken     |
+| SSCPINSPECTIONS.STRMODIFINGPERSON             | varchar(3)    |    ?    | base.UpdatedById  |
+| SSCPINSPECTIONS.DATMODIFINGDATE               | datetime2(0)  |    ?    | base.UpdatedAt    |

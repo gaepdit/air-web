@@ -11,8 +11,6 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
     int? GetNextId();
 
-    // TODO: Add unit tests for the following.
-
     // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/>.
@@ -64,14 +62,6 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>The <see cref="WorkEntryType"/> of the Entry.</returns>
     Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
-
-    /// <summary>
-    /// Gets the <see cref="ComplianceEventType"/> for the <see cref="ComplianceEvent"/> with the specified ID.
-    /// </summary>
-    /// <param name="id">The ID of the Entry to look up.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>The <see cref="WorkEntryType"/> of the Entry.</returns>
-    Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default);
 
     /// <summary>
     /// Gets the <see cref="NotificationType"/> with the specified ID.

@@ -10,17 +10,14 @@ public abstract class BaseInspection : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     protected BaseInspection() { }
 
-    protected BaseInspection(int? id) : base(id)
-    {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        IsClosed = true;
-    }
+    protected BaseInspection(int? id) : base(id) { }
 
     // Properties
 
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }
 
+    // TODO: split into separate DateOnly and TimeOnly properties
     public DateTime InspectionStarted { get; init; }
     public DateTime InspectionEnded { get; init; }
 
@@ -32,8 +29,9 @@ public abstract class BaseInspection : ComplianceEvent
 
     public bool FacilityOperating { get; init; }
 
-    [StringLength(15)]
-    public ComplianceStatus ComplianceStatus { get; set; }
+    // false: "In Compliance"
+    // true: "Deviation(s) Noted"
+    public bool DeviationsNoted { get; set; }
 
     public bool FollowupTaken { get; init; }
 }
@@ -50,11 +48,4 @@ public enum InspectionReason
     [Description("Joint EPD/EPA")] JointEpdEpa,
     [Description("Multimedia")] Multimedia,
     [Description("Follow-Up")] FollowUp,
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum ComplianceStatus
-{
-    [Description("In Compliance")] InCompliance,
-    [Description("Deviation(s) Noted")] DeviationsNoted,
 }

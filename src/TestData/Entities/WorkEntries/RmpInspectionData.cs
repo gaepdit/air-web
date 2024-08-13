@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new RmpInspection(10001)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -26,12 +26,12 @@ internal static partial class WorkEntries
             WeatherConditions = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             InspectionGuide = SampleText.GetRandomText(SampleText.TextLength.Word),
             FacilityOperating = true,
-            ComplianceStatus = ComplianceStatus.InCompliance,
+            DeviationsNoted = false,
             FollowupTaken = false,
         },
         new RmpInspection(10002)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -47,12 +47,12 @@ internal static partial class WorkEntries
             WeatherConditions = string.Empty,
             InspectionGuide = string.Empty,
             FacilityOperating = false,
-            ComplianceStatus = ComplianceStatus.DeviationsNoted,
+            DeviationsNoted = true,
             FollowupTaken = true,
         },
         new RmpInspection(10003)
         {
-            WorkType = "RmpInspection",
+            WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

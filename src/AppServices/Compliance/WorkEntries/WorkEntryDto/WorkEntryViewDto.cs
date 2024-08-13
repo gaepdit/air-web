@@ -14,7 +14,6 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public FacilityViewDto Facility { get; set; } = default!;
     public string FacilityId { get; init; } = default!;
     public WorkEntryType WorkEntryType { get; init; }
-    public ComplianceEventType? ComplianceEventType { get; init; }
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }

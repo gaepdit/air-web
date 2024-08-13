@@ -25,7 +25,7 @@ public record InspectionViewDto : WorkEntryViewDto
     public bool FacilityOperating { get; init; }
 
     [Display(Name = "ComplianceStatus")]
-    public ComplianceStatus ComplianceStatus { get; init; }
+    public bool DeviationsNoted { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }

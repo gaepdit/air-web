@@ -37,7 +37,7 @@ public record InspectionCreateDto : WorkEntryCreateDto, IInspectionCommandDto
     public bool FacilityOperating { get; init; }
 
     [Display(Name = "ComplianceStatus")]
-    public ComplianceStatus ComplianceStatus { get; init; }
+    public bool DeviationsNoted { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }

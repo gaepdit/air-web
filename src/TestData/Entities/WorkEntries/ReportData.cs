@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new Report(9001)
         {
-            WorkType = "Report",
+            WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -33,7 +33,7 @@ internal static partial class WorkEntries
         },
         new Report(9002)
         {
-            WorkType = "Report",
+            WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -56,7 +56,7 @@ internal static partial class WorkEntries
         },
         new Report(9003)
         {
-            WorkType = "Report",
+            WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

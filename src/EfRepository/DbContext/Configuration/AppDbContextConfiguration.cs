@@ -34,9 +34,19 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphMappingStrategy(this ModelBuilder builder)
     {
-        builder.Entity<WorkEntry>().HasDiscriminator(entry => entry.WorkType);
+        builder.Entity<WorkEntry>()
+            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
+            .ToTable("WorkEntries")
+            .HasDiscriminator(entry => entry.WorkEntryType)
+            .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
+            .HasValue<Inspection>(WorkEntryType.Inspection)
+            .HasValue<Notification>(WorkEntryType.Notification)
+            .HasValue<PermitRevocation>(WorkEntryType.PermitRevocation)
+            .HasValue<Report>(WorkEntryType.Report)
+            .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
+            .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
         return builder;
     }
 
@@ -76,8 +86,8 @@ internal static class AppDbContextConfiguration
         rmpEntity.Property(e => e.InspectionGuide).HasColumnName(nameof(RmpInspection.InspectionGuide));
         insEntity.Property(e => e.FacilityOperating).HasColumnName(nameof(Inspection.FacilityOperating));
         rmpEntity.Property(e => e.FacilityOperating).HasColumnName(nameof(RmpInspection.FacilityOperating));
-        insEntity.Property(e => e.ComplianceStatus).HasColumnName(nameof(Inspection.ComplianceStatus));
-        rmpEntity.Property(e => e.ComplianceStatus).HasColumnName(nameof(RmpInspection.ComplianceStatus));
+        insEntity.Property(e => e.DeviationsNoted).HasColumnName(nameof(Inspection.DeviationsNoted));
+        rmpEntity.Property(e => e.DeviationsNoted).HasColumnName(nameof(RmpInspection.DeviationsNoted));
 
         // FollowupTaken
         insEntity.Property(e => e.FollowupTaken).HasColumnName(nameof(Inspection.FollowupTaken));
@@ -108,7 +118,6 @@ internal static class AppDbContextConfiguration
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
         builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
-        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
 
         return builder;
     }
@@ -120,11 +129,10 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkType = 'Unknown' then convert(date, CreatedAt)
-                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then convert(date, ReceivedDate)
-                                          when WorkType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                                          when WorkType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                          when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
+                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
                                           else convert(date, '1900-1-1')
                                       end
                                       """);
@@ -134,11 +142,10 @@ internal static class AppDbContextConfiguration
             builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
                 .HasComputedColumnSql("""
                                       case
-                                          when WorkType = 'Unknown' then date(CreatedAt)
-                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then date(ReceivedDate)
-                                          when WorkType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                                          when WorkType = 'SourceTestReview' then date(ReceivedByCompliance)
+                                          when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
+                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByCompliance)
                                           else '1900-1-1'
                                       end
                                       """);
@@ -147,7 +154,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphMappingStrategyForComments(this ModelBuilder builder)
     {
         // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
         // directly exposed as a DbSet).

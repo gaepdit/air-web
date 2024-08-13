@@ -37,11 +37,6 @@ public sealed class WorkEntryRepository(AppDbContext context)
         Context.Set<WorkEntry>().AsNoTracking()
             .Where(entry => entry.Id.Equals(id)).Select(entry => entry.WorkEntryType).SingleAsync(token);
 
-    public Task<ComplianceEventType> GetComplianceEventTypeAsync(int id, CancellationToken token = default) =>
-        Context.Set<ComplianceEvent>().AsNoTracking()
-            .Where(complianceEvent => complianceEvent.Id.Equals(id))
-            .Select(complianceEvent => complianceEvent.ComplianceEventType).SingleAsync(token);
-
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);

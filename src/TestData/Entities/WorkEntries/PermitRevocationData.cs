@@ -10,7 +10,7 @@ internal static partial class WorkEntries
     [
         new PermitRevocation(8001)
         {
-            WorkType = "PermitRevocation",
+            WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -25,7 +25,7 @@ internal static partial class WorkEntries
         },
         new PermitRevocation(8002)
         {
-            WorkType = "PermitRevocation",
+            WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -43,7 +43,7 @@ internal static partial class WorkEntries
         },
         new PermitRevocation(8003)
         {
-            WorkType = "PermitRevocation",
+            WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,

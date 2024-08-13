@@ -30,16 +30,26 @@ public sealed partial class WorkEntryService(
     {
         if (!await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
-        var entry = await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
-        {
-            WorkEntryType.Notification => mapper.Map<NotificationViewDto>(await workEntryRepository
-                .FindAsync<Notification>(id, token).ConfigureAwait(false)),
-            WorkEntryType.PermitRevocation => mapper.Map<PermitRevocationViewDto>(await workEntryRepository
-                .FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
-            WorkEntryType.ComplianceEvent => await FindComplianceEventAsync(id, token).ConfigureAwait(false),
+        IWorkEntryViewDto entry =
+            await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+            {
+                WorkEntryType.AnnualComplianceCertification => mapper.Map<InspectionViewDto>(await workEntryRepository
+                    .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
+                WorkEntryType.Inspection => mapper.Map<InspectionViewDto>(await workEntryRepository
+                    .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
+                WorkEntryType.Notification => mapper.Map<NotificationViewDto>(await workEntryRepository
+                    .FindAsync<Notification>(id, token).ConfigureAwait(false)),
+                WorkEntryType.PermitRevocation => mapper.Map<PermitRevocationViewDto>(
+                    await workEntryRepository.FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
+                WorkEntryType.Report => mapper.Map<ReportViewDto>(await workEntryRepository.FindAsync<Report>(id, token)
+                    .ConfigureAwait(false)),
+                WorkEntryType.RmpInspection => mapper.Map<RmpInspectionViewDto>(await workEntryRepository
+                    .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
+                WorkEntryType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(
+                    await workEntryRepository.FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
-        };
+                _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
+            };
 
         var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
             .ConfigureAwait(false);
@@ -47,56 +57,30 @@ public sealed partial class WorkEntryService(
         return entry;
     }
 
-    private async Task<IWorkEntryViewDto?> FindComplianceEventAsync(int id, CancellationToken token) =>
-        await workEntryRepository.GetComplianceEventTypeAsync(id, token).ConfigureAwait(false) switch
-        {
-            ComplianceEventType.Inspection => mapper.Map<InspectionViewDto>(await workEntryRepository
-                .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.Report => mapper.Map<ReportViewDto>(await workEntryRepository
-                .FindAsync<Report>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(await workEntryRepository
-                .FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.AnnualComplianceCertification => mapper.Map<InspectionViewDto>(await workEntryRepository
-                .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.RmpInspection => mapper.Map<RmpInspectionViewDto>(await workEntryRepository
-                .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
-
-            _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Compliance Event Type."),
-        };
-
     public async Task<IWorkEntryUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default)
     {
         if (!await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
         return await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
         {
+            WorkEntryType.AnnualComplianceCertification => mapper.Map<InspectionUpdateDto>(await workEntryRepository
+                .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
+            WorkEntryType.Inspection => mapper.Map<InspectionUpdateDto>(await workEntryRepository
+                .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
             WorkEntryType.Notification => mapper.Map<NotificationUpdateDto>(await workEntryRepository
                 .FindAsync<Notification>(id, token).ConfigureAwait(false)),
-            WorkEntryType.PermitRevocation => mapper.Map<PermitRevocationUpdateDto>(await workEntryRepository
-                .FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
-            WorkEntryType.ComplianceEvent => await FindComplianceEventForUpdateAsync(id, token).ConfigureAwait(false),
+            WorkEntryType.PermitRevocation => mapper.Map<PermitRevocationUpdateDto>(
+                await workEntryRepository.FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
+            WorkEntryType.Report => mapper.Map<ReportUpdateDto>(await workEntryRepository.FindAsync<Report>(id, token)
+                .ConfigureAwait(false)),
+            WorkEntryType.RmpInspection => mapper.Map<RmpInspectionUpdateDto>(await workEntryRepository
+                .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
+            WorkEntryType.SourceTestReview => mapper.Map<SourceTestReviewUpdateDto>(
+                await workEntryRepository.FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),
 
             _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
         };
     }
-
-    private async Task<IWorkEntryUpdateDto?> FindComplianceEventForUpdateAsync(int id, CancellationToken token) =>
-        await workEntryRepository.GetComplianceEventTypeAsync(id, token).ConfigureAwait(false) switch
-        {
-            ComplianceEventType.Inspection => mapper.Map<InspectionUpdateDto>(await workEntryRepository
-                .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.Report => mapper.Map<ReportUpdateDto>(await workEntryRepository
-                .FindAsync<Report>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.SourceTestReview => mapper.Map<SourceTestReviewUpdateDto>(await workEntryRepository
-                .FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.AnnualComplianceCertification => mapper.Map<InspectionUpdateDto>(
-                await workEntryRepository
-                    .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
-            ComplianceEventType.RmpInspection => mapper.Map<RmpInspectionUpdateDto>(await workEntryRepository
-                .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
-
-            _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Compliance Event Type."),
-        };
 
     // Command
     public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
