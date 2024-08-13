@@ -55,8 +55,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureTphDiscriminatorColumn()
             .ConfigureTphColumnSharing()
             .ConfigureEnumValues()
-            .ConfigureCalculatedColumns()
-            .ConfigureOwnedTypeCollections(Database.ProviderName)
+            .ConfigureCalculatedColumns(Database.ProviderName)
+            .ConfigureCommentsMappingStrategy()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
 
 #pragma warning disable S125
