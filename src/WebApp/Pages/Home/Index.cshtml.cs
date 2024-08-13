@@ -4,7 +4,7 @@ using AirWeb.AppServices.Permissions.Helpers;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 
-namespace AirWeb.WebApp.Pages.Staff;
+namespace AirWeb.WebApp.Pages.Home;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DashboardIndexModel(IComplianceSearchService searchService, IAuthorizationService authorization)

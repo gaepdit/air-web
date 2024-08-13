@@ -10,6 +10,7 @@ internal static partial class WorkEntries
     [
         new Report(9001)
         {
+            WorkType = "Report",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -19,6 +20,7 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
             ReportingPeriodType = ReportingPeriodType.Annual,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),
@@ -31,6 +33,7 @@ internal static partial class WorkEntries
         },
         new Report(9002)
         {
+            WorkType = "Report",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -40,6 +43,7 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),
@@ -52,6 +56,7 @@ internal static partial class WorkEntries
         },
         new Report(9003)
         {
+            WorkType = "Report",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
@@ -59,6 +64,7 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),

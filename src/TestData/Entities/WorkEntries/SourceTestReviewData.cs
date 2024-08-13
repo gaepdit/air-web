@@ -10,6 +10,7 @@ internal static partial class WorkEntries
     [
         new SourceTestReview(11001)
         {
+            WorkType = "SourceTestReview",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
@@ -20,11 +21,13 @@ internal static partial class WorkEntries
 
             ReferenceNumber = SampleText.ValidReferenceNumber,
             ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-20)),
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
         new SourceTestReview(11002)
         {
+            WorkType = "SourceTestReview",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
@@ -35,11 +38,13 @@ internal static partial class WorkEntries
 
             ReferenceNumber = SampleText.ValidReferenceNumber + 1,
             ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
         new SourceTestReview(11003)
         {
+            WorkType = "SourceTestReview",
             Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
@@ -48,6 +53,7 @@ internal static partial class WorkEntries
 
             ReferenceNumber = SampleText.ValidReferenceNumber + 1,
             ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
         },
     ];
 }

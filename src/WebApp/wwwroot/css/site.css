@@ -424,3 +424,27 @@ svg:not(:root) {
     width: 1.5em;
     height: 1.5em;
 }
+
+/* List columns 
+-------------------------------------------------- */
+/* Apply column-count at the medium breakpoint */
+@media (min-width: 768px) {
+    .columns-md-2 {
+        column-count: 2;
+    }
+
+    .columns-md-3 {
+        column-count: 3;
+    }
+}
+
+/* Apply column-count at the large breakpoint */
+@media (min-width: 992px) {
+    .columns-lg-2 {
+        column-count: 2;
+    }
+
+    .columns-lg-3 {
+        column-count: 3;
+    }
+}

@@ -5,9 +5,8 @@ namespace AirWeb.WebApp.Models;
 
 public record SearchResultsDisplay(
     IStandardSearch Spec,
-    IPaginatedResult<WorkEntrySearchResultDto> SearchResults,
-    PaginationNavModel Pagination,
-    bool IsPublic)
+    IPaginatedResult<WorkEntrySearchResultDto> SearchResults)
 {
     public string SortByName => Spec.Sort.ToString();
+    public IDictionary<string, string?> RouteValues => Spec.AsRouteValues();
 }

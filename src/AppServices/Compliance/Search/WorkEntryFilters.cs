@@ -12,22 +12,13 @@ internal static class WorkEntryFilters
             .ByClosedStatus(spec.Closed)
             .ByWorkType(spec.Include)
             .ByFacilityId(spec.PartialFacilityId)
-            .ByOffice(spec.Offices)
+            .ByOffice(spec.Office)
             .ByResponsibleStaff(spec.ResponsibleStaff)
             .FromEventDate(spec.EventDateFrom)
             .ToEventDate(spec.EventDateTo)
             .FromClosedDate(spec.ClosedDateFrom)
             .ToClosedDate(spec.ClosedDateTo)
             .ByNotesText(spec.Notes);
-
-    private static Expression<Func<WorkEntry, bool>> ByDeletedStatus(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        DeleteStatus? input) => input switch
-    {
-        DeleteStatus.All => predicate,
-        DeleteStatus.Deleted => predicate.And(entry => entry.IsDeleted),
-        _ => predicate.And(entry => !entry.IsDeleted),
-    };
 
     private static Expression<Func<WorkEntry, bool>> ByClosedStatus(
         this Expression<Func<WorkEntry, bool>> predicate,
@@ -40,50 +31,47 @@ internal static class WorkEntryFilters
 
     private static Expression<Func<WorkEntry, bool>> ByWorkType(
         this Expression<Func<WorkEntry, bool>> predicate,
-        List<WorkEntryTypes> input)
+        List<WorkTypeSearch> input)
     {
         if (input.Count == 0) return predicate;
 
         var includePredicate = PredicateBuilder.False<WorkEntry>();
 
-        if (input.Contains(WorkEntryTypes.Acc))
+        if (input.Contains(WorkTypeSearch.Acc))
             includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
                 ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification);
 
-        if (input.Contains(WorkEntryTypes.Inspection))
+        if (input.Contains(WorkTypeSearch.Inspection))
             includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
                 ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.Inspection);
 
-        if (input.Contains(WorkEntryTypes.Rmp))
+        if (input.Contains(WorkTypeSearch.Rmp))
             includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
                 ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.RmpInspection);
 
-        if (input.Contains(WorkEntryTypes.Report))
+        if (input.Contains(WorkTypeSearch.Report))
             includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
                 ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.Report);
 
-        if (input.Contains(WorkEntryTypes.Str))
+        if (input.Contains(WorkTypeSearch.Str))
             includePredicate = includePredicate.Or(entry =>
-                entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
                 ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.SourceTestReview);
 
-        if (input.Contains(WorkEntryTypes.Notification))
-            includePredicate = includePredicate.Or(entry => entry.WorkEntryType == WorkEntryType.Notification);
+        if (input.Contains(WorkTypeSearch.Notification))
+            includePredicate = includePredicate.Or(entry =>
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification);
 
-        if (input.Contains(WorkEntryTypes.PermitRevocation))
-            includePredicate = includePredicate.Or(entry => entry.WorkEntryType == WorkEntryType.PermitRevocation);
+        if (input.Contains(WorkTypeSearch.PermitRevocation))
+            includePredicate = includePredicate.Or(entry =>
+                entry.WorkEntryType == Domain.ComplianceEntities.WorkEntries.WorkEntryType.PermitRevocation);
 
         return predicate.And(includePredicate);
     }
-
-    private static Expression<Func<WorkEntry, bool>> ByFacilityId(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(fce => fce.FacilityId.Contains(input));
 
     private static Expression<Func<WorkEntry, bool>> ByResponsibleStaff(
         this Expression<Func<WorkEntry, bool>> predicate,
@@ -94,13 +82,13 @@ internal static class WorkEntryFilters
 
     private static Expression<Func<WorkEntry, bool>> ByOffice(
         this Expression<Func<WorkEntry, bool>> predicate,
-        List<Guid> input) =>
-        input.Count == 0
+        Guid? input) =>
+        input is null
             ? predicate
             : predicate.And(entry =>
                 entry.ResponsibleStaff != null &&
                 entry.ResponsibleStaff.Office != null &&
-                input.Contains(entry.ResponsibleStaff.Office.Id));
+                entry.ResponsibleStaff.Office.Id == input);
 
     private static Expression<Func<WorkEntry, bool>> FromEventDate(
         this Expression<Func<WorkEntry, bool>> predicate,
@@ -129,9 +117,4 @@ internal static class WorkEntryFilters
         input is null
             ? predicate
             : predicate.And(entry => entry.ClosedDate <= input);
-
-    private static Expression<Func<WorkEntry, bool>> ByNotesText(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(entry => entry.Notes.Contains(input));
 }

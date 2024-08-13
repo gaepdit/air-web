@@ -1,15 +1,15 @@
-﻿@model WebApp.Models.PaginationNavModel
+﻿@model WebApp.Models.SearchResultsDisplay
 
-@if (Model.Paging.TotalPages > 1)
+@if (Model.SearchResults.TotalPages > 1)
 {
     <nav aria-label="Search results pages">
         <ul class="pagination mb-md-0 justify-content-md-center">
-            @if (Model.Paging.HasPreviousPage)
+            @if (Model.SearchResults.HasPreviousPage)
             {
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
                        asp-all-route-data="Model.RouteValues" asp-route-handler="search"
-                       asp-route-p="@Model.Paging.PreviousPageNumber.ToString()">
+                       asp-route-p="@Model.SearchResults.PreviousPageNumber.ToString()">
                         Previous
                     </a>
                 </li>
@@ -21,19 +21,19 @@
                 </li>
             }
 
-            @if (Model.Paging.PageNumber > 3)
+            @if (Model.SearchResults.PageNumber > 3)
             {
                 <li class="page-item disabled">
                     <span class="page-link">…</span>
                 </li>
             }
 
-            @for (var i = Math.Max(1, Model.Paging.PageNumber - 2);
-                i <= Math.Min(Model.Paging.PageNumber + 2, Model.Paging.TotalPages);
-                i++)
+            @for (var i = Math.Max(1, Model.SearchResults.PageNumber - 2);
+                  i <= Math.Min(Model.SearchResults.PageNumber + 2, Model.SearchResults.TotalPages);
+                  i++)
             {
                 var index = i;
-                @if (index == Model.Paging.PageNumber)
+                @if (index == Model.SearchResults.PageNumber)
                 {
                     <li class="page-item active" aria-current="page">
                         <span class="page-link">
@@ -53,19 +53,19 @@
                 }
             }
 
-            @if (Model.Paging.TotalPages - Model.Paging.PageNumber > 2)
+            @if (Model.SearchResults.TotalPages - Model.SearchResults.PageNumber > 2)
             {
                 <li class="page-item disabled">
                     <span class="page-link">…</span>
                 </li>
             }
 
-            @if (Model.Paging.HasNextPage)
+            @if (Model.SearchResults.HasNextPage)
             {
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
                        asp-all-route-data="@Model.RouteValues" asp-route-handler="search"
-                       asp-route-p="@(Model.Paging.NextPageNumber.ToString())">
+                       asp-route-p="@(Model.SearchResults.NextPageNumber.ToString())">
                         Next
                     </a>
                 </li>

@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Entities;
-using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.ComplianceSearch;
 
@@ -90,11 +89,14 @@ public class WorkEntryFilterTests
     public void Include_NonCompliance_Single_Match()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkEntryTypes.Notification] };
+        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, WorkEntryType: WorkEntryType.Notification });
+            entry is
+            {
+                IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
+            });
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());
@@ -107,11 +109,15 @@ public class WorkEntryFilterTests
     public void Include_Compliance_Single_Match()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkEntryTypes.Acc] };
+        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, WorkEntryType: WorkEntryType.ComplianceEvent } &&
+            entry is
+            {
+                IsDeleted: false,
+                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent
+            } &&
             ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification);
 
         // Act
@@ -125,11 +131,16 @@ public class WorkEntryFilterTests
     public void Include_NonCompliance_Multiple_Match()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkEntryTypes.Notification, WorkEntryTypes.PermitRevocation] };
+        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Notification, WorkTypeSearch.PermitRevocation] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, WorkEntryType: WorkEntryType.Notification or WorkEntryType.PermitRevocation });
+            entry is
+            {
+                IsDeleted: false,
+                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
+                or AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.PermitRevocation
+            });
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());
@@ -142,11 +153,15 @@ public class WorkEntryFilterTests
     public void Include_Compliance_Multiple_Match()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkEntryTypes.Acc, WorkEntryTypes.Inspection] };
+        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc, WorkTypeSearch.Inspection] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, WorkEntryType: WorkEntryType.ComplianceEvent } &&
+            entry is
+            {
+                IsDeleted: false,
+                WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent
+            } &&
             ((ComplianceEvent)entry).ComplianceEventType is ComplianceEventType.AnnualComplianceCertification
             or ComplianceEventType.Inspection);
 
@@ -161,13 +176,13 @@ public class WorkEntryFilterTests
     public void Include_ComplianceAndNonCompliance_Match()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Include = [WorkEntryTypes.Acc, WorkEntryTypes.Notification] };
+        var spec = new WorkEntrySearchDto { Include = [WorkTypeSearch.Acc, WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
             !entry.IsDeleted &&
-            (entry.WorkEntryType == WorkEntryType.Notification ||
-             (entry.WorkEntryType == WorkEntryType.ComplianceEvent &&
+            (entry.WorkEntryType == AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification ||
+             (entry.WorkEntryType == AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.ComplianceEvent &&
               ((ComplianceEvent)entry).ComplianceEventType == ComplianceEventType.AnnualComplianceCertification)));
 
         // Act
@@ -178,7 +193,32 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void FacilityId_FullMatch()
+    public void Include_MatchAll()
+    {
+        // Arrange
+        var spec = new WorkEntrySearchDto
+        {
+            Include =
+            [
+                WorkTypeSearch.Acc, WorkTypeSearch.Inspection, WorkTypeSearch.Rmp, WorkTypeSearch.Report,
+                WorkTypeSearch.Str, WorkTypeSearch.Notification, WorkTypeSearch.PermitRevocation,
+            ],
+            DeleteStatus = DeleteStatus.All,
+        };
+
+        var expression = WorkEntryFilters.SearchPredicate(spec);
+
+        var expected = WorkEntryData.GetData;
+
+        // Act
+        var result = WorkEntryData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_FullMatch_WithHyphen()
     {
         // Arrange
         var facilityId = WorkEntryData.GetData.First(entry => !entry.IsDeleted).FacilityId;
@@ -195,11 +235,45 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void FacilityId_PartialMatch()
+    public void FacilityId_PartialMatch_WithHyphen()
     {
         // Arrange
-        var facilityId = WorkEntryData.GetData.First().FacilityId[8..];
+        var facilityId = WorkEntryData.GetData.First().FacilityId[..5];
         var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId };
+        var expression = WorkEntryFilters.SearchPredicate(spec);
+
+        var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId.Contains(facilityId));
+
+        // Act
+        var result = WorkEntryData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_FullMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = WorkEntryData.GetData.First(entry => !entry.IsDeleted).FacilityId;
+        var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId.Trim('-') };
+        var expression = WorkEntryFilters.SearchPredicate(spec);
+
+        var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId == facilityId);
+
+        // Act
+        var result = WorkEntryData.GetData.Where(expression.Compile());
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void FacilityId_PartialMatch_WithoutHyphen()
+    {
+        // Arrange
+        var facilityId = WorkEntryData.GetData.First().FacilityId[..5];
+        var spec = new WorkEntrySearchDto { PartialFacilityId = facilityId.Trim('-') };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry => !entry.IsDeleted && entry.FacilityId.Contains(facilityId));
@@ -258,12 +332,12 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Office_Single_Match()
+    public void Office_Match()
     {
         // Arrange
         var officeId = WorkEntryData.GetData
             .First(entry => entry.ResponsibleStaff is { Office: not null }).ResponsibleStaff!.Office!.Id;
-        var spec = new WorkEntrySearchDto { Offices = [officeId] };
+        var spec = new WorkEntrySearchDto { Office = officeId };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
@@ -278,50 +352,10 @@ public class WorkEntryFilterTests
     }
 
     [Test]
-    public void Office_Single_NoMatch()
+    public void Office_NoMatch()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Offices = [Guid.Empty] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEmpty();
-    }
-
-    [Test]
-    public void Office_Multiple_Match()
-    {
-        // Arrange
-        var officeId1 = WorkEntryData.GetData
-            .First(entry => entry is { IsDeleted: false, ResponsibleStaff.Office: not null }).ResponsibleStaff!.Office!
-            .Id;
-        var officeId2 = WorkEntryData.GetData
-            .First(entry => entry is { IsDeleted: false, ResponsibleStaff.Office: not null } &&
-                            entry.ResponsibleStaff.Office.Id != officeId1)
-            .ResponsibleStaff!.Office!.Id;
-
-        var spec = new WorkEntrySearchDto { Offices = [officeId1, officeId2] };
-        var expression = WorkEntryFilters.SearchPredicate(spec);
-
-        var expected = WorkEntryData.GetData.Where(entry =>
-            entry is { IsDeleted: false, ResponsibleStaff.Office: not null } &&
-            (entry.ResponsibleStaff.Office.Id == officeId1 || entry.ResponsibleStaff.Office.Id == officeId2));
-
-        // Act
-        var result = WorkEntryData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Office_Multiple_NoMatch()
-    {
-        // Arrange
-        var spec = new WorkEntrySearchDto { Offices = [Guid.Empty, SampleText.UnassignedGuid] };
+        var spec = new WorkEntrySearchDto { Office = Guid.Empty };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         // Act
@@ -336,8 +370,10 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
-        var spec = new WorkEntrySearchDto { EventDateFrom = eventDate, Include = [WorkEntryTypes.Notification] };
+        {
+            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
+        }) as Notification)!.ReceivedDate;
+        var spec = new WorkEntrySearchDto { EventDateFrom = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
@@ -356,8 +392,10 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
-        var spec = new WorkEntrySearchDto { EventDateTo = eventDate, Include = [WorkEntryTypes.Notification] };
+        {
+            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
+        }) as Notification)!.ReceivedDate;
+        var spec = new WorkEntrySearchDto { EventDateTo = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
@@ -376,9 +414,11 @@ public class WorkEntryFilterTests
     {
         // Arrange
         var eventDate = (WorkEntryData.GetData.First(entry => entry is
-            { IsDeleted: false, WorkEntryType: WorkEntryType.Notification }) as Notification)!.ReceivedDate;
+        {
+            IsDeleted: false, WorkEntryType: AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryType.Notification
+        }) as Notification)!.ReceivedDate;
         var spec = new WorkEntrySearchDto
-            { EventDateTo = eventDate, EventDateFrom = eventDate, Include = [WorkEntryTypes.Notification] };
+            { EventDateTo = eventDate, EventDateFrom = eventDate, Include = [WorkTypeSearch.Notification] };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>

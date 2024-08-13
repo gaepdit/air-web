@@ -1,10 +1,11 @@
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : AuditableSoftDeleteEntity<int>
+public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
 {
     // Constructors
 

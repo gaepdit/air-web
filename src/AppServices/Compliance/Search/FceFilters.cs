@@ -12,26 +12,11 @@ internal static class FceFilters
             .ByFacilityId(spec.PartialFacilityId)
             .ByYear(spec.Year)
             .ByReviewer(spec.ReviewedBy)
-            .ByOffice(spec.Offices)
+            .ByOffice(spec.Office)
             .FromDate(spec.DateFrom)
             .ToDate(spec.DateTo)
             .ByOnsiteStatus(spec.Onsite)
             .ByNotesText(spec.Notes);
-
-    private static Expression<Func<Fce, bool>> ByDeletedStatus(
-        this Expression<Func<Fce, bool>> predicate,
-        DeleteStatus? input) =>
-        input switch
-        {
-            DeleteStatus.All => predicate,
-            DeleteStatus.Deleted => predicate.And(fce => fce.IsDeleted),
-            _ => predicate.And(fce => !fce.IsDeleted),
-        };
-
-    private static Expression<Func<Fce, bool>> ByFacilityId(
-        this Expression<Func<Fce, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(fce => fce.FacilityId.Contains(input));
 
     private static Expression<Func<Fce, bool>> ByYear(
         this Expression<Func<Fce, bool>> predicate,
@@ -47,13 +32,13 @@ internal static class FceFilters
 
     private static Expression<Func<Fce, bool>> ByOffice(
         this Expression<Func<Fce, bool>> predicate,
-        List<Guid> input) =>
-        input.Count == 0
+        Guid? input) =>
+        input is null
             ? predicate
             : predicate.And(fce =>
                 fce.ReviewedBy != null &&
                 fce.ReviewedBy.Office != null &&
-                input.Contains(fce.ReviewedBy.Office.Id));
+                fce.ReviewedBy.Office.Id == input);
 
     private static Expression<Func<Fce, bool>> FromDate(
         this Expression<Func<Fce, bool>> predicate,
@@ -78,9 +63,4 @@ internal static class FceFilters
             YesNoAny.No => predicate.And(fce => !fce.OnsiteInspection),
             _ => predicate,
         };
-
-    private static Expression<Func<Fce, bool>> ByNotesText(
-        this Expression<Func<Fce, bool>> predicate,
-        string? input) =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(fce => fce.Notes.Contains(input));
 }

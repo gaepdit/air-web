@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AirWeb.AppServices.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
@@ -16,16 +17,13 @@ public record WorkEntrySearchDto : IStandardSearch
 
     // == Work types ==
 
-    public List<WorkEntryTypes> Include { get; init; } = [];
+    public List<WorkTypeSearch> Include { get; init; } = [];
 
     // == Facility ==
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
+    [StringLength(9)]
     public string? PartialFacilityId { get; init; }
-
-    // TODO: May need to postpone this feature if it requires too much effort.
-    // [Display(Name = "Facility Name")]
-    // public string? FacilityName { get; init; }
 
     // == Staff ==
 
@@ -33,27 +31,27 @@ public record WorkEntrySearchDto : IStandardSearch
     // Guid as string
     public string? ResponsibleStaff { get; init; }
 
-    [Display(Name = "Offices")]
-    public List<Guid> Offices { get; init; } = [];
+    [Display(Name = "Office")]
+    public Guid? Office { get; init; }
 
     // == Dates ==
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? EventDateFrom { get; init; }
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? EventDateTo { get; init; }
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateFrom { get; init; }
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateTo { get; init; }
@@ -73,6 +71,7 @@ public record WorkEntrySearchDto : IStandardSearch
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
             { nameof(PartialFacilityId), PartialFacilityId },
             { nameof(ResponsibleStaff), ResponsibleStaff },
+            { nameof(Office), Office.ToString() },
             { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
             { nameof(EventDateTo), EventDateTo?.ToString("d") },
             { nameof(ClosedDateFrom), ClosedDateFrom?.ToString("d") },
@@ -80,18 +79,18 @@ public record WorkEntrySearchDto : IStandardSearch
             { nameof(Notes), Notes },
         };
 
-        foreach (var office in Offices)
-            asRouteValues.Add(nameof(Offices), office.ToString());
-
+        var i = 0;
         foreach (var workType in Include)
-            asRouteValues.Add(nameof(Include), workType.ToString());
+        {
+            asRouteValues.Add($"{nameof(Include)}[{i++}]", workType.ToString());
+        }
 
         return asRouteValues;
     }
 
     public WorkEntrySearchDto TrimAll() => this with
     {
-        PartialFacilityId = PartialFacilityId?.Trim(),
+        PartialFacilityId = PartialFacilityId?.CleanFacilityId(),
         Notes = Notes?.Trim(),
     };
 }

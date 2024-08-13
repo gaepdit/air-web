@@ -36,4 +36,34 @@ public sealed class LocalWorkEntryRepository()
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>
         (await GetAsync(id, token).ConfigureAwait(false)).Comments.Add(new WorkEntryComment(comment, id));
+
+    public new Task InsertAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
+    {
+        entity.WorkType = WorkType(entity);
+        entity.EventDate = EventDate(entity);
+        Items.Add(entity);
+        return Task.CompletedTask;
+    }
+
+    private static string WorkType(WorkEntry entry) => entry.WorkEntryType == WorkEntryType.ComplianceEvent
+        ? (entry as ComplianceEvent)!.ComplianceEventType.ToString()
+        : entry.WorkEntryType.ToString();
+
+    private static DateOnly EventDate(WorkEntry entry) => entry.WorkEntryType switch
+    {
+        WorkEntryType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
+        WorkEntryType.Notification => (entry as Notification)!.ReceivedDate,
+        WorkEntryType.PermitRevocation => (entry as PermitRevocation)!.ReceivedDate,
+        WorkEntryType.ComplianceEvent => (entry as ComplianceEvent)!.ComplianceEventType switch
+        {
+            ComplianceEventType.Unknown => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.Today),
+            ComplianceEventType.Report => (entry as Report)!.ReceivedDate,
+            ComplianceEventType.Inspection => DateOnly.FromDateTime((entry as Inspection)!.InspectionStarted),
+            ComplianceEventType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByCompliance,
+            ComplianceEventType.AnnualComplianceCertification => (entry as AnnualComplianceCertification)!.ReceivedDate,
+            ComplianceEventType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
+            _ => DateOnly.MinValue,
+        },
+        _ => DateOnly.MinValue,
+    };
 }

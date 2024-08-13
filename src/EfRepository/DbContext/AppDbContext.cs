@@ -52,9 +52,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
+            .ConfigureTphDiscriminatorColumn()
             .ConfigureTphColumnSharing()
             .ConfigureEnumValues()
-            .ConfigureOwnedTypeCollections(Database.ProviderName)
+            .ConfigureCalculatedColumns(Database.ProviderName)
+            .ConfigureCommentsMappingStrategy()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
 
 #pragma warning disable S125

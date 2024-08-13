@@ -34,13 +34,9 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureTphDiscriminatorColumn(this ModelBuilder builder)
     {
-        // == Let's save enums in the database as strings.
-        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
-        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
-
+        builder.Entity<WorkEntry>().HasDiscriminator(entry => entry.WorkType);
         return builder;
     }
 
@@ -107,35 +103,55 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureOwnedTypeCollections(this ModelBuilder builder, string? dbProviderName)
+    internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
     {
-        // == Collections of owned types
+        // == Let's save enums in the database as strings.
+        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
+        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+        builder.Entity<ComplianceEvent>().Property(entity => entity.ComplianceEventType).HasConversion<string>();
 
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureCalculatedColumns(this ModelBuilder builder, string? dbProviderName)
+    {
+        if (dbProviderName == AppDbContext.SqlServerProvider)
+        {
+            builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
+                .HasComputedColumnSql("""
+                                      case
+                                          when WorkType = 'Unknown' then convert(date, CreatedAt)
+                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                              then convert(date, ReceivedDate)
+                                          when WorkType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
+                                          when WorkType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                          else convert(date, '1900-1-1')
+                                      end
+                                      """);
+        }
+        else
+        {
+            builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
+                .HasComputedColumnSql("""
+                                      case
+                                          when WorkType = 'Unknown' then date(CreatedAt)
+                                          when WorkType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                                              then date(ReceivedDate)
+                                          when WorkType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
+                                          when WorkType = 'SourceTestReview' then date(ReceivedByCompliance)
+                                          else '1900-1-1'
+                                      end
+                                      """);
+        }
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
+    {
         // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
         // directly exposed as a DbSet).
         builder.Entity<Comment>().UseTphMappingStrategy().ToTable("Comments");
-
-        // * Comments should auto-include User data.
-        // * Sqlite is in conflict with EF Core on how to handle collections of owned types.
-        //   See: https://stackoverflow.com/a/69826156/212978
-        //   and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
-        // builder.Entity<Fce>().OwnsMany(fce => fce.Comments, owned =>
-        // {
-        //     owned.ToTable("FceComments");
-        //     owned.Navigation(comment => comment.CommentBy).AutoInclude();
-        //     if (dbProviderName != AppDbContext.SqliteProvider) return;
-        //     owned.HasKey(propertyNames: "Id");
-        //     owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
-        // });
-        //
-        // builder.Entity<WorkEntry>().OwnsMany(entry => entry.Comments, owned =>
-        // {
-        //     owned.ToTable("WorkEntryComments");
-        //     owned.Navigation(comment => comment.CommentBy).AutoInclude();
-        //     if (dbProviderName != AppDbContext.SqliteProvider) return;
-        //     owned.HasKey(propertyNames: "Id");
-        //     owned.Property(comment => comment.CommentedAt).HasConversion(new DateTimeOffsetToBinaryConverter());
-        // });
 
         return builder;
     }

@@ -27,74 +27,76 @@ Pages must be named "report" because "reports" is reserved by the ArcGIS applica
 
 These pages are only available to logged-in staff.
 
-* `/Staff` Staff dashboard.
+* `/Home` Staff dashboard.
 
 ### Facility
 
-* `/Staff/Facility` Facility search form (searches IAIP database).
-* `/Staff/Facility/Details/{facilityId}` Facility details page.
+* `/Facility` Facility search form (searches IAIP database).
+* `/Facility/Details/{facilityId}` Facility details page.
 
 ### Compliance
 
-* `/Staff/Compliance` Compliance search form (combined search for FCEs and Work Entries).
+* `/Compliance` Compliance dashboard.
 
 #### Compliance Work Entry Workflow
 
-* `/Staff/Compliance/WorkEntry/{entryId}` Compliance work entry details page (compliance events, notifications, and
+* `/Compliance/Work` Compliance Work Entry search form.
+* `/Compliance/Work/{entryId}` Compliance Work Entry details page (compliance events, notifications, and
   permit revocations).
-* `/Staff/Compliance/WorkEntry/Add` Add a new Work Entry.
-* `/Staff/Compliance/WorkEntry/Add?{facilityId}` Add a new Work Entry for the Facility.
-* `/Staff/Compliance/WorkEntry/Add/{workEntryType}` Add a new Work Entry of the specified type.
-* `/Staff/Compliance/WorkEntry/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
+* `/Compliance/Work/Add` Add a new Work Entry.
+* `/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.
+* `/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.
+* `/Compliance/Work/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
   specified Facility.
-* `/Staff/Compliance/WorkEntry/Edit/{entryId}` Edit a Work Entry.
-* `/Staff/Compliance/WorkEntry/Delete/{entryId}` Delete a Work Entry.
-* `/Staff/Compliance/WorkEntry/Restore/{entryId}` Restore a Work Entry.
+* `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
+* `/Compliance/Work/Delete/{entryId}` Delete a Work Entry.
+* `/Compliance/Work/Restore/{entryId}` Restore a Work Entry.
 
 #### FCE Workflow
 
-* `/Staff/Compliance/FCE/{fceId}` FCE details page.
-* `/Staff/Compliance/FCE/Add` Add a new FCE.
-* `/Staff/Compliance/FCE/Add?{facilityId}` Add a new FCE for the specified Facility.
-* `/Staff/Compliance/FCE/Edit/{fceId}` Edit an FCE.
-* `/Staff/Compliance/FCE/Delete/{fceId}` Delete an FCE.
-* `/Staff/Compliance/FCE/Restore/{fceId}` Restore an FCE.
+* `/Compliance/FCE` FCE search form.
+* `/Compliance/FCE/{fceId}` FCE details page.
+* `/Compliance/FCE/Add` Add a new FCE.
+* `/Compliance/FCE/Add?{facilityId}` Add a new FCE for the specified Facility.
+* `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
+* `/Compliance/FCE/Delete/{fceId}` Delete an FCE.
+* `/Compliance/FCE/Restore/{fceId}` Restore an FCE.
 
 ### Source Tests
 
-* `/Staff/SourceTests` Source Test search form (searches IAIP database).
-* `/Staff/SourceTests/Report/{referenceNumber}` Source Test report details page (with compliance review details).
-* `/Staff/SourceTests/Report/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
+* `/Compliance/Tests` Source Test search form (searches IAIP database).
+* `/Compliance/Tests/Report/{referenceNumber}` Source Test report details page (with compliance review details).
+* `/Compliance/Tests/Report/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
   Review.
 
 ### Enforcement
 
-* `/Staff/Enforcement` Enforcement search form.
-* `/Staff/Enforcement/Details/{enforcementId}` Enforcement details.
+* `/Compliance/Enforcement` Enforcement search form.
+* `/Compliance/Enforcement/Details/{enforcementId}` Enforcement details.
 
 #### Enforcement Case Initiation
 
-* `/Staff/Enforcement/Add` Start new enforcement case.
-* `/Staff/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
-* `/Staff/Enforcement/Add?{facilityId}&{entryId}` Start new enforcement case for the specified work entry.
+* `/Compliance/Enforcement/Add` Start new enforcement case.
+* `/Compliance/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
+* `/Compliance/Enforcement/Add?{facilityId}&{entryId}` Start new enforcement case for the specified work entry.
 
 #### Enforcement Case Workflow
 
-* `/Staff/Enforcement/Edit/{enforcementId}` Edit enforcement details.
-* `/Staff/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
-* `/Staff/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
+* `/Compliance/Enforcement/Edit/{enforcementId}` Edit enforcement details.
+* `/Compliance/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
+* `/Compliance/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
 
 #### Enforcement Action Workflow
 
-* `/Staff/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/Add?{actionId}` Add an enforcement action linked from another
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add?{actionId}` Add an enforcement action linked from another
   enforcement action.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
   action review.
-* `/Staff/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
 
 ## User Account
 
