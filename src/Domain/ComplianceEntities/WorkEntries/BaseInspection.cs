@@ -10,11 +10,7 @@ public abstract class BaseInspection : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     protected BaseInspection() { }
 
-    protected BaseInspection(int? id) : base(id)
-    {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        IsClosed = true;
-    }
+    protected BaseInspection(int? id) : base(id) { }
 
     // Properties
 

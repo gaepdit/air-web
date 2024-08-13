@@ -50,10 +50,18 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     // Properties: Lists
     public List<WorkEntryComment> Comments { get; } = [];
 
+    // Compliance Event Properties
+
+    public bool IsComplianceEvent { get; internal init; }
+
+    // FUTURE: Placeholder for managing the EPA data exchange status.
+    [JsonIgnore]
+    [StringLength(11)]
+    public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
+
     // Properties: Closure
     public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
-
     public DateOnly? ClosedDate { get; internal set; }
 
     // Properties: Deletion
@@ -74,14 +82,9 @@ public class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
     {
         WorkEntryType.Unknown => "Date Created",
         WorkEntryType.Notification or WorkEntryType.PermitRevocation => "Date Received",
-        WorkEntryType.ComplianceEvent => (this as ComplianceEvent)!.ComplianceEventType switch
-        {
-            ComplianceEventType.Unknown => "Date Created",
-            ComplianceEventType.Report or ComplianceEventType.AnnualComplianceCertification => "Date Received",
-            ComplianceEventType.Inspection or ComplianceEventType.RmpInspection => "Inspection Date",
-            ComplianceEventType.SourceTestReview => "Received By Compliance",
-            _ => "Error",
-        },
+        WorkEntryType.Report or WorkEntryType.AnnualComplianceCertification => "Date Received",
+        WorkEntryType.Inspection or WorkEntryType.RmpInspection => "Inspection Date",
+        WorkEntryType.SourceTestReview => "Received By Compliance",
         _ => "Error",
     };
 }
@@ -99,10 +102,25 @@ public record WorkEntryComment : Comment
 // Enums
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
+// Numbering is based on historic values in previous database; may not be needed going forward.
 public enum WorkEntryType
 {
-    Unknown = 0,
+    [Description("Annual Compliance Certification")] AnnualComplianceCertification = 4,
+    Inspection = 2,
     Notification = 5,
     [Description("Permit Revocation")] PermitRevocation = 8,
-    [Description("Compliance Event")] ComplianceEvent = 9,
+    Report = 1,
+    [Description("RMP Inspection")] RmpInspection = 7,
+    [Description("Source Test Review")] SourceTestReview = 3,
+    Unknown = 0,
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum DxStatus
+{
+    [UsedImplicitly] NotIncluded,
+    [UsedImplicitly] Processed,
+    [UsedImplicitly] Inserted,
+    [UsedImplicitly] Updated,
+    [UsedImplicitly] Deleted,
 }

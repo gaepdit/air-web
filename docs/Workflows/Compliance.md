@@ -11,17 +11,15 @@
 
 - FCE: Full Compliance Evaluation (FCE)
 - WRK: Work Entry
-    - CME: Compliance Event
+    - Compliance Event (a subset of Work Entries)
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: RMP Inspection
         - STR: Source Test Compliance Review
         - REP: Report
     - NOT: Notification
-    - REV: Permit revocation †
+    - REV: Permit revocation (previously a type of Notification)
 - ENF: Enforcement
-
-† Indicates a change in hierarchy compared to the IAIP.
 
 ## ERD
 
@@ -41,6 +39,7 @@ erDiagram
 
     WRK["Work Entry ⚓"] {
     int Id PK
+    bool IsComplianceEvent
 }
 
     CME["Compliance Event"]
@@ -70,7 +69,7 @@ INS |o--|| CME : "is a type of"
 RMP |o--|| CME : "is a type of"
 REP |o--|| CME : "is a type of"
 
-CME |o--|| WRK : "is a type of"
+CME |o--|| WRK : "is a subset of"
 NOT |o--|| WRK : "is a type of"
 REV |o--|| WRK : "is a type of"
 

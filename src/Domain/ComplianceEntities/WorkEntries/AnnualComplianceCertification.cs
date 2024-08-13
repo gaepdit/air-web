@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public class AnnualComplianceCertification : ComplianceEvent
+public class AnnualComplianceCertification : WorkEntry
 {
     // Constructors
 
@@ -9,8 +9,7 @@ public class AnnualComplianceCertification : ComplianceEvent
 
     internal AnnualComplianceCertification(int? id) : base(id)
     {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        ComplianceEventType = ComplianceEventType.AnnualComplianceCertification;
+        WorkEntryType = WorkEntryType.AnnualComplianceCertification;
     }
 
     // Properties

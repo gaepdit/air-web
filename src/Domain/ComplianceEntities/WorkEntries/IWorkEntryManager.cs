@@ -10,11 +10,9 @@ public interface IWorkEntryManager
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
-    /// <param name="complianceEventType">The <see cref="ComplianceEventType"/> of the entry if it is a Compliance Event.</param>
     /// <param name="notificationType">The <see cref="NotificationType"/> of the entry if it is a Notification.</param>
     /// <returns>The Work Entry that was created.</returns>
-    WorkEntry Create(WorkEntryType type, ApplicationUser? user, ComplianceEventType? complianceEventType = null,
-        NotificationType? notificationType = null);
+    WorkEntry Create(WorkEntryType type, ApplicationUser? user, NotificationType? notificationType = null);
 
     /// <summary>
     /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.

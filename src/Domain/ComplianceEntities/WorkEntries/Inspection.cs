@@ -7,5 +7,8 @@ public class Inspection : BaseInspection
     [UsedImplicitly] // Used by ORM.
     private Inspection() { }
 
-    internal Inspection(int? id) : base(id) => ComplianceEventType = ComplianceEventType.Inspection;
+    internal Inspection(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.Inspection;
+    }
 }

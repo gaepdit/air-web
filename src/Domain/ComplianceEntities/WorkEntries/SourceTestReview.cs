@@ -9,8 +9,7 @@ public class SourceTestReview : ComplianceEvent
 
     internal SourceTestReview(int? id) : base(id)
     {
-        WorkEntryType = WorkEntryType.ComplianceEvent;
-        ComplianceEventType = ComplianceEventType.SourceTestReview;
+        WorkEntryType = WorkEntryType.SourceTestReview;
         IsClosed = true;
     }
 

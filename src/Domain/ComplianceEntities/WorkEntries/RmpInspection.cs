@@ -7,5 +7,8 @@ public class RmpInspection : BaseInspection
     [UsedImplicitly] // Used by ORM.
     private RmpInspection() { }
 
-    internal RmpInspection(int? id) : base(id) => ComplianceEventType = ComplianceEventType.RmpInspection;
+    internal RmpInspection(int? id) : base(id)
+    {
+        WorkEntryType = WorkEntryType.RmpInspection;
+    }
 }
