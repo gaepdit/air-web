@@ -26,7 +26,7 @@ internal static partial class WorkEntries
             WeatherConditions = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             InspectionGuide = SampleText.GetRandomText(SampleText.TextLength.Word),
             FacilityOperating = true,
-            ComplianceStatus = ComplianceStatus.InCompliance,
+            DeviationsNoted = false,
             FollowupTaken = false,
         },
         new Inspection(6002)
@@ -47,7 +47,7 @@ internal static partial class WorkEntries
             WeatherConditions = string.Empty,
             InspectionGuide = string.Empty,
             FacilityOperating = false,
-            ComplianceStatus = ComplianceStatus.DeviationsNoted,
+            DeviationsNoted = true,
             FollowupTaken = true,
         },
         new Inspection(6003)

@@ -129,7 +129,7 @@ public sealed partial class WorkEntryService
     private static void MapInspection(IInspectionCommandDto resource, Inspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
-        inspection.ComplianceStatus = resource.ComplianceStatus;
+        inspection.DeviationsNoted = resource.DeviationsNoted;
     }
 
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
@@ -168,7 +168,7 @@ public sealed partial class WorkEntryService
     private static void MapRmp(IRmpInspectionCommandDto resource, RmpInspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
-        inspection.ComplianceStatus = resource.ComplianceStatus;
+        inspection.DeviationsNoted = resource.DeviationsNoted;
     }
 
     private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)

@@ -85,8 +85,8 @@ internal static class AppDbContextConfiguration
         rmpEntity.Property(e => e.InspectionGuide).HasColumnName(nameof(RmpInspection.InspectionGuide));
         insEntity.Property(e => e.FacilityOperating).HasColumnName(nameof(Inspection.FacilityOperating));
         rmpEntity.Property(e => e.FacilityOperating).HasColumnName(nameof(RmpInspection.FacilityOperating));
-        insEntity.Property(e => e.ComplianceStatus).HasColumnName(nameof(Inspection.ComplianceStatus));
-        rmpEntity.Property(e => e.ComplianceStatus).HasColumnName(nameof(RmpInspection.ComplianceStatus));
+        insEntity.Property(e => e.DeviationsNoted).HasColumnName(nameof(Inspection.DeviationsNoted));
+        rmpEntity.Property(e => e.DeviationsNoted).HasColumnName(nameof(RmpInspection.DeviationsNoted));
 
         // FollowupTaken
         insEntity.Property(e => e.FollowupTaken).HasColumnName(nameof(Inspection.FollowupTaken));

@@ -29,8 +29,9 @@ public abstract class BaseInspection : ComplianceEvent
 
     public bool FacilityOperating { get; init; }
 
-    [StringLength(15)]
-    public ComplianceStatus ComplianceStatus { get; set; }
+    // false: "In Compliance"
+    // true: "Deviation(s) Noted"
+    public bool DeviationsNoted { get; set; }
 
     public bool FollowupTaken { get; init; }
 }
@@ -47,11 +48,4 @@ public enum InspectionReason
     [Description("Joint EPD/EPA")] JointEpdEpa,
     [Description("Multimedia")] Multimedia,
     [Description("Follow-Up")] FollowUp,
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum ComplianceStatus
-{
-    [Description("In Compliance")] InCompliance,
-    [Description("Deviation(s) Noted")] DeviationsNoted,
 }
