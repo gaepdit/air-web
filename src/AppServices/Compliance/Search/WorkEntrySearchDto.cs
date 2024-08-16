@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record WorkEntrySearchDto : IStandardSearch
+public record WorkEntrySearchDto : IComplianceSearchDto
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 

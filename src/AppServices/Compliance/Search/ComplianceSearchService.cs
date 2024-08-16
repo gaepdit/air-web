@@ -1,6 +1,7 @@
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.UserServices;
+using AirWeb.Domain.ComplianceEntities;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
@@ -14,7 +15,7 @@ using System.Linq.Expressions;
 namespace AirWeb.AppServices.Compliance.Search;
 
 public sealed class ComplianceSearchService(
-    ISearchRepository searchRepository,
+    IComplianceSearchRepository complianceSearchRepository,
     IFacilityRepository facilityRepository,
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
@@ -38,7 +39,7 @@ public sealed class ComplianceSearchService(
     }
 
     private async Task CheckDeleteStatusAuth<TSearchDto>(TSearchDto spec)
-        where TSearchDto : IStandardSearch
+        where TSearchDto : IComplianceSearchDto
     {
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
@@ -48,34 +49,27 @@ public sealed class ComplianceSearchService(
     private async Task<IPaginatedResult<TResultDto>> SearchAsync<TResultDto, TEntity>(PaginatedRequest paging,
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
-        where TEntity : class, IEntity<int>
+        where TEntity : class, IEntity<int>, IComplianceEntity
     {
-        var count = await searchRepository.CountRecordsAsync(expression, token).ConfigureAwait(false);
+        var count = await complianceSearchRepository.CountRecordsAsync(expression, token).ConfigureAwait(false);
         var collection = count > 0
-            ? mapper.Map<IEnumerable<TResultDto>>(await searchRepository
+            ? mapper.Map<IEnumerable<TResultDto>>(await complianceSearchRepository
                 .GetFilteredRecordsAsync(expression, paging, token).ConfigureAwait(false))
             : [];
-
-        var items = collection as TResultDto[] ?? collection.ToArray();
-
-        var facilityIds = items.Select(dto => dto.FacilityId).Distinct().ToArray();
-        var facilityNames = await facilityRepository.GetFacilityNamesAsync(facilityIds, token).ConfigureAwait(false);
-        foreach (var dto in items) dto.FacilityName = facilityNames[dto.FacilityId];
-
-        return new PaginatedResult<TResultDto>(items, count, paging);
+        return new PaginatedResult<TResultDto>(collection, count, paging);
     }
 
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()
     {
-        searchRepository.Dispose();
+        complianceSearchRepository.Dispose();
         facilityRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await searchRepository.DisposeAsync().ConfigureAwait(false);
+        await complianceSearchRepository.DisposeAsync().ConfigureAwait(false);
         await facilityRepository.DisposeAsync().ConfigureAwait(false);
     }
 

@@ -22,23 +22,20 @@ public class FceSearchTests
         var searchDto = new FceSearchDto();
         var entries = FceData.GetData.Where(fce => !fce.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<ISearchRepository>();
+        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
-        var facilityRepoMock = Substitute.For<IFacilityRepository>();
-        facilityRepoMock.GetFacilityNamesAsync(Arg.Any<string[]>(), Arg.Any<CancellationToken>())
-            .Returns(FacilityData.FacilityNames);
-
         var authMock = Substitute.For<IAuthorizationService>();
         authMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, facilityRepoMock, AppServicesTestsSetup.Mapper!,
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityRepository>(),
+            AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act
@@ -47,7 +44,6 @@ public class FceSearchTests
         // Assert
         using var scope = new AssertionScope();
         result.Items.Should().BeEquivalentTo(entries);
-        result.Items[0].FacilityName.Should().Be(expected: FacilityData.FacilityNames[result.Items[0].FacilityId]);
         result.CurrentCount.Should().Be(entries.Count);
     }
 
@@ -57,7 +53,7 @@ public class FceSearchTests
         // Arrange
         var searchDto = new FceSearchDto();
 
-        var searchRepoMock = Substitute.For<ISearchRepository>();
+        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(),

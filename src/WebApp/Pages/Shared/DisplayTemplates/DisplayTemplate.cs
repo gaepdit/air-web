@@ -9,6 +9,7 @@ public static class DisplayTemplate
 {
     public const string BoolActive = nameof(BoolActive);
     public const string BoolClosed = nameof(BoolClosed);
+    public const string BoolYesNo = nameof(BoolYesNo);
     public const string County = nameof(County);
     public const string DateOnly = nameof(DateOnly);
     public const string DateOnlyOrBlank = nameof(DateOnlyOrBlank);
@@ -33,7 +34,6 @@ public static class DisplayTemplate
     public const string ShortDateTime = nameof(ShortDateTime);
     public const string ShortDateTimeNoBreak = nameof(ShortDateTimeNoBreak);
     public const string ShortDateTimeOrBlank = nameof(ShortDateTimeOrBlank);
-    public const string SortArrow = nameof(SortArrow);
     public const string StringOrPlaceholder = nameof(StringOrPlaceholder);
     public const string TruncateText = nameof(TruncateText);
     public const string ValidationSummaryConditional = nameof(ValidationSummaryConditional);

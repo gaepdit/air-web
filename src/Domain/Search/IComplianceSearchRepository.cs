@@ -1,9 +1,10 @@
-﻿using GaEpd.AppLibrary.Pagination;
+﻿using AirWeb.Domain.ComplianceEntities;
+using GaEpd.AppLibrary.Pagination;
 using System.Linq.Expressions;
 
 namespace AirWeb.Domain.Search;
 
-public interface ISearchRepository : IDisposable, IAsyncDisposable
+public interface IComplianceSearchRepository : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Returns a filtered, read-only collection of <see cref="TEntity"/> records matching the conditions
@@ -14,7 +15,8 @@ public interface ISearchRepository : IDisposable, IAsyncDisposable
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A collection of filtered search results.</returns>
     Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(Expression<Func<TEntity, bool>> expression,
-        PaginatedRequest paging, CancellationToken token = default) where TEntity : class, IEntity<int>;
+        PaginatedRequest paging, CancellationToken token = default)
+        where TEntity : class, IEntity<int>, IComplianceEntity;
 
     /// <summary>
     /// Returns the count of <see cref="TEntity"/> records matching the conditions of

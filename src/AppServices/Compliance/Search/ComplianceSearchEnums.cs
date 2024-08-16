@@ -12,10 +12,14 @@ public enum SortBy
     [Description("Id desc")] IdDesc,
     [Description("FacilityId, Id")] FacilityIdAsc,
     [Description("FacilityId desc, Id")] FacilityIdDesc,
+    [Description("Facility.CompanyName, Id")] FacilityNameAsc,
+    [Description("Facility.CompanyName desc, Id")] FacilityNameDesc,
     [Description("WorkEntryType, Id")] WorkTypeAsc,
     [Description("WorkEntryType desc, Id")] WorkTypeDesc,
     [Description("EventDate, Id")] EventDateAsc,
     [Description("EventDate desc, Id")] EventDateDesc,
+    [Description("Year, Id")] YearAsc,
+    [Description("Year desc, Id")] YearDesc,
 }
 
 // "(Any)" (null) = no filtering

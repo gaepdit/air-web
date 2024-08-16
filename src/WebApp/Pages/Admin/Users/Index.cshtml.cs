@@ -17,8 +17,7 @@ public class UsersIndexModel(IOfficeService officeService, IStaffService staffSe
     public StaffSearchDto Spec { get; set; } = default!;
     public bool ShowResults { get; private set; }
     public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = default!;
-    public string SortByName => Spec.Sort.ToString();
-    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
+    public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     public SelectList RolesSelectList { get; private set; } = default!;
     public SelectList OfficesSelectList { get; private set; } = default!;

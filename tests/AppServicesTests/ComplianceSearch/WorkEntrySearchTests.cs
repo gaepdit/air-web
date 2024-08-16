@@ -22,24 +22,20 @@ public class WorkEntrySearchTests
         var searchDto = new WorkEntrySearchDto();
         var entries = WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<ISearchRepository>();
+        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
-        var facilityRepoMock = Substitute.For<IFacilityRepository>();
-        facilityRepoMock.GetFacilityNamesAsync(Arg.Any<string[]>(), Arg.Any<CancellationToken>())
-            .Returns(FacilityData.FacilityNames);
-
         var authMock = Substitute.For<IAuthorizationService>();
         authMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), resource: Arg.Any<object?>(),
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, facilityRepoMock, AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityRepository>(),
+            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchWorkEntriesAsync(searchDto, _paging);
@@ -47,7 +43,6 @@ public class WorkEntrySearchTests
         // Assert
         using var scope = new AssertionScope();
         result.Items.Should().BeEquivalentTo(entries);
-        result.Items[0].FacilityName.Should().Be(expected: FacilityData.FacilityNames[result.Items[0].FacilityId]);
         result.CurrentCount.Should().Be(entries.Count);
     }
 
@@ -57,7 +52,7 @@ public class WorkEntrySearchTests
         // Arrange
         var searchDto = new WorkEntrySearchDto();
 
-        var searchRepoMock = Substitute.For<ISearchRepository>();
+        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),

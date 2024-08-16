@@ -8,7 +8,7 @@ namespace EfRepositoryTests.ComplianceSearch;
 
 public class CountTests
 {
-    private ISearchRepository _repository = default!;
+    private IComplianceSearchRepository _repository = default!;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryTrueExpression = f => true;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryNotDeletedExpression = f => !f.IsDeleted;
     private readonly Expression<Func<Fce, bool>> _fceTrueExpression = f => true;

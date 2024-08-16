@@ -125,9 +125,7 @@ public class AutoMapperProfile : Profile
 
     private void CreateMapsForSearchResults()
     {
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<Fce, FceSearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>();
+        CreateMap<Fce, FceSearchResultDto>();
     }
 }

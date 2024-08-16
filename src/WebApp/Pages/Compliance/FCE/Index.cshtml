@@ -3,12 +3,11 @@
 @using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using LabelTagHelper = AirWeb.WebApp.Platform.PageModelHelpers.LabelTagHelper
-@model ComplianceIndexModel
+@model FceIndexModel
 @{
-    ViewData["Title"] = "Compliance Work Entry Search";
+    ViewData["Title"] = "FCE Search";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -20,15 +19,25 @@
                 <em>All fields are optional.</em>
             </div>
             <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
-                <h2 class="h4">Status</h2>
+                <h2 class="h4">Details</h2>
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
-                            <select asp-for="Spec.Closed" name="@nameof(Model.Spec.Closed)"
-                                    asp-items="Html.GetEnumSelectList<YesNoAny>()" class="form-select">
+                            <input asp-for="Spec.PartialFacilityId" name="@nameof(Model.Spec.PartialFacilityId)"
+                                   class="form-control" aria-describedby="FacilityIdHelpBlock" />
+                            <label asp-for="Spec.PartialFacilityId" class="form-label"></label>
+                        </div>
+                        <small id="FacilityIdHelpBlock" class="form-text text-body-secondary d-block px-2">
+                            (This can be a complete or partial AIRS number.)
+                        </small>
+                    </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Year" name="@nameof(Model.Spec.Year)"
+                                    asp-items="FceIndexModel.YearSelectList" class="form-select">
                                 <option value="">@SelectOptions.SelectTextAny</option>
                             </select>
-                            <label asp-for="Spec.Closed" class="form-label"></label>
+                            <label asp-for="Spec.Year" class="form-label"></label>
                         </div>
                     </div>
                     @if (Model.UserCanViewDeletedRecords)
@@ -44,36 +53,8 @@
                         </div>
                     }
                 </div>
-                <div class="row">
-                    <div class="col-md mb-3">
-                        <label asp-for="Spec.ClosedDateFrom" class="form-label px-2 mb-0">Date Work Entry Closed</label>
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input asp-for="Spec.ClosedDateFrom" name="@nameof(Model.Spec.ClosedDateFrom)"
-                                       class="form-control" />
-                                <label asp-for="Spec.ClosedDateFrom" class="form-label"></label>
-                            </div>
-                            <div class="form-floating">
-                                <input asp-for="Spec.ClosedDateTo" name="@nameof(Model.Spec.ClosedDateTo)"
-                                       class="form-control" />
-                                <label asp-for="Spec.ClosedDateTo" class="form-label"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <h2 class="h4">Details</h2>
                 <div class="row">
-                    <div class="col-md mb-3">
-                        <div class="form-floating">
-                            <input asp-for="Spec.PartialFacilityId" name="@nameof(Model.Spec.PartialFacilityId)"
-                                   class="form-control" aria-describedby="FacilityIdHelpBlock" />
-                            <label asp-for="Spec.PartialFacilityId" class="form-label"></label>
-                        </div>
-                        <small id="FacilityIdHelpBlock" class="form-text text-body-secondary d-block px-2">
-                            (This can be a complete or partial AIRS number.)
-                        </small>
-                    </div>
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
@@ -84,43 +65,30 @@
                             (A word or phrase to search for within the Notes field.)
                         </small>
                     </div>
-                </div>
-                <div class="container">
-                    <fieldset class="row mb-3 border rounded-3 py-2">
-                        <div class="col">
-                            <legend class="h5">Work Type</legend>
-                            <div class="form-check border-bottom mb-3 pb-3">
-                                <input class="form-check-input" type="checkbox" id="Include_All" @(Model.Spec.Include.Any() ? "" : "checked") />
-                                <label class="form-check-label" for="Include_All">All</label>
-                            </div>
-                            <div class="row row-cols-auto" id="Include_Others">
-                                <div class="col columns-md-2">
-                                    @foreach (var workEntryType in Enum.GetValues(typeof(WorkTypeSearch)).Cast<WorkTypeSearch>().ToList())
-                                    {
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="Spec.Include" type="checkbox" value="@workEntryType"
-                                                   id="Include_@workEntryType" checked="@Model.Spec.Include.Contains(workEntryType)" />
-                                            <label class="form-check-label" for="Include_@workEntryType">@workEntryType.GetDescription()</label>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Onsite" name="@nameof(Model.Spec.Onsite)"
+                                    asp-items="Html.GetEnumSelectList<YesNoAny>()" class="form-select">
+                                <option value="">@SelectOptions.SelectTextAny</option>
+                            </select>
+                            <label asp-for="Spec.Onsite" class="form-label"></label>
                         </div>
-                    </fieldset>
+                    </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label asp-for="Spec.EventDateFrom" class="form-label px-2 mb-0">Date of Work Entry</label>
+                        <label asp-for="Spec.DateFrom" class="form-label px-2 mb-0">FCE Date</label>
                         <div class="input-group">
                             <div class="form-floating">
-                                <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
+                                <input asp-for="Spec.DateFrom" name="@nameof(Model.Spec.DateFrom)"
                                        class="form-control" />
-                                <label asp-for="Spec.EventDateFrom" class="form-label"></label>
+                                <label asp-for="Spec.DateFrom" class="form-label"></label>
                             </div>
                             <div class="form-floating">
-                                <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
+                                <input asp-for="Spec.DateTo" name="@nameof(Model.Spec.DateTo)"
                                        class="form-control" />
-                                <label asp-for="Spec.EventDateTo" class="form-label"></label>
+                                <label asp-for="Spec.DateTo" class="form-label"></label>
                             </div>
                         </div>
                     </div>
@@ -139,11 +107,11 @@
                     </div>
                     <div class="col-md mb-3">
                         <div class="form-floating">
-                            <select asp-for="Spec.ResponsibleStaff" name="@nameof(Model.Spec.ResponsibleStaff)"
+                            <select asp-for="Spec.ReviewedBy" name="@nameof(Model.Spec.ReviewedBy)"
                                     asp-items="Model.StaffSelectList" class="form-select">
                                 <option value="">@SelectOptions.SelectTextAny</option>
                             </select>
-                            <label asp-for="Spec.ResponsibleStaff" class="form-label"></label>
+                            <label asp-for="Spec.ReviewedBy" class="form-label"></label>
                         </div>
                     </div>
                 </div>
@@ -188,12 +156,15 @@
                 <table class="table table-hover" aria-label="Facility search results">
                     <thead>
                     <tr>
-                        <partial name="_SortableTableColHead" model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
-                        <partial name="_SortableTableColHead" model='new SearchResultsColumnDisplay("Work Type", SortBy.WorkTypeAsc, SortBy.WorkTypeDesc, Model.Spec)' />
-                        <partial name="_SortableTableColHead" model='new SearchResultsColumnDisplay("Facility", SortBy.FacilityIdAsc, SortBy.FacilityIdDesc, Model.Spec)' />
-                        <partial name="_SortableTableColHead" model='new SearchResultsColumnDisplay("Event Date", SortBy.EventDateAsc, SortBy.EventDateDesc, Model.Spec)' />
+                        <partial name="_SortableTableColHead"
+                                 model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
+                        <partial name="_SortableTableColHead"
+                                 model='new SearchResultsColumnDisplay("FCE Year", SortBy.YearAsc, SortBy.YearDesc, Model.Spec)' />
+                        <partial name="_SortableTableColHead"
+                                 model='new SearchResultsColumnDisplay("Facility", SortBy.FacilityIdAsc, SortBy.FacilityIdDesc, Model.Spec)' />
+                        <th scope="col" class="text-nowrap">FCE Date</th>
                         <th scope="col" class="text-nowrap">Staff</th>
-                        <th scope="col" class="text-nowrap">Status</th>
+                        <th scope="col" class="text-nowrap">Onsite Inspection</th>
                     </tr>
                     </thead>
 
@@ -207,25 +178,18 @@
                                     <strong>DELETED</strong>
                                     <br />
                                 }
-                                <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
+                                <a asp-page="Details" asp-route-id="@item.Id.ToString()"
+                                   class="btn btn-outline-primary btn-sm">
+                                    @item.Id.ToString()
+                                </a>
                             </th>
-                            <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>
+                            <td class="text-nowrap">@item.Year</td>
                             <td>
                                 <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.CompanyName
                             </td>
-                            <td>
-                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.DateOnly)</span><br />
-                                @item.EventDateName
-                            </td>
-                            <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
-                            <td class="text-nowrap">
-                                @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
-                                @if (item.IsClosed)
-                                {
-                                    <br />
-                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.DateOnly)
-                                }
-                            </td>
+                            <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.DateOnly) </td>
+                            <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
+                            <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
                         </tr>
                     }
                     </tbody>
@@ -238,5 +202,4 @@
 
 @section Scripts {
     <script src="~/js/formSearch.js"></script>
-    <script src="js/handleCheckboxAll.js"></script>
 }

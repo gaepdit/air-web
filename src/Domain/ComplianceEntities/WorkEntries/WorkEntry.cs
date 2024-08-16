@@ -96,16 +96,15 @@ public record WorkEntryComment : Comment
 // Enums
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-// Numbering is based on historic values in previous database; may not be needed going forward.
 public enum WorkEntryType
 {
-    [Description("Annual Compliance Certification")] AnnualComplianceCertification = 4,
-    Inspection = 2,
-    Notification = 5,
-    [Description("Permit Revocation")] PermitRevocation = 8,
-    Report = 1,
-    [Description("RMP Inspection")] RmpInspection = 7,
-    [Description("Source Test Review")] SourceTestReview = 3,
+    [Description("Annual Compliance Certification")] AnnualComplianceCertification,
+    Inspection,
+    Notification,
+    [Description("Permit Revocation")] PermitRevocation,
+    Report,
+    [Description("RMP Inspection")] RmpInspection,
+    [Description("Source Test Review")] SourceTestReview,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
