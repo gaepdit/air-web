@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public record FceSearchDto : IStandardSearch
+public record FceSearchDto : IComplianceSearchDto
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 
@@ -21,7 +21,7 @@ public record FceSearchDto : IStandardSearch
     // Guid as string
     public string? ReviewedBy { get; init; }
 
-    [Display(Name = "Offices")]
+    [Display(Name = "Office")]
     public Guid? Office { get; init; }
 
     [Display(Name = "Start Date")]

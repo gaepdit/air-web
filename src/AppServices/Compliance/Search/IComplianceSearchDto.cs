@@ -2,9 +2,9 @@
 
 // FUTURE: See if these will work with enforcement as well.
 
-public interface IStandardSearch
+public interface IComplianceSearchDto
 {
     SortBy Sort { get; }
-    public DeleteStatus? DeleteStatus { get; set; }
+    DeleteStatus? DeleteStatus { get; set; }
     IDictionary<string, string?> AsRouteValues();
 }

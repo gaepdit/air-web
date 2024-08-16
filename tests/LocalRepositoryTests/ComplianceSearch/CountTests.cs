@@ -7,14 +7,14 @@ namespace LocalRepositoryTests.ComplianceSearch;
 
 public class CountTests
 {
-    private LocalSearchRepository _repository = default!;
+    private LocalComplianceSearchRepository _repository = default!;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryTrueExpression = f => true;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryNotDeletedExpression = f => !f.IsDeleted;
     private readonly Expression<Func<Fce, bool>> _fceTrueExpression = f => true;
     private readonly Expression<Func<Fce, bool>> _fceNotDeletedExpression = f => !f.IsDeleted;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalSearchRepository();
+    public void SetUp() => _repository = new LocalComplianceSearchRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

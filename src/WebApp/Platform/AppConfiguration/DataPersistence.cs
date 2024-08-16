@@ -24,7 +24,7 @@ public static class DataPersistence
         if (AppSettings.DevSettings.UseInMemoryData)
         {
             // Use in-memory data for all repositories.
-            services.AddSingleton<ISearchRepository, LocalSearchRepository>();
+            services.AddSingleton<IComplianceSearchRepository, LocalComplianceSearchRepository>();
             services.AddSingleton<IEmailLogRepository, LocalEmailLogRepository>();
             services.AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
@@ -62,7 +62,7 @@ public static class DataPersistence
         }
 
         // Repositories
-        services.AddScoped<ISearchRepository, SearchRepository>();
+        services.AddScoped<IComplianceSearchRepository, ComplianceSearchRepository>();
         services.AddScoped<IEmailLogRepository, EmailLogRepository>();
         services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
         services.AddScoped<IOfficeRepository, OfficeRepository>();

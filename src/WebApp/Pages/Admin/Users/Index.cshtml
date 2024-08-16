@@ -1,7 +1,10 @@
 @page "{handler?}"
 @using AirWeb.AppServices.Staff.Dto
+@using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using LabelTagHelper = AirWeb.WebApp.Platform.PageModelHelpers.LabelTagHelper
 @model UsersIndexModel
 @{
     ViewData["Title"] = "Application User Search";
@@ -73,28 +76,16 @@
     {
         <table class="table table-hover" aria-label="User search results">
             <caption class="caption-top">
-                <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
+                <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             </caption>
 
             <thead>
             <tr>
-                <th scope="col">
-                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                       asp-route-Sort="@(Model.Spec.Sort == SortBy.NameAsc ? nameof(SortBy.NameDesc) : nameof(SortBy.NameAsc))">
-                        @Html.DisplayNameFor(model => model.Spec.Name)
-                        @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow, 
-                            new { up = nameof(SortBy.NameAsc), down = nameof(SortBy.NameDesc) })
-                    </a>
-                </th>
+                <partial name="_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Name", SortBy.NameAsc, SortBy.NameDesc, Model.Spec)' />
                 <th scope="col">@Html.DisplayNameFor(model => model.Spec.Email)</th>
-                <th scope="col">
-                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                       asp-route-Sort="@(Model.Spec.Sort == SortBy.OfficeAsc ? nameof(SortBy.OfficeDesc) : nameof(SortBy.OfficeAsc))">
-                        @Html.DisplayNameFor(model => model.Spec.Office)
-                        @Html.DisplayFor(model => model.SortByName, DisplayTemplate.SortArrow, 
-                            new { up = nameof(SortBy.OfficeAsc), down = nameof(SortBy.OfficeDesc) })
-                    </a>
-                </th>
+                <partial name="_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Office", SortBy.OfficeAsc, SortBy.OfficeDesc, Model.Spec)' />
                 <th scope="col">Status</th>
                 <th scope="col">
                     <span class="visually-hidden">Actions</span>
@@ -124,7 +115,7 @@
             </tbody>
         </table>
 
-        <partial name="_PaginationNav" model="Model.PaginationNav" />
+        <partial name="_PaginationNav" model="Model.ResultsDisplay" />
     }
 }
 
