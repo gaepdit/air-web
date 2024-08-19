@@ -27,7 +27,7 @@ public class AddTests
             { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully added.", []);
+            new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully added.");
 
         // Act
         var result = await page.OnPostAsync(officeServiceMock, validatorMock);

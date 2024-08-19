@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using AirWeb.WebApp.Models;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Text.Json;
 
 namespace AirWeb.WebApp.Platform.PageModelHelpers;
@@ -20,7 +20,7 @@ public static class TempDataExtensions
 
     public static void SetDisplayMessage(this ITempDataDictionary tempData, DisplayMessage.AlertContext context,
         string message, List<string>? details = null) =>
-        tempData.Set(nameof(DisplayMessage), new DisplayMessage(context, message, details ?? []));
+        tempData.Set(nameof(DisplayMessage), new DisplayMessage(context, message, details));
 
     public static DisplayMessage? GetDisplayMessage(this ITempDataDictionary tempData) =>
         tempData.Get<DisplayMessage>(nameof(DisplayMessage));

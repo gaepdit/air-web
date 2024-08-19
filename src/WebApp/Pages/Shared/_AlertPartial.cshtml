@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Models
-@model WebApp.Models.DisplayMessage?
+@model AirWeb.WebApp.Models.DisplayMessage?
 @{
     var iconsFile = Url.Content("~/images/app-icons.svg");
 }
@@ -38,7 +38,7 @@
 
         <div>
             @Model.Message
-            @if (Model.Details.Exists(s => !string.IsNullOrEmpty(s)))
+            @if (Model.Details != null && Model.Details.Exists(s => !string.IsNullOrEmpty(s)))
             {
                 @:The following warnings were generated:
                 <ul class="pt-1 mb-0 ps-3">

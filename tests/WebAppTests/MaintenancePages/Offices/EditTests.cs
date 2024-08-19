@@ -78,7 +78,7 @@ public class EditTests
             { Id = Guid.NewGuid(), Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.", []);
+            new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.");
 
         // Act
         var result = await page.OnPostAsync();
