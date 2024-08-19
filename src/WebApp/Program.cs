@@ -36,10 +36,12 @@ builder.Services.AddAuthorizationPolicies();
 // Configure UI services.
 builder.Services.AddRazorPages();
 
+var isDevelopment = builder.Environment.IsDevelopment();
+
 // Starting value for HSTS max age is five minutes to allow for debugging.
 // For more info on updating HSTS max age value for production, see:
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
-if (!builder.Environment.IsDevelopment())
+if (!isDevelopment)
 {
     builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
         .AddHttpsRedirection(options => options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect);
@@ -96,7 +98,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Configure bundling and minification.
-builder.Services.AddWebOptimizer();
+builder.Services.AddWebOptimizer(minifyJavaScript: !isDevelopment);
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
@@ -105,11 +107,11 @@ builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure error handling.
-if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+if (isDevelopment) app.UseDeveloperExceptionPage(); // Development
 else app.UseExceptionHandler("/Error"); // Production or Staging
 
 // Configure security HTTP headers
-if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
+if (!isDevelopment || AppSettings.DevSettings.UseSecurityHeadersInDev)
 {
     app.UseHsts();
     app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
