@@ -23,6 +23,7 @@ public static class DisplayTemplate
     public const string LongDateOnly = nameof(LongDateOnly);
     public const string LongDateTime = nameof(LongDateTime);
     public const string LongDateTimeOrNotEntered = nameof(LongDateTimeOrNotEntered);
+    public const string Name = nameof(Name);
     public const string NameOrBlank = nameof(NameOrBlank);
     public const string NameOrPlaceholder = nameof(NameOrPlaceholder);
     public const string PhoneNumber = nameof(PhoneNumber);

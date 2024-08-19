@@ -1,0 +1,122 @@
+﻿@page "{id:int?}"
+@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.WebApp.Models
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DetailsModel
+@{
+    ViewData["Title"] = $"Facility {Model.Item.Facility.Id} - FCE Report: {Model.Item.Year.ToString()}";
+}
+
+@if (Model.Item.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+{
+    <div class="callout callout-danger mb-3">
+        <div class="container-full">
+            <div class="row justify-content-between align-items-end g-0 my-1">
+                <div class="col">
+                    <h4 class="text-danger-emphasis">This FCE has been deleted.</h4>
+                </div>
+                <div class="col-auto d-print-none ms-2">
+                    <a asp-page="Restore" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-warning">Restore deleted FCE</a>
+                </div>
+            </div>
+        </div>
+        <p>
+            Deleted by @Html.DisplayFor(model => model.Item.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => model.Item.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
+        </p>
+        <h5>Comments</h5>
+        <p class="text-break text-pre-line">@Html.DisplayFor(model => model.Item.DeleteComments, DisplayTemplate.StringOrPlaceholder)</p>
+    </div>
+}
+
+<div class="row justify-content-between align-items-end g-0">
+    <div class="col-md mb-md-0">
+        <h1>@Model.Item.Year.ToString() FCE for Facility&nbsp;@Model.Item.Facility.Id</h1>
+    </div>
+    @if (!Model.Item.IsDeleted)
+    {
+        <div class="col-md-auto d-print-none ms-md-3">
+            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            {
+                <a asp-page="Edit" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+            {
+                <a asp-page="Delete" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-danger ms-1">Delete</a>
+            }
+        </div>
+    }
+</div>
+<h2 class="text-body-secondary">@Model.Item.Facility.CompanyName</h2>
+
+<dl class="row mt-3">
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ReviewedBy)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CompletedDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.CompletedDate, DisplayTemplate.DateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.OnsiteInspection)</dt>
+    <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+    <dt class="mb-2">@Html.DisplayNameFor(m => m.Item.Notes)</dt>
+    <dd class="text-break text-pre-line">@Html.DisplayFor(m => m.Item.Notes, DisplayTemplate.StringOrPlaceholder)</dd>
+</dl>
+
+@* TODO: Additional facility information *@
+
+<h2 class="h3">Comments</h2>
+@if (!Model.Item.Comments.Any())
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 g-3 mb-3">
+        @foreach (var comment in Model.Item.Comments)
+        {
+            if (!string.IsNullOrEmpty(Model.CommentNotificationFailureMessage))
+            {
+                <partial name="Shared/_AlertPartial" model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.CommentNotificationFailureMessage)" />
+            }
+
+            <div class="col">
+                <div class="card @(comment.Id == Model.NewCommentId ? "border-success" : "")">
+                    <div class="card-body ">
+                        <div class="text-break text-pre-line">@comment.Text</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="container-full">
+                            <div class="row justify-content-between align-items-center g-0 my-1">
+                                <small class="col text-body-secondary">
+                                    Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
+                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTime)
+                                </small>
+                                @if (Model.UserCan[ComplianceWorkOperation.Comment])
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        <a asp-page="DeleteComment" asp-route-actionId="@comment.Id.ToString()" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@* TODO: Additional comments entry *@
+
+@if (Model.UserCan[ComplianceWorkOperation.Comment])
+{
+    <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none">
+        <h3 id="new-comment" class="h5">Add a comment</h3>
+
+        <form method="post" asp-page-handler="NewComment" asp-fragment="new-comment">
+            <textarea rows="3"></textarea>
+            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Comment</button>
+        </form>
+    </div>
+}
