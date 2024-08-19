@@ -1,4 +1,5 @@
 using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
@@ -13,7 +14,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     // Command
     Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
     Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
-    Task<AppNotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> AddCommentAsync(int id, CommentAddDto<int> resource, CancellationToken token = default);
     Task<AppNotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
     Task<AppNotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
     Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);

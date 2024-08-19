@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.CommonDtos;
+namespace AirWeb.AppServices.Comments;
 
-public record AddCommentDto<TKey>(TKey Id)
+public record CommentAddDto<TKey>(TKey Id)
     where TKey : IEquatable<TKey>
 {
     [Required(AllowEmptyStrings = false)]

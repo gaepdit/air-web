@@ -1,3 +1,4 @@
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
@@ -17,6 +18,7 @@ using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.ValueObjects;
 using AutoMapper;
 
 namespace AirWeb.AppServices.AutoMapper;
@@ -25,27 +27,28 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMapsForUsers();
-        CreateMapsForMaintenanceItems();
-        CreateMapsForFacilities();
-        CreateMapsForFces();
-        CreateMapsForAccs();
-        CreateMapsForInspections();
-        CreateMapsForNotifications();
-        CreateMapsForPermitRevocations();
-        CreateMapsForReports();
-        CreateMapsForRmpInspections();
-        CreateMapsForSourceTestReviews();
-        CreateMapsForSearchResults();
+        Users();
+        MaintenanceItems();
+        Comments();
+        Facilities();
+        Fces();
+        Accs();
+        Inspections();
+        Notifications();
+        PermitRevocations();
+        Reports();
+        RmpInspections();
+        SourceTestReviews();
+        SearchResults();
     }
 
-    private void CreateMapsForUsers()
+    private void Users()
     {
         CreateMap<ApplicationUser, StaffSearchResultDto>();
         CreateMap<ApplicationUser, StaffViewDto>();
     }
 
-    private void CreateMapsForMaintenanceItems()
+    private void MaintenanceItems()
     {
         CreateMap<Office, OfficeUpdateDto>();
         CreateMap<Office, OfficeViewDto>();
@@ -54,24 +57,29 @@ public class AutoMapperProfile : Profile
         CreateMap<NotificationType, NotificationTypeViewDto>();
     }
 
-    private void CreateMapsForFacilities()
+    private void Comments()
+    {
+        CreateMap<Comment, CommentViewDto>();
+    }
+
+    private void Facilities()
     {
         CreateMap<Facility, FacilityViewDto>();
     }
 
-    private void CreateMapsForFces()
+    private void Fces()
     {
         CreateMap<Fce, FceUpdateDto>();
         CreateMap<Fce, FceViewDto>();
     }
 
-    private void CreateMapsForAccs()
+    private void Accs()
     {
         CreateMap<AnnualComplianceCertification, AccUpdateDto>();
         CreateMap<AnnualComplianceCertification, AccViewDto>();
     }
 
-    private void CreateMapsForInspections()
+    private void Inspections()
     {
         CreateMap<Inspection, InspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
@@ -85,25 +93,25 @@ public class AutoMapperProfile : Profile
         CreateMap<Inspection, InspectionViewDto>();
     }
 
-    private void CreateMapsForNotifications()
+    private void Notifications()
     {
         CreateMap<Notification, NotificationUpdateDto>();
         CreateMap<Notification, NotificationViewDto>();
     }
 
-    private void CreateMapsForPermitRevocations()
+    private void PermitRevocations()
     {
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
         CreateMap<PermitRevocation, PermitRevocationViewDto>();
     }
 
-    private void CreateMapsForReports()
+    private void Reports()
     {
         CreateMap<Report, ReportUpdateDto>();
         CreateMap<Report, ReportViewDto>();
     }
 
-    private void CreateMapsForRmpInspections()
+    private void RmpInspections()
     {
         CreateMap<RmpInspection, RmpInspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
@@ -117,13 +125,13 @@ public class AutoMapperProfile : Profile
         CreateMap<RmpInspection, RmpInspectionViewDto>();
     }
 
-    private void CreateMapsForSourceTestReviews()
+    private void SourceTestReviews()
     {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>();
     }
 
-    private void CreateMapsForSearchResults()
+    private void SearchResults()
     {
         CreateMap<WorkEntry, WorkEntrySearchResultDto>();
         CreateMap<Fce, FceSearchResultDto>();

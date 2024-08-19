@@ -26,5 +26,5 @@ public record FceViewDto
     public string Notes { get; init; } = string.Empty;
 
     [Display(Name = "Comments")]
-    public List<Comment> Comments { get; } = [];
+    public List<CommentViewDto> Comments { get; } = [];
 }

@@ -1,4 +1,5 @@
 using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
@@ -104,7 +105,7 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryUpdated, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
+    public async Task<AppNotificationResult> AddCommentAsync(int id, CommentAddDto<int> resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
