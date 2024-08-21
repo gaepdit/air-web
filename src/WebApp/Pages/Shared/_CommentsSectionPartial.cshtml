@@ -1,0 +1,60 @@
+﻿@using AirWeb.WebApp.Models
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model (List<AirWeb.AppServices.Comments.CommentViewDto> Comments, Guid NewCommentId, string? CommentNotificationFailureMessage, bool Editable)
+
+@if (!Model.Comments.Any())
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 g-3 mb-3">
+        @foreach (var comment in Model.Comments)
+        {
+            if (!string.IsNullOrEmpty(Model.CommentNotificationFailureMessage))
+            {
+                <partial name="Shared/_AlertPartial" model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.CommentNotificationFailureMessage)" />
+            }
+
+            <div class="col">
+                <div class="card @(comment.Id == Model.NewCommentId ? "border-success" : "")">
+                    <div class="card-body ">
+                        <div class="text-break text-pre-line">@comment.Text</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="container-full">
+                            <div class="row justify-content-between align-items-center g-0 my-1">
+                                <small class="col text-body-secondary">
+                                    Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
+                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
+                                </small>
+                                @if (Model.Editable)
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        <a asp-page="DeleteComment" asp-route-actionId="@comment.Id.ToString()" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@* TODO: Additional comments entry *@
+
+@* @if (Model.UserCan[ComplianceWorkOperation.Edit]) *@
+@* { *@
+@*     <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none"> *@
+@*         <h3 id="new-comment" class="h5">Add a comment</h3> *@
+@* *@
+@*         <form method="post" asp-page-handler="NewComment" asp-fragment="new-comment"> *@
+@*             <textarea rows="3"></textarea> *@
+@*             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Comment</button> *@
+@*         </form> *@
+@*     </div> *@
+@* } *@

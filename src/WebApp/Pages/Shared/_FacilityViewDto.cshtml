@@ -1,0 +1,13 @@
+﻿@model AirWeb.AppServices.ExternalEntities.Facilities.FacilityViewDto
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <a asp-page="/Facility/Details" asp-route-id="@Model.Id"
+           class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
+            @Model.Id <span class="link-body-emphasis">—</span> @Model.CompanyName
+        </a>
+    </dd>
+
+    @* TODO: Additional facility information *@
+</dl>
