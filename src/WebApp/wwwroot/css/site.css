@@ -138,12 +138,6 @@ html {
 
 /* Fix color accessibility
 -------------------------------------------------- */
-html:not([data-bs-theme="dark"]) .btn-primary {
-    color: hsl(0, 0%, 100%);
-    background-color: hsl(210, 76%, 43%);
-    border-color: hsl(210, 76%, 38%);
-}
-
 html:not([data-bs-theme="dark"]) .text-warning {
     color: hsl(45, 100%, 29%) !important;
 }

@@ -5,7 +5,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
 public record AccViewDto : WorkEntryViewDto
 {
-    [Display(Name = "Date Received")]
+    [Display(Name = "Date received")]
     public DateOnly ReceivedDate { get; init; }
 
     [Display(Name = "ACC reporting year")]
@@ -43,4 +43,7 @@ public record AccViewDto : WorkEntryViewDto
 
     [Display(Name = "Enforcement needed")]
     public bool EnforcementNeeded { get; init; }
+
+    public override bool HasPrintout => true;
+    public override string PrintoutUrl => $"https://air.gaepd.org/facility/{Facility.Id}/acc-report/{Id}";
 }

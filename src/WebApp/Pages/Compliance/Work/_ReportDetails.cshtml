@@ -1,0 +1,31 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
+@model AirWeb.AppServices.Compliance.WorkEntries.Reports.ReportViewDto
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodType)</dt>
+    <dd class="col-md-8 col-lg-9">
+        <strong
+            class="text-info-emphasis">
+            @Model.ReportingPeriodType.GetDescription()
+        </strong>
+    </dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodStart)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReportingPeriodStart, DisplayTemplate.ShortDateOnly)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodEnd)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReportingPeriodEnd, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodComment)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReportingPeriodComment, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.DueDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.DueDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.SentDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.SentDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportComplete)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReportComplete, DisplayTemplate.BoolYesNo)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportsDeviations)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReportsDeviations, DisplayTemplate.BoolYesNo)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.EnforcementNeeded)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.EnforcementNeeded, DisplayTemplate.BoolYesNo)</dd>
+</dl>

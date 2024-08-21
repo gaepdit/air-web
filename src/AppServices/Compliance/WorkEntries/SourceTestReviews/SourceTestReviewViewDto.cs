@@ -16,4 +16,7 @@ public record SourceTestReviewViewDto : WorkEntryViewDto
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }
+
+    public override bool HasPrintout => true;
+    public override string PrintoutUrl => $"https://air.gaepd.org/facility/{Facility.Id}/stack-test/{ReferenceNumber}";
 }

@@ -202,19 +202,18 @@
                     {
                         <tr class="@(item.IsDeleted ? "table-danger" : "")">
                             <th scope="row">
+                                <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
                                 @if (item.IsDeleted)
                                 {
-                                    <strong>DELETED</strong>
-                                    <br />
+                                    @:DELETED<br />
                                 }
-                                <a asp-page="Details" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">@item.Id.ToString()</a>
                             </th>
                             <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>
                             <td>
                                 <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.CompanyName
                             </td>
                             <td>
-                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.DateOnly)</span><br />
+                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                                 @item.EventDateName
                             </td>
                             <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
@@ -223,7 +222,7 @@
                                 @if (item.IsClosed)
                                 {
                                     <br />
-                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.DateOnly)
+                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>
                         </tr>
@@ -238,5 +237,5 @@
 
 @section Scripts {
     <script src="~/js/formSearch.js"></script>
-    <script src="js/handleCheckboxAll.js"></script>
+    <script src="~/js/handleCheckboxAll.js"></script>
 }

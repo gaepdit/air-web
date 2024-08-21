@@ -31,9 +31,12 @@
                     {
                         <tr>
                             <th scope="row">
-                                <a asp-page="WorkEntries/Details" asp-route-id="@entry.Id.ToString()" class="btn btn-outline-primary btn-sm">@entry.Id.ToString()</a>
+                                <a asp-page="/Compliance/Work/Details" asp-route-id="@entry.Id.ToString()"
+                                   class="btn btn-outline-primary btn-sm">
+                                    @entry.Id.ToString()
+                                </a>
                             </th>
-                            <td class="text-nowrap">@Html.DisplayFor(_ => entry.EventDate, DisplayTemplate.DateOnly)</td>
+                            <td class="text-nowrap">@Html.DisplayFor(_ => entry.EventDate, DisplayTemplate.ShortDateOnly)</td>
                             <td>@entry.WorkEntryType.GetDescription()</td>
                             <td>@Html.DisplayFor(_ => entry.IsClosed, DisplayTemplate.BoolClosed)</td>
                         </tr>

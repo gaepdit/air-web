@@ -1,10 +1,11 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries.Permissions;
+namespace AirWeb.AppServices.Compliance.Permissions;
 
 public class WorkEntryUpdateRequirement :
-    AuthorizationHandler<WorkEntryUpdateRequirement, IWorkEntryUpdateDto>, IAuthorizationRequirement
+    AuthorizationHandler<WorkEntryUpdateRequirement, IWorkEntryUpdateDto>,
+    IAuthorizationRequirement
 {
     private IWorkEntryUpdateDto _resource = default!;
 

@@ -1,0 +1,198 @@
+﻿@page "{id:int?}"
+@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.AppServices.Compliance.WorkEntries.Accs
+@using AirWeb.AppServices.Compliance.WorkEntries.Inspections
+@using AirWeb.AppServices.Compliance.WorkEntries.Notifications
+@using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations
+@using AirWeb.AppServices.Compliance.WorkEntries.Reports
+@using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections
+@using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews
+@using AirWeb.WebApp.Models
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DetailsModel
+@{
+    var report = Model.Item;
+    var workEntryType = report.WorkEntryType;
+    var workEntryName = workEntryType.GetDescription();
+    ViewData["Title"] = $"Facility {report.FacilityId} - {workEntryName} ({report.Id})";
+}
+
+@if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+{
+    <div class="callout callout-danger mb-3">
+        <div class="container-full">
+            <div class="row justify-content-between align-items-center g-0 my-1">
+                <div class="col">
+                    <h4 class="text-danger-emphasis">This @workEntryName has been deleted.</h4>
+                </div>
+                <div class="col-auto d-print-none ms-2">
+                    <a asp-page="Restore" asp-route-id="@report.Id.ToString()" class="btn btn-outline-warning">Restore deleted entry</a>
+                </div>
+            </div>
+        </div>
+        <p>
+            Deleted by @Html.DisplayFor(model => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetOrNotEntered)
+        </p>
+        <h5>Comments</h5>
+        <p class="text-break text-pre-line">@Html.DisplayFor(model => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+    </div>
+}
+
+<div class="row justify-content-between align-items-center g-0">
+    <div class="col-md mb-md-0">
+        <h1>@workEntryName</h1>
+        <p class="lead">Tracking #@report.Id.ToString()</p>
+    </div>
+    @if (!report.IsDeleted)
+    {
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group mb-2 me-2 me-md-0">
+                @if (Model.UserCan[ComplianceWorkOperation.Close])
+                {
+                    <a asp-page="Details" asp-page-handler="Close" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Close</a>
+                }
+                @if (Model.UserCan[ComplianceWorkOperation.Reopen])
+                {
+                    <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
+                }
+                @if (Model.UserCan[ComplianceWorkOperation.Edit])
+                {
+                    <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                }
+                @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+                {
+                    <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
+                }
+            </div>
+            @if (report.HasPrintout)
+            {
+                <div class="text-md-center d-inline-block d-md-block">
+                    <a href="@report.PrintoutUrl" target="_blank" rel="noopener"
+                       class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2 no-external-link">
+                        <svg class="bi me-2">
+                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                        </svg>Print
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<dl class="row mt-3">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <a asp-page="/Facility/Details" asp-route-id="@report.FacilityId" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
+            @report.FacilityId
+            <span class="link-body-emphasis">—</span> @report.Facility.CompanyName
+        </a>
+    </dd>
+
+    @* TODO: Additional facility information *@
+
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ResponsibleStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+    @if (report.IsClosed)
+    {
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => report.ClosedBy)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @Html.DisplayFor(model => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+        </dd>
+    }
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+</dl>
+
+<h2>Details</h2>
+
+@switch (report)
+{
+    case AccViewDto acc:
+        <partial name="_AccDetails" model="acc" />
+        break;
+    case InspectionViewDto inspection:
+        <partial name="_InspectionDetails" model="inspection" />
+        break;
+    case NotificationViewDto notification:
+        <partial name="_NotificationDetails" model="notification" />
+        break;
+    case PermitRevocationViewDto permitRevocation:
+        <partial name="_PermitRevocationDetails" model="permitRevocation" />
+        break;
+    case ReportViewDto rpt:
+        <partial name="_ReportDetails" model="rpt" />
+        break;
+    case RmpInspectionViewDto rmpInspection:
+        <partial name="_RmpInspectionDetails" model="rmpInspection" />
+        break;
+    case SourceTestReviewViewDto sourceTestReview:
+        <partial name="_SourceTestReviewDetails" model="sourceTestReview" />
+        break;
+}
+
+<dl>
+    <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dd class="text-break text-pre-line border rounded p-2">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+</dl>
+
+<h2 class="h4">Comments</h2>
+@if (!report.Comments.Any())
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 g-3 mb-3">
+        @foreach (var comment in report.Comments)
+        {
+            if (!string.IsNullOrEmpty(Model.CommentNotificationFailureMessage))
+            {
+                <partial name="Shared/_AlertPartial" model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.CommentNotificationFailureMessage)" />
+            }
+
+            <div class="col">
+                <div class="card @(comment.Id == Model.NewCommentId ? "border-success" : "")">
+                    <div class="card-body ">
+                        <div class="text-break text-pre-line">@comment.Text</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="container-full">
+                            <div class="row justify-content-between align-items-center g-0 my-1">
+                                <small class="col text-body-secondary">
+                                    Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
+                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
+                                </small>
+                                @if (Model.UserCan[ComplianceWorkOperation.Edit])
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        <a asp-page="DeleteComment" asp-route-actionId="@comment.Id.ToString()" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@* TODO: Additional comments entry *@
+
+@* @if (Model.UserCan[ComplianceWorkOperation.Edit]) *@
+@* { *@
+@*     <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none"> *@
+@*         <h3 id="new-comment" class="h5">Add a comment</h3> *@
+@* *@
+@*         <form method="post" asp-page-handler="NewComment" asp-fragment="new-comment"> *@
+@*             <textarea rows="3"></textarea> *@
+@*             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Comment</button> *@
+@*         </form> *@
+@*     </div> *@
+@* } *@

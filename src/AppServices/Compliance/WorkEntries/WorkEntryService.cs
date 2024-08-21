@@ -1,6 +1,7 @@
 using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
@@ -34,7 +35,7 @@ public sealed partial class WorkEntryService(
         IWorkEntryViewDto entry =
             await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
             {
-                WorkEntryType.AnnualComplianceCertification => mapper.Map<InspectionViewDto>(await workEntryRepository
+                WorkEntryType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await workEntryRepository
                     .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
                 WorkEntryType.Inspection => mapper.Map<InspectionViewDto>(await workEntryRepository
                     .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
@@ -105,7 +106,7 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryUpdated, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> AddCommentAsync(int id, CommentAddDto<int> resource,
+    public async Task<AddCommentResult> AddCommentAsync(int id, CommentAddDto<int> resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -113,7 +114,9 @@ public sealed partial class WorkEntryService(
         await workEntryRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
 
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry, Template.EntryCommentAdded, token, comment).ConfigureAwait(false);
+        var appNotificationResult = await NotifyOwnerAsync(workEntry, Template.EntryCommentAdded, token, comment)
+            .ConfigureAwait(false);
+        return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
     public async Task<AppNotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource,
