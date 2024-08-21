@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Permissions.Requirements;
+﻿using AirWeb.AppServices.Permissions.Requirements;
 using AirWeb.Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.Requirements;
@@ -12,7 +12,7 @@ public class RoleBasedRequirementTests
     {
         var handler = new SiteMaintainerRequirement();
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.SiteMaintenance) }));
+            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance) }));
         var context = new AuthorizationHandlerContext([handler], user, null);
 
         await handler.HandleAsync(context);
@@ -25,7 +25,7 @@ public class RoleBasedRequirementTests
     {
         var handler = new SiteMaintainerRequirement();
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.UserAdmin) }));
+            new Claim[] { new(ClaimTypes.Role, RoleName.AppUserAdmin) }));
         var context = new AuthorizationHandlerContext([handler], user, null);
 
         await handler.HandleAsync(context);

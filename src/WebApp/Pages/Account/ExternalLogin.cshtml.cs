@@ -162,14 +162,14 @@ public class ExternalLoginModel(
         if (AppSettings.DevSettings.LocalUserIsStaff)
         {
             logger.LogInformation("Seeding staff role for new user {UserName}", user.UserName);
-            await userManager.AddToRoleAsync(user, RoleName.Staff);
+            await userManager.AddToRoleAsync(user, RoleName.ComplianceStaff);
         }
 
         if (AppSettings.DevSettings.LocalUserIsAdmin ||
             (seedAdminUsers != null && seedAdminUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
         {
             logger.LogInformation("Seeding all roles for new user {UserName}", user.UserName);
-            foreach (var role in AppRole.AllRoles) await userManager.AddToRoleAsync(user, role.Key);
+            foreach (var role in AppRole.AllRoles!) await userManager.AddToRoleAsync(user, role.Key);
         }
 
         // Add the external provider info to the user and sign in.

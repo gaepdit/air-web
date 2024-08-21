@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.PolicyTests;
@@ -23,7 +23,7 @@ public class RoleBasedPolicy
             new Claim[]
             {
                 new(AppClaimTypes.ActiveUser, true.ToString()),
-                new(ClaimTypes.Role, RoleName.SiteMaintenance),
+                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
             }, "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeTrue();
@@ -35,7 +35,7 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             new Claim[]
             {
-                new(ClaimTypes.Role, RoleName.SiteMaintenance),
+                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
             }, "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
@@ -60,7 +60,7 @@ public class RoleBasedPolicy
             new Claim[]
             {
                 new(AppClaimTypes.ActiveUser, true.ToString()),
-                new(ClaimTypes.Role, RoleName.SiteMaintenance),
+                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
             }));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();

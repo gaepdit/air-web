@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.TestData.Identity;
 
@@ -12,7 +12,7 @@ internal static partial class UserData
         get
         {
             if (_roles is not null) return _roles;
-            _roles = AppRole.AllRoles
+            _roles = AppRole.AllRoles!
                 .Select(r => new IdentityRole(r.Value.Name) { NormalizedName = r.Key.ToUpperInvariant() })
                 .ToList();
             return _roles;

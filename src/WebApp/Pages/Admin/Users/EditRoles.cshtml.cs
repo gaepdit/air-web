@@ -58,7 +58,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
     {
         var roles = await staffService.GetRolesAsync(DisplayStaff.Id);
 
-        RoleSettings.AddRange(AppRole.AllRoles.Select(pair => new RoleSetting
+        RoleSettings.AddRange(AppRole.AllRoles!.Select(pair => new RoleSetting
         {
             Name = pair.Key,
             DisplayName = pair.Value.DisplayName,

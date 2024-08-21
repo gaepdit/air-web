@@ -16,7 +16,7 @@ public class WorkEntryViewPermissions
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.Manager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new PermitRevocationViewDto();
@@ -38,7 +38,7 @@ public class WorkEntryViewPermissions
 
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.Manager) }));
+            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceManager) }));
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
@@ -77,7 +77,7 @@ public class WorkEntryViewPermissions
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.Manager) },
+            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceManager) },
             authenticationType: "Basic"));
 
         var resource = new PermitRevocationViewDto { IsDeleted = true };
@@ -100,7 +100,7 @@ public class WorkEntryViewPermissions
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.Manager) },
+            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceManager) },
             authenticationType: "Basic"));
 
         var resource = new PermitRevocationViewDto();

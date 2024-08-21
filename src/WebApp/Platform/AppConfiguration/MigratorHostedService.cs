@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using AirWeb.Domain.Identity;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.WebApp.Platform.Settings;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
@@ -29,7 +29,7 @@ public class MigratorHostedService(IServiceProvider serviceProvider, IConfigurat
 
             // Initialize any new roles. (No other data is seeded when running EF migrations.)
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            foreach (var role in AppRole.AllRoles.Keys)
+            foreach (var role in AppRole.AllRoles!.Keys)
             {
                 if (!await migrationContext.Roles.AnyAsync(identityRole => identityRole.Name == role,
                         cancellationToken))

@@ -21,14 +21,14 @@ public static class PrincipalExtensions
         roles.Any(principal.IsInRole);
 
     internal static bool IsManager(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.Manager);
+        principal.IsInRole(RoleName.ComplianceManager);
 
     internal static bool IsSiteMaintainer(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.SiteMaintenance);
+        principal.IsInRole(RoleName.ComplianceSiteMaintenance);
 
     internal static bool IsStaff(this IPrincipal principal) =>
-        principal.IsInRoles([RoleName.Staff, RoleName.Manager]);
+        principal.IsInRoles([RoleName.ComplianceStaff, RoleName.ComplianceManager]);
 
     internal static bool IsUserAdmin(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.UserAdmin);
+        principal.IsInRole(RoleName.AppUserAdmin);
 }

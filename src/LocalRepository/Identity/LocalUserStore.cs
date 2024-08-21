@@ -1,8 +1,7 @@
+using AirWeb.Domain.Identity;
+using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using AirWeb.Domain.Identity;
-using AirWeb.TestData;
-using AirWeb.TestData.Identity;
 
 namespace AirWeb.LocalRepository.Identity;
 
@@ -40,17 +39,17 @@ public sealed class LocalUserStore :
         {
             new()
             {
-                RoleId = Roles.Single(e => e.Name == RoleName.Staff).Id,
+                RoleId = Roles.Single(e => e.Name == RoleName.ComplianceStaff).Id,
                 UserId = staffUserId,
             },
             new()
             {
-                RoleId = Roles.Single(e => e.Name == RoleName.SiteMaintenance).Id,
+                RoleId = Roles.Single(e => e.Name == RoleName.ComplianceSiteMaintenance).Id,
                 UserId = staffUserId,
             },
             new()
             {
-                RoleId = Roles.Single(e => e.Name == RoleName.UserAdmin).Id,
+                RoleId = Roles.Single(e => e.Name == RoleName.AppUserAdmin).Id,
                 UserId = staffUserId,
             },
         });
@@ -91,7 +90,7 @@ public sealed class LocalUserStore :
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken).ConfigureAwait(false)
-            ?? throw new EntityNotFoundException<ApplicationUser>(user.Id);
+                           ?? throw new EntityNotFoundException<ApplicationUser>(user.Id);
         UserStore.Remove(existingUser);
         UserStore.Add(user);
         return IdentityResult.Success;
