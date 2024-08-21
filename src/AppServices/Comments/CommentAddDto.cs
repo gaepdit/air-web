@@ -9,5 +9,5 @@ public record CommentAddDto<TKey>(TKey Id)
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Comment")]
-    public string Comment { get; init; } = string.Empty;
+    public required string Comment { get; init; }
 }

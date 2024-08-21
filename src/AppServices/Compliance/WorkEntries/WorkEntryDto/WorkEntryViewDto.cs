@@ -18,7 +18,7 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public virtual string? PrintoutUrl => null;
     public StaffViewDto? ResponsibleStaff { get; init; }
     public DateOnly? AcknowledgmentLetterDate { get; init; }
-    public string Notes { get; init; } = string.Empty;
+    public required string Notes { get; init; }
     public List<CommentViewDto> Comments { get; } = [];
 
     // Properties: Closure

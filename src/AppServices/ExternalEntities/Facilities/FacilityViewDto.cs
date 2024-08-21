@@ -9,8 +9,8 @@ public record FacilityViewDto
     public FacilityId Id { get; init; } = default!;
 
     [Display(Name = "Company name")]
-    public string CompanyName { get; init; } = string.Empty;
+    public required string CompanyName { get; init; }
 
     [Display(Name = "Facility description")]
-    public string Description { get; init; } = string.Empty;
+    public required string Description { get; init; }
 }

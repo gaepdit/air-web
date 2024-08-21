@@ -4,8 +4,6 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
 public record WorkEntryUpdateDto : IWorkEntryUpdateDto
 {
-    protected WorkEntryUpdateDto() { }
-
     // Authorization handler assist properties
     public bool IsDeleted { get; init; }
 
@@ -22,5 +20,5 @@ public record WorkEntryUpdateDto : IWorkEntryUpdateDto
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public string Notes { get; init; } = string.Empty;
+    public required string Notes { get; init; }
 }

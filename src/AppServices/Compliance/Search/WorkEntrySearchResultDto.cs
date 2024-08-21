@@ -11,7 +11,7 @@ public record WorkEntrySearchResultDto : IStandardSearchResult
     public FacilityViewDto Facility { get; set; } = default!;
     public StaffViewDto? ResponsibleStaff { get; init; }
     public DateOnly EventDate { get; init; }
-    public string EventDateName { get; init; } = string.Empty;
+    public required string EventDateName { get; init; }
     public bool IsClosed { get; init; }
     public DateOnly? ClosedDate { get; init; }
     public bool IsDeleted { get; init; }

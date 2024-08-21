@@ -24,7 +24,7 @@ public record FceViewDto : IDeletedItem
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    public string Notes { get; init; } = string.Empty;
+    public required string Notes { get; init; }
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
