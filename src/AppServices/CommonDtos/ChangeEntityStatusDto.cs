@@ -8,5 +8,5 @@ public record ChangeEntityStatusDto<TKey>(TKey Id)
 {
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    public string? Comment { get; init; } = string.Empty;
+    public string? Comment { get; init; }
 }

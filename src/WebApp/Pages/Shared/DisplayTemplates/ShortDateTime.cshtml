@@ -1,2 +1,3 @@
-﻿@model DateTimeOffset
-@Model.ToString(Platform.Constants.DateTimeFormatConstants.ShortDateTimeFormat)
+﻿@using AirWeb.WebApp.Platform.Constants
+@model DateTime
+@Model.ToString(DateTimeFormatConstants.ShortDateTimeFormat)

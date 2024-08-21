@@ -1,0 +1,60 @@
+﻿@page "{id:int?}"
+@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DetailsModel
+@{
+    var report = Model.Item;
+    ViewData["Title"] = $"Facility {report.Facility.Id} - FCE Report: {report.Year.ToString()}";
+}
+
+@if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+{
+    <partial name="Shared/_DeletedItemPartial" model="report" />
+}
+
+<div class="row justify-content-between align-items-center">
+    <div class="col-md mb-md-0">
+        <h1>Full Compliance Evaluation</h1>
+    </div>
+    @if (!report.IsDeleted)
+    {
+        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            {
+                <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+            {
+                <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
+            }
+        </div>
+    }
+</div>
+<p class="lead">Tracking #@report.Id.ToString()</p>
+
+<partial name="_FacilityViewDto" model="Model.Item.Facility" />
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Year)</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <strong class="text-info-emphasis">@report.Year.ToString()</strong>
+    </dd>
+
+    @* TODO: Additional facility information *@
+
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ReviewedBy)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CompletedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.CompletedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.OnsiteInspection)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+</dl>
+<dl>
+    <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dd class="text-break text-pre-line border rounded p-2">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+</dl>
+
+<h2 class="h4">Comments</h2>
+<partial name="_CommentsSectionPartial"
+         model="(report.Comments, Model.NewCommentId, Model.CommentNotificationFailureMessage, Model.UserCan[ComplianceWorkOperation.Edit])" />

@@ -1,0 +1,17 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model AirWeb.AppServices.Compliance.WorkEntries.Notifications.NotificationViewDto
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.NotificationType)</dt>
+    <dd class="col-md-8 col-lg-9">
+        <strong class="text-info-emphasis">@Model.NotificationType.Name</strong>
+    </dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnly)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.DueDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.DueDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.SentDate)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.SentDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.FollowupTaken)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
+</dl>

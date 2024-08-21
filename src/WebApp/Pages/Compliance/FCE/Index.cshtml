@@ -35,7 +35,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.Year" name="@nameof(Model.Spec.Year)"
                                     asp-items="FceIndexModel.YearSelectList" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Year" class="form-label"></label>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.Onsite" name="@nameof(Model.Spec.Onsite)"
                                     asp-items="Html.GetEnumSelectList<YesNoAny>()" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Onsite" class="form-label"></label>
                         </div>
@@ -100,7 +100,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
                                     asp-items="Model.OfficesSelectList" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Office" class="form-label"></label>
                         </div>
@@ -109,7 +109,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.ReviewedBy" name="@nameof(Model.Spec.ReviewedBy)"
                                     asp-items="Model.StaffSelectList" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.ReviewedBy" class="form-label"></label>
                         </div>
@@ -173,21 +173,20 @@
                     {
                         <tr class="@(item.IsDeleted ? "table-danger" : "")">
                             <th scope="row">
-                                @if (item.IsDeleted)
-                                {
-                                    <strong>DELETED</strong>
-                                    <br />
-                                }
                                 <a asp-page="Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-outline-primary btn-sm">
                                     @item.Id.ToString()
                                 </a>
+                                @if (item.IsDeleted)
+                                {
+                                    @:DELETED<br />
+                                }
                             </th>
                             <td class="text-nowrap">@item.Year</td>
                             <td>
                                 <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.CompanyName
                             </td>
-                            <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.DateOnly) </td>
+                            <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
                             <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
                             <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
                         </tr>

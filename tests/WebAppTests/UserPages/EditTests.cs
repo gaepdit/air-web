@@ -91,7 +91,7 @@ public class EditTests
     {
         // Arrange
         var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.", []);
+            new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -60,7 +61,7 @@ public sealed class FceService(
         return await NotifyOwnerAsync(fce, Template.FceUpdated, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> AddCommentAsync(int id, AddCommentDto<int> resource,
+    public async Task<AddCommentResult> AddCommentAsync(int id, CommentAddDto<int> resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -68,7 +69,9 @@ public sealed class FceService(
         await fceRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
 
         var fce = await fceRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(fce, Template.FceCommentAdded, token).ConfigureAwait(false);
+        var appNotificationResult = await NotifyOwnerAsync(fce, Template.FceCommentAdded, token, comment)
+            .ConfigureAwait(false);
+        return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
     public async Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource,

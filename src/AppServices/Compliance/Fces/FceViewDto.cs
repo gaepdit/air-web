@@ -1,13 +1,15 @@
+using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto
+public record FceViewDto : IDeletedItem
 {
-    [Display(Name = "Facility")]
+    public int Id { get; init; }
+
     public FacilityViewDto Facility { get; init; } = default!;
 
     [Display(Name = "FCE Year")]
@@ -16,15 +18,22 @@ public record FceViewDto
     [Display(Name = "Reviewed by")]
     public StaffViewDto ReviewedBy { get; init; } = default!;
 
-    [Display(Name = "Date Completed")]
+    [Display(Name = "Date completed")]
     public DateOnly CompletedDate { get; init; }
 
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    [Display(Name = "Notes")]
-    public string Notes { get; init; } = string.Empty;
+    public required string Notes { get; init; }
 
-    [Display(Name = "Comments")]
-    public List<Comment> Comments { get; } = [];
+    [UsedImplicitly]
+    public List<CommentViewDto> Comments { get; } = [];
+
+    // Properties: Deletion
+    public string ItemName => "FCE";
+    public string ItemId => Id.ToString();
+    public bool IsDeleted { get; init; }
+    public StaffViewDto? DeletedBy { get; init; }
+    public DateTimeOffset? DeletedAt { get; init; }
+    public string? DeleteComments { get; init; }
 }

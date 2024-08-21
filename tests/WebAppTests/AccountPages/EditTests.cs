@@ -52,7 +52,7 @@ public class EditTests
     {
         // Arrange
         var expectedMessage =
-            new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.", []);
+            new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.GetCurrentUserAsync().Returns(StaffViewTest);

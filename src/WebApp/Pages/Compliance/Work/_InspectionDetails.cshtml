@@ -1,0 +1,21 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model AirWeb.AppServices.Compliance.WorkEntries.Inspections.InspectionViewDto
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionStarted)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionStarted, DisplayTemplate.ShortDateTime)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionEnded)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionEnded, DisplayTemplate.ShortDateTime)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionReason)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionReason, DisplayTemplate.NullableEnum)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.WeatherConditions)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.WeatherConditions, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionGuide)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionGuide, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.FacilityOperating)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.FacilityOperating, DisplayTemplate.BoolYesNo)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.DeviationsNoted)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.DeviationsNoted, DisplayTemplate.BoolYesNo)</dd>
+    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.FollowupTaken)</dt>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
+</dl>

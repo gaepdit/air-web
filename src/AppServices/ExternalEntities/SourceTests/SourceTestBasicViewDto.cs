@@ -75,5 +75,5 @@ public record SourceTestBasicViewDto
     public PersonName TestingUnitManager { get; set; }
 
     [Display(Name = "Director")]
-    public string EpdDirector { get; init; } = string.Empty;
+    public required string EpdDirector { get; init; }
 }

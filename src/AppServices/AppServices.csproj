@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" />
-        <PackageReference Include="ClosedXML" />
-        <PackageReference Include="FluentValidation.AspNetCore" />
-        <PackageReference Include="GaEpd.FileService" />
-        <PackageReference Include="JetBrains.Annotations" />
+        <PackageReference Include="AutoMapper"/>
+        <PackageReference Include="ClosedXML"/>
+        <PackageReference Include="FluentValidation.AspNetCore"/>
+        <PackageReference Include="GaEpd.FileService"/>
+        <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -20,12 +20,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\EmailService\EmailService.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\EmailService\EmailService.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Enforcement\" />
+        <Folder Include="Enforcement\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Compliance\WorkEntries\WorkEntryService.Mapping.cs">
+            <DependentUpon>WorkEntryService.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

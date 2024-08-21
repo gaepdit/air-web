@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
@@ -15,7 +16,7 @@ public record NotificationViewDto : WorkEntryViewDto
     public DateOnly? SentDate { get; init; }
 
     [Display(Name = "Notification Type")]
-    public string? NotificationType { get; init; }
+    public required NotificationTypeViewDto NotificationType { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }
