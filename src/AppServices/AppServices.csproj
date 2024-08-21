@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Compliance\WorkEntries\RmpInspections\"/>
       <Folder Include="Enforcement\" />
     </ItemGroup>
 

@@ -3,7 +3,6 @@ using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
-using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -86,24 +85,30 @@ public sealed partial class WorkEntryService
             case AccUpdateDto dto:
                 MapAcc(dto, (AnnualComplianceCertification)workEntry);
                 break;
+
             case InspectionUpdateDto dto:
-                MapInspection(dto, (Inspection)workEntry);
+                if (workEntry.WorkEntryType == WorkEntryType.Inspection)
+                    MapInspection(dto, (Inspection)workEntry);
+                else
+                    MapRmp(dto, (RmpInspection)workEntry);
                 break;
+
             case NotificationUpdateDto dto:
                 await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
                 break;
+
             case PermitRevocationUpdateDto dto:
                 MapPermitRevocation(dto, (PermitRevocation)workEntry);
                 break;
+
             case ReportUpdateDto dto:
                 MapReport(dto, (Report)workEntry);
                 break;
-            case RmpInspectionUpdateDto dto:
-                MapRmp(dto, (RmpInspection)workEntry);
-                break;
+
             case SourceTestReviewUpdateDto dto:
                 MapStr(dto, (SourceTestReview)workEntry);
                 break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
         }
@@ -165,7 +170,7 @@ public sealed partial class WorkEntryService
         report.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapRmp(IRmpInspectionCommandDto resource, RmpInspection inspection)
+    private static void MapRmp(IInspectionCommandDto resource, RmpInspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
         inspection.DeviationsNoted = resource.DeviationsNoted;

@@ -6,7 +6,6 @@ using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
-using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.ExternalEntities.Facilities;
@@ -45,7 +44,7 @@ public sealed partial class WorkEntryService(
                     await workEntryRepository.FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
                 WorkEntryType.Report => mapper.Map<ReportViewDto>(await workEntryRepository.FindAsync<Report>(id, token)
                     .ConfigureAwait(false)),
-                WorkEntryType.RmpInspection => mapper.Map<RmpInspectionViewDto>(await workEntryRepository
+                WorkEntryType.RmpInspection => mapper.Map<InspectionViewDto>(await workEntryRepository
                     .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
                 WorkEntryType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(
                     await workEntryRepository.FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),
@@ -75,7 +74,7 @@ public sealed partial class WorkEntryService(
                 await workEntryRepository.FindAsync<PermitRevocation>(id, token).ConfigureAwait(false)),
             WorkEntryType.Report => mapper.Map<ReportUpdateDto>(await workEntryRepository.FindAsync<Report>(id, token)
                 .ConfigureAwait(false)),
-            WorkEntryType.RmpInspection => mapper.Map<RmpInspectionUpdateDto>(await workEntryRepository
+            WorkEntryType.RmpInspection => mapper.Map<InspectionUpdateDto>(await workEntryRepository
                 .FindAsync<RmpInspection>(id, token).ConfigureAwait(false)),
             WorkEntryType.SourceTestReview => mapper.Map<SourceTestReviewUpdateDto>(
                 await workEntryRepository.FindAsync<SourceTestReview>(id, token).ConfigureAwait(false)),

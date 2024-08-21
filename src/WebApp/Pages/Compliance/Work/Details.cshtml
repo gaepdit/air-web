@@ -5,7 +5,6 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Notifications
 @using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations
 @using AirWeb.AppServices.Compliance.WorkEntries.Reports
-@using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections
 @using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews
 @using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
@@ -125,9 +124,6 @@
         break;
     case ReportViewDto rpt:
         <partial name="_ReportDetails" model="rpt" />
-        break;
-    case RmpInspectionViewDto rmpInspection:
-        <partial name="_RmpInspectionDetails" model="rmpInspection" />
         break;
     case SourceTestReviewViewDto sourceTestReview:
         <partial name="_SourceTestReviewDetails" model="sourceTestReview" />

@@ -6,7 +6,6 @@ using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
-using AirWeb.AppServices.Compliance.WorkEntries.RmpInspections;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
@@ -113,7 +112,7 @@ public class AutoMapperProfile : Profile
 
     private void RmpInspections()
     {
-        CreateMap<RmpInspection, RmpInspectionUpdateDto>()
+        CreateMap<RmpInspection, InspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
             .ForMember(dto => dto.InspectionStartedTime, expression =>
@@ -122,7 +121,7 @@ public class AutoMapperProfile : Profile
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
                 expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
-        CreateMap<RmpInspection, RmpInspectionViewDto>();
+        CreateMap<RmpInspection, InspectionViewDto>();
     }
 
     private void SourceTestReviews()
