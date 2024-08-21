@@ -173,21 +173,20 @@
                     {
                         <tr class="@(item.IsDeleted ? "table-danger" : "")">
                             <th scope="row">
-                                @if (item.IsDeleted)
-                                {
-                                    <strong>DELETED</strong>
-                                    <br />
-                                }
                                 <a asp-page="Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-outline-primary btn-sm">
                                     @item.Id.ToString()
                                 </a>
+                                @if (item.IsDeleted)
+                                {
+                                    @:DELETED<br />
+                                }
                             </th>
                             <td class="text-nowrap">@item.Year</td>
                             <td>
                                 <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.CompanyName
                             </td>
-                            <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.DateOnly) </td>
+                            <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
                             <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
                             <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
                         </tr>

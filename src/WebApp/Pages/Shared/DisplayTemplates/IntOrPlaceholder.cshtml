@@ -1,0 +1,10 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model int?
+@if (Model is null)
+{
+    <span class="text-body-secondary fw-lighter">@(ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : SelectOptions.PlaceholderNotEntered)</span>
+}
+else
+{
+    @Model.ToString()
+}

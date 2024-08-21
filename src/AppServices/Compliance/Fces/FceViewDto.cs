@@ -9,7 +9,6 @@ public record FceViewDto
 {
     public int Id { get; init; }
 
-    [Display(Name = "Facility")]
     public FacilityViewDto Facility { get; init; } = default!;
 
     [Display(Name = "FCE Year")]
@@ -24,23 +23,14 @@ public record FceViewDto
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    [Display(Name = "Notes")]
     public string Notes { get; init; } = string.Empty;
 
-    [Display(Name = "Comments")]
+    [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
 
     // Properties: Deletion
-
-    [Display(Name = "Deleted?")]
     public bool IsDeleted { get; init; }
-
-    [Display(Name = "Deleted By")]
     public StaffViewDto? DeletedBy { get; init; }
-
-    [Display(Name = "Date Deleted")]
     public DateTimeOffset? DeletedAt { get; init; }
-
-    [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
 }

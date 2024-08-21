@@ -5,10 +5,11 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
-    ViewData["Title"] = $"Facility {Model.Item.Facility.Id} - FCE Report: {Model.Item.Year.ToString()}";
+    var report = Model.Item;
+    ViewData["Title"] = $"Facility {report.Facility.Id} - FCE Report: {report.Year.ToString()}";
 }
 
-@if (Model.Item.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+@if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
 {
     <div class="callout callout-danger mb-3">
         <div class="container-full">
@@ -17,54 +18,72 @@
                     <h4 class="text-danger-emphasis">This FCE has been deleted.</h4>
                 </div>
                 <div class="col-auto d-print-none ms-2">
-                    <a asp-page="Restore" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-warning">Restore deleted FCE</a>
+                    <a asp-page="Restore" asp-route-id="@report.Id.ToString()" class="btn btn-outline-warning">
+                        Restore
+                        deleted FCE
+                    </a>
                 </div>
             </div>
         </div>
         <p>
-            Deleted by @Html.DisplayFor(model => model.Item.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(model => model.Item.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
+            Deleted by @Html.DisplayFor(model => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(model => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetOrNotEntered)
         </p>
         <h5>Comments</h5>
-        <p class="text-break text-pre-line">@Html.DisplayFor(model => model.Item.DeleteComments, DisplayTemplate.StringOrPlaceholder)</p>
+        <p class="text-break text-pre-line">@Html.DisplayFor(model => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
     </div>
 }
 
-<div class="row justify-content-between align-items-end g-0">
+<div class="row justify-content-between align-items-center g-0">
     <div class="col-md mb-md-0">
-        <h1>@Model.Item.Year.ToString() FCE for Facility&nbsp;@Model.Item.Facility.Id</h1>
+        <h1>Full Compliance Evaluation</h1>
+        <p class="lead">Tracking #@report.Id.ToString()</p>
     </div>
-    @if (!Model.Item.IsDeleted)
+    @if (!report.IsDeleted)
     {
-        <div class="col-md-auto d-print-none ms-md-3">
+        <div class="col-sm-auto d-print-none ms-md-3 btn-group">
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
-                <a asp-page="Edit" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
             {
-                <a asp-page="Delete" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-danger ms-1">Delete</a>
+                <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
         </div>
     }
 </div>
-<h2 class="text-body-secondary">@Model.Item.Facility.CompanyName</h2>
 
-<dl class="row mt-3">
-    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ReviewedBy)</dt>
-    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
-    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CompletedDate)</dt>
-    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.CompletedDate, DisplayTemplate.DateOnlyOrNotEntered)</dd>
-    <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.OnsiteInspection)</dt>
-    <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
-    <dt class="mb-2">@Html.DisplayNameFor(m => m.Item.Notes)</dt>
-    <dd class="text-break text-pre-line">@Html.DisplayFor(m => m.Item.Notes, DisplayTemplate.StringOrPlaceholder)</dd>
+<dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <a asp-page="/Facility/Details" asp-route-id="@report.Facility.Id"
+           class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
+            @report.Facility.Id
+            — @report.Facility.CompanyName
+        </a>
+    </dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Year)</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <strong class="text-info-emphasis">@report.Year.ToString()</strong>
+    </dd>
+
+    @* TODO: Additional facility information *@
+
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ReviewedBy)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CompletedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.CompletedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.OnsiteInspection)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+</dl>
+<dl>
+    <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dd class="text-break text-pre-line border rounded p-2">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
 </dl>
 
-@* TODO: Additional facility information *@
-
-<h2 class="h3">Comments</h2>
-@if (!Model.Item.Comments.Any())
+<h2 class="h4">Comments</h2>
+@if (!report.Comments.Any())
 {
     <p>
         <em>None.</em>
@@ -73,7 +92,7 @@
 else
 {
     <div class="row row-cols-1 g-3 mb-3">
-        @foreach (var comment in Model.Item.Comments)
+        @foreach (var comment in report.Comments)
         {
             if (!string.IsNullOrEmpty(Model.CommentNotificationFailureMessage))
             {
@@ -90,9 +109,9 @@ else
                             <div class="row justify-content-between align-items-center g-0 my-1">
                                 <small class="col text-body-secondary">
                                     Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
-                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTime)
+                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
                                 </small>
-                                @if (Model.UserCan[ComplianceWorkOperation.Comment])
+                                @if (Model.UserCan[ComplianceWorkOperation.Edit])
                                 {
                                     <div class="col-auto d-print-none ms-2">
                                         <a asp-page="DeleteComment" asp-route-actionId="@comment.Id.ToString()" class="btn btn-sm btn-outline-danger">Delete</a>
@@ -109,14 +128,14 @@ else
 
 @* TODO: Additional comments entry *@
 
-@if (Model.UserCan[ComplianceWorkOperation.Comment])
-{
-    <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none">
-        <h3 id="new-comment" class="h5">Add a comment</h3>
-
-        <form method="post" asp-page-handler="NewComment" asp-fragment="new-comment">
-            <textarea rows="3"></textarea>
-            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Comment</button>
-        </form>
-    </div>
-}
+@* @if (Model.UserCan[ComplianceWorkOperation.Edit]) *@
+@* { *@
+@*     <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none"> *@
+@*         <h3 id="new-comment" class="h5">Add a comment</h3> *@
+@* *@
+@*         <form method="post" asp-page-handler="NewComment" asp-fragment="new-comment"> *@
+@*             <textarea rows="3"></textarea> *@
+@*             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Comment</button> *@
+@*         </form> *@
+@*     </div> *@
+@* } *@

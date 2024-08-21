@@ -1,13 +1,13 @@
 ﻿@using AirWeb.WebApp.Platform.PageModelHelpers
-@model GaEpd.AppLibrary.Domain.Entities.INamedEntity?
+@model string?
 @{
     var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : SelectOptions.PlaceholderNotEntered;
 }
-@if (Model is null || string.IsNullOrEmpty(Model.Name))
+@if (string.IsNullOrEmpty(Model))
 {
     <span class="text-body-secondary fw-lighter">@placeholder</span>
 }
 else
 {
-    @Model.Name
+    @Model
 }

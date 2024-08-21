@@ -1,12 +1,14 @@
-﻿@model Domain.ValueObjects.PhoneNumber?
+﻿@using AirWeb.Domain.ValueObjects
+@using AirWeb.WebApp.Platform.PageModelHelpers
+@model AirWeb.Domain.ValueObjects.PhoneNumber?
 @if (Model is null || string.IsNullOrWhiteSpace(Model.Number))
 {
-    <span class="text-body-secondary fw-lighter">[Not entered]</span>
+    <span class="text-body-secondary fw-lighter">@SelectOptions.PlaceholderNotEntered</span>
 }
 else
 {
     @Model.Number
-    @if (Model.Type is not null && Model.Type != Domain.ValueObjects.PhoneType.Unknown)
+    @if (Model.Type is not null && Model.Type != PhoneType.Unknown)
     {
         <em>(@Model.Type.ToString())</em>
     }

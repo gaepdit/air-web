@@ -1,7 +1,8 @@
-﻿@model string?
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model string?
 @if (string.IsNullOrEmpty(Model))
 {
-    <span class="text-body-secondary fw-lighter">[Not entered]</span>
+    <span class="text-body-secondary fw-lighter">@SelectOptions.PlaceholderNotEntered</span>
 }
 else
 {

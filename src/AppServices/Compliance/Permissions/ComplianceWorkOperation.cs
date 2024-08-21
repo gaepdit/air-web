@@ -13,7 +13,8 @@ public class ComplianceWorkOperation :
 
     public static List<ComplianceWorkOperation> AllOperations { get; } = [];
 
+    public static readonly ComplianceWorkOperation Close = new(nameof(Close));
+    public static readonly ComplianceWorkOperation Reopen = new(nameof(Reopen));
     public static readonly ComplianceWorkOperation Edit = new(nameof(Edit));
-    public static readonly ComplianceWorkOperation Comment = new(nameof(Comment));
     public static readonly ComplianceWorkOperation ManageDeletions = new(nameof(ManageDeletions));
 }
