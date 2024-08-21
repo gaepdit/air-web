@@ -20,6 +20,7 @@ public static class DisplayTemplate
     public const string LongDateTimeOffsetOrNotEntered = nameof(LongDateTimeOffsetOrNotEntered);
     public const string Name = nameof(Name);
     public const string NameOrPlaceholder = nameof(NameOrPlaceholder);
+    public const string NullableEnum = nameof(NullableEnum);
     public const string PhoneNumber = nameof(PhoneNumber);
     public const string ProbableEmailOrNotEntered = nameof(ProbableEmailOrNotEntered);
     public const string ProbableUrlOrNotEntered = nameof(ProbableUrlOrNotEntered);

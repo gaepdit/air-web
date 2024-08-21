@@ -1,6 +1,4 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.PageModelHelpers
-@using GaEpd.AppLibrary.Extensions
 @model AirWeb.AppServices.Compliance.WorkEntries.RmpInspections.RmpInspectionViewDto
 
 <dl class="row mt-3 mb-0">
@@ -9,7 +7,7 @@
     <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionEnded)</dt>
     <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionEnded, DisplayTemplate.ShortDateTime)</dd>
     <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionReason)</dt>
-    <dd class="col-md-8 col-lg-9">@(Model.InspectionReason == null ? DefaultText.PlaceholderNotEntered : Model.InspectionReason.Value.GetDescription())</dd>
+    <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.InspectionReason, DisplayTemplate.NullableEnum)</dd>
     <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.WeatherConditions)</dt>
     <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.WeatherConditions, DisplayTemplate.TextOrPlaceholder)</dd>
     <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.InspectionGuide)</dt>
