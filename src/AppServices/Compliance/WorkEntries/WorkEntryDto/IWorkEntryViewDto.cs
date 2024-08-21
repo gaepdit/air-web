@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -6,14 +7,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
-public interface IWorkEntryViewDto
+public interface IWorkEntryViewDto : IDeletedItem
 {
     public int Id { get; }
     public FacilityViewDto Facility { get; set; }
     public string FacilityId { get; }
     public WorkEntryType WorkEntryType { get; }
-    public bool HasPrintout { get; }
-    public string? PrintoutUrl { get; }
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; }
@@ -34,9 +33,7 @@ public interface IWorkEntryViewDto
     [Display(Name = "Date Closed")]
     public DateOnly? ClosedDate { get; }
 
-    // Properties: Deletion
-    public bool IsDeleted { get; }
-    public StaffViewDto? DeletedBy { get; }
-    public DateTimeOffset? DeletedAt { get; }
-    public string? DeleteComments { get; }
+    // Display properties
+    public bool HasPrintout { get; }
+    public string? PrintoutUrl { get; }
 }

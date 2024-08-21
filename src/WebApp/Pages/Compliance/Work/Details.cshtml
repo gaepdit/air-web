@@ -20,66 +20,51 @@
 
 @if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
 {
-    <div class="callout callout-danger mb-3">
-        <div class="container-full">
-            <div class="row justify-content-between align-items-center g-0 my-1">
-                <div class="col">
-                    <h4 class="text-danger-emphasis">This @workEntryName has been deleted.</h4>
-                </div>
-                <div class="col-auto d-print-none ms-2">
-                    <a asp-page="Restore" asp-route-id="@report.Id.ToString()" class="btn btn-outline-warning">Restore deleted entry</a>
-                </div>
-            </div>
-        </div>
-        <p>
-            Deleted by @Html.DisplayFor(model => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(model => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetOrNotEntered)
-        </p>
-        <h5>Comments</h5>
-        <p class="text-break text-pre-line">@Html.DisplayFor(model => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
-    </div>
+    <partial name="Shared/_DeletedItemPartial" model="report" />
 }
 
-<div class="row justify-content-between align-items-center g-0">
+<div class="row justify-content-between align-items-center">
     <div class="col-md mb-md-0">
         <h1>@workEntryName</h1>
-        <p class="lead">Tracking #@report.Id.ToString()</p>
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="btn-group mb-2 me-2 me-md-0">
-                @if (Model.UserCan[ComplianceWorkOperation.Close])
-                {
-                    <a asp-page="Details" asp-page-handler="Close" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Close</a>
-                }
-                @if (Model.UserCan[ComplianceWorkOperation.Reopen])
-                {
-                    <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
-                }
-                @if (Model.UserCan[ComplianceWorkOperation.Edit])
-                {
-                    <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-                }
-                @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
-                {
-                    <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
-                }
-            </div>
+        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+            @if (Model.UserCan[ComplianceWorkOperation.Close])
+            {
+                <a asp-page="Details" asp-page-handler="Close" asp-route-id="@report.Id.ToString()"
+                   class="btn btn-outline-primary">
+                    Close
+                </a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.Reopen])
+            {
+                <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@report.Id.ToString()"
+                   class="btn btn-outline-primary">
+                    Reopen
+                </a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            {
+                <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+            {
+                <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
+            }
             @if (report.HasPrintout)
             {
-                <div class="text-md-center d-inline-block d-md-block">
-                    <a href="@report.PrintoutUrl" target="_blank" rel="noopener"
-                       class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2 no-external-link">
-                        <svg class="bi me-2">
-                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                        </svg>Print
-                    </a>
-                </div>
+                <a href="@report.PrintoutUrl" target="_blank" rel="noopener" class="btn btn-outline-secondary no-external-link">
+                    <svg class="bi me-2">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                    </svg>
+                    Print
+                </a>
             }
         </div>
     }
 </div>
+<p class="lead mt-2 mt-md-0">Tracking #@report.Id.ToString()</p>
 
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>

@@ -2,6 +2,7 @@
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
@@ -26,6 +27,8 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public DateOnly? ClosedDate { get; init; }
 
     // Properties: Deletion
+    public string ItemName => WorkEntryType.GetDescription();
+    public string ItemId => Id.ToString();
     public bool IsDeleted { get; init; }
     public StaffViewDto? DeletedBy { get; init; }
     public DateTimeOffset? DeletedAt { get; init; }
