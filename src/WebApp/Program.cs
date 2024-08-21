@@ -30,8 +30,8 @@ builder.Services.AddAuthenticationServices(builder.Configuration);
 var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
 builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
 
-// Configure authorization policies.
-builder.Services.AddAuthorizationPolicies();
+// Configure authorization policies and handlers.
+builder.Services.AddAuthorizationHandlers();
 
 // Configure UI services.
 builder.Services.AddRazorPages();

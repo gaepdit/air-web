@@ -20,15 +20,20 @@ public static class PrincipalExtensions
     private static bool IsInRoles(this IPrincipal principal, IEnumerable<string> roles) =>
         roles.Any(principal.IsInRole);
 
-    internal static bool IsManager(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.ComplianceManager);
-
+    // General roles
     internal static bool IsSiteMaintainer(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.ComplianceSiteMaintenance);
-
-    internal static bool IsStaff(this IPrincipal principal) =>
-        principal.IsInRoles([RoleName.ComplianceStaff, RoleName.ComplianceManager]);
+        principal.IsInRole(RoleName.SiteMaintenance);
 
     internal static bool IsUserAdmin(this IPrincipal principal) =>
         principal.IsInRole(RoleName.AppUserAdmin);
+
+    // Compliance roles
+    internal static bool IsComplianceManager(this IPrincipal principal) =>
+        principal.IsInRole(RoleName.ComplianceManager);
+
+    internal static bool IsComplianceSiteMaintainer(this IPrincipal principal) =>
+        principal.IsInRole(RoleName.ComplianceSiteMaintenance);
+
+    internal static bool IsComplianceStaff(this IPrincipal principal) =>
+        principal.IsInRoles([RoleName.ComplianceStaff, RoleName.ComplianceManager]);
 }

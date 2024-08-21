@@ -6,8 +6,7 @@ using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-// TODO: Fix this.
-[Authorize(Policy = nameof(Policies.StaffUser))]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DetailsModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
     public IWorkEntryViewDto Item { get; private set; } = default!;

@@ -32,6 +32,6 @@ internal class FceViewRequirement :
         return Task.FromResult(0);
     }
 
-    private bool UserCanEditDetails() => _context.User.IsStaff() && !_resource.IsDeleted;
-    private bool UserCanManageDeletions() => _context.User.IsManager();
+    private bool UserCanEditDetails() => _context.User.IsComplianceStaff() && !_resource.IsDeleted;
+    private bool UserCanManageDeletions() => _context.User.IsComplianceManager();
 }

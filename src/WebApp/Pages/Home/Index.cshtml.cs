@@ -15,7 +15,7 @@ public class DashboardIndexModel(IComplianceSearchService searchService, IAuthor
 
     public async Task<PageResult> OnGetAsync(CancellationToken token)
     {
-        IsStaff = await authorization.Succeeded(User, Policies.StaffUser);
+        IsStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
 
         if (!IsStaff) return Page();
 

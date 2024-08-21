@@ -20,11 +20,10 @@ public class RoleBasedPolicy
     public async Task WhenAuthenticatedAndActiveAndDivisionManager_Succeeds()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[]
-            {
-                new(AppClaimTypes.ActiveUser, true.ToString()),
-                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
-            }, "Basic"));
+        [
+            new Claim(AppClaimTypes.ActiveUser, true.ToString()),
+            new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
+        ], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeTrue();
     }
@@ -33,10 +32,7 @@ public class RoleBasedPolicy
     public async Task WhenNotActive_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[]
-            {
-                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
-            }, "Basic"));
+            [new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance)], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
@@ -45,10 +41,7 @@ public class RoleBasedPolicy
     public async Task WhenNotDivisionManager_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[]
-            {
-                new(AppClaimTypes.ActiveUser, true.ToString()),
-            }, "Basic"));
+            [new Claim(AppClaimTypes.ActiveUser, true.ToString())], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
@@ -57,11 +50,10 @@ public class RoleBasedPolicy
     public async Task WhenNotAuthenticated_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[]
-            {
-                new(AppClaimTypes.ActiveUser, true.ToString()),
-                new(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
-            }));
+        [
+            new Claim(AppClaimTypes.ActiveUser, true.ToString()),
+            new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
+        ]));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }

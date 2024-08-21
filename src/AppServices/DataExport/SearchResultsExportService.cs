@@ -17,7 +17,7 @@ public sealed class SearchResultsExportService(
     {
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
-        if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
+        if (!await authorization.Succeeded(principal!, Policies.ComplianceManager).ConfigureAwait(false))
             spec.DeleteStatus = null;
 
         return await workEntryRepository.CountAsync(WorkEntryFilters.SearchPredicate(spec), token)
@@ -29,7 +29,7 @@ public sealed class SearchResultsExportService(
     {
         spec.TrimAll();
         var principal = userService.GetCurrentPrincipal();
-        if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
+        if (!await authorization.Succeeded(principal!, Policies.ComplianceManager).ConfigureAwait(false))
             spec.DeleteStatus = null;
 
         return (await workEntryRepository.GetListAsync(WorkEntryFilters.SearchPredicate(spec), token)

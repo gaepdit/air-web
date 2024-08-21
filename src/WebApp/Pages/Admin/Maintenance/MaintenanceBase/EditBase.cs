@@ -1,12 +1,10 @@
 ﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
-[Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public abstract class EditBase : PageModel
 {
     [FromRoute]

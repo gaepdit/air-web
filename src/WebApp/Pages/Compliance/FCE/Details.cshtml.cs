@@ -5,8 +5,7 @@ using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
-// TODO: Fix this.
-[Authorize(Policy = nameof(Policies.StaffUser))]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DetailsModel(IFceService fceService, IAuthorizationService authorization) : PageModel
 {
     public FceViewDto Item { get; private set; } = default!;

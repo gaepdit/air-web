@@ -163,6 +163,7 @@ public class ExternalLoginModel(
         {
             logger.LogInformation("Seeding staff role for new user {UserName}", user.UserName);
             await userManager.AddToRoleAsync(user, RoleName.ComplianceStaff);
+            await userManager.AddToRoleAsync(user, RoleName.ComplianceSiteMaintenance);
         }
 
         if (AppSettings.DevSettings.LocalUserIsAdmin ||

@@ -36,8 +36,7 @@ public class FceIndexModel(
     public async Task OnGetAsync()
     {
         Spec = new FceSearchDto();
-        //TODO: FIX THIS!
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.Manager);
+        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         await PopulateSelectListsAsync();
     }
 
@@ -45,7 +44,7 @@ public class FceIndexModel(
         CancellationToken token = default)
     {
         Spec = spec.TrimAll();
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.Manager);
+        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         await PopulateSelectListsAsync();
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());

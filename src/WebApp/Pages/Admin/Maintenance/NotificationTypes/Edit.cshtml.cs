@@ -1,9 +1,11 @@
 ﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 
+[Authorize(Policy = nameof(Policies.ComplianceSiteMaintainer))]
 public class EditModel(INotificationTypeService service, IValidator<NotificationTypeUpdateDto> validator) : EditBase
 {
     [BindProperty]

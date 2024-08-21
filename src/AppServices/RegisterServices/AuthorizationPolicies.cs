@@ -11,23 +11,16 @@ namespace AirWeb.AppServices.RegisterServices;
 [SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out")]
 public static class AuthorizationPolicies
 {
-    public static void AddAuthorizationPolicies(this IServiceCollection services)
+    public static void AddAuthorizationHandlers(this IServiceCollection services)
     {
-        // These policies are for use in PageModel class attributes, e.g.:
-        // [Authorize(Policy = nameof(Policies.ActiveUser))]
-
-        services.AddAuthorizationBuilder()
-            .AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser)
-            .AddPolicy(nameof(Policies.Manager), Policies.Manager)
-            .AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer)
-            .AddPolicy(nameof(Policies.StaffUser), Policies.StaffUser)
-            .AddPolicy(nameof(Policies.UserAdministrator), Policies.UserAdministrator);
+        services.AddAuthorizationPolicies();
 
         // Resource/operation-based permission handlers, e.g.:
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
-        services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
         services.AddSingleton<IAuthorizationHandler, FceViewRequirement>();
+        // services.AddSingleton<IAuthorizationHandler, WorkEntryUpdateRequirement>();
+        services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

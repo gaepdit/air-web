@@ -42,7 +42,7 @@ public sealed class ComplianceSearchService(
         where TSearchDto : IComplianceSearchDto
     {
         var principal = userService.GetCurrentPrincipal();
-        if (!await authorization.Succeeded(principal!, Policies.Manager).ConfigureAwait(false))
+        if (!await authorization.Succeeded(principal!, Policies.ComplianceManager).ConfigureAwait(false))
             spec.DeleteStatus = null;
     }
 
