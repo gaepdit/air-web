@@ -26,7 +26,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.Closed" name="@nameof(Model.Spec.Closed)"
                                     asp-items="Html.GetEnumSelectList<YesNoAny>()" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Closed" class="form-label"></label>
                         </div>
@@ -132,7 +132,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
                                     asp-items="Model.OfficesSelectList" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Office" class="form-label"></label>
                         </div>
@@ -141,7 +141,7 @@
                         <div class="form-floating">
                             <select asp-for="Spec.ResponsibleStaff" name="@nameof(Model.Spec.ResponsibleStaff)"
                                     asp-items="Model.StaffSelectList" class="form-select">
-                                <option value="">@SelectOptions.SelectTextAny</option>
+                                <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.ResponsibleStaff" class="form-label"></label>
                         </div>

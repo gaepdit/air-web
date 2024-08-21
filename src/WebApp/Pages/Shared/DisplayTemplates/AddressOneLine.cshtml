@@ -2,7 +2,7 @@
 @model AirWeb.Domain.ValueObjects.Address?
 @if (Model is null || Model.IsEmpty)
 {
-    <span class="text-body-secondary">@SelectOptions.PlaceholderNotEntered</span>
+    <span class="text-body-secondary">@DefaultText.PlaceholderNotEntered</span>
 }
 else
 {

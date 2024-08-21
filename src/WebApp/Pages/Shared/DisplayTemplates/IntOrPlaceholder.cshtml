@@ -2,7 +2,10 @@
 @model int?
 @if (Model is null)
 {
-    <span class="text-body-secondary fw-lighter">@(ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : SelectOptions.PlaceholderNotEntered)</span>
+    <span
+        class="text-body-secondary fw-lighter">
+        @(ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered)
+    </span>
 }
 else
 {

@@ -1,7 +1,7 @@
 ﻿@using AirWeb.WebApp.Platform.PageModelHelpers
 @model string?
 @{
-    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : SelectOptions.PlaceholderNotEntered;
+    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered;
 }
 @if (string.IsNullOrEmpty(Model))
 {

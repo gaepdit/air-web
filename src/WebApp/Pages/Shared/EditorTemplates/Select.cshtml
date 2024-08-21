@@ -3,7 +3,7 @@
 @model object?
 @{
     var items = (IEnumerable<SelectListItem>)ViewData["Items"]!;
-    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : SelectOptions.SelectTextRequired;
+    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.SelectOptionRequired;
 }
 
 <div class="form-floating">
