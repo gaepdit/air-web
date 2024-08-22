@@ -11,7 +11,7 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.Staff))]
 public class ComplianceIndexModel(
     IComplianceSearchService searchService,
     IStaffService staff,

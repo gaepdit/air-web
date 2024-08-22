@@ -34,8 +34,7 @@ public partial class AppRole
     }
 
     /// <summary>
-    /// A Dictionary of all role categories used by the app.
-    /// The Dictionary key is an integer representing the order the categories should be displayed.
+    /// A list of all role categories used by the app.
     /// </summary>
     public static List<string> AllRoleCategories { get; } =
     [

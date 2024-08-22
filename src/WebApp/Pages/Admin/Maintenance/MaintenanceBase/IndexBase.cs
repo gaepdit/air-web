@@ -1,11 +1,9 @@
 ﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
 public abstract class IndexBase : PageModel
 {
     public IReadOnlyList<NamedEntityViewDto> Items { get; private set; } = default!;

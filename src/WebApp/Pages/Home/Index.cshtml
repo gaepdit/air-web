@@ -8,7 +8,10 @@
 
 @if (Model.IsStaff)
 {
-    <partial name="_DashboardCardPartial" model="Model.OpenWorkEntries" />
+    @foreach (var card in Model.DashboardCards)
+    {
+        <partial name="_DashboardCardPartial" model="card" />
+    }
 }
 else
 {

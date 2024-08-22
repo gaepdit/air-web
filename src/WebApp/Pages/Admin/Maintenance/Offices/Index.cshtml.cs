@@ -5,6 +5,7 @@ using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class OfficeIndexModel : IndexBase
 {
     public override MaintenanceOption ThisOption => MaintenanceOption.Office;

@@ -36,6 +36,7 @@ public static class Policies
         services.AddAuthorizationBuilder()
             .AddPolicy(nameof(ActiveUser), ActiveUser)
             .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
+            .AddPolicy(nameof(Staff), Staff)
             .AddPolicy(nameof(UserAdministrator), UserAdministrator)
             .AddPolicy(nameof(ComplianceManager), ComplianceManager)
             .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
@@ -56,16 +57,19 @@ public static class Policies
     public static AuthorizationPolicy SiteMaintainer { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();
 
+    public static AuthorizationPolicy Staff { get; } =
+        ActiveUserPolicyBuilder.AddRequirements(new StaffRequirement()).Build();
+
     public static AuthorizationPolicy UserAdministrator { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new UserAdminRequirement()).Build();
 
     // -- Compliance roles
-    public static AuthorizationPolicy ComplianceManager { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceManagerRequirement()).Build();
+    public static AuthorizationPolicy ComplianceStaff { get; } =
+        ActiveUserPolicyBuilder.AddRequirements(new ComplianceStaffRequirement()).Build();
 
     public static AuthorizationPolicy ComplianceSiteMaintainer { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new ComplianceSiteMaintenanceRequirement()).Build();
 
-    public static AuthorizationPolicy ComplianceStaff { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceStaffRequirement()).Build();
+    public static AuthorizationPolicy ComplianceManager { get; } =
+        ActiveUserPolicyBuilder.AddRequirements(new ComplianceManagerRequirement()).Build();
 }

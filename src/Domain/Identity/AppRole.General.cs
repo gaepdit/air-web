@@ -8,13 +8,20 @@ public static partial class RoleName
     // These are the strings that are stored in the database. Avoid modifying these once set!
 
     // General
-    public const string AppUserAdmin = nameof(AppUserAdmin);
+    public const string GeneralStaff = nameof(GeneralStaff);
     public const string SiteMaintenance = nameof(SiteMaintenance);
+    public const string AppUserAdmin = nameof(AppUserAdmin);
 }
 
 public partial class AppRole
 {
     // These static Role objects are used for displaying role information in the UI.
+
+    [UsedImplicitly]
+    public static AppRole GeneralStaffRole { get; } = new(
+        RoleName.GeneralStaff, RoleCategory.General, "General Staff",
+        "Can access read-only views and search pages."
+    );
 
     [UsedImplicitly]
     public static AppRole SiteMaintenanceRole { get; } = new(
