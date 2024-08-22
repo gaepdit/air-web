@@ -1,9 +1,11 @@
 using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
+[Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public class AddModel : AddBase
 {
     [BindProperty]

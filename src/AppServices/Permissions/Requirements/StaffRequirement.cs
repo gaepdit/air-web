@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Permissions.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Permissions.Requirements;
 
-internal class StaffUserRequirement :
-    AuthorizationHandler<StaffUserRequirement>, IAuthorizationRequirement
+internal class StaffRequirement :
+    AuthorizationHandler<StaffRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        StaffUserRequirement requirement)
+        StaffRequirement requirement)
     {
         if (context.User.IsStaff())
             context.Succeed(requirement);

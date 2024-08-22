@@ -11,7 +11,7 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         {
             IsLoginPage = model is LoginModel,
             IsActiveUser = await authorization.Succeeded(User, Policies.ActiveUser),
-            IsStaffUser = await authorization.Succeeded(User, Policies.StaffUser),
+            IsStaffUser = await authorization.Succeeded(User, Policies.ComplianceStaff),
         });
 
     public record MenuParams

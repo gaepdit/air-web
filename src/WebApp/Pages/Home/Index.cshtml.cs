@@ -1,28 +1,37 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Staff;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Home;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
-public class DashboardIndexModel(IComplianceSearchService searchService, IAuthorizationService authorization)
+public class DashboardIndexModel(
+    IComplianceSearchService searchService,
+    IAuthorizationService authorization,
+    IStaffService staffService)
     : PageModel
 {
     public bool IsStaff { get; private set; }
-    public DashboardCard OpenWorkEntries { get; private set; } = null!;
+    public bool IsComplianceStaff { get; private set; }
+    public List<DashboardCard> DashboardCards { get; private set; } = [];
 
     public async Task<PageResult> OnGetAsync(CancellationToken token)
     {
-        IsStaff = await authorization.Succeeded(User, Policies.StaffUser);
-
+        IsStaff = await authorization.Succeeded(User, Policies.Staff);
         if (!IsStaff) return Page();
 
-        var spec = new WorkEntrySearchDto();
-        var paging = new PaginatedRequest(1, 5, SortBy.EventDateDesc.GetDescription());
-        OpenWorkEntries = new DashboardCard("Recent Open Work Entries")
-            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token)).Items.ToList() };
+        var currentUser = await staffService.GetCurrentUserAsync();
+
+        // Compliance dashboard
+        IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
+        var spec = new WorkEntrySearchDto
+            { Closed = YesNoAny.No, ResponsibleStaff = currentUser.Id, Sort = SortBy.IdDesc };
+        var paging = new PaginatedRequest(1, 15, SortBy.EventDateDesc.GetDescription());
+        DashboardCards.Add(new DashboardCard("Open Compliance Work")
+            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token)).Items.ToList() });
 
         return Page();
     }

@@ -1,7 +1,6 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     var report = Model.Item;
@@ -10,7 +9,7 @@
 
 @if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
 {
-    <partial name="Shared/_DeletedItemPartial" model="report" />
+    <partial name="_DeletedItemPartial" model="report" />
 }
 
 <div class="row justify-content-between align-items-center">
@@ -40,9 +39,6 @@
     <dd class="col-sm-8 col-lg-9">
         <strong class="text-info-emphasis">@report.Year.ToString()</strong>
     </dd>
-
-    @* TODO: Additional facility information *@
-
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ReviewedBy)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CompletedDate)</dt>

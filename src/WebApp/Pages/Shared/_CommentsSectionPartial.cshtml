@@ -15,7 +15,8 @@ else
         {
             if (!string.IsNullOrEmpty(Model.CommentNotificationFailureMessage))
             {
-                <partial name="Shared/_AlertPartial" model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.CommentNotificationFailureMessage)" />
+                <partial name="_AlertPartial"
+                         model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.CommentNotificationFailureMessage)" />
             }
 
             <div class="col">

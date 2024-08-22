@@ -1,41 +1,46 @@
 ﻿namespace AirWeb.Domain.Identity;
 
-/// <summary>
-/// User Roles available to the application for authorization.
-/// </summary>
-public static class RoleName
+public static class RoleCategory
 {
-    // These are the strings that are stored in the database. Avoid modifying these once set!
-
-    public const string Manager = nameof(Manager);
-    public const string SiteMaintenance = nameof(SiteMaintenance);
-    public const string Staff = nameof(Staff);
-    public const string UserAdmin = nameof(UserAdmin);
+    public const string General = nameof(General);
+    public const string Compliance = nameof(Compliance);
 }
 
 /// <summary>
 /// Class for listing and describing the application roles for use in the UI, etc.
 /// </summary>
-public class AppRole
+public partial class AppRole
 {
     public string Name { get; }
+    public string Category { get; }
     public string DisplayName { get; }
     public string Description { get; }
-
-    private AppRole(string name, string displayName, string description)
-    {
-        Name = name;
-        DisplayName = displayName;
-        Description = description;
-        AllRoles.Add(name, this);
-    }
 
     /// <summary>
     /// A Dictionary of all roles used by the app. The Dictionary key is a string containing 
     /// the <see cref="Microsoft.AspNetCore.Identity.IdentityRole.Name"/> of the role.
     /// (This declaration must appear before the list of static instance types.)
     /// </summary>
-    public static Dictionary<string, AppRole> AllRoles { get; } = new();
+    public static Dictionary<string, AppRole>? AllRoles { get; private set; }
+
+    private AppRole(string name, string category, string displayName, string description)
+    {
+        Name = name;
+        Category = category;
+        DisplayName = displayName;
+        Description = description;
+        AllRoles ??= new Dictionary<string, AppRole>();
+        AllRoles.Add(name, this);
+    }
+
+    /// <summary>
+    /// A list of all role categories used by the app.
+    /// </summary>
+    public static List<string> AllRoleCategories { get; } =
+    [
+        RoleCategory.General,
+        RoleCategory.Compliance,
+    ];
 
     /// <summary>
     /// Converts a list of role strings to a list of <see cref="AppRole"/> objects.
@@ -47,35 +52,9 @@ public class AppRole
         var appRoles = new List<AppRole>();
 
         foreach (var role in roles)
-            if (AllRoles.TryGetValue(role, out var appRole))
+            if (AllRoles!.TryGetValue(role, out var appRole))
                 appRoles.Add(appRole);
 
         return appRoles;
     }
-
-    // These static Role objects are used for displaying role information in the UI.
-
-    [UsedImplicitly]
-    public static AppRole ManagerRole { get; } = new(
-        RoleName.Manager, "Manager",
-        "Can do manager work."
-    );
-
-    [UsedImplicitly]
-    public static AppRole SiteMaintenanceRole { get; } = new(
-        RoleName.SiteMaintenance, "Site Maintenance",
-        "Can update values in lookup tables (drop-down lists)."
-    );
-
-    [UsedImplicitly]
-    public static AppRole StaffRole { get; } = new(
-        RoleName.Staff, "Staff",
-        "Can do staff work."
-    );
-
-    [UsedImplicitly]
-    public static AppRole UserAdminRole { get; } = new(
-        RoleName.UserAdmin, "User Account Admin",
-        "Can edit all user profiles and roles."
-    );
 }

@@ -4,31 +4,36 @@
 
 ## Public
 
-*Visitors* to this site who are not logged in can only do the following:
-
-* *Describe the capabilities available to visitors to the site who are not logged in.*
+*Visitors* to this site currently have no access or capabilities.
 
 ## User
 
 All active *Users* with work accounts who are logged into the application can:
 
-* *List capabilities here.*
+* Edit account info for themselves, including changing assigned Office.
+* Search for and view application Users.
+* View the list of EPD Offices.
+
+Note: Users who still have current work accounts can be marked "Inactive" by a user account administrator. Inactive
+users are not able to sign in to the application.
 
 ## User Roles
 
 Users can be granted one or more of the following roles.
 
-### Staff
+### General Staff
 
-Users in the *Staff* role can:
+Users in the *General Staff* role can:
 
-* *List capabilities here.*
+* View the dashboard.
+* View all lookup table lists.
+* Search for and view all non-deleted Compliance Work and FCE data.
 
-### Manager
+### Site Maintenance
 
-Users in the *Manager* role have all the capabilities of the *Staff* role. Plus they can:
+Users in the *Site Maintenance* role can:
 
-* *List capabilities here.*
+* Edit the general-purpose lookup tables used for drop-down lists.
 
 ### User Account Admin
 
@@ -36,8 +41,22 @@ Users in the *User Account Admin* role can:
 
 * Manage user accounts and assign roles.
 
-### Site Maintenance
+### Compliance Roles
 
-Users in the *Site Maintenance* role can:
+#### Compliance Staff
 
-* Edit the lookup tables used for drop-down lists.
+Users in the *Compliance Staff* role have all the capabilities of the *General Staff* role. Plus they can:
+
+* View the compliance dashboard.
+
+#### Compliance Site Maintenance
+
+Users in the *Compliance Site Maintenance* role can:
+
+* Edit the compliance-related lookup tables used for drop-down lists.
+
+#### Compliance Manager
+
+Users in the *Compliance Manager* role have all the capabilities of the *Compliance Staff* role. Plus they can:
+
+* Search for and view all Compliance Work and FCE data, including deleted items.

@@ -38,7 +38,12 @@ internal class WorkEntryViewRequirement :
     // Permissions methods
     private bool UserCanClose() => CanCloseOrReopen() && !_resource.IsClosed;
     private bool UserCanReopen() => CanCloseOrReopen() && _resource.IsClosed;
-    private bool CanCloseOrReopen() => _context.User.IsStaff() && _resource is AccViewDto && !_resource.IsDeleted;
-    private bool UserCanEditDetails() => _context.User.IsStaff() && _resource is { IsClosed: false, IsDeleted: false };
-    private bool UserCanManageDeletions() => _context.User.IsManager();
+
+    private bool CanCloseOrReopen() =>
+        _context.User.IsComplianceStaff() && _resource is AccViewDto && !_resource.IsDeleted;
+
+    private bool UserCanEditDetails() =>
+        _context.User.IsComplianceStaff() && _resource is { IsClosed: false, IsDeleted: false };
+
+    private bool UserCanManageDeletions() => _context.User.IsComplianceManager();
 }

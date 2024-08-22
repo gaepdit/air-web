@@ -11,7 +11,7 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.Staff))]
 public class ComplianceIndexModel(
     IComplianceSearchService searchService,
     IStaffService staff,
@@ -32,8 +32,7 @@ public class ComplianceIndexModel(
     public async Task OnGetAsync()
     {
         Spec = new WorkEntrySearchDto();
-        //TODO: FIX THIS!
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.Manager);
+        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         await PopulateSelectListsAsync();
     }
 
@@ -41,7 +40,7 @@ public class ComplianceIndexModel(
         CancellationToken token = default)
     {
         Spec = spec.TrimAll();
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.Manager);
+        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         await PopulateSelectListsAsync();
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());

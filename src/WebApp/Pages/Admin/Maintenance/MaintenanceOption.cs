@@ -9,8 +9,18 @@ public class MaintenanceOption
     private MaintenanceOption() { }
 
     public static MaintenanceOption NotificationType { get; } =
-        new() { SingularName = "Notification Type", PluralName = "Notification Types", StartsWithVowelSound = false };
+        new()
+        {
+            SingularName = "Compliance Notification Type",
+            PluralName = "Compliance Notification Types",
+            StartsWithVowelSound = false,
+        };
 
     public static MaintenanceOption Office { get; } =
-        new() { SingularName = "Office", PluralName = "Offices", StartsWithVowelSound = true };
+        new()
+        {
+            SingularName = "Office",
+            PluralName = "Offices",
+            StartsWithVowelSound = true,
+        };
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Permissions.AppClaims;
+﻿using AirWeb.AppServices.Permissions.AppClaims;
 using AirWeb.AppServices.Permissions.Requirements;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.Requirements;
@@ -11,8 +11,7 @@ public class ActiveUserRequirementTests
     public async Task WhenActive_Succeeds()
     {
         var handler = new ActiveUserRequirement();
-        var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(AppClaimTypes.ActiveUser, true.ToString()) }));
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(AppClaimTypes.ActiveUser, true.ToString())]));
         var context = new AuthorizationHandlerContext([handler], user, null);
 
         await handler.HandleAsync(context);

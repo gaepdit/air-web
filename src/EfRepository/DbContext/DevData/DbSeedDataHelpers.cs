@@ -134,12 +134,12 @@ public static class DbSeedDataHelpers
             context.UserRoles.AddRange(
                 new IdentityUserRole<string>
                 {
-                    RoleId = roles.Single(e => e.Name == RoleName.SiteMaintenance).Id,
+                    RoleId = roles.Single(e => e.Name == RoleName.ComplianceSiteMaintenance).Id,
                     UserId = staffUserId,
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = roles.Single(e => e.Name == RoleName.Staff).Id,
+                    RoleId = roles.Single(e => e.Name == RoleName.ComplianceStaff).Id,
                     UserId = staffUserId,
                 });
         }

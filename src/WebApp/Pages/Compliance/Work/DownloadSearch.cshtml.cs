@@ -4,7 +4,7 @@ using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.Staff))]
 public class DownloadSearchModel(ISearchResultsExportService searchResultsExportService) : PageModel
 {
     public WorkEntrySearchDto Spec { get; private set; } = default!;
