@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using AirWeb.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Permissions.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Permissions.Requirements;
 
-internal class SiteMaintainerRequirement :
-    AuthorizationHandler<SiteMaintainerRequirement>, IAuthorizationRequirement
+internal class SiteMaintenanceRequirement :
+    AuthorizationHandler<SiteMaintenanceRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        SiteMaintainerRequirement requirement)
+        SiteMaintenanceRequirement requirement)
     {
         if (context.User.IsSiteMaintainer())
             context.Succeed(requirement);

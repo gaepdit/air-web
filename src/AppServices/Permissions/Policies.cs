@@ -55,7 +55,7 @@ public static class Policies
 
     // -- General roles
     public static AuthorizationPolicy SiteMaintainer { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();
+        ActiveUserPolicyBuilder.AddRequirements(new SiteMaintenanceRequirement()).Build();
 
     public static AuthorizationPolicy Staff { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new StaffRequirement()).Build();

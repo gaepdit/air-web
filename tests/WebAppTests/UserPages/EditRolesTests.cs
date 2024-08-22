@@ -29,6 +29,7 @@ public class EditRolesTests
         new EditRolesModel.RoleSetting
         {
             Name = SampleText.ValidName,
+            Category = SampleText.ValidName,
             DisplayName = SampleText.ValidName,
             Description = SampleText.ValidName,
             IsSelected = true,
@@ -43,6 +44,7 @@ public class EditRolesTests
             .Select(r => new EditRolesModel.RoleSetting
             {
                 Name = r.Key,
+                Category = r.Value.Category,
                 DisplayName = r.Value.DisplayName,
                 Description = r.Value.Description,
                 IsSelected = r.Key == RoleName.ComplianceSiteMaintenance,

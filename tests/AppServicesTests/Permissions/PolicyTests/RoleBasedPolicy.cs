@@ -17,28 +17,28 @@ public class RoleBasedPolicy
         collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer));
 
     [Test]
-    public async Task WhenAuthenticatedAndActiveAndDivisionManager_Succeeds()
+    public async Task WhenActiveAndWithRequestedRole_Succeeds()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
         [
             new Claim(AppClaimTypes.ActiveUser, true.ToString()),
-            new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
+            new Claim(ClaimTypes.Role, RoleName.SiteMaintenance),
         ], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeTrue();
     }
 
     [Test]
-    public async Task WhenNotActive_DoesNotSucceed()
+    public async Task WhenWithRequestedRoleButNotActive_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            [new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance)], "Basic"));
+            [new Claim(ClaimTypes.Role, RoleName.SiteMaintenance)], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
 
     [Test]
-    public async Task WhenNotDivisionManager_DoesNotSucceed()
+    public async Task WhenActiveButNotWithRequestedRole_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
             [new Claim(AppClaimTypes.ActiveUser, true.ToString())], "Basic"));
@@ -47,12 +47,12 @@ public class RoleBasedPolicy
     }
 
     [Test]
-    public async Task WhenNotAuthenticated_DoesNotSucceed()
+    public async Task WhenActiveAndWithRequestedRoleButNotAuthenticated_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
         [
             new Claim(AppClaimTypes.ActiveUser, true.ToString()),
-            new Claim(ClaimTypes.Role, RoleName.ComplianceSiteMaintenance),
+            new Claim(ClaimTypes.Role, RoleName.SiteMaintenance),
         ]));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
