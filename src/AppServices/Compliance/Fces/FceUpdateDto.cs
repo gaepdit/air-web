@@ -4,6 +4,10 @@ namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceUpdateDto
 {
+    // Authorization handler assist properties
+    public bool IsDeleted { get; init; }
+
+    // Data properties
     [Required]
     [Display(Name = "Reviewed by")]
     public string? ReviewedById { get; init; }
@@ -15,5 +19,5 @@ public record FceUpdateDto
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public required string Notes { get; init; }
+    public string? Notes { get; init; }
 }

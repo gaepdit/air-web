@@ -54,7 +54,7 @@ public sealed class FceService(
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
         fce.OnsiteInspection = resource.OnsiteInspection;
-        fce.Notes = resource.Notes;
+        fce.Notes = resource.Notes ?? string.Empty;
 
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
         return await NotifyOwnerAsync(fce, Template.FceUpdated, token).ConfigureAwait(false);

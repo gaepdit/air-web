@@ -1,5 +1,5 @@
 ﻿@page "{id:int?}"
-@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.AppServices.Compliance
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
 @using AirWeb.AppServices.Compliance.WorkEntries.Notifications
@@ -110,7 +110,7 @@
 }
 
 <dl>
-    <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
     <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
 </dl>
 

@@ -3,7 +3,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Compliance.Permissions;
+namespace AirWeb.AppServices.Compliance.WorkEntries;
 
 internal class WorkEntryViewRequirement :
     AuthorizationHandler<ComplianceWorkOperation, IWorkEntryViewDto>

@@ -1,8 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Compliance.Permissions;
+namespace AirWeb.AppServices.Compliance.Fces;
 
 internal class FceViewRequirement :
     AuthorizationHandler<ComplianceWorkOperation, FceViewDto>

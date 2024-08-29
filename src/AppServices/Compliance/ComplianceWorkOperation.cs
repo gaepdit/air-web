@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace AirWeb.AppServices.Compliance.Permissions;
+namespace AirWeb.AppServices.Compliance;
 
 public class ComplianceWorkOperation :
     OperationAuthorizationRequirement // implements IAuthorizationRequirement

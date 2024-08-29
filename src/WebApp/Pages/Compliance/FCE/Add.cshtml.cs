@@ -21,9 +21,9 @@ public class AddModel(
     [BindProperty]
     public FceCreateDto Item { get; set; } = default!;
 
-    public FacilityViewDto? Facility { get; private set; }
     public SelectList StaffSelectList { get; private set; } = default!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
+    public FacilityViewDto? Facility { get; private set; }
 
     public async Task OnGetAsync(string? facilityId)
     {

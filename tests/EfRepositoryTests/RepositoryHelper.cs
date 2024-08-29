@@ -6,6 +6,7 @@ using AirWeb.Domain.Search;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
+using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Entities;
 using AirWeb.TestData.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
@@ -170,7 +171,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         ClearAllStaticData();
         DbSeedDataHelpers.SeedAllData(_context);
         Context = new AppDbContext(_options);
-        return new ComplianceSearchRepository(Context);
+        return new ComplianceSearchRepository(Context, new LocalFacilityRepository());
     }
 
     /// <summary>
