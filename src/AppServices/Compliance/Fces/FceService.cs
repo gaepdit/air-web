@@ -3,6 +3,7 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.UserServices;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
 using AutoMapper;
 
@@ -32,13 +33,12 @@ public sealed class FceService(
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var fce = await fceManager.CreateAsync(resource.FacilityId!, resource.Year, currentUser, token)
+        var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser, token)
             .ConfigureAwait(false);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
-        fce.CompletedDate = resource.CompletedDate;
         fce.OnsiteInspection = resource.OnsiteInspection;
-        fce.Notes = resource.Notes;
+        fce.Notes = resource.Notes ?? string.Empty;
 
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
 
@@ -53,7 +53,6 @@ public sealed class FceService(
         fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
-        fce.CompletedDate = resource.CompletedDate;
         fce.OnsiteInspection = resource.OnsiteInspection;
         fce.Notes = resource.Notes;
 

@@ -36,5 +36,7 @@ public record CreateResult<TKey>
     /// <summary>
     /// Contains the <see cref="AppNotificationResult"/> generated from an attempted app notification.
     /// </summary>
-    public AppNotificationResult? AppNotificationResult { get; private set; }
+    public AppNotificationResult? AppNotificationResult { get; }
+
+    public bool HasAppNotificationFailure => !string.IsNullOrEmpty(AppNotificationResult?.FailureMessage);
 }

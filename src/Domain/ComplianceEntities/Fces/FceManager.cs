@@ -15,9 +15,10 @@ public class FceManager(IFceRepository repository, IFacilityRepository facilityR
         if (!await facilityRepository.FacilityExistsAsync(facilityId, token).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var item = new Fce(repository.GetNextId(), facilityId, year);
-        item.SetCreator(user?.Id);
-        return item;
+        var fce = new Fce(repository.GetNextId(), facilityId, year);
+        fce.SetCreator(user?.Id);
+
+        return fce;
     }
 
     public void Delete(Fce fce, string? comment, ApplicationUser? user)

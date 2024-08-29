@@ -79,10 +79,10 @@
 
             <thead>
             <tr>
-                <partial name="_SortableTableColHead"
+                <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Name", SortBy.NameAsc, SortBy.NameDesc, Model.Spec)' />
                 <th scope="col">@Html.DisplayNameFor(model => model.Spec.Email)</th>
-                <partial name="_SortableTableColHead"
+                <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Office", SortBy.OfficeAsc, SortBy.OfficeDesc, Model.Spec)' />
                 <th scope="col">Status</th>
                 <th scope="col">
@@ -113,7 +113,7 @@
             </tbody>
         </table>
 
-        <partial name="_PaginationNav" model="Model.ResultsDisplay" />
+        <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
     }
 }
 

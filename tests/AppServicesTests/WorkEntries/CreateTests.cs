@@ -9,7 +9,7 @@ using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.WorkEntries;
 
-public class Create
+public class CreateTests
 {
     [Test]
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()

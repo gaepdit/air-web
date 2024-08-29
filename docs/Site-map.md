@@ -41,26 +41,23 @@ These pages are only available to logged-in staff.
 #### Compliance Work Entry Workflow
 
 * `/Compliance/Work` Compliance Work Entry search form.
-* `/Compliance/Work/{entryId}` Compliance Work Entry details page (compliance events, notifications, and
-  permit revocations).
-* `/Compliance/Work/Add` Add a new Work Entry.
-* `/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.
-* `/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.
+* `/Compliance/Work/Details/{entryId}` Compliance Work Entry details page.
+* ~~`/Compliance/Work/Add` Add a new Work Entry.~~
+* ~~`/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.~~
+* ~~`/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.~~
 * `/Compliance/Work/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
   specified Facility.
 * `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
-* `/Compliance/Work/Delete/{entryId}` Delete a Work Entry.
-* `/Compliance/Work/Restore/{entryId}` Restore a Work Entry.
+* `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
 
 #### FCE Workflow
 
 * `/Compliance/FCE` FCE search form.
-* `/Compliance/FCE/{fceId}` FCE details page.
-* `/Compliance/FCE/Add` Add a new FCE.
-* `/Compliance/FCE/Add?{facilityId}` Add a new FCE for the specified Facility.
+* `/Compliance/FCE/Details/{fceId}` FCE details page.
+* ~~`/Compliance/FCE/Add` Add a new FCE.~~
+* `/Compliance/FCE/Add/{facilityId}` Add a new FCE for the specified Facility.
 * `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
-* `/Compliance/FCE/Delete/{fceId}` Delete an FCE.
-* `/Compliance/FCE/Restore/{fceId}` Restore an FCE.
+* `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
 
 ### Source Tests
 
@@ -76,21 +73,22 @@ These pages are only available to logged-in staff.
 
 #### Enforcement Case Initiation
 
-* `/Compliance/Enforcement/Add` Start new enforcement case.
-* `/Compliance/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
-* `/Compliance/Enforcement/Add?{facilityId}&{entryId}` Start new enforcement case for the specified work entry.
+* ~~`/Compliance/Enforcement/Add` Start new enforcement case.~~
+* `/Compliance/Enforcement/Add/{facilityId}` Start new enforcement case for the specified facility.
+* `/Compliance/Enforcement/Add/{facilityId}/{entryId}` Start new enforcement case for the specified work entry.
 
 #### Enforcement Case Workflow
 
 * `/Compliance/Enforcement/Edit/{enforcementId}` Edit enforcement details.
 * `/Compliance/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
 * `/Compliance/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
+* `/Compliance/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore an enforcement case.
 
 #### Enforcement Action Workflow
 
 * `/Compliance/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
 * `/Compliance/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add?{actionId}` Add an enforcement action linked from another
+* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add/{actionId}` Add an enforcement action linked from another
   enforcement action.
 * `/Compliance/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
 * `/Compliance/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.

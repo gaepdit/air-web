@@ -2,14 +2,18 @@
 
 public record AppNotificationResult
 {
-    private AppNotificationResult() => Success = true;
-    private AppNotificationResult(string failureMessage) => FailureMessage = failureMessage;
+    private AppNotificationResult() { }
 
-    public bool Attempted { get; init; } = true;
-    public bool Success { get; }
-    public string FailureMessage { get; } = string.Empty;
+    public bool Success { get; private init; }
+    public bool Attempted { get; private init; }
+    public string FailureMessage { get; private init; } = string.Empty;
 
-    public static AppNotificationResult SuccessResult() => new();
-    public static AppNotificationResult NotAttemptedResult() => new() { Attempted = false };
-    public static AppNotificationResult FailureResult(string failureMessage) => new(failureMessage);
+    public static AppNotificationResult SuccessResult() => new()
+        { Success = true };
+
+    public static AppNotificationResult NotAttemptedResult() => new()
+        { FailureMessage = "No notification email was sent." };
+
+    public static AppNotificationResult FailureResult(string failureMessage) => new()
+        { Attempted = true, FailureMessage = failureMessage };
 }

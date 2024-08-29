@@ -8,10 +8,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Air Web</title>
-    <partial name="_FaviconPartial" />
+    <partial name="Shared/_FaviconPartial" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <partial name="_RaygunScriptsPartial" />
+    <partial name="Shared/_RaygunScriptsPartial" />
     <script src="~/js/color-modes.js"></script>
 </head>
 
@@ -24,7 +24,7 @@
 
 <main id="main-content" role="main" class="flex-grow-1">
     <div class="container">
-        <partial name="_AlertPartial" for="@displayMessage" />
+        <partial name="Shared/_AlertPartial" for="@displayMessage" />
         @RenderBody()
     </div>
 </main>

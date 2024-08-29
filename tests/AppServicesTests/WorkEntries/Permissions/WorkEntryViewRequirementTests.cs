@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Permissions;
 
-public class WorkEntryViewPermissions
+public class WorkEntryViewRequirementTests
 {
     [Test]
     public async Task ManageDeletions_WhenAllowed_Succeeds()

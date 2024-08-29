@@ -9,12 +9,6 @@ public record FceUpdateDto
     public string? ReviewedById { get; init; }
 
     [Required]
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly CompletedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
-
-    [Required]
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 

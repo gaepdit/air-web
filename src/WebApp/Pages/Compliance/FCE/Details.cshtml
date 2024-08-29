@@ -9,7 +9,7 @@
 
 @if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
 {
-    <partial name="_DeletedItemPartial" model="report" />
+    <partial name="Shared/_DeletedItemPartial" model="report" />
 }
 
 <div class="row justify-content-between align-items-center">
@@ -18,7 +18,7 @@
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
                 <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
@@ -32,9 +32,13 @@
 </div>
 <p class="lead">Tracking #@report.Id.ToString()</p>
 
-<partial name="_FacilityViewDto" model="Model.Item.Facility" />
-
 <dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Shared/CompliancePartials/_FacilityAirsNameLink" model="Model.Item.Facility" />
+    </dd>
+    @* TODO: Additional facility information *@
+
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Year)</dt>
     <dd class="col-sm-8 col-lg-9">
         <strong class="text-info-emphasis">@report.Year.ToString()</strong>
@@ -48,9 +52,9 @@
 </dl>
 <dl>
     <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
-    <dd class="text-break text-pre-line border rounded p-2">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
 </dl>
 
-<h2 class="h4">Comments</h2>
-<partial name="_CommentsSectionPartial"
+<h2 class="h4 mt-4">Comments</h2>
+<partial name="Shared/_CommentsSectionPartial"
          model="(report.Comments, Model.NewCommentId, Model.CommentNotificationFailureMessage, Model.UserCan[ComplianceWorkOperation.Edit])" />

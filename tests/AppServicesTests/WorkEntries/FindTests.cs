@@ -7,7 +7,7 @@ using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.WorkEntries;
 
-public class Find
+public class FindTests
 {
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()

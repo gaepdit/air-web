@@ -35,7 +35,7 @@ public partial record FacilityId
     public override string ToString() => FormattedId;
 
     // Format validation
-    private static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
+    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
     // FUTURE: Update regex to limit first three digits based on county list.
     // Test at https://regex101.com/r/2uYyHl/4

@@ -44,7 +44,7 @@
                             <div class="form-floating">
                                 <select asp-for="Spec.DeleteStatus" name="@nameof(Model.Spec.DeleteStatus)"
                                         asp-items="Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
-                                    <option value="">Not Deleted</option>
+                                    <option value="">@DefaultText.SelectOptionNotDeleted</option>
                                 </select>
                                 <label asp-for="Spec.DeleteStatus" class="form-label"></label>
                             </div>
@@ -149,16 +149,16 @@
         }
         else
         {
-            <partial name="_PaginationNavAndCount" model="Model.ResultsDisplay" />
+            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             <div class="table-responsive-md mb-3">
                 <table class="table table-hover" aria-label="Facility search results">
                     <thead>
                     <tr>
-                        <partial name="_SortableTableColHead"
+                        <partial name="Shared/_SortableTableColHead"
                                  model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
-                        <partial name="_SortableTableColHead"
+                        <partial name="Shared/_SortableTableColHead"
                                  model='new SearchResultsColumnDisplay("FCE Year", SortBy.YearAsc, SortBy.YearDesc, Model.Spec)' />
-                        <partial name="_SortableTableColHead"
+                        <partial name="Shared/_SortableTableColHead"
                                  model='new SearchResultsColumnDisplay("Facility", SortBy.FacilityIdAsc, SortBy.FacilityIdDesc, Model.Spec)' />
                         <th scope="col" class="text-nowrap">FCE Date</th>
                         <th scope="col" class="text-nowrap">Staff</th>
@@ -192,7 +192,7 @@
                     </tbody>
                 </table>
             </div>
-            <partial name="_PaginationNav" model="Model.ResultsDisplay" />
+            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
         }
     </div>
 }
