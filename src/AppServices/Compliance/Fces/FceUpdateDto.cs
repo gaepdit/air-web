@@ -4,15 +4,13 @@ namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceUpdateDto
 {
+    // Authorization handler assist properties
+    public bool IsDeleted { get; init; }
+
+    // Data properties
     [Required]
     [Display(Name = "Reviewed by")]
     public string? ReviewedById { get; init; }
-
-    [Required]
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly CompletedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
     [Display(Name = "With on-site inspection")]
@@ -21,5 +19,5 @@ public record FceUpdateDto
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public required string Notes { get; init; }
+    public string? Notes { get; init; }
 }

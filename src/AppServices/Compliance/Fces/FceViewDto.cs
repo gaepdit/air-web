@@ -24,16 +24,20 @@ public record FceViewDto : IDeletedItem
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    public required string Notes { get; init; }
+    public string Notes { get; init; } = string.Empty;
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
 
     // Properties: Deletion
-    public string ItemName => "FCE";
-    public string ItemId => Id.ToString();
     public bool IsDeleted { get; init; }
+
+    [Display(Name = "Deleted by")]
     public StaffViewDto? DeletedBy { get; init; }
+
+    [Display(Name = "Date deleted")]
     public DateTimeOffset? DeletedAt { get; init; }
+
+    [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
 }

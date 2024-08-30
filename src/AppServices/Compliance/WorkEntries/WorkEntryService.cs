@@ -118,10 +118,10 @@ public sealed partial class WorkEntryService(
         return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
-    public async Task<AppNotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource,
+    public async Task<AppNotificationResult> CloseAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Close(workEntry, currentUser);
@@ -129,10 +129,10 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryClosed, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource,
+    public async Task<AppNotificationResult> ReopenAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Reopen(workEntry, currentUser);
@@ -140,10 +140,10 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryReopened, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         workEntryManager.Delete(workEntry, resource.Comment, currentUser);
@@ -151,10 +151,10 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryDeleted, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource,
+    public async Task<AppNotificationResult> RestoreAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await workEntryRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntryManager.Restore(workEntry);
         await workEntryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
         return await NotifyOwnerAsync(workEntry, Template.EntryRestored, token).ConfigureAwait(false);

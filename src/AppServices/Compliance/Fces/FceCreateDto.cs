@@ -5,9 +5,17 @@ namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceCreateDto
 {
+    public FceCreateDto() { }
+
+    public FceCreateDto(FacilityId facilityId, string userId)
+    {
+        FacilityId = facilityId;
+        ReviewedById = userId;
+    }
+
     [Required]
     [Display(Name = "Facility")]
-    public FacilityId? FacilityId { get; init; }
+    public string? FacilityId { get; init; }
 
     [Required]
     [Display(Name = "FCE Year")]
@@ -18,17 +26,11 @@ public record FceCreateDto
     public string? ReviewedById { get; init; }
 
     [Required]
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Completed")]
-    public DateOnly CompletedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
-
-    [Required]
-    [Display(Name = "With on-site inspection")]
+    [Display(Name = "Included an on-site inspection")]
     public bool OnsiteInspection { get; init; } = true;
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public string Notes { get; init; } = string.Empty;
+    public string? Notes { get; init; } = string.Empty;
 }

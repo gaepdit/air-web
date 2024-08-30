@@ -3,18 +3,18 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.Fces;
+namespace AppServicesTests.Fces.Validators;
 
-public class CreateValidator
+public class CreateValidatorTests
 {
-    private readonly FceCreateDto _model = new() { FacilityId = (FacilityId)"001-00001", Year = 2000 };
+    private readonly FceCreateDto _model = new() { FacilityId = "001-00001", Year = DateTime.Now.Year };
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
         var repoMock = Substitute.For<IFceRepository>();
-        repoMock.ExistsAsync(_model.FacilityId!, _model.Year)
+        repoMock.ExistsAsync((FacilityId)_model.FacilityId!, _model.Year)
             .Returns(false);
 
         var validator = new FceCreateValidator(repoMock);
@@ -31,7 +31,7 @@ public class CreateValidator
     {
         // Arrange
         var repoMock = Substitute.For<IFceRepository>();
-        repoMock.ExistsAsync(_model.FacilityId!, _model.Year)
+        repoMock.ExistsAsync((FacilityId)_model.FacilityId!, _model.Year)
             .Returns(true);
 
         var validator = new FceCreateValidator(repoMock);

@@ -20,9 +20,13 @@ public class FceCreateValidator : AbstractValidator<FceCreateDto>
             .Cascade(CascadeMode.Stop)
             .MustAsync(async (dto, token) =>
                 await UniqueFacilityYear(dto.FacilityId!, dto.Year, token).ConfigureAwait(false))
-            .WithMessage("An FCE already exists for that facility and year.");
+            .WithMessage("An FCE already exists for that facility and year.")
+            .Must(fce => ValidFceYear(fce.Year))
+            .WithMessage("An FCE cannot be created for the selected year.");
     }
 
-    private async Task<bool> UniqueFacilityYear(FacilityId facilityId, int year, CancellationToken token = default) =>
-        !await _repository.ExistsAsync(facilityId, year, token).ConfigureAwait(false);
+    private static bool ValidFceYear(int fceYear) => Fce.ValidFceYears.Contains(fceYear);
+
+    private async Task<bool> UniqueFacilityYear(string facilityId, int year, CancellationToken token = default) =>
+        !await _repository.ExistsAsync((FacilityId)facilityId, year, token: token).ConfigureAwait(false);
 }

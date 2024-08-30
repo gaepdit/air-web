@@ -1,4 +1,5 @@
-using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using Microsoft.AspNetCore.Authentication;
@@ -18,7 +19,9 @@ public static class AuthorizationPolicies
         // Resource/operation-based permission handlers, e.g.:
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
-        services.AddSingleton<IAuthorizationHandler, FceViewRequirement>();
+        // FceViewRequirement is added scoped because it consumes the scoped IFceService.
+        services.AddScoped<IAuthorizationHandler, FceViewRequirement>();
+
         // services.AddSingleton<IAuthorizationHandler, WorkEntryUpdateRequirement>();
         services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
 

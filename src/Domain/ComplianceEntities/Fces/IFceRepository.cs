@@ -50,9 +50,11 @@ public interface IFceRepository : IRepository<Fce, int>
     /// </summary>
     /// <param name="facilityId">The ID of the facility.</param>
     /// <param name="year">The FCE year.</param>
+    /// <param name="ignoreId">The ID of an FCE to ignore when evaluating the other conditions.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>True if the FCE exists; otherwise false.</returns>
-    public Task<bool> ExistsAsync(FacilityId facilityId, int year, CancellationToken token = default);
+    public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
+        CancellationToken token = default);
 
     /// <summary>
     /// Adds a <see cref="Comment"/> to an <see cref="Fce"/>.

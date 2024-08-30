@@ -21,7 +21,8 @@ public class OfficeService(
 {
     private readonly IUserService _userService = userService;
 
-    public async Task<IReadOnlyList<ListItem<string>>> GetStaffAsListItemsAsync(Guid? id, bool includeInactive = false,
+    public async Task<IReadOnlyList<ListItem<string>>> GetStaffAsListItemsAsync(Guid? id = null,
+        bool includeInactive = false,
         CancellationToken token = default)
     {
         if (id is null) return Array.Empty<ListItem<string>>();

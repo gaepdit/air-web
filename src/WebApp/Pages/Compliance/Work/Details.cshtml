@@ -1,5 +1,5 @@
 ﻿@page "{id:int?}"
-@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.AppServices.Compliance
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
 @using AirWeb.AppServices.Compliance.WorkEntries.Notifications
@@ -13,12 +13,34 @@
     var report = Model.Item;
     var workEntryType = report.WorkEntryType;
     var workEntryName = workEntryType.GetDescription();
-    ViewData["Title"] = $"Facility {report.FacilityId} - {workEntryName} ({report.Id})";
+    ViewData["Title"] = $"Facility {report.FacilityId} - {workEntryName} ({Model.Id})";
 }
 
-@if (report.IsDeleted && Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+@if (report.IsDeleted)
 {
-    <partial name="_DeletedItemPartial" model="report" />
+    <div class="callout callout-danger mb-3">
+        <div class="container-full">
+            <div class="row justify-content-between align-items-center g-0 my-1">
+                <div class="col">
+                    <h4 class="text-danger-emphasis">This @report.ItemName has been deleted.</h4>
+                </div>
+                @if (Model.UserCan[ComplianceWorkOperation.Restore])
+                {
+                    <div class="col-auto d-print-none ms-2">
+                        <a asp-page="Restore" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+                            Restore deleted entry
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <p>
+            Deleted by @Html.DisplayFor(_ => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(_ => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetOrNotEntered)
+        </p>
+        <h5>Comments</h5>
+        <p class="text-break text-pre-line">@Html.DisplayFor(_ => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+    </div>
 }
 
 <div class="row justify-content-between align-items-center">
@@ -27,28 +49,28 @@
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
-                <a asp-page="Details" asp-page-handler="Close" asp-route-id="@report.Id.ToString()"
+                <a asp-page="Details" asp-page-handler="Close" asp-route-id="@Model.Id.ToString()"
                    class="btn btn-outline-primary">
                     Close
                 </a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Reopen])
             {
-                <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@report.Id.ToString()"
+                <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@Model.Id.ToString()"
                    class="btn btn-outline-primary">
                     Reopen
                 </a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
-                <a asp-page="Edit" asp-route-id="@report.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.ManageDeletions])
+            @if (Model.UserCan[ComplianceWorkOperation.Delete])
             {
-                <a asp-page="Delete" asp-route-id="@report.Id.ToString()" class="btn btn-outline-danger">Delete</a>
+                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
             @if (report.HasPrintout)
             {
@@ -62,11 +84,15 @@
         </div>
     }
 </div>
-<p class="lead mt-2 mt-md-0">Tracking #@report.Id.ToString()</p>
-
-<partial name="_FacilityViewDto" model="Model.Item.Facility" />
+<p class="lead mt-2 mt-md-0">Tracking #@Model.Id.ToString()</p>
 
 <dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Shared/CompliancePartials/_FacilityAirsNameLink" model="Model.Item.Facility" />
+    </dd>
+    @* TODO: Additional facility information *@
+
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ResponsibleStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
     @if (report.IsClosed)
@@ -106,9 +132,10 @@
 }
 
 <dl>
-    <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
-    <dd class="text-break text-pre-line border rounded p-2">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
 </dl>
 
-<h2 class="h4">Comments</h2>
-<partial name="_CommentsSectionPartial" model="(report.Comments, Model.NewCommentId, Model.CommentNotificationFailureMessage, Model.UserCan[ComplianceWorkOperation.Edit])" />
+<h2 class="h4 mt-4">Comments</h2>
+<partial name="Shared/_CommentsSectionPartial"
+         model="(report.Comments, Model.NewCommentId, Model.CommentNotificationFailureMessage, Model.UserCan[ComplianceWorkOperation.Edit])" />

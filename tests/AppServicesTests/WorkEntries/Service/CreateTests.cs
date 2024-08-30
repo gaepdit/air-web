@@ -7,9 +7,9 @@ using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 
-namespace AppServicesTests.WorkEntries;
+namespace AppServicesTests.WorkEntries.Service;
 
-public class Create
+public class CreateTests
 {
     [Test]
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()

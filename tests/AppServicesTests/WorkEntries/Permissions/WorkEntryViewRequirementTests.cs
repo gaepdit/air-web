@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
+﻿using AirWeb.AppServices.Compliance;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -6,13 +7,13 @@ using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Permissions;
 
-public class WorkEntryViewPermissions
+public class WorkEntryViewRequirementTests
 {
     [Test]
     public async Task ManageDeletions_WhenAllowed_Succeeds()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.ManageDeletions };
+        var requirements = new[] { ComplianceWorkOperation.Delete };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -34,7 +35,7 @@ public class WorkEntryViewPermissions
     public async Task ManageDeletions_WhenNotAuthenticated_DoesNotSucceed()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.ManageDeletions };
+        var requirements = new[] { ComplianceWorkOperation.Delete };
 
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
@@ -55,7 +56,7 @@ public class WorkEntryViewPermissions
     public async Task ManageDeletions_WhenNotAllowed_DoesNotSucceed()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.ManageDeletions };
+        var requirements = new[] { ComplianceWorkOperation.Delete };
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);

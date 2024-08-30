@@ -9,7 +9,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
 public interface IWorkEntryViewDto : IDeletedItem
 {
-    public int Id { get; }
+    public string ItemName { get; }
     public FacilityViewDto Facility { get; set; }
     public string FacilityId { get; }
     public WorkEntryType WorkEntryType { get; }

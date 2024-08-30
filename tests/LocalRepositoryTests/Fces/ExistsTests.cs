@@ -4,7 +4,7 @@ using AirWeb.TestData.Entities;
 
 namespace LocalRepositoryTests.Fces;
 
-public class Exists
+public class ExistsTests
 {
     private LocalFceRepository _repository = default!;
 
@@ -27,6 +27,31 @@ public class Exists
         result.Should().BeTrue();
     }
 
+    [Test]
+    public async Task IgnoringExistingItem_ReturnsFalse()
+    {
+        // Arrange
+        var fce = FceData.GetData.First();
+
+        // Act
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, fce.Id);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task GivenExistingItem_IgnoringDifferentItem_ReturnsTrue()
+    {
+        // Arrange
+        var fce = FceData.GetData.First();
+
+        // Act
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, 1);
+
+        // Assert
+        result.Should().BeTrue();
+    }
 
     [Test]
     public async Task GivenNonexistentItem_ReturnsFalse()

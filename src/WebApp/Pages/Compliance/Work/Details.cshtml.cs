@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions;
@@ -9,17 +9,21 @@ namespace AirWeb.WebApp.Pages.Compliance.Work;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(IWorkEntryService workEntryService, IAuthorizationService authorization) : PageModel
 {
+    [FromRoute]
+    public int Id { get; set; }
+
     public IWorkEntryViewDto Item { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int? id)
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (id is null) return RedirectToPage("Index");
-        var item = await workEntryService.FindAsync(id.Value);
+        if (Id == 0) return RedirectToPage("Index");
+
+        var item = await workEntryService.FindAsync(Id);
         if (item is null) return NotFound();
 
         await SetPermissionsAsync(item);
-        if (item.IsDeleted && !UserCan[ComplianceWorkOperation.ManageDeletions]) return NotFound();
+        if (item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
 
         Item = item;
         return Page();
@@ -31,11 +35,9 @@ public class DetailsModel(IWorkEntryService workEntryService, IAuthorizationServ
     [TempData]
     public string? CommentNotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnPostNewCommentAsync(int? id, CommentAddDto<int> newComment,
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto<int> newComment,
         CancellationToken token)
     {
-        if (id is null) return BadRequest();
-        //
         // var complaintView = await complaintService.FindAsync(id.Value, includeDeletedActions: true, token);
         // if (complaintView is null || complaintView.IsDeleted) return BadRequest();
         //
@@ -50,11 +52,11 @@ public class DetailsModel(IWorkEntryService workEntryService, IAuthorizationServ
         //     return Page();
         // }
 
-        var addCommentResult = await workEntryService.AddCommentAsync(id.Value, newComment, token);
+        var addCommentResult = await workEntryService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.CommentId;
         if (!addCommentResult.AppNotificationResult.Success)
             CommentNotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
     }
 
     private async Task SetPermissionsAsync(IWorkEntryViewDto item)
