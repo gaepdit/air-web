@@ -16,5 +16,7 @@ public class ComplianceWorkOperation :
     public static readonly ComplianceWorkOperation Close = new(nameof(Close));
     public static readonly ComplianceWorkOperation Reopen = new(nameof(Reopen));
     public static readonly ComplianceWorkOperation Edit = new(nameof(Edit));
-    public static readonly ComplianceWorkOperation ManageDeletions = new(nameof(ManageDeletions));
+    public static readonly ComplianceWorkOperation ViewDeleted = new(nameof(ViewDeleted));
+    public static readonly ComplianceWorkOperation Delete = new(nameof(Delete));
+    public static readonly ComplianceWorkOperation Restore = new(nameof(Restore));
 }

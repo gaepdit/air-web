@@ -3,8 +3,7 @@
 namespace AirWeb.AppServices.CommonDtos;
 
 // Used for closing, reopening, deleting, and restoring Entities.
-public record ChangeEntityStatusDto<TKey>(TKey Id)
-    where TKey : IEquatable<TKey>
+public record StatusCommentDto
 {
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]

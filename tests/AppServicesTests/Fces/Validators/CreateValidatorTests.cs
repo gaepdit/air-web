@@ -3,7 +3,7 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.Fces;
+namespace AppServicesTests.Fces.Validators;
 
 public class CreateValidatorTests
 {

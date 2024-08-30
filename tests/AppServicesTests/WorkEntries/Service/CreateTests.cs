@@ -7,7 +7,7 @@ using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 
-namespace AppServicesTests.WorkEntries;
+namespace AppServicesTests.WorkEntries.Service;
 
 public class CreateTests
 {

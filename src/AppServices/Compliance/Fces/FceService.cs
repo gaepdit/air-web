@@ -73,10 +73,10 @@ public sealed class FceService(
         return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
-        var fce = await fceRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
+        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         fceManager.Delete(fce, resource.Comment, currentUser);
@@ -84,15 +84,16 @@ public sealed class FceService(
         return await NotifyOwnerAsync(fce, Template.FceDeleted, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource,
-        CancellationToken token = default)
+    public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var fce = await fceRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
-
+        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
         fceManager.Restore(fce);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
         return await NotifyOwnerAsync(fce, Template.FceRestored, token).ConfigureAwait(false);
     }
+
+    public Task<bool> ExistsAsync(FceRestoreDto resource, CancellationToken token = default) =>
+        fceRepository.ExistsAsync((FacilityId)resource.FacilityId, resource.Year, resource.Id, token);
 
     private async Task<AppNotificationResult> NotifyOwnerAsync(Fce fce, Template template,
         CancellationToken token, Comment? comment = null)

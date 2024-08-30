@@ -27,7 +27,7 @@ internal class WorkEntryViewRequirement :
             nameof(ComplianceWorkOperation.Close) => UserCanClose(),
             nameof(ComplianceWorkOperation.Edit) => UserCanEditDetails(),
             nameof(ComplianceWorkOperation.Reopen) => UserCanReopen(),
-            nameof(ComplianceWorkOperation.ManageDeletions) => UserCanManageDeletions(),
+            nameof(ComplianceWorkOperation.Delete) => UserCanManageDeletions(),
             _ => false,
         };
 

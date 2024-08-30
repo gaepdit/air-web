@@ -8,17 +8,21 @@ namespace AirWeb.WebApp.Pages.Compliance.FCE;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(IFceService fceService, IAuthorizationService authorization) : PageModel
 {
+    [FromRoute]
+    public int Id { get; set; }
+
     public FceViewDto Item { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int? id)
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (id is null) return RedirectToPage("Index");
-        var item = await fceService.FindAsync(id.Value);
+        if (Id == 0) return RedirectToPage("Index");
+
+        var item = await fceService.FindAsync(Id);
         if (item is null) return NotFound();
 
         await SetPermissionsAsync(item);
-        if (item.IsDeleted && !UserCan[ComplianceWorkOperation.ManageDeletions]) return NotFound();
+        if (item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
 
         Item = item;
         return Page();
@@ -30,11 +34,9 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     [TempData]
     public string? CommentNotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnPostNewCommentAsync(int? id, CommentAddDto<int> newComment,
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto<int> newComment,
         CancellationToken token)
     {
-        if (id is null) return BadRequest();
-        //
         // var complaintView = await complaintService.FindAsync(id.Value, includeDeletedActions: true, token);
         // if (complaintView is null || complaintView.IsDeleted) return BadRequest();
         //
@@ -49,11 +51,11 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
         //     return Page();
         // }
 
-        var addCommentResult = await fceService.AddCommentAsync(id.Value, newComment, token);
+        var addCommentResult = await fceService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.CommentId;
         if (!addCommentResult.AppNotificationResult.Success)
             CommentNotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
     }
 
     private async Task SetPermissionsAsync(FceViewDto item)

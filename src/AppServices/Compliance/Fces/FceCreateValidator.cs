@@ -28,5 +28,5 @@ public class FceCreateValidator : AbstractValidator<FceCreateDto>
     private static bool ValidFceYear(int fceYear) => Fce.ValidFceYears.Contains(fceYear);
 
     private async Task<bool> UniqueFacilityYear(string facilityId, int year, CancellationToken token = default) =>
-        !await _repository.ExistsAsync((FacilityId)facilityId, year, token).ConfigureAwait(false);
+        !await _repository.ExistsAsync((FacilityId)facilityId, year, token: token).ConfigureAwait(false);
 }

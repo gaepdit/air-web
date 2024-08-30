@@ -15,8 +15,8 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
     Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource, CancellationToken token = default);
     Task<AddCommentResult> AddCommentAsync(int id, CommentAddDto<int> resource, CancellationToken token = default);
-    Task<AppNotificationResult> CloseAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<AppNotificationResult> ReopenAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<AppNotificationResult> DeleteAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
-    Task<AppNotificationResult> RestoreAsync(ChangeEntityStatusDto<int> resource, CancellationToken token = default);
+    Task<AppNotificationResult> CloseAsync(int id, StatusCommentDto resource, CancellationToken token = default);
+    Task<AppNotificationResult> ReopenAsync(int id, StatusCommentDto resource, CancellationToken token = default);
+    Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource, CancellationToken token = default);
+    Task<AppNotificationResult> RestoreAsync(int id, StatusCommentDto resource, CancellationToken token = default);
 }
