@@ -27,7 +27,7 @@ internal static class FceData
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-14).Date),
             Notes = "Deleted FCE",
         },
-        new Fce(404, DomainData.GetRandomFacility().Id, 2020)
+        new Fce(404, DomainData.GetRandomFacility().Id, 2023)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(1),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-50).Date),

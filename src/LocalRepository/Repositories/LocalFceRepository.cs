@@ -22,8 +22,7 @@ public sealed class LocalFceRepository()
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default) => Task.FromResult(Items.Any(fce =>
-        fce.FacilityId == facilityId && fce.Year.Equals(year) && !fce.IsDeleted &&
-        (ignoreId is null || fce.Id != ignoreId)));
+        fce.FacilityId == facilityId && fce.Year.Equals(year) && !fce.IsDeleted && fce.Id != ignoreId));
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>
         (await GetAsync(id, token).ConfigureAwait(false)).Comments.Add(new FceComment(comment, id));

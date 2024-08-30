@@ -1,8 +1,3 @@
-using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.NamedEntities.Offices;
-using AirWeb.Domain.Search;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
@@ -141,7 +136,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="FceRepository"/>.
     /// </summary>
     /// <returns>An FCE Repository.</returns>
-    public IFceRepository GetFceRepository()
+    public FceRepository GetFceRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedIdentityData(_context);
@@ -154,7 +149,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
     /// </summary>
     /// <returns>An WorkEntryRepository.</returns>
-    public IWorkEntryRepository GetWorkEntryRepository()
+    public WorkEntryRepository GetWorkEntryRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedAllData(_context);
@@ -166,7 +161,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
     /// </summary>
     /// <returns>An WorkEntryRepository.</returns>
-    public IComplianceSearchRepository GetComplianceSearchRepository()
+    public ComplianceSearchRepository GetComplianceSearchRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedAllData(_context);
@@ -178,7 +173,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="NotificationTypeRepository"/>.
     /// </summary>
     /// <returns>An NotificationTypeRepository.</returns>
-    public INotificationTypeRepository GetNotificationTypeRepository()
+    public NotificationTypeRepository GetNotificationTypeRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedNotificationTypeData(_context);
@@ -190,7 +185,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="OfficeRepository"/>.
     /// </summary>
     /// <returns>An OfficeRepository.</returns>
-    public IOfficeRepository GetOfficeRepository()
+    public OfficeRepository GetOfficeRepository()
     {
         ClearAllStaticData();
         DbSeedDataHelpers.SeedOfficeData(_context);
