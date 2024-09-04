@@ -6,6 +6,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
 public record InspectionCreateDto : WorkEntryCreateDto, IInspectionCommandDto
 {
+    public bool IsRmpInspection { get; init; }
+
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Start Date")]
@@ -28,10 +30,10 @@ public record InspectionCreateDto : WorkEntryCreateDto, IInspectionCommandDto
     public InspectionReason? InspectionReason { get; init; }
 
     [Display(Name = "Weather Conditions")]
-    public required string WeatherConditions { get; init; }
+    public string WeatherConditions { get; init; } = string.Empty;
 
     [Display(Name = "Inspection Guides")]
-    public required string InspectionGuide { get; init; }
+    public string InspectionGuide { get; init; } = string.Empty;
 
     [Display(Name = "Facility Operating")]
     public bool FacilityOperating { get; init; }
