@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+@page "{id:int?}"
 @using AirWeb.AppServices.Compliance
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
@@ -97,10 +97,10 @@
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
     @if (report.IsClosed)
     {
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => report.ClosedBy)</dt>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ClosedBy)</dt>
         <dd class="col-sm-8 col-lg-9">
-            @Html.DisplayFor(model => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(model => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
         </dd>
     }
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>
