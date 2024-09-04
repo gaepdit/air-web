@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<RmpInspection> RmpInspectionData =>
     [
-        new RmpInspection(10001)
+        new(10001)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
@@ -29,7 +29,7 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new RmpInspection(10002)
+        new(10002)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
@@ -50,7 +50,7 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new RmpInspection(10003)
+        new(10003)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),

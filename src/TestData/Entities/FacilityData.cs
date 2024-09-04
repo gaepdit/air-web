@@ -7,7 +7,7 @@ internal static class FacilityData
 {
     private static IEnumerable<Facility> FacilitySeedItems =>
     [
-        new Facility("001-00001")
+        new("001-00001")
         {
             CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -17,7 +17,7 @@ internal static class FacilityData
             OperatingStatusCode = FacilityOperatingStatus.O,
             ClassificationCode = FacilityClassification.A,
         },
-        new Facility("002-00002")
+        new("002-00002")
         {
             CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             Description = string.Empty,
@@ -27,7 +27,7 @@ internal static class FacilityData
             OperatingStatusCode = FacilityOperatingStatus.O,
             ClassificationCode = FacilityClassification.S,
         },
-        new Facility("003-00003")
+        new("003-00003")
         {
             CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -37,7 +37,7 @@ internal static class FacilityData
             OperatingStatusCode = FacilityOperatingStatus.X,
             ClassificationCode = FacilityClassification.A,
         },
-        new Facility("004-00004")
+        new("004-00004")
         {
             CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -72,6 +72,4 @@ internal static class FacilityData
             return _facilityNames;
         }
     }
-
-    public static void ClearData() => _facilities = null;
 }

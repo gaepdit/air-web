@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<SourceTestReview> SourceTestReviewData =>
     [
-        new SourceTestReview(11001)
+        new(11001)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
@@ -25,7 +25,7 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new SourceTestReview(11002)
+        new(11002)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
@@ -42,7 +42,7 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new SourceTestReview(11003)
+        new(11003)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),

@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<AnnualComplianceCertification> AccData =>
     [
-        new AnnualComplianceCertification(5001)
+        new(5001)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
@@ -32,7 +32,7 @@ internal static partial class WorkEntries
             ResubmittalRequired = false,
             EnforcementNeeded = false,
         },
-        new AnnualComplianceCertification(5002)
+        new(5002)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
@@ -59,7 +59,7 @@ internal static partial class WorkEntries
             ResubmittalRequired = true,
             EnforcementNeeded = true,
         },
-        new AnnualComplianceCertification(5003)
+        new(5003)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
