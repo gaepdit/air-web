@@ -38,6 +38,15 @@ These pages are only available to logged-in staff.
 
 * `/Compliance` Compliance dashboard.
 
+#### FCE Workflow
+
+* `/Compliance/FCE` FCE search form.
+* `/Compliance/FCE/Details/{fceId}` FCE details page.
+* ~~`/Compliance/FCE/Add` Add a new FCE.~~
+* `/Compliance/FCE/Add/{facilityId}` Add a new FCE for the specified Facility.
+* `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
+* `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
+
 #### Compliance Work Entry Workflow
 
 * `/Compliance/Work` Compliance Work Entry search form.
@@ -49,15 +58,6 @@ These pages are only available to logged-in staff.
   specified Facility.
 * `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
 * `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
-
-#### FCE Workflow
-
-* `/Compliance/FCE` FCE search form.
-* `/Compliance/FCE/Details/{fceId}` FCE details page.
-* ~~`/Compliance/FCE/Add` Add a new FCE.~~
-* `/Compliance/FCE/Add/{facilityId}` Add a new FCE for the specified Facility.
-* `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
-* `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
 
 ### Source Tests
 

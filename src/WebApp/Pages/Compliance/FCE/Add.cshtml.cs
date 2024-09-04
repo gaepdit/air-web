@@ -25,16 +25,17 @@ public class AddModel(
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
     public FacilityViewDto? Facility { get; private set; }
 
-    public async Task OnGetAsync(string? facilityId)
+    public async Task<IActionResult> OnGetAsync(string? facilityId)
     {
         Facility = await facilityService.FindAsync(facilityId);
 
         // FUTURE: Add a facility search feature to the page?
-        if (Facility is null) return;
+        if (Facility is null) return NotFound("Facility ID not found.");
 
         await PopulateSelectListsAsync();
         var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
         Item = new FceCreateDto((FacilityId)facilityId!, currentUserId);
+        return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
@@ -52,14 +53,15 @@ public class AddModel(
 
         var createResult = await fceService.CreateAsync(Item, token);
 
+        const string message = "FCE successfully created.";
         if (createResult.HasAppNotificationFailure)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, "FCE successfully created.",
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
                 createResult.AppNotificationResult!.FailureMessage);
         }
         else
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully created.");
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
         }
 
         return RedirectToPage("Details", new { createResult.Id });
