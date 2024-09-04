@@ -54,9 +54,10 @@ These pages are only available to logged-in staff.
 * ~~`/Compliance/Work/Add` Add a new Work Entry.~~
 * ~~`/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.~~
 * ~~`/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.~~
-* `/Compliance/Work/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
+* `/Compliance/Work/{workEntryType}/Add/{facilityId}` Add a new Work Entry of the specified type for the
   specified Facility.
 * `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
+* `/Compliance/Work/[Close|Reopen]/{entryId}` Close/reopen a Work Entry (applies to ACCs and Permit Revocations only).
 * `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
 
 ### Source Tests

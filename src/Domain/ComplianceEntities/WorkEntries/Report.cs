@@ -26,8 +26,9 @@ public class Report : ComplianceEvent
     public DateOnly ReportingPeriodStart { get; set; }
     public DateOnly? ReportingPeriodEnd { get; set; }
 
-    // TODO: fix unlimited string length
+    [StringLength(500)]
     public string? ReportingPeriodComment { get; set; }
+
     public DateOnly? DueDate { get; set; }
     public DateOnly? SentDate { get; set; }
     public bool ReportComplete { get; set; }

@@ -45,6 +45,7 @@ public record AccCreateDto : WorkEntryCreateDto, IAccCommandDto
     [Display(Name = "Includes all previously known deviations")]
     public bool ReportsAllKnownDeviations { get; init; }
 
+    [Required]
     [Display(Name = "Resubmittal required")]
     public bool ResubmittalRequired { get; init; }
 

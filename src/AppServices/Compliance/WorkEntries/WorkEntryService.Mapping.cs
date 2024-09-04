@@ -25,7 +25,6 @@ public sealed partial class WorkEntryService
             NotificationCreateDto => workEntryManager.Create(WorkEntryType.Notification, currentUser),
             PermitRevocationCreateDto => workEntryManager.Create(WorkEntryType.PermitRevocation, currentUser),
             ReportCreateDto => workEntryManager.Create(WorkEntryType.Report, currentUser),
-            RmpInspectionCreateDto => workEntryManager.Create(WorkEntryType.RmpInspection, currentUser),
             SourceTestReviewCreateDto => workEntryManager.Create(WorkEntryType.SourceTestReview, currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
@@ -43,7 +42,7 @@ public sealed partial class WorkEntryService
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes;
+        workEntry.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {

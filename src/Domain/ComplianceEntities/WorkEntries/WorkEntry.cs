@@ -81,6 +81,9 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         WorkEntryType.SourceTestReview => "Received By Compliance",
         _ => "Error",
     };
+
+    // Business logic
+    public const int EarliestWorkEntryYear = 2000;
 }
 
 public record WorkEntryComment : Comment

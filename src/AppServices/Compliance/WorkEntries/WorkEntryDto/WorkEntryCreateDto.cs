@@ -5,7 +5,6 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 public record WorkEntryCreateDto : IWorkEntryCreateDto
 {
     [Required]
-    [Display(Name = "Facility")]
     public string? FacilityId { get; init; }
 
     [Required]
@@ -19,6 +18,5 @@ public record WorkEntryCreateDto : IWorkEntryCreateDto
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    [Display(Name = "Notes")]
-    public required string Notes { get; init; }
+    public string? Notes { get; init; } = string.Empty;
 }
