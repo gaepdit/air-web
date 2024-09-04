@@ -14,7 +14,8 @@ public abstract class AddBase : PageModel
 
     protected async Task<IActionResult> DoPost<TViewDto, TUpdateDto, TCreateDto>(
         INamedEntityService<TViewDto, TUpdateDto> service,
-        IValidator<TCreateDto> validator, TCreateDto item)
+        IValidator<TCreateDto> validator,
+        TCreateDto item)
         where TCreateDto : NamedEntityCreateDto
     {
         await validator.ApplyValidationAsync(item, ModelState);

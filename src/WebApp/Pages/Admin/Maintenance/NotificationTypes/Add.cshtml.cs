@@ -11,7 +11,11 @@ public class AddModel : AddBase
     [BindProperty]
     public NotificationTypeCreateDto Item { get; set; } = default!;
 
-    public void OnGet() => ThisOption = MaintenanceOption.NotificationType;
+    public void OnGet()
+    {
+        ThisOption = MaintenanceOption.NotificationType;
+        Item = new NotificationTypeCreateDto();
+    }
 
     public async Task<IActionResult> OnPostAsync(
         [FromServices] INotificationTypeService service,

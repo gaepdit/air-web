@@ -11,7 +11,11 @@ public class AddModel : AddBase
     [BindProperty]
     public OfficeCreateDto Item { get; set; } = default!;
 
-    public void OnGet() => ThisOption = MaintenanceOption.Office;
+    public void OnGet()
+    {
+        ThisOption = MaintenanceOption.Office;
+        Item = new OfficeCreateDto();
+    }
 
     public async Task<IActionResult> OnPostAsync(
         [FromServices] IOfficeService service,
