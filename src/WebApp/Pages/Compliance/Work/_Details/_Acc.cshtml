@@ -7,9 +7,9 @@
         <strong class="text-info-emphasis">@Html.DisplayFor(m => m.AccReportingYear, DisplayTemplate.IntOrPlaceholder)</strong>
     </dd>
     <dt>@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
-    <dd>@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnly)</dd>
+    <dd>@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
     <dt>@Html.DisplayNameFor(m => m.Postmarked)</dt>
-    <dd>@Html.DisplayFor(m => m.Postmarked, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dd>@Html.DisplayFor(m => m.Postmarked, DisplayTemplate.ShortDateOnly)</dd>
     <dt>@Html.DisplayNameFor(m => m.PostmarkedOnTime)</dt>
     <dd>@Html.DisplayFor(m => m.PostmarkedOnTime, DisplayTemplate.BoolYesNo)</dd>
     <dt>@Html.DisplayNameFor(m => m.SignedByRo)</dt>

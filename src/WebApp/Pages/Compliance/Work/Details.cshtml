@@ -1,4 +1,4 @@
-@page "{id:int?}"
+﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
@@ -86,7 +86,7 @@
 </div>
 <p class="lead mt-2 mt-md-0">Tracking #@Model.Id.ToString()</p>
 
-<dl class="row mt-3 mb-0">
+<dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
         <partial name="Shared/CompliancePartials/_FacilityAirsNameLink" model="Model.Item.Facility" />
@@ -112,22 +112,22 @@
 @switch (report)
 {
     case AccViewDto acc:
-        <partial name="_AccDetails" model="acc" />
+        <partial name="_Details/_Acc" model="acc" />
         break;
     case InspectionViewDto inspection:
-        <partial name="_InspectionDetails" model="inspection" />
+        <partial name="_Details/_Inspection" model="inspection" />
         break;
     case NotificationViewDto notification:
-        <partial name="_NotificationDetails" model="notification" />
+        <partial name="_Details/_Notification" model="notification" />
         break;
     case PermitRevocationViewDto permitRevocation:
-        <partial name="_PermitRevocationDetails" model="permitRevocation" />
+        <partial name="_Details/_PermitRevocation" model="permitRevocation" />
         break;
     case ReportViewDto rpt:
-        <partial name="_ReportDetails" model="rpt" />
+        <partial name="_Details/_Report" model="rpt" />
         break;
     case SourceTestReviewViewDto sourceTestReview:
-        <partial name="_SourceTestReviewDetails" model="sourceTestReview" />
+        <partial name="_Details/_SourceTestReview" model="sourceTestReview" />
         break;
 }
 
