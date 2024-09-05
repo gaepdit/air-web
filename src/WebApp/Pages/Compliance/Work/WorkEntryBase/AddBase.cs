@@ -13,6 +13,6 @@ public abstract class AddBase(IStaffService staffService) : PageModel
     public FacilityViewDto? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = default!;
 
-    protected async Task PopulateSelectListsAsync() =>
+    protected async Task PopulateStaffSelectListsAsync() =>
         StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
 }
