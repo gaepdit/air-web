@@ -96,7 +96,7 @@
                                     @foreach (var workEntryType in Enum.GetValues(typeof(WorkTypeSearch)).Cast<WorkTypeSearch>().ToList())
                                     {
                                         <div class="form-check">
-                                            <input class="form-check-input" name="Spec.Include" type="checkbox" value="@workEntryType"
+                                            <input class="form-check-input" name="Include" type="checkbox" value="@workEntryType"
                                                    id="Include_@workEntryType" checked="@Model.Spec.Include.Contains(workEntryType)" />
                                             <label class="form-check-label" for="Include_@workEntryType">@workEntryType.GetDescription()</label>
                                         </div>
