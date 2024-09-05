@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<RmpInspection> RmpInspectionData =>
     [
-        new(10001)
+        new(10001, UserData.GetUsers.ElementAt(0))
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
@@ -16,7 +16,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "In compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(0),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             InspectionReason = InspectionReason.PlannedUnannounced,
@@ -29,7 +28,7 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new(10002)
+        new(10002, UserData.GetUsers.ElementAt(1))
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),
@@ -37,7 +36,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             InspectionReason = InspectionReason.Complaint,
@@ -50,7 +48,7 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new(10003)
+        new(10003, null)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
             Facility = DomainData.GetRandomFacility(),

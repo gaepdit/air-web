@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.Domain.Identity;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -10,10 +11,10 @@ public class Report : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     private Report() { }
 
-    internal Report(int? id) : base(id)
+    internal Report(int? id, ApplicationUser? user) : base(id)
     {
         WorkEntryType = WorkEntryType.Report;
-        IsClosed = true;
+        Close(user);
     }
 
     // Properties

@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<SourceTestReview> SourceTestReviewData =>
     [
-        new(11001)
+        new(11001, UserData.GetUsers.ElementAt(0))
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
@@ -16,7 +16,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = "In compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(0),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReferenceNumber = SampleText.ValidReferenceNumber,
@@ -25,7 +24,7 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new(11002)
+        new(11002, UserData.GetUsers.ElementAt(1))
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),
@@ -33,7 +32,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             ReferenceNumber = SampleText.ValidReferenceNumber + 1,
@@ -42,7 +40,7 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new(11003)
+        new(11003, null)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             Facility = DomainData.GetRandomFacility(),

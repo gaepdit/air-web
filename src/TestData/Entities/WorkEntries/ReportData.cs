@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Report> ReportData =>
     [
-        new(9001)
+        new(9001, UserData.GetUsers.ElementAt(0))
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
@@ -16,7 +16,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "In compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(0),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
@@ -31,7 +30,7 @@ internal static partial class WorkEntries
             ReportsDeviations = false,
             EnforcementNeeded = false,
         },
-        new(9002)
+        new(9002, UserData.GetUsers.ElementAt(1))
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
@@ -39,7 +38,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
@@ -54,7 +52,7 @@ internal static partial class WorkEntries
             ReportsDeviations = true,
             EnforcementNeeded = true,
         },
-        new(9003)
+        new(9003, null)
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),

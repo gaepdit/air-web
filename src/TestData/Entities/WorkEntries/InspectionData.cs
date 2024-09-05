@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Inspection> InspectionData =>
     [
-        new(6001)
+        new(6001, null)
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
@@ -29,7 +29,7 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new(6002)
+        new(6002, null)
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
@@ -50,7 +50,7 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new(6003)
+        new(6003, null)
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),

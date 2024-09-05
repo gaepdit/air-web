@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.Domain.Identity;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -10,7 +11,10 @@ public abstract class BaseInspection : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     protected BaseInspection() { }
 
-    protected BaseInspection(int? id) : base(id) { }
+    protected BaseInspection(int? id, ApplicationUser? user) : base(id)
+    {
+        Close(user);
+    }
 
     // Properties
 

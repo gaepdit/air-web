@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class SourceTestReview : ComplianceEvent
 {
@@ -7,10 +9,10 @@ public class SourceTestReview : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     private SourceTestReview() { }
 
-    internal SourceTestReview(int? id) : base(id)
+    internal SourceTestReview(int? id, ApplicationUser? user) : base(id)
     {
         WorkEntryType = WorkEntryType.SourceTestReview;
-        IsClosed = true;
+        Close(user);
     }
 
     // Properties

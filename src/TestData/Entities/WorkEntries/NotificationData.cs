@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Notification> NotificationData =>
     [
-        new(7001)
+        new(7001, UserData.GetUsers.ElementAt(0))
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
@@ -17,7 +17,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-            ClosedBy = UserData.GetUsers.ElementAt(0),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-15)),
@@ -26,7 +25,7 @@ internal static partial class WorkEntries
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
-        new(7002)
+        new(7002, UserData.GetUsers.ElementAt(1))
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
@@ -35,7 +34,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = string.Empty,
-            ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
@@ -44,7 +42,7 @@ internal static partial class WorkEntries
             SentDate = null,
             FollowupTaken = false,
         },
-        new(7003)
+        new(7003, null)
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),

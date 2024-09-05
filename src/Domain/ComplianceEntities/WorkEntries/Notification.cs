@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
+﻿using AirWeb.Domain.Identity;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -9,10 +10,10 @@ public class Notification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private Notification() { }
 
-    internal Notification(int? id) : base(id)
+    internal Notification(int? id, ApplicationUser? user) : base(id)
     {
         WorkEntryType = WorkEntryType.Notification;
-        IsClosed = true;
+        Close(user);
     }
 
     // Properties

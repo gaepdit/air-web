@@ -12,12 +12,12 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
         WorkEntry item = type switch
         {
             WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
-            WorkEntryType.Inspection => new Inspection(id),
-            WorkEntryType.Notification => new Notification(id),
+            WorkEntryType.Inspection => new Inspection(id, user),
+            WorkEntryType.Notification => new Notification(id, user),
             WorkEntryType.PermitRevocation => new PermitRevocation(id),
-            WorkEntryType.Report => new Report(id),
-            WorkEntryType.RmpInspection => new RmpInspection(id),
-            WorkEntryType.SourceTestReview => new SourceTestReview(id),
+            WorkEntryType.Report => new Report(id, user),
+            WorkEntryType.RmpInspection => new RmpInspection(id, user),
+            WorkEntryType.SourceTestReview => new SourceTestReview(id, user),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
@@ -28,30 +28,16 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.SetUpdater(user?.Id);
-        workEntry.IsClosed = true;
-        workEntry.ClosedDate = DateOnly.FromDateTime(DateTime.Now);
-        workEntry.ClosedBy = user;
+        workEntry.Close(user);
     }
 
     public void Reopen(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.SetUpdater(user?.Id);
-        workEntry.IsClosed = false;
-        workEntry.ClosedDate = null;
-        workEntry.ClosedBy = null;
+        workEntry.Reopen();
     }
 
-    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
-    {
-        workEntry.SetDeleted(user?.Id);
-        workEntry.DeletedBy = user;
-        workEntry.DeleteComments = comment;
-    }
+    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user) => workEntry.Delete(comment, user);
 
-    public void Restore(WorkEntry workEntry)
-    {
-        workEntry.SetNotDeleted();
-        workEntry.DeletedBy = null;
-        workEntry.DeleteComments = null;
-    }
+    public void Restore(WorkEntry workEntry) => workEntry.Undelete();
 }
