@@ -18,7 +18,7 @@
                 <em>All fields are optional.</em>
             </div>
             <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
-                <h2 class="h4">Status</h2>
+                <h2 class="h5">Status</h2>
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
@@ -42,6 +42,24 @@
                         </div>
                     }
                 </div>
+
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <label asp-for="Spec.EventDateFrom" class="form-label px-2 mb-0">Date of Work Entry</label>
+                        <div class="input-group">
+                            <div class="form-floating">
+                                <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
+                                       class="form-control" />
+                                <label asp-for="Spec.EventDateFrom" class="form-label"></label>
+                            </div>
+                            <div class="form-floating">
+                                <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
+                                       class="form-control" />
+                                <label asp-for="Spec.EventDateTo" class="form-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md mb-3">
                         <label asp-for="Spec.ClosedDateFrom" class="form-label px-2 mb-0">Date Work Entry Closed</label>
@@ -60,7 +78,6 @@
                     </div>
                 </div>
 
-                <h2 class="h4">Details</h2>
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
@@ -106,25 +123,8 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="row">
-                    <div class="col-md mb-3">
-                        <label asp-for="Spec.EventDateFrom" class="form-label px-2 mb-0">Date of Work Entry</label>
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
-                                       class="form-control" />
-                                <label asp-for="Spec.EventDateFrom" class="form-label"></label>
-                            </div>
-                            <div class="form-floating">
-                                <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
-                                       class="form-control" />
-                                <label asp-for="Spec.EventDateTo" class="form-label"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <h2 class="h4">Assignment</h2>
+                <h2 class="h5">Assignment</h2>
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
