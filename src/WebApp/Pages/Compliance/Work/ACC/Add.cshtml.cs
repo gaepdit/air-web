@@ -4,11 +4,8 @@ using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
-using AirWeb.WebApp.Platform.PageModelHelpers;
 using FluentValidation;
-using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
 
@@ -18,7 +15,7 @@ public class AddModel(
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<AccCreateDto> validator)
-    : AddBase(staffService)
+    : AddBase(facilityService, staffService)
 {
     private readonly IStaffService _staffService = staffService;
 
@@ -29,47 +26,18 @@ public class AddModel(
     {
         EntryType = WorkEntryType.AnnualComplianceCertification;
 
-        Facility = await facilityService.FindAsync(facilityId);
-        if (Facility is null) return NotFound("Facility ID not found.");
-
         Item = new AccCreateDto
         {
             FacilityId = facilityId,
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
         };
 
-        await PopulateStaffSelectListsAsync();
-        return Page();
+        return await DoGetAsync(facilityId);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         EntryType = WorkEntryType.AnnualComplianceCertification;
-
-        await validator.ApplyValidationAsync(Item, ModelState);
-
-        if (!ModelState.IsValid)
-        {
-            Facility = await facilityService.FindAsync(Item.FacilityId, token);
-            if (Facility is null) return BadRequest("Facility ID not found.");
-
-            await PopulateStaffSelectListsAsync();
-            return Page();
-        }
-
-        var createResult = await entryService.CreateAsync(Item, token);
-
-        var message = $"{EntryType.GetDescription()} successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
-        return RedirectToPage("../Details", new { createResult.Id });
+        return await DoPostAsync(Item, entryService, validator, token);
     }
 }

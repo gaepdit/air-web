@@ -22,6 +22,6 @@ public class AddModel : AddBase
         [FromServices] IValidator<NotificationTypeCreateDto> validator)
     {
         ThisOption = MaintenanceOption.NotificationType;
-        return await DoPost(service, validator, Item);
+        return await DoPostAsync(service, validator, Item);
     }
 }

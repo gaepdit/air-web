@@ -28,6 +28,6 @@ public class EditModel(IOfficeService service, IValidator<OfficeUpdateDto> valid
     public async Task<IActionResult> OnPostAsync()
     {
         ThisOption = MaintenanceOption.Office;
-        return await DoPost(service, validator, Item);
+        return await DoPostAsync(service, validator, Item);
     }
 }

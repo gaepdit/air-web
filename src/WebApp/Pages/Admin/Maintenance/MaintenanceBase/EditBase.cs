@@ -18,7 +18,7 @@ public abstract class EditBase : PageModel
     [TempData]
     public Guid HighlightId { get; set; }
 
-    protected async Task<IActionResult> DoPost<TViewDto, TUpdateDto>(
+    protected async Task<IActionResult> DoPostAsync<TViewDto, TUpdateDto>(
         INamedEntityService<TViewDto, TUpdateDto> service,
         IValidator<TUpdateDto> validator,
         TUpdateDto item)
