@@ -22,17 +22,17 @@ public class AddModel(
     [BindProperty]
     public ReportCreateDto Item { get; set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync(string? facilityId)
+    public async Task<IActionResult> OnGetAsync()
     {
         EntryType = WorkEntryType.Report;
 
         Item = new ReportCreateDto
         {
-            FacilityId = facilityId,
+            FacilityId = FacilityId,
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
         };
 
-        return await DoGetAsync(facilityId);
+        return await DoGetAsync();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

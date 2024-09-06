@@ -16,13 +16,16 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 public abstract class AddBase(IFacilityService facilityService, IStaffService staffService)
     : PageModel
 {
+    [FromRoute]
+    public string? FacilityId { get; set; }
+
     public WorkEntryType EntryType { get; protected set; }
     public FacilityViewDto? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = default!;
 
-    protected async Task<IActionResult> DoGetAsync(string? facilityId)
+    protected async Task<IActionResult> DoGetAsync()
     {
-        Facility = await facilityService.FindAsync(facilityId);
+        Facility = await facilityService.FindAsync(FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         await PopulateSelectListsAsync();
