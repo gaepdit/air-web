@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 
 namespace AppServicesTests.ComplianceSearch;
 

@@ -2,7 +2,7 @@ using AirWeb.Domain.ComplianceEntities;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Search;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.ExternalEntities;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;

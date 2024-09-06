@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 
 namespace AppServicesTests.ComplianceSearch;
 

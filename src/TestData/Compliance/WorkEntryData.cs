@@ -1,9 +1,9 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
-using static AirWeb.TestData.Entities.WorkEntries.WorkEntries;
+using static AirWeb.TestData.Compliance.WorkEntries;
 
-namespace AirWeb.TestData.Entities;
+namespace AirWeb.TestData.Compliance;
 
 internal static class WorkEntryData
 {

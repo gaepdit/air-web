@@ -1,7 +1,8 @@
 ﻿using AirWeb.Domain.Data;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.ExternalEntities;
+using AirWeb.TestData.NamedEntities;
 
 namespace AirWeb.TestData.SampleData;
 

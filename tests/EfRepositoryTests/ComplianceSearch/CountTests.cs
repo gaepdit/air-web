@@ -1,7 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Search;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 using System.Linq.Expressions;
 
 namespace EfRepositoryTests.ComplianceSearch;

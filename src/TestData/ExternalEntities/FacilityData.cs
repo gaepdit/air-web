@@ -1,7 +1,7 @@
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.SampleData;
 
-namespace AirWeb.TestData.Entities;
+namespace AirWeb.TestData.ExternalEntities;
 
 internal static class FacilityData
 {

@@ -1,6 +1,6 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.LocalRepository.Repositories;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 
 namespace LocalRepositoryTests.WorkEntries;
 

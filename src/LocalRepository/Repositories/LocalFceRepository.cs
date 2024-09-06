@@ -1,7 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 
 namespace AirWeb.LocalRepository.Repositories;
 

@@ -1,6 +1,6 @@
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.ExternalEntities;
 
 namespace AppServicesTests.Facilities;
 

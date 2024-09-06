@@ -1,7 +1,8 @@
 ﻿using AirWeb.LocalRepository.Identity;
 using AirWeb.LocalRepository.Repositories;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
+using AirWeb.TestData.NamedEntities;
 
 namespace LocalRepositoryTests;
 

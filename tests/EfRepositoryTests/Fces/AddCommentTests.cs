@@ -1,6 +1,6 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ValueObjects;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 using AirWeb.TestData.SampleData;
 
 namespace EfRepositoryTests.Fces;

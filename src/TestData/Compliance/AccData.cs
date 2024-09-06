@@ -2,7 +2,7 @@
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
-namespace AirWeb.TestData.Entities.WorkEntries;
+namespace AirWeb.TestData.Compliance;
 
 internal static partial class WorkEntries
 {

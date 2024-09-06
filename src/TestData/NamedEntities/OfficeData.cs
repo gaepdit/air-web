@@ -1,6 +1,6 @@
 using AirWeb.Domain.NamedEntities.Offices;
 
-namespace AirWeb.TestData.Entities;
+namespace AirWeb.TestData.NamedEntities;
 
 internal static class OfficeData
 {

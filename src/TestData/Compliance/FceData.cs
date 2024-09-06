@@ -2,7 +2,7 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
-namespace AirWeb.TestData.Entities;
+namespace AirWeb.TestData.Compliance;
 
 internal static class FceData
 {

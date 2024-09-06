@@ -1,6 +1,6 @@
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 
-namespace AirWeb.TestData.Entities;
+namespace AirWeb.TestData.NamedEntities;
 
 internal static class NotificationTypeData
 {
