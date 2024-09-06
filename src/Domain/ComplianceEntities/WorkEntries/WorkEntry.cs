@@ -59,6 +59,10 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
 
     // Properties: Closure
+    public static bool TrackClosure(WorkEntryType entryType) => entryType
+        is WorkEntryType.AnnualComplianceCertification
+        or WorkEntryType.PermitRevocation;
+
     public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
     public DateOnly? ClosedDate { get; internal set; }

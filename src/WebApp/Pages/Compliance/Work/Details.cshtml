@@ -95,12 +95,19 @@
 
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ResponsibleStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
-    @if (report.IsClosed)
+    @if (report.TrackClosure)
     {
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ClosedBy)</dt>
+        <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            @if (report.IsClosed)
+            {
+                @:Closed by @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            }
+            else
+            {
+                @:Open
+            }
         </dd>
     }
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>

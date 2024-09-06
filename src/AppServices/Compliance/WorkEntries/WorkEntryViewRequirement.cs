@@ -1,4 +1,3 @@
-using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +39,7 @@ internal class WorkEntryViewRequirement :
     private bool UserCanReopen() => CanCloseOrReopen() && _resource.IsClosed;
 
     private bool CanCloseOrReopen() =>
-        _context.User.IsComplianceStaff() && _resource is AccViewDto && !_resource.IsDeleted;
+        _context.User.IsComplianceStaff() && _resource is { TrackClosure: true, IsDeleted: false };
 
     private bool UserCanEditDetails() =>
         _context.User.IsComplianceStaff() && _resource is { IsClosed: false, IsDeleted: false };
