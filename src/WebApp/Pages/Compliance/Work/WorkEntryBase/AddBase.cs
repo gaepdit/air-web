@@ -13,8 +13,7 @@ using GaEpd.AppLibrary.ListItems;
 namespace AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public abstract class AddBase(IFacilityService facilityService, IStaffService staffService)
-    : PageModel
+public abstract class AddBase(IFacilityService facilityService, IStaffService staffService) : PageModel
 {
     [FromRoute]
     public string? FacilityId { get; set; }
@@ -37,12 +36,13 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         IValidator<TDto> validator, CancellationToken token)
         where TDto : IWorkEntryCreateDto
     {
+        if (FacilityId != item.FacilityId) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
         if (!ModelState.IsValid)
         {
             Facility = await facilityService.FindAsync(item.FacilityId, token);
-            if (Facility is null) return BadRequest("Facility ID not found.");
+            if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();
             return Page();
