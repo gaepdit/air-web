@@ -6,7 +6,7 @@
 @using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model AddModel
 @{
-    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()} Entry";
+    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -27,11 +27,11 @@
         </div>
         <div class="row">
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
-                    additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+                @Html.EditorFor(m => m.Item.ReceivedDate, EditorTemplate.InputDateOnly)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+                @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
             </div>
         </div>
 
@@ -42,22 +42,11 @@
 
         <div class="row">
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.ReceivedDate, EditorTemplate.InputDateOnly)
-            </div>
-            <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.DueDate, EditorTemplate.InputDateOnlyNullable)
             </div>
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.SentDate, EditorTemplate.InputDateOnlyNullable)
             </div>
-        </div>
-
-        <div class="mb-3">
-            <input asp-for="Item.FollowupTaken" class="form-check-input" aria-describedby="FollowupTakenHelpText" />
-            <label asp-for="Item.FollowupTaken" class="form-check-label"></label>
-            <small id="FollowupTakenHelpText" class="form-text text-body-secondary d-inline-block px-2">
-                (Note: A notification cannot be the discovery event for an enforcement action.)
-            </small>
         </div>
 
         <div class="row">
@@ -66,16 +55,20 @@
             </div>
         </div>
 
-        <div class="mt-3 mb-1">
-            <button id="SubmitButton" type="submit" class="btn btn-primary me-2">
-                Add New @Model.EntryType.GetDescription()
-            </button>
-            <a asp-page="/Facility/Details/" asp-route-facilityId="@Model.Facility.Id"
-               class="btn btn-outline-secondary">
-                Cancel
-            </a>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md mb-3">
+                <input asp-for="Item.FollowupTaken" class="form-check-input" aria-describedby="FollowupTakenHelpText" />
+                <label asp-for="Item.FollowupTaken" class="form-check-label"></label>
+                <small id="FollowupTakenHelpText" class="form-text text-body-secondary d-inline-block px-2">
+                    (Note: A notification cannot be the discovery event for an enforcement action.)
+                </small>
+            </div>
         </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+
+        <partial name="Compliance/Work/_Partials/_AddCancelButtons" />
         <input asp-for="Item.FacilityId" type="hidden" />
     </form>
 </div>

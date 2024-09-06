@@ -119,22 +119,22 @@
 @switch (report)
 {
     case AccViewDto acc:
-        <partial name="_Details/_Acc" model="acc" />
+        <partial name="_Partials/_AccDetails" model="acc" />
         break;
     case InspectionViewDto inspection:
-        <partial name="_Details/_Inspection" model="inspection" />
+        <partial name="_Partials/_InspectionDetails" model="inspection" />
         break;
     case NotificationViewDto notification:
-        <partial name="_Details/_Notification" model="notification" />
+        <partial name="_Partials/_NotificationDetails" model="notification" />
         break;
     case PermitRevocationViewDto permitRevocation:
-        <partial name="_Details/_PermitRevocation" model="permitRevocation" />
+        <partial name="_Partials/_PermitRevocationDetails" model="permitRevocation" />
         break;
     case ReportViewDto rpt:
-        <partial name="_Details/_Report" model="rpt" />
+        <partial name="_Partials/_ReportDetails" model="rpt" />
         break;
     case SourceTestReviewViewDto sourceTestReview:
-        <partial name="_Details/_SourceTestReview" model="sourceTestReview" />
+        <partial name="_Partials/_SourceTestReviewDetails" model="sourceTestReview" />
         break;
 }
 
