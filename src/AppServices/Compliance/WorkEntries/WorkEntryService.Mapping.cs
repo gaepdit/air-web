@@ -129,7 +129,13 @@ public sealed partial class WorkEntryService
     private static void MapInspection(IInspectionCommandDto resource, BaseInspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
+        inspection.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
+        inspection.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
+        inspection.WeatherConditions = resource.WeatherConditions;
+        inspection.InspectionGuide = resource.InspectionGuide;
+        inspection.FacilityOperating = resource.FacilityOperating;
         inspection.DeviationsNoted = resource.DeviationsNoted;
+        inspection.FollowupTaken = resource.FollowupTaken;
     }
 
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,

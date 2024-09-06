@@ -8,7 +8,6 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     {
         var id = repository.GetNextId();
 
-        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         WorkEntry item = type switch
         {
             WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),

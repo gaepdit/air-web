@@ -24,21 +24,21 @@ public record InspectionCreateDto : WorkEntryCreateDto, IInspectionCommandDto
 
     [DataType(DataType.Time)]
     [Display(Name = "End Time")]
-    public TimeOnly InspectionEndedTime { get; init; } = new(12, 0);
+    public TimeOnly InspectionEndedTime { get; init; } = new(16, 0);
 
     [Display(Name = "Inspection Reason")]
-    public InspectionReason? InspectionReason { get; init; }
+    public InspectionReason InspectionReason { get; init; }
 
     [Display(Name = "Weather Conditions")]
-    public string WeatherConditions { get; init; } = string.Empty;
+    public string? WeatherConditions { get; init; }
 
     [Display(Name = "Inspection Guides")]
-    public string InspectionGuide { get; init; } = string.Empty;
+    public string? InspectionGuide { get; init; }
 
     [Display(Name = "Facility Operating")]
     public bool FacilityOperating { get; init; }
 
-    [Display(Name = "ComplianceStatus")]
+    [Display(Name = "Deviation(s) Noted")]
     public bool DeviationsNoted { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]
