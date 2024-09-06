@@ -46,43 +46,47 @@
             </div>
         </div>
 
-        <fieldset>
-            <legend>ACC Analysis</legend>
-            <div class="row row-cols-auto">
-                <div class="col columns-md-2">
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.PostmarkedOnTime, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.SignedByRo, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.OnCorrectForms, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.IncludesAllTvConditions, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.CorrectlyCompleted, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.ReportsDeviations, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.IncludesPreviouslyUnreportedDeviations, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.ReportsAllKnownDeviations, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.ResubmittalRequired, EditorTemplate.Checkbox)
-                    </div>
-                    <div class="mb-3">
-                        @Html.EditorFor(m => m.Item.EnforcementNeeded, EditorTemplate.Checkbox)
+        <div class="container">
+            <fieldset class="row mb-3 border rounded-3 py-2">
+                <div class="col">
+                    <legend class="h6">ACC Analysis</legend>
+                    <div class="row row-cols-auto">
+                        <div class="col columns-md-2">
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.PostmarkedOnTime, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.SignedByRo, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.OnCorrectForms, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.IncludesAllTvConditions, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.CorrectlyCompleted, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.ReportsDeviations, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.IncludesPreviouslyUnreportedDeviations, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.ReportsAllKnownDeviations, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-3">
+                                @Html.EditorFor(m => m.Item.ResubmittalRequired, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="mb-1">
+                                @Html.EditorFor(m => m.Item.EnforcementNeeded, EditorTemplate.Checkbox)
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </fieldset>
+            </fieldset>
+        </div>
 
         <div class="row">
             <div class="mb-3">
