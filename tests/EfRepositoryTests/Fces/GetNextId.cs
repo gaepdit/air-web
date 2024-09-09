@@ -1,10 +1,11 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.EfRepository.Repositories;
 
 namespace EfRepositoryTests.Fces;
 
 public class GetNextId
 {
-    private IFceRepository _repository = default!;
+    private FceRepository _repository = default!;
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

@@ -1,11 +1,12 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.WorkEntries;
 
 public class GetWorkEntryType
 {
-    private IWorkEntryRepository _repository = default!;
+    private WorkEntryRepository _repository = default!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();

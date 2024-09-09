@@ -131,8 +131,8 @@ public sealed partial class WorkEntryService
         inspection.InspectionReason = resource.InspectionReason;
         inspection.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
         inspection.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
-        inspection.WeatherConditions = resource.WeatherConditions;
-        inspection.InspectionGuide = resource.InspectionGuide;
+        inspection.WeatherConditions = resource.WeatherConditions ?? string.Empty;
+        inspection.InspectionGuide = resource.InspectionGuide ?? string.Empty;
         inspection.FacilityOperating = resource.FacilityOperating;
         inspection.DeviationsNoted = resource.DeviationsNoted;
         inspection.FollowupTaken = resource.FollowupTaken;

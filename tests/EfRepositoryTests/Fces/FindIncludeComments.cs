@@ -1,11 +1,12 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.Fces;
 
 public class FindIncludeComments
 {
-    private IFceRepository _repository = default!;
+    private FceRepository _repository = default!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();

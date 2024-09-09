@@ -1,6 +1,6 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.Search;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Pagination;
 using System.Linq.Expressions;
@@ -9,7 +9,7 @@ namespace EfRepositoryTests.ComplianceSearch;
 
 public class FilterTests
 {
-    private IComplianceSearchRepository _repository = default!;
+    private ComplianceSearchRepository _repository = default!;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryTrueExpression = f => true;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryNotDeletedExpression = f => !f.IsDeleted;
     private readonly Expression<Func<Fce, bool>> _fceTrueExpression = f => true;
