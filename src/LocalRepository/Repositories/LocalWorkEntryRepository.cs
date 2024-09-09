@@ -12,12 +12,6 @@ public sealed class LocalWorkEntryRepository()
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
 
-    public Task<WorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        GetAsync(id, token);
-
-    public Task<WorkEntry?> FindAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        FindAsync(id, token);
-
     public async Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         (TEntry?)await FindAsync(id, token).ConfigureAwait(false);

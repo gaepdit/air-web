@@ -11,29 +11,6 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
     int? GetNextId();
 
-    // TODO: If this works (`string[] includeProperties`), move to app library package.
-    /// <summary>
-    /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/>.
-    /// </summary>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no entity exists with the given ID.</exception>
-    /// <returns>An entity.</returns>
-    Task<WorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default);
-
-    // TODO: If this works (`string[] includeProperties`), move to app library package.
-    /// <summary>
-    /// Returns the <see cref="WorkEntry"/> matching the conditions of the <paramref name="predicate"/>.
-    /// Returns null if there are no matches.
-    /// </summary>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <exception cref="InvalidOperationException">Thrown if there are multiple matches.</exception>
-    /// <returns>An entity or null.</returns>
-    Task<WorkEntry?> FindAsync(int id, string[] includeProperties, CancellationToken token = default);
-
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
     /// <see cref="TEntry"/> type. Returns null if no entity exists with the given ID.
@@ -46,8 +23,8 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
 
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
-    /// <see cref="TEntry"/> type, including any <see cref="WorkEntry.Comments"/>.
-    /// Returns null if no entity exists with the given ID.
+    /// <see cref="TEntry"/> type. Returns null if no entity exists with the given ID.
+    /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the WorkEntry.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>

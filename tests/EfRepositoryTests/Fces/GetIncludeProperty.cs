@@ -4,7 +4,7 @@ using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.Fces;
 
-public class GetIncludeComments
+public class GetIncludeProperty
 {
     private FceRepository _repository = default!;
 
