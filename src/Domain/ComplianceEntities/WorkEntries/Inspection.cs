@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class Inspection : BaseInspection
 {
@@ -7,7 +9,7 @@ public class Inspection : BaseInspection
     [UsedImplicitly] // Used by ORM.
     private Inspection() { }
 
-    internal Inspection(int? id) : base(id)
+    internal Inspection(int? id, ApplicationUser? user) : base(id, user)
     {
         WorkEntryType = WorkEntryType.Inspection;
     }

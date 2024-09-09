@@ -12,9 +12,10 @@ public abstract class AddBase : PageModel
     [TempData]
     public Guid HighlightId { get; set; }
 
-    protected async Task<IActionResult> DoPost<TViewDto, TUpdateDto, TCreateDto>(
+    protected async Task<IActionResult> DoPostAsync<TViewDto, TUpdateDto, TCreateDto>(
         INamedEntityService<TViewDto, TUpdateDto> service,
-        IValidator<TCreateDto> validator, TCreateDto item)
+        IValidator<TCreateDto> validator,
+        TCreateDto item)
         where TCreateDto : NamedEntityCreateDto
     {
         await validator.ApplyValidationAsync(item, ModelState);

@@ -1,5 +1,5 @@
 using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.ExternalEntities;
 
 namespace AirWeb.LocalRepository.Repositories;
 

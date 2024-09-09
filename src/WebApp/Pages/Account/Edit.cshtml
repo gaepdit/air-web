@@ -21,13 +21,13 @@
         </div>
         <div class="row">
             <div class="col-lg mb-3">
-                @Html.EditorFor(model => model.DisplayStaff.Email, EditorTemplate.InputDisabled)
+                @Html.EditorFor(m => m.DisplayStaff.Email, EditorTemplate.InputDisabled)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(model => model.UpdateStaff.PhoneNumber, EditorTemplate.Input)
+                @Html.EditorFor(m => m.UpdateStaff.PhoneNumber, EditorTemplate.Input)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(model => model.UpdateStaff.OfficeId, EditorTemplate.Select, new { Items = Model.OfficeSelectList })
+                @Html.EditorFor(m => m.UpdateStaff.OfficeId, EditorTemplate.Select, new { Items = Model.OfficeSelectList })
             </div>
         </div>
         <div class="mt-3">

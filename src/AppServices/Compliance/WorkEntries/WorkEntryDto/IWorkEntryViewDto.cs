@@ -24,6 +24,8 @@ public interface IWorkEntryViewDto : IDeletedItem
     public List<CommentViewDto> Comments { get; }
 
     // Properties: Closure
+    public bool TrackClosure { get; }
+
     [Display(Name = "Closed")]
     public bool IsClosed { get; }
 

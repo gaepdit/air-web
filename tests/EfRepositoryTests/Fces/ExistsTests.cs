@@ -1,12 +1,12 @@
-using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.TestData.Entities;
+using AirWeb.EfRepository.Repositories;
+using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.Fces;
 
 public class ExistsTests
 {
-    private IFceRepository _repository = default!;
+    private FceRepository _repository = default!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();
@@ -18,7 +18,7 @@ public class ExistsTests
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year);
@@ -31,7 +31,7 @@ public class ExistsTests
     public async Task IgnoringExistingItem_ReturnsFalse()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, fce.Id);
@@ -44,7 +44,7 @@ public class ExistsTests
     public async Task GivenExistingItem_IgnoringDifferentItem_ReturnsTrue()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, 1);
@@ -54,10 +54,23 @@ public class ExistsTests
     }
 
     [Test]
+    public async Task GivenDeletedItem_ReturnsFalse()
+    {
+        // Arrange
+        var fce = FceData.GetData.First(e => e.IsDeleted);
+
+        // Act
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Test]
     public async Task GivenNonexistentItem_ReturnsFalse()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, year: 0);

@@ -10,9 +10,9 @@
 .text-bg-brand {
     background-color: hsl(var(--base-hue), 75%, 91%);
     color: hsl(210, 11%, 15%);
-    background-image: linear-gradient(180deg, 
-    hsl(200, 93%, 73%) 0%, 
-    hsl(247, 55%, 80%) 70%, 
+    background-image: linear-gradient(180deg,
+    hsl(200, 93%, 73%) 0%,
+    hsl(247, 55%, 80%) 70%,
     hsl(295, 42%, 78%) 100%) !important;
 }
 
@@ -63,8 +63,8 @@
     background-color: hsl(var(--base-hue), 75%, 13%);
     color: hsl(var(--base-hue), 0%, 100%);
     background-image: linear-gradient(180deg,
-    hsl(212,72%,30%) 0%,
-    hsl(234,22%,41%) 50%,
+    hsl(212, 72%, 30%) 0%,
+    hsl(234, 22%, 41%) 50%,
     hsl(355.3, 30.9%, 51.2%) 100%) !important;
 }
 
@@ -432,6 +432,10 @@ svg:not(:root) {
 
     .columns-md-3 {
         column-count: 3;
+    }
+
+    .columns-md-2 label, .columns-md-3 label {
+        display: inline;
     }
 }
 

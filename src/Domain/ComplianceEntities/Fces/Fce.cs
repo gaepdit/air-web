@@ -62,6 +62,8 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     public string? DeleteComments { get; set; }
 
     // Business Logic
+    public const int EarliestFceYear = 2002;
+
     public static List<int> ValidFceYears
     {
         get

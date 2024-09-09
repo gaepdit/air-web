@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.Domain.Identity;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -10,10 +11,10 @@ public class Report : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     private Report() { }
 
-    internal Report(int? id) : base(id)
+    internal Report(int? id, ApplicationUser? user) : base(id)
     {
         WorkEntryType = WorkEntryType.Report;
-        IsClosed = true;
+        Close(user);
     }
 
     // Properties
@@ -26,8 +27,9 @@ public class Report : ComplianceEvent
     public DateOnly ReportingPeriodStart { get; set; }
     public DateOnly? ReportingPeriodEnd { get; set; }
 
-    // TODO: fix unlimited string length
+    [StringLength(500)]
     public string? ReportingPeriodComment { get; set; }
+
     public DateOnly? DueDate { get; set; }
     public DateOnly? SentDate { get; set; }
     public bool ReportComplete { get; set; }

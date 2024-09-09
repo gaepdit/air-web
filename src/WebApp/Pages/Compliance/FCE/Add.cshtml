@@ -9,68 +9,56 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@if (Model.Facility is null)
-{
-    <div class="alert alert-danger d-flex align-items-center" role="alert">
-        <svg class="bi me-3" role="img" aria-label="Warning:">
-            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-        </svg>
-        <div>Error: Facility ID not found.</div>
-    </div>
-}
-else
-{
-    <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
-        <form method="post" enctype="multipart/form-data" id="new-fce-form">
-            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                </svg>
-            </div>
+<div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
+    <form method="post" enctype="multipart/form-data" id="new-fce-form">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>
+        </div>
 
+        <div class="mb-3">
+            Facility: <br />
+            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+        </div>
+        <div class="row">
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.Year, EditorTemplate.SelectNoPlaceholder,
+                    additionalViewData: new { Items = AddModel.YearSelectList })
+            </div>
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.ReviewedById, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+            </div>
+        </div>
+        <div class="mb-3">
+            @Html.EditorFor(m => m.Item.OnsiteInspection, EditorTemplate.Checkbox)
+        </div>
+        <div class="row">
             <div class="mb-3">
-                Facility: <br />
-                <partial name="Shared/CompliancePartials/_FacilityAirsName" model="Model.Facility" />
+                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
             </div>
-            <div class="row">
-                <div class="col-md mb-3">
-                    @Html.EditorFor(model => model.Item.Year, EditorTemplate.SelectNoPlaceholder,
-                        additionalViewData: new { Items = AddModel.YearSelectList })
-                </div>
-                <div class="col-md mb-3">
-                    @Html.EditorFor(model => model.Item.ReviewedById, EditorTemplate.Select,
-                        additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
-                </div>
-            </div>
-            <div class="mb-3">
-                @Html.EditorFor(model => model.Item.OnsiteInspection, EditorTemplate.Checkbox)
-            </div>
-            <div class="row">
-                <div class="mb-3">
-                    @Html.EditorFor(model => model.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
-                </div>
-            </div>
+        </div>
 
-            <div class="mt-3 mb-1">
-                <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">
-                    Add New Work
-                    Entry
-                </button>
-                <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
-            </div>
-            <div class="text-danger-emphasis mt-3">* denotes a required field</div>
-            <input asp-for="Item.FacilityId" type="hidden" />
-        </form>
-    </div>
+        <div class="mt-3 mb-1">
+            <button id="SubmitButton" type="submit" class="btn btn-primary me-2">Add New FCE</button>
+            <a asp-page="/Facility/Details/" asp-route-facilityId="@Model.Facility!.Id"
+               class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+        <input asp-for="Item.FacilityId" type="hidden" />
+    </form>
+</div>
 
 // FUTURE: Add list of existing FCEs for selected facility.
 
 // FUTURE: Add facility compliance data for selected fiscal year.
 
-    @section Scripts
-    {
-        <script src="~/js/compliance/verifyFceYearSelection.js"></script>
-        <partial name="Shared/_ValidationScriptsPartial" />
-    }
+@section Scripts
+{
+    <script src="~/js/compliance/verifyFceYearSelection.js"></script>
+    <partial name="Shared/_ValidationScriptsPartial" />
 }

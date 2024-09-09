@@ -1,11 +1,11 @@
-using AirWeb.Domain.NamedEntities.Offices;
-using AirWeb.TestData.Entities;
+using AirWeb.EfRepository.Repositories;
+using AirWeb.TestData.NamedEntities;
 
 namespace EfRepositoryTests.Offices;
 
 public class GetActiveStaffMembersList
 {
-    private IOfficeRepository _repository = default!;
+    private OfficeRepository _repository = default!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();

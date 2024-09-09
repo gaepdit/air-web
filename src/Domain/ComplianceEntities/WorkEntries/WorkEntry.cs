@@ -59,15 +59,47 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
 
     // Properties: Closure
+    public static bool TrackClosure(WorkEntryType entryType) => entryType
+        is WorkEntryType.AnnualComplianceCertification
+        or WorkEntryType.PermitRevocation;
+
     public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
     public DateOnly? ClosedDate { get; internal set; }
+
+    internal void Close(ApplicationUser? user)
+    {
+        IsClosed = true;
+        ClosedDate = DateOnly.FromDateTime(DateTime.Now);
+        ClosedBy = user;
+    }
+
+    internal void Reopen()
+    {
+        IsClosed = false;
+        ClosedDate = null;
+        ClosedBy = null;
+    }
 
     // Properties: Deletion
     public ApplicationUser? DeletedBy { get; set; }
 
     [StringLength(7000)]
     public string? DeleteComments { get; set; }
+
+    internal void Delete(string? comment, ApplicationUser? user)
+    {
+        SetDeleted(user?.Id);
+        DeletedBy = user;
+        DeleteComments = comment;
+    }
+
+    internal void Undelete()
+    {
+        SetNotDeleted();
+        DeletedBy = null;
+        DeleteComments = null;
+    }
 
     // Calculated properties
     public DateOnly EventDate { get; set; }
@@ -81,6 +113,9 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         WorkEntryType.SourceTestReview => "Received By Compliance",
         _ => "Error",
     };
+
+    // Business logic
+    public const int EarliestWorkEntryYear = 2000;
 }
 
 public record WorkEntryComment : Comment

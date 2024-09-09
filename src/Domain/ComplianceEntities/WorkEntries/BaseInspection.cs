@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.Domain.Identity;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -10,30 +11,32 @@ public abstract class BaseInspection : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     protected BaseInspection() { }
 
-    protected BaseInspection(int? id) : base(id) { }
+    protected BaseInspection(int? id, ApplicationUser? user) : base(id)
+    {
+        Close(user);
+    }
 
     // Properties
 
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }
 
-    // TODO: split into separate DateOnly and TimeOnly properties
-    public DateTime InspectionStarted { get; init; }
-    public DateTime InspectionEnded { get; init; }
+    public DateTime InspectionStarted { get; set; }
+    public DateTime InspectionEnded { get; set; }
 
     [StringLength(250)]
-    public string WeatherConditions { get; init; } = string.Empty;
+    public string WeatherConditions { get; set; } = string.Empty;
 
     [StringLength(250)]
-    public string InspectionGuide { get; init; } = string.Empty;
+    public string InspectionGuide { get; set; } = string.Empty;
 
-    public bool FacilityOperating { get; init; }
+    public bool FacilityOperating { get; set; }
 
     // false: "In Compliance"
     // true: "Deviation(s) Noted"
     public bool DeviationsNoted { get; set; }
 
-    public bool FollowupTaken { get; init; }
+    public bool FollowupTaken { get; set; }
 }
 
 // Enums

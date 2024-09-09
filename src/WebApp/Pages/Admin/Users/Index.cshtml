@@ -81,7 +81,7 @@
             <tr>
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Name", SortBy.NameAsc, SortBy.NameDesc, Model.Spec)' />
-                <th scope="col">@Html.DisplayNameFor(model => model.Spec.Email)</th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Spec.Email)</th>
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Office", SortBy.OfficeAsc, SortBy.OfficeDesc, Model.Spec)' />
                 <th scope="col">Status</th>

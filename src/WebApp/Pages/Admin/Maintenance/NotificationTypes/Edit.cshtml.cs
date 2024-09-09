@@ -28,6 +28,6 @@ public class EditModel(INotificationTypeService service, IValidator<Notification
     public async Task<IActionResult> OnPostAsync()
     {
         ThisOption = MaintenanceOption.NotificationType;
-        return await DoPost(service, validator, Item);
+        return await DoPostAsync(service, validator, Item);
     }
 }

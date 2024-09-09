@@ -25,18 +25,18 @@ public record InspectionUpdateDto : WorkEntryUpdateDto, IInspectionCommandDto
     public TimeOnly InspectionEndedTime { get; init; }
 
     [Display(Name = "Inspection Reason")]
-    public InspectionReason? InspectionReason { get; init; }
+    public InspectionReason InspectionReason { get; init; }
 
     [Display(Name = "Weather Conditions")]
-    public required string WeatherConditions { get; init; }
+    public string? WeatherConditions { get; init; }
 
     [Display(Name = "Inspection Guides")]
-    public required string InspectionGuide { get; init; }
+    public string? InspectionGuide { get; init; }
 
     [Display(Name = "Facility Operating")]
     public bool FacilityOperating { get; init; }
 
-    [Display(Name = "ComplianceStatus")]
+    [Display(Name = "Deviation(s) Noted")]
     public bool DeviationsNoted { get; init; }
 
     [Display(Name = "Follow-up Action Taken")]

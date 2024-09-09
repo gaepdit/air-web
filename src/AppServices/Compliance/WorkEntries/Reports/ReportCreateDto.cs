@@ -11,7 +11,7 @@ public record ReportCreateDto : WorkEntryCreateDto, IReportCommandDto
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
-    [Display(Name = "Report Type")]
+    [Display(Name = "Type")]
     public ReportingPeriodType ReportingPeriodType { get; init; } = ReportingPeriodType.Other;
 
     [DataType(DataType.Date)]

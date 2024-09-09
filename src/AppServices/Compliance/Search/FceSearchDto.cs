@@ -24,12 +24,12 @@ public record FceSearchDto : IComplianceSearchDto
     [Display(Name = "Office")]
     public Guid? Office { get; init; }
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? DateFrom { get; init; }
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     public DateOnly? DateTo { get; init; }

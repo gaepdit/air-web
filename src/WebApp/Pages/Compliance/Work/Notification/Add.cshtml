@@ -1,0 +1,79 @@
+@page "{facilityId?}"
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
+@using GaEpd.AppLibrary.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
+@model AddModel
+@{
+    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
+    <form method="post" enctype="multipart/form-data" id="new-fce-form">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 class="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>
+        </div>
+
+        <div class="mb-3">
+            Facility: <br />
+            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+        </div>
+        <div class="row">
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.ReceivedDate, EditorTemplate.InputDateOnly)
+            </div>
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.EditorFor(m => m.Item.NotificationTypeId, EditorTemplate.Select,
+                additionalViewData: new { Items = Model.NotificationTypeSelectList, Placeholder = DefaultText.SelectOptionRequired })
+        </div>
+
+        <div class="row">
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.DueDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.SentDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3">
+                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md mb-3">
+                <input asp-for="Item.FollowupTaken" class="form-check-input" aria-describedby="FollowupTakenHelpText" />
+                <label asp-for="Item.FollowupTaken" class="form-check-label"></label>
+                <small id="FollowupTakenHelpText" class="form-text text-body-secondary d-inline-block px-2">
+                    (Note: A notification cannot be the discovery event for an enforcement action.)
+                </small>
+            </div>
+        </div>
+
+        <partial name="Compliance/Work/_Partials/_AddCancelButtons" />
+        <input asp-for="Item.FacilityId" type="hidden" />
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial" />
+}

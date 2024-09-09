@@ -1,0 +1,14 @@
+﻿@using GaEpd.AppLibrary.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase.AddBase
+
+<div class="mb-1">
+    <button id="SubmitButton" type="submit" class="btn btn-primary me-2">
+        Add @Model.EntryType.GetDescription()
+    </button>
+    <a asp-page="/Facility/Details/" asp-route-facilityId="@Model.Facility!.Id"
+       class="btn btn-outline-secondary">
+        Cancel
+    </a>
+</div>
+<div class="text-danger-emphasis mt-3">* denotes a required field</div>

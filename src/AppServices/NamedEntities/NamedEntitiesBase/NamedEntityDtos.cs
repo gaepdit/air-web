@@ -16,7 +16,7 @@ public abstract record NamedEntityCreateDto : INamedEntity
     [Required(AllowEmptyStrings = false)]
     [StringLength(AppConstants.MaximumNameLength,
         MinimumLength = AppConstants.MinimumNameLength)]
-    public required string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 }
 
 public abstract record NamedEntityUpdateDto
@@ -24,7 +24,7 @@ public abstract record NamedEntityUpdateDto
     [Required(AllowEmptyStrings = false)]
     [StringLength(AppConstants.MaximumNameLength,
         MinimumLength = AppConstants.MinimumNameLength)]
-    public required string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 
     public bool Active { get; init; }
 }

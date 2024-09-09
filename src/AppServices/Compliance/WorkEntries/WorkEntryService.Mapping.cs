@@ -19,11 +19,12 @@ public sealed partial class WorkEntryService
         var workEntry = resource switch
         {
             AccCreateDto => workEntryManager.Create(WorkEntryType.AnnualComplianceCertification, currentUser),
-            InspectionCreateDto => workEntryManager.Create(WorkEntryType.Inspection, currentUser),
+            InspectionCreateDto dto => dto.IsRmpInspection
+                ? workEntryManager.Create(WorkEntryType.RmpInspection, currentUser)
+                : workEntryManager.Create(WorkEntryType.Inspection, currentUser),
             NotificationCreateDto => workEntryManager.Create(WorkEntryType.Notification, currentUser),
             PermitRevocationCreateDto => workEntryManager.Create(WorkEntryType.PermitRevocation, currentUser),
             ReportCreateDto => workEntryManager.Create(WorkEntryType.Report, currentUser),
-            RmpInspectionCreateDto => workEntryManager.Create(WorkEntryType.RmpInspection, currentUser),
             SourceTestReviewCreateDto => workEntryManager.Create(WorkEntryType.SourceTestReview, currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
@@ -41,7 +42,7 @@ public sealed partial class WorkEntryService
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes;
+        workEntry.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {
@@ -49,7 +50,7 @@ public sealed partial class WorkEntryService
                 MapAcc(dto, (AnnualComplianceCertification)workEntry);
                 break;
             case InspectionCreateDto dto:
-                MapInspection(dto, (Inspection)workEntry);
+                MapInspection(dto, (BaseInspection)workEntry);
                 break;
             case NotificationCreateDto dto:
                 await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
@@ -59,9 +60,6 @@ public sealed partial class WorkEntryService
                 break;
             case ReportCreateDto dto:
                 MapReport(dto, (Report)workEntry);
-                break;
-            case RmpInspectionCreateDto dto:
-                MapRmp(dto, (RmpInspection)workEntry);
                 break;
             case SourceTestReviewCreateDto dto:
                 MapStr(dto, (SourceTestReview)workEntry);
@@ -87,10 +85,7 @@ public sealed partial class WorkEntryService
                 break;
 
             case InspectionUpdateDto dto:
-                if (workEntry.WorkEntryType == WorkEntryType.Inspection)
-                    MapInspection(dto, (Inspection)workEntry);
-                else
-                    MapRmp(dto, (RmpInspection)workEntry);
+                MapInspection(dto, (BaseInspection)workEntry);
                 break;
 
             case NotificationUpdateDto dto:
@@ -131,10 +126,16 @@ public sealed partial class WorkEntryService
         acc.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapInspection(IInspectionCommandDto resource, Inspection inspection)
+    private static void MapInspection(IInspectionCommandDto resource, BaseInspection inspection)
     {
         inspection.InspectionReason = resource.InspectionReason;
+        inspection.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
+        inspection.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
+        inspection.WeatherConditions = resource.WeatherConditions ?? string.Empty;
+        inspection.InspectionGuide = resource.InspectionGuide ?? string.Empty;
+        inspection.FacilityOperating = resource.FacilityOperating;
         inspection.DeviationsNoted = resource.DeviationsNoted;
+        inspection.FollowupTaken = resource.FollowupTaken;
     }
 
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
@@ -168,12 +169,6 @@ public sealed partial class WorkEntryService
         report.ReportComplete = resource.ReportComplete;
         report.ReportsDeviations = resource.ReportsDeviations;
         report.EnforcementNeeded = resource.EnforcementNeeded;
-    }
-
-    private static void MapRmp(IInspectionCommandDto resource, RmpInspection inspection)
-    {
-        inspection.InspectionReason = resource.InspectionReason;
-        inspection.DeviationsNoted = resource.DeviationsNoted;
     }
 
     private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)

@@ -38,18 +38,6 @@ These pages are only available to logged-in staff.
 
 * `/Compliance` Compliance dashboard.
 
-#### Compliance Work Entry Workflow
-
-* `/Compliance/Work` Compliance Work Entry search form.
-* `/Compliance/Work/Details/{entryId}` Compliance Work Entry details page.
-* ~~`/Compliance/Work/Add` Add a new Work Entry.~~
-* ~~`/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.~~
-* ~~`/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.~~
-* `/Compliance/Work/Add/{workEntryType}?{facilityId}` Add a new Work Entry of the specified type for the
-  specified Facility.
-* `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
-* `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
-
 #### FCE Workflow
 
 * `/Compliance/FCE` FCE search form.
@@ -58,6 +46,19 @@ These pages are only available to logged-in staff.
 * `/Compliance/FCE/Add/{facilityId}` Add a new FCE for the specified Facility.
 * `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
 * `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
+
+#### Compliance Work Entry Workflow
+
+* `/Compliance/Work` Compliance Work Entry search form.
+* `/Compliance/Work/Details/{entryId}` Compliance Work Entry details page.
+* ~~`/Compliance/Work/Add` Add a new Work Entry.~~
+* ~~`/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.~~
+* ~~`/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.~~
+* `/Compliance/Work/{workEntryType}/Add/{facilityId}` Add a new Work Entry of the specified type for the
+  specified Facility.
+* `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
+* `/Compliance/Work/[Close|Reopen]/{entryId}` Close/reopen a Work Entry (applies to ACCs and Permit Revocations only).
+* `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
 
 ### Source Tests
 

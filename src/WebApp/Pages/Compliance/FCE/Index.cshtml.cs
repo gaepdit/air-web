@@ -3,6 +3,7 @@ using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Constants;
 using GaEpd.AppLibrary.Extensions;
@@ -30,27 +31,27 @@ public class FceIndexModel(
     public SelectList OfficesSelectList { get; set; } = default!;
 
     private static int _finalYear = DateTime.Today.Month > 9 ? DateTime.Now.Year + 1 : DateTime.Now.Year;
-    private static int _years = _finalYear - GlobalConstants.EarliestFceYear + 1;
-    public static SelectList YearSelectList => new(Enumerable.Range(GlobalConstants.EarliestFceYear, _years).Reverse());
+    private static int _years = _finalYear - Fce.EarliestFceYear + 1;
+    public static SelectList YearSelectList => new(Enumerable.Range(Fce.EarliestFceYear, _years).Reverse());
 
     public async Task OnGetAsync()
     {
-        Spec = new FceSearchDto();
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         await PopulateSelectListsAsync();
     }
 
-    public async Task<IActionResult> OnGetSearchAsync(FceSearchDto spec, [FromQuery] int p = 1,
+    public async Task OnGetSearchAsync(FceSearchDto spec, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Spec = spec.TrimAll();
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
-        await PopulateSelectListsAsync();
+        if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
         SearchResults = await searchService.SearchFcesAsync(Spec, paging, token);
+
         ShowResults = true;
-        return Page();
+        await PopulateSelectListsAsync();
     }
 
     private async Task PopulateSelectListsAsync()

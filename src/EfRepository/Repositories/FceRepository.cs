@@ -31,8 +31,7 @@ public sealed class FceRepository(AppDbContext context)
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default) =>
         Context.Fces.AsNoTracking().AnyAsync(fce =>
-            fce.FacilityId.Equals(facilityId) && fce.Year.Equals(year) && !fce.IsDeleted &&
-            (ignoreId == null || fce.Id != ignoreId), token);
+            fce.FacilityId.Equals(facilityId) && fce.Year.Equals(year) && !fce.IsDeleted && fce.Id != ignoreId, token);
 
     public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
     {

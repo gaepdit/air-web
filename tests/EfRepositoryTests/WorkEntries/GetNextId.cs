@@ -1,10 +1,11 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.EfRepository.Repositories;
 
 namespace EfRepositoryTests.WorkEntries;
 
 public class GetNextId
 {
-    private IWorkEntryRepository _repository = default!;
+    private WorkEntryRepository _repository = default!;
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

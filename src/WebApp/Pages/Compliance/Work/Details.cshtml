@@ -86,21 +86,28 @@
 </div>
 <p class="lead mt-2 mt-md-0">Tracking #@Model.Id.ToString()</p>
 
-<dl class="row mt-3 mb-0">
+<dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/CompliancePartials/_FacilityAirsNameLink" model="Model.Item.Facility" />
+        <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="Model.Item.Facility" />
     </dd>
     @* TODO: Additional facility information *@
 
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ResponsibleStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
-    @if (report.IsClosed)
+    @if (report.TrackClosure)
     {
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => report.ClosedBy)</dt>
+        <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            @Html.DisplayFor(model => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(model => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            @if (report.IsClosed)
+            {
+                @:Closed by @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            }
+            else
+            {
+                @:Open
+            }
         </dd>
     }
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>
@@ -112,22 +119,22 @@
 @switch (report)
 {
     case AccViewDto acc:
-        <partial name="_AccDetails" model="acc" />
+        <partial name="_Partials/_AccDetails" model="acc" />
         break;
     case InspectionViewDto inspection:
-        <partial name="_InspectionDetails" model="inspection" />
+        <partial name="_Partials/_InspectionDetails" model="inspection" />
         break;
     case NotificationViewDto notification:
-        <partial name="_NotificationDetails" model="notification" />
+        <partial name="_Partials/_NotificationDetails" model="notification" />
         break;
     case PermitRevocationViewDto permitRevocation:
-        <partial name="_PermitRevocationDetails" model="permitRevocation" />
+        <partial name="_Partials/_PermitRevocationDetails" model="permitRevocation" />
         break;
     case ReportViewDto rpt:
-        <partial name="_ReportDetails" model="rpt" />
+        <partial name="_Partials/_ReportDetails" model="rpt" />
         break;
     case SourceTestReviewViewDto sourceTestReview:
-        <partial name="_SourceTestReviewDetails" model="sourceTestReview" />
+        <partial name="_Partials/_SourceTestReviewDetails" model="sourceTestReview" />
         break;
 }
 

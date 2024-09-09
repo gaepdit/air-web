@@ -1,6 +1,6 @@
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.LocalRepository.Repositories;
-using AirWeb.TestData.Entities;
+using AirWeb.TestData.Compliance;
 
 namespace LocalRepositoryTests.Fces;
 
@@ -18,7 +18,7 @@ public class ExistsTests
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year);
@@ -31,7 +31,7 @@ public class ExistsTests
     public async Task IgnoringExistingItem_ReturnsFalse()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, fce.Id);
@@ -44,13 +44,26 @@ public class ExistsTests
     public async Task GivenExistingItem_IgnoringDifferentItem_ReturnsTrue()
     {
         // Arrange
-        var fce = FceData.GetData.First();
+        var fce = FceData.GetData.First(e => !e.IsDeleted);
 
         // Act
         var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year, 1);
 
         // Assert
         result.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task GivenDeletedItem_ReturnsFalse()
+    {
+        // Arrange
+        var fce = FceData.GetData.First(e => e.IsDeleted);
+
+        // Act
+        var result = await _repository.ExistsAsync((FacilityId)fce.FacilityId, fce.Year);
+
+        // Assert
+        result.Should().BeFalse();
     }
 
     [Test]
