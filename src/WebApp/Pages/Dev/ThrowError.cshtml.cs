@@ -8,7 +8,12 @@ public class ThrowErrorModel(IErrorLogger errorLogger) : PageModel
 {
     public string ShortCode { get; private set; } = string.Empty;
 
-    public async Task OnGetAsync()
+    public void OnGet()
+    {
+        // Method intentionally left empty.
+    }
+
+    public async Task OnGetHandledAsync()
     {
         try
         {
@@ -24,6 +29,7 @@ public class ThrowErrorModel(IErrorLogger errorLogger) : PageModel
     {
         throw new TestException("Test unhandled exception");
     }
+
 
     public class TestException(string message) : Exception(message);
 }
