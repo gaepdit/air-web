@@ -4,7 +4,7 @@ using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.WorkEntries;
 
-public class GetIncludeComments
+public class GetIncludeProperty
 {
     private WorkEntryRepository _repository = default!;
 

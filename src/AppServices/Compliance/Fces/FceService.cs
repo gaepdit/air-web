@@ -20,7 +20,7 @@ public sealed class FceService(
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
+        var fce = await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false);
         if (fce is null) return null;
         await fceManager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
         return mapper.Map<FceViewDto>(fce);

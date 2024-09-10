@@ -11,40 +11,15 @@ public interface IFceRepository : IRepository<Fce, int>
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
     int? GetNextId();
 
-    // TODO: Add unit tests for the following.
-
-    // TODO: If this works (`string[] includeProperties`), move to app library package.
     /// <summary>
-    /// Returns the <see cref="Fce"/> with the given <paramref name="id"/>.
-    /// </summary>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no entity exists with the given ID.</exception>
-    /// <returns>An entity.</returns>
-    Task<Fce> GetAsync(int id, string[] includeProperties, CancellationToken token = default);
-
-    // TODO: If this works (`string[] includeProperties`), move to app library package.
-    /// <summary>
-    /// Returns the <see cref="Fce"/> matching the given <paramref name="id"/>.
-    /// Returns null if there are no matches.
-    /// </summary>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="includeProperties">The navigation properties to include (when using an Entity Framework repository).</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <exception cref="InvalidOperationException">Thrown if there are multiple matches.</exception>
-    /// <returns>An entity or null.</returns>
-    Task<Fce?> FindAsync(int id, string[] includeProperties, CancellationToken token = default);
-
-    /// <summary>
-    /// Returns the <see cref="Fce"/> with the given <paramref name="id"/>, including any <see cref="Fce.Comments"/>.
-    /// Returns null if there are no matches.
+    /// Returns the <see cref="Fce"/> with the given <paramref name="id"/>. Returns null if there are no matches.
+    /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the entity.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An FCE with Comments included or null.</returns>
     Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default);
-
+    
     /// <summary>
     /// Returns a boolean indicating whether an <see cref="Fce"/> with the given parameters exists.
     /// </summary>

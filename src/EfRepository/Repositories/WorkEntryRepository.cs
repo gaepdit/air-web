@@ -12,17 +12,6 @@ public sealed class WorkEntryRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public async Task<WorkEntry> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        await includeProperties.Aggregate(Context.Set<WorkEntry>().AsNoTracking(),
-                (queryable, includeProperty) => queryable.Include(includeProperty))
-            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token).ConfigureAwait(false)
-        ?? throw new EntityNotFoundException<WorkEntry>(id);
-
-    public Task<WorkEntry?> FindAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        includeProperties.Aggregate(Context.Set<WorkEntry>().AsNoTracking(),
-                (queryable, includeProperty) => queryable.Include(includeProperty))
-            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
-
     public Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking().SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);

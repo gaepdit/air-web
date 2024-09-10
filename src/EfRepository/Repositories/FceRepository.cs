@@ -12,17 +12,6 @@ public sealed class FceRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public async Task<Fce> GetAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        await includeProperties.Aggregate(Context.Set<Fce>().AsNoTracking(),
-                (queryable, includeProperty) => queryable.Include(includeProperty))
-            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token).ConfigureAwait(false)
-        ?? throw new EntityNotFoundException<Fce>(id);
-
-    public Task<Fce?> FindAsync(int id, string[] includeProperties, CancellationToken token = default) =>
-        includeProperties.Aggregate(Context.Set<Fce>().AsNoTracking(),
-                (queryable, includeProperty) => queryable.Include(includeProperty))
-            .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
-
     public Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default) =>
         Context.Set<Fce>().AsNoTracking()
             .Include(fce => fce.Comments)
