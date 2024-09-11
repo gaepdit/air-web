@@ -18,24 +18,24 @@
     <dl class="row">
         <dt class="col-sm-4 col-lg-3">Facility</dt>
         <dd class="col-sm-8 col-lg-9">
-            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.ItemView.Facility" />
+            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.ItemSummary.Facility" />
         </dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemView.Year)</dt>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.Year)</dt>
         <dd class="col-sm-8 col-lg-9">
-            <strong class="text-info-emphasis">@Model.ItemView.Year.ToString()</strong>
+            <strong class="text-info-emphasis">@Model.ItemSummary.Year.ToString()</strong>
         </dd>
     </dl>
     <p>
         <em>If this FCE is restored, the following deletion details will be removed.</em>
     </p>
     <dl class="row">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemView.DeletedBy)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemView.DeletedBy, DisplayTemplate.NameOrPlaceholder)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemView.DeletedAt)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemView.DeletedAt, DisplayTemplate.ShortDateTimeOffset)</dd>
-        <dt class="mb-2">@Html.DisplayNameFor(m => m.ItemView.DeleteComments)</dt>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedBy)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedAt)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedAt, DisplayTemplate.ShortDateTimeOffset)</dd>
+        <dt class="mb-2">@Html.DisplayNameFor(m => m.ItemSummary.DeleteComments)</dt>
         <dd>
-            <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(m => m.ItemView.DeleteComments, DisplayTemplate.TextOrPlaceholder)</div>
+            <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(m => m.ItemSummary.DeleteComments, DisplayTemplate.TextOrPlaceholder)</div>
         </dd>
     </dl>
 

@@ -69,6 +69,7 @@ public class AutoMapperProfile : Profile
     private void Fces()
     {
         CreateMap<Fce, FceUpdateDto>();
+        CreateMap<Fce, FceSummaryDto>();
         CreateMap<Fce, FceViewDto>();
     }
 

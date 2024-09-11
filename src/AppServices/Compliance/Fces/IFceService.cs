@@ -9,6 +9,7 @@ public interface IFceService : IDisposable, IAsyncDisposable
     // Query
     Task<FceViewDto?> FindAsync(int id, CancellationToken token = default);
     Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default);
+    Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);

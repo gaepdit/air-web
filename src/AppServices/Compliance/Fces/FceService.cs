@@ -30,6 +30,14 @@ public sealed class FceService(
         mapper.Map<FceUpdateDto?>(await fceRepository.FindAsync(fce => fce.Id.Equals(id) && !fce.IsDeleted, token)
             .ConfigureAwait(false));
 
+    public async Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
+    {
+        var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
+        if (fce is null) return null;
+        await fceManager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
+        return mapper.Map<FceSummaryDto>(fce);
+    }
+
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

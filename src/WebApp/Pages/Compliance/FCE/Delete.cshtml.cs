@@ -15,20 +15,19 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto Entity { get; set; } = default!;
+    public StatusCommentDto StatusComment { get; set; } = default!;
 
-    public FceViewDto ItemView { get; private set; } = default!;
+    public FceSummaryDto ItemSummary { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var itemView = await fceService.FindAsync(Id);
-        if (itemView is null) return NotFound();
-        if (!await UserCanDeleteAsync(itemView)) return Forbid();
+        var item = await fceService.FindSummaryAsync(Id);
+        if (item is null) return NotFound();
+        if (!await UserCanDeleteAsync(item)) return Forbid();
 
-        ItemView = itemView;
-        Entity = new StatusCommentDto();
+        ItemSummary = item;
         return Page();
     }
 
@@ -36,15 +35,15 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var itemView = await fceService.FindAsync(Id);
-        if (itemView is null || itemView.IsDeleted || !await UserCanDeleteAsync(itemView))
+        var item = await fceService.FindSummaryAsync(Id);
+        if (item is null || !await UserCanDeleteAsync(item))
             return BadRequest();
 
-        await fceService.DeleteAsync(Id, Entity);
+        await fceService.DeleteAsync(Id, StatusComment);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully deleted.");
         return RedirectToPage("Details", new { Id });
     }
 
-    private Task<bool> UserCanDeleteAsync(FceViewDto item) =>
+    private Task<bool> UserCanDeleteAsync(FceSummaryDto item) =>
         authorization.Succeeded(User, item, ComplianceWorkOperation.Delete);
 }
