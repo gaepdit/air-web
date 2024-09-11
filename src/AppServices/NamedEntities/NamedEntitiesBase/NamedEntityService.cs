@@ -1,4 +1,4 @@
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;

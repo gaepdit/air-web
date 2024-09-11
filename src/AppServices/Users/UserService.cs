@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.UserServices;
+namespace AirWeb.AppServices.Users;
 
 public class UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
     : IUserService
