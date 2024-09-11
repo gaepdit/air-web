@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 
-public interface IWorkEntryViewDto : IDeletedItem
+public interface IWorkEntryViewDto : ICloseableDeletableItem
 {
     public string ItemName { get; }
     public FacilityViewDto Facility { get; set; }
@@ -24,11 +24,6 @@ public interface IWorkEntryViewDto : IDeletedItem
     public List<CommentViewDto> Comments { get; }
 
     // Properties: Closure
-    public bool TrackClosure { get; }
-
-    [Display(Name = "Closed")]
-    public bool IsClosed { get; }
-
     [Display(Name = "Completed By")]
     public StaffViewDto? ClosedBy { get; }
 

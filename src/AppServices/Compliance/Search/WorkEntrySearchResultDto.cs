@@ -7,11 +7,12 @@ namespace AirWeb.AppServices.Compliance.Search;
 public record WorkEntrySearchResultDto : IStandardSearchResult
 {
     public int Id { get; init; }
-    public WorkEntryType WorkEntryType { get; [UsedImplicitly] init; } = default!;
+    public WorkEntryType WorkEntryType { get; [UsedImplicitly] init; }
     public FacilityViewDto Facility { get; set; } = default!;
     public StaffViewDto? ResponsibleStaff { get; init; }
     public DateOnly EventDate { get; init; }
     public required string EventDateName { get; init; }
+    public bool TrackClosure => WorkEntry.TrackClosure(WorkEntryType);
     public bool IsClosed { get; init; }
     public DateOnly? ClosedDate { get; init; }
     public bool IsDeleted { get; init; }

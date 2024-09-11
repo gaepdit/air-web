@@ -9,7 +9,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.ExternalEntities.Facilities;
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
@@ -83,6 +83,9 @@ public sealed partial class WorkEntryService(
         };
     }
 
+    public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default) =>
+        mapper.Map<WorkEntrySummaryDto?>(await workEntryRepository.FindAsync(id, token).ConfigureAwait(false));
+
     // Command
     public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
@@ -118,8 +121,7 @@ public sealed partial class WorkEntryService(
         return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
-    public async Task<AppNotificationResult> CloseAsync(int id, StatusCommentDto resource,
-        CancellationToken token = default)
+    public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -129,8 +131,7 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryClosed, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> ReopenAsync(int id, StatusCommentDto resource,
-        CancellationToken token = default)
+    public async Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

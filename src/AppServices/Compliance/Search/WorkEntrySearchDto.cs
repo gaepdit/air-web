@@ -9,7 +9,7 @@ public record WorkEntrySearchDto : IComplianceSearchDto
 
     // == Statuses ==
 
-    [Display(Name = "Closed")]
+    [Display(Name = "Closed/Completed")]
     public YesNoAny? Closed { get; init; }
 
     [Display(Name = "Deletion Status")]

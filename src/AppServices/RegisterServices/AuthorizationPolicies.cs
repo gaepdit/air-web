@@ -21,9 +21,11 @@ public static class AuthorizationPolicies
 
         // FceViewRequirement is added scoped because it consumes the scoped IFceService.
         services.AddScoped<IAuthorizationHandler, FceViewRequirement>();
+        services.AddScoped<IAuthorizationHandler, FceSummaryRequirement>();
 
         // services.AddSingleton<IAuthorizationHandler, WorkEntryUpdateRequirement>();
         services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
+        services.AddSingleton<IAuthorizationHandler, WorkEntrySummaryRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

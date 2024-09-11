@@ -1,5 +1,5 @@
 ﻿@page "{id:int?}"
-@using AirWeb.AppServices.Compliance
+@using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
 @using AirWeb.AppServices.Compliance.WorkEntries.Notifications
@@ -52,17 +52,11 @@
         <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
-                <a asp-page="Details" asp-page-handler="Close" asp-route-id="@Model.Id.ToString()"
-                   class="btn btn-outline-primary">
-                    Close
-                </a>
+                <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Reopen])
             {
-                <a asp-page="Details" asp-page-handler="Reopen" asp-route-id="@Model.Id.ToString()"
-                   class="btn btn-outline-primary">
-                    Reopen
-                </a>
+                <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
@@ -108,6 +102,14 @@
             {
                 @:Open
             }
+        </dd>
+    }
+    else if (report.IsClosed)
+    {
+        <dt class="col-sm-4 col-lg-3">Completed By</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
         </dd>
     }
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>

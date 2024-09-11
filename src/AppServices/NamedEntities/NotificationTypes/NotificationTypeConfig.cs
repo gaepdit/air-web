@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AutoMapper;
 

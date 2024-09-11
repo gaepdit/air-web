@@ -7,6 +7,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
@@ -31,6 +32,7 @@ public class AutoMapperProfile : Profile
         Comments();
         Facilities();
         Fces();
+        WorkEntries();
         Accs();
         Inspections();
         Notifications();
@@ -39,6 +41,11 @@ public class AutoMapperProfile : Profile
         RmpInspections();
         SourceTestReviews();
         SearchResults();
+    }
+
+    private void WorkEntries()
+    {
+        CreateMap<WorkEntry, WorkEntrySummaryDto>();
     }
 
     private void Users()
@@ -69,6 +76,7 @@ public class AutoMapperProfile : Profile
     private void Fces()
     {
         CreateMap<Fce, FceUpdateDto>();
+        CreateMap<Fce, FceSummaryDto>();
         CreateMap<Fce, FceViewDto>();
     }
 

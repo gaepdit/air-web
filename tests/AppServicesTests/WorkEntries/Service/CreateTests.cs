@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;

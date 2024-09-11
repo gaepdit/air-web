@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Identity;
 using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.Identity;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.LocalRepository.Identity;
 using AirWeb.WebApp.Platform.Settings;
+using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 

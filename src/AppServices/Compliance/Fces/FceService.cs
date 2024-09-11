@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.UserServices;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.ValueObjects;
@@ -29,6 +29,14 @@ public sealed class FceService(
     public async Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
         mapper.Map<FceUpdateDto?>(await fceRepository.FindAsync(fce => fce.Id.Equals(id) && !fce.IsDeleted, token)
             .ConfigureAwait(false));
+
+    public async Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
+    {
+        var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
+        if (fce is null) return null;
+        await fceManager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
+        return mapper.Map<FceSummaryDto>(fce);
+    }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
     {

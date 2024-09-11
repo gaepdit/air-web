@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
-internal class WorkEntryViewRequirement :
-    AuthorizationHandler<ComplianceWorkOperation, IWorkEntryViewDto>
+internal class WorkEntrySummaryRequirement :
+    AuthorizationHandler<ComplianceWorkOperation, IWorkEntrySummaryDto>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ComplianceWorkOperation requirement,
-        IWorkEntryViewDto resource)
+        IWorkEntrySummaryDto resource)
     {
         if (context.User.Identity is not { IsAuthenticated: true })
             return Task.FromResult(0);
@@ -19,10 +19,8 @@ internal class WorkEntryViewRequirement :
         {
             nameof(ComplianceWorkOperation.Close) => ComplianceWorkOperation.CanClose(context.User, resource),
             nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(context.User, resource),
-            nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(context.User, resource),
             nameof(ComplianceWorkOperation.Reopen) => ComplianceWorkOperation.CanReopen(context.User, resource),
             nameof(ComplianceWorkOperation.Restore) => ComplianceWorkOperation.CanRestore(context.User, resource),
-            nameof(ComplianceWorkOperation.ViewDeleted) => ComplianceWorkOperation.CanManageDeletions(context.User),
             _ => false,
         };
 
