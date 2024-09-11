@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance;
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions;

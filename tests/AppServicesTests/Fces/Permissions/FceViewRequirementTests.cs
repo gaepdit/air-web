@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance;
-using AirWeb.AppServices.Compliance.Fces;
+﻿using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;

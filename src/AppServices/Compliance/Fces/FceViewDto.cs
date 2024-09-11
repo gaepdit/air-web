@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IDeletedItem
+public record FceViewDto : IDeletableItem
 {
     public int Id { get; init; }
 

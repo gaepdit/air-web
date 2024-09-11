@@ -1,5 +1,5 @@
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
-using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
@@ -7,9 +7,6 @@ namespace AirWeb.AppServices.Compliance.WorkEntries;
 internal class WorkEntryViewRequirement :
     AuthorizationHandler<ComplianceWorkOperation, IWorkEntryViewDto>
 {
-    private IWorkEntryViewDto _resource = null!;
-    private AuthorizationHandlerContext _context = null!;
-
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ComplianceWorkOperation requirement,
@@ -18,31 +15,18 @@ internal class WorkEntryViewRequirement :
         if (context.User.Identity is not { IsAuthenticated: true })
             return Task.FromResult(0);
 
-        _resource = resource;
-        _context = context;
-
         var success = requirement.Name switch
         {
-            nameof(ComplianceWorkOperation.Close) => UserCanClose(),
-            nameof(ComplianceWorkOperation.Edit) => UserCanEditDetails(),
-            nameof(ComplianceWorkOperation.Reopen) => UserCanReopen(),
-            nameof(ComplianceWorkOperation.Delete) => UserCanManageDeletions(),
+            nameof(ComplianceWorkOperation.Close) => ComplianceWorkOperation.CanClose(context.User, resource),
+            nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(context.User, resource),
+            nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(context.User, resource),
+            nameof(ComplianceWorkOperation.Reopen) => ComplianceWorkOperation.CanReopen(context.User, resource),
+            nameof(ComplianceWorkOperation.Restore) => ComplianceWorkOperation.CanRestore(context.User, resource),
+            nameof(ComplianceWorkOperation.ViewDeleted) => ComplianceWorkOperation.CanManageDeletions(context.User),
             _ => false,
         };
 
         if (success) context.Succeed(requirement);
         return Task.FromResult(0);
     }
-
-    // Permissions methods
-    private bool UserCanClose() => CanCloseOrReopen() && !_resource.IsClosed;
-    private bool UserCanReopen() => CanCloseOrReopen() && _resource.IsClosed;
-
-    private bool CanCloseOrReopen() =>
-        _context.User.IsComplianceStaff() && _resource is { TrackClosure: true, IsDeleted: false };
-
-    private bool UserCanEditDetails() =>
-        _context.User.IsComplianceStaff() && _resource is { IsClosed: false, IsDeleted: false };
-
-    private bool UserCanManageDeletions() => _context.User.IsComplianceManager();
 }

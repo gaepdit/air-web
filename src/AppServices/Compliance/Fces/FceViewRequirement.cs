@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.Compliance.Permissions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -22,21 +22,17 @@ internal class FceViewRequirement(IFceService fceService) :
 
         var success = requirement.Name switch
         {
-            nameof(ComplianceWorkOperation.Edit) => UserCanEdit(),
-            nameof(ComplianceWorkOperation.ViewDeleted) => UserCanViewDeleted(),
-            nameof(ComplianceWorkOperation.Delete) => UserCanDelete(),
-            nameof(ComplianceWorkOperation.Restore) => await UserCanRestoreAsync().ConfigureAwait(false),
+            nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(_context.User, _resource),
+            nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(_context.User, _resource),
+            nameof(ComplianceWorkOperation.Restore) => await CanRestoreAsync().ConfigureAwait(false),
+            nameof(ComplianceWorkOperation.ViewDeleted) => ComplianceWorkOperation.CanManageDeletions(_context.User),
             _ => false,
         };
 
         if (success) context.Succeed(requirement);
     }
 
-    private bool UserCanEdit() => _context.User.IsComplianceStaff() && !_resource.IsDeleted;
-    private bool UserCanViewDeleted() => _context.User.IsComplianceManager();
-    private bool UserCanDelete() => UserCanViewDeleted() && !_resource.IsDeleted;
-
-    private async Task<bool> UserCanRestoreAsync() =>
-        UserCanViewDeleted() && _resource.IsDeleted &&
+    private async Task<bool> CanRestoreAsync() =>
+        ComplianceWorkOperation.CanRestore(_context.User, _resource) &&
         !await fceService.ExistsAsync(GetRestoreDto()).ConfigureAwait(false);
 }

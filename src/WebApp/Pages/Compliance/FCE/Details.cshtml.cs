@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance;
 using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
