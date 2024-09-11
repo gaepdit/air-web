@@ -25,6 +25,7 @@ public static class AuthorizationPolicies
 
         // services.AddSingleton<IAuthorizationHandler, WorkEntryUpdateRequirement>();
         services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
+        services.AddSingleton<IAuthorizationHandler, WorkEntrySummaryRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();
