@@ -64,7 +64,7 @@ public sealed partial class WorkEntryService(
 
         return await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
         {
-            WorkEntryType.AnnualComplianceCertification => mapper.Map<InspectionUpdateDto>(await workEntryRepository
+            WorkEntryType.AnnualComplianceCertification => mapper.Map<AccUpdateDto>(await workEntryRepository
                 .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
             WorkEntryType.Inspection => mapper.Map<InspectionUpdateDto>(await workEntryRepository
                 .FindAsync<Inspection>(id, token).ConfigureAwait(false)),

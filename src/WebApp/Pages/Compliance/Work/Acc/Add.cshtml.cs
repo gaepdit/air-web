@@ -7,7 +7,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Acc;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class AddModel(

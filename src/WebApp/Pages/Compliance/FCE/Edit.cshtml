@@ -1,5 +1,4 @@
 ﻿@page "{id:int?}"
-@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model EditModel
@@ -28,12 +27,10 @@
             <dd class="col-sm-8 col-lg-9">
                 <strong class="text-info-emphasis">@Model.ItemView.Year.ToString()</strong>
             </dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemView.CompletedDate)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemView.CompletedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
         </dl>
 
         <h2 class="h4">Update Details</h2>
-        <div class="col-md mb-3">
+        <div class="mb-3">
             @Html.EditorFor(m => m.Item.ReviewedById, EditorTemplate.SelectNoPlaceholder,
                 additionalViewData: new { Items = Model.StaffSelectList })
         </div>

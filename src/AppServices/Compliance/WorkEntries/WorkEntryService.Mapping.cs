@@ -76,7 +76,7 @@ public sealed partial class WorkEntryService
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes;
+        workEntry.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {

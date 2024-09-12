@@ -8,5 +8,5 @@ public interface IWorkEntryUpdateDto
     // Data
     public string? ResponsibleStaffId { get; }
     public DateOnly? AcknowledgmentLetterDate { get; }
-    public string Notes { get; }
+    public string? Notes { get; }
 }

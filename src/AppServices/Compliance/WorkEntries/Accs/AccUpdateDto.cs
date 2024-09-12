@@ -5,7 +5,6 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
 public record AccUpdateDto : WorkEntryUpdateDto, IAccCommandDto
 {
-    [Display(Name = "Closed")]
     public bool IsClosed { get; init; }
 
     [DataType(DataType.Date)]

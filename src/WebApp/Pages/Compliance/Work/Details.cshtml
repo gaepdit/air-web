@@ -60,7 +60,27 @@
             }
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
-                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                @switch (report)
+                {
+                    case AccViewDto:
+                        <a asp-page="Acc/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                    case InspectionViewDto:
+                        <a asp-page="Inspection/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                    case NotificationViewDto:
+                        <a asp-page="Notification/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                    case PermitRevocationViewDto:
+                        <a asp-page="PermitRevocation/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                    case ReportViewDto:
+                        <a asp-page="Report/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                    case SourceTestReviewViewDto:
+                        <a asp-page="Str/Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                        break;
+                }
             }
             @if (Model.UserCan[ComplianceWorkOperation.Delete])
             {
