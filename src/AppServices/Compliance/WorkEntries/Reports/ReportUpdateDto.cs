@@ -6,6 +6,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 
 public record ReportUpdateDto : WorkEntryUpdateDto, IReportCommandDto
 {
+    public bool IsClosed { get; init; }
+
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]

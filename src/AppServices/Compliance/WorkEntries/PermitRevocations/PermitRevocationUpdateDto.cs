@@ -5,6 +5,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 
 public record PermitRevocationUpdateDto : WorkEntryUpdateDto, IPermitRevocationCommandDto
 {
+    public bool IsClosed { get; init; }
+
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]

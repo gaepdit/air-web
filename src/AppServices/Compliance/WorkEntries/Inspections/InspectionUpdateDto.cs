@@ -6,6 +6,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
 public record InspectionUpdateDto : WorkEntryUpdateDto, IInspectionCommandDto
 {
+    public bool IsClosed { get; init; }
+
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Start Date")]

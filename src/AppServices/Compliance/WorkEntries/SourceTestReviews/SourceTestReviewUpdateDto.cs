@@ -5,6 +5,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 
 public record SourceTestReviewUpdateDto : WorkEntryUpdateDto, ISourceTestReviewCommandDto
 {
+    public bool IsClosed { get; init; }
+
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }
 
