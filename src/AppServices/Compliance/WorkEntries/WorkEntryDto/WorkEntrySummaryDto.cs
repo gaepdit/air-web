@@ -16,8 +16,6 @@ public record WorkEntrySummaryDto : IWorkEntrySummaryDto
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
-    public bool TrackClosure => WorkEntry.TrackClosure(WorkEntryType);
-
     // Properties: Closure
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }

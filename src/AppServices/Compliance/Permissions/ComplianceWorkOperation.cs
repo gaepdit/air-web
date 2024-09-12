@@ -25,10 +25,7 @@ public class ComplianceWorkOperation :
 
     // Operation requirement handler helpers
     internal static bool CanClose(ClaimsPrincipal user, ICloseableDeletableItem item) =>
-        CanCloseOrReopen(user, item) && !item.IsClosed;
-
-    private static bool CanCloseOrReopen(ClaimsPrincipal user, ICloseableDeletableItem item) =>
-        user.IsComplianceStaff() && item is { TrackClosure: true, IsDeleted: false };
+        CanEdit(user, item) && !item.IsClosed;
 
     internal static bool CanDelete(ClaimsPrincipal user, IDeletableItem item) =>
         CanManageDeletions(user) && !item.IsDeleted;
@@ -39,7 +36,7 @@ public class ComplianceWorkOperation :
     internal static bool CanManageDeletions(ClaimsPrincipal user) => user.IsComplianceManager();
 
     internal static bool CanReopen(ClaimsPrincipal user, ICloseableDeletableItem item) =>
-        CanCloseOrReopen(user, item) && item.IsClosed;
+        CanEdit(user, item) && item.IsClosed;
 
     internal static bool CanRestore(ClaimsPrincipal user, IDeletableItem item) =>
         CanManageDeletions(user) && item.IsDeleted;

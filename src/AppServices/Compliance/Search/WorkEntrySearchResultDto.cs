@@ -12,7 +12,6 @@ public record WorkEntrySearchResultDto : IStandardSearchResult
     public StaffViewDto? ResponsibleStaff { get; init; }
     public DateOnly EventDate { get; init; }
     public required string EventDateName { get; init; }
-    public bool TrackClosure => WorkEntry.TrackClosure(WorkEntryType);
     public bool IsClosed { get; init; }
     public DateOnly? ClosedDate { get; init; }
     public bool IsDeleted { get; init; }
