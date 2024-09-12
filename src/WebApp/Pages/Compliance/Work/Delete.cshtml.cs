@@ -1,15 +1,16 @@
 ﻿using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace AirWeb.WebApp.Pages.Compliance.FCE;
+namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(Policies.ComplianceManager))]
-public class DeleteModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+public class DeleteModel(IWorkEntryService entryService, IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -17,13 +18,13 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
     [BindProperty]
     public StatusCommentDto StatusComment { get; set; } = default!;
 
-    public FceSummaryDto ItemSummary { get; private set; } = default!;
+    public WorkEntrySummaryDto ItemSummary { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await fceService.FindSummaryAsync(Id);
+        var item = await entryService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
         if (!await UserCanDeleteAsync(item)) return Forbid();
 
@@ -35,18 +36,18 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await fceService.FindSummaryAsync(Id, token);
+        var item = await entryService.FindSummaryAsync(Id, token);
         if (item is null || !await UserCanDeleteAsync(item))
             return BadRequest();
 
-        var notificationResult = await fceService.DeleteAsync(Id, StatusComment, token);
+        var notificationResult = await entryService.DeleteAsync(Id, StatusComment, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            "FCE successfully deleted.", notificationResult.FailureMessage);
+            $"{item.ItemName} successfully deleted.", notificationResult.FailureMessage);
 
         return RedirectToPage("Details", new { Id });
     }
 
-    private Task<bool> UserCanDeleteAsync(FceSummaryDto item) =>
+    private Task<bool> UserCanDeleteAsync(WorkEntrySummaryDto item) =>
         authorization.Succeeded(User, item, ComplianceWorkOperation.Delete);
 }
