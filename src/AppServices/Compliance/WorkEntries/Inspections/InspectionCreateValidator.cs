@@ -26,5 +26,9 @@ public class InspectionCreateValidator : AbstractValidator<InspectionCreateDto>
             .Must((dto, date) => date.ToDateTime(dto.InspectionEndedTime) >=
                                  dto.InspectionStartedDate.ToDateTime(dto.InspectionStartedTime))
             .WithMessage("The Inspection End Date must be later than the Start Date.");
+
+        RuleFor(dto => dto.AcknowledgmentLetterDate)
+            .Must((dto, date) => date is null || date >= dto.InspectionEndedDate)
+            .WithMessage("The Acknowledgment Letter Date cannot be earlier than the Inspection End Date.");
     }
 }
