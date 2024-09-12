@@ -1,39 +1,45 @@
 # RMP Inspection Workflow
 
+## Workflow additions
+
+* An RMP Inspection is a Compliance Event.
+* An RMP Inspection is automatically closed when created.
+
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    INS{{"`**RMP Inspection**`"}}
+    WRK{{"`**Inspection**`"}}
     CMT{{Comment}}
     ENF{{Enforcement}}
-
-    enter([Enter new RMP Inspection])
+    enter([Enter new Inspection])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
+    close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     
     FAC -.-> enter
-    INS -.-> edit
-    INS -.-> comment
-    INS -.-> enforce
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -.-> comment
+    WRK -.-> enforce
     CMT -.-> editComment
-
-    enter -->|Creates| INS
-    edit -->|Updates| INS
+    close -->|"`Disables/*enables*`"| edit
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
     enforce -->|Creates| ENF
-
 ```
 
 ## ERD
 
 ```mermaid
 erDiagram
-    RmpInspection {
+    Inspection {
         datetime InspectionStarted
         datetime InspectionEnded
         enum InspectionReason

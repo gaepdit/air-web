@@ -1,28 +1,34 @@
 # Notification Workflow
 
+## Workflow additions
+
+* A Notification is automatically closed when created.
+
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    NOT{{"`**Notification**`"}}
+    WRK{{"`**Notification**`"}}
     CMT{{Comment}}
 
     enter([Enter new Notification])
     edit([Edit])
     comment([Add Comment])
+    close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
 
     FAC -.-> enter
-    NOT -.-> edit
-    NOT -.-> comment
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -.-> comment
     CMT -.-> editComment
-
-    enter -->|Creates| NOT
-    edit -->|Updates| NOT
+    close -->|"`Disables/*enables*`"| edit
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
-
 ```
 
 ## ERD

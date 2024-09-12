@@ -25,7 +25,6 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public DateOnly? AcknowledgmentLetterDate { get; init; }
     public string Notes { get; init; } = string.Empty;
     public List<CommentViewDto> Comments { get; } = [];
-    public bool TrackClosure => WorkEntry.TrackClosure(WorkEntryType);
 
     // Properties: Closure
     [Display(Name = "Closed")]

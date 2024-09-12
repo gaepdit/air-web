@@ -221,18 +221,10 @@
                             </td>
                             <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
                             <td class="text-nowrap">
-                                @if (item.TrackClosure)
+                                @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                                @if (item.IsClosed)
                                 {
-                                    @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
-                                    @if (item.IsClosed)
-                                    {
-                                        <br />
-                                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
-                                    }
-                                }
-                                else if (item.IsClosed)
-                                {
-                                    @:Completed<br />
+                                    <br />
                                     @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>

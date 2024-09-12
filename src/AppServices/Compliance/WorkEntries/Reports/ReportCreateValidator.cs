@@ -45,5 +45,9 @@ public class ReportCreateValidator : AbstractValidator<ReportCreateDto>
             .WithMessage($"The Sent Date cannot be earlier than {WorkEntry.EarliestWorkEntryYear}.")
             .Must((dto, date) => date is null || date >= dto.ReportingPeriodEnd)
             .WithMessage("The Sent Date must be later than the Reporting Period End Date.");
+
+        RuleFor(dto => dto.AcknowledgmentLetterDate)
+            .Must((dto, date) => date is null || date >= dto.ReceivedDate)
+            .WithMessage("The Acknowledgment Letter Date cannot be earlier than the Received Date.");
     }
 }

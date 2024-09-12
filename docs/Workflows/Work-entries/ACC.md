@@ -2,18 +2,17 @@
 
 ## Workflow additions
 
-* The ACC can only be edited while open.
-* Closing an ACC disables updating and enables printing.
-* Reopening an ACC enables updating and disables printing.
-* Closing or Reopening an ACC updates the Data Exchange.
-* The ACC report can be printed.
+* An ACC is a Compliance Event.
+* An ACC report can be printed if closed.
+* Closing an ACC enables printing.
+* Reopening an ACC disables printing.
 
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    ACC{{"`**ACC**`"}}
+    WRK{{"`**ACC**`"}}
     CMT{{Comment}}
     DX{{Data Exchange}}
     RPT{{Report}}
@@ -28,19 +27,18 @@ flowchart
     editComment([Edit Comment])
 
     FAC -.-> enter
-    ACC -.-> edit
-    ACC -.-> close
-    ACC -.-> print
-    ACC -..-> comment
-    ACC -..-> enforce
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -.-> print
+    WRK -..-> comment
+    WRK -..-> enforce
     CMT -.-> editComment
 
     close -->|"`Enables/*disables*`"| print
     close -->|"`Disables/*enables*`"| edit
-
-    enter -->|Creates| ACC
-    edit -->|Updates| ACC
-    close -->|"`Closes/*reopens*`"| ACC
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     print -->|Opens| RPT
     comment -->|Adds| CMT

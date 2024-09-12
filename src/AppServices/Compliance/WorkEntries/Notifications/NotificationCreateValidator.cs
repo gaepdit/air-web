@@ -34,5 +34,9 @@ public class NotificationCreateValidator : AbstractValidator<NotificationCreateD
             .WithMessage("The Due Date cannot be more than a year in the future.")
             .Must(date => date is null || date.Value.Year >= WorkEntry.EarliestWorkEntryYear)
             .WithMessage($"The Due Date cannot be earlier than {WorkEntry.EarliestWorkEntryYear}.");
+
+        RuleFor(dto => dto.AcknowledgmentLetterDate)
+            .Must((dto, date) => date is null || date >= dto.ReceivedDate)
+            .WithMessage("The Acknowledgment Letter Date cannot be earlier than the Received Date.");
     }
 }

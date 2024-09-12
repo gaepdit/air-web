@@ -3,24 +3,32 @@
 ## General Workflow
 
 * A new Work Entry can be entered from a Facility.
-* The Work Entry can be edited.
-* Enforcement can be started from a Compliance Event-type Work Entry.
-* Saving a Compliance Event updates the Data Exchange.
-* A Work Entry can be deleted/restored *(not shown)*.
+* The Work Entry can be edited if open.
+* A Work Entry can be closed/reopened (some are automatically closed when they are first created).
+* Closing a Work Entry disables editing.
+* Reopening a Work Entry enables editing.
+* A Work Entry can be deleted/restored *(not shown in diagrams)*.
 * Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+* A Comment can be deleted *(not shown in diagrams)*.
+
+## Compliance Event Workflow
+
+* Some Work Entry types are categorized as "Compliance Events."
+* Enforcement can be started from a Compliance Event.
+* Closing a Compliance Event updates the Data Exchange.
 
 ## Entities
 
 - WRK: Work Entry
     - ACC: Annual Compliance Certification (ACC) †
-    - INS: Inspection †
-    - RMP: RMP Inspection †
-    - REP: Report †
-    - STR: Source Test Compliance Review †
-    - NOT: Notification
+  - INS: Inspection * †
+  - RMP: RMP Inspection * †
+  - REP: Report * †
+  - STR: Source Test Compliance Review * †
+  - NOT: Notification *
     - REV: Permit revocation
 
+<small>* Indicates the Work Entry is automatically closed when created.</small><br>
 <small>† Indicates a Compliance Event (available as an enforcement discovery event).</small>
 
 ## Base ERD

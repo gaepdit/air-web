@@ -29,5 +29,9 @@ public class AccCreateValidator : AbstractValidator<AccCreateDto>
             .WithMessage("The Postmark Date cannot be in the future.")
             .Must(date => date.Year >= WorkEntry.EarliestWorkEntryYear)
             .WithMessage($"The Postmark Date cannot be earlier than {WorkEntry.EarliestWorkEntryYear}.");
+
+        RuleFor(dto => dto.AcknowledgmentLetterDate)
+            .Must((dto, date) => date is null || date >= dto.ReceivedDate)
+            .WithMessage("The Acknowledgment Letter Date cannot be earlier than the Received Date.");
     }
 }
