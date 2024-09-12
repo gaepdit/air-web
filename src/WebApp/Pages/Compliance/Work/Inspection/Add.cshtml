@@ -26,6 +26,7 @@
             Facility: <br />
             <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
         </div>
+
         <div class="mb-3">
             @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
                 additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
@@ -89,6 +90,7 @@
 
         <partial name="Compliance/Work/_Partials/_AddCancelButtons" />
         <input asp-for="Item.FacilityId" type="hidden" />
+        <input asp-for="Item.IsRmpInspection" type="hidden" />
     </form>
 </div>
 

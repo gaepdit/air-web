@@ -22,15 +22,15 @@ public class AddModel(
     [BindProperty]
     public InspectionCreateDto Item { get; set; } = default!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(bool isRmp = false)
     {
-        EntryType = WorkEntryType.Inspection;
+        EntryType = isRmp ? WorkEntryType.RmpInspection : WorkEntryType.Inspection;
 
         Item = new InspectionCreateDto
         {
             FacilityId = FacilityId,
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
-            IsRmpInspection = false,
+            IsRmpInspection = isRmp,
         };
 
         return await DoGetAsync();
@@ -38,7 +38,7 @@ public class AddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.Inspection;
+        EntryType = Item.IsRmpInspection ? WorkEntryType.RmpInspection : WorkEntryType.Inspection;
         return await DoPostAsync(Item, entryService, validator, token);
     }
 }
