@@ -8,7 +8,6 @@ internal class FceViewRequirement(IFceService fceService) :
 {
     private FceViewDto _resource = null!;
     private AuthorizationHandlerContext _context = null!;
-    private FceRestoreDto GetAsRestoreDto() => new(_resource.Id, _resource.Facility.Id, _resource.Year);
 
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
@@ -34,5 +33,5 @@ internal class FceViewRequirement(IFceService fceService) :
 
     private async Task<bool> CanRestoreAsync() =>
         ComplianceWorkOperation.CanRestore(_context.User, _resource) &&
-        !await fceService.ExistsAsync(GetAsRestoreDto()).ConfigureAwait(false);
+        !await fceService.OtherExistsAsync(_resource.Facility.Id, _resource.Year, _resource.Id).ConfigureAwait(false);
 }

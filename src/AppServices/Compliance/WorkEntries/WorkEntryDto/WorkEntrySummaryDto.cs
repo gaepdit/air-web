@@ -30,7 +30,13 @@ public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 
     // Properties: Deletion
     public bool IsDeleted { get; init; }
+
+    [Display(Name = "Deleted By")]
     public StaffViewDto? DeletedBy { get; init; }
+
+    [Display(Name = "Date Deleted")]
     public DateTimeOffset? DeletedAt { get; init; }
+
+    [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
 }

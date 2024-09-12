@@ -1,25 +1,26 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Permissions;
+﻿using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
-namespace AirWeb.WebApp.Pages.Compliance.FCE;
+namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.ComplianceManager))]
-public class RestoreModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+public class RestoreModel(IWorkEntryService entryService, IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
-    public FceSummaryDto ItemSummary { get; private set; } = default!;
+    public WorkEntrySummaryDto ItemSummary { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await fceService.FindSummaryAsync(Id);
+        var item = await entryService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
         if (!await UserCanRestoreAsync(item)) return Forbid();
 
@@ -31,18 +32,18 @@ public class RestoreModel(IFceService fceService, IAuthorizationService authoriz
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await fceService.FindSummaryAsync(Id, token);
+        var item = await entryService.FindSummaryAsync(Id, token);
         if (item is null || !item.IsDeleted || !await UserCanRestoreAsync(item))
             return BadRequest();
 
-        var notificationResult = await fceService.RestoreAsync(Id, token);
+        var notificationResult = await entryService.RestoreAsync(Id, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            "FCE successfully restored.", notificationResult.FailureMessage);
+            $"{item.ItemName} successfully restored.", notificationResult.FailureMessage);
 
         return RedirectToPage("Details", new { Id });
     }
 
-    private Task<bool> UserCanRestoreAsync(FceSummaryDto item) =>
+    private Task<bool> UserCanRestoreAsync(WorkEntrySummaryDto item) =>
         authorization.Succeeded(User, item, ComplianceWorkOperation.Restore);
 }

@@ -19,5 +19,5 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default);
     Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default);
     Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource, CancellationToken token = default);
-    Task<AppNotificationResult> RestoreAsync(int id, StatusCommentDto resource, CancellationToken token = default);
+    Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default);
 }

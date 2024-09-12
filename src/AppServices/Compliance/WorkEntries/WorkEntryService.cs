@@ -152,8 +152,7 @@ public sealed partial class WorkEntryService(
         return await NotifyOwnerAsync(workEntry, Template.EntryDeleted, token).ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> RestoreAsync(int id, StatusCommentDto resource,
-        CancellationToken token = default)
+    public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);
         workEntryManager.Restore(workEntry);
