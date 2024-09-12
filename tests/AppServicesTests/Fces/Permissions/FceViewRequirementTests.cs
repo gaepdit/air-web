@@ -138,7 +138,7 @@ public class FceViewRequirementTests
         var context = new AuthorizationHandlerContext(requirements, user, resource);
 
         var fceService = Substitute.For<IFceService>();
-        fceService.ExistsAsync(Arg.Any<FceRestoreDto>(), Arg.Any<CancellationToken>())
+        fceService.OtherExistsAsync(Arg.Any<FacilityId>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
         var handler = new FceViewRequirement(fceService);
@@ -165,7 +165,7 @@ public class FceViewRequirementTests
         var context = new AuthorizationHandlerContext(requirements, user, resource);
 
         var fceService = Substitute.For<IFceService>();
-        fceService.ExistsAsync(Arg.Any<FceRestoreDto>(), Arg.Any<CancellationToken>())
+        fceService.OtherExistsAsync(Arg.Any<FacilityId>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
 
         var handler = new FceViewRequirement(fceService);

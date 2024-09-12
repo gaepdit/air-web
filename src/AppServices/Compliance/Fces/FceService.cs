@@ -100,8 +100,9 @@ public sealed class FceService(
         return await NotifyOwnerAsync(fce, Template.FceRestored, token).ConfigureAwait(false);
     }
 
-    public Task<bool> ExistsAsync(FceRestoreDto resource, CancellationToken token = default) =>
-        fceRepository.ExistsAsync((FacilityId)resource.FacilityId, resource.Year, resource.Id, token);
+    public Task<bool> OtherExistsAsync(FacilityId facilityId, int year, int currentId,
+        CancellationToken token = default) =>
+        fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
     private async Task<AppNotificationResult> NotifyOwnerAsync(Fce fce, Template template,
         CancellationToken token, Comment? comment = null)
