@@ -2,14 +2,15 @@
 
 ## Workflow additions
 
-* A new FCE can be entered from an Inspection.
+* An Inspection is a Compliance Event.
+* An Inspection is automatically closed when created.
 
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    INS{{"`**Inspection**`"}}
+    WRK{{"`**Inspection**`"}}
     DX{{Data Exchange}}
     CMT{{Comment}}
     FCE{{FCE}}
@@ -19,25 +20,27 @@ flowchart
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
+    close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     fce([Generate FCE])
 
     FAC -.-> enter
-    INS -.-> edit
-    INS -.-> comment
-    INS -.-> enforce
-    INS -.-> fce
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -.-> comment
+    WRK -.-> enforce
+    WRK -.-> fce
     CMT -.-> editComment
-
-    enter -->|Creates| INS
-    edit -->|Updates| INS
+    close -->|"`Disables/*enables*`"| edit
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
     fce -->|Creates| FCE
     enforce -->|Creates| ENF
     enter -->|Updates| DX
     edit -->|Updates| DX
-
 ```
 
 ## ERD

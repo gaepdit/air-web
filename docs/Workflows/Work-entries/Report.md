@@ -1,11 +1,16 @@
 # Report Workflow
 
+## Workflow additions
+
+* A Report is a Compliance Event.
+* A Report is automatically closed when created.
+
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    REP{{"`**Report**`"}}
+    WRK{{"`**Report**`"}}
     DX{{Data Exchange}}
     CMT{{Comment}}
     ENF{{Enforcement}}
@@ -14,22 +19,26 @@ flowchart
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
+    close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
 
     FAC -.-> enter
-    REP -.-> edit
-    REP -.-> comment
-    REP -.-> enforce
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -.-> comment
+    WRK -.-> enforce
     CMT -.-> editComment
 
-    enter -->|Creates| REP
-    edit -->|Updates| REP
+    close -->|"`Disables/*enables*`"| edit
+
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
     enforce -->|Creates| ENF
     enter -->|Updates| DX
     edit -->|Updates| DX
-
 ```
 
 ## ERD

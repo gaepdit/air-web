@@ -1,33 +1,30 @@
 # Permit Revocation Workflow
 
-## Workflow additions
-
-* Finalizing a Permit Revocation disables updating.
-
 ## Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
-    REV{{"`**Permit Revocation**`"}}
+    WRK{{"`**Permit Revocation**`"}}
     CMT{{Comment}}
 
     enter([Enter new Permit Revocation])
     comment([Add Comment])
     edit([Edit])
-    finalize([Finalize])
+    close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
 
     FAC -.-> enter
-    REV -.-> edit
-    REV -.-> finalize
-    REV -..-> comment
+    WRK -.-> edit
+    WRK -.-> close
+    WRK -..-> comment
     CMT -.-> editComment
 
-    finalize -->|Disables| edit
-    enter -->|Creates| REV
-    edit -->|Updates| REV
-    finalize -->|Closes| REV
+    close -->|"`Disables/*enables*`"| edit
+
+    enter -->|Creates| WRK
+    edit -->|Updates| WRK
+    close -->|"`Closes/*reopens*`"| WRK
     editComment -->|Updates| CMT
     comment -->|Adds| CMT
 ```

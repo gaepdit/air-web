@@ -1,12 +1,12 @@
 # Full Compliance Evaluation (FCE) Workflow and ERD
 
 * A new FCE can be entered from a Facility or an Inspection.
-* The FCE can be edited.
+* An FCE can be edited.
 * Saving an FCE updates the Data Exchange.
-* The FCE report can be printed.
-* An FCE can be deleted/restored *(not shown)*.
+* An FCE report can be printed.
+* An FCE can be deleted/restored *(not shown in diagram)*.
 * Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+* A Comment can be deleted *(not shown in diagram)*.
 
 ## Flowchart
 
