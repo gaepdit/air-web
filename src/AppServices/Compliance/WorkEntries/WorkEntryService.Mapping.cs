@@ -4,7 +4,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
@@ -69,14 +69,14 @@ public sealed partial class WorkEntryService
         }
     }
 
-    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryUpdateDto resource, WorkEntry workEntry,
+    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryCommandDto resource, WorkEntry workEntry,
         CancellationToken token)
     {
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes;
+        workEntry.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {

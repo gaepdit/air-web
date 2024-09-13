@@ -42,7 +42,6 @@ These pages are only available to logged-in staff.
 
 * `/Compliance/FCE` FCE search form.
 * `/Compliance/FCE/Details/{fceId}` FCE details page.
-* ~~`/Compliance/FCE/Add` Add a new FCE.~~
 * `/Compliance/FCE/Add/{facilityId}` Add a new FCE for the specified Facility.
 * `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
 * `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
@@ -51,12 +50,10 @@ These pages are only available to logged-in staff.
 
 * `/Compliance/Work` Compliance Work Entry search form.
 * `/Compliance/Work/Details/{entryId}` Compliance Work Entry details page.
-* ~~`/Compliance/Work/Add` Add a new Work Entry.~~
-* ~~`/Compliance/Work/Add?{facilityId}` Add a new Work Entry for the Facility.~~
-* ~~`/Compliance/Work/Add/{workEntryType}` Add a new Work Entry of the specified type.~~
 * `/Compliance/Work/{workEntryType}/Add/{facilityId}` Add a new Work Entry of the specified type for the
   specified Facility.
-* `/Compliance/Work/Edit/{entryId}` Edit a Work Entry.
+* `/Compliance/Work/{workEntryType}/Edit/{entryId}` Edit a Work Entry.
+* `/Compliance/Work/Edit/{entryId}` Redirect to appropriate Work Entry edit page.
 * `/Compliance/Work/[Close|Reopen]/{entryId}` Close/reopen a Work Entry (applies to ACCs and Permit Revocations only).
 * `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
 
@@ -74,7 +71,6 @@ These pages are only available to logged-in staff.
 
 #### Enforcement Case Initiation
 
-* ~~`/Compliance/Enforcement/Add` Start new enforcement case.~~
 * `/Compliance/Enforcement/Add/{facilityId}` Start new enforcement case for the specified facility.
 * `/Compliance/Enforcement/Add/{facilityId}/{entryId}` Start new enforcement case for the specified work entry.
 

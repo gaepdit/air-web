@@ -2,7 +2,6 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
@@ -11,7 +10,6 @@ using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Notification;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class AddModel(
     IWorkEntryService entryService,
     IFacilityService facilityService,

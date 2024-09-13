@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 

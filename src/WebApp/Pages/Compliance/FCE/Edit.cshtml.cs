@@ -20,8 +20,8 @@ public class EditModel(
     [BindProperty]
     public FceUpdateDto Item { get; set; } = default!;
 
+    public FceSummaryDto ItemView { get; private set; } = default!;
     public SelectList StaffSelectList { get; private set; } = default!;
-    public FceViewDto ItemView { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -31,7 +31,7 @@ public class EditModel(
         if (item is null) return NotFound();
         if (!await UserCanEditAsync(item)) return Forbid();
 
-        var itemView = await fceService.FindAsync(Id);
+        var itemView = await fceService.FindSummaryAsync(Id);
         if (itemView is null) return BadRequest();
 
         Item = item;
@@ -48,7 +48,7 @@ public class EditModel(
 
         if (!ModelState.IsValid)
         {
-            var itemView = await fceService.FindAsync(Id, token);
+            var itemView = await fceService.FindSummaryAsync(Id, token);
             if (itemView is null) return BadRequest();
             ItemView = itemView;
 
@@ -61,10 +61,10 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
+    // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
     private async Task PopulateSelectListsAsync() =>
         StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
 
-    // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
     private Task<bool> UserCanEditAsync(FceUpdateDto item) =>
         authorization.Succeeded(User, item, new FceUpdateRequirement());
 }

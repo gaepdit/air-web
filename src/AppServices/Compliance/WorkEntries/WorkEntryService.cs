@@ -7,7 +7,8 @@ using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -58,13 +59,13 @@ public sealed partial class WorkEntryService(
         return entry;
     }
 
-    public async Task<IWorkEntryUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default)
+    public async Task<IWorkEntryCommandDto?> FindForUpdateAsync(int id, CancellationToken token = default)
     {
         if (!await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
         return await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
         {
-            WorkEntryType.AnnualComplianceCertification => mapper.Map<InspectionUpdateDto>(await workEntryRepository
+            WorkEntryType.AnnualComplianceCertification => mapper.Map<AccUpdateDto>(await workEntryRepository
                 .FindAsync<AnnualComplianceCertification>(id, token).ConfigureAwait(false)),
             WorkEntryType.Inspection => mapper.Map<InspectionUpdateDto>(await workEntryRepository
                 .FindAsync<Inspection>(id, token).ConfigureAwait(false)),
@@ -86,6 +87,11 @@ public sealed partial class WorkEntryService(
     public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default) =>
         mapper.Map<WorkEntrySummaryDto?>(await workEntryRepository.FindAsync(id, token).ConfigureAwait(false));
 
+    public async Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+        await workEntryRepository.ExistsAsync(id, token).ConfigureAwait(false)
+            ? await workEntryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
+            : null;
+
     // Command
     public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
@@ -97,7 +103,7 @@ public sealed partial class WorkEntryService(
             await NotifyOwnerAsync(workEntry, Template.EntryCreated, token).ConfigureAwait(false));
     }
 
-    public async Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryUpdateDto resource,
+    public async Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryCommandDto resource,
         CancellationToken token = default)
     {
         var workEntry = await workEntryRepository.GetAsync(id, token).ConfigureAwait(false);

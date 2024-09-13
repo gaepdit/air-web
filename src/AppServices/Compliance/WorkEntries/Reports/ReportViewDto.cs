@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using System.ComponentModel.DataAnnotations;
 

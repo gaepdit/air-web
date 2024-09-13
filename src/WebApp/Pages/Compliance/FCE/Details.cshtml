@@ -73,9 +73,8 @@
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
     <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
     <dd>
-        <div
-            class="border rounded p-3 text-break text-pre-line">
-            @Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)
+        <div class="border rounded p-3 text-break">
+            <div class="text-pre-line">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</div>
         </div>
     </dd>
 </dl>
