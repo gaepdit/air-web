@@ -19,7 +19,6 @@ public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntitySer
     private readonly IUserService _userService;
 
     protected NamedEntityService(IMapper mapper,
-        // ReSharper disable once SuggestBaseTypeForParameterInConstructor
         INamedEntityRepository<TEntity> repository,
         INamedEntityManager<TEntity> manager,
         IUserService userService)

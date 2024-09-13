@@ -21,9 +21,8 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Received</th>
+                        <th scope="col">Event Date</th>
                         <th scope="col">Entry Type</th>
-                        <th scope="col">Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,7 +37,6 @@
                             </th>
                             <td class="text-nowrap">@Html.DisplayFor(_ => entry.EventDate, DisplayTemplate.ShortDateOnly)</td>
                             <td>@entry.WorkEntryType.GetDescription()</td>
-                            <td>@Html.DisplayFor(_ => entry.IsClosed, DisplayTemplate.BoolClosed)</td>
                         </tr>
                     }
                     </tbody>

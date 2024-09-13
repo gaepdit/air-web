@@ -19,7 +19,6 @@ using AutoMapper;
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
 public sealed partial class WorkEntryService(
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IWorkEntryRepository workEntryRepository,
     IWorkEntryManager workEntryManager,

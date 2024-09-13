@@ -17,7 +17,6 @@ namespace AirWeb.AppServices.Compliance.Search;
 public sealed class ComplianceSearchService(
     IComplianceSearchRepository complianceSearchRepository,
     IFacilityRepository facilityRepository,
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization) : IComplianceSearchService

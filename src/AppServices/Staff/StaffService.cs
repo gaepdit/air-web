@@ -17,7 +17,6 @@ namespace AirWeb.AppServices.Staff;
 public sealed class StaffService(
     IUserService userService,
     UserManager<ApplicationUser> userManager,
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IOfficeRepository officeRepository,
     IAuthorizationService authorization)

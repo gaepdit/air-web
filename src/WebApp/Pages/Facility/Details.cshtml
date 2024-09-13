@@ -1,0 +1,45 @@
+﻿@page "{facilityId?}"
+@model DetailsModel
+@{
+    ViewData["Title"] = $"Facility {Model.Facility!.Id}";
+}
+
+<h1>
+    <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+</h1>
+
+<ul>
+    <li>
+        <a asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.FacilityId">Add new FCE</a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/Acc/Add" asp-route-facilityId="@Model.FacilityId">Add new ACC</a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId">Add new Inspection</a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/Notification/Add" asp-route-facilityId="@Model.FacilityId">
+            Add new
+            Notification
+        </a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/PermitRevocation/Add" asp-route-facilityId="@Model.FacilityId">
+            Add new Permit
+            Revocation
+        </a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/Report/Add" asp-route-facilityId="@Model.FacilityId">Add new Report</a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
+            Add
+            new RMP Inspection
+        </a>
+    </li>
+    <li>
+        <a asp-page="/Compliance/Work/STR/Add" asp-route-facilityId="@Model.FacilityId">Add new Source Test Review</a>
+    </li>
+</ul>

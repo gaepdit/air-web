@@ -6,8 +6,7 @@
     <button id="SubmitButton" type="submit" class="btn btn-primary me-2">
         Add @Model.EntryType.GetDescription()
     </button>
-    <a asp-page="/Facility/Details/" asp-route-facilityId="@Model.Facility!.Id"
-       class="btn btn-outline-secondary">
+    <a asp-page="/Facility/Details" asp-route-facilityId="@Model.Facility!.Id" class="btn btn-outline-secondary">
         Cancel
     </a>
 </div>

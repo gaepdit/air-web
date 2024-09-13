@@ -1,0 +1,20 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Facilities";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    Eventually, this page will host a facility search form. But for now, here is a list of all test facilities.
+</p>
+
+<ul>
+    @foreach (var facility in Model.Facilities)
+    {
+        <li>
+            <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="facility" />
+        </li>
+    }
+</ul>

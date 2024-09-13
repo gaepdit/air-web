@@ -3,11 +3,7 @@ using AutoMapper;
 
 namespace AirWeb.AppServices.ExternalEntities.Facilities;
 
-public sealed class FacilityService(
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-    IMapper mapper,
-    IFacilityRepository repository
-) : IFacilityService
+public sealed class FacilityService(IMapper mapper, IFacilityRepository repository) : IFacilityService
 {
     public async Task<FacilityViewDto?> FindAsync(FacilityId id, CancellationToken token = default) =>
         mapper.Map<FacilityViewDto>(await repository.FindFacilityAsync(id, token).ConfigureAwait(false));
@@ -16,6 +12,9 @@ public sealed class FacilityService(
         id is null || !FacilityId.IsValidFormat(id)
             ? Task.FromResult<FacilityViewDto?>(null)
             : FindAsync((FacilityId)id, token);
+
+    public async Task<IReadOnlyCollection<FacilityViewDto>> GetListAsync(CancellationToken token = default) =>
+        mapper.Map<IReadOnlyCollection<FacilityViewDto>>(await repository.GetListAsync(token).ConfigureAwait(false));
 
     #region IDisposable,  IAsyncDisposable
 

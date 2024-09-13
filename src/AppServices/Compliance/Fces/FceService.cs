@@ -10,7 +10,6 @@ using AutoMapper;
 namespace AirWeb.AppServices.Compliance.Fces;
 
 public sealed class FceService(
-    // ReSharper disable once SuggestBaseTypeForParameterInConstructor
     IMapper mapper,
     IUserService userService,
     IFceRepository fceRepository,

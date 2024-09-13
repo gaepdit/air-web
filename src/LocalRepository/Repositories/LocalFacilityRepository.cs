@@ -16,12 +16,8 @@ public sealed class LocalFacilityRepository : IFacilityRepository
     public Task<Facility> GetFacilityAsync(FacilityId id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(facility => facility.Id.Equals(id)));
 
-    public Task<string> GetFacilityNameAsync(FacilityId id, CancellationToken token = default) =>
-        Task.FromResult(Items.Single(facility => facility.Id.Equals(id)).CompanyName);
-
-    public Task<Dictionary<string, string>> GetFacilityNamesAsync(string[] facilityIds, CancellationToken token) =>
-        Task.FromResult(Items.Where(facility => facilityIds.Contains(facility.Id.ToString()))
-            .ToDictionary(facility => facility.Id.ToString(), facility => facility.CompanyName));
+    public Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default) =>
+        Task.FromResult(Items);
 
     public void Dispose()
     {
