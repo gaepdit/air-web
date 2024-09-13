@@ -50,7 +50,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
         var entryType = await entryService.GetWorkEntryTypeAsync(Id, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"{entryType.GetDescription()} successfully updated.", notificationResult.FailureMessage);
+            $"{entryType!.Value.GetDescription()} successfully updated.", notificationResult.FailureMessage);
 
         return RedirectToPage("../Details", new { Id });
     }

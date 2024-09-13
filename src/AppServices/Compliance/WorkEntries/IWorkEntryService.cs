@@ -13,7 +13,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<IWorkEntryViewDto?> FindAsync(int id, CancellationToken token = default);
     Task<IWorkEntryCommandDto?> FindForUpdateAsync(int id, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
-    Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
