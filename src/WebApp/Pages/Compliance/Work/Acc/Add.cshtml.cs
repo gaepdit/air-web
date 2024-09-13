@@ -1,7 +1,6 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.ExternalEntities.Facilities;
-using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
@@ -9,7 +8,6 @@ using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Acc;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class AddModel(
     IWorkEntryService entryService,
     IFacilityService facilityService,

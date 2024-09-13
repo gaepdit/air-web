@@ -87,6 +87,9 @@ public sealed partial class WorkEntryService(
     public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default) =>
         mapper.Map<WorkEntrySummaryDto?>(await workEntryRepository.FindAsync(id, token).ConfigureAwait(false));
 
+    public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+        workEntryRepository.GetWorkEntryTypeAsync(id, token);
+
     // Command
     public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
