@@ -5,7 +5,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
 public record WorkEntryViewDto : IWorkEntryViewDto
 {

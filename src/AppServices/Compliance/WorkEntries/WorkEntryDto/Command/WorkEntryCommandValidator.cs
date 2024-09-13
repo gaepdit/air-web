@@ -1,12 +1,12 @@
 using FluentValidation;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 
-public class WorkEntryCreateValidator : AbstractValidator<IWorkEntryCreateDto>
+// Used by both work entry create and update validators.
+public class WorkEntryCommandValidator : AbstractValidator<IWorkEntryCommandDto>
 {
-    public WorkEntryCreateValidator()
+    public WorkEntryCommandValidator()
     {
-        RuleFor(dto => dto.FacilityId).NotEmpty();
         RuleFor(dto => dto.ResponsibleStaffId).NotEmpty();
         RuleFor(dto => dto.AcknowledgmentLetterDate)
             .Must(date => date is null || date <= DateOnly.FromDateTime(DateTime.Today))

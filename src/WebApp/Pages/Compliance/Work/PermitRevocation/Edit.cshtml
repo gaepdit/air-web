@@ -1,12 +1,11 @@
 ﻿@page "{id:int?}"
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model EditModel
 @{
-    ViewData["Title"] = $"Edit {Model.EntryType.GetDescription()} #{Model.Id.ToString()}";
+    ViewData["Title"] = $"Edit {Model.ItemView.ItemName} #{Model.Id.ToString()}";
     ViewData["NoAnchors"] = "True";
 }
 

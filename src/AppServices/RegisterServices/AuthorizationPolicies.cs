@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using Microsoft.AspNetCore.Authentication;

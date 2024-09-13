@@ -1,12 +1,13 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 
@@ -16,7 +17,8 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.Inspection;
 public class EditModel(
     IWorkEntryService entryService,
     IStaffService staffService,
-    IAuthorizationService authorization) : PageModel
+    IAuthorizationService authorization,
+    IValidator<InspectionUpdateDto> validator) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -25,8 +27,6 @@ public class EditModel(
     public InspectionUpdateDto Item { get; set; } = default!;
 
     public WorkEntrySummaryDto ItemView { get; private set; } = default!;
-    public WorkEntryType EntryType { get; protected set; }
-
     public SelectList StaffSelectList { get; private set; } = default!;
 
     public async Task<IActionResult> OnGetAsync()
@@ -42,7 +42,6 @@ public class EditModel(
 
         Item = item;
         ItemView = itemView;
-        EntryType = ItemView.WorkEntryType;
 
         await PopulateSelectListsAsync();
         return Page();
@@ -53,23 +52,24 @@ public class EditModel(
         var original = (InspectionUpdateDto?)await entryService.FindForUpdateAsync(Id, token);
         if (original is null || !await UserCanEditAsync(original)) return BadRequest();
 
-        // TODO:
-        // await validator.ApplyValidationAsync(item, ModelState);
+        await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
         {
             var itemView = await entryService.FindSummaryAsync(Id, token);
             if (itemView is null) return BadRequest();
             ItemView = itemView;
-            EntryType = ItemView.WorkEntryType;
 
             await PopulateSelectListsAsync();
             return Page();
         }
 
-        await entryService.UpdateAsync(Id, Item, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{EntryType.GetDescription()} successfully updated.");
+        var notificationResult = await entryService.UpdateAsync(Id, Item, token);
+        const WorkEntryType entryType = WorkEntryType.Inspection;
+        TempData.SetDisplayMessage(
+            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
+            $"{entryType.GetDescription()} successfully updated.", notificationResult.FailureMessage);
+
         return RedirectToPage("../Details", new { Id });
     }
 

@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 
-public record WorkEntryUpdateDto : IWorkEntryUpdateDto
+public record WorkEntryCommandDto : IWorkEntryCommandDto
 {
-    // Authorization handler assist properties
-    public bool IsDeleted { get; init; }
-
     // Data
     [Required]
     [Display(Name = "Staff Responsible")]
@@ -19,6 +16,5 @@ public record WorkEntryUpdateDto : IWorkEntryUpdateDto
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    [Display(Name = "Notes")]
     public string? Notes { get; init; } = string.Empty;
 }

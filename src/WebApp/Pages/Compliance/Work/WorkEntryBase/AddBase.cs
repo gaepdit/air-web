@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
