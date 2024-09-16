@@ -9,7 +9,7 @@ internal static class FacilityData
     [
         new("001-00001")
         {
-            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            CompanyName = SampleText.Text[SampleText.TextLength.Phrase][0],
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
             FacilityAddress = AddressData.GetRandomAddress(),
             County = DomainData.GetRandomCounty(),
@@ -19,7 +19,7 @@ internal static class FacilityData
         },
         new("002-00002")
         {
-            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            CompanyName = SampleText.Text[SampleText.TextLength.Phrase][1],
             Description = string.Empty,
             FacilityAddress = AddressData.GetRandomAddress(),
             County = DomainData.GetRandomCounty(),
@@ -29,7 +29,7 @@ internal static class FacilityData
         },
         new("003-00003")
         {
-            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            CompanyName = SampleText.Text[SampleText.TextLength.Phrase][2],
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
             FacilityAddress = AddressData.GetRandomAddress(),
             County = DomainData.GetRandomCounty(),
@@ -39,7 +39,7 @@ internal static class FacilityData
         },
         new("004-00004")
         {
-            CompanyName = SampleText.GetRandomText(SampleText.TextLength.Phrase),
+            CompanyName = SampleText.Text[SampleText.TextLength.Phrase][3],
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
             FacilityAddress = AddressData.GetRandomAddress(),
             County = DomainData.GetRandomCounty(),

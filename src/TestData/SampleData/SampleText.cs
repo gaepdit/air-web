@@ -30,7 +30,7 @@ public static class SampleText
             ? TextAllowEmpty[length][new Random().Next(TextAllowEmpty[length].Length)]
             : Text[length][new Random().Next(Text[length].Length)];
 
-    private static readonly Dictionary<TextLength, string[]> Text = new()
+    public static Dictionary<TextLength, string[]> Text { get; } = new()
     {
         {
             TextLength.Word, ["Astonishment", "Cosmos🌠", "extraordinary", "AWE"]
@@ -39,7 +39,7 @@ public static class SampleText
             TextLength.Phrase,
             [
                 "Mauris varius",
-                "Sed ornare dui eu lectus laoreet \ud83c\udf89 egestas.",
+                "Sed ornare dui eu lectus laoreet \ud83c\udf89 egestas",
                 "Nulla pulvinar metus ut enim fermentum.",
                 "Donec maximus lorem gravida",
                 "Quisque facilisis porttitor auctor",
@@ -77,7 +77,7 @@ public static class SampleText
             [
                 "Mauris varius",
                 "Sed ornare dui eu lectus laoreet \ud83c\udf89 egestas.",
-                "Nulla pulvinar metus ut enim fermentum.",
+                "Nulla pulvinar metus ut enim fermentum",
                 "\u2764\ufe0f\n\u2728\n\ud83d\udd25\n\u2705\n\ud83d\udc80\n\ud83d\ude2d\n\ud83d\ude0a\n\ud83d\ude02\n\u2600\ufe0f",
                 "",
             ]
