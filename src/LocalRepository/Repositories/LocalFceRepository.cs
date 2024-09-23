@@ -21,7 +21,7 @@ public sealed class LocalFceRepository()
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
         (await GetAsync(itemId, token).ConfigureAwait(false)).Comments.Add(new FceComment(comment, itemId));
 
-    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
         var comment = Items.SelectMany(fce => fce.Comments).FirstOrDefault(comment => comment.Id == commentId);
 

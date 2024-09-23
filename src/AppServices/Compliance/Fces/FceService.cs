@@ -103,8 +103,11 @@ public sealed class FceService(
         return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
-    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        fceRepository.DeleteCommentAsync(commentId, token);
+    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        await fceRepository.DeleteCommentAsync(commentId, currentUser?.Id, token).ConfigureAwait(false);
+    }
 
     private async Task<AppNotificationResult> NotifyOwnerAsync(Fce fce, Template template,
         CancellationToken token, Comment? comment = null)

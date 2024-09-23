@@ -43,6 +43,7 @@ public interface IFceRepository : IRepository<Fce, int>
     /// Deletes a comment from an <see cref="Fce"/>.
     /// </summary>
     /// <param name="commentId">The ID of the comment to delete.</param>
+    /// <param name="userId"></param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
+    Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default);
 }

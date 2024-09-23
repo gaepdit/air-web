@@ -61,6 +61,7 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// Deletes a comment from a <see cref="WorkEntry"/>.
     /// </summary>
     /// <param name="commentId">The ID of the comment to delete.</param>
+    /// <param name="userId"></param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
+    Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default);
 }

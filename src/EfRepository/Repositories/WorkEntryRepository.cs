@@ -18,7 +18,9 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking()
-            .Include(entry => entry.Comments.OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
+            .Include(fce => fce.Comments
+                .Where(comment => !comment.IsDeleted)
+                .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
@@ -35,12 +37,12 @@ public sealed class WorkEntryRepository(AppDbContext context)
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 
-    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
         var comment = await Context.WorkEntryComments.FindAsync([commentId], token).ConfigureAwait(false);
         if (comment != null)
         {
-            Context.WorkEntryComments.Remove(comment);
+            comment.SetDeleted(userId);
             await SaveChangesAsync(token).ConfigureAwait(false);
         }
     }

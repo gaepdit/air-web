@@ -13,7 +13,9 @@ public sealed class FceRepository(AppDbContext context)
 
     public Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default) =>
         Context.Set<Fce>().AsNoTracking()
-            .Include(fce => fce.Comments.OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
+            .Include(fce => fce.Comments
+                .Where(comment => !comment.IsDeleted)
+                .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(fce => fce.Id.Equals(id), token);
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
@@ -27,12 +29,12 @@ public sealed class FceRepository(AppDbContext context)
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 
-    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
         var comment = await Context.FceComments.FindAsync([commentId], token).ConfigureAwait(false);
         if (comment != null)
         {
-            Context.FceComments.Remove(comment);
+            comment.SetDeleted(userId);
             await SaveChangesAsync(token).ConfigureAwait(false);
         }
     }

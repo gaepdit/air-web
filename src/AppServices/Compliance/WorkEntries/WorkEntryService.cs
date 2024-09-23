@@ -165,8 +165,11 @@ public sealed partial class WorkEntryService(
         return new AddCommentResult(comment.Id, appNotificationResult);
     }
 
-    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        entryRepository.DeleteCommentAsync(commentId, token);
+    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        await entryRepository.DeleteCommentAsync(commentId, currentUser?.Id, token).ConfigureAwait(false);
+    }
 
     private async Task<AppNotificationResult> NotifyOwnerAsync(WorkEntry workEntry, Template template,
         CancellationToken token, Comment? comment = null)

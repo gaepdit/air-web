@@ -29,7 +29,7 @@ public sealed class LocalWorkEntryRepository()
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
         (await GetAsync(itemId, token).ConfigureAwait(false)).Comments.Add(new WorkEntryComment(comment, itemId));
 
-    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
         var comment = Items.SelectMany(entry => entry.Comments).FirstOrDefault(comment => comment.Id == commentId);
 
@@ -41,7 +41,6 @@ public sealed class LocalWorkEntryRepository()
 
         return Task.CompletedTask;
     }
-
 
     public new Task InsertAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
     {
