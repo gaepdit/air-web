@@ -8,5 +8,6 @@ public class CommentsSectionModel
     public required CommentAddDto NewComment { get; init; }
     public Guid NewCommentId { get; init; }
     public string? NotificationFailureMessage { get; init; }
-    public bool Editable { get; init; }
+    public bool CanAddComment { get; init; }
+    public bool CanDeleteComment { get; init; }
 }

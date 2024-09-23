@@ -41,4 +41,5 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public StaffViewDto? DeletedBy { get; init; }
     public DateTimeOffset? DeletedAt { get; init; }
     public string? DeleteComments { get; init; }
+    public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
 }

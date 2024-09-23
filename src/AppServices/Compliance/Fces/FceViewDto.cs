@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IDeletableItem
+public record FceViewDto : IHasOwnerAndDeletable
 {
     public int Id { get; init; }
 
@@ -40,4 +40,6 @@ public record FceViewDto : IDeletableItem
 
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
+
+    public string OwnerId => ReviewedBy.Id;
 }

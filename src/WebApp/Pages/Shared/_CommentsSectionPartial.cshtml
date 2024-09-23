@@ -29,7 +29,7 @@
                                         Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
                                         on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
                                     </small>
-                                    @if (Model.Editable)
+                                    @if (Model.CanDeleteComment)
                                     {
                                         <div class="col-auto d-print-none ms-2">
                                             <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
@@ -47,7 +47,7 @@
         </div>
     }
 
-    @if (Model.Editable)
+    @if (Model.CanAddComment)
     {
         if (!string.IsNullOrEmpty(Model.NotificationFailureMessage))
         {

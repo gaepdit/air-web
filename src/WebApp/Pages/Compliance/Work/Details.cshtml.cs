@@ -40,7 +40,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             NewComment = new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
-            Editable = UserCan[ComplianceWorkOperation.Edit],
+            CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
+            CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
         };
         return Page();
     }
@@ -52,7 +53,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (item is null || item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(item);
-        if (!UserCan[ComplianceWorkOperation.Edit]) return BadRequest();
+        if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -61,7 +62,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             {
                 Comments = item.Comments,
                 NewComment = newComment,
-                Editable = UserCan[ComplianceWorkOperation.Edit],
+                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
             };
             return Page();
         }
@@ -75,6 +77,12 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
+        var item = await entryService.FindAsync(Id, token);
+        if (item is null || item.IsDeleted) return BadRequest();
+
+        await SetPermissionsAsync(item);
+        if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
+
         await entryService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
     }

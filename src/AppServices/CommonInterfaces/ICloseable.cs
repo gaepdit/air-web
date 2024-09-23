@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.AppServices.CommonInterfaces;
 
-public interface ICloseableItem
+public interface ICloseable
 {
     public bool IsClosed { get; }
 }
