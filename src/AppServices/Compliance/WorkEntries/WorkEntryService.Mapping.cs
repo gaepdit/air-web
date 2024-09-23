@@ -18,14 +18,14 @@ public sealed partial class WorkEntryService
     {
         var workEntry = resource switch
         {
-            AccCreateDto => workEntryManager.Create(WorkEntryType.AnnualComplianceCertification, currentUser),
+            AccCreateDto => entryManager.Create(WorkEntryType.AnnualComplianceCertification, currentUser),
             InspectionCreateDto dto => dto.IsRmpInspection
-                ? workEntryManager.Create(WorkEntryType.RmpInspection, currentUser)
-                : workEntryManager.Create(WorkEntryType.Inspection, currentUser),
-            NotificationCreateDto => workEntryManager.Create(WorkEntryType.Notification, currentUser),
-            PermitRevocationCreateDto => workEntryManager.Create(WorkEntryType.PermitRevocation, currentUser),
-            ReportCreateDto => workEntryManager.Create(WorkEntryType.Report, currentUser),
-            SourceTestReviewCreateDto => workEntryManager.Create(WorkEntryType.SourceTestReview, currentUser),
+                ? entryManager.Create(WorkEntryType.RmpInspection, currentUser)
+                : entryManager.Create(WorkEntryType.Inspection, currentUser),
+            NotificationCreateDto => entryManager.Create(WorkEntryType.Notification, currentUser),
+            PermitRevocationCreateDto => entryManager.Create(WorkEntryType.PermitRevocation, currentUser),
+            ReportCreateDto => entryManager.Create(WorkEntryType.Report, currentUser),
+            SourceTestReviewCreateDto => entryManager.Create(WorkEntryType.SourceTestReview, currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
@@ -141,7 +141,7 @@ public sealed partial class WorkEntryService
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
         CancellationToken token)
     {
-        workEntry.NotificationType = await workEntryRepository
+        workEntry.NotificationType = await entryRepository
             .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
         workEntry.ReceivedDate = resource.ReceivedDate;
         workEntry.DueDate = resource.DueDate;

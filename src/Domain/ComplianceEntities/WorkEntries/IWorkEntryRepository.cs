@@ -52,8 +52,15 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// <summary>
     /// Adds a <see cref="Comment"/> to a <see cref="WorkEntry"/>.
     /// </summary>
-    /// <param name="id">The ID of the work entry.</param>
+    /// <param name="itemId">The ID of the work entry.</param>
     /// <param name="comment">The comment to add.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task AddCommentAsync(int id, Comment comment, CancellationToken token = default);
+    Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default);
+
+    /// <summary>
+    /// Deletes a comment from a <see cref="WorkEntry"/>.
+    /// </summary>
+    /// <param name="commentId">The ID of the comment to delete.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
 }

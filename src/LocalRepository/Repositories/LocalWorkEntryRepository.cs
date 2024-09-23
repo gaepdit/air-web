@@ -26,14 +26,27 @@ public sealed class LocalWorkEntryRepository()
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));
 
-    public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default) =>
-        (await GetAsync(id, token).ConfigureAwait(false)).Comments.Add(new WorkEntryComment(comment, id));
+    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
+        (await GetAsync(itemId, token).ConfigureAwait(false)).Comments.Add(new WorkEntryComment(comment, itemId));
+
+    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    {
+        var comment = Items.SelectMany(entry => entry.Comments).FirstOrDefault(comment => comment.Id == commentId);
+
+        if (comment != null)
+        {
+            var fce = Items.First(entry => entry.Comments.Contains(comment));
+            fce.Comments.Remove(comment);
+        }
+
+        return Task.CompletedTask;
+    }
+
 
     public new Task InsertAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
     {
         entity.EventDate = EventDate(entity);
-        Items.Add(entity);
-        return Task.CompletedTask;
+        return base.InsertAsync(entity, autoSave, token);
     }
 
     private static DateOnly EventDate(WorkEntry entry) => entry.WorkEntryType switch

@@ -19,7 +19,7 @@ public interface IFceRepository : IRepository<Fce, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An FCE with Comments included or null.</returns>
     Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default);
-    
+
     /// <summary>
     /// Returns a boolean indicating whether an <see cref="Fce"/> with the given parameters exists.
     /// </summary>
@@ -34,8 +34,15 @@ public interface IFceRepository : IRepository<Fce, int>
     /// <summary>
     /// Adds a <see cref="Comment"/> to an <see cref="Fce"/>.
     /// </summary>
-    /// <param name="id">The ID of the FCE.</param>
+    /// <param name="itemId">The ID of the FCE.</param>
     /// <param name="comment">The comment to add.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task AddCommentAsync(int id, Comment comment, CancellationToken token = default);
+    Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default);
+
+    /// <summary>
+    /// Deletes a comment from an <see cref="Fce"/>.
+    /// </summary>
+    /// <param name="commentId">The ID of the comment to delete.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
 }

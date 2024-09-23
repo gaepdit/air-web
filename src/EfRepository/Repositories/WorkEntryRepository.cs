@@ -2,7 +2,6 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.ValueObjects;
 using AirWeb.EfRepository.DbContext;
-using GaEpd.AppLibrary.Domain.Repositories;
 
 namespace AirWeb.EfRepository.Repositories;
 
@@ -19,7 +18,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking()
-            .Include(entry => entry.Comments)
+            .Include(entry => entry.Comments.OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
@@ -30,9 +29,19 @@ public sealed class WorkEntryRepository(AppDbContext context)
         Context.Set<NotificationType>().AsNoTracking()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
 
-    public async Task AddCommentAsync(int id, Comment comment, CancellationToken token = default)
+    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        Context.WorkEntryComments.Add(new WorkEntryComment(comment, id));
+        Context.WorkEntryComments.Add(new WorkEntryComment(comment, itemId));
         await SaveChangesAsync(token).ConfigureAwait(false);
+    }
+
+    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    {
+        var comment = await Context.WorkEntryComments.FindAsync([commentId], token).ConfigureAwait(false);
+        if (comment != null)
+        {
+            Context.WorkEntryComments.Remove(comment);
+            await SaveChangesAsync(token).ConfigureAwait(false);
+        }
     }
 }
