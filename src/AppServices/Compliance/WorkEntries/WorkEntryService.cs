@@ -83,8 +83,15 @@ public sealed partial class WorkEntryService(
         };
     }
 
-    public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default) =>
-        mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token).ConfigureAwait(false));
+    public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
+    {
+        var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token)
+            .ConfigureAwait(false));
+        var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
+            .ConfigureAwait(false);
+        entry.Facility = mapper.Map<FacilityViewDto>(facility);
+        return entry;
+    }
 
     public async Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         await entryRepository.ExistsAsync(id, token).ConfigureAwait(false)
