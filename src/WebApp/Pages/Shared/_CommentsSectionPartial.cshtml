@@ -102,16 +102,15 @@
 
         forms.forEach((form) => {
             form.addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevent the default form submission
-                formToSubmit = form; // Store the form to be submitted
+                event.preventDefault(); // Prevent the default form submission.
+                formToSubmit = form; // Store the form to be submitted.
                 const deleteModal = new bootstrap.Modal(document.getElementById('deleteCommentModal'));
                 deleteModal.show();
             });
         });
 
         document.getElementById('confirmDeleteButton').addEventListener('click', () => {
-            if (formToSubmit) formToSubmit.submit(); // Submit the form if the user confirms
-
+            if (formToSubmit) formToSubmit.submit(); // Submit the form if the user confirms.
         });
     });
 </script>
