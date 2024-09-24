@@ -21,7 +21,10 @@ internal class FceViewRequirement(IFceService fceService) :
 
         var success = requirement.Name switch
         {
+            nameof(ComplianceWorkOperation.AddComment) => ComplianceWorkOperation.CanAddComment(context.User, resource),
             nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(_context.User, _resource),
+            nameof(ComplianceWorkOperation.DeleteComment) => ComplianceWorkOperation.CanDeleteComment(context.User,
+                resource),
             nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(_context.User, _resource),
             nameof(ComplianceWorkOperation.Restore) => await CanRestoreAsync().ConfigureAwait(false),
             nameof(ComplianceWorkOperation.ViewDeleted) => ComplianceWorkOperation.CanManageDeletions(_context.User),

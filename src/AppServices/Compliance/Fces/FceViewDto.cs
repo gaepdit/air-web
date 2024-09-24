@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IDeletableItem
+public record FceViewDto : IHasOwnerAndDeletable
 {
     public int Id { get; init; }
 
@@ -16,7 +16,7 @@ public record FceViewDto : IDeletableItem
     public int Year { get; init; }
 
     [Display(Name = "Reviewed by")]
-    public StaffViewDto ReviewedBy { get; init; } = default!;
+    public StaffViewDto? ReviewedBy { get; init; } = default!;
 
     [Display(Name = "Date completed")]
     public DateOnly CompletedDate { get; init; }
@@ -40,4 +40,6 @@ public record FceViewDto : IDeletableItem
 
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
+
+    public string OwnerId => ReviewedBy?.Id ?? string.Empty;
 }

@@ -17,8 +17,11 @@ internal class WorkEntryViewRequirement :
 
         var success = requirement.Name switch
         {
+            nameof(ComplianceWorkOperation.AddComment) => ComplianceWorkOperation.CanAddComment(context.User, resource),
             nameof(ComplianceWorkOperation.Close) => ComplianceWorkOperation.CanClose(context.User, resource),
             nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(context.User, resource),
+            nameof(ComplianceWorkOperation.DeleteComment) => ComplianceWorkOperation.CanDeleteComment(context.User,
+                resource),
             nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(context.User, resource),
             nameof(ComplianceWorkOperation.Reopen) => ComplianceWorkOperation.CanReopen(context.User, resource),
             nameof(ComplianceWorkOperation.Restore) => ComplianceWorkOperation.CanRestore(context.User, resource),

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
-public interface IWorkEntryViewDto : ICloseableDeletableItem
+public interface IWorkEntryViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
 {
     public string ItemName { get; }
     public FacilityViewDto Facility { get; set; }

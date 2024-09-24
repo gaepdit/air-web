@@ -1,6 +1,7 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     var report = Model.Item;
@@ -79,6 +80,4 @@
     </dd>
 </dl>
 
-<h2 class="h4 mt-4">Comments</h2>
-<partial name="Shared/_CommentsSectionPartial"
-         model="(report.Comments, Model.NewCommentId, Model.CommentNotificationFailureMessage, Model.UserCan[ComplianceWorkOperation.Edit])" />
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />

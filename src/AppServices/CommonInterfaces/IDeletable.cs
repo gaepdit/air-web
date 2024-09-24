@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.CommonInterfaces;
 
-public interface IDeletableItem
+public interface IDeletable
 {
     public bool IsDeleted { get; }
     public StaffViewDto? DeletedBy { get; }

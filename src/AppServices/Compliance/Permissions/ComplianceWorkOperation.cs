@@ -16,34 +16,45 @@ public class ComplianceWorkOperation :
 
     public static List<ComplianceWorkOperation> AllOperations { get; } = [];
 
+    public static readonly ComplianceWorkOperation AddComment = new(nameof(AddComment));
     public static readonly ComplianceWorkOperation Close = new(nameof(Close));
-    public static readonly ComplianceWorkOperation Reopen = new(nameof(Reopen));
-    public static readonly ComplianceWorkOperation Edit = new(nameof(Edit));
-    public static readonly ComplianceWorkOperation ViewDeleted = new(nameof(ViewDeleted));
     public static readonly ComplianceWorkOperation Delete = new(nameof(Delete));
+    public static readonly ComplianceWorkOperation DeleteComment = new(nameof(DeleteComment));
+    public static readonly ComplianceWorkOperation Edit = new(nameof(Edit));
+    public static readonly ComplianceWorkOperation Reopen = new(nameof(Reopen));
     public static readonly ComplianceWorkOperation Restore = new(nameof(Restore));
+    public static readonly ComplianceWorkOperation ViewDeleted = new(nameof(ViewDeleted));
 
     // Operation requirement handler helpers
-    internal static bool CanClose(ClaimsPrincipal user, ICloseableDeletableItem item) =>
-        CanCloseOrReopen(user, item) && !item.IsClosed;
-
-    private static bool CanCloseOrReopen(ClaimsPrincipal user, IDeletableItem item) =>
+    internal static bool CanAddComment(ClaimsPrincipal user, IDeletable item) =>
         user.IsComplianceStaff() && !item.IsDeleted;
 
-    internal static bool CanDelete(ClaimsPrincipal user, IDeletableItem item) =>
+    internal static bool CanClose(ClaimsPrincipal user, ICloseableAndDeletable item) =>
+        CanCloseOrReopen(user, item) && !item.IsClosed;
+
+    private static bool CanCloseOrReopen(ClaimsPrincipal user, IDeletable item) =>
+        user.IsComplianceStaff() && !item.IsDeleted;
+
+    internal static bool CanDelete(ClaimsPrincipal user, IDeletable item) =>
         CanManageDeletions(user) && !item.IsDeleted;
 
-    internal static bool CanEdit(ClaimsPrincipal user, ICloseableDeletableItem item) =>
+    internal static bool CanDeleteComment(ClaimsPrincipal user, IHasOwnerAndDeletable item) =>
+        (CanManageDeletions(user) || IsOwner(user, item)) && !item.IsDeleted;
+
+    internal static bool CanEdit(ClaimsPrincipal user, ICloseableAndDeletable item) =>
         user.IsComplianceStaff() && item is { IsClosed: false, IsDeleted: false };
 
-    internal static bool CanEdit(ClaimsPrincipal user, IDeletableItem item) =>
+    internal static bool CanEdit(ClaimsPrincipal user, IDeletable item) =>
         user.IsComplianceStaff() && !item.IsDeleted;
 
     internal static bool CanManageDeletions(ClaimsPrincipal user) => user.IsComplianceManager();
 
-    internal static bool CanReopen(ClaimsPrincipal user, ICloseableDeletableItem item) =>
+    internal static bool CanReopen(ClaimsPrincipal user, ICloseableAndDeletable item) =>
         CanCloseOrReopen(user, item) && item.IsClosed;
 
-    internal static bool CanRestore(ClaimsPrincipal user, IDeletableItem item) =>
+    internal static bool CanRestore(ClaimsPrincipal user, IDeletable item) =>
         CanManageDeletions(user) && item.IsDeleted;
+
+    private static bool IsOwner(ClaimsPrincipal user, IHasOwner item) =>
+        item.OwnerId.Equals(user.GetUserIdValue());
 }

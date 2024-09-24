@@ -67,19 +67,6 @@ public sealed class FceService(
         return await NotifyOwnerAsync(fce, Template.FceUpdated, token).ConfigureAwait(false);
     }
 
-    public async Task<AddCommentResult> AddCommentAsync(int id, CommentAddDto<int> resource,
-        CancellationToken token = default)
-    {
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var comment = Comment.CreateComment(resource.Comment, currentUser);
-        await fceRepository.AddCommentAsync(id, comment, token).ConfigureAwait(false);
-
-        var fce = await fceRepository.GetAsync(resource.Id, token).ConfigureAwait(false);
-        var appNotificationResult = await NotifyOwnerAsync(fce, Template.FceCommentAdded, token, comment)
-            .ConfigureAwait(false);
-        return new AddCommentResult(comment.Id, appNotificationResult);
-    }
-
     public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
@@ -102,6 +89,25 @@ public sealed class FceService(
     public Task<bool> OtherExistsAsync(FacilityId facilityId, int year, int currentId,
         CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
+
+    public async Task<AddCommentResult> AddCommentAsync(int itemId, CommentAddDto resource,
+        CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var comment = Comment.CreateComment(resource.Comment, currentUser);
+        await fceRepository.AddCommentAsync(itemId, comment, token).ConfigureAwait(false);
+
+        var fce = await fceRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
+        var appNotificationResult = await NotifyOwnerAsync(fce, Template.FceCommentAdded, token, comment)
+            .ConfigureAwait(false);
+        return new AddCommentResult(comment.Id, appNotificationResult);
+    }
+
+    public async Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        await fceRepository.DeleteCommentAsync(commentId, currentUser?.Id, token).ConfigureAwait(false);
+    }
 
     private async Task<AppNotificationResult> NotifyOwnerAsync(Fce fce, Template template,
         CancellationToken token, Comment? comment = null)
