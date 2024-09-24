@@ -1,11 +1,10 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.ExternalEntities.Facilities;
+﻿using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Facility;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IFacilityService service, IAuthorizationService authorization) : PageModel
+public class DetailsModel(IFacilityService service) : PageModel
 {
     [FromRoute]
     public string? FacilityId { get; set; }
@@ -17,14 +16,6 @@ public class DetailsModel(IFacilityService service, IAuthorizationService author
     {
         Facility = await service.FindAsync(FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
-
-        await SetPermissionsAsync(Facility);
         return Page();
-    }
-
-    private async Task SetPermissionsAsync(FacilityViewDto item)
-    {
-        foreach (var operation in ComplianceWorkOperation.AllOperations)
-            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
     }
 }

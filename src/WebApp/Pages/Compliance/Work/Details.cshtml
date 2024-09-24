@@ -10,7 +10,7 @@
 @using GaEpd.AppLibrary.Extensions
 @model DetailsModel
 @{
-    var report = Model.Item;
+    var report = Model.Item!;
     var workEntryType = report.WorkEntryType;
     var workEntryName = workEntryType.GetDescription();
     ViewData["Title"] = $"Facility {report.FacilityId} - {workEntryName} ({Model.Id})";
@@ -83,12 +83,12 @@
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="Model.Item.Facility" />
+        <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="report.Facility" />
     </dd>
     @* TODO: Additional facility information *@
 
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.ResponsibleStaff)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ResponsibleStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
     <dt class="col-sm-4 col-lg-3">Status</dt>
     <dd class="col-sm-8 col-lg-9">
         @if (report.IsClosed)
@@ -101,8 +101,8 @@
             @:Open
         }
     </dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.AcknowledgmentLetterDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.Item.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
 </dl>
 
 <h2>Details</h2>

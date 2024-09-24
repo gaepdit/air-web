@@ -1,0 +1,22 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
+namespace AirWeb.AppServices.Permissions.Helpers;
+
+public static class RequirementsHelper
+{
+    public static async Task<Dictionary<IAuthorizationRequirement, bool>> SetPermissions(
+        this IAuthorizationService authorization, IEnumerable<IAuthorizationRequirement> requirements,
+        ClaimsPrincipal user, object? resource)
+    {
+        var userCan = new Dictionary<IAuthorizationRequirement, bool>();
+
+        foreach (var requirement in requirements)
+        {
+            userCan[requirement] =
+                (await authorization.AuthorizeAsync(user, resource, requirement).ConfigureAwait(false)).Succeeded;
+        }
+
+        return userCan;
+    }
+}

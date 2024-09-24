@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
@@ -12,7 +13,7 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     [FromRoute]
     public int Id { get; set; }
 
-    public FceViewDto Item { get; private set; } = null!;
+    public FceViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -25,17 +26,15 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
+        Item = await fceService.FindAsync(Id);
+        if (Item is null) return NotFound();
 
-        var item = await fceService.FindAsync(Id);
-        if (item is null) return NotFound();
+        await SetPermissionsAsync();
+        if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
 
-        await SetPermissionsAsync(item);
-        if (item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
-
-        Item = item;
         CommentSection = new CommentsSectionModel
         {
-            Comments = item.Comments,
+            Comments = Item.Comments,
             NewComment = new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
@@ -48,18 +47,17 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        var item = await fceService.FindAsync(Id, token);
-        if (item is null || item.IsDeleted) return BadRequest();
+        Item = await fceService.FindAsync(Id, token);
+        if (Item is null || Item.IsDeleted) return BadRequest();
 
-        await SetPermissionsAsync(item);
+        await SetPermissionsAsync();
         if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
-            Item = item;
             CommentSection = new CommentsSectionModel
             {
-                Comments = item.Comments,
+                Comments = Item.Comments,
                 NewComment = newComment,
                 CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
@@ -76,19 +74,16 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        var item = await fceService.FindAsync(Id, token);
-        if (item is null || item.IsDeleted) return BadRequest();
+        Item = await fceService.FindAsync(Id, token);
+        if (Item is null || Item.IsDeleted) return BadRequest();
 
-        await SetPermissionsAsync(item);
+        await SetPermissionsAsync();
         if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
 
         await fceService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
     }
 
-    private async Task SetPermissionsAsync(FceViewDto item)
-    {
-        foreach (var operation in ComplianceWorkOperation.AllOperations)
-            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
-    }
+    private async Task SetPermissionsAsync() =>
+        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, Item);
 }
