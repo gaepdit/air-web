@@ -67,8 +67,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         }
 
         var addCommentResult = await entryService.AddCommentAsync(Id, newComment, token);
-        NewCommentId = addCommentResult.CommentId;
-        if (!addCommentResult.AppNotificationResult.Success)
+        NewCommentId = addCommentResult.Id;
+        if (!addCommentResult.AppNotificationResult?.Success ?? false)
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
     }

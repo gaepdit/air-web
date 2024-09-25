@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -28,8 +29,8 @@ public class FindTests
             .Returns(item.Facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
-            facilityRepoMock, Substitute.For<IUserService>());
+            Substitute.For<IWorkEntryManager>(), facilityRepoMock, Substitute.For<ICommentService<int>>(),
+            Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
 
         // Act
         var result = await appService.FindAsync(item.Id);
@@ -47,9 +48,10 @@ public class FindTests
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            Substitute.For<IWorkEntryManager>(), Substitute.For<IAppNotificationService>(),
-            Substitute.For<IFacilityRepository>(), Substitute.For<IUserService>());
+        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IFacilityRepository>(),
+            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
+            Substitute.For<IAppNotificationService>());
 
         // Act
         var result = await appService.FindAsync(-1);

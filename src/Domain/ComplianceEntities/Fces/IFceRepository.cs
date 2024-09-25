@@ -1,9 +1,8 @@
 ﻿using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public interface IFceRepository : IRepository<Fce, int>
+public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(Fce.Comments)];
 
@@ -30,20 +29,4 @@ public interface IFceRepository : IRepository<Fce, int>
     /// <returns>True if the FCE exists; otherwise false.</returns>
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default);
-
-    /// <summary>
-    /// Adds a <see cref="Comment"/> to an <see cref="Fce"/>.
-    /// </summary>
-    /// <param name="itemId">The ID of the FCE.</param>
-    /// <param name="comment">The comment to add.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default);
-
-    /// <summary>
-    /// Deletes a comment from an <see cref="Fce"/>.
-    /// </summary>
-    /// <param name="commentId">The ID of the comment to delete.</param>
-    /// <param name="userId"></param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default);
 }

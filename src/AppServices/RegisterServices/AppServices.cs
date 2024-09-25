@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
@@ -29,6 +30,9 @@ public static class AppServices
         // FCEs
         services.AddScoped<IFceManager, FceManager>();
         services.AddScoped<IFceService, FceService>();
+
+        // Comments
+        services.AddScoped<ICommentService<int>, CommentService<int>>();
 
         // Compliance search
         services.AddScoped<IComplianceSearchService, ComplianceSearchService>();

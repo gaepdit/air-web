@@ -1,11 +1,8 @@
 using AirWeb.Domain.Identity;
-using GaEpd.AppLibrary.Domain.ValueObjects;
-using Microsoft.EntityFrameworkCore;
 
-namespace AirWeb.Domain.ValueObjects;
+namespace AirWeb.Domain.Comments;
 
-[Owned]
-public record Comment : ValueObject, ISoftDelete<string>
+public record Comment : ISoftDelete<string>
 {
     public static Comment CreateComment(string text, ApplicationUser? user) => new()
     {
@@ -23,13 +20,6 @@ public record Comment : ValueObject, ISoftDelete<string>
 
     public ApplicationUser? CommentBy { get; init; }
     public DateTimeOffset CommentedAt { get; init; } = DateTimeOffset.Now;
-
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return CommentedAt;
-        yield return Text;
-        yield return CommentBy ?? new ApplicationUser();
-    }
 
     // Soft delete properties
     public bool IsDeleted { get; private set; }

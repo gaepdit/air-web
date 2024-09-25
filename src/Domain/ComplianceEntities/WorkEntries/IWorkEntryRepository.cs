@@ -1,9 +1,8 @@
 ﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public interface IWorkEntryRepository : IRepository<WorkEntry, int>
+public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(WorkEntry.Comments)];
 
@@ -48,20 +47,4 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>
     /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no Notification Type exists with the given ID.</exception>
     /// <returns>The <see cref="NotificationType"/>.</returns>
     Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default);
-
-    /// <summary>
-    /// Adds a <see cref="Comment"/> to a <see cref="WorkEntry"/>.
-    /// </summary>
-    /// <param name="itemId">The ID of the work entry.</param>
-    /// <param name="comment">The comment to add.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default);
-
-    /// <summary>
-    /// Deletes a comment from a <see cref="WorkEntry"/>.
-    /// </summary>
-    /// <param name="commentId">The ID of the comment to delete.</param>
-    /// <param name="userId"></param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default);
 }

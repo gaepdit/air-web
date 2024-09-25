@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Users;
@@ -45,7 +46,8 @@ public class CreateTests
             .Returns(facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, notificationMock, facilityRepository, userServiceMock);
+            workEntryManagerMock, facilityRepository, Substitute.For<ICommentService<int>>(), userServiceMock,
+            notificationMock);
 
         var item = new PermitRevocationCreateDto
         {

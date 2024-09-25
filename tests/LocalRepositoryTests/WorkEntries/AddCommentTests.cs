@@ -1,4 +1,4 @@
-using AirWeb.Domain.ValueObjects;
+using AirWeb.Domain.Comments;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.SampleData;
 
