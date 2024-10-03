@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 

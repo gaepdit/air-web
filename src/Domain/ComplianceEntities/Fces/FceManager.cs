@@ -1,18 +1,17 @@
-﻿using AirWeb.Domain.ExternalEntities.Facilities;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class FceManager(IFceRepository repository, IFacilityRepository facilityRepository) : IFceManager
+public class FceManager(IFceRepository repository, IFacilityService facilityService) : IFceManager
 {
     public async Task LoadFacilityAsync(Fce fce, CancellationToken token = default) =>
-        fce.Facility = await facilityRepository.GetFacilityAsync((FacilityId)fce.FacilityId, token)
+        fce.Facility = await facilityService.GetAsync((FacilityId)fce.FacilityId, token)
             .ConfigureAwait(false);
 
     public async Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user,
         CancellationToken token = default)
     {
-        if (!await facilityRepository.FacilityExistsAsync(facilityId, token).ConfigureAwait(false))
+        if (!await facilityService.ExistsAsync(facilityId, token).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
         var fce = new Fce(repository.GetNextId(), facilityId, year);

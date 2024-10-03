@@ -1,10 +1,10 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
+using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Report;
 

@@ -1,7 +1,7 @@
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.Domain.ExternalEntities.SourceTests;
 using AirWeb.Domain.ValueObjects;
 using GaEpd.AppLibrary.Extensions;
+using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -21,7 +21,7 @@ public record SourceTestBasicViewDto
     public string DocumentTypeName => DocumentType.GetDescription();
 
     [Display(Name = "Facility")]
-    public FacilityViewDto Facility { get; set; } = default!;
+    public Facility Facility { get; set; } = default!;
 
     [Display(Name = "Pollutant determined")]
     public string Pollutant { get; init; } = "";

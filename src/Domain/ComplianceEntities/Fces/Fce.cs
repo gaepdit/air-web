@@ -1,5 +1,4 @@
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
@@ -38,7 +37,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         set
         {
             _facility = value;
-            FacilityId = value.Id;
+            FacilityId = value.Id ?? string.Empty;
         }
     }
 

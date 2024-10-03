@@ -4,9 +4,9 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AppServicesTests.WorkEntries.Service;
 
@@ -41,8 +41,8 @@ public class CreateTests
         var facilityId = (FacilityId)"00100001";
         var facility = new Facility(facilityId);
 
-        var facilityRepository = Substitute.For<IFacilityRepository>();
-        facilityRepository.GetFacilityAsync(facilityId, Arg.Any<CancellationToken>())
+        var facilityRepository = Substitute.For<IFacilityService>();
+        facilityRepository.GetAsync(facilityId, Arg.Any<CancellationToken>())
             .Returns(facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),

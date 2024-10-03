@@ -4,11 +4,11 @@ using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Search;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
@@ -16,7 +16,7 @@ namespace AirWeb.AppServices.Compliance.Search;
 
 public sealed class ComplianceSearchService(
     IComplianceSearchRepository complianceSearchRepository,
-    IFacilityRepository facilityRepository,
+    IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization) : IComplianceSearchService
@@ -63,13 +63,13 @@ public sealed class ComplianceSearchService(
     public void Dispose()
     {
         complianceSearchRepository.Dispose();
-        facilityRepository.Dispose();
+        facilityService.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await complianceSearchRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityRepository.DisposeAsync().ConfigureAwait(false);
+        await facilityService.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

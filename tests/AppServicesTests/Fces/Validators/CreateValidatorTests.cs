@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using FluentValidation.TestHelper;
+using IaipDataService.Facilities;
 
 namespace AppServicesTests.Fces.Validators;
 

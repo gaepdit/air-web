@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.ExternalEntities.Facilities;
-
-namespace AirWeb.Domain.ComplianceEntities.Fces;
+﻿namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
 {

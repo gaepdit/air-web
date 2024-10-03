@@ -8,14 +8,12 @@ using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -30,7 +28,6 @@ public class AutoMapperProfile : Profile
         Users();
         MaintenanceItems();
         Comments();
-        Facilities();
         Fces();
         WorkEntries();
         Accs();
@@ -66,11 +63,6 @@ public class AutoMapperProfile : Profile
     private void Comments()
     {
         CreateMap<Comment, CommentViewDto>();
-    }
-
-    private void Facilities()
-    {
-        CreateMap<Facility, FacilityViewDto>();
     }
 
     private void Fces()

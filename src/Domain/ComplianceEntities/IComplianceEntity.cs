@@ -1,5 +1,3 @@
-using AirWeb.Domain.ExternalEntities.Facilities;
-
 namespace AirWeb.Domain.ComplianceEntities;
 
 public interface IComplianceEntity

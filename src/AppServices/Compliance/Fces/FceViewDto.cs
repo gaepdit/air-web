@@ -1,7 +1,7 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Staff.Dto;
+using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -10,7 +10,7 @@ public record FceViewDto : IHasOwnerAndDeletable
 {
     public int Id { get; init; }
 
-    public FacilityViewDto Facility { get; init; } = default!;
+    public Facility Facility { get; init; } = default!;
 
     [Display(Name = "FCE Year")]
     public int Year { get; init; }

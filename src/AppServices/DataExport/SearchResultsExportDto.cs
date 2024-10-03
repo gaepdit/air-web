@@ -12,7 +12,7 @@ public record SearchResultsExportDto
         WorkEntryId = workEntry.Id;
         WorkEntryType = workEntry.WorkEntryType.GetDescription();
         FacilityId = workEntry.Facility.Id;
-        Facility = workEntry.Facility.CompanyName;
+        Facility = workEntry.Facility.Name;
         ResponsibleStaff = workEntry.ResponsibleStaff?.SortableFullName;
         DateClosed = workEntry.ClosedDate;
         Notes = workEntry.Notes;

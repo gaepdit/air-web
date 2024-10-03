@@ -1,6 +1,6 @@
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Compliance;
+using IaipDataService.Facilities;
 
 namespace LocalRepositoryTests.Fces;
 

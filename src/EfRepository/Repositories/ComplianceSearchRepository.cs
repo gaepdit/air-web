@@ -1,14 +1,14 @@
 using AirWeb.Domain.ComplianceEntities;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Search;
 using AirWeb.EfRepository.DbContext;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
 namespace AirWeb.EfRepository.Repositories;
 
-public sealed class ComplianceSearchRepository(AppDbContext context, IFacilityRepository facilityRepository)
+public sealed class ComplianceSearchRepository(AppDbContext context, IFacilityService facilityService)
     : IComplianceSearchRepository
 {
     public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
@@ -23,7 +23,7 @@ public sealed class ComplianceSearchRepository(AppDbContext context, IFacilityRe
             .ToListAsync(token).ConfigureAwait(false);
 
         foreach (var entity in items)
-            entity.Facility = await facilityRepository.GetFacilityAsync((FacilityId)entity.FacilityId, token)
+            entity.Facility = await facilityService.GetAsync((FacilityId)entity.FacilityId, token)
                 .ConfigureAwait(false);
 
         return items;
