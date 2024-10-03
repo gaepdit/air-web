@@ -71,6 +71,12 @@ builder.Services.AddAutoMapperProfiles();
 builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
+// HttpClient is used by the IAIP data service.
+var iaipApiBaseAddress = builder.Configuration["IaipApiBaseAddress"];
+if (!string.IsNullOrEmpty(iaipApiBaseAddress))
+    builder.Services.AddHttpClient(IaipDataConstants.IaipApiClient,
+        configureClient: client => client.BaseAddress = new Uri(iaipApiBaseAddress));
+
 // Add data stores.
 builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryData);
 builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);

@@ -203,13 +203,11 @@ public sealed partial class WorkEntryService(
     public void Dispose()
     {
         entryRepository.Dispose();
-        facilityService.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await entryRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityService.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

@@ -16,7 +16,6 @@ namespace AirWeb.AppServices.Compliance.Search;
 
 public sealed class ComplianceSearchService(
     IComplianceSearchRepository complianceSearchRepository,
-    IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization) : IComplianceSearchService
@@ -63,13 +62,11 @@ public sealed class ComplianceSearchService(
     public void Dispose()
     {
         complianceSearchRepository.Dispose();
-        facilityService.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await complianceSearchRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityService.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

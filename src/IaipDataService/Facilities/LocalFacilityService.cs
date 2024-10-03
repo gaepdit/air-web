@@ -15,11 +15,4 @@ public sealed class LocalFacilityService : IFacilityService
 
     public Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default) =>
         Task.FromResult(Items);
-
-    public void Dispose()
-    {
-        // Method intentionally left empty.
-    }
-
-    public ValueTask DisposeAsync() => default;
 }

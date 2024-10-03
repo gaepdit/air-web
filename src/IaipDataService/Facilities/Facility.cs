@@ -6,15 +6,23 @@ namespace IaipDataService.Facilities;
 
 public record Facility
 {
-    private Facility() { }
+    public Facility() { }
     public Facility(string id) => Id = (FacilityId)id;
 
     [Key]
     [JsonIgnore]
     [Display(Name = "AIRS Number")]
-    public FacilityId Id { get; } = null!;
+    public FacilityId Id { get; init; } = null!;
 
-    public string FacilityId => Id.FormattedId;
+    public string FacilityId
+    {
+        get => Id.FormattedId;
+        init
+        {
+            if (IaipDataService.Facilities.FacilityId.IsValidFormat(value))
+                Id = (FacilityId)value;
+        }
+    }
 
     // Description
 

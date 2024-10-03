@@ -1,6 +1,6 @@
 ﻿namespace IaipDataService.Facilities;
 
-public interface IFacilityService : IDisposable, IAsyncDisposable
+public interface IFacilityService
 {
     Task<Facility> GetAsync(FacilityId id, CancellationToken token = default);
     Task<Facility?> FindAsync(FacilityId? id, CancellationToken token = default);

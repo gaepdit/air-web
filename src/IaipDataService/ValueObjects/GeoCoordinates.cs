@@ -1,3 +1,3 @@
 ﻿namespace IaipDataService.ValueObjects;
 
-public record GeoCoordinates(decimal Latitude, decimal Longitude);
+public record struct GeoCoordinates(decimal Latitude, decimal Longitude);
