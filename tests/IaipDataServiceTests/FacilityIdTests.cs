@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.ExternalEntities.Facilities;
+﻿using IaipDataService.Facilities;
 
-namespace DomainTests;
+namespace IaipDataServiceTests;
 
 [TestFixture]
 [TestOf(typeof(FacilityId))]

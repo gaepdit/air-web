@@ -4,7 +4,6 @@ using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.DataExport;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -20,9 +19,6 @@ public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
-        // Facilities
-        services.AddScoped<IFacilityService, FacilityService>();
-
         // Work Entries
         services.AddScoped<IWorkEntryManager, WorkEntryManager>();
         services.AddScoped<IWorkEntryService, WorkEntryService>();

@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ExternalEntities.Facilities;
+﻿using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.ExternalEntities.SourceTests;
 

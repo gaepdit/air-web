@@ -1,8 +1,8 @@
-using AirWeb.AppServices.ExternalEntities.Facilities;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
 public interface IStandardSearchResult
 {
-    public FacilityViewDto Facility { get; set; }
+    public Facility Facility { get; set; }
 }

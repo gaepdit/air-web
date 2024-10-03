@@ -1,6 +1,5 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.Domain.Search;
@@ -30,8 +29,6 @@ public static class DataPersistence
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
             services.AddSingleton<IFceRepository, LocalFceRepository>();
             services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
-            services.AddSingleton<IFacilityRepository, LocalFacilityRepository>();
-
             return;
         }
 
@@ -68,8 +65,5 @@ public static class DataPersistence
         services.AddScoped<IOfficeRepository, OfficeRepository>();
         services.AddScoped<IFceRepository, FceRepository>();
         services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
-
-        // TODO: Replace this with Dapper repository.
-        services.AddSingleton<IFacilityRepository, LocalFacilityRepository>();
     }
 }

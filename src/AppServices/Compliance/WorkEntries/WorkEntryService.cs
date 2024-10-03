@@ -9,12 +9,11 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AutoMapper;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -22,7 +21,7 @@ public sealed partial class WorkEntryService(
     IMapper mapper,
     IWorkEntryRepository entryRepository,
     IWorkEntryManager entryManager,
-    IFacilityRepository facilityRepository,
+    IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -54,9 +53,7 @@ public sealed partial class WorkEntryService(
                 _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
             };
 
-        var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
-            .ConfigureAwait(false);
-        entry.Facility = mapper.Map<FacilityViewDto>(facility);
+        entry.Facility = await facilityService.GetAsync((FacilityId)entry!.FacilityId, token).ConfigureAwait(false);
         return entry;
     }
 
@@ -89,9 +86,8 @@ public sealed partial class WorkEntryService(
     {
         var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token)
             .ConfigureAwait(false));
-        var facility = await facilityRepository.GetFacilityAsync((FacilityId)entry!.FacilityId, token)
-            .ConfigureAwait(false);
-        entry.Facility = mapper.Map<FacilityViewDto>(facility);
+        if (entry is null) return entry;
+        entry.Facility = await facilityService.GetAsync((FacilityId)entry!.FacilityId, token).ConfigureAwait(false);
         return entry;
     }
 
@@ -207,13 +203,13 @@ public sealed partial class WorkEntryService(
     public void Dispose()
     {
         entryRepository.Dispose();
-        facilityRepository.Dispose();
+        facilityService.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
         await entryRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityRepository.DisposeAsync().ConfigureAwait(false);
+        await facilityService.DisposeAsync().ConfigureAwait(false);
     }
 
     #endregion

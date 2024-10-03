@@ -1,6 +1,5 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -9,6 +8,7 @@ using AirWeb.WebApp.Platform.PageModelHelpers;
 using FluentValidation;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
+using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 
@@ -19,12 +19,13 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     public string? FacilityId { get; set; }
 
     public WorkEntryType EntryType { get; protected set; }
-    public FacilityViewDto? Facility { get; protected set; }
+    public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = default!;
 
     protected async Task<IActionResult> DoGetAsync()
     {
-        Facility = await facilityService.FindAsync(FacilityId);
+        if (FacilityId is null) return NotFound("Facility ID not found.");
+        Facility = await facilityService.FindAsync((FacilityId)FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         await PopulateSelectListsAsync();
@@ -36,12 +37,12 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         IValidator<TDto> validator, CancellationToken token)
         where TDto : IWorkEntryCreateDto
     {
-        if (FacilityId != item.FacilityId) return BadRequest();
+        if (item.FacilityId == null || FacilityId != item.FacilityId) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync(item.FacilityId, token);
+            Facility = await facilityService.FindAsync((FacilityId)item.FacilityId, token);
             if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();

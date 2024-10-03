@@ -1,8 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.ExternalEntities.Facilities;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -10,8 +9,8 @@ namespace AppServicesTests.Fces.Permissions;
 
 public class FceViewRequirementTests
 {
-    private readonly FacilityViewDto _facilityViewDto = new()
-        { Id = new FacilityId("00100001"), CompanyName = "Company", Description = "Description" };
+    private readonly Facility _facilityViewDto = new("00100001")
+        { Name = "Company", Description = "Description" };
 
     [Test]
     public async Task ComplianceStaff_CanEdit()

@@ -1,7 +1,7 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.Compliance;
+using IaipDataService.Facilities;
 
 namespace AirWeb.LocalRepository.Repositories;
 

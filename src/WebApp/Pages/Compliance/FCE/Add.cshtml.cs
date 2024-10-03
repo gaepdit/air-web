@@ -1,13 +1,12 @@
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.ExternalEntities.Facilities;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
+using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
@@ -23,11 +22,12 @@ public class AddModel(
 
     public SelectList StaffSelectList { get; private set; } = default!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
-    public FacilityViewDto? Facility { get; private set; }
+    public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(string? facilityId)
     {
-        Facility = await facilityService.FindAsync(facilityId);
+        if (facilityId is null) return NotFound("Facility ID not found.");
+        Facility = await facilityService.FindAsync((FacilityId)facilityId);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound("Facility ID not found.");
@@ -40,11 +40,12 @@ public class AddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
+        if (Item.FacilityId is null) return NotFound("Facility ID not found.");
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync(Item.FacilityId, token);
+            Facility = await facilityService.FindAsync((FacilityId)Item.FacilityId, token);
             if (Facility is null) return BadRequest("Facility ID not found.");
 
             await PopulateSelectListsAsync();

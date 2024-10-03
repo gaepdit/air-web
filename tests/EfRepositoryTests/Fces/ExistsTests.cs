@@ -1,6 +1,6 @@
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
+using IaipDataService.Facilities;
 
 namespace EfRepositoryTests.Fces;
 

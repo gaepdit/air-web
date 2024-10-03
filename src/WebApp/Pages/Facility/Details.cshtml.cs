@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.ExternalEntities.Facilities;
-using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.Permissions;
+using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Facility;
 
@@ -9,12 +9,13 @@ public class DetailsModel(IFacilityService service) : PageModel
     [FromRoute]
     public string? FacilityId { get; set; }
 
-    public FacilityViewDto? Facility { get; protected set; }
+    public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {
-        Facility = await service.FindAsync(FacilityId);
+        if (FacilityId is null) return NotFound("Facility ID not found.");
+        Facility = await service.FindAsync((FacilityId)FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
         return Page();
     }

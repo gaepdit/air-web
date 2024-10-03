@@ -2,10 +2,10 @@ using AirWeb.Domain.ComplianceEntities;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Search;
-using AirWeb.TestData.ExternalEntities;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
 namespace AirWeb.LocalRepository.Repositories;
@@ -27,7 +27,7 @@ public sealed class LocalComplianceSearchRepository(
         }).GetListAsync(expression, token).ConfigureAwait(false);
 
         foreach (var entity in items)
-            entity.Facility = FacilityData.GetData.Single(facility => facility.Id == entity.FacilityId);
+            entity.Facility = FacilityTestData.GetData.Single(facility => facility.Id == entity.FacilityId);
 
         return items.AsQueryable()
             .OrderByIf(paging.Sorting)

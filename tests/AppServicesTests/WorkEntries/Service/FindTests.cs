@@ -3,8 +3,8 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AppServicesTests.WorkEntries.Service;
 
@@ -24,8 +24,8 @@ public class FindTests
         repoMock.GetWorkEntryTypeAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(WorkEntryType.PermitRevocation);
 
-        var facilityRepoMock = Substitute.For<IFacilityRepository>();
-        facilityRepoMock.GetFacilityAsync(item.Facility.Id)
+        var facilityRepoMock = Substitute.For<IFacilityService>();
+        facilityRepoMock.GetAsync(item.Facility.Id)
             .Returns(item.Facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
@@ -49,7 +49,7 @@ public class FindTests
             .Returns(false);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<IFacilityRepository>(),
+            Substitute.For<IWorkEntryManager>(), Substitute.For<IFacilityService>(),
             Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
             Substitute.For<IAppNotificationService>());
 

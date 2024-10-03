@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
-using AirWeb.Domain.ExternalEntities.Facilities;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 

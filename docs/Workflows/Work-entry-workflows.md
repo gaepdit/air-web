@@ -254,11 +254,14 @@ flowchart
     enforce -->|Creates| ENF
 ```
 
-## Source Test Compliance Review Workflow Additions
+## Source Test Compliance Review (STR) Workflow Additions
 
-* A Source Test Compliance Review can only be entered from a Source Test Report.
-* A Source Test Compliance Review is a Compliance Event.
-* A Source Test Compliance Review is automatically closed when created.
+* An STR can only be entered from a Source Test Report.
+* An STR is a Compliance Event.
+* An STR is automatically closed when created.
+* An STR can be printed if closed.
+    * Closing an STR enables printing.
+    * Reopening an STR disables printing.
 
 ### Flowchart
 

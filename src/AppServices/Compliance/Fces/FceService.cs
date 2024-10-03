@@ -3,9 +3,9 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
 using AutoMapper;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 

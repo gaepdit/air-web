@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using FluentValidation;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 

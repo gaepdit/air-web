@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
-namespace AirWeb.Domain.ExternalEntities.Facilities;
+namespace IaipDataService.Facilities;
 
 public partial record FacilityId
 {
@@ -29,7 +30,6 @@ public partial record FacilityId
     public string EpaFacilityIdentifier => $"GA00000013{Id}";
 
     // Operators
-
     public static implicit operator string(FacilityId id) => id.FormattedId;
     public static explicit operator FacilityId(string id) => new(id);
     public override string ToString() => FormattedId;

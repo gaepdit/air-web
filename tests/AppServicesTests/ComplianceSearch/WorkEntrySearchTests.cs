@@ -1,10 +1,10 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Search;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -34,7 +34,7 @@ public class WorkEntrySearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityRepository>(),
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
@@ -64,7 +64,7 @@ public class WorkEntrySearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityRepository>(),
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act

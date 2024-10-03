@@ -4,6 +4,7 @@ using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.ErrorLogging;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.FileService;
+using IaipDataService;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net;
@@ -71,6 +72,7 @@ builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
 // Add data stores.
+builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryData);
 builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);
 builder.Services.AddFileServices(builder.Configuration);
 

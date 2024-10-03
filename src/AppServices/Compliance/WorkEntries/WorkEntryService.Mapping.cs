@@ -6,8 +6,8 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.ExternalEntities.Facilities;
 using AirWeb.Domain.Identity;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -36,7 +36,7 @@ public sealed partial class WorkEntryService
     private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, WorkEntry workEntry,
         CancellationToken token = default)
     {
-        workEntry.Facility = await facilityRepository.GetFacilityAsync((FacilityId)resource.FacilityId!, token)
+        workEntry.Facility = await facilityService.GetAsync((FacilityId)resource.FacilityId!, token)
             .ConfigureAwait(false);
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
