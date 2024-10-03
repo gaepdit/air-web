@@ -12,6 +12,7 @@ internal static partial class AppSettings
     {
         UseDevSettings = false,
         UseInMemoryData = false,
+        UseInMemoryIaipData = false,
         UseEfMigrations = true,
         DeleteAndRebuildDatabase = false,
         UseAzureAd = true,
@@ -32,6 +33,11 @@ internal static partial class AppSettings
         /// Uses in-memory data store when `true`. Connects to a SQL Server database when `false`.
         /// </summary>
         public bool UseInMemoryData { get; [UsedImplicitly] init; }
+
+        /// <summary>
+        /// Uses in-memory IAIP data store when `true`. Connects to a SQL Server database when `false`.
+        /// </summary>
+        public bool UseInMemoryIaipData { get; [UsedImplicitly] init; }
 
         /// <summary>
         /// Uses Entity Framework migrations when `true`.

@@ -72,7 +72,8 @@ builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
 // Add data stores.
-builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryData);
+builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryIaipData,
+    builder.Configuration.GetConnectionString("IaipConnection"));
 builder.Services.AddDataPersistence(builder.Configuration, builder.Environment);
 builder.Services.AddFileServices(builder.Configuration);
 

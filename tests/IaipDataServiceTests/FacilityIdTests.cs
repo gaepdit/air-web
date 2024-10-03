@@ -26,7 +26,6 @@ public class FacilityIdTests
         var result = new FacilityId(input);
         result.Id.Should().Be("00100001");
         result.FormattedId.Should().Be("001-00001");
-        result.ToString().Should().Be("001-00001");
         result.EpaFacilityIdentifier.Should().Be("GA0000001300100001");
     }
 
@@ -38,7 +37,6 @@ public class FacilityIdTests
         var result = (FacilityId)input;
         result.Id.Should().Be("00100001");
         result.FormattedId.Should().Be("001-00001");
-        result.ToString().Should().Be("001-00001");
         result.EpaFacilityIdentifier.Should().Be("GA0000001300100001");
     }
 

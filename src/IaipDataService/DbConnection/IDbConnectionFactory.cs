@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace AirWeb.EfRepository.DbConnection;
+namespace IaipDataService.DbConnection;
 
 public interface IDbConnectionFactory
 {
