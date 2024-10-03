@@ -44,6 +44,6 @@ public record AccViewDto : WorkEntryViewDto
     [Display(Name = "Enforcement needed")]
     public bool EnforcementNeeded { get; init; }
 
-    public override bool HasPrintout => true;
+    public override bool HasPrintout => IsClosed;
     public override string PrintoutUrl => $"https://air.gaepd.org/facility/{Facility.Id}/acc-report/{Id}";
 }
