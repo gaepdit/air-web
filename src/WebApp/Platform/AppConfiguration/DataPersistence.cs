@@ -3,7 +3,6 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.Domain.Search;
-using AirWeb.EfRepository.DbConnection;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.LocalRepository.Repositories;
@@ -52,10 +51,6 @@ public static class DataPersistence
 
                 if (environment.IsDevelopment()) dbBuilder.EnableSensitiveDataLogging();
             });
-
-            // Dapper DB connection
-            services.AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ =>
-                new DbConnectionFactory(connectionString));
         }
 
         // Repositories

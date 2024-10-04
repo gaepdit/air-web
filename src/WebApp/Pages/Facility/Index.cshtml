@@ -7,14 +7,17 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    Eventually, this page will host a facility search form. But for now, here is a list of all test facilities.
+    Here is a list of facilities for testing purposes.
 </p>
 
 <ul>
-    @foreach (var facility in Model.Facilities)
+    @foreach (var facilityId in Model.Facilities.Select(facility => facility.FacilityId))
     {
         <li>
-            <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="facility" />
+            <a asp-page="/Facility/Details" asp-route-facilityId="@facilityId"
+               class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
+                @facilityId
+            </a>
         </li>
     }
 </ul>

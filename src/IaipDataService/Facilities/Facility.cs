@@ -27,15 +27,15 @@ public record Facility
     // Location
 
     [Display(Name = "Company address")]
-    public Address? FacilityAddress { get; init; }
+    public Address? FacilityAddress { get; set; }
 
     [Display(Name = "County")]
     public string County { get; init; } = "";
 
     [Display(Name = "Geographic coordinates")]
-    public GeoCoordinates? GeoCoordinates { get; init; }
+    public GeoCoordinates? GeoCoordinates { get; set; }
 
     // Regulatory data
 
-    public RegulatoryData? RegulatoryData { get; init; }
+    public RegulatoryData? RegulatoryData { get; set; }
 }

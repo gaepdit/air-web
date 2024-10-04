@@ -9,46 +9,46 @@ public record SourceTestReportTwoStack : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Allowable emission rate(s)")]
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     // Stacks
 
-    public string StackOneName { get; init; } = "";
-    public string StackTwoName { get; init; } = "";
+    public string StackOneName { get; set; } = "";
+    public string StackTwoName { get; set; } = "";
 
     [Display(Name = "Test runs")]
     public List<TwoStackTestRun> TestRuns { get; set; } = [];
 
     [Display(Name = "Average pollutant concentration")]
-    public ValueWithUnits StackOneAvgPollutantConcentration { get; init; }
+    public ValueWithUnits StackOneAvgPollutantConcentration { get; set; }
 
-    public ValueWithUnits StackTwoAvgPollutantConcentration { get; init; }
+    public ValueWithUnits StackTwoAvgPollutantConcentration { get; set; }
 
     [Display(Name = "Average emission rate")]
-    public ValueWithUnits StackOneAvgEmissionRate { get; init; }
+    public ValueWithUnits StackOneAvgEmissionRate { get; set; }
 
-    public ValueWithUnits StackTwoAvgEmissionRate { get; init; }
+    public ValueWithUnits StackTwoAvgEmissionRate { get; set; }
 
     // `SumAvgEmissionRate` is only used by Two Stack (Standard)
     [Display(Name = "Total")]
-    public ValueWithUnits SumAvgEmissionRate { get; init; }
+    public ValueWithUnits SumAvgEmissionRate { get; set; }
 
     // `PercentAllowable` is only used by Two Stack (Standard)
     [Display(Name = "Percent allowable")]
-    public string PercentAllowable { get; init; } = "";
+    public string PercentAllowable { get; set; } = "";
 
     // `DestructionEfficiency` is only used by Two Stack (DRE)
     [Display(Name = "Destruction efficiency")]
-    public string DestructionEfficiency { get; init; } = "";
+    public string DestructionEfficiency { get; set; } = "";
 
     #region Confidential info handling
 

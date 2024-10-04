@@ -19,7 +19,7 @@ public abstract record BaseSourceTestReport
     [Display(Name = "Document type")]
     public string DocumentTypeName => DocumentType.GetDescription();
 
-    public Facility? Facility { get; init; }
+    public Facility? Facility { get; set; }
 
     [Display(Name = "Pollutant determined")]
     public string Pollutant { get; init; } = "";
@@ -47,29 +47,29 @@ public abstract record BaseSourceTestReport
     public string ApplicableRequirement { get; init; } = "";
 
     [Display(Name = "Other information")]
-    public string Comments { get; init; } = "";
+    public string Comments { get; set; } = "";
 
     public string ReportStatement { get; init; } = "";
 
     // Test report routing
 
     [Display(Name = "Date(s) of test")]
-    public DateRange TestDates { get; init; }
+    public DateRange TestDates { get; set; }
 
     [Display(Name = "Date received by APB")]
     public DateTime DateReceivedByApb { get; init; }
 
     [Display(Name = "Report reviewed by")]
-    public PersonName ReviewedByStaff { get; init; }
+    public PersonName ReviewedByStaff { get; set; }
 
     [Display(Name = "Test witnessed by")]
     public List<PersonName> WitnessedByStaff { get; init; } = [];
 
     [Display(Name = "Compliance manager")]
-    public PersonName ComplianceManager { get; init; }
+    public PersonName ComplianceManager { get; set; }
 
     [Display(Name = "Testing unit manager")]
-    public PersonName TestingUnitManager { get; init; }
+    public PersonName TestingUnitManager { get; set; }
 
     [Display(Name = "Director")]
     public string EpdDirector { get; init; } = string.Empty;

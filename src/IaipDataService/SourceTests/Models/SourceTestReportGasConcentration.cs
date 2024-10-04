@@ -9,16 +9,16 @@ public record SourceTestReportGasConcentration : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Allowable emission rate(s)")]
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     // Test run data
 
@@ -26,13 +26,13 @@ public record SourceTestReportGasConcentration : BaseSourceTestReport
     public List<GasConcentrationTestRun> TestRuns { get; set; } = [];
 
     [Display(Name = "Average pollutant concentration")]
-    public ValueWithUnits AvgPollutantConcentration { get; init; }
+    public ValueWithUnits AvgPollutantConcentration { get; set; }
 
     [Display(Name = "Average emission rate")]
-    public ValueWithUnits AvgEmissionRate { get; init; }
+    public ValueWithUnits AvgEmissionRate { get; set; }
 
     [Display(Name = "Percent allowable")]
-    public string PercentAllowable { get; init; } = "";
+    public string PercentAllowable { get; set; } = "";
 
     #region Confidential info handling
 

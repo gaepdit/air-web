@@ -10,7 +10,6 @@ public class DetailsModel(IFacilityService service) : PageModel
     public string? FacilityId { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
-    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {

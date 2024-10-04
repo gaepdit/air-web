@@ -8,32 +8,32 @@ public record SourceTestReportLoadingRack : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Allowable emission rate(s)")]
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     // Test run data
 
     [Display(Name = "Test duration")]
-    public ValueWithUnits TestDuration { get; init; }
+    public ValueWithUnits TestDuration { get; set; }
 
     [Display(Name = "Pollutant concentration")]
-    public ValueWithUnits PollutantConcentrationIn { get; init; }
+    public ValueWithUnits PollutantConcentrationIn { get; set; }
 
-    public ValueWithUnits PollutantConcentrationOut { get; init; }
+    public ValueWithUnits PollutantConcentrationOut { get; set; }
 
     [Display(Name = "Emission rate")]
-    public ValueWithUnits EmissionRate { get; init; }
+    public ValueWithUnits EmissionRate { get; set; }
 
     [Display(Name = "Destruction reduction efficiency")]
-    public ValueWithUnits DestructionReduction { get; init; }
+    public ValueWithUnits DestructionReduction { get; set; }
 
     #region Confidential info handling
 

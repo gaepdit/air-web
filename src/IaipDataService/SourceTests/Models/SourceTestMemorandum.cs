@@ -9,23 +9,23 @@ public record SourceTestMemorandum : BaseSourceTestReport
 
     // Only used by MemorandumToFile
     [Display(Name = "Monitor manufacturer and model")]
-    public string MonitorManufacturer { get; init; } = "";
+    public string MonitorManufacturer { get; set; } = "";
 
     [Display(Name = "Monitor serial number")]
-    public string MonitorSerialNumber { get; init; } = "";
+    public string MonitorSerialNumber { get; set; } = "";
 
     // Only used by PTE
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Allowable emission rate(s)")]
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     #region Confidential info handling
 

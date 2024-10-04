@@ -9,16 +9,16 @@ public record SourceTestReportFlare : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Allowable emission rate(s)")]
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     // Test run data
 
@@ -26,13 +26,13 @@ public record SourceTestReportFlare : BaseSourceTestReport
     public List<FlareTestRun> TestRuns { get; set; } = [];
 
     [Display(Name = "Average heating value")]
-    public ValueWithUnits AvgHeatingValue { get; init; }
+    public ValueWithUnits AvgHeatingValue { get; set; }
 
     [Display(Name = "Average emission rate velocity")]
-    public ValueWithUnits AvgEmissionRateVelocity { get; init; }
+    public ValueWithUnits AvgEmissionRateVelocity { get; set; }
 
     [Display(Name = "Percent allowable")]
-    public string PercentAllowable { get; init; } = "";
+    public string PercentAllowable { get; set; } = "";
 
     #region Confidential info handling
 

@@ -9,13 +9,13 @@ public record SourceTestReportPondTreatment : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public ValueWithUnits MaxOperatingCapacity { get; init; }
+    public ValueWithUnits MaxOperatingCapacity { get; set; }
 
     [Display(Name = "Operating capacity")]
-    public ValueWithUnits OperatingCapacity { get; init; }
+    public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; init; } = "";
+    public string ControlEquipmentInfo { get; set; } = "";
 
     // Test run data
 
@@ -23,13 +23,13 @@ public record SourceTestReportPondTreatment : BaseSourceTestReport
     public List<PondTreatmentTestRun> TestRuns { get; set; } = [];
 
     [Display(Name = "Average pollutant collection rate")]
-    public ValueWithUnits AvgPollutantCollectionRate { get; init; }
+    public ValueWithUnits AvgPollutantCollectionRate { get; set; }
 
     [Display(Name = "Average treatment rate")]
-    public ValueWithUnits AvgTreatmentRate { get; init; }
+    public ValueWithUnits AvgTreatmentRate { get; set; }
 
     [Display(Name = "Destruction efficiency")]
-    public string DestructionEfficiency { get; init; } = "";
+    public string DestructionEfficiency { get; set; } = "";
 
     #region Confidential info handling
 
