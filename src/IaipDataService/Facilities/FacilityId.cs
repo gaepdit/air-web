@@ -33,9 +33,11 @@ public partial record FacilityId
     public static implicit operator string(FacilityId id) => id.FormattedId;
     public static explicit operator FacilityId(string id) => new(id);
     public override string ToString() => FormattedId;
+    public virtual bool Equals(FacilityId? other) => !string.IsNullOrEmpty(other?._id) && other._id == _id;
+    public override int GetHashCode() => string.GetHashCode(_id, StringComparison.Ordinal);
 
     // Format validation
-    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
+    private static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
     // FUTURE: Update regex to limit first three digits based on county list.
     // Test at https://regex101.com/r/2uYyHl/4

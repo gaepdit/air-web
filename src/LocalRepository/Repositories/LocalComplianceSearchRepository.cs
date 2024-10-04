@@ -27,7 +27,7 @@ public sealed class LocalComplianceSearchRepository(
         }).GetListAsync(expression, token).ConfigureAwait(false);
 
         foreach (var entity in items)
-            entity.Facility = FacilityTestData.GetData.Single(facility => facility.Id == entity.FacilityId);
+            entity.Facility = FacilityData.GetData.Single(facility => facility.Id == entity.FacilityId);
 
         return items.AsQueryable()
             .OrderByIf(paging.Sorting)

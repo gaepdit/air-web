@@ -1,11 +1,10 @@
-using IaipDataService.ValueObjects;
+using IaipDataService.Structs;
 
 namespace IaipDataService.Facilities;
 
-public static class FacilityTestData
+public static class FacilityData
 {
-    public static Facility GetRandomFacility() =>
-        GetData[new Random().Next(GetData.Count)];
+    public static Facility GetRandomFacility() => GetData[new Random().Next(GetData.Count)];
 
     private static IEnumerable<Facility> FacilitySeedItems =>
     [
