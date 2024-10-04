@@ -24,14 +24,4 @@ public sealed class IaipFacilityService : IFacilityService
         // replacing this with a search tool.
         throw new NotImplementedException();
     }
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask DisposeAsync()
-    {
-        throw new NotImplementedException();
-    }
 }

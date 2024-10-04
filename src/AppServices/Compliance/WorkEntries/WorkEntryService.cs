@@ -200,17 +200,8 @@ public sealed partial class WorkEntryService(
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose()
-    {
-        entryRepository.Dispose();
-        facilityService.Dispose();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await entryRepository.DisposeAsync().ConfigureAwait(false);
-        await facilityService.DisposeAsync().ConfigureAwait(false);
-    }
+    public void Dispose() => entryRepository.Dispose();
+    public async ValueTask DisposeAsync() => await entryRepository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }

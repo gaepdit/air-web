@@ -9,9 +9,6 @@ public class LocalFacilityServiceTests
     [SetUp]
     public void SetUp() => _service = new LocalFacilityService();
 
-    [TearDown]
-    public void TearDown() => _service.Dispose();
-
     [Test]
     public async Task IfExists_Find_ReturnsFacility()
     {
