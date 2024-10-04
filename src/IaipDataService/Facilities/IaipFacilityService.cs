@@ -20,7 +20,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
 
         using var db = dbf.Create();
 
-        var varMultiTask = db.QueryMultipleAsync("air.GetFacility",
+        var varMultiTask = db.QueryMultipleAsync("air.GetIaipFacility",
             new { FacilityId = id.Id },
             commandType: CommandType.StoredProcedure);
 
@@ -43,7 +43,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
     public async Task<bool> ExistsAsync(FacilityId id, CancellationToken token = default)
     {
         using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<bool>("air.FacilityExists",
+        return await db.ExecuteScalarAsync<bool>("air.IaipFacilityExists",
             param: new { FacilityId = id.Id },
             commandType: CommandType.StoredProcedure);
     }

@@ -3,7 +3,7 @@ GO
 SET ANSI_NULLS ON;
 GO
 
-CREATE OR ALTER PROCEDURE air.GetFacility
+CREATE OR ALTER PROCEDURE air.GetIaipFacility
     @FacilityId varchar(8)
 AS
 
