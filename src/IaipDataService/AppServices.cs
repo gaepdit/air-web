@@ -1,4 +1,5 @@
 ﻿using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IaipDataService;
@@ -10,10 +11,12 @@ public static class AppServices
         if (useInMemoryData)
         {
             services.AddSingleton<IFacilityService, LocalFacilityService>();
+            services.AddSingleton<ISourceTestService, LocalSourceTestService>();
         }
         else
         {
             services.AddSingleton<IFacilityService, IaipFacilityService>();
+            services.AddSingleton<ISourceTestService, IaipSourceTestService>();
         }
     }
 }

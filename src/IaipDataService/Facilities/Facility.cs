@@ -1,4 +1,4 @@
-﻿using IaipDataService.ValueObjects;
+﻿using IaipDataService.Structs;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -27,15 +27,15 @@ public record Facility
     // Location
 
     [Display(Name = "Company address")]
-    public Address? FacilityAddress { get; set; }
+    public Address? FacilityAddress { get; init; }
 
     [Display(Name = "County")]
     public string County { get; init; } = "";
 
     [Display(Name = "Geographic coordinates")]
-    public GeoCoordinates? GeoCoordinates { get; set; }
+    public GeoCoordinates? GeoCoordinates { get; init; }
 
     // Regulatory data
 
-    public RegulatoryData? RegulatoryData { get; set; }
+    public RegulatoryData? RegulatoryData { get; init; }
 }

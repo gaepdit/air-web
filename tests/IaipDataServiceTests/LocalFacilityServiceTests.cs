@@ -10,10 +10,10 @@ public class LocalFacilityServiceTests
     public void SetUp() => _service = new LocalFacilityService();
 
     [Test]
-    public async Task IfExists_Find_ReturnsFacility()
+    public async Task IfExists_Find_ReturnsData()
     {
         // Arrange
-        var facility = FacilityTestData.GetData[0];
+        var facility = FacilityData.GetData[0];
 
         // Act
         var result = await _service.FindAsync(facility.Id);
@@ -33,10 +33,10 @@ public class LocalFacilityServiceTests
     }
 
     [Test]
-    public async Task IfExists_Get_ReturnsFacility()
+    public async Task IfExists_Get_ReturnsData()
     {
         // Arrange
-        var facility = FacilityTestData.GetData[0];
+        var facility = FacilityData.GetData[0];
 
         // Act
         var result = await _service.GetAsync(facility.Id);
@@ -59,7 +59,7 @@ public class LocalFacilityServiceTests
     public async Task IfExists_Exists_ReturnsTrue()
     {
         // Arrange
-        var facility = FacilityTestData.GetData[0];
+        var facility = FacilityData.GetData[0];
 
         // Act
         var result = await _service.ExistsAsync(facility.Id);
