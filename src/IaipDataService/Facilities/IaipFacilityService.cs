@@ -32,7 +32,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
                 facility.GeoCoordinates = geoCoordinates;
                 facility.RegulatoryData = regulatoryData;
                 return facility;
-            }).Single();
+            }, splitOn: "FacilityAddressId,GeoCoordinatesId,RegulatoryDataId").Single();
 
         facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<string>());
         facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<string>());

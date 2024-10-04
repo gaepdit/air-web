@@ -11,12 +11,12 @@
 </p>
 
 <ul>
-    @foreach (var facility in Model.Facilities)
+    @foreach (var facilityId in Model.Facilities.Select(facility => facility.FacilityId))
     {
         <li>
-            <a asp-page="/Facility/Details" asp-route-facilityId="@facility.FacilityId"
+            <a asp-page="/Facility/Details" asp-route-facilityId="@facilityId"
                class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
-                @facility.FacilityId
+                @facilityId
             </a>
         </li>
     }
