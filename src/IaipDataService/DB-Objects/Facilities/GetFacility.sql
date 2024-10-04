@@ -13,7 +13,7 @@ Author:     Doug Waldron
 Overview:   Retrieves facility info for a given ID.
 
 Input Parameters:
-    @AirsNumber - The facility ID
+    @FacilityId - The facility ID
 
 Modification History:
 When        Who                 What

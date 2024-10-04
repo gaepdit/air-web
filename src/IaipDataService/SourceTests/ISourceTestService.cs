@@ -5,6 +5,5 @@ namespace IaipDataService.SourceTests;
 
 public interface ISourceTestService
 {
-    Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber,
-        CancellationToken token = default);
+    Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber);
 }

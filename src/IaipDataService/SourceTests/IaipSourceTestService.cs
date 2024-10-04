@@ -1,13 +1,385 @@
-﻿using IaipDataService.Facilities;
+﻿using Dapper;
+using IaipDataService.DbConnection;
+using IaipDataService.Facilities;
 using IaipDataService.SourceTests.Models;
+using IaipDataService.SourceTests.Models.TestRun;
+using IaipDataService.Structs;
+using System.Data;
 
 namespace IaipDataService.SourceTests;
 
-public class IaipSourceTestService : ISourceTestService
+public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestService
 {
-    public Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber,
-        CancellationToken token = default)
+    public async Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber)
     {
-        throw new NotImplementedException();
+        var getDocumentTypeTask = GetDocumentTypeAsync(referenceNumber);
+        var getSourceTestExistsTask = SourceTestExistsAsync(facilityId, referenceNumber);
+
+        if (!await getSourceTestExistsTask) return null;
+
+        return await getDocumentTypeTask switch
+        {
+            DocumentType.Unassigned => null,
+            DocumentType.OneStackTwoRuns or DocumentType.OneStackThreeRuns or DocumentType.OneStackFourRuns =>
+                await GetOneStackAsync(referenceNumber),
+            DocumentType.TwoStackStandard or DocumentType.TwoStackDre => await GetTwoStackAsync(referenceNumber),
+            DocumentType.LoadingRack => await GetLoadingRackAsync(referenceNumber),
+            DocumentType.PondTreatment => await GetPondTreatmentAsync(referenceNumber),
+            DocumentType.GasConcentration => await GetGasConcentrationAsync(referenceNumber),
+            DocumentType.Flare => await GetFlareAsync(referenceNumber),
+            DocumentType.Rata => await GetRataAsync(referenceNumber),
+            DocumentType.MemorandumStandard or DocumentType.MemorandumToFile or DocumentType.PTE =>
+                await GetMemorandumAsync(referenceNumber),
+            DocumentType.Method9Multi or DocumentType.Method22 or DocumentType.Method9Single => await GetOpacityAsync(
+                referenceNumber),
+            _ => null,
+        };
+    }
+
+    private async Task<bool> SourceTestExistsAsync(FacilityId facilityId, int referenceNumber)
+    {
+        using var db = dbf.Create();
+        return await db.ExecuteScalarAsync<bool>("air.SourceTestExists",
+            new
+            {
+                FacilityId = facilityId.Id,
+                ReferenceNumber = referenceNumber,
+            },
+            commandType: CommandType.StoredProcedure);
+    }
+
+    private async Task<DocumentType> GetDocumentTypeAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+        return await db.QuerySingleAsync<DocumentType>("air.GetSourceTestDocumentType",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+    }
+
+    private async Task<T> GetBaseSourceTestReportAsync<T>(int referenceNumber) where T : BaseSourceTestReport
+    {
+        using var db = dbf.Create();
+
+        await using var multi = await db.QueryMultipleAsync("air.GetBaseSourceTestReport",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = multi.Read<T, Facility, Address, PersonName, PersonName, PersonName, DateRange, T>(
+            (report, facility, address, reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
+            {
+                report.Facility = facility;
+                report.Facility.FacilityAddress = address;
+                report.ReviewedByStaff = reviewedByStaff;
+                report.ComplianceManager = complianceManager;
+                report.TestingUnitManager = testingUnitManager;
+                report.TestDates = testDates;
+                return report;
+            }).Single();
+
+        report.WitnessedByStaff.AddRange(await multi.ReadAsync<PersonName>());
+
+        return report;
+    }
+
+    private async Task<SourceTestReportOneStack> GetOneStackAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportOneStack",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportOneStack>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi
+            .Read<SourceTestReportOneStack, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
+                SourceTestReportOneStack>(
+                (r, maxOperatingCapacity, operatingCapacity, avgPollutantConcentration, avgEmissionRate) =>
+                {
+                    report.MaxOperatingCapacity = maxOperatingCapacity;
+                    report.OperatingCapacity = operatingCapacity;
+                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                    report.AvgPollutantConcentration = avgPollutantConcentration;
+                    report.AvgEmissionRate = avgEmissionRate;
+                    report.PercentAllowable = r.PercentAllowable;
+                    return r;
+                });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+        report.TestRuns.AddRange(await multi.ReadAsync<StackTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportTwoStack> GetTwoStackAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportTwoStack",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportTwoStack>(referenceNumber);
+        await using var multi = await getMultiTask;
+
+        _ = multi.Read(
+            new[]
+            {
+                typeof(SourceTestReportTwoStack),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+            },
+            results =>
+            {
+                var r = (SourceTestReportTwoStack)results[0];
+                report.MaxOperatingCapacity = (ValueWithUnits)results[1];
+                report.OperatingCapacity = (ValueWithUnits)results[2];
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.StackOneName = r.StackOneName;
+                report.StackTwoName = r.StackTwoName;
+                report.StackOneAvgPollutantConcentration = (ValueWithUnits)results[3];
+                report.StackTwoAvgPollutantConcentration = (ValueWithUnits)results[4];
+                report.StackOneAvgEmissionRate = (ValueWithUnits)results[5];
+                report.StackTwoAvgEmissionRate = (ValueWithUnits)results[6];
+                report.SumAvgEmissionRate = (ValueWithUnits)results[7];
+                report.PercentAllowable = r.PercentAllowable;
+                report.DestructionEfficiency = r.DestructionEfficiency;
+                return r;
+            });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+        report.TestRuns.AddRange(await multi.ReadAsync<TwoStackTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportLoadingRack> GetLoadingRackAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportLoadingRack",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportLoadingRack>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi.Read(
+            new[]
+            {
+                typeof(SourceTestReportLoadingRack),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+                typeof(ValueWithUnits),
+            },
+            results =>
+            {
+                var r = (SourceTestReportLoadingRack)results[0];
+                report.MaxOperatingCapacity = (ValueWithUnits)results[1];
+                report.OperatingCapacity = (ValueWithUnits)results[2];
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.TestDuration = (ValueWithUnits)results[3];
+                report.PollutantConcentrationIn = (ValueWithUnits)results[4];
+                report.PollutantConcentrationOut = (ValueWithUnits)results[5];
+                report.EmissionRate = (ValueWithUnits)results[6];
+                report.DestructionReduction = (ValueWithUnits)results[7];
+                return r;
+            });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportPondTreatment> GetPondTreatmentAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportPondTreatment",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportPondTreatment>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi
+            .Read<SourceTestReportPondTreatment, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
+                SourceTestReportPondTreatment>(
+                (r, maxOperatingCapacity, operatingCapacity, avgPollutantCollectionRate, avgTreatmentRate) =>
+                {
+                    report.MaxOperatingCapacity = maxOperatingCapacity;
+                    report.OperatingCapacity = operatingCapacity;
+                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                    report.AvgPollutantCollectionRate = avgPollutantCollectionRate;
+                    report.AvgTreatmentRate = avgTreatmentRate;
+                    report.DestructionEfficiency = r.DestructionEfficiency;
+                    return r;
+                });
+
+        report.TestRuns.AddRange(await multi.ReadAsync<PondTreatmentTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportGasConcentration> GetGasConcentrationAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportGasConcentration",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportGasConcentration>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi
+            .Read<SourceTestReportGasConcentration, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
+                SourceTestReportGasConcentration>(
+                (r, maxOperatingCapacity, operatingCapacity, avgPollutantConcentration, avgEmissionRate) =>
+                {
+                    report.MaxOperatingCapacity = maxOperatingCapacity;
+                    report.OperatingCapacity = operatingCapacity;
+                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                    report.AvgPollutantConcentration = avgPollutantConcentration;
+                    report.AvgEmissionRate = avgEmissionRate;
+                    report.PercentAllowable = r.PercentAllowable;
+                    return r;
+                });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+        report.TestRuns.AddRange(await multi.ReadAsync<GasConcentrationTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportFlare> GetFlareAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportFlare",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportFlare>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi
+            .Read<SourceTestReportFlare, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
+                SourceTestReportFlare>(
+                (r, maxOperatingCapacity, operatingCapacity, avgHeatingValue, avgEmissionRateVelocity) =>
+                {
+                    report.MaxOperatingCapacity = maxOperatingCapacity;
+                    report.OperatingCapacity = operatingCapacity;
+                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                    report.AvgHeatingValue = avgHeatingValue;
+                    report.AvgEmissionRateVelocity = avgEmissionRateVelocity;
+                    report.PercentAllowable = r.PercentAllowable;
+                    return r;
+                });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+        report.TestRuns.AddRange(await multi.ReadAsync<FlareTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportRata> GetRataAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportRata",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportRata>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        var r = await multi.ReadSingleAsync<SourceTestReportRata>();
+
+        report.ApplicableStandard = r.ApplicableStandard;
+        report.Diluent = r.Diluent;
+        report.Units = r.Units;
+        report.RelativeAccuracyCode = r.RelativeAccuracyCode;
+        report.RelativeAccuracyPercent = r.RelativeAccuracyPercent;
+        report.RelativeAccuracyRequiredPercent = r.RelativeAccuracyRequiredPercent;
+        report.RelativeAccuracyRequiredLabel = r.RelativeAccuracyRequiredLabel;
+        report.ComplianceStatus = r.ComplianceStatus;
+
+        report.TestRuns.AddRange(await multi.ReadAsync<RataTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestMemorandum> GetMemorandumAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestMemorandum",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestMemorandum>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        _ = multi.Read<SourceTestMemorandum, ValueWithUnits, ValueWithUnits, SourceTestMemorandum>(
+            (r, maxOperatingCapacity, operatingCapacity) =>
+            {
+                report.MonitorManufacturer = r.MonitorManufacturer;
+                report.MonitorSerialNumber = r.MonitorSerialNumber;
+                report.MaxOperatingCapacity = maxOperatingCapacity;
+                report.OperatingCapacity = operatingCapacity;
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.Comments = r.Comments;
+                return r;
+            });
+
+        report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
+
+        report.ParseConfidentialParameters();
+        return report;
+    }
+
+    private async Task<SourceTestReportOpacity> GetOpacityAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+
+        var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportOpacity",
+            new { ReferenceNumber = referenceNumber },
+            commandType: CommandType.StoredProcedure);
+
+        var report = await GetBaseSourceTestReportAsync<SourceTestReportOpacity>(referenceNumber);
+
+        await using var multi = await getMultiTask;
+        var r = await multi.ReadSingleAsync<SourceTestReportOpacity>();
+
+        report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+        report.ComplianceStatus = r.ComplianceStatus;
+        report.OpacityStandard = r.OpacityStandard;
+        report.TestDuration = r.TestDuration;
+        report.MaxOperatingCapacityUnits = r.MaxOperatingCapacityUnits;
+        report.OperatingCapacityUnits = r.OperatingCapacityUnits;
+        report.AllowableEmissionRateUnits = r.AllowableEmissionRateUnits;
+
+        report.TestRuns.AddRange(await multi.ReadAsync<OpacityTestRun>());
+
+        report.ParseConfidentialParameters();
+        return report;
     }
 }

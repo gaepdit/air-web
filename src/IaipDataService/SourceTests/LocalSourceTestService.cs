@@ -7,8 +7,7 @@ public class LocalSourceTestService : ISourceTestService
 {
     private IReadOnlyCollection<BaseSourceTestReport> Items { get; } = SourceTestData.GetData.ToList();
 
-    public Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber,
-        CancellationToken token = default)
+    public Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber)
     {
         var result = Items.SingleOrDefault(report =>
             report.ReferenceNumber == referenceNumber && report.Facility?.Id == facilityId);
