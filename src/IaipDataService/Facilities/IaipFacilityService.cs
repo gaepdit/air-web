@@ -9,20 +9,19 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
 {
     public async Task<Facility> GetAsync(FacilityId id, CancellationToken token = default)
     {
-        var facility = await FindAsync(id, token);
+        var facility = await FindAsync(id);
         if (facility is null) throw new InvalidOperationException("Facility not found.");
         return facility;
     }
 
-    public async Task<Facility?> FindAsync(FacilityId? id, CancellationToken token = default)
+    public async Task<Facility?> FindAsync(FacilityId? id)
     {
-        if (id is null || !await ExistsAsync(id, token)) return null;
+        if (id is null || !await ExistsAsync(id)) return null;
 
         using var db = dbf.Create();
 
         var varMultiTask = db.QueryMultipleAsync("air.GetIaipFacility",
-            new { FacilityId = id.Id },
-            commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
 
         await using var multi = await varMultiTask;
         var facility = multi.Read<Facility, Address, GeoCoordinates, RegulatoryData, Facility>(
@@ -40,12 +39,11 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
         return facility;
     }
 
-    public async Task<bool> ExistsAsync(FacilityId id, CancellationToken token = default)
+    public async Task<bool> ExistsAsync(FacilityId id)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<bool>("air.IaipFacilityExists",
-            param: new { FacilityId = id.Id },
-            commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
     public Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default) =>

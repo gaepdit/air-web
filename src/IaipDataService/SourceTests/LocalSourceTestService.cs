@@ -14,4 +14,9 @@ public class LocalSourceTestService : ISourceTestService
         result?.ParseConfidentialParameters();
         return Task.FromResult(result);
     }
+
+    public Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId) =>
+        Task.FromResult(Items.Where(report => report.Facility?.Id == facilityId)
+            .Select(report => new SourceTestSummary(report))
+            .ToList());
 }

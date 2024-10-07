@@ -11,7 +11,7 @@ public class FceManager(IFceRepository repository, IFacilityService facilityServ
     public async Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user,
         CancellationToken token = default)
     {
-        if (!await facilityService.ExistsAsync(facilityId, token).ConfigureAwait(false))
+        if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
         var fce = new Fce(repository.GetNextId(), facilityId, year);

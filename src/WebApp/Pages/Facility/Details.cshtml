@@ -1,4 +1,6 @@
 ﻿@page "{facilityId?}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using IaipDataService.SourceTests
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
@@ -36,7 +38,50 @@
             Add new RMP Inspection
         </a>
     </li>
-    <li>
-        <a asp-page="/Compliance/Work/STR/Add" asp-route-facilityId="@Model.FacilityId">Add new Source Test Review</a>
-    </li>
 </ul>
+
+<h2>Source Tests</h2>
+
+@if (!Model.SourceTests.Any())
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Reference Number</th>
+            <th>Report Type</th>
+            <th>Source Tested</th>
+            <th>Pollutant</th>
+            <th>Test Dates</th>
+            <th>Open/Closed</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var test in Model.SourceTests)
+        {
+            <tr>
+                <td>@test.ReferenceNumber.ToString()</td>
+                <td>
+                    @if (test.ReportType is ReportType.SourceTest or ReportType.NA)
+                    {
+                        @test.DocumentTypeName
+                    }
+                    else
+                    {
+                        @test.ReportTypeName
+                    }
+                </td>
+                <td>@test.Source</td>
+                <td>@test.Pollutant</td>
+                <td>@Html.DisplayFor(_ => test.TestDates, new { Connector = "—" })</td>
+                <td>@Html.DisplayFor(_ => test.ReportClosed, DisplayTemplate.BoolClosed)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

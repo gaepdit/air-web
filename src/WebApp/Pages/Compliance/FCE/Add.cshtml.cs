@@ -45,7 +45,7 @@ public class AddModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync((FacilityId)Item.FacilityId, token);
+            Facility = await facilityService.FindAsync((FacilityId)Item.FacilityId);
             if (Facility is null) return BadRequest("Facility ID not found.");
 
             await PopulateSelectListsAsync();

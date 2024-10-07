@@ -36,15 +36,28 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         };
     }
 
+    public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId)
+    {
+        using var db = dbf.Create();
+
+        await using var multi = await db.QueryMultipleAsync("air.GetFacilitySourceTests",
+            param: new { FacilityId = facilityId.Id }, commandType: CommandType.StoredProcedure);
+
+        return multi.Read<SourceTestSummary, DateRange, PersonName, PersonName, SourceTestSummary>(
+            (summary, testDates, reviewedByStaff, testingUnitManager) =>
+            {
+                summary.TestDates = testDates;
+                summary.ReviewedByStaff = reviewedByStaff;
+                summary.TestingUnitManager = testingUnitManager;
+                return summary;
+            }).ToList();
+    }
+
     private async Task<bool> SourceTestExistsAsync(FacilityId facilityId, int referenceNumber)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<bool>("air.SourceTestExists",
-            new
-            {
-                FacilityId = facilityId.Id,
-                ReferenceNumber = referenceNumber,
-            },
+            param: new { FacilityId = facilityId.Id, ReferenceNumber = referenceNumber },
             commandType: CommandType.StoredProcedure);
     }
 
@@ -52,8 +65,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
     {
         using var db = dbf.Create();
         return await db.QuerySingleAsync<DocumentType>("air.GetSourceTestDocumentType",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
     }
 
     private async Task<T> GetBaseSourceTestReportAsync<T>(int referenceNumber) where T : BaseSourceTestReport
@@ -61,8 +73,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         await using var multi = await db.QueryMultipleAsync("air.GetBaseSourceTestReport",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = multi.Read<T, Facility, Address, PersonName, PersonName, PersonName, DateRange, T>(
             (report, facility, address, reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
@@ -86,8 +97,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportOneStack",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportOneStack>(referenceNumber);
 
@@ -118,15 +128,14 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportTwoStack",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportTwoStack>(referenceNumber);
         await using var multi = await getMultiTask;
 
         _ = multi.Read(
-            new[]
-            {
+            types:
+            [
                 typeof(SourceTestReportTwoStack),
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
@@ -135,8 +144,8 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
-            },
-            results =>
+            ],
+            map: results =>
             {
                 var r = (SourceTestReportTwoStack)results[0];
                 report.MaxOperatingCapacity = (ValueWithUnits)results[1];
@@ -166,15 +175,14 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportLoadingRack",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportLoadingRack>(referenceNumber);
 
         await using var multi = await getMultiTask;
         _ = multi.Read(
-            new[]
-            {
+            types:
+            [
                 typeof(SourceTestReportLoadingRack),
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
@@ -183,8 +191,8 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
                 typeof(ValueWithUnits),
-            },
-            results =>
+            ],
+            map: results =>
             {
                 var r = (SourceTestReportLoadingRack)results[0];
                 report.MaxOperatingCapacity = (ValueWithUnits)results[1];
@@ -209,8 +217,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportPondTreatment",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportPondTreatment>(referenceNumber);
 
@@ -240,8 +247,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportGasConcentration",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportGasConcentration>(referenceNumber);
 
@@ -304,8 +310,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportRata",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportRata>(referenceNumber);
 
@@ -332,8 +337,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestMemorandum",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestMemorandum>(referenceNumber);
 
@@ -361,8 +365,7 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         using var db = dbf.Create();
 
         var getMultiTask = db.QueryMultipleAsync("air.GetSourceTestReportOpacity",
-            new { ReferenceNumber = referenceNumber },
-            commandType: CommandType.StoredProcedure);
+            param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
         var report = await GetBaseSourceTestReportAsync<SourceTestReportOpacity>(referenceNumber);
 

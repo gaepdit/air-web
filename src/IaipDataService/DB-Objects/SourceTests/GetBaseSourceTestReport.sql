@@ -39,6 +39,7 @@ BEGIN
            r.DATRECEIVEDDATE                  as DateReceivedByApb,
            r.STRCONFIDENTIALDATA              as ConfidentialParametersCode,
            s.STRCOMPLIANCESTATEMENT           as ReportStatement,
+           r.STRCLOSED as ReportClosed,
            r.STRDIRECTOR                      as EpdDirector,
 
            right(i.STRAIRSNUMBER, 8)          as Id,

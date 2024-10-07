@@ -50,6 +50,7 @@ public abstract record BaseSourceTestReport
     public string Comments { get; set; } = "";
 
     public string ReportStatement { get; init; } = "";
+    public bool ReportClosed { get; init; }
 
     // Test report routing
 
