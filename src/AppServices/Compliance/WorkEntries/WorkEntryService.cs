@@ -96,6 +96,11 @@ public sealed partial class WorkEntryService(
             ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
+    public Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
     // Command
     public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
     {
