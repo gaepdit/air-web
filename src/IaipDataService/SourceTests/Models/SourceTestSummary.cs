@@ -1,3 +1,4 @@
+using IaipDataService.Facilities;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,7 @@ public record SourceTestSummary
     {
         ReferenceNumber = report.ReferenceNumber;
         DocumentType = report.DocumentType;
+        Facility = report.Facility;
         Pollutant = report.Pollutant;
         Source = report.Source;
         ReportType = report.ReportType;
@@ -20,42 +22,41 @@ public record SourceTestSummary
         TestDates = report.TestDates;
         DateReceivedByApb = report.DateReceivedByApb;
         ReviewedByStaff = report.ReviewedByStaff;
-        TestingUnitManager = report.TestingUnitManager;
     }
 
-    [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }
 
-    public DocumentType DocumentType { get; init; } = DocumentType.Unassigned;
+    private ReportType ReportType { get; init; }
 
-    [Display(Name = "Document type")]
-    public string DocumentTypeName => DocumentType.GetDescription();
+    private DocumentType DocumentType { get; init; }
 
-    [Display(Name = "Pollutant determined")]
-    public string Pollutant { get; init; } = "";
+    [Display(Name = "Source test type")]
+    public string TestType => ReportType is ReportType.SourceTest or ReportType.NA
+        ? DocumentType.GetDescription()
+        : ReportType.GetDescription();
+
+    public FacilitySummary? Facility { get; set; }
 
     [Display(Name = "Source tested")]
     public string Source { get; init; } = "";
 
-    public ReportType ReportType { get; init; }
-
-    [Display(Name = "Report type")]
-    public string ReportTypeName => ReportType.GetDescription();
+    [Display(Name = "Pollutant determined")]
+    public string Pollutant { get; init; } = "";
 
     [Display(Name = "Applicable requirement")]
     public string ApplicableRequirement { get; init; } = "";
 
+    [Display(Name = "Status")]
     public bool ReportClosed { get; init; }
+
+    // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
+    // https://github.com/DapperLib/Dapper/issues/2072
+    [Display(Name = "Date received by APB")]
+    public DateTime DateReceivedByApb { get; init; }
 
     [Display(Name = "Date(s) of test")]
     public DateRange TestDates { get; set; }
 
-    [Display(Name = "Date received by APB")]
-    public DateTime DateReceivedByApb { get; init; }
-
     [Display(Name = "Report reviewed by")]
     public PersonName ReviewedByStaff { get; set; }
-
-    [Display(Name = "Testing unit manager")]
-    public PersonName TestingUnitManager { get; set; }
 }

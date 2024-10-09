@@ -21,7 +21,8 @@ When        Who                 What
 2022-02-22  DWaldron            Initial version
 2022-02-24  DWaldron            Exclude deleted stack tests
 2022-02-24  DWaldron            `NUMREVIEWINGMANAGER` was converted to int
-2023-09-29  DWaldron            Include EPD Director to use in report header (#91)
+2023-09-29  DWaldron            Include EPD Director to use in report header (reports-91)
+2024-10-08  DWaldron            Replace Facility with Facility Summary (#120)
 
 ***************************************************************************************************/
 
@@ -36,24 +37,18 @@ BEGIN
            trim(r.STRAPPLICABLEREQUIREMENT)   as ApplicableRequirement,
            trim(char(13) + char(10) + ' ' from r.MMOCOMMENTAREA)
                                               as Comments,
-           r.DATRECEIVEDDATE                  as DateReceivedByApb,
+           convert(date, r.DATRECEIVEDDATE)  as DateReceivedByApb,
            r.STRCONFIDENTIALDATA              as ConfidentialParametersCode,
            s.STRCOMPLIANCESTATEMENT           as ReportStatement,
-           r.STRCLOSED as ReportClosed,
+           r.STRCLOSED                       as ReportClosed,
            r.STRDIRECTOR                      as EpdDirector,
 
+           -- Facility Summary
            right(i.STRAIRSNUMBER, 8)          as Id,
            f.STRFACILITYNAME                  as Name,
            lc.STRCOUNTYNAME                   as County,
-
-           'FacilityAddress'                  as Id,
-           dbo.NullIfNaOrEmpty(f.STRFACILITYSTREET1)
-                                              as Street,
-           dbo.NullIfNaOrEmpty(f.STRFACILITYSTREET2)
-                                              as Street2,
            trim(f.STRFACILITYCITY)            as City,
            f.STRFACILITYSTATE                 as State,
-           f.STRFACILITYZIPCODE               as PostalCode,
 
            'ReviewedByStaff'                  as Id,
            pr.STRFIRSTNAME                    as GivenName,
@@ -68,8 +63,8 @@ BEGIN
            pt.STRLASTNAME                     as FamilyName,
 
            'TestDates'                        as Id,
-           r.DATTESTDATESTART                 as StartDate,
-           r.DATTESTDATEEND                   as EndDate
+           convert(date, r.DATTESTDATESTART) as StartDate,
+           convert(date, r.DATTESTDATEEND)   as EndDate
     from dbo.ISMPREPORTINFORMATION r
         left join dbo.LOOKUPPOLLUTANTS lp
         on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE

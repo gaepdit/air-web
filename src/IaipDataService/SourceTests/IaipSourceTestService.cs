@@ -10,10 +10,10 @@ namespace IaipDataService.SourceTests;
 
 public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestService
 {
-    public async Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber)
+    public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
         var getDocumentTypeTask = GetDocumentTypeAsync(referenceNumber);
-        var getSourceTestExistsTask = SourceTestExistsAsync(facilityId, referenceNumber);
+        var getSourceTestExistsTask = SourceTestExistsAsync(referenceNumber);
 
         if (!await getSourceTestExistsTask) return null;
 
@@ -36,6 +36,25 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         };
     }
 
+    public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber)
+    {
+        if (!await SourceTestExistsAsync(referenceNumber)) return null;
+
+        using var db = dbf.Create();
+
+        await using var multi = await db.QueryMultipleAsync("air.GetSourceTestSummary",
+            param: new { ReferenceNumber = referenceNumber });
+
+        return multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>(
+            (summary, facility, testDates, reviewedByStaff) =>
+            {
+                summary.Facility = facility;
+                summary.TestDates = testDates;
+                summary.ReviewedByStaff = reviewedByStaff;
+                return summary;
+            }).SingleOrDefault();
+    }
+
     public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId)
     {
         using var db = dbf.Create();
@@ -43,21 +62,20 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         await using var multi = await db.QueryMultipleAsync("air.GetFacilitySourceTests",
             param: new { FacilityId = facilityId.Id }, commandType: CommandType.StoredProcedure);
 
-        return multi.Read<SourceTestSummary, DateRange, PersonName, PersonName, SourceTestSummary>(
-            (summary, testDates, reviewedByStaff, testingUnitManager) =>
+        return multi.Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
+            (summary, testDates, reviewedByStaff) =>
             {
                 summary.TestDates = testDates;
                 summary.ReviewedByStaff = reviewedByStaff;
-                summary.TestingUnitManager = testingUnitManager;
                 return summary;
             }).ToList();
     }
 
-    private async Task<bool> SourceTestExistsAsync(FacilityId facilityId, int referenceNumber)
+    private async Task<bool> SourceTestExistsAsync(int referenceNumber)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<bool>("air.SourceTestExists",
-            param: new { FacilityId = facilityId.Id, ReferenceNumber = referenceNumber },
+            param: new { ReferenceNumber = referenceNumber },
             commandType: CommandType.StoredProcedure);
     }
 
@@ -75,11 +93,10 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         await using var multi = await db.QueryMultipleAsync("air.GetBaseSourceTestReport",
             param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
-        var report = multi.Read<T, Facility, Address, PersonName, PersonName, PersonName, DateRange, T>(
-            (report, facility, address, reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
+        var report = multi.Read<T, FacilitySummary, PersonName, PersonName, PersonName, DateRange, T>(
+            (report, facility, reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
             {
                 report.Facility = facility;
-                report.Facility.FacilityAddress = address;
                 report.ReviewedByStaff = reviewedByStaff;
                 report.ComplianceManager = complianceManager;
                 report.TestingUnitManager = testingUnitManager;

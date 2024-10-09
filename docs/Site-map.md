@@ -31,8 +31,8 @@ These pages are only available to logged-in staff.
 
 ### Facility
 
-* `/Facility` Facility search form (searches IAIP database).
-* `/Facility/Details/{facilityId}` Facility details page.
+* `/Facility` Facility quick-find form.
+* `/Facility/Details/{facilityId}` Facility details page (retrieved from IAIP database).
 
 ### Compliance
 
@@ -59,9 +59,8 @@ These pages are only available to logged-in staff.
 
 ### Source Tests
 
-* `/Compliance/Tests` Source Test search form (searches IAIP database).
-* `/Compliance/Tests/Report/{referenceNumber}` Source Test report details page (with compliance review details).
-* `/Compliance/Tests/Report/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
+* `/Compliance/TestReport/{referenceNumber}` Source Test report details page (retrieved from IAIP database).
+* `/Compliance/TestReport/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
   Review.
 
 ### Enforcement

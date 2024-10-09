@@ -1,44 +1,77 @@
 ﻿@page "{facilityId?}"
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using IaipDataService.SourceTests
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
 }
 
-<h1>
-    <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
-</h1>
+<div class="row justify-content-between align-items-start">
+    <div class="col-md mb-md-0">
+        <h1>
+            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+        </h1>
+    </div>
 
-<ul>
-    <li>
-        <a asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.FacilityId">Add new FCE</a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/Acc/Add" asp-route-facilityId="@Model.FacilityId">Add new ACC</a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId">Add new Inspection</a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/Notification/Add" asp-route-facilityId="@Model.FacilityId">
-            Add new Notification
-        </a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/PermitRevocation/Add" asp-route-facilityId="@Model.FacilityId">
-            Add new Permit Revocation
-        </a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/Report/Add" asp-route-facilityId="@Model.FacilityId">Add new Report</a>
-    </li>
-    <li>
-        <a asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
-            Add new RMP Inspection
-        </a>
-    </li>
-</ul>
+    @if (Model.IsComplianceStaff)
+    {
+        <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+            <div class="dropdown my-2">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <svg class="bi">
+                        <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
+                    </svg>
+                    Compliance Work
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.FacilityId">
+                            New
+                            FCE
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Acc/Add"
+                           asp-route-facilityId="@Model.FacilityId">
+                            New ACC
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add"
+                           asp-route-facilityId="@Model.FacilityId">
+                            New Inspection
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add"
+                           asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
+                            New RMP Inspection
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Report/Add"
+                           asp-route-facilityId="@Model.FacilityId">
+                            New Report
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Notification/Add"
+                           asp-route-facilityId="@Model.FacilityId">
+                            New Notification
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/PermitRevocation/Add"
+                           asp-route-facilityId="@Model.FacilityId">
+                            New Permit Revocation
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+<hr>
 
 <h2>Source Tests</h2>
 
@@ -50,38 +83,39 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Reference Number</th>
-            <th>Report Type</th>
-            <th>Source Tested</th>
-            <th>Pollutant</th>
-            <th>Test Dates</th>
-            <th>Open/Closed</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var test in Model.SourceTests)
-        {
-            <tr>
-                <td>@test.ReferenceNumber.ToString()</td>
-                <td>
-                    @if (test.ReportType is ReportType.SourceTest or ReportType.NA)
-                    {
-                        @test.DocumentTypeName
-                    }
-                    else
-                    {
-                        @test.ReportTypeName
-                    }
-                </td>
-                <td>@test.Source</td>
-                <td>@test.Pollutant</td>
-                <td>@Html.DisplayFor(_ => test.TestDates, new { Connector = "—" })</td>
-                <td>@Html.DisplayFor(_ => test.ReportClosed, DisplayTemplate.BoolClosed)</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <details open="@(Model.SourceTests.Count < 20)">
+        <summary>@Model.SourceTests.Count.ToString() total source tests</summary>
+        <div class="table-responsive-md mb-3">
+            <table class="table table-hover" aria-label="Source Tests for this facility">
+                <thead>
+                <tr>
+                    <th>Reference Number</th>
+                    <th>Report Type</th>
+                    <th>Source Tested</th>
+                    <th>Pollutant</th>
+                    <th>Test Dates</th>
+                    <th>Open/Closed</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var summary in Model.SourceTests)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="/Compliance/TestReport/Index" asp-route-id="@summary.ReferenceNumber"
+                               class="btn btn-sm btn-outline-info text-body-emphasis">
+                                @summary.ReferenceNumber.ToString()
+                            </a>
+                        </td>
+                        <td>@summary.TestType</td>
+                        <td>@summary.Source</td>
+                        <td>@summary.Pollutant</td>
+                        <td>@Html.DisplayFor(_ => summary.TestDates, new { Connector = "—" })</td>
+                        <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </details>
 }

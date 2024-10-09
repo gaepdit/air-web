@@ -19,7 +19,7 @@ public abstract record BaseSourceTestReport
     [Display(Name = "Document type")]
     public string DocumentTypeName => DocumentType.GetDescription();
 
-    public Facility? Facility { get; set; }
+    public FacilitySummary? Facility { get; set; }
 
     [Display(Name = "Pollutant determined")]
     public string Pollutant { get; init; } = "";
@@ -57,6 +57,8 @@ public abstract record BaseSourceTestReport
     [Display(Name = "Date(s) of test")]
     public DateRange TestDates { get; set; }
 
+    // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
+    // https://github.com/DapperLib/Dapper/issues/2072
     [Display(Name = "Date received by APB")]
     public DateTime DateReceivedByApb { get; init; }
 
@@ -107,6 +109,11 @@ public abstract record BaseSourceTestReport
             : input;
 
     protected DateTime CheckConfidential(DateTime input, string parameter) =>
+        ConfidentialParameters.Contains(parameter)
+            ? default
+            : input;
+
+    protected DateOnly CheckConfidential(DateOnly input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
             ? default
             : input;
