@@ -5,7 +5,7 @@
 @model DetailsModel
 @{
     var report = Model.Item!;
-    ViewData["Title"] = $"Facility {report.Facility.Id} - FCE Report: {report.Year.ToString()}";
+    ViewData["Title"] = $"Facility {report.Facility.Id} – FCE Report: {report.Year.ToString()}";
 }
 
 @if (report.IsDeleted)

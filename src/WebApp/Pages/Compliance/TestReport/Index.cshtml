@@ -1,0 +1,42 @@
+﻿@page "{id:int?}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IndexModel
+@{
+    var summary = Model.Item!;
+    ViewData["Title"] = $"Facility {summary.Facility?.Id} – Source Test Reference Number {summary.ReferenceNumber}";
+}
+
+<h1>Source Test Report Review Summary</h1>
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
+    </dd>
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="summary.Facility" />
+    </dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestType)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.TestType</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Source)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Source</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Pollutant)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Pollutant</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.DisplayName</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, new { Connector = "—" })</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
+</dl>
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial" />
+}

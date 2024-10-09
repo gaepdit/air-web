@@ -15,13 +15,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.OneStackThreeRuns,
             ReferenceNumber = 201100541,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Total Reduced Sulfur Compounds",
             Source = "Process No. 1",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.4.1",
             Comments = "N/A",
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -91,13 +92,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.OneStackThreeRuns,
             ReferenceNumber = 202001297,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Total Reduced Sulfur Compounds",
             Source = "Process No. 1",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.4.1",
             Comments = "N/A",
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -163,13 +165,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.TwoStackStandard,
             ReferenceNumber = 201600525,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Particulate Matter",
             Source = "Tower",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -262,13 +265,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.TwoStackDre,
             ReferenceNumber = 200400473,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Particulate Matter",
             Source = "Tower",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -289,7 +293,7 @@ public static class SourceTestData
             ],
             ControlEquipmentInfo = TextData.None,
             StackOneName = "Inlet",
-            StackTwoName = "Oulet",
+            StackTwoName = "Outlet",
             TestRuns =
             [
                 new TwoStackTestRun
@@ -357,13 +361,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.LoadingRack,
             ReferenceNumber = 201901149,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Volatile Organic Compounds",
             Source = "Tank Truck Loading Rack",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.ShortMultiline,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -393,13 +398,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.PondTreatment,
             ReferenceNumber = 200400023,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Methanol",
             Source = "Pond",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -449,13 +455,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.GasConcentration,
             ReferenceNumber = 200400009,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Nitrogen Oxides",
             Source = "Combustion Turbine",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.Short,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -509,13 +516,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.Flare,
             ReferenceNumber = 200400407,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Volatile Organic Compounds",
             Source = "Flare",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -570,13 +578,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.Rata,
             ReferenceNumber = 201200095,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Nitrogen Oxides",
             Source = "Boiler",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -659,12 +668,13 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.MemorandumStandard,
             ReferenceNumber = 200600289,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Methanol",
             Source = "System",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -682,12 +692,13 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.MemorandumToFile,
             ReferenceNumber = 201500570,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Opacity",
             Source = "Monitor",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -707,12 +718,13 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.PTE,
             ReferenceNumber = 200400476,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "VOC",
             Source = "System",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -737,13 +749,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.Method9Multi,
             ReferenceNumber = 201801068,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Opacity",
             Source = "Kiln",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.VeryShort,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -814,13 +827,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.Method22,
             ReferenceNumber = 200600052,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Opacity",
             Source = "Bin",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -853,13 +867,14 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.Method9Single,
             ReferenceNumber = 200700192,
-            Facility = FacilityData.GetRandomFacility(),
+            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
             Pollutant = "Opacity",
             Source = "Scrubber",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
             ReportStatement = IaipDataConstants.ReportStatement,
+            ReportClosed = false,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)

@@ -13,7 +13,7 @@
     var report = Model.Item!;
     var workEntryType = report.WorkEntryType;
     var workEntryName = workEntryType.GetDescription();
-    ViewData["Title"] = $"Facility {report.FacilityId} - {workEntryName} ({Model.Id})";
+    ViewData["Title"] = $"Facility {report.FacilityId} – {workEntryName} ({Model.Id})";
 }
 
 @if (report.IsDeleted)

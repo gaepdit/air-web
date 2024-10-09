@@ -1,4 +1,3 @@
-using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
 
 namespace IaipDataServiceTests;
@@ -17,7 +16,7 @@ public class LocalSourceTestServiceTests
         var test = SourceTestData.GetData[0];
 
         // Act
-        var result = await _service.FindAsync(test.Facility!.Id, test.ReferenceNumber);
+        var result = await _service.FindAsync(test.ReferenceNumber);
 
         // Assert
         result.Should().BeEquivalentTo(test);
@@ -27,7 +26,7 @@ public class LocalSourceTestServiceTests
     public async Task IfNotExists_Find_ReturnsNull()
     {
         // Act
-        var result = await _service.FindAsync((FacilityId)"000-00000", 0);
+        var result = await _service.FindAsync(0);
 
         // Assert
         result.Should().BeNull();

@@ -1,5 +1,5 @@
-﻿@model IaipDataService.Facilities.Facility
-<a asp-page="/Facility/Details" asp-route-facilityId="@Model.Id"
+﻿@model IaipDataService.Facilities.IFacilityAirsName
+<a asp-page="/Facility/Details" asp-route-facilityId="@Model.FacilityId"
    class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
-    <partial name="Compliance/_Partials/_FacilityAirsName" />
+    @Model.FacilityId <span class="link-body-emphasis">–</span> @Model.Name
 </a>

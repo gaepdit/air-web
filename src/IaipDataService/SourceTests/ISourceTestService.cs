@@ -5,5 +5,7 @@ namespace IaipDataService.SourceTests;
 
 public interface ISourceTestService
 {
-    Task<BaseSourceTestReport?> FindAsync(FacilityId facilityId, int referenceNumber);
+    Task<BaseSourceTestReport?> FindAsync(int referenceNumber);
+    Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber);
+    Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId);
 }

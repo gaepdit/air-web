@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace IaipDataService.Facilities;
 
-public record Facility
+public record Facility : IFacilityAirsName
 {
     private Facility() { }
     public Facility(string id) => Id = (FacilityId)id;

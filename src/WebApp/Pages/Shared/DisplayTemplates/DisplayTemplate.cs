@@ -13,6 +13,7 @@ public static class DisplayTemplate
     public const string BoolClosed = nameof(BoolClosed);
     public const string BoolYesNo = nameof(BoolYesNo);
     public const string County = nameof(County);
+    public const string DateTimeLong = nameof(DateTimeLong);
     public const string FileSize = nameof(FileSize);
     public const string FileTypeIcon = nameof(FileTypeIcon);
     public const string FullStaffView = nameof(FullStaffView);
