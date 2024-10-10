@@ -39,6 +39,8 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <returns>The <see cref="WorkEntryType"/> of the Entry.</returns>
     Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
+    Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
+
     /// <summary>
     /// Gets the <see cref="NotificationType"/> with the specified ID.
     /// </summary>
