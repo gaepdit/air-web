@@ -57,7 +57,7 @@
 
 @if (Model.SourceTestReview is null)
 {
-    if (!Model.IsComplianceStaff || Model.NewReview is null)
+    if (!Model.IsComplianceStaff)
     {
         <h2 id="compliance-review">Compliance Review</h2>
         <p class="lead">No compliance review has been completed for this source test report.</p>
@@ -66,7 +66,7 @@
     {
         <h2 id="compliance-review">Add a new Compliance Review</h2>
         <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
-            <form method="post">
+            <form method="post" asp-page-handler="NewReview">
                 <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
                     <svg class="bi me-2" role="img" aria-label="Danger:">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
@@ -145,7 +145,7 @@ else
     </div>
     var review = Model.SourceTestReview!;
 
-    <p class="lead mt-2 mt-md-0">Tracking #@Model.ReferenceNumber.ToString()</p>
+    <p class="lead mt-2 mt-md-0">Tracking #@review.Id.ToString()</p>
 
     <dl class="row mt-3">
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ResponsibleStaff)</dt>

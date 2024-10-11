@@ -6,6 +6,8 @@ using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
@@ -17,7 +19,9 @@ public class IndexModel(
     ISourceTestService testService,
     IWorkEntryService entryService,
     IStaffService staffService,
-    IAuthorizationService authorization) : PageModel
+    IAuthorizationService authorization,
+    IValidator<SourceTestReviewCreateDto> validator)
+    : PageModel
 {
     // Source test
     [FromRoute]
@@ -33,6 +37,8 @@ public class IndexModel(
 
     // Permissions
     public bool IsComplianceStaff { get; private set; }
+
+    // This "UserCan" dictionary is only used if a compliance review (`SourceTestReview`) exists.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     [TempData]
@@ -73,6 +79,43 @@ public class IndexModel(
         }
 
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostNewReviewAsync(SourceTestReviewCreateDto newReview, CancellationToken token)
+    {
+        if (newReview.FacilityId == null || newReview.ReferenceNumber == 0 ||
+            ReferenceNumber != newReview.ReferenceNumber)
+            return BadRequest();
+
+        await SetPermissionsAsync();
+        if (!IsComplianceStaff) return BadRequest();
+
+        await validator.ApplyValidationAsync(newReview, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+            if (TestSummary is null) return BadRequest();
+
+            await PopulateSelectListsAsync();
+            return Page();
+        }
+
+        var createResult = await entryService.CreateAsync(newReview, token);
+
+        const string message = "Compliance Review successfully created.";
+        if (createResult.HasAppNotificationFailure)
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
+                createResult.AppNotificationResult!.FailureMessage);
+        }
+        else
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
+        }
+
+        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "compliance-review");
     }
 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
