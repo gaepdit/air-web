@@ -75,6 +75,52 @@ public class IndexModel(
         return Page();
     }
 
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
+        CancellationToken token)
+    {
+        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        if (SourceTestReview is null || SourceTestReview.IsDeleted) return BadRequest();
+
+        await SetPermissionsAsync();
+        if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
+
+        if (!ModelState.IsValid)
+        {
+            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+            if (TestSummary is null) return BadRequest();
+
+            CommentSection = new CommentsSectionModel
+            {
+                Comments = SourceTestReview.Comments,
+                NewComment = newComment,
+                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+            };
+            return Page();
+        }
+
+        var addCommentResult = await entryService.AddCommentAsync(SourceTestReview.Id, newComment, token);
+        NewCommentId = addCommentResult.Id;
+        if (addCommentResult.AppNotificationResult is { Success: false })
+            NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
+
+        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: NewCommentId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
+    {
+        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        if (SourceTestReview is null || SourceTestReview.IsDeleted) return BadRequest();
+
+        await SetPermissionsAsync();
+        if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
+
+        await entryService.DeleteCommentAsync(commentId, token);
+        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "comments");
+    }
+
     private async Task SetPermissionsAsync()
     {
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);

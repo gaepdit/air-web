@@ -25,7 +25,7 @@ public sealed class LocalWorkEntryRepository()
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
         Task.FromResult(Items.OfType<SourceTestReview>()
-            .FirstOrDefault(review => review.ReferenceNumber == referenceNumber));
+            .FirstOrDefault(str => str.ReferenceNumber == referenceNumber && !str.IsDeleted));
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));

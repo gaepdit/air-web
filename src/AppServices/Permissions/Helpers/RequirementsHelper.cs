@@ -13,8 +13,9 @@ public static class RequirementsHelper
 
         foreach (var requirement in requirements)
         {
-            userCan[requirement] =
-                (await authorization.AuthorizeAsync(user, resource, requirement).ConfigureAwait(false)).Succeeded;
+            userCan[requirement] = resource != null &&
+                                   (await authorization.AuthorizeAsync(user, resource, requirement)
+                                       .ConfigureAwait(false)).Succeeded;
         }
 
         return userCan;

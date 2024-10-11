@@ -29,7 +29,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
         Context.Set<SourceTestReview>().AsNoTracking()
-            .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber), token);
+            .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
