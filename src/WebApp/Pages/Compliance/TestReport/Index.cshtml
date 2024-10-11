@@ -1,4 +1,5 @@
-﻿@page "{id:int?}"
+﻿@page "{referenceNumber:int?}"
+@using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
@@ -7,9 +8,25 @@
     ViewData["Title"] = $"Facility {summary.Facility?.Id} – Source Test Reference Number {summary.ReferenceNumber}";
 }
 
-<h1>Source Test Report Review Summary</h1>
+<div class="row justify-content-between align-items-center">
+    <div class="col-md mb-md-0">
+        <h1>Source Test Summary</h1>
+    </div>
+    <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+        @if (Model.Item!.HasPrintout)
+        {
+            <a href="@Model.Item.PrintoutUrl" target="_blank" rel="noopener"
+               class="btn btn-outline-secondary no-external-link">
+                <svg class="bi me-2">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                </svg>
+                Print
+            </a>
+        }
+    </div>
+</div>
 
-<dl class="row mt-3 mb-0">
+<dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
     <dd class="col-sm-8 col-lg-9">
         <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
@@ -36,7 +53,95 @@
     <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
 </dl>
 
-@section Scripts
+<div class="row justify-content-between align-items-center">
+    <div class="col-md mb-md-0">
+        <h2 id="compliance-review">Compliance Review</h2>
+    </div>
+    @if (Model.ComplianceReview is not null)
+    {
+        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
+            @if (Model.UserCan[ComplianceWorkOperation.Close])
+            {
+                <a asp-page="Close" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-primary">Close</a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.Reopen])
+            {
+                <a asp-page="Reopen" asp-fragment="compliance-review" asp-route-id="@Model.ReferenceNumber.ToString()"
+                   class="btn btn-outline-primary">
+                    Reopen
+                </a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            {
+                <a asp-page="Edit" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
+            @if (Model.UserCan[ComplianceWorkOperation.Delete])
+            {
+                <a asp-page="Delete" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-danger">Delete</a>
+            }
+        </div>
+    }
+</div>
+
+@if (Model.ComplianceReview is null)
 {
-    <partial name="Shared/_ValidationScriptsPartial" />
+    @if (Model.IsComplianceStaff)
+    {
+// TODO: Add new compliance review form.
+        <p class="lead">New compliance review form goes here.</p>
+
+        @section Scripts
+        {
+            <partial name="Shared/_ValidationScriptsPartial" />
+        }
+    }
+    else
+    {
+        <p class="lead">No compliance review has been completed for this source test report.</p>
+    }
+}
+else
+{
+    var review = Model.ComplianceReview!;
+
+    <p class="lead mt-2 mt-md-0">Tracking #@Model.ReferenceNumber.ToString()</p>
+
+    <dl class="row mt-3">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ResponsibleStaff)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">Status</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @if (Model.ComplianceReview.IsClosed)
+            {
+                @:Closed by @Html.DisplayFor(_ => review.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            }
+            else
+            {
+                @:Open
+            }
+        </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.AcknowledgmentLetterDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    </dl>
+
+    <h3 class="mt-4">Details</h3>
+    <dl class="row mt-3 mb-0">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByCompliance)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByCompliance, DisplayTemplate.ShortDateOnly)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.DueDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.DueDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.FollowupTaken)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
+    </dl>
+
+    <dl>
+        <dt class="mb-2">@Html.DisplayNameFor(_ => review.Notes)</dt>
+        <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+    </dl>
+
+    @if (Model.CommentSection != null)
+    {
+        <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+    }
 }

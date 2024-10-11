@@ -59,4 +59,7 @@ public record SourceTestSummary
 
     [Display(Name = "Report reviewed by")]
     public PersonName ReviewedByStaff { get; set; }
+
+    public bool HasPrintout => ReportClosed;
+    public string PrintoutUrl => $"https://air.gaepd.org/stack-test/{ReferenceNumber}";
 }

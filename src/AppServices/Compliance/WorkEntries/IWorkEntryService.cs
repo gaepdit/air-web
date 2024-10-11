@@ -1,6 +1,7 @@
 using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -14,6 +15,9 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<IWorkEntryCommandDto?> FindForUpdateAsync(int id, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+
+    // Source test-specific
+    Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);

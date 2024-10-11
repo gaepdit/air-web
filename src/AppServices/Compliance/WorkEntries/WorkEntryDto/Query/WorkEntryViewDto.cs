@@ -22,7 +22,9 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
+    [Display(Name = "Date Acknowledgment Letter Sent")]
     public DateOnly? AcknowledgmentLetterDate { get; init; }
+
     public string Notes { get; init; } = string.Empty;
     public List<CommentViewDto> Comments { get; } = [];
 

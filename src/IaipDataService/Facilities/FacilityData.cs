@@ -5,6 +5,7 @@ namespace IaipDataService.Facilities;
 public static class FacilityData
 {
     public static Facility GetRandomFacility() => GetData[new Random().Next(GetData.Count)];
+    public static Facility GetFacility(string id) => GetData.Single(facility => facility.Id == id);
 
     private static IEnumerable<Facility> FacilitySeedItems =>
     [
