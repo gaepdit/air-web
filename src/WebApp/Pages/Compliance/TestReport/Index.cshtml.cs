@@ -4,7 +4,9 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
+using GaEpd.AppLibrary.ListItems;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
@@ -14,14 +16,22 @@ namespace AirWeb.WebApp.Pages.Compliance.TestReport;
 public class IndexModel(
     ISourceTestService testService,
     IWorkEntryService entryService,
+    IStaffService staffService,
     IAuthorizationService authorization) : PageModel
 {
+    // Source test
     [FromRoute]
     public int ReferenceNumber { get; set; }
 
-    public SourceTestSummary? Item { get; private set; }
-    public SourceTestReviewViewDto? ComplianceReview { get; private set; }
+    public SourceTestSummary? TestSummary { get; private set; }
+
+    // Compliance review
+    public SourceTestReviewViewDto? SourceTestReview { get; private set; }
     public CommentsSectionModel? CommentSection { get; set; }
+    public SourceTestReviewCreateDto? NewReview { get; set; }
+    public SelectList? StaffSelectList { get; private set; }
+
+    // Permissions
     public bool IsComplianceStaff { get; private set; }
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -33,18 +43,28 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
-        if (ReferenceNumber > 0) Item = await testService.FindSummaryAsync(ReferenceNumber);
-        if (Item is null) return NotFound();
+        if (ReferenceNumber > 0) TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        if (TestSummary is null) return NotFound();
 
-        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         await SetPermissionsAsync();
 
-        if (ComplianceReview is not null)
+        if (SourceTestReview is null)
+        {
+            NewReview = new SourceTestReviewCreateDto
+            {
+                ReferenceNumber = ReferenceNumber,
+                FacilityId = TestSummary.Facility?.FacilityId,
+                ResponsibleStaffId = (await staffService.GetCurrentUserAsync()).Id,
+            };
+            await PopulateSelectListsAsync();
+        }
+        else
         {
             CommentSection = new CommentsSectionModel
             {
-                Comments = ComplianceReview.Comments,
-                NewComment = new CommentAddDto(ComplianceReview.Id),
+                Comments = SourceTestReview.Comments,
+                NewComment = new CommentAddDto(SourceTestReview.Id),
                 NewCommentId = NewCommentId,
                 NotificationFailureMessage = NotificationFailureMessage,
                 CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
@@ -58,6 +78,9 @@ public class IndexModel(
     private async Task SetPermissionsAsync()
     {
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
-        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, ComplianceReview);
+        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, SourceTestReview);
     }
+
+    private async Task PopulateSelectListsAsync() =>
+        StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
 }

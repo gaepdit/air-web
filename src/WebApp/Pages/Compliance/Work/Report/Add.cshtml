@@ -11,17 +11,17 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<p class="lead">
+    For Facility:
+    <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+</p>
 
 <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
-    <form method="post" enctype="multipart/form-data" id="new-fce-form">
+    <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
             <svg class="bi me-2" role="img" aria-label="Danger:">
                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
             </svg>
-        </div>
-        <div class="mb-3">
-            Facility: <br />
-            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
         </div>
 
         <div class="row">

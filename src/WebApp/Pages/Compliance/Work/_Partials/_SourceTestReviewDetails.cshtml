@@ -4,7 +4,9 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReferenceNumber)</dt>
     <dd class="col-sm-8 col-lg-9">
-        <strong class="text-info-emphasis">@Model.ReferenceNumber.ToString()</strong>
+        <a asp-page="/Compliance/TestReport/Index" asp-route-referenceNumber="@Model.ReferenceNumber.ToString()">
+            <strong class="text-info-emphasis">@Model.ReferenceNumber.ToString()</strong>
+        </a>
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedByCompliance)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedByCompliance, DisplayTemplate.ShortDateOnly)</dd>

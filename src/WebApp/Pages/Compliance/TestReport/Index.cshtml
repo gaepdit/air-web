@@ -1,10 +1,13 @@
-﻿@page "{referenceNumber:int?}"
+@page "{referenceNumber:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model IndexModel
 @{
-    var summary = Model.Item!;
+    var summary = Model.TestSummary!;
     ViewData["Title"] = $"Facility {summary.Facility?.Id} – Source Test Reference Number {summary.ReferenceNumber}";
 }
 
@@ -13,10 +16,9 @@
         <h1>Source Test Summary</h1>
     </div>
     <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
-        @if (Model.Item!.HasPrintout)
+        @if (Model.TestSummary!.HasPrintout)
         {
-            <a href="@Model.Item.PrintoutUrl" target="_blank" rel="noopener"
-               class="btn btn-outline-secondary no-external-link">
+            <a href="@Model.TestSummary.PrintoutUrl" target="_blank" rel="noopener" class="btn btn-outline-secondary no-external-link">
                 <svg class="bi me-2">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                 </svg>
@@ -53,12 +55,72 @@
     <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
 </dl>
 
-<div class="row justify-content-between align-items-center">
-    <div class="col-md mb-md-0">
-        <h2 id="compliance-review">Compliance Review</h2>
-    </div>
-    @if (Model.ComplianceReview is not null)
+@if (Model.SourceTestReview is null)
+{
+    if (!Model.IsComplianceStaff || Model.NewReview is null)
     {
+        <h2 id="compliance-review">Compliance Review</h2>
+        <p class="lead">No compliance review has been completed for this source test report.</p>
+    }
+    else
+    {
+        <h2 id="compliance-review">Add a new Compliance Review</h2>
+        <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
+            <form method="post">
+                <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+                    <svg class="bi me-2" role="img" aria-label="Danger:">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+                    </svg>
+                </div>
+
+                <div class="mb-3">
+                    @Html.EditorFor(m => m.NewReview!.ResponsibleStaffId, EditorTemplate.Select,
+                        additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+                </div>
+
+                <div class="row">
+                    <div class="col-md mb-3">
+                        @Html.EditorFor(m => m.NewReview!.ReceivedByCompliance, EditorTemplate.InputDateOnly)
+                    </div>
+                    <div class="col-md mb-3">
+                        @Html.EditorFor(m => m.NewReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3">
+                        @Html.EditorFor(m => m.NewReview!.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        @Html.EditorFor(m => m.NewReview!.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                    <div class="col-md mb-3">
+                        <input asp-for="NewReview!.FollowupTaken" class="form-check-input" />
+                        <label asp-for="NewReview!.FollowupTaken" class="form-check-label"></label>
+                    </div>
+                </div>
+
+                <div class="mb-1">
+                    <button id="SubmitButton" type="submit" class="btn btn-primary">
+                        Add Compliance Review
+                    </button>
+                </div>
+                <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+                <input asp-for="NewReview!.ReferenceNumber" type="hidden" />
+                <input asp-for="NewReview!.FacilityId" type="hidden" />
+            </form>
+        </div>
+    }
+}
+else
+{
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md mb-md-0">
+            <h2 id="compliance-review">Compliance Review</h2>
+        </div>
         <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
@@ -80,29 +142,8 @@
                 <a asp-page="Delete" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-danger">Delete</a>
             }
         </div>
-    }
-</div>
-
-@if (Model.ComplianceReview is null)
-{
-    @if (Model.IsComplianceStaff)
-    {
-// TODO: Add new compliance review form.
-        <p class="lead">New compliance review form goes here.</p>
-
-        @section Scripts
-        {
-            <partial name="Shared/_ValidationScriptsPartial" />
-        }
-    }
-    else
-    {
-        <p class="lead">No compliance review has been completed for this source test report.</p>
-    }
-}
-else
-{
-    var review = Model.ComplianceReview!;
+    </div>
+    var review = Model.SourceTestReview!;
 
     <p class="lead mt-2 mt-md-0">Tracking #@Model.ReferenceNumber.ToString()</p>
 
@@ -111,7 +152,7 @@ else
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            @if (Model.ComplianceReview.IsClosed)
+            @if (Model.SourceTestReview.IsClosed)
             {
                 @:Closed by @Html.DisplayFor(_ => review.ClosedBy, DisplayTemplate.NameOrPlaceholder)
                 @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
@@ -140,7 +181,7 @@ else
         <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
     </dl>
 
-    @if (Model.CommentSection != null)
+    if (Model.CommentSection != null)
     {
         <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
     }
