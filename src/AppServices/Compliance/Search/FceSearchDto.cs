@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Utilities;
+using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Search;
@@ -57,7 +58,7 @@ public record FceSearchDto : IComplianceSearchDto
 
     public FceSearchDto TrimAll() => this with
     {
-        PartialFacilityId = PartialFacilityId?.CleanFacilityId(),
+        PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
 }
