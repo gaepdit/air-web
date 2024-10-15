@@ -2,17 +2,21 @@
 
 ## Work Entry Types
 
-- Annual Compliance Certification (ACC) † ‡
-- Inspection * † ‡
-- Notification *
-- Permit revocation
-- Report * † ‡
-- RMP Inspection * †
-- Source Test Compliance Review * † ‡
+| Work entry type                       | Automatic Closure * | Compliance Event † | ICIS-Air ‡ |
+|---------------------------------------|:-------------------:|:------------------:|:----------:|
+| Annual Compliance Certification (ACC) |                     |         ✓          |     ✓      |
+| Inspection                            |          ✓          |         ✓          |     ✓      |
+| Notification                          |          ✓          |                    |            |
+| Permit revocation                     |                     |                    |            |
+| Report                                |          ✓          |         ✓          |     ✓      |
+| RMP Inspection                        |          ✓          |         ✓          |            |
+| Source Test Compliance Review         |          ✓          |         ✓          |     ✓      |
 
-<small>* Indicates the Work Entry is automatically closed when created.</small><br>
-<small>† Indicates the Work Entry is a Compliance Event (i.e., available as an enforcement discovery event).</small><br>
-<small>‡ Indicates a Compliance Event that is shared with the ICIS-Air data exchange.</small>
+<small>
+* Indicates the Work Entry is automatically closed when created.<br>
+† Indicates the Work Entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
+‡ Indicates a Compliance Event that is shared with the ICIS-Air data exchange.
+</small>
 
 ### General Workflow
 
@@ -23,7 +27,7 @@
     * Some Work Entries are automatically closed when they are first created.
 * A Work Entry can be deleted/restored *(not shown in diagrams)*.
 * Comments can be added and edited.
-* A Comment can be deleted *(not shown in diagrams)*.
+* A Comment can be deleted *(not shown)*.
 
 ### Compliance Event Workflow
 
@@ -31,14 +35,12 @@
 * Enforcement can be started from a Compliance Event.
 * Closing a Compliance Event updates the Data Exchange (not including an RMP Inspection).
 
-## Annual Compliance Certification (ACC) Workflow Additions
+## Annual Compliance Certification (ACC) Workflow
 
 * An ACC is a Compliance Event.
 * An ACC report can be printed if closed.
     * Closing an ACC enables printing.
     * Reopening an ACC disables printing.
-
-### Flowchart
 
 ```mermaid
 flowchart
@@ -48,7 +50,6 @@ flowchart
     DX{{Data Exchange}}
     RPT{{Report}}
     ENF{{Enforcement}}
-
     enter([Enter new ACC])
     comment([Add Comment])
     edit([Edit])
@@ -56,7 +57,6 @@ flowchart
     print([Print])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
@@ -64,7 +64,6 @@ flowchart
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
-
     close -->|"`Enables/*disables*`"| print
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates| WRK
@@ -77,12 +76,10 @@ flowchart
     close --->|Closing updates| DX
 ```
 
-## Inspection Workflow Additions
+## Inspection Workflow
 
 * An Inspection is a Compliance Event.
 * An Inspection is automatically closed when created.
-
-### Flowchart
 
 ```mermaid
 flowchart
@@ -91,21 +88,18 @@ flowchart
     DX{{Data Exchange}}
     CMT{{Comment}}
     ENF{{Enforcement}}
-
     enter([Enter new Inspection])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
-
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
@@ -116,24 +110,20 @@ flowchart
     close --->|Closing updates| DX
 ```
 
-## Notification Workflow Additions
+## Notification Workflow
 
 * A Notification is automatically closed when created.
-
-### Flowchart
 
 ```mermaid
 flowchart
     FAC{{Facility}}
     WRK{{"`**Notification**`"}}
     CMT{{Comment}}
-
     enter([Enter new Notification])
     edit([Edit])
     comment([Add Comment])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
@@ -149,28 +139,22 @@ flowchart
 
 ## Permit Revocation Workflow
 
-### Flowchart
-
 ```mermaid
 flowchart
     FAC{{Facility}}
     WRK{{"`**Permit Revocation**`"}}
     CMT{{Comment}}
-
     enter([Enter new Permit Revocation])
     comment([Add Comment])
     edit([Edit])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
     WRK -.-> comment
     CMT -.-> editComment
-
     close -->|"`Disables/*enables*`"| edit
-
     enter -->|Creates| WRK
     edit -->|Updates| WRK
     close -->|"`Closes/*reopens*`"| WRK
@@ -178,12 +162,10 @@ flowchart
     comment -->|Adds| CMT
 ```
 
-## Report Workflow Additions
+## Report Workflow
 
 * A Report is a Compliance Event.
 * A Report is automatically closed when created.
-
-### Flowchart
 
 ```mermaid
 flowchart
@@ -192,21 +174,18 @@ flowchart
     DX{{Data Exchange}}
     CMT{{Comment}}
     ENF{{Enforcement}}
-
     enter([Enter new Report])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
-
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
@@ -217,12 +196,10 @@ flowchart
     close --->|Closing updates| DX
 ```
 
-## RMP Inspection Workflow Additions
+## RMP Inspection Workflow
 
 * An RMP Inspection is a Compliance Event.
 * An RMP Inspection is automatically closed when created.
-
-### Flowchart
 
 ```mermaid
 flowchart
@@ -230,21 +207,18 @@ flowchart
     WRK{{"`**RMP Inspection**`"}}
     CMT{{Comment}}
     ENF{{Enforcement}}
-
     enter([Enter new Inspection])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
     WRK -.-> comment
     WRK -.-> enforce
     CMT -.-> editComment
-
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
@@ -254,39 +228,31 @@ flowchart
     enforce -->|Creates| ENF
 ```
 
-## Source Test Compliance Review (STR) Workflow Additions
+## Source Test Compliance Review Workflow
 
-* An STR can only be entered from a Source Test Report.
-* An STR is a Compliance Event.
-* An STR is automatically closed when created.
-* An STR can be printed if closed.
-    * Closing an STR enables printing.
-    * Reopening an STR disables printing.
-
-### Flowchart
+* A Source Test Compliance Review can only be entered from a Source Test Report (STR).
+* A Source Test Compliance Review is a Compliance Event.
+* A Source Test Compliance Review is automatically closed when created.
 
 ```mermaid
 flowchart
-    TST{{Source Test Report}}
+    STR{{Source Test Report}}
     WRK{{"`**Source Test Compliance Review**`"}}
     DX{{Data Exchange}}
     CMT{{Comment}}
     ENF{{Enforcement}}
-
     enter([Enter new Compliance Review])
     comment([Add Comment])
     edit([Edit])
     enforce([Start Enforcement])
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
-
-    TST -.-> enter
+    STR -.-> enter
     WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
-
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK

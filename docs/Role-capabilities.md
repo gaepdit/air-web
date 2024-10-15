@@ -4,7 +4,8 @@
 
 ## Public
 
-*Visitors* to this site currently have no access or capabilities.
+*Visitors* to this site can view the "printable" reports (ACC, FCE, and STR reports). They currently have no other
+access or capabilities.
 
 ## User
 

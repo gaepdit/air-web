@@ -8,7 +8,7 @@
 * Closing an Enforcement disables all editing.
 * Reopening an Enforcement enables all editing.
 * Comments can be added and edited.
-* A Comment can be deleted *(not shown)*.
+* A Comment can be deleted *(not shown in diagram)*.
 * An Enforcement can be deleted *(not shown)*.
 
 ## Enforcement Action/Document
