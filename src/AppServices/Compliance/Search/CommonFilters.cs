@@ -1,6 +1,6 @@
-using AirWeb.AppServices.Utilities;
 using AirWeb.Domain.ComplianceEntities;
 using GaEpd.AppLibrary.Domain.Predicates;
+using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.Search;
@@ -21,15 +21,10 @@ internal static class CommonFilters
         this Expression<Func<TEntity, bool>> predicate,
         string? input) where TEntity : IComplianceEntity
     {
-        if (string.IsNullOrWhiteSpace(input)) return predicate;
-        var cleanInput = input.CleanFacilityId();
-        if (string.IsNullOrWhiteSpace(cleanInput)) return predicate;
-
-        // Test for matches with and without hyphen.
-        var facilityIdPredicate = PredicateBuilder.False<TEntity>()
-            .Or(entry => entry.FacilityId.Contains(input))
-            .Or(entry => entry.FacilityId.Contains(cleanInput));
-        return predicate.And(facilityIdPredicate);
+        var cleanInput = FacilityId.CleanFacilityId(input);
+        return string.IsNullOrWhiteSpace(cleanInput)
+            ? predicate
+            : predicate.And(entry => entry.FacilityId.Contains(cleanInput));
     }
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(

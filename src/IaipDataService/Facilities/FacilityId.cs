@@ -43,7 +43,21 @@ public partial record FacilityId
     // Test at https://regex101.com/r/2uYyHl/4
     // language:regex
     private const string FacilityIdPattern = @"^\d{3}-?\d{5}$";
-
+    
     [GeneratedRegex(FacilityIdPattern)]
     private static partial Regex FacilityIdRegex();
+    
+    public static string CleanFacilityId(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+        var cleanFacilityId = new string(input.Where(c => c == '-' || char.IsDigit(c)).ToArray());
+        return EightDigitsRegex().IsMatch(cleanFacilityId)
+            ? cleanFacilityId.Insert(3, "-")
+            : cleanFacilityId;
+    }
+
+    private const string EightDigits = @"^\d{8}$";
+
+    [GeneratedRegex(EightDigits)]
+    private static partial Regex EightDigitsRegex();
 }
