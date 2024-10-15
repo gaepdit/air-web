@@ -49,7 +49,7 @@ public enum WorkTypeSearch
     [Description("Inspections")] Inspection,
     [Description("RMP Inspections")] Rmp,
     [Description("Reports")] Report,
-    [Description("Source Test Reviews")] Str,
+    [Description("Source Test Compliance Reviews")] Str,
     [Description("Notifications")] Notification,
     [Description("Permit Revocations")] PermitRevocation,
 }

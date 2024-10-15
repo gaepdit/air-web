@@ -30,9 +30,9 @@ public class IndexModel(
     public SourceTestSummary? TestSummary { get; private set; }
 
     // Compliance review
-    public SourceTestReviewViewDto? SourceTestReview { get; private set; }
+    public SourceTestReviewViewDto? ComplianceReview { get; private set; }
     public CommentsSectionModel? CommentSection { get; set; }
-    public SourceTestReviewCreateDto? NewReview { get; set; }
+    public SourceTestReviewCreateDto? NewComplianceReview { get; set; }
     public SelectList? StaffSelectList { get; private set; }
 
     // Permissions
@@ -52,12 +52,12 @@ public class IndexModel(
         if (ReferenceNumber > 0) TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return NotFound();
 
-        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         await SetPermissionsAsync();
 
-        if (SourceTestReview is null)
+        if (ComplianceReview is null)
         {
-            NewReview = new SourceTestReviewCreateDto
+            NewComplianceReview = new SourceTestReviewCreateDto
             {
                 ReferenceNumber = ReferenceNumber,
                 FacilityId = TestSummary.Facility?.FacilityId,
@@ -69,8 +69,8 @@ public class IndexModel(
         {
             CommentSection = new CommentsSectionModel
             {
-                Comments = SourceTestReview.Comments,
-                NewComment = new CommentAddDto(SourceTestReview.Id),
+                Comments = ComplianceReview.Comments,
+                NewComment = new CommentAddDto(ComplianceReview.Id),
                 NewCommentId = NewCommentId,
                 NotificationFailureMessage = NotificationFailureMessage,
                 CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
@@ -121,8 +121,8 @@ public class IndexModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
-        if (SourceTestReview is null || SourceTestReview.IsDeleted) return BadRequest();
+        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
@@ -134,7 +134,7 @@ public class IndexModel(
 
             CommentSection = new CommentsSectionModel
             {
-                Comments = SourceTestReview.Comments,
+                Comments = ComplianceReview.Comments,
                 NewComment = newComment,
                 CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
@@ -142,7 +142,7 @@ public class IndexModel(
             return Page();
         }
 
-        var addCommentResult = await entryService.AddCommentAsync(SourceTestReview.Id, newComment, token);
+        var addCommentResult = await entryService.AddCommentAsync(ComplianceReview.Id, newComment, token);
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
@@ -153,8 +153,8 @@ public class IndexModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        SourceTestReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
-        if (SourceTestReview is null || SourceTestReview.IsDeleted) return BadRequest();
+        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
@@ -167,7 +167,7 @@ public class IndexModel(
     private async Task SetPermissionsAsync()
     {
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
-        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, SourceTestReview);
+        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, ComplianceReview);
     }
 
     private async Task PopulateSelectListsAsync() =>

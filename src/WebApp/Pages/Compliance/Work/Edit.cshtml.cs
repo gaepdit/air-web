@@ -21,7 +21,7 @@ public class EditRedirectModel(IWorkEntryService entryService) : PageModel
             WorkEntryType.PermitRevocation => "PermitRevocation/Edit",
             WorkEntryType.Report => "Report/Edit",
             WorkEntryType.RmpInspection => "Inspection/Edit",
-            WorkEntryType.SourceTestReview => "Str/Edit",
+            WorkEntryType.SourceTestReview => "SourceTestReview/Edit",
             _ => "Index",
         }, new { Id });
     }

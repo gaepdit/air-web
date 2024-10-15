@@ -4,7 +4,6 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model IndexModel
 @{
     var summary = Model.TestSummary!;
@@ -55,7 +54,7 @@
     <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
 </dl>
 
-@if (Model.SourceTestReview is null)
+@if (Model.ComplianceReview is null)
 {
     if (!Model.IsComplianceStaff)
     {
@@ -74,32 +73,31 @@
                 </div>
 
                 <div class="mb-3">
-                    @Html.EditorFor(m => m.NewReview!.ResponsibleStaffId, EditorTemplate.Select,
+                    @Html.EditorFor(m => m.NewComplianceReview!.ResponsibleStaffId, EditorTemplate.Select,
                         additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
                 </div>
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewReview!.ReceivedByCompliance, EditorTemplate.InputDateOnly)
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByCompliance, EditorTemplate.InputDateOnly)
                     </div>
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
+                        @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="mb-3">
-                        @Html.EditorFor(m => m.NewReview!.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, new { Rows = 5 })
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        @Html.EditorFor(m => m.NewReview!.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+                        @Html.EditorFor(m => m.NewComplianceReview!.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
                     </div>
                     <div class="col-md mb-3">
-                        <input asp-for="NewReview!.FollowupTaken" class="form-check-input" />
-                        <label asp-for="NewReview!.FollowupTaken" class="form-check-label"></label>
+                        @Html.EditorFor(m => m.NewComplianceReview!.FollowupTaken, EditorTemplate.Checkbox)
                     </div>
                 </div>
 
@@ -109,8 +107,8 @@
                     </button>
                 </div>
                 <div class="text-danger-emphasis mt-3">* denotes a required field</div>
-                <input asp-for="NewReview!.ReferenceNumber" type="hidden" />
-                <input asp-for="NewReview!.FacilityId" type="hidden" />
+                <input asp-for="NewComplianceReview!.ReferenceNumber" type="hidden" />
+                <input asp-for="NewComplianceReview!.FacilityId" type="hidden" />
             </form>
         </div>
     }
@@ -124,26 +122,26 @@ else
         <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
-                <a asp-page="Close" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-primary">Close</a>
+                <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-primary">Close</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Reopen])
             {
-                <a asp-page="Reopen" asp-fragment="compliance-review" asp-route-id="@Model.ReferenceNumber.ToString()"
+                <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                    class="btn btn-outline-primary">
                     Reopen
                 </a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
-                <a asp-page="Edit" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Delete])
             {
-                <a asp-page="Delete" asp-route-id="@Model.ReferenceNumber.ToString()" class="btn btn-outline-danger">Delete</a>
+                <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
         </div>
     </div>
-    var review = Model.SourceTestReview!;
+    var review = Model.ComplianceReview!;
 
     <p class="lead mt-2 mt-md-0">Tracking #@review.Id.ToString()</p>
 
@@ -152,7 +150,7 @@ else
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            @if (Model.SourceTestReview.IsClosed)
+            @if (Model.ComplianceReview.IsClosed)
             {
                 @:Closed by @Html.DisplayFor(_ => review.ClosedBy, DisplayTemplate.NameOrPlaceholder)
                 @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
