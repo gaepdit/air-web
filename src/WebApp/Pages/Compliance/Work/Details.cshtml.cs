@@ -35,7 +35,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         await SetPermissionsAsync();
         if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
 
-        if (Item.WorkEntryType == WorkEntryType.SourceTestReview)
+        if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
             return RedirectToPage("../TestReport/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
 
         CommentSection = new CommentsSectionModel

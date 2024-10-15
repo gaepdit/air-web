@@ -17,6 +17,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
     // Source test-specific
+    Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default);
     Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
 
     // Command
