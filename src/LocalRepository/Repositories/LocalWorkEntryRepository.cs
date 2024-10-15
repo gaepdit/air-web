@@ -23,6 +23,10 @@ public sealed class LocalWorkEntryRepository()
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
 
+    public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
+        Task.FromResult(Items.OfType<SourceTestReview>()
+            .Any(str => str.ReferenceNumber == referenceNumber && !str.IsDeleted));
+
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
         Task.FromResult(Items.OfType<SourceTestReview>()
             .FirstOrDefault(str => str.ReferenceNumber == referenceNumber && !str.IsDeleted));

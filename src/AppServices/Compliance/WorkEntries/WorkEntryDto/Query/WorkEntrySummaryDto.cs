@@ -37,4 +37,6 @@ public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
+
+    public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
 }

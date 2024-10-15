@@ -29,13 +29,6 @@ public sealed partial class WorkEntryService
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
-        await MapWorkEntryDetailsAsync(resource, workEntry, token).ConfigureAwait(false);
-        return workEntry;
-    }
-
-    private async Task MapWorkEntryDetailsAsync(IWorkEntryCreateDto resource, WorkEntry workEntry,
-        CancellationToken token = default)
-    {
         workEntry.Facility = await facilityService.GetAsync((FacilityId)resource.FacilityId!, token)
             .ConfigureAwait(false);
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
@@ -62,11 +55,14 @@ public sealed partial class WorkEntryService
                 MapReport(dto, (Report)workEntry);
                 break;
             case SourceTestReviewCreateDto dto:
+                ((SourceTestReview)workEntry).ReferenceNumber = dto.ReferenceNumber;
                 MapStr(dto, (SourceTestReview)workEntry);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
+                throw new ArgumentOutOfRangeException(nameof(resource), "Invalid work entry type.");
         }
+
+        return workEntry;
     }
 
     private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryCommandDto resource, WorkEntry workEntry,

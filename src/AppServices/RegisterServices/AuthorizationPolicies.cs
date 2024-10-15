@@ -19,13 +19,10 @@ public static class AuthorizationPolicies
         // Resource/operation-based permission handlers, e.g.:
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
-        // FceViewRequirement is added scoped because it consumes the scoped IFceService.
+        // ViewRequirements are added scoped if they consume scoped services.
         services.AddScoped<IAuthorizationHandler, FceViewRequirement>();
         services.AddScoped<IAuthorizationHandler, FceSummaryRequirement>();
-
-        // services.AddSingleton<IAuthorizationHandler, WorkEntryUpdateRequirement>();
-        services.AddSingleton<IAuthorizationHandler, WorkEntryViewRequirement>();
-        services.AddSingleton<IAuthorizationHandler, WorkEntrySummaryRequirement>();
+        services.AddScoped<IAuthorizationHandler, WorkEntryViewRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

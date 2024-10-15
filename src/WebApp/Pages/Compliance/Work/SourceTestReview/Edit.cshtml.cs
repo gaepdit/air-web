@@ -48,6 +48,11 @@ public class EditModel(
         var original = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
         if (original is null || !await UserCanEditAsync(original)) return BadRequest();
 
+        var testSummary = await sourceTestService.FindSummaryAsync(original.ReferenceNumber);
+        if (testSummary is null) return BadRequest();
+
+        TestSummary = testSummary;
+
         return await DoPostAsync(Item, validator, token);
     }
 

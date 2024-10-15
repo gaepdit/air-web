@@ -81,16 +81,17 @@ public class IndexModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostNewReviewAsync(SourceTestReviewCreateDto newReview, CancellationToken token)
+    public async Task<IActionResult> OnPostNewReviewAsync(SourceTestReviewCreateDto newComplianceReview,
+        CancellationToken token)
     {
-        if (newReview.FacilityId == null || newReview.ReferenceNumber == 0 ||
-            ReferenceNumber != newReview.ReferenceNumber)
+        if (newComplianceReview.FacilityId == null || newComplianceReview.ReferenceNumber == 0 ||
+            ReferenceNumber != newComplianceReview.ReferenceNumber)
             return BadRequest();
 
         await SetPermissionsAsync();
         if (!IsComplianceStaff) return BadRequest();
 
-        await validator.ApplyValidationAsync(newReview, ModelState);
+        await validator.ApplyValidationAsync(newComplianceReview, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -101,7 +102,7 @@ public class IndexModel(
             return Page();
         }
 
-        var createResult = await entryService.CreateAsync(newReview, token);
+        var createResult = await entryService.CreateAsync(newComplianceReview, token);
 
         const string message = "Compliance Review successfully created.";
         if (createResult.HasAppNotificationFailure)

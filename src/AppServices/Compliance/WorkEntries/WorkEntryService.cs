@@ -96,6 +96,9 @@ public sealed partial class WorkEntryService(
             ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
+    public async Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
+        await entryRepository.ExistsAsync(referenceNumber, token).ConfigureAwait(false);
+
     public async Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber,
         CancellationToken token = default) =>
         mapper.Map<SourceTestReviewViewDto?>(await entryRepository.FindSourceTestReviewAsync(referenceNumber, token)

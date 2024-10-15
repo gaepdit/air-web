@@ -14,7 +14,8 @@
 </p>
 
 <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
-    <form method="post">
+    @* ID `new-fce-form` is used by "verifyFceYearSelection.js". *@
+    <form method="post" id="new-fce-form">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
             <svg class="bi me-2" role="img" aria-label="Danger:">
                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
@@ -52,9 +53,8 @@
     </form>
 </div>
 
-// FUTURE: Add list of existing FCEs for selected facility.
-
-// FUTURE: Add facility compliance data for selected fiscal year.
+@* // FUTURE: Add list of existing FCEs for selected facility. *@
+@* // FUTURE: Add facility compliance data for selected fiscal year. *@
 
 @section Scripts
 {

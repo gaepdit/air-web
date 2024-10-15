@@ -39,7 +39,25 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <returns>The <see cref="WorkEntryType"/> of the Entry.</returns>
     Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
+    // Source test-specific
+
+    /// <summary>
+    /// Checks if a <see cref="SourceTestReview"/> exists with the given reference number.
+    /// </summary>
+    /// <param name="referenceNumber">The reference number of the Source Test Review.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A boolean indicating whether the Source Test Review exists.</returns>
+    Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default);
+
+    /// <summary>
+    /// Finds the <see cref="SourceTestReview"/> with the given Reference Number.
+    /// </summary>
+    /// <param name="referenceNumber">The reference number of the Source Test Review.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A <see cref="SourceTestReview"/> if found; otherwise, null.</returns>
     Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
+
+    // Notification-specific
 
     /// <summary>
     /// Gets the <see cref="NotificationType"/> with the specified ID.
