@@ -5,7 +5,7 @@ using AirWeb.AppServices.Staff;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 
-namespace AirWeb.WebApp.Pages.Home;
+namespace AirWeb.WebApp.Pages.Dashboard;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DashboardIndexModel(

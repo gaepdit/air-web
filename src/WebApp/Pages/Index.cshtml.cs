@@ -3,8 +3,11 @@
 [AllowAnonymous]
 public class IndexModel : PageModel
 {
-    public void OnGet()
+    public IActionResult OnGet()
     {
-        // Method intentionally left empty.
+        if (User.Identity is not { IsAuthenticated: true })
+            return Challenge();
+
+        return Page();
     }
 }

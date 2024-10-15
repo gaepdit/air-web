@@ -6,20 +6,11 @@
 <header role="banner">
     <nav id="main-nav" class="navbar nav-underline navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
-            @if (Model.IsStaffUser)
-            {
-                <a asp-page="/Index" title="Dashboard">
-                    <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
-                </a>
-                <a asp-page="/Home/Index" title="Dashboard" class="navbar-brand me-2 d-inline d-sm-none">Air Branch Web App</a>
-            }
-            else
-            {
-                <a asp-page="/Index" title="Air Branch Web App">
-                    <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
-                </a>
-                <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web</a>
-            }
+            <a asp-page="/Index" title="Air Branch Web App">
+                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
+            </a>
+            <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
@@ -29,9 +20,9 @@
                 <ul class="navbar-nav flex-grow-1">
                     @if (Model.IsStaffUser)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Home/Index" title="Dashboard">Dashboard</a>
-                        </li>
+                        @* <li class="nav-item"> *@
+                        @*     <a class="nav-link" asp-page="/Home/Index" title="Dashboard">Dashboard</a> *@
+                        @* </li> *@
                     }
                     @if (Model.IsActiveUser)
                     {
