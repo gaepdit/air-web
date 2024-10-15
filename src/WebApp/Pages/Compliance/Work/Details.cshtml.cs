@@ -1,9 +1,11 @@
 ﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
@@ -32,6 +34,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         await SetPermissionsAsync();
         if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
+
+        if (Item.WorkEntryType == WorkEntryType.SourceTestReview)
+            return RedirectToPage("../TestReport/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
 
         CommentSection = new CommentsSectionModel
         {
