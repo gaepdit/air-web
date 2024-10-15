@@ -31,5 +31,5 @@ internal class FceSummaryRequirement(IFceService fceService) :
 
     private async Task<bool> CanRestoreAsync() =>
         ComplianceWorkOperation.CanRestore(_context.User, _resource) &&
-        !await fceService.OtherExistsAsync(_resource.Facility.Id, _resource.Year, _resource.Id).ConfigureAwait(false);
+        !await fceService.ExistsAsync(_resource.Facility.Id, _resource.Year, _resource.Id).ConfigureAwait(false);
 }

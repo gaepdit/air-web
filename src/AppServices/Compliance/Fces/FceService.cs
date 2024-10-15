@@ -87,8 +87,7 @@ public sealed class FceService(
         return await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceRestored, token).ConfigureAwait(false);
     }
 
-    public Task<bool> OtherExistsAsync(FacilityId facilityId, int year, int currentId,
-        CancellationToken token = default) =>
+    public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
