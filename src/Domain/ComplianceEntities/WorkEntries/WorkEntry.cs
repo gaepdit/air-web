@@ -136,7 +136,7 @@ public enum WorkEntryType
     [Description("Permit Revocation")] PermitRevocation,
     Report,
     [Description("RMP Inspection")] RmpInspection,
-    [Description("Source Test Review")] SourceTestReview,
+    [Description("Source Test Compliance Review")] SourceTestReview,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

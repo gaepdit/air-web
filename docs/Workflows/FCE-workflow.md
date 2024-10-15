@@ -6,7 +6,7 @@
 * An FCE report can be printed.
 * An FCE can be deleted/restored *(not shown in diagram)*.
 * Comments can be added and edited.
-* A Comment can be deleted *(not shown in diagram)*.
+* A Comment can be deleted *(not shown)*.
 
 ## Flowchart
 

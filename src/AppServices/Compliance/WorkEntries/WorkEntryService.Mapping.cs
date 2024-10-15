@@ -173,7 +173,6 @@ public sealed partial class WorkEntryService
 
     private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)
     {
-        str.ReferenceNumber = resource.ReferenceNumber;
         str.ReceivedByCompliance = resource.ReceivedByCompliance;
         str.DueDate = resource.DueDate;
         str.FollowupTaken = resource.FollowupTaken;

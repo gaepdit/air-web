@@ -116,12 +116,16 @@
     background-color: var(--bs-secondary-bg-subtle) !important;
 }
 
-/* Accessibility fix for "warning" button on medium/light background
+/* Accessibility fixes for outlined buttons
 -------------------------------------------------------------------- */
 html:not([data-bs-theme="dark"]) .btn-outline-warning {
     --bs-btn-color: #b98b00;
     --bs-btn-border-color: #b98b00;
     --bs-btn-bg: #fff;
+}
+
+.btn-outline-info {
+    --bs-btn-color: var(--bs-body-color);
 }
 
 /* Adjust font sizing

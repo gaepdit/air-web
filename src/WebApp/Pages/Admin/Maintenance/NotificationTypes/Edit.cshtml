@@ -31,11 +31,11 @@
         </div>
         <div class="col-md-8 mb-3">
             <div class="form-floating">
-                @Html.EditorFor(model => model.Item.Name, EditorTemplate.Input)
+                @Html.EditorFor(m => m.Item.Name, EditorTemplate.Input)
             </div>
         </div>
         <div class="mb-3">
-            @Html.EditorFor(model => model.Item.Active, EditorTemplate.Checkbox)
+            @Html.EditorFor(m => m.Item.Active, EditorTemplate.Checkbox)
         </div>
         <div class="mt-3 mb-1">
             <input asp-for="OriginalName" type="hidden" />

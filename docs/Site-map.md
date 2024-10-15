@@ -9,9 +9,7 @@
 
 These pages are available to the public.
 
-* *Add a list of public pages.*
-
-### Reporting
+### Reports
 
 *Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) should be implemented.*
 

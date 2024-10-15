@@ -27,6 +27,10 @@ public sealed class WorkEntryRepository(AppDbContext context)
         Context.Set<WorkEntry>().AsNoTracking()
             .Where(entry => entry.Id.Equals(id)).Select(entry => entry.WorkEntryType).SingleAsync(token);
 
+    public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
+        Context.Set<SourceTestReview>().AsNoTracking()
+            .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
+
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
