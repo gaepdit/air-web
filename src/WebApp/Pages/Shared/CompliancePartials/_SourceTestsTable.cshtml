@@ -1,0 +1,37 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IList<IaipDataService.SourceTests.Models.SourceTestSummary>
+
+<div class="table-responsive-md mb-3">
+    <table class="table table-hover" aria-label="Source Tests for this facility">
+        <thead>
+        <tr>
+            <th>Reference Number</th>
+            <th>Report Type</th>
+            <th>Source Tested</th>
+            <th>Pollutant</th>
+            <th>Test Dates</th>
+            <th>Open/Closed</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var summary in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-page="/Compliance/TestReport/Index"
+                       asp-route-referenceNumber="@summary.ReferenceNumber"
+                       class="btn btn-sm btn-outline-info">
+                        @summary.ReferenceNumber.ToString()
+                    </a>
+                </td>
+                <td>@summary.TestType</td>
+                <td>@summary.Source</td>
+                <td>@summary.Pollutant</td>
+                <td>@Html.DisplayFor(_ => summary.TestDates, new { Connector = "—" })</td>
+                <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

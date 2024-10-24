@@ -1,0 +1,67 @@
+﻿@using AirWeb.AppServices.Compliance.Search
+@using AirWeb.WebApp.Models
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model (IList<AirWeb.AppServices.Compliance.Search.WorkEntrySearchResultDto> Items, AirWeb.AppServices.Compliance.Search.WorkEntrySearchDto? Spec)
+
+<div class="table-responsive-md mb-3">
+    <table class="table table-hover" aria-label="Compliance Work Entry results table">
+        <thead>
+        <tr>
+            @if (Model.Spec is null)
+            {
+                <th scope="col" class="text-nowrap">ID</th>
+                <th scope="col" class="text-nowrap">Work Type</th>
+                <th scope="col" class="text-nowrap">Facility</th>
+                <th scope="col" class="text-nowrap">Event Date</th>
+            }
+            else
+            {
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Work Type", SortBy.WorkTypeAsc, SortBy.WorkTypeDesc, Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Facility", SortBy.FacilityIdAsc, SortBy.FacilityIdDesc, Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Event Date", SortBy.EventDateAsc, SortBy.EventDateDesc, Model.Spec)' />
+            }
+            <th scope="col" class="text-nowrap">Staff</th>
+            <th scope="col" class="text-nowrap">Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+                <th scope="row">
+                    <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-info">@item.Id.ToString()</a>
+                    @if (item.IsDeleted)
+                    {
+                        @:DELETED<br />
+                    }
+                </th>
+                <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>
+                <td>
+                    <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.Name
+                </td>
+                <td>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
+                    @item.EventDateName
+                </td>
+                <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                <td class="text-nowrap">
+                    @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                    @if (item.IsClosed)
+                    {
+                        <br />
+                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
