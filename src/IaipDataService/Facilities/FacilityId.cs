@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace IaipDataService.Facilities;
 
-public partial record FacilityId
+public partial record FacilityId : IComparable<FacilityId>
 {
     private readonly string? _id = string.Empty;
 
@@ -34,6 +34,7 @@ public partial record FacilityId
     public static explicit operator FacilityId(string id) => new(id);
     public override string ToString() => FormattedId;
     public virtual bool Equals(FacilityId? other) => !string.IsNullOrEmpty(other?._id) && other._id == _id;
+    public int CompareTo(FacilityId? other) => string.Compare(_id, other?._id, StringComparison.Ordinal);
     public override int GetHashCode() => string.GetHashCode(_id, StringComparison.Ordinal);
 
     // Format validation
@@ -43,10 +44,10 @@ public partial record FacilityId
     // Test at https://regex101.com/r/2uYyHl/4
     // language:regex
     private const string FacilityIdPattern = @"^\d{3}-?\d{5}$";
-    
+
     [GeneratedRegex(FacilityIdPattern)]
     private static partial Regex FacilityIdRegex();
-    
+
     public static string CleanFacilityId(string? input)
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
