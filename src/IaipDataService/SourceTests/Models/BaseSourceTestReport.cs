@@ -54,7 +54,7 @@ public abstract record BaseSourceTestReport
 
     // Test report routing
 
-    [Display(Name = "Date(s) of test")]
+    [Display(Name = "Test dates")]
     public DateRange TestDates { get; set; }
 
     // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
