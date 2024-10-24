@@ -68,8 +68,9 @@
             }
             @if (report.HasPrintout)
             {
-                <a href="@report.PrintoutUrl" target="_blank" rel="noopener" class="btn btn-outline-secondary no-external-link">
-                    <svg class="bi me-2">
+                <a href="@report.PrintoutUrl" target="_blank" rel="noopener"
+                   class="btn btn-outline-secondary icon-link no-external-link">
+                    <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                     </svg>
                     Print

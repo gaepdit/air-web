@@ -17,8 +17,9 @@
     <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
         {
-            <a href="@Model.TestSummary.PrintoutUrl" target="_blank" rel="noopener" class="btn btn-outline-secondary no-external-link">
-                <svg class="bi me-2">
+            <a href="@Model.TestSummary.PrintoutUrl" target="_blank" rel="noopener"
+               class="btn btn-outline-secondary icon-link no-external-link">
+                <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                 </svg>
                 Print

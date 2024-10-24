@@ -337,6 +337,10 @@ details.card:not([open]) summary.card-header {
     overflow: visible !important;
 }
 
+.icon-link .bi {
+    vertical-align: middle;
+}
+
 /* Fix for Bootstrap textarea with "floating" label
 -------------------------------------------------- */
 .form-floating > textarea.form-control {
