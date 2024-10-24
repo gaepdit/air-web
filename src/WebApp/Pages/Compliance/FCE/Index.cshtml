@@ -132,8 +132,9 @@
                 @if (Model.SearchResults.TotalCount > 0)
                 {
                     <div class="col-auto d-print-none ms-2">
-                        <a asp-page="DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()"
+                        <a asp-page="/UnderConstruction" asp-all-route-data="Model.Spec.AsRouteValues()"
                            class="btn btn-sm btn-outline-secondary icon-link">
+                            @* asp-page="DownloadSearch" *@
                             <svg class="bi">
                                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>
                             </svg>
