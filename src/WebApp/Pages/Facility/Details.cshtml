@@ -1,5 +1,7 @@
 ﻿@page "{facilityId?}"
-@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.AppServices.Compliance.Search
+@using AirWeb.WebApp.Platform.Constants
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
@@ -8,7 +10,7 @@
 <div class="row justify-content-between align-items-start">
     <div class="col-md mb-md-0">
         <h1>
-            <partial name="Compliance/_Partials/_FacilityAirsName" model="Model.Facility" />
+            <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
         </h1>
     </div>
 
@@ -16,8 +18,8 @@
     {
         <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
             <div class="dropdown my-2">
-                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                     <svg class="bi">
                         <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
                     </svg>
@@ -73,50 +75,112 @@
 </div>
 <hr>
 
-<h2>Source Tests</h2>
-
-@if (!Model.SourceTests.Any())
-{
-    <p>
-        <em>None.</em>
-    </p>
-}
-else
-{
-    <details open="@(Model.SourceTests.Count < 20)">
-        <summary>@Model.SourceTests.Count.ToString() total source tests</summary>
-        <div class="table-responsive-md mb-3">
-            <table class="table table-hover" aria-label="Source Tests for this facility">
-                <thead>
-                <tr>
-                    <th>Reference Number</th>
-                    <th>Report Type</th>
-                    <th>Source Tested</th>
-                    <th>Pollutant</th>
-                    <th>Test Dates</th>
-                    <th>Open/Closed</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var summary in Model.SourceTests)
-                {
-                    <tr>
-                        <td>
-                            <a asp-page="/Compliance/TestReport/Index"
-                               asp-route-referenceNumber="@summary.ReferenceNumber"
-                               class="btn btn-sm btn-outline-info">
-                                @summary.ReferenceNumber.ToString()
-                            </a>
-                        </td>
-                        <td>@summary.TestType</td>
-                        <td>@summary.Source</td>
-                        <td>@summary.Pollutant</td>
-                        <td>@Html.DisplayFor(_ => summary.TestDates, new { Connector = "—" })</td>
-                        <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+<section class="mb-4">
+    @if (!Model.ComplianceWork.Any())
+    {
+        <h2>Recent Compliance Work</h2>
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md mb-md-0">
+                <h2>Recent Compliance Work</h2>
+            </div>
+            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+                <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.FacilityId"
+                   asp-page-handler="Search" asp-fragment="search-results"
+                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    View All
+                </a>
+            </div>
         </div>
-    </details>
-}
+        @* <details open="@(Model.ComplianceWork.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
+        <details class="border rounded-1 border-bottom-0">
+            <summary class="bg-body-secondary px-2 py-1 border-bottom">
+                @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
+                {
+                    @GlobalConstants.SummaryTableSize.ToString()
+                    @:recent / 
+                }
+                @Model.ComplianceWorkCount.ToString() total
+            </summary>
+            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+        </details>
+    }
+</section>
+
+<section class="mb-4">
+    @if (!Model.Fces.Any())
+    {
+        <h2>Recent FCEs</h2>
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md mb-md-0">
+                <h2>Recent FCEs</h2>
+            </div>
+            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.FacilityId"
+                   asp-page-handler="Search" asp-fragment="search-results"
+                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    View All
+                </a>
+            </div>
+        </div>
+        @* <details open="@(Model.Fces.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
+        <details class="border rounded-1 border-bottom-0">
+            <summary class="bg-body-secondary px-2 py-1 border-bottom">
+                @if (Model.FceCount > GlobalConstants.SummaryTableSize)
+                {
+                    @GlobalConstants.SummaryTableSize.ToString()
+                    @:recent / 
+                }
+                @Model.FceCount.ToString() total
+            </summary>
+            <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
+        </details>
+    }
+</section>
+
+<section class="mb-4">
+    @if (!Model.SourceTests.Any())
+    {
+        <h2>Recent Source Tests</h2>
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md mb-md-0">
+                <h2>Recent Source Tests</h2>
+            </div>
+            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+                <a asp-page="/Facility/SourceTests" asp-route-FacilityId="@Model.FacilityId"
+                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    View All
+                </a>
+            </div>
+        </div>
+        @* <details open="@(Model.SourceTests.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
+        <details class="border rounded-1 border-bottom-0">
+            <summary class="bg-body-secondary px-2 py-1 border-bottom">
+                @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
+                {
+                    @GlobalConstants.SummaryTableSize.ToString()
+                    @:recent / 
+                }
+                @Model.SourceTestCount.ToString() total
+            </summary>
+            <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests" />
+        </details>
+    }
+</section>

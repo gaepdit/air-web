@@ -68,8 +68,10 @@
             }
             @if (report.HasPrintout)
             {
-                <a href="@report.PrintoutUrl" target="_blank" rel="noopener" class="btn btn-outline-secondary no-external-link">
-                    <svg class="bi me-2">
+                <a asp-page="/UnderConstruction" target="_blank" rel="noopener"
+                   class="btn btn-outline-secondary icon-link no-external-link">
+                    @* href="@report.PrintoutUrl" *@
+                    <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                     </svg>
                     Print
@@ -83,7 +85,7 @@
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Compliance/_Partials/_FacilityAirsNameLink" model="report.Facility" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="report.Facility" />
     </dd>
     @* TODO: Additional facility information *@
 

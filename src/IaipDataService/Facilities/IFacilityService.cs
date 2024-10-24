@@ -7,5 +7,6 @@ public interface IFacilityService
     Task<bool> ExistsAsync(FacilityId id);
 
     // TODO: Remove later. This is only for testing. 
-    Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default);
+    // This method is only used to provide a short list of test facilities and won't be used in the production version.
+    Task<IReadOnlyCollection<Facility>> GetListAsync();
 }

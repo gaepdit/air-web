@@ -46,7 +46,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
-    public Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default) =>
-        // This method is only used to provide a short list of test facilities and won't be used in the production version.
-        Task.FromResult<IReadOnlyCollection<Facility>>(FacilityData.GetData.ToList());
+    // This method is only used to provide a short list of test facilities and won't be used in the production version.
+    public Task<IReadOnlyCollection<Facility>> GetListAsync() =>
+        Task.FromResult<IReadOnlyCollection<Facility>>(FacilityData.GetData.OrderBy(facility => facility.Id).ToList());
 }

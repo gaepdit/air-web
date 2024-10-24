@@ -42,24 +42,16 @@ BEGIN
 
            'ReviewedByStaff'                  as Id,
            pr.STRFIRSTNAME                    as GivenName,
-           pr.STRLASTNAME                     as FamilyName,
-
-           'TestingUnitManager'               as Id,
-           pt.STRFIRSTNAME                    as GivenName,
-           pt.STRLASTNAME                     as FamilyName
+           pr.STRLASTNAME                    as FamilyName
     from dbo.ISMPREPORTINFORMATION r
+        inner join dbo.ISMPMASTER i
+        on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         left join dbo.LOOKUPPOLLUTANTS lp
         on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE
         left join dbo.LOOKUPISMPCOMPLIANCESTATUS s
         on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
-
         left join dbo.EPDUSERPROFILES pr
         on pr.NUMUSERID = r.STRREVIEWINGENGINEER
-        left join dbo.EPDUSERPROFILES pt
-        on pt.NUMUSERID = r.NUMREVIEWINGMANAGER
-
-        inner join dbo.ISMPMASTER i
-        on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER
     where r.STRDOCUMENTTYPE <> '001'
       and r.STRDELETE is null
       and i.STRAIRSNUMBER = concat('0413', @FacilityId)

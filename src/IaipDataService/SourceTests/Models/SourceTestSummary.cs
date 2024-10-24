@@ -54,7 +54,7 @@ public record SourceTestSummary
     [Display(Name = "Date received by APB")]
     public DateTime DateReceivedByApb { get; init; }
 
-    [Display(Name = "Date(s) of test")]
+    [Display(Name = "Test dates")]
     public DateRange TestDates { get; set; }
 
     [Display(Name = "Report reviewed by")]

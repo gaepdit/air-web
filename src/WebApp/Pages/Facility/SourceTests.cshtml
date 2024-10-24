@@ -1,0 +1,22 @@
+﻿@page "{facilityId?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SourceTestsModel
+@{
+    ViewData["Title"] = $"Facility {Model.Facility!.Id} Source Tests";
+}
+
+<h1>
+    <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
+</h1>
+<h2>Source Tests</h2>
+
+@if (!Model.SourceTests.Any())
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests" />
+}

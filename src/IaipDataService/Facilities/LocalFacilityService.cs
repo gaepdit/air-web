@@ -13,6 +13,7 @@ public sealed class LocalFacilityService : IFacilityService
     public Task<bool> ExistsAsync(FacilityId id) =>
         Task.FromResult(Items.Any(facility => facility.Id == id));
 
-    public Task<IReadOnlyCollection<Facility>> GetListAsync(CancellationToken token = default) =>
-        Task.FromResult(Items);
+    // This method is only used to provide a short list of test facilities and won't be used in the production version.
+    public Task<IReadOnlyCollection<Facility>> GetListAsync() =>
+        Task.FromResult<IReadOnlyCollection<Facility>>(Items.OrderBy(facility => facility.Id).ToList());
 }
