@@ -21,7 +21,7 @@ public record Facility : IFacilityAirsName
     [Display(Name = "Facility name")]
     public string Name { get; init; } = "";
 
-    [Display(Name = "Facility description")]
+    [Display(Name = "Description")]
     public string Description { get; init; } = "";
 
     // Location

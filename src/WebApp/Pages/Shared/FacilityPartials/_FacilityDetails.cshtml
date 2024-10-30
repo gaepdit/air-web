@@ -1,0 +1,115 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
+@using GaEpd.AppLibrary.Extensions
+@model IaipDataService.Facilities.Facility
+
+<div class="container mt-2">
+    <h2 class="h3">Status</h2>
+    <dl class="row">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.Description)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.Description)</dd>
+        @if (Model.RegulatoryData != null)
+        {
+            var regulatoryData = Model.RegulatoryData;
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.OperatingStatus)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Classification)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.CmsClassification)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.StartupDate)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.StartupDate, DisplayTemplate.DateTimeNullableShort)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.PermitRevocationDate)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
+        }
+    </dl>
+
+    <h2 class="h3">Location</h2>
+    <dl class="row">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.FacilityAddress)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.County)</dt>
+        <dd class="col-sm-8 col-lg-9">@Model.County</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.GeoCoordinates)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)</dd>
+    </dl>
+
+    <h2 class="h3">Regulatory Data</h2>
+    @if (Model.RegulatoryData is null)
+    {
+        <p>
+            <span class="text-body-secondary fw-lighter">Not Available.</span>
+        </p>
+    }
+    else
+    {
+        var regulatoryData = Model.RegulatoryData;
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Sic)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Sic, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.RmpId)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.RmpId, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Pollutants)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @if (regulatoryData.Pollutants.Count == 0)
+                {
+                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+                }
+                else
+                {
+                    <ul class="mb-0">
+                        @foreach (var pollutant in regulatoryData.Pollutants)
+                        {
+                            <li>@pollutant</li>
+                        }
+                    </ul>
+                }
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @if (regulatoryData.AirPrograms.Count == 0)
+                {
+                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+                }
+                else
+                {
+                    <ul class="mb-0">
+                        @foreach (var airProgram in regulatoryData.AirPrograms)
+                        {
+                            <li>@airProgram.GetDescription()</li>
+                        }
+                    </ul>
+                }
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @if (regulatoryData.ProgramClassifications.Count == 0)
+                {
+                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+                }
+                else
+                {
+                    <ul class="mb-0">
+                        @foreach (var classifications in regulatoryData.ProgramClassifications)
+                        {
+                            <li>@classifications.GetDescription()</li>
+                        }
+                    </ul>
+                }
+            </dd>
+            <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <dl class="row">
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.OneHourOzoneNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.OneHourOzoneNonattainment)</dd>
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.EightHourOzoneNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.EightHourOzoneNonattainment)</dd>
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.PmFineNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.PmFineNonattainment)</dd>
+                </dl>
+            </dd>
+        </dl>
+    }
+</div>

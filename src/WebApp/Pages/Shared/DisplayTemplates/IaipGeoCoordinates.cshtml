@@ -1,0 +1,10 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model IaipDataService.Structs.GeoCoordinates?
+@if (Model is null)
+{
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNotEntered</span>
+}
+else
+{
+    @Model.Value.Latitude.ToString("F6")@:, @Model.Value.Longitude.ToString("F6")
+}

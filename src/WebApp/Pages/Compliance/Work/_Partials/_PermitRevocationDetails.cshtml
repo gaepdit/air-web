@@ -7,7 +7,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.PermitRevocationDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.PermitRevocationDate, DisplayTemplate.ShortDateOnly)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.PhysicalShutdownDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.PhysicalShutdownDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.PhysicalShutdownDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.FollowupTaken)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
 </dl>

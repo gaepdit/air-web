@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.ExternalEntities.SourceTests;
 
-// ReSharper disable once InconsistentNaming
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum ReportType
 {
     [Description("Monitor Certification")] MonitorCertification = 1,
@@ -12,7 +13,7 @@ public enum ReportType
     [Description("Source Test")] NA = 5,
 }
 
-// ReSharper disable once InconsistentNaming
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum DocumentType
 {
     [Description("Unassigned")] Unassigned = 001,

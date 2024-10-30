@@ -36,7 +36,7 @@
         </div>
         <p>
             Deleted by @Html.DisplayFor(_ => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(_ => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetOrNotEntered)
+            on @Html.DisplayFor(_ => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
         </p>
         <h5>Comments</h5>
         <p class="text-break text-pre-line">@Html.DisplayFor(_ => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
@@ -96,7 +96,7 @@
         @if (report.IsClosed)
         {
             @:Closed by @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-            @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyOrNotEntered)
+            @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
         }
         else
         {
@@ -104,7 +104,7 @@
         }
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
 </dl>
 
 <h2>Details</h2>

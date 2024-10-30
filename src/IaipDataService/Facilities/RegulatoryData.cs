@@ -85,7 +85,7 @@ public record RegulatoryData
     /// Acid Precipitation, Native American, MACT, Title V, Risk Management Plan
     /// </remarks>
     [Display(Name = "Air programs")]
-    public List<string> AirPrograms { get; init; } = [];
+    public List<AirProgram> AirPrograms { get; init; } = [];
 
     /// <summary>
     /// List of air program classifications that apply to a facility.
@@ -94,7 +94,7 @@ public record RegulatoryData
     /// Possible values: NSR/PSD Major, HAPs Major
     /// </remarks>
     [Display(Name = "Program classifications")]
-    public List<string> ProgramClassifications { get; init; } = [];
+    public List<AirProgramClassifications> ProgramClassifications { get; init; } = [];
 
     #region Regex patterns
 

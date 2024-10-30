@@ -9,9 +9,9 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnly)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.DueDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.DueDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.DueDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.SentDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.SentDate, DisplayTemplate.ShortDateOnlyOrNotEntered)</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.SentDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.FollowupTaken)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
 </dl>

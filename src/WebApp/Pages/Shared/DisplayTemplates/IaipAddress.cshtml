@@ -1,0 +1,48 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model IaipDataService.Structs.Address?
+@if (Model is null)
+{
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNotEntered</span>
+}
+else
+{
+    var address = Model.Value;
+    @if (!string.IsNullOrWhiteSpace(address.Street))
+    {
+        @address.Street<br />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(address.Street2))
+    {
+        @address.Street2<br />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(address.City))
+    {
+        @if (string.IsNullOrWhiteSpace(address.State))
+        {
+            @address.City
+        }
+        else
+        {
+            @address.City@:,
+        }
+    }
+
+    @if (!string.IsNullOrWhiteSpace(address.State))
+    {
+        @if (string.IsNullOrEmpty(address.PostalCode))
+        {
+            @address.State
+        }
+        else
+        {
+            @address.State@:
+        }
+    }
+
+    @if (!string.IsNullOrWhiteSpace(address.PostalCode))
+    {
+        @:&nbsp;@address.PostalCode
+    }
+}

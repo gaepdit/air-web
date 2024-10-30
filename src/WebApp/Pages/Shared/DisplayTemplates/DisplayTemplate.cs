@@ -14,22 +14,27 @@ public static class DisplayTemplate
     public const string BoolYesNo = nameof(BoolYesNo);
     public const string County = nameof(County);
     public const string DateTimeLong = nameof(DateTimeLong);
+    public const string DateTimeNullableShort = nameof(DateTimeNullableShort);
+    public const string EnumNullable = nameof(EnumNullable);
     public const string FileSize = nameof(FileSize);
     public const string FileTypeIcon = nameof(FileTypeIcon);
     public const string FullStaffView = nameof(FullStaffView);
     public const string IntOrPlaceholder = nameof(IntOrPlaceholder);
-    public const string LongDateTimeOffsetOrNotEntered = nameof(LongDateTimeOffsetOrNotEntered);
+    public const string LongDateTimeOffsetNullable = nameof(LongDateTimeOffsetNullable);
     public const string Name = nameof(Name);
     public const string NameOrPlaceholder = nameof(NameOrPlaceholder);
-    public const string NullableEnum = nameof(NullableEnum);
     public const string PhoneNumber = nameof(PhoneNumber);
     public const string ProbableEmailOrNotEntered = nameof(ProbableEmailOrNotEntered);
     public const string ProbableUrlOrNotEntered = nameof(ProbableUrlOrNotEntered);
     public const string ShortDateOnly = nameof(ShortDateOnly);
-    public const string ShortDateOnlyOrNotEntered = nameof(ShortDateOnlyOrNotEntered);
+    public const string ShortDateOnlyNullable = nameof(ShortDateOnlyNullable);
     public const string ShortDateTime = nameof(ShortDateTime);
+    public const string ShortDateTimeNullable = nameof(ShortDateTimeNullable);
     public const string ShortDateTimeOffset = nameof(ShortDateTimeOffset);
     public const string TextOrPlaceholder = nameof(TextOrPlaceholder);
     public const string TruncateText = nameof(TruncateText);
     public const string ValidationSummaryConditional = nameof(ValidationSummaryConditional);
+
+    public const string IaipAddress = nameof(IaipAddress);
+    public const string IaipGeoCoordinates = nameof(IaipGeoCoordinates);
 }
