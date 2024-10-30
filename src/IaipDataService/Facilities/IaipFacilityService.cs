@@ -35,6 +35,8 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
 
         facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
         facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<AirProgramClassifications>());
+        facility.RegulatoryData!.Pollutants = (await multi.ReadAsync<(string Key, string Value)>())
+            .ToDictionary(x => x.Key, x => x.Value);
 
         return facility;
     }

@@ -10,7 +10,7 @@ AS
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:   Retrieves facility info for a given ID.
+Overview:   Retrieves facility info for a given ID for use by the Air Web IAIP data service.
 
 Input Parameters:
     @FacilityId - The facility ID
@@ -18,9 +18,10 @@ Input Parameters:
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2022-02-22  DWaldron            Initial version
+2022-02-22  DWaldron            Initial version (for Air Reports app)
 2022-12-08  DWaldron            Update filter for approved facilities (IAIP-1177)
 2024-10-04  DWaldron            Change Facility ID to 8 characters and move data to Views (#162)
+2024-10-30  DWaldron            Add pollutant data (#66)
 
 ***************************************************************************************************/
 
@@ -62,10 +63,16 @@ BEGIN
     where FacilityId = @FacilityId
     order by Sequence;
 
-    select AirProgram
+    select AirProgramClassification
     from air.IaipFacilityProgramClassificationData
     where FacilityId = @FacilityId
     order by Sequence;
+
+    select Code,
+           Description
+    from air.IaipFacilityPollutantData
+    where FacilityId = @FacilityId
+    order by Description;
 
 END;
 

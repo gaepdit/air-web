@@ -88,6 +88,11 @@ public record RegulatoryData
     public List<AirProgram> AirPrograms { get; init; } = [];
 
     /// <summary>
+    /// List of pollutants that apply to a facility.
+    /// </summary>
+    public Dictionary<string, string> Pollutants { get; set; } = [];
+
+    /// <summary>
     /// List of air program classifications that apply to a facility.
     /// </summary>
     /// <remarks>
