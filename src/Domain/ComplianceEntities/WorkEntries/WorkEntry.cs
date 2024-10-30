@@ -1,4 +1,3 @@
-using AirWeb.Domain.Comments;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -8,7 +7,6 @@ namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
 {
     // Constructors
-
     [UsedImplicitly] // Used by ORM.
     private protected WorkEntry() { }
 
@@ -17,8 +15,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         if (id is not null) Id = id.Value;
     }
 
-    // Properties: Facility
-
+    // Facility properties
     [MaxLength(9)]
     public string FacilityId { get; private set; } = string.Empty;
 
@@ -35,8 +32,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         }
     }
 
-    // Properties: Basic data
-
+    // Basic data
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; }
 
@@ -46,10 +42,10 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    // Properties: Lists
+    // Comments
     public List<WorkEntryComment> Comments { get; } = [];
 
-    // Compliance Event Properties
+    // Compliance Event properties
     public bool IsComplianceEvent { get; internal init; }
 
     // FUTURE: Placeholder for managing the EPA data exchange status.
@@ -57,9 +53,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     [StringLength(11)]
     public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
 
-    // Properties: Closure
-
-
+    // Closure properties
     public bool IsClosed { get; internal set; }
     public ApplicationUser? ClosedBy { get; internal set; }
     public DateOnly? ClosedDate { get; internal set; }
@@ -78,7 +72,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         ClosedBy = null;
     }
 
-    // Properties: Deletion
+    // Deletion properties
     public ApplicationUser? DeletedBy { get; set; }
 
     [StringLength(7000)]
@@ -115,18 +109,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     public const int EarliestWorkEntryYear = 2000;
 }
 
-public record WorkEntryComment : Comment
-{
-    [UsedImplicitly] // Used by ORM.
-    private WorkEntryComment() { }
-
-    private WorkEntryComment(Comment c) : base(c) { }
-    public WorkEntryComment(Comment c, int workEntryId) : this(c) => WorkEntryId = workEntryId;
-    public int WorkEntryId { get; init; }
-}
-
 // Enums
-
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkEntryType
 {

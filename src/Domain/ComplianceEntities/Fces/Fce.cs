@@ -1,4 +1,3 @@
-using AirWeb.Domain.Comments;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
@@ -6,7 +5,6 @@ namespace AirWeb.Domain.ComplianceEntities.Fces;
 public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
 {
     // Constructors
-
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
@@ -23,8 +21,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
     }
 
-    // Facility Properties
-
+    // Facility properties
     [MaxLength(9)]
     public string FacilityId { get; private set; } = string.Empty;
 
@@ -37,12 +34,11 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         set
         {
             _facility = value;
-            FacilityId = value.Id ?? string.Empty;
+            FacilityId = value.Id;
         }
     }
 
-    // FCE Properties
-
+    // FCE properties
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
     public DateOnly CompletedDate { get; init; }
@@ -51,10 +47,10 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    // Properties: Lists
+    // Comments
     public List<FceComment> Comments { get; } = [];
 
-    // Properties: Deletion
+    // Deletion properties
     public ApplicationUser? DeletedBy { get; set; }
 
     [StringLength(7000)]
@@ -63,7 +59,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     // Business Logic
     public const int EarliestFceYear = 2002;
 
-    public static List<int> ValidFceYears
+    public static ICollection<int> ValidFceYears
     {
         get
         {
@@ -78,14 +74,4 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
             return yearList;
         }
     }
-}
-
-public record FceComment : Comment
-{
-    [UsedImplicitly] // Used by ORM.
-    private FceComment() { }
-
-    private FceComment(Comment c) : base(c) { }
-    public FceComment(Comment c, int fceId) : this(c) => FceId = fceId;
-    public int FceId { get; init; }
 }
