@@ -11,11 +11,9 @@
 * A Comment can be deleted *(not shown in diagram)*.
 * An Enforcement can be deleted *(not shown)*.
 
-## Enforcement Action/Document
+## Enforcement Action
 
 * An Enforcement Action can be added to an Enforcement.
-* An Enforcement Action can be started from another Enforcement Action where a linkage exists (e.g., an NFA from an NOV
-  or a public notice from a CO).
 * An Enforcement Action can be edited while the Enforcement is open.
 * Issuing an Enforcement Action closes it and disables all editing.
 * Comments can be added and edited.
@@ -44,7 +42,7 @@ flowchart
     FAC{{Facility}}
     ENF{{"`**Enforcement Case**`"}}
     CTE{{Enforcement Comment}}
-    ACT{{"`**Enforcement Action/Document**`"}}
+    ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}
     CTA{{Action Comment}}
     STP{{Stipulated Penalty}}
@@ -57,7 +55,6 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     editAction([Edit Action])
-    addLinkedAction([Add Linked Action])
     commentAction([Add Comment])
     editCommentAction([Edit Comment])
     review([Submit for Review])
@@ -74,7 +71,6 @@ flowchart
     ENF -.-> close
     ENF -..-> comment
     ENF -.-> addAction
-    ACT -.-> addLinkedAction
     CTE -.-> editComment
     ACT -..-> commentAction
     ACT -.-> editAction
@@ -85,7 +81,6 @@ flowchart
     ACT -.-> IfCO -.-> penalty
 
     close -->|"`Disables/*enables*`"| addAction
-    close -->|"`Disables/*enables*`"| addLinkedAction
     close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| link
     issue -->|Disables| editAction
@@ -93,7 +88,6 @@ flowchart
 
     add -->|Creates| ENF
     addAction -->|Adds| ACT
-    addLinkedAction -->|Adds| ACT
     close -->|"`Closes/*reopens*`"| ENF
     close -->|Disables| penalty
     comment -->|Adds| CTE

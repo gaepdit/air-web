@@ -22,7 +22,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     }
 
     // Facility properties
-    [MaxLength(9)]
+    [StringLength(9)]
     public string FacilityId { get; private set; } = string.Empty;
 
     private Facility _facility = default!;

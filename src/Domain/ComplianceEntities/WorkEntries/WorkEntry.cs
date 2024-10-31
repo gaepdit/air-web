@@ -16,7 +16,7 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     }
 
     // Facility properties
-    [MaxLength(9)]
+    [StringLength(9)]
     public string FacilityId { get; private set; } = string.Empty;
 
     private Facility _facility = default!;
