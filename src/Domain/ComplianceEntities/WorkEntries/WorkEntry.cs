@@ -1,10 +1,11 @@
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEntity
+public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -52,45 +53,6 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     [JsonIgnore]
     [StringLength(11)]
     public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
-
-    // Closure properties
-    public bool IsClosed { get; internal set; }
-    public ApplicationUser? ClosedBy { get; internal set; }
-    public DateOnly? ClosedDate { get; internal set; }
-
-    internal void Close(ApplicationUser? user)
-    {
-        IsClosed = true;
-        ClosedDate = DateOnly.FromDateTime(DateTime.Now);
-        ClosedBy = user;
-    }
-
-    internal void Reopen()
-    {
-        IsClosed = false;
-        ClosedDate = null;
-        ClosedBy = null;
-    }
-
-    // Deletion properties
-    public ApplicationUser? DeletedBy { get; set; }
-
-    [StringLength(7000)]
-    public string? DeleteComments { get; set; }
-
-    internal void Delete(string? comment, ApplicationUser? user)
-    {
-        SetDeleted(user?.Id);
-        DeletedBy = user;
-        DeleteComments = comment;
-    }
-
-    internal void Undelete()
-    {
-        SetNotDeleted();
-        DeletedBy = null;
-        DeleteComments = null;
-    }
 
     // Calculated properties
     public DateOnly EventDate { get; set; }

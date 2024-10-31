@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Properties;
 using AirWeb.Domain.Identity;
@@ -6,7 +7,7 @@ using System.ComponentModel;
 
 namespace AirWeb.Domain.EnforcementEntities.Cases;
 
-public class EnforcementCase : AuditableSoftDeleteEntity<int>
+public class EnforcementCase : ClosableEntity<int>
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -20,15 +21,15 @@ public class EnforcementCase : AuditableSoftDeleteEntity<int>
 
     // Facility properties
     [StringLength(9)]
-    public string FacilityId { get; private set; } = string.Empty;
+    public string FacilityId { get; private init; } = string.Empty;
 
-    private Facility _facility = default!;
+    private readonly Facility _facility = default!;
 
     [NotMapped]
     public Facility Facility
     {
         get => _facility;
-        set
+        init
         {
             _facility = value;
             FacilityId = value.Id;
@@ -59,53 +60,44 @@ public class EnforcementCase : AuditableSoftDeleteEntity<int>
 
     // Status
     public EnforcementCaseStatus Status { get; set; }
-    public DateOnly DiscoveryDate { get; set; }
-    public DateOnly DayZero { get; set; }
+    public DateOnly? DiscoveryDate { get; set; }
+
+    public DateOnly? GetDayZero()
+    {
+        var actionDates = EnforcementActions
+            .Where(action => action is { IsEpaEnforcementAction: true, Issued: true, IssueDate: not null })
+            .Select(action => action.IssueDate);
+        if (DiscoveryDate.HasValue) actionDates = actionDates.Append(DiscoveryDate.Value.AddDays(90));
+        var dates = actionDates.Where(date => date.HasValue).ToArray();
+        return dates.Length == 0 ? null : dates.Min();
+    }
 
     // Programs & pollutants
     public ICollection<Pollutant> GetPollutants() => Properties.Data.Pollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
-    public ICollection<string> PollutantIds { get; init; } = [];
+    public ICollection<string> PollutantIds { get; } = [];
 
-    public ICollection<AirProgram> AirPrograms { get; init; } = [];
+    public ICollection<AirProgram> AirPrograms { get; } = [];
 
     // Comments
-    public ICollection<EnforcementCaseComment> EnforcementComments { get; set; } = [];
+    public ICollection<EnforcementCaseComment> EnforcementComments { get; } = [];
 
     // Compliance Event & Enforcement Action relationships
-    public ICollection<ComplianceEvent> ComplianceEvents { get; set; } = [];
-    public ICollection<ComplianceEventEnforcementLinkage> ComplianceEventEnforcementLinkages { get; set; } = [];
-    public ICollection<EnforcementAction> EnforcementActions { get; set; } = [];
-
-    // Closure properties
-    public bool IsClosed { get; internal set; }
-    public ApplicationUser? ClosedBy { get; internal set; }
-    public DateOnly? ClosedDate { get; internal set; }
-
-    internal void Close(ApplicationUser? user)
-    {
-        IsClosed = true;
-        ClosedDate = DateOnly.FromDateTime(DateTime.Now);
-        ClosedBy = user;
-    }
-
-    internal void Reopen()
-    {
-        IsClosed = false;
-        ClosedDate = null;
-        ClosedBy = null;
-    }
-
-    // Deletion properties
-    public ApplicationUser? DeletedBy { get; set; }
-
-    [StringLength(7000)]
-    public string? DeleteComments { get; set; }
+    public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
+    public ICollection<ComplianceEventEnforcementLinkage> ComplianceEventEnforcementLinkages { get; } = [];
+    public ICollection<EnforcementAction> EnforcementActions { get; } = [];
 
     // Data flow properties
-    public short? AfsKeyActionNumber { get; set; }
-    public string CaseFileId => Facility.GetEpaIdFromActionNumber(AfsKeyActionNumber);
+
+    // Data flow is not used for LONs, Cases with no linked compliance event,
+    // or Cases where the only linked compliance event is an RMP inspection.
+    public bool DataFlowEnabled =>
+        EnforcementActions.Count != 0 && ComplianceEvents.Count != 0 &&
+        ComplianceEvents.Any(@event => @event.WorkEntryType != WorkEntryType.RmpInspection) &&
+        EnforcementActions.Any(action => action is { Issued: true, IsEpaEnforcementAction: true });
+
+    public short? ActionNumber { get; set; }
 }
 
 public enum EnforcementCaseStatus

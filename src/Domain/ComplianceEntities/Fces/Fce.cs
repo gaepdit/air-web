@@ -1,8 +1,9 @@
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
+public class Fce : DeletableEntity<int>, IComplianceEntity
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -49,12 +50,6 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
 
     // Comments
     public List<FceComment> Comments { get; } = [];
-
-    // Deletion properties
-    public ApplicationUser? DeletedBy { get; set; }
-
-    [StringLength(7000)]
-    public string? DeleteComments { get; set; }
 
     // Business Logic
     public const int EarliestFceYear = 2002;

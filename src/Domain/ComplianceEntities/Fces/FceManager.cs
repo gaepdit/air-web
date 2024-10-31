@@ -20,16 +20,7 @@ public class FceManager(IFceRepository repository, IFacilityService facilityServ
         return fce;
     }
 
-    public void Delete(Fce fce, string? comment, ApplicationUser? user)
-    {
-        fce.SetDeleted(user?.Id);
-        fce.DeletedBy = user;
-        fce.DeleteComments = comment;
-    }
+    public void Delete(Fce fce, string? comment, ApplicationUser? user) => fce.Delete(comment, user);
 
-    public void Restore(Fce fce)
-    {
-        fce.SetNotDeleted();
-        fce.DeleteComments = null;
-    }
+    public void Restore(Fce fce) => fce.Undelete();
 }
