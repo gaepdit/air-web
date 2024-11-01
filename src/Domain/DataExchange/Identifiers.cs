@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.DataExchange;
 
-public static class EpaDataHelpers
+public static class Identifiers
 {
     public static string GetEpaFacilityId(this FacilityId facilityId) => $"GA00000013{facilityId.Id}";
 

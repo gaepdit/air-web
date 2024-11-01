@@ -1,8 +1,10 @@
 ﻿using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
@@ -22,9 +24,6 @@ public abstract class EnforcementAction : ClosableEntity<Guid>
     public EnforcementCase EnforcementCase { get; init; } = null!;
     public EnforcementActionType EnforcementActionType { get; internal init; }
 
-    public bool IsEpaEnforcementAction =>
-        EnforcementActionType != EnforcementActionType.NoFurtherAction &&
-        EnforcementActionType != EnforcementActionType.LetterOfNoncompliance;
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
@@ -39,12 +38,24 @@ public abstract class EnforcementAction : ClosableEntity<Guid>
     public ICollection<ApplicationUser> ApprovedBy { get; } = [];
 
     // Status
-    public bool Approved { get; internal set; }
-    public bool Issued { get; internal set; }
+    public bool IsApproved { get; internal set; }
     public DateOnly? IssueDate { get; internal set; }
+    public bool IsIssued => IssueDate is not null;
 
     // Data flow properties
+    public bool IsDataFlowEnabled =>
+        IsIssued && !IsDeleted &&
+        EnforcementActionType
+            is EnforcementActionType.AdministrativeOrder
+            or EnforcementActionType.ConsentOrder
+            or EnforcementActionType.ProposedConsentOrder
+            or EnforcementActionType.NoticeOfViolation;
+
     public short? ActionNumber { get; set; }
+
+    [JsonIgnore]
+    [StringLength(11)]
+    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]

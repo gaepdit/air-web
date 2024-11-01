@@ -31,7 +31,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = string.Empty,
-            IsClosed = true,
             ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 

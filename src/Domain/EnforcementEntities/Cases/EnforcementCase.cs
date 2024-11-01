@@ -1,9 +1,11 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Properties;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Cases;
 
@@ -61,15 +63,20 @@ public class EnforcementCase : ClosableEntity<int>
     // Status
     public EnforcementCaseStatus Status { get; set; }
     public DateOnly? DiscoveryDate { get; set; }
+    private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
 
-    public DateOnly? GetDayZero()
+    public DateOnly? DayZero
     {
-        var actionDates = EnforcementActions
-            .Where(action => action is { IsEpaEnforcementAction: true, Issued: true, IssueDate: not null })
-            .Select(action => action.IssueDate);
-        if (DiscoveryDate.HasValue) actionDates = actionDates.Append(DiscoveryDate.Value.AddDays(90));
-        var dates = actionDates.Where(date => date.HasValue).ToArray();
-        return dates.Length == 0 ? null : dates.Min();
+        get
+        {
+            if (!IsDataFlowEnabled) return null;
+            var actionDates = EnforcementActions
+                .Where(action => action.IsDataFlowEnabled)
+                .Select(action => action.IssueDate)
+                .Append(MaxDayZero);
+            var dates = actionDates.Where(date => date.HasValue).ToArray();
+            return dates.Length == 0 ? null : dates.Min();
+        }
     }
 
     // Programs & pollutants
@@ -92,12 +99,15 @@ public class EnforcementCase : ClosableEntity<int>
 
     // Data flow is not used for LONs, Cases with no linked compliance event,
     // or Cases where the only linked compliance event is an RMP inspection.
-    public bool DataFlowEnabled =>
-        EnforcementActions.Count != 0 && ComplianceEvents.Count != 0 &&
-        ComplianceEvents.Any(@event => @event.WorkEntryType != WorkEntryType.RmpInspection) &&
-        EnforcementActions.Any(action => action is { Issued: true, IsEpaEnforcementAction: true });
+    public bool IsDataFlowEnabled =>
+        ComplianceEvents.Any(complianceEvent => complianceEvent.IsDataFlowEnabled) &&
+        EnforcementActions.Any(action => action.IsDataFlowEnabled);
 
     public short? ActionNumber { get; set; }
+
+    [JsonIgnore]
+    [StringLength(11)]
+    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 public enum EnforcementCaseStatus

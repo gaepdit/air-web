@@ -46,14 +46,6 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     // Comments
     public List<WorkEntryComment> Comments { get; } = [];
 
-    // Compliance Event properties
-    public bool IsComplianceEvent { get; internal init; }
-
-    // FUTURE: Placeholder for managing the EPA data exchange status.
-    [JsonIgnore]
-    [StringLength(11)]
-    public DxStatus EpaDxStatus { get; init; } = DxStatus.NotIncluded;
-
     // Calculated properties
     public DateOnly EventDate { get; set; }
 
@@ -82,14 +74,4 @@ public enum WorkEntryType
     Report,
     [Description("RMP Inspection")] RmpInspection,
     [Description("Source Test Compliance Review")] SourceTestReview,
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum DxStatus
-{
-    [UsedImplicitly] NotIncluded,
-    [UsedImplicitly] Processed,
-    [UsedImplicitly] Inserted,
-    [UsedImplicitly] Updated,
-    [UsedImplicitly] Deleted,
 }
