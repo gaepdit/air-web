@@ -10,8 +10,10 @@ public class LetterOfNoncompliance : EnforcementAction
     private LetterOfNoncompliance() { }
 
     internal LetterOfNoncompliance(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user) =>
+        : base(id, enforcementCase, user)
+    {
         EnforcementActionType = EnforcementActionType.LetterOfNoncompliance;
+    }
 
     // Properties
     public bool ResponseRequested { get; set; }

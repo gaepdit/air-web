@@ -10,8 +10,10 @@ public class NoticeOfViolation : EnforcementAction
     private NoticeOfViolation() { }
 
     internal NoticeOfViolation(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user) =>
+        : base(id, enforcementCase, user)
+    {
         EnforcementActionType = EnforcementActionType.NoticeOfViolation;
+    }
 
     // Properties
     public bool ResponseRequested { get; set; }

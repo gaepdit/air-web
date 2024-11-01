@@ -10,8 +10,10 @@ public class NovNfa : EnforcementAction
     private NovNfa() { }
 
     internal NovNfa(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user) =>
+        : base(id, enforcementCase, user)
+    {
         EnforcementActionType = EnforcementActionType.NovNfa;
+    }
 
     // Properties
     public bool ResponseRequested { get; set; }

@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
@@ -9,7 +8,12 @@ public class NoFurtherAction : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private NoFurtherAction() { }
 
-    internal NoFurtherAction(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user) =>
+    internal NoFurtherAction(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user)
+        : base(id, noticeOfViolation.EnforcementCase, user)
+    {
         EnforcementActionType = EnforcementActionType.NoFurtherAction;
+        NoticeOfViolation = noticeOfViolation;
+    }
+
+    public NoticeOfViolation NoticeOfViolation { get; set; } = null!;
 }

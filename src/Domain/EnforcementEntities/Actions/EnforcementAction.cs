@@ -35,16 +35,18 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public ApplicationUser? CurrentOwner { get; internal set; }
     public DateTimeOffset? CurrentOwnerAssignedDate { get; internal set; }
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
+    public bool IsApproved { get; internal set; }
     public ICollection<ApplicationUser> ApprovedBy { get; } = [];
 
     // Status
-    public bool IsApproved { get; internal set; }
     public DateOnly? IssueDate { get; internal set; }
-    public bool IsIssued => IssueDate is not null;
+    public bool IsIssued => IssueDate.HasValue;
+    public DateOnly? ClosedAsUnsent { get; internal set; }
+    public bool IsClosedAsUnsent => ClosedAsUnsent.HasValue;
 
     // Data flow properties
     public bool IsDataFlowEnabled =>
-        IsIssued && !IsDeleted &&
+        !IsDeleted &&
         EnforcementActionType
             is EnforcementActionType.AdministrativeOrder
             or EnforcementActionType.ConsentOrder

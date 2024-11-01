@@ -1,6 +1,25 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.Actions;
+﻿using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.EnforcementEntities.Actions;
 
 public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 {
-    public EnforcementAction EnforcementAction { get; set; } = null!;
+    // Constructors
+    [UsedImplicitly] // Used by ORM.
+    private StipulatedPenalty() { }
+
+    internal StipulatedPenalty(Guid id, ConsentOrder consentOrder, ApplicationUser? user)
+    {
+        ConsentOrder = consentOrder;
+        SetCreator(user?.Id);
+    }
+
+    public ConsentOrder ConsentOrder { get; set; } = null!;
+
+    public decimal StipulatedPenaltyAmount { get; set; }
+
+    [StringLength(7000)]
+    public string? StipulatedPenaltyComment { get; set; }
+
+    public short SortOrder { get; set; }
 }

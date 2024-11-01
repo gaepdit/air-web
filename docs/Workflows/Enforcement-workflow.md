@@ -2,20 +2,21 @@
 
 ## Enforcement Case
 
-* A new Enforcement can be entered from a Facility or Compliance Event.
-* An Enforcement can be linked to multiple Compliance Events.
-* The Enforcement can be edited while open.
-* Closing an Enforcement disables all editing.
-* Reopening an Enforcement enables all editing.
+* A new Enforcement Case can be entered from a Facility or Compliance Event.
+* An Enforcement Case can be linked to multiple Compliance Events.
+* The Enforcement Case can be edited while open.
+* Closing/finalizing an Enforcement Case disables all editing.
+* Reopening an Enforcement Case enables all editing.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown in diagram)*.
-* An Enforcement can be deleted *(not shown)*.
+* An Enforcement Case can be deleted *(not shown)*.
 
 ## Enforcement Action
 
-* An Enforcement Action can be added to an Enforcement.
-* An Enforcement Action can be edited while the Enforcement is open.
-* Issuing an Enforcement Action closes it and disables all editing.
+* An Enforcement Action can be added to an open Enforcement Case.
+* An Enforcement Action can be edited while the Enforcement Case is open.
+* An Enforcement Action can be closed as unsent.
+* Issuing an Enforcement Action closes it and disables all editing (including deleting).
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
 * An Enforcement Action can be deleted *(not shown)*.
@@ -25,14 +26,27 @@
 * An Enforcement Action can be submitted for review, creating an Enforcement Action Review.
 * An Enforcement Action Review can be completed, updating the Enforcement Action.
 
-## Data Exchange/Internal Auditing
+## Data Exchange
 
-* Submitting to EPA will enable the Data Exchange *(not shown)*.
-* Any of the following will update the Data Exchange and generate an audit point *(not shown)*:
-    * Adding or editing an Enforcement or Enforcement Action.
-    * Closing or reopening the Enforcement.
-    * Linking a Compliance Event.
-    * Issuing an Enforcement Action.
+* When an Informal or Formal Enforcement Action (EA) exists and a Compliance Event is linked, the Data Exchange is
+  enabled for the Enforcement Case *(not shown)*.
+
+| Item                          |  ICIS-Air Data Type   |        Pathway Activity *         |
+|-------------------------------|:---------------------:|:---------------------------------:|
+| Enforcement Case              |       Case File       |                                   |
+| Compliance Event              | Compliance Monitoring |             Discovery             |
+| Notice of Violation           |      Informal EA      |           Notification            |
+| No Further Action Letter      |                       |      Addressing & Resolving       |
+| Combined NOV/NFA Letter       |      Informal EA      | Notification/Addressing/Resolving |
+| Proposed Consent Order        |      Informal EA      |           Notification            |
+| Consent Order                 |       Formal EA       |            Addressing             |
+| Consent Order Resolved        |                       |             Resolving             |
+| Administrative Order          |       Formal EA       |            Addressing             |
+| Administrative Order Resolved |                       |             Resolving             |
+
+<small>
+* Indicates Pathway Activities tracked for each Enforcement Case.
+</small>
 
 ## Flow Chart
 
@@ -46,7 +60,6 @@ flowchart
     REV{{"Enforcement Action Review"}}
     CTA{{Action Comment}}
     STP{{Stipulated Penalty}}
-
     link([Link Event])
     add([Enter new Case File])
     comment([Add Comment])
@@ -61,9 +74,7 @@ flowchart
     respond([Approve/Return])
     issue([Issue])
     penalty([Add Penalty])
-
     IfCO>If Consent Order]
-
     FAC -.-> add
     ENF -.-> link
     EVT -.-> add
@@ -79,13 +90,11 @@ flowchart
     CTA -.-> editCommentAction
     REV -.-> respond
     ACT -.-> IfCO -.-> penalty
-
     close -->|"`Disables/*enables*`"| addAction
     close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| link
     issue -->|Disables| editAction
     issue -->|Disables| review
-
     add -->|Creates| ENF
     addAction -->|Adds| ACT
     close -->|"`Closes/*reopens*`"| ENF

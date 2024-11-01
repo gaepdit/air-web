@@ -10,8 +10,10 @@ public class Letter : EnforcementAction
     private Letter() { }
 
     internal Letter(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user) =>
-        EnforcementActionType = EnforcementActionType.LetterOfNoncompliance;
+        : base(id, enforcementCase, user)
+    {
+        EnforcementActionType = EnforcementActionType.Letter;
+    }
 
     // Properties
     public bool ResponseRequested { get; set; }
