@@ -11,13 +11,11 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         {
             IsLoginPage = model is LoginModel,
             IsActiveUser = await authorization.Succeeded(User, Policies.ActiveUser),
-            IsStaffUser = await authorization.Succeeded(User, Policies.ComplianceStaff),
         });
 
     public record MenuParams
     {
         public bool IsLoginPage { get; init; }
         public bool IsActiveUser { get; init; }
-        public bool IsStaffUser { get; init; }
     }
 }

@@ -14,10 +14,11 @@ Shown when staff is logged in.
 
 * {Logo} Title (`/Staff`)
 * ▼ 🔍︎ Search
-    * Facilities (`/Staff/Facility`)
-    * Compliance Events/FCEs (`/Staff/Compliance`)
-    * Source Tests (`/Staff/SourceTests`)
-    * Enforcement (`/Staff/Enforcement`)
+    * Facilities (`/Facility`)
+    * —
+    * Compliance Monitoring (`/Compliance/Work`)
+    * Compliance FCEs (`/Compliance/FCE`)
+    * Enforcement (`/Compliance/Enforcement`)
 - ▭ *(flexible space)*
 * ▼ 🡽 Go To
     * Facility *(form)*
@@ -25,10 +26,6 @@ Shown when staff is logged in.
     * Compliance Event *(form)*
     * Source Test *(form)*
     * Enforcement *(form)*
-* ▼ ＋Add New
-    * Compliance Work Entry (`/Staff/Compliance/WorkEntry/Add`)
-    * Full Compliance Evaluation (`/Staff/Compliance/FCE/Add`)
-    * Enforcement (`/Staff/Enforcement/Add`)
 * ▼ More
     * Reports (`/Admin/Reporting`)
     * Users (`/Admin/Users`)
