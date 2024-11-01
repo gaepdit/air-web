@@ -31,8 +31,8 @@ erDiagram
         int enforcementId FK
     }
 
-    NEA["LON"]
-    IEA["NOV, NFA, Proposed CO"]
+    NEA["LON, Letter, NFA"]
+    IEA["NOV, NOV/NFA, Proposed CO"]
     FEA["Consent Order, AO"]
     POL["Facility Pollutant"]
     PGM["Facility Air Program"]
