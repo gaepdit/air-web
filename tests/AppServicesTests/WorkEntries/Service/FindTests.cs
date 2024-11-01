@@ -14,7 +14,7 @@ public class FindTests
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var item = new PermitRevocation(902) { Facility = new Facility(SampleText.ValidFacilityId) };
+        var item = new PermitRevocation(902, null) { Facility = new Facility(SampleText.ValidFacilityId) };
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())

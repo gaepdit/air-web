@@ -8,26 +8,26 @@ internal static class FceData
 {
     private static IEnumerable<Fce> FceSeedItems =>
     [
-        new(401, DomainData.GetRandomFacility().Id, 2020)
+        new(401, DomainData.GetRandomFacility().Id, 2020, null)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(0),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
         },
-        new(402, DomainData.GetRandomFacility().Id, 2021)
+        new(402, DomainData.GetRandomFacility().Id, 2021, null)
         {
             ReviewedBy = null,
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-12).Date),
             OnsiteInspection = false,
             Notes = string.Empty,
         },
-        new(403, DomainData.GetRandomFacility().Id, 2022)
+        new(403, DomainData.GetRandomFacility().Id, 2022, null)
         {
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-14).Date),
             Notes = "Deleted FCE",
         },
-        new(404, DomainData.GetRandomFacility().Id, 2023)
+        new(404, DomainData.GetRandomFacility().Id, 2023, null)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(1),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-50).Date),

@@ -22,7 +22,7 @@ public record Comment : ISoftDelete<string>
     public DateTimeOffset CommentedAt { get; init; } = DateTimeOffset.Now;
 
     // Soft delete properties
-    public bool IsDeleted => DeletedAt is not null;
+    public bool IsDeleted => DeletedAt.HasValue;
     public DateTimeOffset? DeletedAt { get; private set; }
     public string? DeletedById { get; private set; }
 

@@ -8,7 +8,7 @@ public class EnforcementActionReview : AuditableEntity
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
     public ApplicationUser? ReviewedBy { get; internal init; }
     public DateOnly DateRequested { get; internal init; }
-    public bool Completed { get; internal set; }
+    public bool IsCompleted => DateCompleted.HasValue;
     public DateOnly? DateCompleted { get; internal set; }
     public EnforcementActionReviewStatus Status { get; internal set; } = EnforcementActionReviewStatus.InProgress;
 

@@ -9,7 +9,7 @@ public class Fce : DeletableEntity<int>, IComplianceEntity
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
-    internal Fce(int? id, FacilityId facilityId, int year)
+    internal Fce(int? id, FacilityId facilityId, int year, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
         FacilityId = facilityId;
@@ -20,6 +20,8 @@ public class Fce : DeletableEntity<int>, IComplianceEntity
         var fiscalEndDate = new DateOnly(year, 9, 30);
         var today = DateOnly.FromDateTime(DateTime.Today);
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
+
+        SetCreator(user?.Id);
     }
 
     // Facility properties

@@ -15,10 +15,11 @@ public class EnforcementCase : ClosableEntity<int>
     [UsedImplicitly] // Used by ORM.
     private EnforcementCase() { }
 
-    internal EnforcementCase(int? id, FacilityId facilityId)
+    internal EnforcementCase(int? id, FacilityId facilityId, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
         FacilityId = facilityId;
+        SetCreator(user?.Id);
     }
 
     // Facility properties

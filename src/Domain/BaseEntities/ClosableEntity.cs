@@ -6,7 +6,7 @@ public abstract class ClosableEntity<TKey> : DeletableEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     // Closure properties
-    public bool IsClosed => ClosedDate is not null;
+    public bool IsClosed => ClosedDate.HasValue;
     public ApplicationUser? ClosedBy { get; internal set; }
     public DateOnly? ClosedDate { get; internal set; }
 

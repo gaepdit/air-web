@@ -8,20 +8,17 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     {
         var id = repository.GetNextId();
 
-        WorkEntry item = type switch
+        return type switch
         {
-            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
+            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id, user),
             WorkEntryType.Inspection => new Inspection(id, user),
             WorkEntryType.Notification => new Notification(id, user),
-            WorkEntryType.PermitRevocation => new PermitRevocation(id),
+            WorkEntryType.PermitRevocation => new PermitRevocation(id, user),
             WorkEntryType.Report => new Report(id, user),
             WorkEntryType.RmpInspection => new RmpInspection(id, user),
             WorkEntryType.SourceTestReview => new SourceTestReview(id, user),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
-
-        item.SetCreator(user?.Id);
-        return item;
     }
 
     public void Close(WorkEntry workEntry, ApplicationUser? user)

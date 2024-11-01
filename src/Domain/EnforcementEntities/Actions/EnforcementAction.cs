@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public abstract class EnforcementAction : ClosableEntity<Guid>
+public abstract class EnforcementAction : DeletableEntity<Guid>
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -18,12 +18,12 @@ public abstract class EnforcementAction : ClosableEntity<Guid>
     {
         Id = id;
         EnforcementCase = enforcementCase;
+        SetCreator(user?.Id);
     }
 
     // Basic data
     public EnforcementCase EnforcementCase { get; init; } = null!;
     public EnforcementActionType EnforcementActionType { get; internal init; }
-
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;

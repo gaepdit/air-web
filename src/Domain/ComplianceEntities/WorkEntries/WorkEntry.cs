@@ -11,9 +11,10 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     [UsedImplicitly] // Used by ORM.
     private protected WorkEntry() { }
 
-    private protected WorkEntry(int? id)
+    private protected WorkEntry(int? id, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
+        SetCreator(user?.Id);
     }
 
     // Facility properties
