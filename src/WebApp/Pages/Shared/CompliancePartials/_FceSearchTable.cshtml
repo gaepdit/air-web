@@ -35,7 +35,7 @@
             <tr class="@(item.IsDeleted ? "table-danger" : "")">
                 <th scope="row">
                     <a asp-page="/Compliance/FCE/Details" asp-route-id="@item.Id.ToString()"
-                       class="btn btn-sm btn-outline-info">
+                       class="btn btn-sm btn-outline-primary">
                         @item.Id.ToString()
                     </a>
                     @if (item.IsDeleted)

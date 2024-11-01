@@ -2,112 +2,117 @@
 -------------------------------------------------- */
 
 /* Change the base-hue variable to set all branding colors. */
-:root {
+:root, [data-bs-theme="light"] {
+    --callout-link: 10, 88, 202;
     --base-hue: 200deg;
+    --bs-gradient: linear-gradient(180deg,
+    hsl(200, 93%, 73%) 0%,
+    hsl(247, 55%, 80%) 70%,
+    hsl(295, 42%, 78%) 100%);
 }
 
 /* Light mode theme colors */
-.text-bg-brand {
+.navbar {
     background-color: hsl(var(--base-hue), 75%, 91%);
-    color: hsl(210, 11%, 15%);
-    background-image: linear-gradient(180deg,
-    hsl(200, 93%, 73%) 0%,
-    hsl(247, 55%, 80%) 70%,
-    hsl(295, 42%, 78%) 100%) !important;
 }
 
-.text-bg-brand a {
+.navbar a {
     color: hsl(var(--base-hue), 75%, 23%);
 }
 
-.text-bg-brand a:hover,
-.text-bg-brand a:focus {
+.navbar a:hover,
+.navbar a:focus {
     color: hsl(var(--base-hue), 100%, 25%);
 }
 
-.text-bg-brand a:active {
+.navbar a:active {
     color: hsl(var(--base-hue), 100%, 15%);
 }
 
-.text-bg-brand .dropdown-item {
+.navbar .dropdown-item {
     color: hsl(var(--base-hue), 75%, 35%);
 }
 
-.text-bg-brand .dropdown-item:focus,
-.text-bg-brand .dropdown-item:hover {
+.navbar .dropdown-item:focus,
+.navbar .dropdown-item:hover {
     background-color: hsl(var(--base-hue), 100%, 15%);
     color: hsl(var(--base-hue), 75%, 95%);
 }
 
-.text-bg-brand .dropdown-item.active,
-.text-bg-brand .dropdown-item:active {
+.navbar .dropdown-item.active,
+.navbar .dropdown-item:active {
     color: hsl(var(--base-hue), 0%, 0%);
     background-color: hsl(var(--base-hue), 75%, 70%)
 }
 
-.text-bg-brand .nav-link,
-.text-bg-brand .nav-link:hover,
-.text-bg-brand .nav-link:focus,
-.text-bg-brand .navbar-nav .nav-link.active,
-.text-bg-brand .navbar-nav .nav-link.show {
+.navbar .nav-link,
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .navbar-nav .nav-link.active,
+.navbar .navbar-nav .nav-link.show {
     color: hsl(var(--base-hue), 20%, 20%);
 }
 
-.text-bg-brand .navbar-brand:focus-visible,
-.text-bg-brand .nav-link:focus-visible {
+.navbar .navbar-brand:focus-visible,
+.navbar .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 10%, 0%, .57);
 }
 
 /* Dark mode theme colors */
-[data-bs-theme="dark"] .text-bg-brand {
-    background-color: hsl(var(--base-hue), 75%, 13%);
-    color: hsl(var(--base-hue), 0%, 100%);
-    background-image: linear-gradient(180deg,
+
+[data-bs-theme="dark"] {
+    --callout-link: 110, 168, 254;
+    --bs-gradient: linear-gradient(180deg,
     hsl(212, 72%, 30%) 0%,
     hsl(234, 22%, 41%) 50%,
-    hsl(355.3, 30.9%, 51.2%) 100%) !important;
+    hsl(355.3, 30.9%, 51.2%) 100%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand a {
+[data-bs-theme="dark"] .navbar {
+    background-color: hsl(var(--base-hue), 75%, 13%);
+    color: hsl(var(--base-hue), 0%, 100%);
+}
+
+[data-bs-theme="dark"] .navbar a {
     color: hsl(var(--base-hue), 100%, 92%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand a:hover,
-[data-bs-theme="dark"] .text-bg-brand a:focus {
+[data-bs-theme="dark"] .navbar a:hover,
+[data-bs-theme="dark"] .navbar a:focus {
     color: hsl(var(--base-hue), 100%, 85%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand a:active {
+[data-bs-theme="dark"] .navbar a:active {
     color: hsl(var(--base-hue), 100%, 95%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand .dropdown-item {
+[data-bs-theme="dark"] .navbar .dropdown-item {
     color: hsl(var(--base-hue), 75%, 90%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand .dropdown-item:focus,
-[data-bs-theme="dark"] .text-bg-brand .dropdown-item:hover {
+[data-bs-theme="dark"] .navbar .dropdown-item:focus,
+[data-bs-theme="dark"] .navbar .dropdown-item:hover {
     color: hsl(var(--base-hue), 75%, 90%);
     background-color: hsl(var(--base-hue), 10%, 19%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand .dropdown-item.active,
-[data-bs-theme="dark"] .text-bg-brand .dropdown-item:active {
+[data-bs-theme="dark"] .navbar .dropdown-item.active,
+[data-bs-theme="dark"] .navbar .dropdown-item:active {
     color: hsl(var(--base-hue), 0%, 100%);
     background-color: hsl(var(--base-hue), 65%, 29%)
 }
 
-[data-bs-theme="dark"] .text-bg-brand .nav-link {
+[data-bs-theme="dark"] .navbar .nav-link {
     color: hsl(var(--base-hue), 0%, 100%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.active,
-[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.show {
+[data-bs-theme="dark"] .navbar .navbar-nav .nav-link.active,
+[data-bs-theme="dark"] .navbar .navbar-nav .nav-link.show {
     color: hsl(var(--base-hue), 0%, 100%);
 }
 
-[data-bs-theme="dark"] .text-bg-brand .navbar-brand:focus-visible,
-[data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
+[data-bs-theme="dark"] .navbar .navbar-brand:focus-visible,
+[data-bs-theme="dark"] .navbar .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 10%, 100%, .57);
 }
 
@@ -154,7 +159,7 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     color: hsl(355, 98%, 24%) !important;
 }
 
-/* Nav bar logo
+/* Navbar logo
 -------------------------------------------------- */
 .img-logo {
     height: 40px;
@@ -229,18 +234,22 @@ footer a[target]::after, a[target].no-external-link::after {
     border-top-width: calc(var(--bs-border-width) * 2);
 }
 
+/* Table hover background
+-------------------------------------------------- */
+.table-hover.table-borderless th:first-child, .table-hover td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.table-hover.table-borderless td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 /* Callouts
 -------------------------------------------------- */
 /* Adapted from the Bootstrap Docs (https://getbootstrap.com/).
   Licensed under the Creative Commons Attribution 3.0 Unported License. */
-
-:root, [data-bs-theme="light"] {
-    --callout-link: 10, 88, 202;
-}
-
-[data-bs-theme="dark"] {
-    --callout-link: 110, 168, 254;
-}
 
 .callout {
     --bs-link-color-rgb: var(--callout-link);
