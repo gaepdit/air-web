@@ -16,11 +16,6 @@ erDiagram
         string facilityId FK
     }
 
-    LNK["Compliance Event/Enforcement Linkage"] {
-        int enforcementId FK
-        int workEntryId FK
-    }
-
     CTE["Enforcement Comment"] {
         Guid Id PK
         int enforcementId FK
@@ -44,9 +39,7 @@ erDiagram
     STP["Stipulated Penalty"]
     CWE }o--|| FAC: "is entered for"
     ENF }o--|| FAC: "is issued to"
-    CWE }o..o{ ENF: "are linked"
-    LNK }o--|| CWE: "is triggered by"
-    LNK }o--|| ENF: "is addressed by"
+    CWE }o--o{ ENF: "are discovery actions"
     CTE }o--|| ENF: "comments on"
     ACT }|--|| ENF: "applies to"
     ENF }o..o{ POL: "are linked"

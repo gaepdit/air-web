@@ -92,7 +92,6 @@ public class EnforcementCase : ClosableEntity<int>
 
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
-    public ICollection<ComplianceEventEnforcementLinkage> ComplianceEventEnforcementLinkages { get; } = [];
     public ICollection<EnforcementAction> EnforcementActions { get; } = [];
 
     // Data flow properties
