@@ -73,7 +73,15 @@
         </div>
     }
 </div>
-<hr>
+
+<section class="mt-md-3 mb-4">
+    <details class="border rounded-1">
+        <summary class="bg-body-secondary px-2 py-1">
+            Facility Details
+        </summary>
+        <partial name="Shared/FacilityPartials/_FacilityDetails" model="Model.Facility" />
+    </details>
+</section>
 
 <section class="mb-4">
     @if (!Model.ComplianceWork.Any())
@@ -103,7 +111,7 @@
                 @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
                 {
                     @GlobalConstants.SummaryTableSize.ToString()
-                    @:recent / 
+                    @:most recent /
                 }
                 @Model.ComplianceWorkCount.ToString() total
             </summary>
@@ -140,7 +148,7 @@
                 @if (Model.FceCount > GlobalConstants.SummaryTableSize)
                 {
                     @GlobalConstants.SummaryTableSize.ToString()
-                    @:recent / 
+                    @:most recent /
                 }
                 @Model.FceCount.ToString() total
             </summary>
@@ -176,7 +184,7 @@
                 @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
                 {
                     @GlobalConstants.SummaryTableSize.ToString()
-                    @:recent / 
+                    @:most recent /
                 }
                 @Model.SourceTestCount.ToString() total
             </summary>
