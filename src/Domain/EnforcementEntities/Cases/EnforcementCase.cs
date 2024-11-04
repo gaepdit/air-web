@@ -40,6 +40,8 @@ public class EnforcementCase : ClosableEntity<int>
     }
 
     // Basic data
+
+    // Required but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(7000)]
@@ -48,22 +50,27 @@ public class EnforcementCase : ClosableEntity<int>
     [StringLength(3)]
     public string? ViolationTypeId { get; set; }
 
-    private ViolationType _violationType = default!;
+    private ViolationType? _violationType;
 
     [NotMapped]
-    public ViolationType ViolationType
+    // Required if the data flow is enabled.
+    public ViolationType? ViolationType
     {
         get => _violationType;
         set
         {
             _violationType = value;
-            ViolationTypeId = value.Code;
+            ViolationTypeId = value?.Code;
         }
     }
 
     // Status
+
     public EnforcementCaseStatus Status { get; set; }
+
+    // Required but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
+
     private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
 
     public DateOnly? DayZero
@@ -84,12 +91,12 @@ public class EnforcementCase : ClosableEntity<int>
     public ICollection<Pollutant> GetPollutants() => Data.Data.AllPollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
-    public ICollection<string> PollutantIds { get; } = [];
+    public List<string> PollutantIds { get; } = [];
 
-    public ICollection<AirProgram> AirPrograms { get; } = [];
+    public List<AirProgram> AirPrograms { get; } = [];
 
     // Comments
-    public ICollection<EnforcementCaseComment> EnforcementComments { get; } = [];
+    public List<EnforcementCaseComment> Comments { get; } = [];
 
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
@@ -103,11 +110,12 @@ public class EnforcementCase : ClosableEntity<int>
         ComplianceEvents.Any(complianceEvent => complianceEvent.IsDataFlowEnabled) &&
         EnforcementActions.Any(action => action.IsDataFlowEnabled);
 
+    // Required if the data flow is enabled.
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(11)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; } = DataExchangeStatus.NotIncluded;
 }
 
 public enum EnforcementCaseStatus

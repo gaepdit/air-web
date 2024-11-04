@@ -57,7 +57,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     [JsonIgnore]
     [StringLength(11)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; } = DataExchangeStatus.NotIncluded;
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]

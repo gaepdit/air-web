@@ -12,8 +12,11 @@
 // order by SEVERITYCODE, DEPRECATED, VIOLATIONTYPEDESC
 // ```
 
-public static partial class Data
+public static partial class EnforcementData
 {
+    public static ViolationType GetRandomViolationType() =>
+        ViolationTypes.Where(t => !t.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
+
     public static List<ViolationType> ViolationTypes { get; } =
     [
         new("FCIO",
