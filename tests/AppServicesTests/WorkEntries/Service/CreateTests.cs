@@ -18,7 +18,7 @@ public class CreateTests
         // Arrange
         const int id = 901;
         var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = SampleText.ValidEmail };
-        var workEntry = new PermitRevocation(id);
+        var workEntry = new PermitRevocation(id, user);
 
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
         workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())

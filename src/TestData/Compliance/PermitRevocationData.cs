@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<PermitRevocation> PermitRevocationData =>
     [
-        new(8001)
+        new(8001, null)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),
@@ -23,7 +23,7 @@ internal static partial class WorkEntries
             PhysicalShutdownDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-21).Date),
             FollowupTaken = false,
         },
-        new(8002)
+        new(8002, null)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),
@@ -31,7 +31,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = string.Empty,
-            IsClosed = true,
             ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
@@ -41,7 +40,7 @@ internal static partial class WorkEntries
             PhysicalShutdownDate = null,
             FollowupTaken = true,
         },
-        new(8003)
+        new(8003, null)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
             Facility = DomainData.GetRandomFacility(),

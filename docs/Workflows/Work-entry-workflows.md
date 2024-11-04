@@ -2,20 +2,20 @@
 
 ## Work Entry Types
 
-| Work entry type                       | Automatic Closure * | Compliance Event † | ICIS-Air ‡ |
-|---------------------------------------|:-------------------:|:------------------:|:----------:|
-| Annual Compliance Certification (ACC) |                     |         ✓          |     ✓      |
-| Inspection                            |          ✓          |         ✓          |     ✓      |
-| Notification                          |          ✓          |                    |            |
-| Permit revocation                     |                     |                    |            |
-| Report                                |          ✓          |         ✓          |     ✓      |
-| RMP Inspection                        |          ✓          |         ✓          |            |
-| Source Test Compliance Review         |          ✓          |         ✓          |     ✓      |
+| Work entry type                       | Automatic Closure * | Compliance Event † | Data Exchange ‡ |
+|---------------------------------------|:-------------------:|:------------------:|:---------------:|
+| Annual Compliance Certification (ACC) |                     |         ✓          |        ✓        |
+| Inspection                            |          ✓          |         ✓          |        ✓        |
+| Notification                          |          ✓          |                    |                 |
+| Permit revocation                     |                     |                    |                 |
+| Report                                |          ✓          |         ✓          |        ✓        |
+| RMP Inspection                        |          ✓          |         ✓          |                 |
+| Source Test Compliance Review         |          ✓          |         ✓          |        ✓        |
 
 <small>
 * Indicates the Work Entry is automatically closed when created.<br>
 † Indicates the Work Entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
-‡ Indicates a Compliance Event that is shared with the ICIS-Air data exchange.
+‡ Indicates a Compliance Event that is shared with the ICIS-Air Data Exchange.
 </small>
 
 ### General Workflow

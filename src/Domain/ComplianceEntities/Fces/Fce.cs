@@ -1,16 +1,15 @@
-using AirWeb.Domain.Comments;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
+public class Fce : DeletableEntity<int>, IComplianceEntity
 {
     // Constructors
-
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
-    internal Fce(int? id, FacilityId facilityId, int year)
+    internal Fce(int? id, FacilityId facilityId, int year, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
         FacilityId = facilityId;
@@ -21,11 +20,12 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         var fiscalEndDate = new DateOnly(year, 9, 30);
         var today = DateOnly.FromDateTime(DateTime.Today);
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
+
+        SetCreator(user?.Id);
     }
 
-    // Facility Properties
-
-    [MaxLength(9)]
+    // Facility properties
+    [StringLength(9)]
     public string FacilityId { get; private set; } = string.Empty;
 
     private Facility _facility = default!;
@@ -37,12 +37,11 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         set
         {
             _facility = value;
-            FacilityId = value.Id ?? string.Empty;
+            FacilityId = value.Id;
         }
     }
 
-    // FCE Properties
-
+    // FCE properties
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
     public DateOnly CompletedDate { get; init; }
@@ -51,19 +50,13 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    // Properties: Lists
+    // Comments
     public List<FceComment> Comments { get; } = [];
-
-    // Properties: Deletion
-    public ApplicationUser? DeletedBy { get; set; }
-
-    [StringLength(7000)]
-    public string? DeleteComments { get; set; }
 
     // Business Logic
     public const int EarliestFceYear = 2002;
 
-    public static List<int> ValidFceYears
+    public static ICollection<int> ValidFceYears
     {
         get
         {
@@ -78,14 +71,4 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
             return yearList;
         }
     }
-}
-
-public record FceComment : Comment
-{
-    [UsedImplicitly] // Used by ORM.
-    private FceComment() { }
-
-    private FceComment(Comment c) : base(c) { }
-    public FceComment(Comment c, int fceId) : this(c) => FceId = fceId;
-    public int FceId { get; init; }
 }

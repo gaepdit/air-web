@@ -8,7 +8,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<AnnualComplianceCertification> AccData =>
     [
-        new(5001)
+        new(5001, null)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
@@ -32,7 +32,7 @@ internal static partial class WorkEntries
             ResubmittalRequired = false,
             EnforcementNeeded = false,
         },
-        new(5002)
+        new(5002, null)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
@@ -40,7 +40,6 @@ internal static partial class WorkEntries
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = "Closed ACC",
-            IsClosed = true,
             ClosedBy = UserData.GetUsers.ElementAt(1),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
@@ -59,7 +58,7 @@ internal static partial class WorkEntries
             ResubmittalRequired = true,
             EnforcementNeeded = true,
         },
-        new(5003)
+        new(5003, null)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
