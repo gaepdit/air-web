@@ -15,7 +15,7 @@ public static class CommentData
             {
                 Id = Guid.NewGuid(),
                 Text = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-                CommentBy = UserData.GetUsers.ElementAt(i),
+                CommentBy = UserData.GetRandomUser(),
                 CommentedAt = DateTimeOffset.Now.AddDays(i - commentCount),
             });
         }

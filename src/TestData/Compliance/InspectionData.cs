@@ -12,11 +12,11 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "In compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(0),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             InspectionReason = InspectionReason.PlannedUnannounced,
@@ -33,11 +33,11 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             InspectionReason = InspectionReason.Complaint,
@@ -54,7 +54,7 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.Inspection,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

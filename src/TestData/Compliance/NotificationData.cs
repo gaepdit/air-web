@@ -8,12 +8,12 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Notification> NotificationData =>
     [
-        new(7001, UserData.GetUsers.ElementAt(0))
+        new(7001, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -25,12 +25,12 @@ internal static partial class WorkEntries
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
-        new(7002, UserData.GetUsers.ElementAt(1))
+        new(7002, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = string.Empty,
@@ -47,7 +47,7 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

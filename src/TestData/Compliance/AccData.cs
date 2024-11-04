@@ -12,7 +12,7 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "Open ACC",
@@ -36,11 +36,11 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = "Closed ACC",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
@@ -62,7 +62,7 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted ACC",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
