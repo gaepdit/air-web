@@ -1,9 +1,11 @@
 # Enforcement ERD
 
+## Enforcement Case
+
 ```mermaid
 erDiagram
     FAC["Facility"] {
-        string facilityId PK
+        string Id PK
     }
 
     CWE["Compliance Event (Work Entry)"] {
@@ -18,40 +20,76 @@ erDiagram
 
     CTE["Enforcement Comment"] {
         Guid Id PK
-        int enforcementId FK
+        int enforcementCaseId FK
     }
 
-    ACT["Enforcement Action"] {
+    ACT["Enforcement Action †"] {
         Guid Id PK
-        int enforcementId FK
+        int enforcementCaseId FK
     }
 
-    POL["Pollutants & Air Programs *"]
+    POL["Pollutants & Air Programs ‡"]
 
     REV["Enforcement Action Review"] {
         Guid Id PK
-        int enforcementId FK
+        int enforcementActionId FK
     }
 
-    LTR["Letter, LON, NFA"]
-    IEA["NOV, Proposed CO"]
-    FEA["Consent Order, AO"]
-    STP["Stipulated Penalty"]
+    STP["Stipulated Penalty"] {
+        Guid Id PK
+        int consentOrderId FK
+    }
+
     FAC }o--o{ POL: "has associated"
-    ENF }o--o{ POL: "are linked"
+    ENF }o--o{ POL: "has associated"
     CWE }o--o{ ENF: "is a discovery action for"
     CWE }o--|| FAC: "is entered for"
     ACT }o--|| ENF: "is taken for"
     CTE }o--|| ENF: "comments on"
     ENF }o--|| FAC: "is issued to"
-    LTR ||..|| ACT: "are non-reporting types of"
-    IEA ||..|| ACT: "are informal types of"
-    FEA ||..|| ACT: "are formal types of"
     REV }o--|| ACT: "reviews"
-    STP }o--|| FEA: "may be required by"
+    STP }o--|| ACT: "may be required by (CO only)"
 ```
 
-* Pollutants & Air Programs are combined on the graph but are tracked separately.
+† See next diagram for Enforcement Actions.<br>
+‡ Pollutants & Air Programs are combined on the graph but are tracked separately.
+
+### Enforcement Actions
+
+```mermaid
+erDiagram
+    ACT["Enforcement Actions"]
+    LTR["Letter"]
+    LON["Letter Of Noncompliance"]
+    NFA["No Further Action letter"]
+    NOV["Notice of Violation"]
+    PCO["Proposed CO"]
+    ORV["CO Resolved letter"]
+    ORD["Consent Order"]
+    AOR["Administrative Order"]
+    ARV["AO Resolved letter"]
+    STP["Stipulated Penalty"]
+    LTR ||..|| ACT: "non-reporting"
+    LON ||..|| ACT: "non-reporting"
+    NFA ||..|| ACT: "non-reporting"
+    NOV ||..|| ACT: "informal"
+    PCO ||..|| ACT: "informal"
+    ORD ||..|| ACT: "formal"
+    ORV ||..|| ACT: "pathway"
+    AOR ||..|| ACT: "formal"
+    ARV ||..|| ACT: "pathway"
+    NFA |o--|| NOV: "resolves"
+    PCO |o--o| NOV: "may result from"
+    ORD |o--|| PCO: "may execute"
+    STP }o--|| ORD: "may be required by"
+    ORV |o--|| ORD: "resolves"
+    ARV |o--|| AOR: "resolves"
+```
+
+* "Non-reporting" actions are not reported to ICIS-Air.
+* "Informal" actions are reported to ICIS-Air as "Informal Enforcement Actions."
+* "Formal" actions are reported to ICIS-Air as "Formal Enforcement Actions."
+* "Pathway" actions are reported to ICIS-Air as "Case File Pathway Activities."
 
 ## IAIP table column mapping
 
@@ -65,8 +103,8 @@ Columns from the `SSCP_AUDITEDENFORCEMENT` table:
 | STRENFORCEMENTFINALIZED    | varchar(5)    |    ✓    | IsClosed, Status        |                             |                   |
 | DATENFORCEMENTFINALIZED    | datetime2(0)  |    ✓    | ClosedDate              |                             |                   |
 | NUMSTAFFRESPONSIBLE        | float         |    ✓    | ResponsibleStaff        | ResponsibleStaff            |                   |
-| STRSTATUS                  | varchar(5)    |         |                         |                             |                   |
-| STRACTIONTYPE              | varchar(15)   |         |                         |                             |                   |
+| STRSTATUS                  | varchar(5)    |    ✗    |                         |                             |                   |
+| STRACTIONTYPE              | varchar(15)   |    ✗    |                         |                             |                   |
 | STRGENERALCOMMENTS         | varchar(4000) |    ✓    | Notes                   |                             |                   |
 | STRDISCOVERYDATE           | varchar(5)    |    ✓    | DiscoveryDate           |                             |                   |
 | DATDISCOVERYDATE           | datetime2(0)  |    ✓    | DiscoveryDate           |                             |                   |
@@ -127,17 +165,17 @@ Columns from the `SSCP_AUDITEDENFORCEMENT` table:
 | DATAORESOLVED              | datetime2(0)  |    ✓    |                         |                             |                   |
 | STRAOCOMMENT               | varchar(4000) |    ✓    |                         | Notes                       |                   |
 | STRAFSKEYACTIONNUMBER      | varchar(5)    |    ✓    | AfsKeyActionNumber      |                             |                   |
-| STRAFSNOVSENTNUMBER        | varchar(5)    |         |                         |                             |                   |
-| STRAFSNOVRESOLVEDNUMBER    | varchar(5)    |         |                         |                             |                   |
-| STRAFSCOPROPOSEDNUMBER     | varchar(5)    |         |                         |                             |                   |
-| STRAFSCOEXECUTEDNUMBER     | varchar(5)    |         |                         |                             |                   |
-| STRAFSCORESOLVEDNUMBER     | varchar(5)    |         |                         |                             |                   |
-| STRAFSAOTOAGNUMBER         | varchar(5)    |         |                         |                             |                   |
-| STRAFSCIVILCOURTNUMBER     | varchar(5)    |         |                         |                             |                   |
-| STRAFSAORESOLVEDNUMBER     | varchar(5)    |         |                         |                             |                   |
+| STRAFSNOVSENTNUMBER        | varchar(5)    |    ✓    |                         | ActionNumber                |                   |
+| STRAFSNOVRESOLVEDNUMBER    | varchar(5)    |    ✗    |                         |                             |                   |
+| STRAFSCOPROPOSEDNUMBER     | varchar(5)    |    ✓    |                         | ActionNumber                |                   |
+| STRAFSCOEXECUTEDNUMBER     | varchar(5)    |    ✓    |                         | ActionNumber                |                   |
+| STRAFSCORESOLVEDNUMBER     | varchar(5)    |    ✗    |                         |                             |                   |
+| STRAFSAOTOAGNUMBER         | varchar(5)    |    ✓    |                         | ActionNumber                |                   |
+| STRAFSCIVILCOURTNUMBER     | varchar(5)    |    ✗    |                         |                             |                   |
+| STRAFSAORESOLVEDNUMBER     | varchar(5)    |    ✗    |                         |                             |                   |
 | STRMODIFINGPERSON          | varchar(3)    |    ✓    | UpdatedById             | UpdatedById                 |                   |
 | DATMODIFINGDATE            | datetime2(0)  |    ✓    | UpdatedAt               | UpdatedAt                   |                   |
-| ICIS_STATUSIND             | varchar       |         |                         |                             |                   |
+| ICIS_STATUSIND             | varchar       |    ✓    | DataExchangeStatus      | DataExchangeStatus          |                   |
 | IsDeleted                  | bit           |    ✓    | IsDeleted               |                             |                   |
 
 Columns from the `SSCPENFORCEMENTSTIPULATED` table:
@@ -148,6 +186,6 @@ Columns from the `SSCPENFORCEMENTSTIPULATED` table:
 | STRENFORCEMENTKEY             | varchar(3)    |    ✓    | SortOrder                |
 | STRSTIPULATEDPENALTY          | varchar(10)   |    ✓    | StipulatedPenaltyAmount  |
 | STRSTIPULATEDPENALTYCOMMENTS  | varchar(4000) |    ✓    | StipulatedPenaltyComment |
-| STRAFSSTIPULATEDPENALTYNUMBER | varchar(5)    |         |                          |
+| STRAFSSTIPULATEDPENALTYNUMBER | varchar(5)    |    ✗    |                          |
 | STRMODIFINGPERSON             | varchar(3)    |    ✓    | UpdatedById              |
 | DATMODIFINGDATE               | datetime2(0)  |    ✓    | UpdatedAt                |

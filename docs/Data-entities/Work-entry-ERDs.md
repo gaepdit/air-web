@@ -52,7 +52,7 @@ erDiagram
 | SSCPITEMMASTER.STRDELETE                  | varchar(5)   |    ✓    | base.IsDeleted           |
 | SSCPITEMMASTER.DATACKNOLEDGMENTLETTERSENT | datetime2(0) |    ✓    | AcknowledgmentLetterDate |
 | SSCPITEMMASTER.DATINFORMATIONREQUESTDATE  | datetime2(0) |    ✗    | *none*                   |
-| SSCPITEMMASTER.ICIS_STATUSIND             | varchar      | *defer* | EpaDxStatus              |
+| SSCPITEMMASTER.ICIS_STATUSIND             | varchar      |    ✓    | DataExchangeStatus       |
 
 ## ACC columns
 
