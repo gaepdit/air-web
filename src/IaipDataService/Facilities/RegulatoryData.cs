@@ -90,7 +90,7 @@ public record RegulatoryData
     /// <summary>
     /// List of pollutants that apply to a facility.
     /// </summary>
-    public Dictionary<string, string> Pollutants { get; set; } = [];
+    public List<Pollutant> Pollutants { get; init; } = [];
 
     /// <summary>
     /// List of air program classifications that apply to a facility.

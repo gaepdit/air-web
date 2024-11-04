@@ -81,7 +81,7 @@ public class EnforcementCase : ClosableEntity<int>
     }
 
     // Programs & pollutants
-    public ICollection<Pollutant> GetPollutants() => Properties.Data.Pollutants
+    public ICollection<Pollutant> GetPollutants() => Data.Data.AllPollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
     public ICollection<string> PollutantIds { get; } = [];
