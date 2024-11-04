@@ -23,7 +23,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Basic data
     public EnforcementCase EnforcementCase { get; init; } = null!;
-    public EnforcementActionType EnforcementActionType { get; internal init; }
+    protected EnforcementActionType EnforcementActionType { get; init; }
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;

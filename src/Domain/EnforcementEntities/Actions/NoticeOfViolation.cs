@@ -15,7 +15,6 @@ public class NoticeOfViolation : EnforcementAction
         EnforcementActionType = EnforcementActionType.NoticeOfViolation;
     }
 
-    // Properties
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 }

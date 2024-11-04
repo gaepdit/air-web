@@ -15,7 +15,6 @@ public class LetterOfNoncompliance : EnforcementAction
         EnforcementActionType = EnforcementActionType.LetterOfNoncompliance;
     }
 
-    // Properties
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 }

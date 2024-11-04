@@ -15,7 +15,6 @@ public class NovNfa : EnforcementAction
         EnforcementActionType = EnforcementActionType.NovNfa;
     }
 
-    // Properties
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 }

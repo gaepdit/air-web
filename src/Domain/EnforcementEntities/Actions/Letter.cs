@@ -15,7 +15,6 @@ public class Letter : EnforcementAction
         EnforcementActionType = EnforcementActionType.Letter;
     }
 
-    // Properties
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 }

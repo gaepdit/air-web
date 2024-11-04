@@ -9,9 +9,6 @@ public class ConsentOrder : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private ConsentOrder() { }
 
-    internal ConsentOrder(Guid id, EnforcementCase enforcementCase, ApplicationUser? user) :
-        base(id, enforcementCase, user) => EnforcementActionType = EnforcementActionType.ConsentOrder;
-
     internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user) :
         base(id, proposedConsentOrder.EnforcementCase, user)
     {
@@ -19,13 +16,18 @@ public class ConsentOrder : EnforcementAction
         ProposedConsentOrder = proposedConsentOrder;
     }
 
-    // Properties
+    internal ConsentOrder(Guid id, EnforcementCase enforcementCase, ApplicationUser? user) :
+        base(id, enforcementCase, user)
+    {
+        EnforcementActionType = EnforcementActionType.ConsentOrder;
+    }
+
     public ProposedConsentOrder? ProposedConsentOrder { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? Executed { get; set; }
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
-    public DateOnly? OrderResolved { get; set; }
+    public DateOnly? Resolved { get; set; }
 
     public short? OrderNumber { get; set; }
     public decimal? PenaltyAmount { get; set; }
