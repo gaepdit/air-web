@@ -36,10 +36,12 @@
         document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
             element.classList.remove('active')
             element.setAttribute('aria-pressed', 'false')
+            element.querySelector('.theme-checkmark').classList.add('d-none')
         })
 
         btnToActive.classList.add('active')
         btnToActive.setAttribute('aria-pressed', 'true')
+        btnToActive.querySelector('.theme-checkmark').classList.remove('d-none')
         activeThemeIcon.setAttribute('href', svgOfActiveBtn)
         const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
         themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
@@ -50,12 +52,19 @@
         }
     }
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        const storedTheme = getStoredTheme()
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const listener = () => {
+        const storedTheme = getStoredTheme();
         if (storedTheme !== 'light' && storedTheme !== 'dark') {
-            setTheme(getPreferredTheme())
+            setTheme(getPreferredTheme());
         }
-    })
+    };
+
+    if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', listener);
+    } else if (mediaQuery.addListener) {
+        mediaQuery.addListener(listener);
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(getPreferredTheme())
