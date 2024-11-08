@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Identity.Web;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.Permissions;
@@ -56,5 +57,5 @@ public class ComplianceWorkOperation :
         CanManageDeletions(user) && item.IsDeleted;
 
     private static bool IsOwner(ClaimsPrincipal user, IHasOwner item) =>
-        item.OwnerId.Equals(user.GetUserIdValue());
+        item.OwnerId.Equals(user.GetNameIdentifierId());
 }

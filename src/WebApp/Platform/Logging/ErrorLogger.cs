@@ -1,10 +1,10 @@
-﻿using GaEpd.FileService;
-using Mindscape.Raygun4Net.AspNetCore;
-using AirWeb.AppServices.ErrorLogging;
+﻿using AirWeb.AppServices.ErrorLogging;
 using AirWeb.WebApp.Platform.Settings;
+using GaEpd.FileService;
+using Mindscape.Raygun4Net.AspNetCore;
 using System.Collections;
 
-namespace AirWeb.WebApp.Platform.ErrorLogging;
+namespace AirWeb.WebApp.Platform.Logging;
 
 public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvider) : IErrorLogger
 {
@@ -50,6 +50,6 @@ public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvi
         return shortId;
     }
 
-    private Task LogRaygunErrorAsync(Exception exception, IDictionary customData) => 
+    private Task LogRaygunErrorAsync(Exception exception, IDictionary customData) =>
         serviceProvider.GetService<RaygunClient>()!.SendInBackground(exception, null, customData);
 }

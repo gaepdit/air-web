@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace AirWeb.WebApp.Platform.ErrorLogging;
+namespace AirWeb.WebApp.Platform.Logging;
 
 public static class ShortId
 {
