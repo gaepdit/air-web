@@ -46,6 +46,12 @@ public class ApplicationUser : IdentityUser, IEntity<string>
     [StringLength(36)]
     public string? ObjectIdentifier { get; set; }
 
+    // Auditing properties
+    public DateTimeOffset? AccountCreatedAt { get; init; }
+    public DateTimeOffset? AccountUpdatedAt { get; set; }
+    public DateTimeOffset? ProfileUpdatedAt { get; set; }
+    public DateTimeOffset? MostRecentLogin { get; set; }
+
     // Display properties
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
     public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator();

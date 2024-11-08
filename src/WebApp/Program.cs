@@ -1,7 +1,7 @@
 using AirWeb.AppServices.ErrorLogging;
 using AirWeb.AppServices.RegisterServices;
 using AirWeb.WebApp.Platform.AppConfiguration;
-using AirWeb.WebApp.Platform.ErrorLogging;
+using AirWeb.WebApp.Platform.Logging;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.FileService;
 using IaipDataService;

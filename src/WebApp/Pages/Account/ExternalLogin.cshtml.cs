@@ -1,13 +1,16 @@
+using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.Logging;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages.Account;
 
@@ -64,7 +67,9 @@ public class ExternalLoginModel(
         var user = await userManager.FindByIdAsync(staffId);
         logger.LogInformation("Local user with ID {StaffId} signed in", staffId);
 
-        await signInManager.SignInAsync(user!, false);
+        user!.MostRecentLogin = DateTimeOffset.Now;
+        await userManager.UpdateAsync(user);
+        await signInManager.SignInAsync(user, false);
         return LocalRedirectOrHome();
     }
 
@@ -82,18 +87,28 @@ public class ExternalLoginModel(
         if (externalLoginInfo?.Principal is null)
             return RedirectToLoginPageWithError("Error loading work account information.");
 
-        var preferredUserName = externalLoginInfo.Principal.FindFirstValue(ClaimConstants.PreferredUserName);
-        if (preferredUserName is null)
+
+        var userTenant = externalLoginInfo.Principal.GetTenantId();
+        var userEmail = externalLoginInfo.Principal.GetEmail();
+        if (userEmail is null || userTenant is null)
             return RedirectToLoginPageWithError("Error loading detailed work account information.");
 
-        if (!preferredUserName.IsValidEmailDomain())
+        if (!userEmail.IsValidEmailDomain())
         {
-            logger.LogWarning("User {UserName} with invalid email domain attempted signin", preferredUserName);
+            logger.LogWarning("User {UserName} with invalid email domain attempted signin", userEmail.MaskEmail());
             return RedirectToPage("./Unavailable");
         }
 
-        // Determine if a user account already exists.
-        var user = await userManager.FindByNameAsync(preferredUserName);
+        logger.LogInformation("User {UserName} in tenant {TenantID} successfully authenticated", userEmail.MaskEmail(),
+            userTenant);
+
+        // Determine if a user account already exists with the Object ID.
+        // If not, then determine if a user account already exists with the given username.
+        var user = AppSettings.DevSettings.UseInMemoryData
+            ? await userManager.FindByNameAsync(userEmail)
+            : await userManager.Users.SingleOrDefaultAsync(u =>
+                  u.ObjectIdentifier == externalLoginInfo.Principal.GetObjectId()) ??
+              await userManager.FindByNameAsync(userEmail);
 
         // If the user does not have a local account yet, then create one and sign in.
         if (user is null)
@@ -102,7 +117,7 @@ public class ExternalLoginModel(
         // If user has been marked as inactive, don't sign in.
         if (!user.Active)
         {
-            logger.LogWarning("Inactive user {UserName} attempted signin", preferredUserName);
+            logger.LogWarning("Inactive user {Email} attempted signin", userEmail.MaskEmail());
             return RedirectToPage("./Unavailable");
         }
 
@@ -121,7 +136,7 @@ public class ExternalLoginModel(
 
         // If ExternalLoginInfo successfully returned from external provider, and the user exists, but
         // ExternalLoginSignInAsync failed, then add the external provider info to the user and sign in.
-        // (Implied `signInResult.Succeeded == false`.)
+        // (`signInResult.Succeeded == false`.)
         return await AddLoginProviderAndSignInAsync(user, externalLoginInfo);
     }
 
@@ -138,30 +153,31 @@ public class ExternalLoginModel(
     {
         var user = new ApplicationUser
         {
-            UserName = info.Principal.FindFirstValue(ClaimConstants.PreferredUserName),
-            Email = info.Principal.FindFirstValue(ClaimTypes.Email) ??
-                    info.Principal.FindFirstValue(ClaimConstants.PreferredUserName),
-            GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? "",
-            FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? "",
-            ObjectIdentifier = info.Principal.FindFirstValue(ClaimConstants.ObjectId),
+            UserName = info.Principal.GetDisplayName(),
+            Email = info.Principal.GetEmail(),
+            GivenName = info.Principal.GetGivenName(),
+            FamilyName = info.Principal.GetFamilyName(),
+            ObjectIdentifier = info.Principal.GetObjectId(),
+            AccountCreatedAt = DateTimeOffset.Now,
+            MostRecentLogin = DateTimeOffset.Now,
         };
 
         // Create the user in the backing store.
         var createUserResult = await userManager.CreateAsync(user);
         if (!createUserResult.Succeeded)
         {
-            logger.LogWarning("Failed to create new user {UserName}", user.UserName);
+            logger.LogWarning("Failed to create new user {UserName}", user.Email.MaskEmail());
             return await FailedLoginAsync(createUserResult, user);
         }
 
-        logger.LogInformation("Created new user {UserName} with object ID {ObjectId}", user.UserName,
-            user.ObjectIdentifier);
+        logger.LogInformation("Created new user {Email} with object ID {ObjectId}",
+            user.Email.MaskEmail(), user.ObjectIdentifier);
 
         // Add new user to application Roles if seeded in app settings or local admin user setting is enabled.
         var seedAdminUsers = configuration.GetSection("SeedAdminUsers").Get<string[]>();
         if (AppSettings.DevSettings.LocalUserIsStaff)
         {
-            logger.LogInformation("Seeding staff role for new user {UserName}", user.UserName);
+            logger.LogInformation("Seeding staff role for new user {Email}", user.Email.MaskEmail());
             await userManager.AddToRoleAsync(user, RoleName.ComplianceStaff);
             await userManager.AddToRoleAsync(user, RoleName.ComplianceSiteMaintenance);
         }
@@ -169,7 +185,7 @@ public class ExternalLoginModel(
         if (AppSettings.DevSettings.LocalUserIsAdmin ||
             (seedAdminUsers != null && seedAdminUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
         {
-            logger.LogInformation("Seeding all roles for new user {UserName}", user.UserName);
+            logger.LogInformation("Seeding all roles for new user {Email}", user.Email.MaskEmail());
             foreach (var role in AppRole.AllRoles!) await userManager.AddToRoleAsync(user, role.Key);
         }
 
@@ -182,12 +198,29 @@ public class ExternalLoginModel(
     // Update local store with from external provider. 
     private async Task<IActionResult> RefreshUserInfoAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
     {
-        logger.LogInformation("Existing user {UserName} logged in with {LoginProvider} provider",
-            user.UserName, info.LoginProvider);
-        user.Email = info.Principal.FindFirstValue(ClaimTypes.Email) ??
-                     info.Principal.FindFirstValue(ClaimConstants.PreferredUserName);
-        user.GivenName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? user.GivenName;
-        user.FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? user.FamilyName;
+        logger.LogInformation("Existing user {Email} logged in with {LoginProvider} provider",
+            user.Email.MaskEmail(), info.LoginProvider);
+
+        var previousValues = new ApplicationUser
+        {
+            UserName = user.UserName,
+            Email = user.Email,
+            GivenName = user.GivenName,
+            FamilyName = user.FamilyName,
+        };
+
+        user.UserName = info.Principal.GetDisplayName();
+        user.Email = info.Principal.GetEmail();
+        user.GivenName = info.Principal.GetGivenName();
+        user.FamilyName = info.Principal.GetFamilyName();
+        user.MostRecentLogin = DateTimeOffset.Now;
+
+        if (user.UserName != previousValues.UserName || user.Email != previousValues.Email ||
+            user.GivenName != previousValues.GivenName || user.FamilyName != previousValues.FamilyName)
+        {
+            user.AccountUpdatedAt = DateTimeOffset.Now;
+        }
+
         await userManager.UpdateAsync(user);
         await signInManager.RefreshSignInAsync(user);
         return LocalRedirectOrHome();
@@ -201,19 +234,17 @@ public class ExternalLoginModel(
 
         if (!addLoginResult.Succeeded)
         {
-            logger.LogWarning("Failed to add login provider {LoginProvider} for user {UserName}",
-                info.LoginProvider, user.UserName);
+            logger.LogWarning("Failed to add login provider {LoginProvider} for user {Email}",
+                info.LoginProvider, user.Email.MaskEmail());
             return await FailedLoginAsync(addLoginResult, user);
         }
 
-        if (user.ObjectIdentifier == null)
-        {
-            user.ObjectIdentifier = info.Principal.FindFirstValue(ClaimConstants.ObjectId);
-            await userManager.UpdateAsync(user);
-        }
+        user.ObjectIdentifier ??= info.Principal.GetObjectId();
+        user.MostRecentLogin = DateTimeOffset.Now;
+        await userManager.UpdateAsync(user);
 
-        logger.LogInformation("Login provider {LoginProvider} added for user {UserName} with object ID {ObjectId}",
-            info.LoginProvider, user.UserName, user.ObjectIdentifier);
+        logger.LogInformation("Login provider {LoginProvider} added for user {Email} with object ID {ObjectId}",
+            info.LoginProvider, user.Email.MaskEmail(), user.ObjectIdentifier);
 
         // Include the access token in the properties.
         var props = new AuthenticationProperties();
@@ -234,9 +265,6 @@ public class ExternalLoginModel(
         return Page();
     }
 
-    private IActionResult LocalRedirectOrHome()
-    {
-        if (ReturnUrl is null) return RedirectToPage("/Home/Index");
-        return LocalRedirect(ReturnUrl);
-    }
+    private IActionResult LocalRedirectOrHome() =>
+        ReturnUrl is null ? RedirectToPage("/Home/Index") : LocalRedirect(ReturnUrl);
 }
