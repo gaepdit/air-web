@@ -122,20 +122,20 @@ internal static class EnforcementActionData
 
     private static List<EnforcementAction> NestedSeedItems(List<EnforcementAction> parentActions) =>
     [
-        // 306 (0)
+        // 306 (0) [15]
         new NoFurtherAction(Guid.NewGuid(), (NoticeOfViolation)parentActions[6], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-15).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 308 (1)
+        // 308 (1) [16]
         new ProposedConsentOrder(Guid.NewGuid(), (NoticeOfViolation)parentActions[8], null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 310 (2)
+        // 310 (2) [17]
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[10], null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -144,7 +144,7 @@ internal static class EnforcementActionData
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 311 (3)
+        // 311 (3) [18]
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[11], null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -156,9 +156,10 @@ internal static class EnforcementActionData
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 312 (4)
+        // 312 (4) [19]
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[12], null)
         {
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-18).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
             Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
@@ -166,9 +167,10 @@ internal static class EnforcementActionData
             OrderNumber = 1999,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            Resolved = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).Date),
         },
 
-        // 314 (5)
+        // 314 (5) [20]
         new AdministrativeOrderResolved(Guid.NewGuid(), (AdministrativeOrder)parentActions[14], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-200).Date),
@@ -178,10 +180,10 @@ internal static class EnforcementActionData
 
     private static IEnumerable<EnforcementAction> DoubleNestedSeedItems(List<EnforcementAction> parentActions) =>
     [
-        // 312
+        // 312 (0) [21]
         new ConsentOrderResolved(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(3).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
     ];
@@ -205,7 +207,48 @@ internal static class EnforcementActionData
                 enforcementAction.ResponsibleStaff = UserData.GetRandomUser();
             }
 
+            foreach (var enforcementAction in _enforcementActions.Where(action => action.IsIssued))
+            {
+                enforcementAction.IsApproved = true;
+                enforcementAction.ApprovedBy.Add(UserData.GetRandomUser());
+                GenerateEnforcementActionReviews(enforcementAction);
+            }
+
+            GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[19]);
+
             return _enforcementActions;
+        }
+    }
+
+    private static void GenerateStipulatedPenalties(ConsentOrder consentOrder)
+    {
+        var random = new Random();
+        for (var i = 0; i < 3; i++)
+        {
+            var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder, UserData.GetRandomUser())
+            {
+                ConsentOrder = consentOrder,
+                Amount = random.Next(1000, 5000),
+                Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+                DateReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddMonths(i + 1).Date),
+            };
+            consentOrder.StipulatedPenalties.Add(penalty);
+        }
+    }
+
+    private static void GenerateEnforcementActionReviews(EnforcementAction enforcementAction)
+    {
+        var reviewCount = new Random().Next(1, 3); // Generate 1 or 2 reviews
+        for (var i = 0; i < reviewCount; i++)
+        {
+            var review = new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser())
+            {
+                DateRequested = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10 * (i + 1)).Date),
+                DateCompleted = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5 * (i + 1)).Date),
+                Status = (ReviewResult)new Random().Next(0, 4), // Random status
+                ReviewComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            };
+            enforcementAction.Reviews.Add(review);
         }
     }
 

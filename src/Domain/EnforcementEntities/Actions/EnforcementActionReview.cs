@@ -7,9 +7,9 @@ public class EnforcementActionReview : AuditableEntity
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected EnforcementActionReview() { }
+    private EnforcementActionReview() { }
 
-    private protected EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser? user)
+    internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser? user)
     {
         Id = id;
         EnforcementAction = enforcementAction;

@@ -16,10 +16,9 @@ public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 
     public ConsentOrder ConsentOrder { get; set; } = null!;
 
-    public decimal StipulatedPenaltyAmount { get; set; }
+    public decimal Amount { get; set; }
+    public DateOnly DateReceived { get; set; }
 
     [StringLength(7000)]
-    public string? StipulatedPenaltyComment { get; set; }
-
-    public short SortOrder { get; set; }
+    public string? Notes { get; set; }
 }
