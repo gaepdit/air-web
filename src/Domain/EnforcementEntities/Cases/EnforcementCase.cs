@@ -1,8 +1,8 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Properties;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -88,7 +88,7 @@ public class EnforcementCase : ClosableEntity<int>
     }
 
     // Programs & pollutants
-    public ICollection<Pollutant> GetPollutants() => Data.Data.AllPollutants
+    public ICollection<Pollutant> GetPollutants() => CommonData.AllPollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
     public List<string> PollutantIds { get; } = [];

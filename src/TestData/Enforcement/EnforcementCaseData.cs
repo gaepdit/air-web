@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.EnforcementEntities.Cases;
-using AirWeb.Domain.EnforcementEntities.Properties;
+using AirWeb.Domain.EnforcementEntities.Data;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
