@@ -22,6 +22,15 @@ public static class DbSeedDataHelpers
         SeedEnforcementActionData(context);
     }
 
+    public static void SeedComplianceData(AppDbContext context)
+    {
+        SeedOfficeData(context);
+        SeedIdentityData(context);
+        SeedFceData(context);
+        SeedNotificationTypeData(context);
+        SeedWorkEntryData(context);
+    }
+
     private static void SeedEnforcementCaseData(AppDbContext context)
     {
         if (context.EnforcementCases.Any()) return;
