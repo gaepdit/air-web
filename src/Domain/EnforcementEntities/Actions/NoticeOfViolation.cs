@@ -17,4 +17,6 @@ public class NoticeOfViolation : EnforcementAction
 
     public bool ResponseRequested { get; set; } = true;
     public DateOnly? ResponseReceived { get; set; }
+
+    public NoFurtherActionLetter? NoFurtherActionLetter { get; set; }
 }

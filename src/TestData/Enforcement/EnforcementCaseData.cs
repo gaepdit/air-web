@@ -1,7 +1,9 @@
 ﻿using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.EnforcementEntities.Data;
+using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Enforcement;
 
@@ -137,11 +139,20 @@ internal static class EnforcementCaseData
                 enforcementCase.Comments.AddRange(CommentData.GetRandomCommentsList(1)
                     .Select(comment => new EnforcementCaseComment(comment, enforcementCase.Id)));
 
-                if (enforcementCase is not { Id: > 302, Facility.RegulatoryData: not null }) continue;
-                enforcementCase.PollutantIds.AddRange(enforcementCase.Facility.RegulatoryData!.Pollutants
-                    .Select(pollutant => pollutant.Code));
-                enforcementCase.AirPrograms.AddRange(enforcementCase.Facility.RegulatoryData!.AirPrograms);
+                if (enforcementCase is not { Id: > 302 }) continue;
+
+                enforcementCase.ComplianceEvents.Add(WorkEntryData.GetRandomComplianceEvent());
+
+                var facility = FacilityData.GetFacility(enforcementCase.FacilityId);
+                if (facility.RegulatoryData is null) continue;
+
+                enforcementCase.PollutantIds.AddRange(
+                    facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
+                enforcementCase.AirPrograms.AddRange(facility.RegulatoryData.AirPrograms);
             }
+
+            // Set as deleted
+            _enforcementCases.Single(enforcementCase => enforcementCase.Id == 329).SetDeleted(UserData.AdminUserId);
 
             return _enforcementCases;
         }

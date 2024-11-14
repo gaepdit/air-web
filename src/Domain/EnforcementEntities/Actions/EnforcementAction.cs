@@ -24,7 +24,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Basic data
     public EnforcementCase EnforcementCase { get; init; } = null!;
-    protected EnforcementActionType EnforcementActionType { get; init; }
+    public EnforcementActionType EnforcementActionType { get; protected init; }
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
@@ -37,7 +37,8 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DateTimeOffset? CurrentOwnerAssignedDate { get; internal set; }
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
     public bool IsApproved { get; internal set; }
-    public ICollection<ApplicationUser> ApprovedBy { get; } = [];
+    public DateOnly? DateApproved { get; internal set; }
+    public ApplicationUser? ApprovedBy { get; set; }
 
     // Status
     public DateOnly? IssueDate { get; internal set; }
@@ -57,8 +58,8 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
-    [StringLength(11)]
-    public DataExchangeStatus DataExchangeStatus { get; init; } = DataExchangeStatus.NotIncluded;
+    [StringLength(1)]
+    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -67,11 +68,11 @@ public enum EnforcementActionType
     [Description("Letter of Noncompliance")] LetterOfNoncompliance,
     [Description("Notice of Violation")] NoticeOfViolation,
     [Description("No Further Action Letter")] NoFurtherAction,
-    [Description("Combined NOV/NFA Letter")] NovNfa,
+    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
     [Description("Proposed Consent Order")] ProposedConsentOrder,
     [Description("Consent Order")] ConsentOrder,
-    [Description("Consent Order Resolved")] ConsentOrderResolved,
+    [Description("Consent Order Resolved")] CoResolvedLetter,
     [Description("Administrative Order")] AdministrativeOrder,
-    [Description("Administrative Order Resolved")] AdministrativeOrderResolved,
-    [Description("Letter")] Letter,
+    [Description("Administrative Order Resolved")] AoResolvedLetter,
+    [Description("Letter")] EnforcementLetter,
 }

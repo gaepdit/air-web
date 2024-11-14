@@ -22,7 +22,7 @@ public class ProposedConsentOrder : EnforcementAction
         EnforcementActionType = EnforcementActionType.ProposedConsentOrder;
     }
 
-    public NoticeOfViolation NoticeOfViolation { get; set; } = null!;
+    public NoticeOfViolation? NoticeOfViolation { get; set; }
 
     public DateOnly? ResponseReceived { get; set; }
 }

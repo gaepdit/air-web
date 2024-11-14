@@ -19,6 +19,8 @@ public static class EnforcementData
     public static ViolationType GetRandomViolationType() =>
         ViolationTypes.Where(t => !t.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
 
+    public static ViolationType? GetViolationType(string? code) => ViolationTypes.Find(type => type.Code == code);
+
     private static List<ViolationType> ViolationTypes { get; } =
     [
         new("FCIO",

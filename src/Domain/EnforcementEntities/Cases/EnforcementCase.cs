@@ -3,6 +3,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.Data;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -47,25 +48,20 @@ public class EnforcementCase : ClosableEntity<int>
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    [StringLength(3)]
-    public string? ViolationTypeId { get; set; }
-
-    private ViolationType? _violationType;
+    [StringLength(5)]
+    private string? ViolationTypeId { get; set; }
 
     [NotMapped]
     // Required if the data flow is enabled.
     public ViolationType? ViolationType
     {
-        get => _violationType;
-        set
-        {
-            _violationType = value;
-            ViolationTypeId = value?.Code;
-        }
+        get => EnforcementData.GetViolationType(ViolationTypeId);
+        set => ViolationTypeId = value?.Code;
     }
 
     // Status
 
+    [StringLength(27)]
     public EnforcementCaseStatus Status { get; set; }
 
     // Required but nullable for historical data.
@@ -114,8 +110,8 @@ public class EnforcementCase : ClosableEntity<int>
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
-    [StringLength(11)]
-    public DataExchangeStatus DataExchangeStatus { get; init; } = DataExchangeStatus.NotIncluded;
+    [StringLength(1)]
+    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 public enum EnforcementCaseStatus

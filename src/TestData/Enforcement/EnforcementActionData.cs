@@ -5,7 +5,7 @@ using AirWeb.TestData.SampleData;
 
 namespace AirWeb.TestData.Enforcement;
 
-internal static class EnforcementActionData
+public static class EnforcementActionData
 {
     private static IEnumerable<EnforcementAction> EnforcementActionSeedItems =>
     [
@@ -98,7 +98,7 @@ internal static class EnforcementActionData
         },
 
         // 312 (12)
-        new ProposedConsentOrder(Guid.NewGuid(), EnforcementCaseData.GetData.ElementAt(11), null)
+        new ProposedConsentOrder(Guid.NewGuid(), EnforcementCaseData.GetData.ElementAt(12), null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -152,7 +152,7 @@ internal static class EnforcementActionData
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
             Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
-            OrderNumber = 1999,
+            OrderNumber = 1552,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -165,10 +165,11 @@ internal static class EnforcementActionData
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
             Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
-            OrderNumber = 1999,
-            PenaltyAmount = 1000,
+            OrderNumber = 1663,
+            PenaltyAmount = 10_000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             Resolved = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).Date),
+            StipulatedPenaltiesDefined = true,
         },
 
         // 314 (5) [20]
@@ -182,6 +183,11 @@ internal static class EnforcementActionData
     private static IEnumerable<EnforcementAction> DoubleNestedSeedItems(List<EnforcementAction> parentActions) =>
     [
         // 312 (0) [21]
+        new CoResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
+        {
+            Notes = "Deleted CO resolved letter",
+        },
+        // 312 (1) [22]
         new CoResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(3).Date),
@@ -206,16 +212,22 @@ internal static class EnforcementActionData
             foreach (var enforcementAction in _enforcementActions)
             {
                 enforcementAction.ResponsibleStaff = UserData.GetRandomUser();
+                enforcementAction.CurrentOwner = UserData.GetRandomUser();
+                enforcementAction.CurrentOwnerAssignedDate = DateTimeOffset.Now.AddDays(-10);
             }
 
             foreach (var enforcementAction in _enforcementActions.Where(action => action.IsIssued))
             {
                 enforcementAction.IsApproved = true;
-                enforcementAction.ApprovedBy.Add(UserData.GetRandomUser());
+                enforcementAction.ApprovedBy = UserData.GetRandomUser();
+                enforcementAction.DateApproved = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
                 GenerateEnforcementActionReviews(enforcementAction);
             }
 
             GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[19]);
+
+            // Set as deleted
+            _enforcementActions[21].SetDeleted(UserData.AdminUserId);
 
             return _enforcementActions;
         }
@@ -248,6 +260,7 @@ internal static class EnforcementActionData
                 DateCompleted = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5 * (i + 1)).Date),
                 Status = (ReviewResult)new Random().Next(0, 4), // Random status
                 ReviewComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+                ReviewedBy = UserData.GetRandomUser(),
             };
             enforcementAction.Reviews.Add(review);
         }

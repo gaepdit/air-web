@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
@@ -12,13 +13,12 @@ public abstract class ComplianceEvent : WorkEntry
 
     private protected ComplianceEvent(int? id, ApplicationUser? user) : base(id, user) { }
 
-    // TODO: Uncomment this when enforcement entities are added to the EF repository.
-    // public ICollection<EnforcementCase> EnforcementCases { get; } = [];
+    public ICollection<EnforcementCase> EnforcementCases { get; } = [];
 
     // Data exchange properties
     public bool IsDataFlowEnabled => IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 
     [JsonIgnore]
-    [StringLength(11)]
+    [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
 }

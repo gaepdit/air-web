@@ -12,7 +12,7 @@ public class NovNfaLetter : EnforcementAction
     internal NovNfaLetter(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
         : base(id, enforcementCase, user)
     {
-        EnforcementActionType = EnforcementActionType.NovNfa;
+        EnforcementActionType = EnforcementActionType.NovNfaLetter;
     }
 
     public bool ResponseRequested { get; set; }

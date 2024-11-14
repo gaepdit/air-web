@@ -6,6 +6,8 @@ namespace IaipDataService.Facilities;
 
 public record RegulatoryData
 {
+    public Facility Facility { get; init; } = null!;
+
     // Operating status
 
     [JsonIgnore]

@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
@@ -29,8 +30,11 @@ public class ConsentOrder : EnforcementAction
     public DateOnly? Executed { get; set; }
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
     public DateOnly? Resolved { get; set; }
+    public CoResolvedLetter? ResolvedLetter { get; set; }
 
     public short? OrderNumber { get; set; }
+
+    [Precision(12, 2)]
     public decimal? PenaltyAmount { get; set; }
 
     [StringLength(7000)]
