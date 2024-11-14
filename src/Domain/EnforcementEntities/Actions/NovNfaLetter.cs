@@ -3,13 +3,13 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class NovNfa : EnforcementAction
+public class NovNfaLetter : EnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private NovNfa() { }
+    private NovNfaLetter() { }
 
-    internal NovNfa(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
+    internal NovNfaLetter(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
         : base(id, enforcementCase, user)
     {
         EnforcementActionType = EnforcementActionType.NovNfa;

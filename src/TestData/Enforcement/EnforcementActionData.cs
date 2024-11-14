@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.Actions;
+﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
@@ -60,7 +61,7 @@ internal static class EnforcementActionData
         },
 
         // 307 (7)
-        new NovNfa(Guid.NewGuid(), EnforcementCaseData.GetData.ElementAt(7), null)
+        new NovNfaLetter(Guid.NewGuid(), EnforcementCaseData.GetData.ElementAt(7), null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-75).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -123,7 +124,7 @@ internal static class EnforcementActionData
     private static List<EnforcementAction> NestedSeedItems(List<EnforcementAction> parentActions) =>
     [
         // 306 (0) [15]
-        new NoFurtherAction(Guid.NewGuid(), (NoticeOfViolation)parentActions[6], null)
+        new NoFurtherActionLetter(Guid.NewGuid(), (NoticeOfViolation)parentActions[6], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-15).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -171,7 +172,7 @@ internal static class EnforcementActionData
         },
 
         // 314 (5) [20]
-        new AdministrativeOrderResolved(Guid.NewGuid(), (AdministrativeOrder)parentActions[14], null)
+        new AoResolvedLetter(Guid.NewGuid(), (AdministrativeOrder)parentActions[14], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-200).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -181,7 +182,7 @@ internal static class EnforcementActionData
     private static IEnumerable<EnforcementAction> DoubleNestedSeedItems(List<EnforcementAction> parentActions) =>
     [
         // 312 (0) [21]
-        new ConsentOrderResolved(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
+        new CoResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(3).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),

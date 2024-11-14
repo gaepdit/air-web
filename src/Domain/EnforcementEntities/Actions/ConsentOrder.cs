@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
+﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;

@@ -1,6 +1,7 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.ActionProperties;
 
 public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 {

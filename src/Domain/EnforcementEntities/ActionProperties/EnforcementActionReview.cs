@@ -1,7 +1,8 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.Identity;
 using System.ComponentModel;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.ActionProperties;
 
 public class EnforcementActionReview : AuditableEntity
 {

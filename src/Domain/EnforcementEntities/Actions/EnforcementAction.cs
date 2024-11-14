@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;

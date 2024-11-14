@@ -2,13 +2,13 @@
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ConsentOrderResolved : EnforcementAction
+public class CoResolvedLetter : EnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private ConsentOrderResolved() { }
+    private CoResolvedLetter() { }
 
-    internal ConsentOrderResolved(Guid id, ConsentOrder consentOrder, ApplicationUser? user)
+    internal CoResolvedLetter(Guid id, ConsentOrder consentOrder, ApplicationUser? user)
         : base(id, consentOrder.EnforcementCase, user)
     {
         EnforcementActionType = EnforcementActionType.ConsentOrderResolved;

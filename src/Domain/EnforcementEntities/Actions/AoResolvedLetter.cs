@@ -2,13 +2,13 @@
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class AdministrativeOrderResolved : EnforcementAction
+public class AoResolvedLetter : EnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private AdministrativeOrderResolved() { }
+    private AoResolvedLetter() { }
 
-    internal AdministrativeOrderResolved(Guid id, AdministrativeOrder administrativeOrder, ApplicationUser? user)
+    internal AoResolvedLetter(Guid id, AdministrativeOrder administrativeOrder, ApplicationUser? user)
         : base(id, administrativeOrder.EnforcementCase, user)
     {
         EnforcementActionType = EnforcementActionType.AdministrativeOrderResolved;
