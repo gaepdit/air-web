@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.Properties;
+﻿namespace AirWeb.Domain.EnforcementEntities.Cases;
 
 public record ViolationType(
     [StringLength(3)] string Code,

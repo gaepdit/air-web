@@ -239,7 +239,7 @@ public class WorkEntryFilterTests
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
-            entry.ResponsibleStaff != null && entry.ResponsibleStaff.Id == responsibleStaffId);
+            entry.ResponsibleStaff != null && entry.ResponsibleStaff.Id == responsibleStaffId && !entry.IsDeleted);
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());

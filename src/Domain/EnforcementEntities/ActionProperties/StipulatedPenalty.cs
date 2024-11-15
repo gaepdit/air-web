@@ -1,6 +1,8 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.ActionProperties;
 
 public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 {
@@ -16,10 +18,11 @@ public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 
     public ConsentOrder ConsentOrder { get; set; } = null!;
 
-    public decimal StipulatedPenaltyAmount { get; set; }
+    [Precision(12, 2)]
+    public decimal Amount { get; set; }
+
+    public DateOnly DateReceived { get; set; }
 
     [StringLength(7000)]
-    public string? StipulatedPenaltyComment { get; set; }
-
-    public short SortOrder { get; set; }
+    public string? Notes { get; set; }
 }

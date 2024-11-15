@@ -1,6 +1,8 @@
 ﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.Compliance;
+using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +18,90 @@ public static class DbSeedDataHelpers
         SeedFceData(context);
         SeedNotificationTypeData(context);
         SeedWorkEntryData(context);
+        SeedEnforcementCaseData(context);
+        SeedEnforcementActionData(context);
+    }
+
+    public static void SeedComplianceData(AppDbContext context)
+    {
+        SeedOfficeData(context);
+        SeedIdentityData(context);
+        SeedFceData(context);
+        SeedNotificationTypeData(context);
+        SeedWorkEntryData(context);
+    }
+
+    private static void SeedEnforcementCaseData(AppDbContext context)
+    {
+        if (context.EnforcementCases.Any()) return;
+
+        context.Database.BeginTransaction();
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT EnforcementCases ON");
+
+        context.EnforcementCases.AddRange(EnforcementCaseData.GetData);
+        context.SaveChanges();
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT EnforcementCases OFF");
+
+        context.Database.CommitTransaction();
+    }
+
+    private static void SeedEnforcementActionData(AppDbContext context)
+    {
+        if (!context.AdministrativeOrders.Any())
+            context.AdministrativeOrders.AddRange(EnforcementActionData.GetData
+                .Where(action => action is AdministrativeOrder)
+                .Cast<AdministrativeOrder>());
+
+        if (!context.AoResolvedLetters.Any())
+            context.AoResolvedLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is AoResolvedLetter)
+                .Cast<AoResolvedLetter>());
+
+        if (!context.ConsentOrders.Any())
+            context.ConsentOrders.AddRange(EnforcementActionData.GetData
+                .Where(action => action is ConsentOrder)
+                .Cast<ConsentOrder>());
+
+        if (!context.CoResolvedLetters.Any())
+            context.CoResolvedLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is CoResolvedLetter)
+                .Cast<CoResolvedLetter>());
+
+        if (!context.EnforcementLetters.Any())
+            context.EnforcementLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is EnforcementLetter)
+                .Cast<EnforcementLetter>());
+
+        if (!context.LettersOfNoncompliance.Any())
+            context.LettersOfNoncompliance.AddRange(EnforcementActionData.GetData
+                .Where(action => action is LetterOfNoncompliance)
+                .Cast<LetterOfNoncompliance>());
+
+        if (!context.NoFurtherActionLetters.Any())
+            context.NoFurtherActionLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is NoFurtherActionLetter)
+                .Cast<NoFurtherActionLetter>());
+
+        if (!context.NoticesOfViolation.Any())
+            context.NoticesOfViolation.AddRange(EnforcementActionData.GetData
+                .Where(action => action is NoticeOfViolation)
+                .Cast<NoticeOfViolation>());
+
+        if (!context.NovNfaLetters.Any())
+            context.NovNfaLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is NovNfaLetter)
+                .Cast<NovNfaLetter>());
+
+        if (!context.ProposedConsentOrders.Any())
+            context.ProposedConsentOrders.AddRange(EnforcementActionData.GetData
+                .Where(action => action is ProposedConsentOrder)
+                .Cast<ProposedConsentOrder>());
+
+        context.SaveChanges();
     }
 
     internal static void SeedFceData(AppDbContext context)
@@ -23,6 +109,7 @@ public static class DbSeedDataHelpers
         if (context.Fces.Any()) return;
 
         context.Database.BeginTransaction();
+
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces ON");
 
@@ -31,6 +118,7 @@ public static class DbSeedDataHelpers
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces OFF");
+
         context.Database.CommitTransaction();
     }
 
@@ -44,62 +132,50 @@ public static class DbSeedDataHelpers
     private static void SeedWorkEntryData(AppDbContext context)
     {
         context.Database.BeginTransaction();
+
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries ON");
 
         if (!context.Accs.Any())
-        {
             context.Accs.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification)
+                .Where(entry => entry is AnnualComplianceCertification)
                 .Cast<AnnualComplianceCertification>());
-        }
 
         if (!context.Inspections.Any())
-        {
             context.Inspections.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.Inspection)
+                .Where(entry => entry is Inspection)
                 .Cast<Inspection>());
-        }
 
         if (!context.Notifications.Any())
-        {
             context.Notifications.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.Notification)
+                .Where(entry => entry is Notification)
                 .Cast<Notification>());
-        }
 
         if (!context.PermitRevocations.Any())
-        {
             context.PermitRevocations.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.PermitRevocation)
+                .Where(entry => entry is PermitRevocation)
                 .Cast<PermitRevocation>());
-        }
 
         if (!context.Reports.Any())
-        {
             context.Reports.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.Report)
+                .Where(entry => entry is Report)
                 .Cast<Report>());
-        }
 
         if (!context.RmpInspections.Any())
-        {
             context.RmpInspections.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.RmpInspection)
+                .Where(entry => entry is RmpInspection)
                 .Cast<RmpInspection>());
-        }
 
         if (!context.SourceTestReviews.Any())
-        {
             context.SourceTestReviews.AddRange(WorkEntryData.GetData
-                .Where(entry => entry.WorkEntryType == WorkEntryType.SourceTestReview)
+                .Where(entry => entry is SourceTestReview)
                 .Cast<SourceTestReview>());
-        }
 
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries OFF");
+
         context.Database.CommitTransaction();
     }
 

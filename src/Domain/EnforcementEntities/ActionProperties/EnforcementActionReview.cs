@@ -1,15 +1,16 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.Identity;
 using System.ComponentModel;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.ActionProperties;
 
 public class EnforcementActionReview : AuditableEntity
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected EnforcementActionReview() { }
+    private EnforcementActionReview() { }
 
-    private protected EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser? user)
+    internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser? user)
     {
         Id = id;
         EnforcementAction = enforcementAction;
@@ -22,6 +23,8 @@ public class EnforcementActionReview : AuditableEntity
     public ApplicationUser? ReviewedBy { get; internal init; }
     public bool IsCompleted => DateCompleted.HasValue;
     public DateOnly? DateCompleted { get; internal set; }
+
+    [StringLength(11)]
     public ReviewResult? Status { get; internal set; }
 
     [StringLength(7000)]

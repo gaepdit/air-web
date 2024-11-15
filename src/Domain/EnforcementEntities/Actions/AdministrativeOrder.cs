@@ -18,4 +18,5 @@ public class AdministrativeOrder : EnforcementAction
     public DateOnly? Executed { get; set; }
     public DateOnly? Appealed { get; set; }
     public DateOnly? Resolved { get; set; }
+    public AoResolvedLetter? ResolvedLetter { get; set; }
 }

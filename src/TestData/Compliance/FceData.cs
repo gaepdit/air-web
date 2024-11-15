@@ -10,7 +10,7 @@ internal static class FceData
     [
         new(401, DomainData.GetRandomFacility().Id, 2020, null)
         {
-            ReviewedBy = UserData.GetUsers.ElementAt(0),
+            ReviewedBy = UserData.GetRandomUser(),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -29,7 +29,7 @@ internal static class FceData
         },
         new(404, DomainData.GetRandomFacility().Id, 2023, null)
         {
-            ReviewedBy = UserData.GetUsers.ElementAt(1),
+            ReviewedBy = UserData.GetRandomUser(),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-50).Date),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Word),

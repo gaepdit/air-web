@@ -8,6 +8,8 @@ internal static partial class UserData
 {
     public const string AdminUserId = "00000000-0000-0000-0000-000000000001";
 
+    public static ApplicationUser GetRandomUser() => GetUsers.ElementAt(new Random().Next(GetUsers.Count()));
+
     private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
     {
         new() // 0

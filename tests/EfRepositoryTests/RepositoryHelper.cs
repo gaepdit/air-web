@@ -2,6 +2,7 @@ using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
+using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
 using GaEpd.AppLibrary.Domain.Entities;
@@ -26,7 +27,7 @@ namespace EfRepositoryTests;
 /// </summary>
 public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 {
-    public AppDbContext Context { get; set; } = default!;
+    public AppDbContext Context { get; private set; } = default!;
 
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
@@ -37,7 +38,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper()
     {
         _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
-            builder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted }));
+            builder.LogTo(Console.WriteLine, [RelationalEventId.CommandExecuted]));
 
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();
@@ -52,7 +53,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     {
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
             builder: builder => builder.UseSqlServer()
-                .LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted }));
+                .LogTo(Console.WriteLine, [RelationalEventId.CommandExecuted]));
 
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
@@ -126,6 +127,8 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 
     private static void ClearAllStaticData()
     {
+        EnforcementActionData.ClearData();
+        EnforcementCaseData.ClearData();
         FceData.ClearData();
         WorkEntryData.ClearData();
         NotificationTypeData.ClearData();
@@ -153,7 +156,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public WorkEntryRepository GetWorkEntryRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
+        DbSeedDataHelpers.SeedComplianceData(_context);
         Context = new AppDbContext(_options);
         return new WorkEntryRepository(Context);
     }
@@ -165,7 +168,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public ComplianceSearchRepository GetComplianceSearchRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
+        DbSeedDataHelpers.SeedComplianceData(_context);
         Context = new AppDbContext(_options);
         return new ComplianceSearchRepository(Context, new LocalFacilityService());
     }

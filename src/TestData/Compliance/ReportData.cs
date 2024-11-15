@@ -8,11 +8,11 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Report> ReportData =>
     [
-        new(9001, UserData.GetUsers.ElementAt(0))
+        new(9001, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "In compliance",
@@ -30,11 +30,11 @@ internal static partial class WorkEntries
             ReportsDeviations = false,
             EnforcementNeeded = false,
         },
-        new(9002, UserData.GetUsers.ElementAt(1))
+        new(9002, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
@@ -56,7 +56,7 @@ internal static partial class WorkEntries
         {
             WorkEntryType = WorkEntryType.Report,
             Facility = DomainData.GetRandomFacility(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Report",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

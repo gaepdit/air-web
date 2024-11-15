@@ -62,7 +62,7 @@
                     <ul class="mb-0">
                         @foreach (var pollutant in regulatoryData.Pollutants)
                         {
-                            <li>@pollutant.Value</li>
+                            <li>@pollutant.Description (@pollutant.Code)</li>
                         }
                     </ul>
                 }

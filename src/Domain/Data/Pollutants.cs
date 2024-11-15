@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.Properties;
+﻿// ReSharper disable StringLiteralTypo
+
+namespace AirWeb.Domain.Data;
 
 // Source of data from IAIP airbranch DB:
 //
@@ -11,9 +13,9 @@
 // where ICIS_POLLUTANT_CODE is not null
 // ```
 
-public static partial class Data
+public static partial class CommonData
 {
-    public static List<Pollutant> Pollutants { get; } =
+    public static List<Pollutant> AllPollutants { get; } =
     [
         new("300000331", "Chromium"),
         new("300000025", "Cadmium"),

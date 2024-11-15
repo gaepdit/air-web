@@ -1,8 +1,9 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Properties;
+using AirWeb.Domain.EnforcementEntities.Data;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -40,30 +41,32 @@ public class EnforcementCase : ClosableEntity<int>
     }
 
     // Basic data
+
+    // Required but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    [StringLength(3)]
-    public string? ViolationTypeId { get; set; }
-
-    private ViolationType _violationType = default!;
+    [StringLength(5)]
+    private string? ViolationTypeId { get; set; }
 
     [NotMapped]
-    public ViolationType ViolationType
+    // Required if the data flow is enabled.
+    public ViolationType? ViolationType
     {
-        get => _violationType;
-        set
-        {
-            _violationType = value;
-            ViolationTypeId = value.Code;
-        }
+        get => EnforcementData.GetViolationType(ViolationTypeId);
+        set => ViolationTypeId = value?.Code;
     }
 
     // Status
+
+    [StringLength(27)]
     public EnforcementCaseStatus Status { get; set; }
+
+    // Required but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
+
     private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
 
     public DateOnly? DayZero
@@ -81,15 +84,15 @@ public class EnforcementCase : ClosableEntity<int>
     }
 
     // Programs & pollutants
-    public ICollection<Pollutant> GetPollutants() => Properties.Data.Pollutants
+    public ICollection<Pollutant> GetPollutants() => CommonData.AllPollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
-    public ICollection<string> PollutantIds { get; } = [];
+    public List<string> PollutantIds { get; } = [];
 
-    public ICollection<AirProgram> AirPrograms { get; } = [];
+    public List<AirProgram> AirPrograms { get; } = [];
 
     // Comments
-    public ICollection<EnforcementCaseComment> EnforcementComments { get; } = [];
+    public List<EnforcementCaseComment> Comments { get; } = [];
 
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
@@ -103,10 +106,11 @@ public class EnforcementCase : ClosableEntity<int>
         ComplianceEvents.Any(complianceEvent => complianceEvent.IsDataFlowEnabled) &&
         EnforcementActions.Any(action => action.IsDataFlowEnabled);
 
+    // Required if the data flow is enabled.
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
-    [StringLength(11)]
+    [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
