@@ -1,7 +1,8 @@
 ﻿using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
-namespace IaipDataService.SourceTests;
+namespace IaipDataService.TestData;
 
 public class LocalSourceTestService : ISourceTestService
 {

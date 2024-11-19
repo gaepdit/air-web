@@ -1,4 +1,4 @@
-using IaipDataService.SourceTests;
+using IaipDataService.TestData;
 
 namespace IaipDataServiceTests;
 

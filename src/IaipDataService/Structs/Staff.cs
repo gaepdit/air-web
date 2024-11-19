@@ -1,6 +1,4 @@
-﻿using IaipDataService.Structs;
-
-namespace IaipDataService.Staff;
+﻿namespace IaipDataService.Structs;
 
 public record struct Staff
 {

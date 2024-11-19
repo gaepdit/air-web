@@ -1,6 +1,7 @@
+using IaipDataService.Facilities;
 using IaipDataService.Structs;
 
-namespace IaipDataService.Facilities;
+namespace IaipDataService.TestData;
 
 public static class FacilityData
 {
@@ -92,7 +93,7 @@ public static class FacilityData
                     { "300000329", "Facility Wide" },
                 },
                 AirPrograms = [AirProgram.SIP, AirProgram.NSPS],
-                ProgramClassifications = [AirProgramClassifications.NsrMajor,AirProgramClassifications.HapMajor],
+                ProgramClassifications = [AirProgramClassifications.NsrMajor, AirProgramClassifications.HapMajor],
                 OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
                 EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,
                 PmFineNonattainment = PmFineNonattainmentStatus.None,

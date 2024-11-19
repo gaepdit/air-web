@@ -1,4 +1,6 @@
-﻿namespace IaipDataService.Facilities;
+﻿using IaipDataService.Facilities;
+
+namespace IaipDataService.TestData;
 
 public sealed class LocalFacilityService : IFacilityService
 {

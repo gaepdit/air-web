@@ -1,6 +1,6 @@
 using IaipDataService.Structs;
 
-namespace IaipDataService.Staff;
+namespace IaipDataService.TestData;
 
 public static class StaffData
 {
