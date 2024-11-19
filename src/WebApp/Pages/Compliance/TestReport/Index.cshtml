@@ -58,7 +58,7 @@
 
 @if (Model.ComplianceReview is null)
 {
-    if (!Model.IsComplianceStaff)
+    if (!Model.CanAddNewReview)
     {
         <h2 id="compliance-review">Compliance Review</h2>
         <p class="lead">No compliance review has been completed for this source test report.</p>
@@ -143,6 +143,7 @@ else
             }
         </div>
     </div>
+
     var review = Model.ComplianceReview!;
 
     <p class="lead mt-2 mt-md-0">Tracking #@review.Id.ToString()</p>

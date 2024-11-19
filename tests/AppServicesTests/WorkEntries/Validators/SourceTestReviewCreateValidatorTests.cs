@@ -14,6 +14,7 @@ public class SourceTestReviewCreateValidatorTests
         var model = new SourceTestReviewCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
         };
 
@@ -28,6 +29,32 @@ public class SourceTestReviewCreateValidatorTests
 
         // Assert
         result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task SourceTestIsNotClosed_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new SourceTestReviewCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = false,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+        };
+
+        var entryService = Substitute.For<IWorkEntryService>();
+        entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        var validator = new SourceTestReviewCreateValidator(entryService);
+
+        // Act
+        var result = await validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.TestReportIsClosed);
     }
 
     [Test]

@@ -36,9 +36,11 @@ public class IndexModel(
     public SelectList? StaffSelectList { get; private set; }
 
     // Permissions
-    public bool IsComplianceStaff { get; private set; }
 
-    // This "UserCan" dictionary is only used if a compliance review (`SourceTestReview`) exists.
+    // This `CanAddReview` bool is only used if a compliance review (`SourceTestReview`) does not exist.
+    public bool CanAddNewReview { get; private set; }
+
+    // This `UserCan` dictionary is only used if a compliance review (`SourceTestReview`) does exist.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     [TempData]
@@ -49,7 +51,8 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
-        if (ReferenceNumber > 0) TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        if (ReferenceNumber > 0)
+            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -60,6 +63,7 @@ public class IndexModel(
             NewComplianceReview = new SourceTestReviewCreateDto
             {
                 ReferenceNumber = ReferenceNumber,
+                TestReportIsClosed = TestSummary.ReportClosed,
                 FacilityId = TestSummary.Facility?.FacilityId,
                 ResponsibleStaffId = (await staffService.GetCurrentUserAsync()).Id,
             };
@@ -88,16 +92,17 @@ public class IndexModel(
             ReferenceNumber != newComplianceReview.ReferenceNumber)
             return BadRequest();
 
-        await SetPermissionsAsync();
-        if (!IsComplianceStaff) return BadRequest();
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        if (TestSummary is null) return BadRequest();
 
+        await SetPermissionsAsync();
+        if (!CanAddNewReview) return BadRequest();
+
+        newComplianceReview.TestReportIsClosed = TestSummary.ReportClosed;
         await validator.ApplyValidationAsync(newComplianceReview, ModelState);
 
         if (!ModelState.IsValid)
         {
-            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
-            if (TestSummary is null) return BadRequest();
-
             await PopulateSelectListsAsync();
             return Page();
         }
@@ -122,6 +127,9 @@ public class IndexModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        if (TestSummary is null) return BadRequest();
+
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
@@ -130,9 +138,6 @@ public class IndexModel(
 
         if (!ModelState.IsValid)
         {
-            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
-            if (TestSummary is null) return BadRequest();
-
             CommentSection = new CommentsSectionModel
             {
                 Comments = ComplianceReview.Comments,
@@ -154,6 +159,9 @@ public class IndexModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        if (TestSummary is null) return BadRequest();
+
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
@@ -167,7 +175,8 @@ public class IndexModel(
 
     private async Task SetPermissionsAsync()
     {
-        IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
+        CanAddNewReview = await authorization.Succeeded(User, Policies.ComplianceStaff) &&
+                          TestSummary is { ReportClosed: true } && ComplianceReview is null;
         UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, ComplianceReview);
     }
 

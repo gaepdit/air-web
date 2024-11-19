@@ -13,7 +13,7 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
 
         RuleFor(dto => dto).SetValidator(new WorkEntryCreateValidator());
         RuleFor(dto => dto).SetValidator(new SourceTestReviewCommandValidator());
-
+        RuleFor(dto => dto.TestReportIsClosed).Equal(true);
         RuleFor(dto => dto).MustAsync(async (dto, token) =>
             await NotExist(dto.ReferenceNumber, token).ConfigureAwait(false));
     }

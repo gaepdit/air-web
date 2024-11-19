@@ -37,7 +37,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         set
         {
             _facility = value;
-            FacilityId = value.Id ?? string.Empty;
+            FacilityId = value.Id;
         }
     }
 
