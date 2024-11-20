@@ -1,14 +1,12 @@
 # Enforcement ERD
 
-## Enforcement Case
-
 ```mermaid
 erDiagram
     FAC["Facility"] {
         string Id PK
     }
 
-    CWE["Compliance Event (Work Entry)"] {
+    CWE["Compliance Event"] {
         int Id PK
         string facilityId FK
     }
@@ -54,7 +52,7 @@ erDiagram
 † See next diagram for Enforcement Actions.<br>
 ‡ Pollutants & Air Programs are combined on the graph but are tracked separately.
 
-### Enforcement Actions
+### Enforcement Action Relationships
 
 ```mermaid
 erDiagram

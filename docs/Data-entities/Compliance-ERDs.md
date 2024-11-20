@@ -238,12 +238,13 @@ erDiagram
 
 ### IAIP table column mapping
 
-| Column                                | Type          | Migrate | Destination          |
-|---------------------------------------|---------------|:-------:|----------------------|
-| SSCPITEMMASTER.DATRECEIVEDDATE        | datetime2(0)  |    ✓    | ReceivedByCompliance |
-| SSCPTESTREPORTS.STRREFERENCENUMBER    | varchar(9)    |    ✓    | ReferenceNumber      |
-| SSCPTESTREPORTS.DATTESTREPORTDUE      | datetime2(0)  |    ✓    | TestDue              |
-| SSCPTESTREPORTS.STRTESTREPORTCOMMENTS | varchar(4000) |    ✓    | base.Notes           |
-| SSCPTESTREPORTS.STRTESTREPORTFOLLOWUP | varchar(5)    |    ✓    | FollowupTaken        |
-| SSCPTESTREPORTS.STRMODIFINGPERSON     | varchar(3)    |    ?    | base.UpdatedById     |
-| SSCPTESTREPORTS.DATMODIFINGDATE       | datetime2(0)  |    ?    | base.UpdatedAt       |
+| Column                                   | Type          | Migrate | Destination          |
+|------------------------------------------|---------------|:-------:|----------------------|
+| SSCPITEMMASTER.DATRECEIVEDDATE           | datetime2(0)  |    ✓    | ReceivedByCompliance |
+| SSCPTESTREPORTS.STRREFERENCENUMBER       | varchar(9)    |    ✓    | ReferenceNumber      |
+| SSCPTESTREPORTS.DATTESTREPORTDUE         | datetime2(0)  |    ✓    | TestDue              |
+| SSCPTESTREPORTS.STRTESTREPORTCOMMENTS    | varchar(4000) |    ✓    | base.Notes           |
+| SSCPTESTREPORTS.STRTESTREPORTFOLLOWUP    | varchar(5)    |    ✓    | FollowupTaken        |
+| SSCPTESTREPORTS.STRMODIFINGPERSON        | varchar(3)    |    ?    | base.UpdatedById     |
+| SSCPTESTREPORTS.DATMODIFINGDATE          | datetime2(0)  |    ?    | base.UpdatedAt       |
+| APBSUPPLAMENTALDATA.DATSSCPTESTREPORTDUE | datetime2(0)  |    ✗    | *none*               |

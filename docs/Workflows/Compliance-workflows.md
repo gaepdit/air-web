@@ -58,7 +58,6 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     FAC -.-> enter
-    WRK -.-> edit
     WRK -.-> close
     WRK -.-> print
     WRK -..-> comment
@@ -66,6 +65,7 @@ flowchart
     CMT -.-> editComment
     close -->|"`Enables/*disables*`"| print
     close -->|"`Disables/*enables*`"| edit
+    WRK -.-> edit
     enter -->|Creates| WRK
     edit -->|Updates| WRK
     close -->|"`Closes/*reopens*`"| WRK
@@ -95,12 +95,12 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     FAC -.-> enter
-    WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
     close -->|"`Disables/*enables*`"| edit
+    WRK -.-> edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
     close -->|"`Closes/*reopens*`"| WRK
@@ -181,12 +181,12 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     FAC -.-> enter
-    WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
     close -->|"`Disables/*enables*`"| edit
+    WRK -.-> edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
     close -->|"`Closes/*reopens*`"| WRK
@@ -216,8 +216,8 @@ flowchart
     FAC -.-> enter
     WRK -.-> edit
     WRK -.-> close
-    WRK -.-> comment
-    WRK -.-> enforce
+    WRK -..-> comment
+    WRK -..-> enforce
     CMT -.-> editComment
     close -->|"`Disables/*enables*`"| edit
     enter -->|Creates and closes| WRK
@@ -248,12 +248,12 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     STR -.-> enter
-    WRK -.-> edit
     WRK -.-> close
     WRK -..-> comment
     WRK -..-> enforce
     CMT -.-> editComment
     close -->|"`Disables/*enables*`"| edit
+    WRK -.-> edit
     enter -->|Creates and closes| WRK
     edit -->|Updates| WRK
     close -->|"`Closes/*reopens*`"| WRK
