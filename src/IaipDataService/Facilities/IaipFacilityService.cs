@@ -1,23 +1,38 @@
 using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
+using IaipDataService.Utilities;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Data;
 
 namespace IaipDataService.Facilities;
 
-public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilityService
+public sealed class IaipFacilityService(
+    IDbConnectionFactory dbf,
+    IMemoryCache cache,
+    ILogger<IaipFacilityService> logger) : IFacilityService
 {
-    public async Task<Facility> GetAsync(FacilityId id)
+    public async Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false)
     {
-        var facility = await FindAsync(id);
+        var facility = await FindAsync(id, forceRefresh);
         if (facility is null) throw new InvalidOperationException("Facility not found.");
         return facility;
     }
 
-    public async Task<Facility?> FindAsync(FacilityId? id)
+    public async Task<Facility?> FindAsync(FacilityId? id, bool forceRefresh = false)
     {
         if (id is null || !await ExistsAsync(id)) return null;
+
+        var cacheKey = $"IaipFacilityService.FindAsync.{id}";
+        if (!forceRefresh && cache.TryGetValue(cacheKey, out Facility? cachedFacility) && cachedFacility != null)
+        {
+            logger.LogCacheHit(cacheKey);
+            return cachedFacility;
+        }
+
+        logger.LogCacheRefresh(forceRefresh, cacheKey);
 
         using var db = dbf.Create();
 
@@ -38,15 +53,19 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
         facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<AirProgramClassifications>());
         facility.RegulatoryData!.Pollutants = (await multi.ReadAsync<KeyValuePair<string, string>>()).ToDictionary();
 
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(IaipDataConstants.FacilityDataExpiration);
+        cache.Set(cacheKey, facility, cacheEntryOptions);
+
         return facility;
     }
 
     public async Task<string> GetNameAsync(string id)
     {
-        using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<string>("air.GetIaipFacilityName",
-                   param: new { FacilityId = ((FacilityId)id).Id }, commandType: CommandType.StoredProcedure) ??
-               throw new InvalidOperationException("Facility not found.");
+        var facilityList = await GetListAsync();
+        return facilityList.TryGetValue((FacilityId)id, out var name)
+            ? name
+            : throw new InvalidOperationException("Facility not found.");
     }
 
     public async Task<bool> ExistsAsync(FacilityId id)
@@ -56,10 +75,29 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync()
+    private const string FacilityListCacheKey = "IaipFacilityService.GetListAsync";
+
+    public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
     {
+        if (!forceRefresh &&
+            cache.TryGetValue(FacilityListCacheKey, out ReadOnlyDictionary<FacilityId, string>? cachedFacilityList) &&
+            cachedFacilityList != null)
+        {
+            logger.LogCacheHit(FacilityListCacheKey);
+            return cachedFacilityList;
+        }
+
+        logger.LogCacheRefresh(forceRefresh, FacilityListCacheKey);
+
         using var db = dbf.Create();
-        return new ReadOnlyDictionary<FacilityId, string>((await db.QueryAsync<KeyValuePair<FacilityId, string>>(
-            sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
+        var facilityList = new ReadOnlyDictionary<FacilityId, string>(
+            (await db.QueryAsync<KeyValuePair<FacilityId, string>>(
+                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
+
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(IaipDataConstants.FacilityListExpiration);
+        cache.Set(FacilityListCacheKey, facilityList, cacheEntryOptions);
+
+        return facilityList;
     }
 }

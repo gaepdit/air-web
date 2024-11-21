@@ -8,14 +8,9 @@ public static class IaipDataConstants
     // Stack Tests
     public const string ConfidentialInfoPlaceholder = "--Conf--";
 
-    public const string ReportStatement = "The following test has been reviewed and was conducted " +
-                                          "in an acceptable fashion for the purpose intended.";
-
-    // FCEs
-    // The number of years covered by the FCE
-    public const int FceDataPeriod = 1; // One year
-
-    // The number of years of additional data retrieved
-    // (fees history and enforcement history)
-    public const int FceExtendedDataPeriod = 5; // Five years
+    // Caching
+    public static TimeSpan FacilityDataExpiration { get; } = TimeSpan.FromDays(1);
+    public static TimeSpan FacilityListExpiration { get; } = TimeSpan.FromDays(1);
+    public static TimeSpan SourceTestSummaryExpiration { get; } = TimeSpan.FromDays(1);
+    public static TimeSpan SourceTestListExpiration { get; } = TimeSpan.FromDays(1);
 }

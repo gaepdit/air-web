@@ -9,6 +9,9 @@ namespace IaipDataService.TestData;
 
 public static class SourceTestData
 {
+    public const string ReportStatement = "The following test has been reviewed and was conducted " +
+                                          "in an acceptable fashion for the purpose intended.";
+
     private static IEnumerable<BaseSourceTestReport> StackTestReportSeedItems =>
     [
         new SourceTestReportOneStack
@@ -21,7 +24,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.4.1",
             Comments = "N/A",
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local),
@@ -98,7 +101,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.4.1",
             Comments = "N/A",
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -171,7 +174,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -271,7 +274,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -367,7 +370,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.ShortMultiline,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -404,7 +407,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -461,7 +464,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.Short,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -522,7 +525,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.LongMultiline,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -584,7 +587,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -673,7 +676,7 @@ public static class SourceTestData
             Source = "System",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -697,7 +700,7 @@ public static class SourceTestData
             Source = "Monitor",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -723,7 +726,7 @@ public static class SourceTestData
             Source = "System",
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -755,7 +758,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.VeryShort,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -833,7 +836,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = true,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
@@ -873,7 +876,7 @@ public static class SourceTestData
             ReportType = ReportType.SourceTest,
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.None,
-            ReportStatement = IaipDataConstants.ReportStatement,
+            ReportStatement = ReportStatement,
             ReportClosed = false,
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),

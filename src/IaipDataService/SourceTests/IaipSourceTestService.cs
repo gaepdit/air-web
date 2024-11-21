@@ -4,11 +4,17 @@ using IaipDataService.Facilities;
 using IaipDataService.SourceTests.Models;
 using IaipDataService.SourceTests.Models.TestRun;
 using IaipDataService.Structs;
+using IaipDataService.Utilities;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Data;
 
 namespace IaipDataService.SourceTests;
 
-public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestService
+public class IaipSourceTestService(
+    IDbConnectionFactory dbf,
+    IMemoryCache cache,
+    ILogger<IaipFacilityService> logger) : ISourceTestService
 {
     public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
@@ -36,16 +42,26 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         };
     }
 
-    public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber)
+    public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber, bool forceRefresh = false)
     {
         if (!await SourceTestExistsAsync(referenceNumber)) return null;
+
+        var cacheKey = $"IaipSourceTestService.FindSummaryAsync.{referenceNumber}";
+        if (!forceRefresh && cache.TryGetValue(cacheKey, out SourceTestSummary? cachedTestSummary) &&
+            cachedTestSummary != null)
+        {
+            logger.LogCacheHit(cacheKey);
+            return cachedTestSummary;
+        }
+
+        logger.LogCacheRefresh(forceRefresh, cacheKey);
 
         using var db = dbf.Create();
 
         await using var multi = await db.QueryMultipleAsync("air.GetSourceTestSummary",
             param: new { ReferenceNumber = referenceNumber });
 
-        return multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>(
+        var testSummary = multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>(
             (summary, facility, testDates, reviewedByStaff) =>
             {
                 summary.Facility = facility;
@@ -53,22 +69,45 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
             }).SingleOrDefault();
+
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(IaipDataConstants.SourceTestSummaryExpiration);
+        cache.Set(cacheKey, testSummary, cacheEntryOptions);
+
+        return testSummary;
     }
 
-    public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId)
+    public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
+        bool forceRefresh = false)
     {
+        var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
+        if (!forceRefresh && cache.TryGetValue(cacheKey, out List<SourceTestSummary>? cachedSourceTests) &&
+            cachedSourceTests != null)
+        {
+            logger.LogCacheHit(cacheKey);
+            return cachedSourceTests;
+        }
+
+        logger.LogCacheRefresh(forceRefresh, cacheKey);
+
         using var db = dbf.Create();
 
         await using var multi = await db.QueryMultipleAsync("air.GetFacilitySourceTests",
             param: new { FacilityId = facilityId.Id }, commandType: CommandType.StoredProcedure);
 
-        return multi.Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
+        var sourceTests = multi.Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
             (summary, testDates, reviewedByStaff) =>
             {
                 summary.TestDates = testDates;
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
             }).ToList();
+
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(IaipDataConstants.SourceTestListExpiration);
+        cache.Set(cacheKey, sourceTests, cacheEntryOptions);
+
+        return sourceTests;
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)

@@ -15,13 +15,14 @@ public class LocalSourceTestService : ISourceTestService
         return Task.FromResult(result);
     }
 
-    public Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber)
+    public Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber, bool forceRefresh = false)
     {
         var result = Items.SingleOrDefault(report => report.ReferenceNumber == referenceNumber);
         return Task.FromResult(result is null ? null : new SourceTestSummary(result));
     }
 
-    public Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId) =>
+    public Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
+        bool forceRefresh = false) =>
         Task.FromResult(Items.Where(report => report.Facility?.Id == facilityId)
             .Select(report => new SourceTestSummary(report))
             .ToList());

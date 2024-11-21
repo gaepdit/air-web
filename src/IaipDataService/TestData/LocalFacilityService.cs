@@ -6,20 +6,22 @@ namespace IaipDataService.TestData;
 public sealed class LocalFacilityService : IFacilityService
 {
     private IReadOnlyCollection<Facility> Items { get; } = FacilityData.GetData.ToList();
+    private ReadOnlyDictionary<FacilityId, string> FacilityList { get; } = FacilityData.GetFacilityList();
 
-    public Task<Facility> GetAsync(FacilityId id) =>
+    public Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false) =>
         Task.FromResult(Items.Single(facility => facility.Id.Equals(id)));
 
-    public Task<Facility?> FindAsync(FacilityId? id) =>
+    public Task<Facility?> FindAsync(FacilityId? id, bool forceRefresh = false) =>
         Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
 
-    public async Task<string> GetNameAsync(string id) => (await GetAsync((FacilityId)id)).Name;
+    public Task<string> GetNameAsync(string id) =>
+        FacilityList.TryGetValue((FacilityId)id, out var name)
+            ? Task.FromResult(name)
+            : throw new InvalidOperationException("Facility not found.");
 
     public Task<bool> ExistsAsync(FacilityId id) =>
         Task.FromResult(Items.Any(facility => facility.Id == id));
 
-    public Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync() =>
-        Task.FromResult(new ReadOnlyDictionary<FacilityId, string>(
-            Items.OrderBy(facility => facility.Id)
-                .ToDictionary(facility => facility.Id, facility => facility.Name)));
+    public Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false) =>
+        Task.FromResult(FacilityList);
 }
