@@ -2,18 +2,21 @@
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
 
-namespace AirWeb.AppServices.DataExport;
+namespace AirWeb.AppServices.Compliance.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record SearchResultsExportDto
+public record WorkEntryExportDto : IExportDto
 {
-    public SearchResultsExportDto(WorkEntry workEntry)
+    public WorkEntryExportDto(WorkEntry workEntry)
     {
         WorkEntryId = workEntry.Id;
-        WorkEntryType = workEntry.WorkEntryType.GetDescription();
         FacilityId = workEntry.Facility.Id;
         Facility = workEntry.Facility.Name;
+        WorkEntryType = workEntry.WorkEntryType.GetDescription();
+        EventDate = workEntry.EventDate;
+        EventDateName = workEntry.EventDateName;
         ResponsibleStaff = workEntry.ResponsibleStaff?.SortableFullName;
+        Closed = workEntry.IsClosed ? "Closed" : "Open";
         DateClosed = workEntry.ClosedDate;
         Notes = workEntry.Notes;
         Deleted = workEntry.IsDeleted ? "Deleted" : "No";
@@ -22,17 +25,26 @@ public record SearchResultsExportDto
     [XLColumn(Header = "Work Entry ID")]
     public int WorkEntryId { get; init; }
 
-    [XLColumn(Header = "Work Entry Type")]
-    public string WorkEntryType { get; init; }
-
     [XLColumn(Header = "Facility ID")]
     public string FacilityId { get; init; }
 
     [XLColumn(Header = "Facility")]
     public string Facility { get; init; }
 
+    [XLColumn(Header = "Work Entry Type")]
+    public string WorkEntryType { get; init; }
+
+    [XLColumn(Header = "Date Description")]
+    public DateOnly EventDate { get; init; }
+
+    [XLColumn(Header = "Event")]
+    public string EventDateName { get; init; } = string.Empty;
+
     [XLColumn(Header = "Staff Responsible")]
     public string? ResponsibleStaff { get; init; }
+
+    [XLColumn(Header = "Closed?")]
+    public string Closed { get; init; }
 
     [XLColumn(Header = "Date Closed")]
     public DateOnly? DateClosed { get; init; }

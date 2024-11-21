@@ -19,6 +19,17 @@ public interface IComplianceSearchRepository : IDisposable, IAsyncDisposable
         where TEntity : class, IEntity<int>, IComplianceEntity;
 
     /// <summary>
+    /// Returns a filtered, read-only collection of <see cref="TEntity"/> records matching the conditions
+    /// of <param name="expression"></param>. Returns an empty collection if there are no matches.
+    /// </summary>
+    /// <param name="expression">The search conditions.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A collection of filtered search results.</returns>
+    Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(Expression<Func<TEntity, bool>> expression,
+        CancellationToken token = default)
+        where TEntity : class, IEntity<int>, IComplianceEntity;
+
+    /// <summary>
     /// Returns the count of <see cref="TEntity"/> records matching the conditions of
     /// <param name="expression"></param>. Returns zero if there are no matches.
     /// </summary>

@@ -35,6 +35,23 @@ public sealed class LocalComplianceSearchRepository(
             .ToList();
     }
 
+    public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
+        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        where TEntity : class, IEntity<int>, IComplianceEntity
+    {
+        var items = await (typeof(TEntity) switch
+        {
+            var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
+            var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
+            _ => throw new ArgumentOutOfRangeException(nameof(expression)),
+        }).GetListAsync(expression, token).ConfigureAwait(false);
+
+        foreach (var entity in items)
+            entity.Facility = FacilityData.GetData.Single(facility => facility.Id == entity.FacilityId);
+
+        return items;
+    }
+
     public async Task<int> CountRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
         where TEntity : class, IEntity<int> =>

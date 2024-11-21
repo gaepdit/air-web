@@ -3,7 +3,6 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.DataExport;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -44,8 +43,5 @@ public static class AppServices
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();
         services.AddScoped<IOfficeService, OfficeService>();
-
-        // Data Export
-        services.AddScoped<ISearchResultsExportService, SearchResultsExportService>();
     }
 }

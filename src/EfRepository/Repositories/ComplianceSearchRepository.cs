@@ -29,6 +29,21 @@ public sealed class ComplianceSearchRepository(AppDbContext context, IFacilitySe
         return items;
     }
 
+    public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
+        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        where TEntity : class, IEntity<int>, IComplianceEntity
+    {
+        var items = await context.Set<TEntity>().AsNoTracking()
+            .Where(expression)
+            .ToListAsync(token).ConfigureAwait(false);
+
+        foreach (var entity in items)
+            entity.Facility = await facilityService.GetAsync((FacilityId)entity.FacilityId, token)
+                .ConfigureAwait(false);
+
+        return items;
+    }
+
     public Task<int> CountRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
         where TEntity : class, IEntity<int> =>
