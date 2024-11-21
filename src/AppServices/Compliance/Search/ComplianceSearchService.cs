@@ -7,6 +7,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Search;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,8 @@ public sealed class ComplianceSearchService(
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = WorkEntryFilters.SearchPredicate(spec.TrimAll());
-        return await GetExportResultsAsync<WorkEntryExportDto, WorkEntry>(expression, token).ConfigureAwait(false);
+        return await GetExportResultsAsync<WorkEntryExportDto, WorkEntry>(expression, spec.Sort.GetDescription(), token)
+            .ConfigureAwait(false);
     }
 
     // FCEs
@@ -67,7 +69,8 @@ public sealed class ComplianceSearchService(
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await GetExportResultsAsync<FceExportDto, Fce>(expression, token).ConfigureAwait(false);
+        return await GetExportResultsAsync<FceExportDto, Fce>(expression, spec.Sort.GetDescription(), token)
+            .ConfigureAwait(false);
     }
 
     // Common
@@ -99,12 +102,12 @@ public sealed class ComplianceSearchService(
     }
 
     private async Task<IReadOnlyList<TResultDto>> GetExportResultsAsync<TResultDto, TEntity>(
-        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
         where TEntity : class, IEntity<int>, IComplianceEntity
     {
         var collection = mapper.Map<IEnumerable<TResultDto>>(
-            await repository.GetFilteredRecordsAsync(expression, token).ConfigureAwait(false)).ToList();
+            await repository.GetFilteredRecordsAsync(expression, sorting, token).ConfigureAwait(false)).ToList();
 
         foreach (var result in collection)
             result.FacilityName ??= await facilityService.GetNameAsync(result.FacilityId).ConfigureAwait(false);

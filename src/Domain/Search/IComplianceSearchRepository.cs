@@ -23,10 +23,11 @@ public interface IComplianceSearchRepository : IDisposable, IAsyncDisposable
     /// of <param name="expression"></param>. Returns an empty collection if there are no matches.
     /// </summary>
     /// <param name="expression">The search conditions.</param>
+    /// <param name="sorting"></param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A collection of filtered search results.</returns>
     Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(Expression<Func<TEntity, bool>> expression,
-        CancellationToken token = default)
+        string sorting, CancellationToken token = default)
         where TEntity : class, IEntity<int>, IComplianceEntity;
 
     /// <summary>

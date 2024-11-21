@@ -20,10 +20,11 @@ public sealed class ComplianceSearchRepository(AppDbContext context) : IComplian
             .ToListAsync(token).ConfigureAwait(false);
 
     public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
-        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
         where TEntity : class, IEntity<int>, IComplianceEntity =>
         await context.Set<TEntity>().AsNoTracking()
             .Where(expression)
+            .OrderByIf(sorting)
             .ToListAsync(token).ConfigureAwait(false);
 
     public Task<int> CountRecordsAsync<TEntity>(

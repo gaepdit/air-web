@@ -25,16 +25,17 @@ public sealed class LocalComplianceSearchRepository(
         })
         .GetPagedListAsync(expression, paging, token);
 
-    public Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
-        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+    public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
+        Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
         where TEntity : class, IEntity<int>, IComplianceEntity =>
-        (typeof(TEntity) switch
-        {
-            var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
-            var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
-            _ => throw new ArgumentOutOfRangeException(nameof(expression)),
-        })
-        .GetListAsync(expression, token);
+        (await (typeof(TEntity) switch
+            {
+                var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
+                var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
+                _ => throw new ArgumentOutOfRangeException(nameof(expression)),
+            })
+            .GetListAsync(expression, token).ConfigureAwait(false))
+        .AsQueryable().OrderByIf(sorting).ToList();
 
     public Task<int> CountRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
