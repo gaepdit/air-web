@@ -1,7 +1,7 @@
 using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
-using IaipDataService.TestData;
+using System.Collections.ObjectModel;
 using System.Data;
 
 namespace IaipDataService.Facilities;
@@ -36,8 +36,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
 
         facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
         facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<AirProgramClassifications>());
-        facility.RegulatoryData!.Pollutants = (await multi.ReadAsync<(string Key, string Value)>())
-            .ToDictionary(x => x.Key, x => x.Value);
+        facility.RegulatoryData!.Pollutants = (await multi.ReadAsync<KeyValuePair<string, string>>()).ToDictionary();
 
         return facility;
     }
@@ -57,7 +56,10 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
-    // This method is only used to provide a short list of test facilities and won't be used in the production version.
-    public Task<IReadOnlyCollection<Facility>> GetListAsync() =>
-        Task.FromResult<IReadOnlyCollection<Facility>>(FacilityData.GetData.OrderBy(facility => facility.Id).ToList());
+    public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync()
+    {
+        using var db = dbf.Create();
+        return new ReadOnlyDictionary<FacilityId, string>((await db.QueryAsync<KeyValuePair<FacilityId, string>>(
+            sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
+    }
 }

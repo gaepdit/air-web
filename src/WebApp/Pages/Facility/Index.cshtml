@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
     ViewData["Title"] = "Facilities";
@@ -11,12 +12,12 @@
 </p>
 
 <ul>
-    @foreach (var facilityId in Model.Facilities.Select(facility => facility.FacilityId))
+    @foreach (var (facilityId, facilityName) in Model.Facilities)
     {
         <li>
             <a asp-page="/Facility/Details" asp-route-facilityId="@facilityId"
                class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
-                @facilityId
+                @facilityId <span class="link-body-emphasis">–</span> @facilityName
             </a>
         </li>
     }

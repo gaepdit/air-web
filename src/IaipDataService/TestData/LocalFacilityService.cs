@@ -1,4 +1,5 @@
 ﻿using IaipDataService.Facilities;
+using System.Collections.ObjectModel;
 
 namespace IaipDataService.TestData;
 
@@ -17,7 +18,8 @@ public sealed class LocalFacilityService : IFacilityService
     public Task<bool> ExistsAsync(FacilityId id) =>
         Task.FromResult(Items.Any(facility => facility.Id == id));
 
-    // This method is only used to provide a short list of test facilities and won't be used in the production version.
-    public Task<IReadOnlyCollection<Facility>> GetListAsync() =>
-        Task.FromResult<IReadOnlyCollection<Facility>>(Items.OrderBy(facility => facility.Id).ToList());
+    public Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync() =>
+        Task.FromResult(new ReadOnlyDictionary<FacilityId, string>(
+            Items.OrderBy(facility => facility.Id)
+                .ToDictionary(facility => facility.Id, facility => facility.Name)));
 }
