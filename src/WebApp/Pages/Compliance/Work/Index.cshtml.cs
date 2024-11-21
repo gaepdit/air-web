@@ -29,11 +29,11 @@ public class ComplianceIndexModel(
     public SelectList StaffSelectList { get; private set; } = default!;
     public SelectList OfficesSelectList { get; set; } = default!;
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(CancellationToken token = default)
     {
         Spec = new WorkEntrySearchDto();
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
     }
 
     public async Task OnGetSearchAsync(WorkEntrySearchDto spec, [FromQuery] int p = 1,
@@ -44,15 +44,15 @@ public class ComplianceIndexModel(
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
-        SearchResults = await searchService.SearchWorkEntriesAsync(Spec, paging, token);
+        SearchResults = await searchService.SearchWorkEntriesAsync(Spec, paging, token: token);
 
         ShowResults = true;
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
     }
 
-    private async Task PopulateSelectListsAsync()
+    private async Task PopulateSelectListsAsync(CancellationToken token = default)
     {
         StaffSelectList = (await staff.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
-        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
+        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
     }
 }

@@ -47,12 +47,12 @@
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
-                                       class="form-control" />
+                                       class="form-control"/>
                                 <label asp-for="Spec.EventDateFrom" class="form-label"></label>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
-                                       class="form-control" />
+                                       class="form-control"/>
                                 <label asp-for="Spec.EventDateTo" class="form-label"></label>
                             </div>
                         </div>
@@ -64,12 +64,12 @@
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateFrom" name="@nameof(Model.Spec.ClosedDateFrom)"
-                                       class="form-control" />
+                                       class="form-control"/>
                                 <label asp-for="Spec.ClosedDateFrom" class="form-label"></label>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateTo" name="@nameof(Model.Spec.ClosedDateTo)"
-                                       class="form-control" />
+                                       class="form-control"/>
                                 <label asp-for="Spec.ClosedDateTo" class="form-label"></label>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <input asp-for="Spec.PartialFacilityId" name="@nameof(Model.Spec.PartialFacilityId)"
-                                   class="form-control" aria-describedby="FacilityIdHelpBlock" />
+                                   class="form-control" aria-describedby="FacilityIdHelpBlock"/>
                             <label asp-for="Spec.PartialFacilityId" class="form-label"></label>
                         </div>
                         <small id="FacilityIdHelpBlock" class="form-text text-body-secondary d-block px-2">
@@ -90,7 +90,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
-                                   aria-describedby="NotesHelpBlock" />
+                                   aria-describedby="NotesHelpBlock"/>
                             <label asp-for="Spec.Notes" class="form-label"></label>
                         </div>
                         <small id="NotesHelpBlock" class="form-text text-body-secondary d-block px-2">
@@ -103,7 +103,8 @@
                         <div class="col">
                             <legend class="h5">Work Type</legend>
                             <div class="form-check border-bottom mb-3 pb-3">
-                                <input class="form-check-input" type="checkbox" id="Include_All" @(Model.Spec.Include.Any() ? "" : "checked") />
+                                <input class="form-check-input" type="checkbox" id="Include_All"
+                                       @(Model.Spec.Include.Any() ? "" : "checked")/>
                                 <label class="form-check-label" for="Include_All">All</label>
                             </div>
                             <div class="row row-cols-auto" id="Include_Others">
@@ -111,9 +112,11 @@
                                     @foreach (var workEntryType in Enum.GetValues(typeof(WorkTypeSearch)).Cast<WorkTypeSearch>().ToList())
                                     {
                                         <div class="form-check">
-                                            <input class="form-check-input" name="Include" type="checkbox" value="@workEntryType"
-                                                   id="Include_@workEntryType" checked="@Model.Spec.Include.Contains(workEntryType)" />
-                                            <label class="form-check-label" for="Include_@workEntryType">@workEntryType.GetDescription()</label>
+                                            <input class="form-check-input" name="Include" type="checkbox"
+                                                   value="@workEntryType" id="Include_@workEntryType"
+                                                   checked="@Model.Spec.Include.Contains(workEntryType)"/>
+                                            <label class="form-check-label"
+                                                   for="Include_@workEntryType">@workEntryType.GetDescription()</label>
                                         </div>
                                     }
                                 </div>
@@ -164,9 +167,8 @@
                 @if (Model.SearchResults.TotalCount > 0)
                 {
                     <div class="col-auto d-print-none ms-2">
-                        <a asp-page="/UnderConstruction" asp-all-route-data="Model.Spec.AsRouteValues()"
-                           class="btn btn-sm btn-outline-secondary icon-link">
-                            @* asp-page="DownloadSearch" *@
+                        <a asp-page="../DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()"
+                           asp-page-handler="WorkEntries" class="btn btn-sm btn-outline-secondary icon-link">
                             <svg class="bi">
                                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>
                             </svg>
@@ -183,10 +185,10 @@
         }
         else
         {
-            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
+            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay"/>
             <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                     model="(Model.SearchResults.Items, Model.Spec)" />
-            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
+                     model="(Model.SearchResults.Items, Model.Spec)"/>
+            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay"/>
         }
     </div>
 }

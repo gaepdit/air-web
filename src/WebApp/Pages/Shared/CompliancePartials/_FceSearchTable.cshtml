@@ -45,7 +45,7 @@
                 </th>
                 <td class="text-nowrap">@item.Year</td>
                 <td>
-                    <span class="text-nowrap">@item.Facility.Id</span><br />@item.Facility.Name
+                    <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                 </td>
                 <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
                 <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>

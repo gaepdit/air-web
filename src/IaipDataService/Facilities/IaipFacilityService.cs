@@ -8,7 +8,7 @@ namespace IaipDataService.Facilities;
 
 public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilityService
 {
-    public async Task<Facility> GetAsync(FacilityId id, CancellationToken token = default)
+    public async Task<Facility> GetAsync(FacilityId id)
     {
         var facility = await FindAsync(id);
         if (facility is null) throw new InvalidOperationException("Facility not found.");
@@ -40,6 +40,14 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
             .ToDictionary(x => x.Key, x => x.Value);
 
         return facility;
+    }
+
+    public async Task<string> GetNameAsync(string id)
+    {
+        using var db = dbf.Create();
+        return await db.ExecuteScalarAsync<string>("air.GetIaipFacilityName",
+                   param: new { FacilityId = ((FacilityId)id).Id }, commandType: CommandType.StoredProcedure) ??
+               throw new InvalidOperationException("Facility not found.");
     }
 
     public async Task<bool> ExistsAsync(FacilityId id)

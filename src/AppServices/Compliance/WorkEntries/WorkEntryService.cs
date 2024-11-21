@@ -53,7 +53,7 @@ public sealed partial class WorkEntryService(
                 _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
             };
 
-        entry.Facility = await facilityService.GetAsync((FacilityId)entry!.FacilityId, token).ConfigureAwait(false);
+        entry.Facility = await facilityService.GetAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
         return entry;
     }
 
@@ -87,7 +87,7 @@ public sealed partial class WorkEntryService(
         var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token)
             .ConfigureAwait(false));
         if (entry is null) return entry;
-        entry.Facility = await facilityService.GetAsync((FacilityId)entry!.FacilityId, token).ConfigureAwait(false);
+        entry.Facility = await facilityService.GetAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
         return entry;
     }
 

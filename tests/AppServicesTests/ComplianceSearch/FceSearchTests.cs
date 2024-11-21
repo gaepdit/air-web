@@ -4,6 +4,7 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.Search;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -33,7 +34,8 @@ public class FceSearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, AppServicesTestsSetup.Mapper!,
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act
@@ -63,7 +65,8 @@ public class FceSearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, AppServicesTestsSetup.Mapper!,
+        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act

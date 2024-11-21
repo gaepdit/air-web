@@ -33,7 +33,7 @@ public class DetailsModel(
     // Permissions
     public bool IsComplianceStaff { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (FacilityId is null) return NotFound("Facility ID not found.");
         Facility = await facilityService.FindAsync((FacilityId)FacilityId);
@@ -45,11 +45,13 @@ public class DetailsModel(
         // Search service cannot be run in parallel with itself when using Entity Framework.
         var searchWorkEntries = await searchService.SearchWorkEntriesAsync(
             new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
-            new PaginatedRequest(1, GlobalConstants.SummaryTableSize));
+            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            loadFacilities: false, token: token);
 
         var searchFces = await searchService.SearchFcesAsync(
             new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
-            new PaginatedRequest(1, GlobalConstants.SummaryTableSize));
+            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            loadFacilities: false, token: token);
 
         ComplianceWork = searchWorkEntries.Items.ToList();
         ComplianceWorkCount = searchWorkEntries.TotalCount;

@@ -42,7 +42,7 @@ public class CreateTests
         var facility = new Facility(facilityId);
 
         var facilityRepository = Substitute.For<IFacilityService>();
-        facilityRepository.GetAsync(facilityId, Arg.Any<CancellationToken>())
+        facilityRepository.GetAsync(facilityId)
             .Returns(facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),

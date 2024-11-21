@@ -28,7 +28,7 @@
                 <td>@summary.TestType</td>
                 <td>@summary.Source</td>
                 <td>@summary.Pollutant</td>
-                <td>@Html.DisplayFor(_ => summary.TestDates, new { Connector = "–" })</td>
+                <td>@Html.DisplayFor(_ => summary.TestDates, new { Connector = " – " })</td>
                 <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
             </tr>
         }

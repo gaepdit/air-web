@@ -4,19 +4,15 @@ namespace IaipDataServiceTests;
 
 public class LocalSourceTestServiceTests
 {
-    private LocalSourceTestService _service = default!;
-
-    [SetUp]
-    public void SetUp() => _service = new LocalSourceTestService();
-
     [Test]
     public async Task IfExists_Find_ReturnsData()
     {
         // Arrange
+        var service = new LocalSourceTestService();
         var test = SourceTestData.GetData[0];
 
         // Act
-        var result = await _service.FindAsync(test.ReferenceNumber);
+        var result = await service.FindAsync(test.ReferenceNumber);
 
         // Assert
         result.Should().BeEquivalentTo(test);
@@ -26,7 +22,8 @@ public class LocalSourceTestServiceTests
     public async Task IfNotExists_Find_ReturnsNull()
     {
         // Act
-        var result = await _service.FindAsync(0);
+        var service = new LocalSourceTestService();
+        var result = await service.FindAsync(0);
 
         // Assert
         result.Should().BeNull();
