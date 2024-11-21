@@ -29,8 +29,7 @@ public sealed partial class WorkEntryService
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
-        workEntry.Facility = await facilityService.GetAsync((FacilityId)resource.FacilityId!, token)
-            .ConfigureAwait(false);
+        workEntry.Facility = await facilityService.GetAsync((FacilityId)resource.FacilityId!).ConfigureAwait(false);
         workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);

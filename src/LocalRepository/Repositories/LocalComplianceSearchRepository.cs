@@ -5,7 +5,6 @@ using AirWeb.Domain.Search;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
-using IaipDataService.TestData;
 using System.Linq.Expressions;
 
 namespace AirWeb.LocalRepository.Repositories;
@@ -15,52 +14,37 @@ public sealed class LocalComplianceSearchRepository(
     IWorkEntryRepository workEntryRepository)
     : IComplianceSearchRepository
 {
-    public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
+    public Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, PaginatedRequest paging, CancellationToken token = default)
-        where TEntity : class, IEntity<int>, IComplianceEntity
-    {
-        var items = await (typeof(TEntity) switch
+        where TEntity : class, IEntity<int>, IComplianceEntity =>
+        (typeof(TEntity) switch
         {
             var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
             var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
             _ => throw new ArgumentOutOfRangeException(nameof(expression)),
-        }).GetListAsync(expression, token).ConfigureAwait(false);
+        })
+        .GetPagedListAsync(expression, paging, token);
 
-        foreach (var entity in items)
-            entity.Facility = FacilityData.GetData.Single(facility => facility.Id == entity.FacilityId);
-
-        return items.AsQueryable()
-            .OrderByIf(paging.Sorting)
-            .Skip(paging.Skip).Take(paging.Take)
-            .ToList();
-    }
-
-    public async Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
+    public Task<IReadOnlyCollection<TEntity>> GetFilteredRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
-        where TEntity : class, IEntity<int>, IComplianceEntity
-    {
-        var items = await (typeof(TEntity) switch
+        where TEntity : class, IEntity<int>, IComplianceEntity =>
+        (typeof(TEntity) switch
         {
             var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
             var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
             _ => throw new ArgumentOutOfRangeException(nameof(expression)),
-        }).GetListAsync(expression, token).ConfigureAwait(false);
+        })
+        .GetListAsync(expression, token);
 
-        foreach (var entity in items)
-            entity.Facility = FacilityData.GetData.Single(facility => facility.Id == entity.FacilityId);
-
-        return items;
-    }
-
-    public async Task<int> CountRecordsAsync<TEntity>(
+    public Task<int> CountRecordsAsync<TEntity>(
         Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
         where TEntity : class, IEntity<int> =>
-        await (typeof(TEntity) switch
+        (typeof(TEntity) switch
         {
             var type when type == typeof(WorkEntry) => (IReadRepository<TEntity, int>)workEntryRepository,
             var type when type == typeof(Fce) => (IReadRepository<TEntity, int>)fceRepository,
             _ => throw new ArgumentOutOfRangeException(nameof(expression)),
-        }).CountAsync(expression, token).ConfigureAwait(false);
+        }).CountAsync(expression, token);
 
     #region IDisposable,  IAsyncDisposable
 

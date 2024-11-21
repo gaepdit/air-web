@@ -1,8 +1,7 @@
-using IaipDataService.Facilities;
-
 namespace AirWeb.AppServices.Compliance.Search;
 
 public interface IStandardSearchResult
 {
-    public Facility Facility { get; set; }
+    public string FacilityId { get; }
+    public string? FacilityName { get; set; }
 }

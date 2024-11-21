@@ -5,13 +5,12 @@ using GaEpd.AppLibrary.Extensions;
 namespace AirWeb.AppServices.Compliance.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record WorkEntryExportDto : IExportDto
+public record WorkEntryExportDto : IStandardSearchResult
 {
     public WorkEntryExportDto(WorkEntry workEntry)
     {
         WorkEntryId = workEntry.Id;
-        FacilityId = workEntry.Facility.Id;
-        Facility = workEntry.Facility.Name;
+        FacilityId = workEntry.FacilityId;
         WorkEntryType = workEntry.WorkEntryType.GetDescription();
         EventDate = workEntry.EventDate;
         EventDateName = workEntry.EventDateName;
@@ -29,7 +28,7 @@ public record WorkEntryExportDto : IExportDto
     public string FacilityId { get; init; }
 
     [XLColumn(Header = "Facility")]
-    public string Facility { get; init; }
+    public string? FacilityName { get; set; }
 
     [XLColumn(Header = "Work Entry Type")]
     public string WorkEntryType { get; init; }

@@ -5,7 +5,7 @@ namespace AirWeb.Domain.ComplianceEntities.Fces;
 public class FceManager(IFceRepository repository, IFacilityService facilityService) : IFceManager
 {
     public async Task LoadFacilityAsync(Fce fce, CancellationToken token = default) =>
-        fce.Facility = await facilityService.GetAsync((FacilityId)fce.FacilityId, token)
+        fce.Facility = await facilityService.GetAsync((FacilityId)fce.FacilityId)
             .ConfigureAwait(false);
 
     public async Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user,

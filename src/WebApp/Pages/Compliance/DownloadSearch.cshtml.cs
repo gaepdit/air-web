@@ -46,7 +46,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
     }
 
     // Common
-    private FileStreamResult Export(string name, IReadOnlyList<IExportDto> exportList, bool removeLastColumn)
+    private FileStreamResult Export(string name, IReadOnlyList<IStandardSearchResult> exportList, bool removeLastColumn)
     {
         var excel = exportList.ToExcel(sheetName: $"{name} Search Results", removeLastColumn);
         var fileDownloadName = $"{name}_search_{DateTime.Now:yyyy-MM-dd--HH-mm-ss}.xlsx";

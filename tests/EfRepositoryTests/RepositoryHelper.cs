@@ -5,7 +5,6 @@ using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
 using GaEpd.AppLibrary.Domain.Entities;
-using IaipDataService.TestData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -167,7 +166,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         ClearAllStaticData();
         DbSeedDataHelpers.SeedAllData(_context);
         Context = new AppDbContext(_options);
-        return new ComplianceSearchRepository(Context, new LocalFacilityService());
+        return new ComplianceSearchRepository(Context);
     }
 
     /// <summary>
