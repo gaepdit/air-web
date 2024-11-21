@@ -46,7 +46,7 @@ public sealed class IaipFacilityService(IDbConnectionFactory dbf) : IFacilitySer
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<string>("air.GetIaipFacilityName",
-                   param: new { FacilityId = id }, commandType: CommandType.StoredProcedure) ??
+                   param: new { FacilityId = ((FacilityId)id).Id }, commandType: CommandType.StoredProcedure) ??
                throw new InvalidOperationException("Facility not found.");
     }
 

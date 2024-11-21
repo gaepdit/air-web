@@ -23,12 +23,12 @@ public sealed class ComplianceSearchService(
 {
     // Work Entries
     public async Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
-        PaginatedRequest paging, CancellationToken token = default)
+        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = WorkEntryFilters.SearchPredicate(spec.TrimAll());
-        return await GetSearchResultsAsync<WorkEntrySearchResultDto, WorkEntry>(paging, expression, token)
-            .ConfigureAwait(false);
+        return await GetSearchResultsAsync<WorkEntrySearchResultDto, WorkEntry>(paging, expression, loadFacilities,
+            token).ConfigureAwait(false);
     }
 
     public async Task<int> CountWorkEntriesAsync(WorkEntrySearchDto spec, CancellationToken token)
@@ -48,11 +48,12 @@ public sealed class ComplianceSearchService(
 
     // FCEs
     public async Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
-        PaginatedRequest paging, CancellationToken token = default)
+        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await GetSearchResultsAsync<FceSearchResultDto, Fce>(paging, expression, token).ConfigureAwait(false);
+        return await GetSearchResultsAsync<FceSearchResultDto, Fce>(paging, expression, loadFacilities, token)
+            .ConfigureAwait(false);
     }
 
     public async Task<int> CountFcesAsync(FceSearchDto spec, CancellationToken token)
@@ -79,7 +80,7 @@ public sealed class ComplianceSearchService(
     }
 
     private async Task<IPaginatedResult<TResultDto>> GetSearchResultsAsync<TResultDto, TEntity>(PaginatedRequest paging,
-        Expression<Func<TEntity, bool>> expression, CancellationToken token = default)
+        Expression<Func<TEntity, bool>> expression, bool loadFacilities, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
         where TEntity : class, IEntity<int>, IComplianceEntity
     {
@@ -88,6 +89,8 @@ public sealed class ComplianceSearchService(
             ? mapper.Map<IEnumerable<TResultDto>>(
                 await repository.GetFilteredRecordsAsync(expression, paging, token).ConfigureAwait(false)).ToList()
             : [];
+
+        if (!loadFacilities) return new PaginatedResult<TResultDto>(collection, count, paging);
 
         foreach (var result in collection)
             result.FacilityName ??= await facilityService.GetNameAsync(result.FacilityId).ConfigureAwait(false);

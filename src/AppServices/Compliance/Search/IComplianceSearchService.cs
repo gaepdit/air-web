@@ -6,7 +6,7 @@ public interface IComplianceSearchService : IDisposable, IAsyncDisposable
 {
     // Work entries
     Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
-        PaginatedRequest paging, CancellationToken token = default);
+        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
 
     Task<int> CountWorkEntriesAsync(WorkEntrySearchDto spec, CancellationToken token);
 
@@ -15,7 +15,7 @@ public interface IComplianceSearchService : IDisposable, IAsyncDisposable
 
     // FCEs
     Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
-        PaginatedRequest paging, CancellationToken token = default);
+        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
 
     Task<int> CountFcesAsync(FceSearchDto spec, CancellationToken token);
 

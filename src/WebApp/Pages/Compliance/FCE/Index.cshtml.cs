@@ -34,29 +34,28 @@ public class FceIndexModel(
     private static int _years = _finalYear - Fce.EarliestFceYear + 1;
     public static SelectList YearSelectList => new(Enumerable.Range(Fce.EarliestFceYear, _years).Reverse());
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(CancellationToken token = default)
     {
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
     }
 
-    public async Task OnGetSearchAsync(FceSearchDto spec, [FromQuery] int p = 1,
-        CancellationToken token = default)
+    public async Task OnGetSearchAsync(FceSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
         Spec = spec.TrimAll();
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
-        SearchResults = await searchService.SearchFcesAsync(Spec, paging, token);
+        SearchResults = await searchService.SearchFcesAsync(Spec, paging, token: token);
 
         ShowResults = true;
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
     }
 
-    private async Task PopulateSelectListsAsync()
+    private async Task PopulateSelectListsAsync(CancellationToken token)
     {
         StaffSelectList = (await staff.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
-        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
+        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
     }
 }

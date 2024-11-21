@@ -31,7 +31,7 @@ public class DashboardIndexModel(
             { Closed = YesNoAny.No, ResponsibleStaff = currentUser.Id };
         var paging = new PaginatedRequest(1, 15, SortBy.EventDateDesc.GetDescription());
         DashboardCards.Add(new DashboardCard("Open Compliance Work")
-            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token)).Items.ToList() });
+            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token: token)).Items.ToList() });
 
         return Page();
     }
