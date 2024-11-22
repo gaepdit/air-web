@@ -68,8 +68,8 @@ BEGIN
     where FacilityId = @FacilityId
     order by Sequence;
 
-    select Code,
-           Description
+    select Code        as [Key],
+           Description as [Value]
     from air.IaipFacilityPollutantData
     where FacilityId = @FacilityId
     order by Description;

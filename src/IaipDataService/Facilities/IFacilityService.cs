@@ -1,14 +1,16 @@
-﻿namespace IaipDataService.Facilities;
+﻿using System.Collections.ObjectModel;
+
+namespace IaipDataService.Facilities;
 
 public interface IFacilityService
 {
-    Task<Facility> GetAsync(FacilityId id);
-    Task<Facility?> FindAsync(FacilityId? id);
+    Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false);
+    Task<Facility?> FindAsync(FacilityId? id, bool forceRefresh = false);
     Task<string> GetNameAsync(string id);
     Task<bool> ExistsAsync(FacilityId id);
 
-    // TODO: Remove later. This is only for testing. 
-    //       This method is only used to provide a short list of test facilities and won't be used in
-    //       the production version.
-    Task<IReadOnlyCollection<Facility>> GetListAsync();
+    /// <summary>
+    /// Retrieves a list of facilities as a Dictionary of Facility IDs and Facility names.
+    /// </summary>
+    Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false);
 }

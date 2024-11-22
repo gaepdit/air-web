@@ -1,5 +1,6 @@
 using IaipDataService.Facilities;
 using IaipDataService.Structs;
+using System.Collections.ObjectModel;
 
 namespace IaipDataService.TestData;
 
@@ -7,6 +8,9 @@ public static class FacilityData
 {
     public static Facility GetRandomFacility() => GetData[new Random().Next(GetData.Count)];
     public static Facility GetFacility(string id) => GetData.Single(facility => facility.Id == id);
+
+    public static ReadOnlyDictionary<FacilityId, string> GetFacilityList() =>
+        new(GetData.ToDictionary(facility => facility.Id, facility => facility.Name));
 
     private static IEnumerable<Facility> FacilitySeedItems =>
     [

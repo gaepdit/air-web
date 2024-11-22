@@ -57,6 +57,29 @@ public class LocalFacilityServiceTests
     }
 
     [Test]
+    public async Task IfExists_GetName_ReturnsData()
+    {
+        // Arrange
+        var facility = FacilityData.GetData[0];
+
+        // Act
+        var result = await _service.GetNameAsync(facility.Id);
+
+        // Assert
+        result.Should().BeEquivalentTo(facility.Name);
+    }
+
+    [Test]
+    public async Task IfNotExists_GetName_Throws()
+    {
+        // Act
+        var func = async () => await _service.GetNameAsync((FacilityId)"000-00000");
+
+        // Assert
+        await func.Should().ThrowAsync<InvalidOperationException>();
+    }
+
+    [Test]
     public async Task IfExists_Exists_ReturnsTrue()
     {
         // Arrange

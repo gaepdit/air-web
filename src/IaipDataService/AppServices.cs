@@ -18,6 +18,9 @@ public static class AppServices
         }
         else
         {
+            // DB service uses memory cache.
+            services.AddMemoryCache();
+
             // DB connection factory for Dapper
             if (connectionString is null) throw new ArgumentException("IAIP connection string missing.");
             services.AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ =>

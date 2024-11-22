@@ -30,17 +30,27 @@ public class DetailsModel(
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
     public int SourceTestCount { get; private set; }
 
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
     // Permissions
     public bool IsComplianceStaff { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindAsync((FacilityId)FacilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search service.
-        var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId);
+        var sourceTestsForFacilityTask =
+            sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData);
 
         // Search service cannot be run in parallel with itself when using Entity Framework.
         var searchWorkEntries = await searchService.SearchWorkEntriesAsync(

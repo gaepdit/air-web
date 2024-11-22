@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
     ViewData["Title"] = "Facilities";
@@ -11,13 +12,37 @@
 </p>
 
 <ul>
-    @foreach (var facilityId in Model.Facilities.Select(facility => facility.FacilityId))
+    @foreach (var (facilityId, facilityName) in Model.Facilities)
     {
         <li>
             <a asp-page="/Facility/Details" asp-route-facilityId="@facilityId"
                class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
-                @facilityId
+                @facilityId <span class="link-body-emphasis">–</span> @facilityName
             </a>
         </li>
     }
 </ul>
+
+
+@section Footer {
+    <div class="bg-info-subtle py-2 border-bottom d-print-none">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
+                    <small>
+                        * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24 hours.
+                        If it appears out of date, you can manually refresh the data.
+                    </small>
+                </div>
+                <div class="col-auto my-0 ms-3">
+                    <a asp-page="Index" asp-route-refresh="true" class="btn btn-sm btn-outline-info icon-link">
+                        <svg class="bi">
+                            <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
+                        </svg>
+                        Refresh Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

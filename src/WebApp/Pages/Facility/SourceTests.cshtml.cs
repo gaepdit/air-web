@@ -15,13 +15,22 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
 
-    public async Task<IActionResult> OnGetAsync()
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
     {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindAsync((FacilityId)FacilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId))
+        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData))
             .Take(GlobalConstants.PageSize).ToList();
 
         return Page();
