@@ -3,6 +3,7 @@
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
+@using AirWeb.WebApp.Platform.Settings
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
@@ -124,7 +125,8 @@ else
         <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
-                <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-primary">Close</a>
+                <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                   class="btn btn-outline-primary">Close</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Reopen])
             {
@@ -135,11 +137,13 @@ else
             }
             @if (Model.UserCan[ComplianceWorkOperation.Edit])
             {
-                <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                   class="btn btn-outline-primary">Edit</a>
             }
             @if (Model.UserCan[ComplianceWorkOperation.Delete])
             {
-                <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-outline-danger">Delete</a>
+                <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                   class="btn btn-outline-danger">Delete</a>
             }
         </div>
     </div>
@@ -189,25 +193,28 @@ else
 }
 
 @section Footer {
-    <div class="bg-info-subtle py-2 border-bottom d-print-none">
-        <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col">
-                    <small>
-                        * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24 hours. 
-                        If it appears out of date, you can manually refresh the data.
-                    </small>
-                </div>
-                <div class="col-auto my-0 ms-3">
-                    <a asp-page="Index" asp-route-referenceNumber="@Model.ReferenceNumber.ToString()" asp-route-refresh="true"
-                       class="btn btn-sm btn-outline-info icon-link">
-                        <svg class="bi">
-                            <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                        </svg>
-                        Refresh Page
-                    </a>
+    @if (!AppSettings.DevSettings.UseDevSettings || !AppSettings.DevSettings.UseInMemoryIaipData)
+    {
+        <div class="bg-info-subtle py-2 border-bottom d-print-none">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                        <small>
+                            * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24&nbsp;hours.
+                            If it appears out of date, you can manually refresh the data.
+                        </small>
+                    </div>
+                    <div class="col-auto my-0 ms-3">
+                        <a asp-route-referenceNumber="@Model.ReferenceNumber.ToString()" asp-route-refresh="true"
+                           class="btn btn-sm btn-outline-info icon-link">
+                            <svg class="bi">
+                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
+                            </svg>
+                            Refresh Page
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 }
