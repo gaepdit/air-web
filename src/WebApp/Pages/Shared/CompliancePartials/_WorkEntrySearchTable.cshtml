@@ -35,15 +35,15 @@
         <tbody>
         @foreach (var item in Model.Items)
         {
-            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+            <tr>
                 <th scope="row">
                     <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
-                       class="btn btn-sm btn-outline-primary">
+                       class="btn btn-sm @(item.IsDeleted ? "btn-outline-danger" : "btn-outline-primary")">
                         @item.Id.ToString()
                     </a>
                     @if (item.IsDeleted)
                     {
-                        @:DELETED<br />
+                        <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
                 <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>

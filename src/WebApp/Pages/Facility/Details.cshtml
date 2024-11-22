@@ -16,7 +16,7 @@
 
     @if (Model.IsComplianceStaff)
     {
-        <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+        <div class="col-md-auto mb-3 my-md-0 ms-md-3 d-print-none">
             <div class="dropdown my-2">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -94,13 +94,13 @@
     else
     {
         <div class="row justify-content-between align-items-center">
-            <div class="col-md mb-md-0">
+            <div class="col mb-md-0">
                 <h2>Recent Compliance Work</h2>
             </div>
-            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
                 <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.FacilityId"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
                 </a>
             </div>
@@ -115,7 +115,8 @@
                 }
                 @Model.ComplianceWorkCount.ToString() total
             </summary>
-            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                     model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
         </details>
     }
 </section>
@@ -131,13 +132,13 @@
     else
     {
         <div class="row justify-content-between align-items-center">
-            <div class="col-md mb-md-0">
+            <div class="col mb-md-0">
                 <h2>Recent FCEs</h2>
             </div>
-            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
                 <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.FacilityId"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
                 </a>
             </div>
@@ -168,12 +169,12 @@
     else
     {
         <div class="row justify-content-between align-items-center">
-            <div class="col-md mb-md-0">
+            <div class="col mb-md-0">
                 <h2>Recent Source Tests</h2>
             </div>
-            <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
                 <a asp-page="/Facility/SourceTests" asp-route-FacilityId="@Model.FacilityId"
-                   class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
                 </a>
             </div>

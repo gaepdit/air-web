@@ -32,7 +32,7 @@
 <footer class="footer pt-3">
     <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
-            <a href="#top" class="link-body-emphasis icon-link">
+            <a href="#top" class="footer-link link-body-emphasis icon-link ms-n1">
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-bar-up"></use>
                 </svg> Return to top
@@ -44,14 +44,18 @@
             <small>
                 Air Protection Branch Web App
                 <span class="d-print-none">
-                    | <a asp-page="/Support" class="text-decoration-hover link-offset-2">Support</a>
-                    | <a href="https://epd.georgia.gov/" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">Environmental Protection Division</a>
+                    | <a asp-page="/Support" class="footer-link text-decoration-hover link-offset-2">Support</a>
+                    | <a href="https://epd.georgia.gov/" target="_blank" rel="noopener"
+                         class="footer-link text-decoration-hover link-offset-2">Environmental Protection Division</a>
                 </span>
                 <br />&copy; @DateTime.Now.Year.ToString() State of Georgia
                 <span class="d-print-none">
-                    | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">Accessibility</a>
-                    | <a href="https://gadnr.org/ada" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">DNR Accessibility Notice</a>
-                    | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener" class="text-decoration-hover link-offset-2">Privacy/Security</a>
+                    | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener"
+                         class="footer-link text-decoration-hover link-offset-2">Accessibility</a>
+                    | <a href="https://gadnr.org/ada" target="_blank" rel="noopener"
+                         class="footer-link text-decoration-hover link-offset-2">DNR Accessibility Notice</a>
+                    | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener"
+                         class="footer-link text-decoration-hover link-offset-2">Privacy/Security</a>
                 </span>
             </small>
         </div>
