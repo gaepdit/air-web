@@ -40,10 +40,9 @@ public partial record FacilityId : IComparable<FacilityId>
     // Format validation
     public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
-    // FUTURE: Update regex to limit first three digits based on county list.
-    // Test at https://regex101.com/r/2uYyHl/4
+    // Test at https://regex101.com/r/2uYyHl/6
     // language:regex
-    public const string FacilityIdPattern = @"^\d{3}-?\d{5}$";
+    public const string FacilityIdPattern = @"^(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}$";
 
     [GeneratedRegex(FacilityIdPattern)]
     private static partial Regex FacilityIdRegex();
