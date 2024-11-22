@@ -8,5 +8,19 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class IndexModel(IFacilityService service) : PageModel
 {
     public ReadOnlyDictionary<FacilityId, string> Facilities { get; private set; } = null!;
-    public async Task OnGetAsync() => Facilities = await service.GetListAsync();
+
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
+    {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
+        Facilities = await service.GetListAsync(RefreshIaipData);
+        return Page();
+    }
 }

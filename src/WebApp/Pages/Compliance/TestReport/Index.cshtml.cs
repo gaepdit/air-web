@@ -29,6 +29,9 @@ public class IndexModel(
 
     public SourceTestSummary? TestSummary { get; private set; }
 
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
     // Compliance review
     public SourceTestReviewViewDto? ComplianceReview { get; private set; }
     public CommentsSectionModel? CommentSection { get; set; }
@@ -49,10 +52,16 @@ public class IndexModel(
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token)
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
         if (ReferenceNumber > 0)
-            TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+            TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
