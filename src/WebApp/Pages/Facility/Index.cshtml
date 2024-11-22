@@ -24,11 +24,22 @@
 }
 else
 {
+    <h2 class="h3">All Facilities</h2>
     <p>The following list includes all facilities in the IAIP that have been approved within the IAIP facility creator
         tool.</p>
 }
 
-<ul>
+<form class="container my-3">
+    <label class="visually-hidden" for="facility-list-filter">Filter facility list</label>
+    <div class="row row-cols-sm-auto align-items-center">
+        <input id="facility-list-filter" class="form-control col-12 w-auto" placeholder="Filter facility list" />
+        <span id="filtered-facility-list-count" class="col-12 text-body-secondary">
+            (@(Model.Facilities.Count > 0 ? Model.Facilities.Count.ToString() : "none") found)
+        </span>
+    </div>
+</form>
+
+<ul id="facility-list">
     @foreach (var (facilityId, facilityName) in Model.Facilities)
     {
         <li>
@@ -39,6 +50,7 @@ else
         </li>
     }
 </ul>
+<ul id="filtered-facility-list"></ul>
 
 @section Footer {
     @if (!AppSettings.DevSettings.UseDevSettings || !AppSettings.DevSettings.UseInMemoryIaipData)
@@ -68,4 +80,33 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterInput = document.getElementById('facility-list-filter');
+            const countOutput = document.getElementById('filtered-facility-list-count');
+            const originalList = document.getElementById('facility-list');
+            const originalListItems = originalList.getElementsByTagName('li');
+            const filteredList = document.getElementById('filtered-facility-list');
+
+            filterInput.addEventListener('input', () => {
+                const filter = filterInput.value.toLowerCase();
+                const fragment = document.createDocumentFragment();
+                let count = 0;
+
+                for (let i = 0; i < originalListItems.length; i++) {
+                    const a = originalListItems[i].getElementsByTagName('a')[0];
+                    const textValue = a.textContent || a.innerText;
+                    if (textValue.toLowerCase().indexOf(filter) > -1) {
+                        fragment.appendChild(originalListItems[i].cloneNode(true));
+                        count++;
+                    }
+                }
+
+                originalList.style.display = 'none';
+                filteredList.innerHTML = '';
+                filteredList.appendChild(fragment);
+                countOutput.textContent = count > 0 ? ` (${count} found)` : ' (none found)';
+            });
+        });
+    </script>
 }
