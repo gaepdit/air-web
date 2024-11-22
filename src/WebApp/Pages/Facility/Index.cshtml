@@ -8,9 +8,25 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    Here is a list of facilities for testing purposes.
-</p>
+<form method="post" class="row my-3" role="search">
+    <label class="visually-hidden" for="FindId">Find by Facility ID</label>
+    <div class="input-group w-auto my-2">
+        <input id="FindId" asp-for="FindId" type="search" aria-label="Search"
+               placeholder="Find by Facility ID" class="form-control" />
+        <button class="btn btn-primary" type="submit">View</button>
+    </div>
+    <span asp-validation-for="FindId" class="text-danger-emphasis"></span>
+</form>
+
+@if (AppSettings.DevSettings.UseDevSettings && AppSettings.DevSettings.UseInMemoryIaipData)
+{
+    <p>Here is a short list of facilities for testing purposes.</p>
+}
+else
+{
+    <p>The following list includes all facilities in the IAIP that have been approved within the IAIP facility creator
+        tool.</p>
+}
 
 <ul>
     @foreach (var (facilityId, facilityName) in Model.Facilities)
@@ -48,4 +64,8 @@
             </div>
         </div>
     }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
