@@ -8,11 +8,10 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Notification> NotificationData =>
     [
-        new(7001, UserData.GetUsers.ElementAt(0))
+        new(7001, UserData.GetUsers.ElementAt(0), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -25,11 +24,10 @@ internal static partial class WorkEntries
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
-        new(7002, UserData.GetUsers.ElementAt(1))
+        new(7002, UserData.GetUsers.ElementAt(1), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
@@ -42,11 +40,10 @@ internal static partial class WorkEntries
             SentDate = null,
             FollowupTaken = false,
         },
-        new(7003, null)
+        new(7003, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",

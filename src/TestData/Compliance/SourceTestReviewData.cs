@@ -9,11 +9,10 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<SourceTestReview> SourceTestReviewData =>
     [
-        new(11001, UserData.GetUsers.ElementAt(0))
+        new(11001, UserData.GetUsers.ElementAt(0), FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id).Id)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[0].ReferenceNumber,
-            Facility = FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
@@ -25,11 +24,10 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new(11002, UserData.GetUsers.ElementAt(1))
+        new(11002, UserData.GetUsers.ElementAt(1), FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id).Id)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[1].ReferenceNumber,
-            Facility = FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
@@ -41,11 +39,10 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new(11003, null)
+        new(11003, null, FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id).Id)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[2].ReferenceNumber,
-            Facility = FacilityData.GetFacility(SourceTestData.GetData[0].Facility!.Id),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Source Test Review",

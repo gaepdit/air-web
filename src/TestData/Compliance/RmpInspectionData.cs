@@ -8,10 +8,9 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<RmpInspection> RmpInspectionData =>
     [
-        new(10001, UserData.GetUsers.ElementAt(0))
+        new(10001, UserData.GetUsers.ElementAt(0), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -28,10 +27,9 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new(10002, UserData.GetUsers.ElementAt(1))
+        new(10002, UserData.GetUsers.ElementAt(1), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
@@ -48,10 +46,9 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new(10003, null)
+        new(10003, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.RmpInspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted RMP Inspection",

@@ -11,7 +11,7 @@ public abstract class BaseInspection : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     protected BaseInspection() { }
 
-    protected BaseInspection(int? id, ApplicationUser? user) : base(id)
+    protected BaseInspection(int? id, ApplicationUser? user, FacilityId facilityId) : base(id, facilityId)
     {
         Close(user);
     }

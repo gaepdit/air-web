@@ -1,22 +1,22 @@
-﻿using AirWeb.Domain.Identity;
+using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
-    public WorkEntry Create(WorkEntryType type, ApplicationUser? user)
+    public WorkEntry Create(WorkEntryType type, ApplicationUser? user, FacilityId facilityId)
     {
         var id = repository.GetNextId();
 
         WorkEntry item = type switch
         {
-            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id),
-            WorkEntryType.Inspection => new Inspection(id, user),
-            WorkEntryType.Notification => new Notification(id, user),
-            WorkEntryType.PermitRevocation => new PermitRevocation(id),
-            WorkEntryType.Report => new Report(id, user),
-            WorkEntryType.RmpInspection => new RmpInspection(id, user),
-            WorkEntryType.SourceTestReview => new SourceTestReview(id, user),
+            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id, facilityId),
+            WorkEntryType.Inspection => new Inspection(id, user, facilityId),
+            WorkEntryType.Notification => new Notification(id, user, facilityId),
+            WorkEntryType.PermitRevocation => new PermitRevocation(id, facilityId),
+            WorkEntryType.Report => new Report(id, user, facilityId),
+            WorkEntryType.RmpInspection => new RmpInspection(id, user, facilityId),
+            WorkEntryType.SourceTestReview => new SourceTestReview(id, user, facilityId),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 

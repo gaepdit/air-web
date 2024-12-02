@@ -9,8 +9,9 @@ public interface IWorkEntryManager
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="user">The user creating the entity.</param>
+    /// <param name="facilityId">The ID of the facility associated with the Work Entry.</param>
     /// <returns>The Work Entry that was created.</returns>
-    WorkEntry Create(WorkEntryType type, ApplicationUser? user);
+    WorkEntry Create(WorkEntryType type, ApplicationUser? user, FacilityId facilityId);
 
     /// <summary>
     /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
