@@ -14,7 +14,7 @@ public class FindTests
     public async Task WhenItemExists_ReturnsViewDto()
     {
         // Arrange
-        var item = new PermitRevocation(902) { Facility = new Facility(SampleText.ValidFacilityId) };
+        var item = new PermitRevocation(902, new FacilityId(SampleText.ValidFacilityId));
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
@@ -25,7 +25,7 @@ public class FindTests
             .Returns(WorkEntryType.PermitRevocation);
 
         var facilityRepoMock = Substitute.For<IFacilityService>();
-        facilityRepoMock.GetAsync(item.Facility.Id)
+        facilityRepoMock.GetAsync(new FacilityId(item.FacilityId))
             .Returns(item.Facility);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
