@@ -27,7 +27,7 @@ public class LocalFacilityServiceTests
     public async Task IfNotExists_Find_ReturnsNull()
     {
         // Act
-        var result = await _service.FindAsync((FacilityId)"000-00000");
+        var result = await _service.FindAsync((FacilityId)"777-99999");
 
         // Assert
         result.Should().BeNull();
@@ -50,7 +50,7 @@ public class LocalFacilityServiceTests
     public async Task IfNotExists_Get_Throws()
     {
         // Act
-        var func = async () => await _service.GetAsync((FacilityId)"000-00000");
+        var func = async () => await _service.GetAsync((FacilityId)"777-99999");
 
         // Assert
         await func.Should().ThrowAsync<InvalidOperationException>();
@@ -73,7 +73,7 @@ public class LocalFacilityServiceTests
     public async Task IfNotExists_GetName_Throws()
     {
         // Act
-        var func = async () => await _service.GetNameAsync((FacilityId)"000-00000");
+        var func = async () => await _service.GetNameAsync((FacilityId)"777-99999");
 
         // Assert
         await func.Should().ThrowAsync<InvalidOperationException>();
@@ -96,7 +96,7 @@ public class LocalFacilityServiceTests
     public async Task IfNotExists_Exists_ReturnsFalse()
     {
         // Act
-        var result = await _service.ExistsAsync((FacilityId)"000-00000");
+        var result = await _service.ExistsAsync((FacilityId)"777-99999");
 
         // Assert
         result.Should().BeFalse();
