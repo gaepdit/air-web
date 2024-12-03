@@ -13,6 +13,7 @@ public sealed class FceService(
     IMapper mapper,
     IFceRepository fceRepository,
     IFceManager fceManager,
+    IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -20,10 +21,10 @@ public sealed class FceService(
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false);
+        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
-        await fceManager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
-        return mapper.Map<FceViewDto>(fce);
+        fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
+        return fce;
     }
 
     public async Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
@@ -32,10 +33,10 @@ public sealed class FceService(
 
     public async Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var fce = await fceRepository.FindAsync(id, token).ConfigureAwait(false);
+        var fce = mapper.Map<FceSummaryDto?>(await fceRepository.FindAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
-        await fceManager.LoadFacilityAsync(fce, token).ConfigureAwait(false);
-        return mapper.Map<FceSummaryDto>(fce);
+        fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
+        return fce;
     }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)

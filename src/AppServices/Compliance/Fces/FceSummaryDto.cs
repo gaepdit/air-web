@@ -1,6 +1,5 @@
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
-using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -9,7 +8,8 @@ public record FceSummaryDto : IDeletable
 {
     public int Id { get; init; }
 
-    public Facility Facility { get; init; } = default!;
+    public string FacilityId { get; init; } = default!;
+    public string? FacilityName { get; set; }
 
     [Display(Name = "FCE Year")]
     public int Year { get; init; }

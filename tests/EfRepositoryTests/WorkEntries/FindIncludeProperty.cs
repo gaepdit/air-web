@@ -27,7 +27,7 @@ public class FindIncludeProperty
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Facility));
+        result.Should().BeEquivalentTo(expected);
         result!.Comments.Count.Should().Be(expected.Comments.Count);
     }
 
@@ -44,7 +44,7 @@ public class FindIncludeProperty
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Facility));
+        result.Should().BeEquivalentTo(expected);
         result!.Comments.Count.Should().Be(expected.Comments.Count);
     }
 
@@ -61,8 +61,7 @@ public class FindIncludeProperty
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
         result!.Comments.Count.Should().Be(expected: 0);
     }
 }

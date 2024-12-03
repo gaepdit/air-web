@@ -25,8 +25,8 @@ public class FindTests
             .Returns(WorkEntryType.PermitRevocation);
 
         var facilityRepoMock = Substitute.For<IFacilityService>();
-        facilityRepoMock.GetAsync(new FacilityId(item.FacilityId))
-            .Returns(item.Facility);
+        facilityRepoMock.GetNameAsync(new FacilityId(item.FacilityId))
+            .Returns(SampleText.ValidName);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IWorkEntryManager>(), facilityRepoMock, Substitute.For<ICommentService<int>>(),

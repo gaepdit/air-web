@@ -42,7 +42,8 @@ public class AutoMapperProfile : Profile
 
     private void WorkEntries()
     {
-        CreateMap<WorkEntry, WorkEntrySummaryDto>();
+        CreateMap<WorkEntry, WorkEntrySummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Users()
@@ -68,14 +69,17 @@ public class AutoMapperProfile : Profile
     private void Fces()
     {
         CreateMap<Fce, FceUpdateDto>();
-        CreateMap<Fce, FceSummaryDto>();
-        CreateMap<Fce, FceViewDto>();
+        CreateMap<Fce, FceSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Accs()
     {
         CreateMap<AnnualComplianceCertification, AccUpdateDto>();
-        CreateMap<AnnualComplianceCertification, AccViewDto>();
+        CreateMap<AnnualComplianceCertification, AccViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Inspections()
@@ -89,25 +93,29 @@ public class AutoMapperProfile : Profile
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
                 expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
-        CreateMap<Inspection, InspectionViewDto>();
+        CreateMap<Inspection, InspectionViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Notifications()
     {
         CreateMap<Notification, NotificationUpdateDto>();
-        CreateMap<Notification, NotificationViewDto>();
+        CreateMap<Notification, NotificationViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void PermitRevocations()
     {
         CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
-        CreateMap<PermitRevocation, PermitRevocationViewDto>();
+        CreateMap<PermitRevocation, PermitRevocationViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Reports()
     {
         CreateMap<Report, ReportUpdateDto>();
-        CreateMap<Report, ReportViewDto>();
+        CreateMap<Report, ReportViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void RmpInspections()
@@ -121,18 +129,22 @@ public class AutoMapperProfile : Profile
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
                 expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
-        CreateMap<RmpInspection, InspectionViewDto>();
+        CreateMap<RmpInspection, InspectionViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void SourceTestReviews()
     {
         CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
-        CreateMap<SourceTestReview, SourceTestReviewViewDto>();
+        CreateMap<SourceTestReview, SourceTestReviewViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void SearchResults()
     {
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>();
-        CreateMap<Fce, FceSearchResultDto>();
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }

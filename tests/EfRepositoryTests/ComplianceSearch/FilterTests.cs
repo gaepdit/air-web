@@ -32,8 +32,7 @@ public class FilterTests
         var result = await _repository.GetFilteredRecordsAsync(_workEntryTrueExpression, _unlimitedPaging);
 
         // Assert
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(entry => entry.Facility).Excluding(entry => entry.Comments)
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments)
         );
     }
 
@@ -47,8 +46,7 @@ public class FilterTests
         var result = await _repository.GetFilteredRecordsAsync(_workEntryNotDeletedExpression, _unlimitedPaging);
 
         // Assert
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(entry => entry.Facility).Excluding(entry => entry.Comments)
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments)
         );
     }
 
@@ -62,8 +60,7 @@ public class FilterTests
         var result = await _repository.GetFilteredRecordsAsync(_fceTrueExpression, _unlimitedPaging);
 
         // Assert
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(fce => fce.Facility).Excluding(fce => fce.Comments)
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(fce => fce.Comments)
         );
     }
 
@@ -77,8 +74,7 @@ public class FilterTests
         var result = await _repository.GetFilteredRecordsAsync(_fceNotDeletedExpression, _unlimitedPaging);
 
         // Assert
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(fce => fce.Facility).Excluding(fce => fce.Comments)
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(fce => fce.Comments)
         );
     }
 }

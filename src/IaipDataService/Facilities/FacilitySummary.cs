@@ -2,6 +2,8 @@
 
 namespace IaipDataService.Facilities;
 
+// FUTURE: Is this class needed? It's only used by the Source Tests, and from there,
+//   only the `FacilityId` and `Name` properties are used.
 public record FacilitySummary : IFacilityAirsName
 {
     private FacilitySummary() { }

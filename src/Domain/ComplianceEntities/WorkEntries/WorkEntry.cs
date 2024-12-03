@@ -18,25 +18,10 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
         FacilityId = facilityId;
     }
 
-    // Properties: Facility
+    // Properties: Basic data
 
     [MaxLength(9)]
-    public string FacilityId { get; private set; } = string.Empty;
-
-    private Facility _facility = default!;
-
-    [NotMapped]
-    public Facility Facility
-    {
-        get => _facility;
-        set
-        {
-            _facility = value;
-            FacilityId = value.Id;
-        }
-    }
-
-    // Properties: Basic data
+    public string FacilityId { get; [UsedImplicitly] private init; } = string.Empty;
 
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; }

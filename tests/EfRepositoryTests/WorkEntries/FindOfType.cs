@@ -25,8 +25,7 @@ public class FindOfType
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
         result!.WorkEntryType.Should().Be(WorkEntryType.Notification);
         result.Should().BeOfType<Notification>();
     }

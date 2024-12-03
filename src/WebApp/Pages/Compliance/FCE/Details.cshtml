@@ -5,7 +5,7 @@
 @model DetailsModel
 @{
     var report = Model.Item!;
-    ViewData["Title"] = $"Facility {report.Facility.Id} – FCE Report: {report.Year.ToString()}";
+    ViewData["Title"] = $"Facility {report.FacilityId} – FCE Report: {report.Year.ToString()}";
 }
 
 @if (report.IsDeleted)
@@ -66,10 +66,8 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="report.Facility" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId,report.FacilityName)" />
     </dd>
-    @* TODO: Additional facility information *@
-
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
     <dd class="col-sm-8 col-lg-9">
         <strong class="text-info-emphasis">@report.Year.ToString()</strong>

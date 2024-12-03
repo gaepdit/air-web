@@ -23,25 +23,10 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
     }
 
-    // Facility Properties
+    // FCE Properties
 
     [MaxLength(9)]
-    public string FacilityId { get; private set; } = string.Empty;
-
-    private Facility _facility = default!;
-
-    [NotMapped]
-    public Facility Facility
-    {
-        get => _facility;
-        set
-        {
-            _facility = value;
-            FacilityId = value.Id;
-        }
-    }
-
-    // FCE Properties
+    public string FacilityId { get; [UsedImplicitly] private init; } = string.Empty;
 
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
