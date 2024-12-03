@@ -9,8 +9,7 @@ namespace AppServicesTests.Fces.Permissions;
 
 public class FceViewRequirementTests
 {
-    private readonly Facility _facilityViewDto = new("00100001")
-        { Name = "Company", Description = "Description" };
+    private readonly FacilityId _facilityId = new("00100001");
 
     [Test]
     public async Task ComplianceStaff_CanEdit()
@@ -23,7 +22,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto };
+        var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -45,7 +44,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto, IsDeleted = true };
+        var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -67,7 +66,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto };
+        var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -89,7 +88,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto };
+        var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -111,7 +110,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto, IsDeleted = true };
+        var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -133,7 +132,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto, IsDeleted = true };
+        var resource = new FceViewDto { FacilityId = _facilityId, IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
 
         var fceService = Substitute.For<IFceService>();
@@ -160,7 +159,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto, IsDeleted = true };
+        var resource = new FceViewDto { FacilityId = _facilityId, IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
 
         var fceService = Substitute.For<IFceService>();
@@ -187,7 +186,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto, IsDeleted = true };
+        var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 
@@ -209,7 +208,7 @@ public class FceViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { Facility = _facilityViewDto };
+        var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceViewRequirement(Substitute.For<IFceService>());
 

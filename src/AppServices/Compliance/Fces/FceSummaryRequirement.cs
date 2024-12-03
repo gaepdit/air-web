@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Permissions;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -31,5 +32,6 @@ internal class FceSummaryRequirement(IFceService fceService) :
 
     private async Task<bool> CanRestoreAsync() =>
         ComplianceWorkOperation.CanRestore(_context.User, _resource) &&
-        !await fceService.ExistsAsync(_resource.Facility.Id, _resource.Year, _resource.Id).ConfigureAwait(false);
+        !await fceService.ExistsAsync((FacilityId)_resource.FacilityId, _resource.Year, _resource.Id)
+            .ConfigureAwait(false);
 }
