@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using GaEpd.AppLibrary.Extensions;
-using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
@@ -9,8 +8,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 {
     public string ItemName => WorkEntryType.GetDescription();
-    public Facility Facility { get; set; } = default!;
-    public string FacilityId { get; init; } = default!;
+    public required string FacilityId { get; init; }
+    public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; init; }
 
     [Display(Name = "Staff Responsible")]

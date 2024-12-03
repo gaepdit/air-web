@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
@@ -9,8 +8,8 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 public interface IWorkEntrySummaryDto : ICloseableAndDeletable, IHasOwnerAndDeletable
 {
     public string ItemName { get; }
-    public Facility Facility { get; set; }
     public string FacilityId { get; }
+    public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; }
 
     [Display(Name = "Staff Responsible")]
