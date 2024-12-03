@@ -6,7 +6,6 @@ namespace IaipDataService.Facilities;
 
 public record Facility : IFacilityAirsName
 {
-    private Facility() { }
     public Facility(string id) => Id = (FacilityId)id;
 
     [Key]

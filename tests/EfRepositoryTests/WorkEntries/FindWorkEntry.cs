@@ -23,8 +23,7 @@ public class FindWorkEntry
         var result = await _repository.FindAsync(expected.Id);
 
         // Assert
-        result.Should().BeEquivalentTo(expected,
-            options => options.Excluding(entry => entry.Comments).Excluding(entry => entry.Facility));
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
     }
 
     [Test]

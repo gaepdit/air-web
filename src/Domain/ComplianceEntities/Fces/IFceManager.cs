@@ -5,13 +5,6 @@ namespace AirWeb.Domain.ComplianceEntities.Fces;
 public interface IFceManager
 {
     /// <summary>
-    /// Sets the <see cref="Fce.Facility"/> property from the <see cref="Fce.FacilityId"/>.
-    /// </summary>
-    /// <param name="fce">The <see cref="Fce"/> to load the Facility on.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    Task LoadFacilityAsync(Fce fce, CancellationToken token = default);
-
-    /// <summary>
     /// Creates a new <see cref="Fce"/>.
     /// </summary>
     /// <param name="facilityId">The <see cref="FacilityId"/> of the <see cref="Facility"/> to create the FCE for.</param>
