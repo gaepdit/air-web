@@ -7,7 +7,7 @@ public abstract class ComplianceEvent : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private protected ComplianceEvent() { }
 
-    private protected ComplianceEvent(int? id) : base(id)
+    private protected ComplianceEvent(int? id, FacilityId facilityId) : base(id, facilityId)
     {
         IsComplianceEvent = true;
         EpaDxStatus = DxStatus.Inserted;

@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
@@ -8,10 +8,9 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<PermitRevocation> PermitRevocationData =>
     [
-        new(8001)
+        new(8001, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -23,10 +22,9 @@ internal static partial class WorkEntries
             PhysicalShutdownDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-21).Date),
             FollowupTaken = false,
         },
-        new(8002)
+        new(8002, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
@@ -41,10 +39,9 @@ internal static partial class WorkEntries
             PhysicalShutdownDate = null,
             FollowupTaken = true,
         },
-        new(8003)
+        new(8003, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted permit revocation",

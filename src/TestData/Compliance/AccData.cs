@@ -8,10 +8,9 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<AnnualComplianceCertification> AccData =>
     [
-        new(5001)
+        new(5001, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -32,10 +31,9 @@ internal static partial class WorkEntries
             ResubmittalRequired = false,
             EnforcementNeeded = false,
         },
-        new(5002)
+        new(5002, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
@@ -59,10 +57,9 @@ internal static partial class WorkEntries
             ResubmittalRequired = true,
             EnforcementNeeded = true,
         },
-        new(5003)
+        new(5003, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted ACC",

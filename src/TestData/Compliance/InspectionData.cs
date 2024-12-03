@@ -8,10 +8,9 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Inspection> InspectionData =>
     [
-        new(6001, null)
+        new(6001, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Inspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -29,10 +28,9 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new(6002, null)
+        new(6002, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Inspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
@@ -50,10 +48,9 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new(6003, null)
+        new(6003, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Inspection,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",

@@ -7,7 +7,7 @@ public class AnnualComplianceCertification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private AnnualComplianceCertification() { }
 
-    internal AnnualComplianceCertification(int? id) : base(id)
+    internal AnnualComplianceCertification(int? id, FacilityId facilityId) : base(id, facilityId)
     {
         WorkEntryType = WorkEntryType.AnnualComplianceCertification;
     }

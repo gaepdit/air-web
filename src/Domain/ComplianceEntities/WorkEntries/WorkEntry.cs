@@ -12,9 +12,10 @@ public abstract class WorkEntry : AuditableSoftDeleteEntity<int>, IComplianceEnt
     [UsedImplicitly] // Used by ORM.
     private protected WorkEntry() { }
 
-    private protected WorkEntry(int? id)
+    private protected WorkEntry(int? id, FacilityId facilityId)
     {
         if (id is not null) Id = id.Value;
+        FacilityId = facilityId;
     }
 
     // Properties: Facility

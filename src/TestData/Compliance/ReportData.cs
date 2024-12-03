@@ -8,10 +8,9 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Report> ReportData =>
     [
-        new(9001, UserData.GetUsers.ElementAt(0))
+        new(9001, UserData.GetUsers.ElementAt(0), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Report,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
@@ -30,10 +29,9 @@ internal static partial class WorkEntries
             ReportsDeviations = false,
             EnforcementNeeded = false,
         },
-        new(9002, UserData.GetUsers.ElementAt(1))
+        new(9002, UserData.GetUsers.ElementAt(1), DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Report,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(1),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
@@ -52,10 +50,9 @@ internal static partial class WorkEntries
             ReportsDeviations = true,
             EnforcementNeeded = true,
         },
-        new(9003, null)
+        new(9003, null, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Report,
-            Facility = DomainData.GetRandomFacility(),
             ResponsibleStaff = UserData.GetUsers.ElementAt(3),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Report",

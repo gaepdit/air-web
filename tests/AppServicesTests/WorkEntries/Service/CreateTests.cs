@@ -18,10 +18,11 @@ public class CreateTests
         // Arrange
         const int id = 901;
         var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = SampleText.ValidEmail };
-        var workEntry = new PermitRevocation(id);
+        var facilityId = (FacilityId)"00100001";
+        var workEntry = new PermitRevocation(id, facilityId);
 
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
-        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>())
+        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>(), Arg.Any<FacilityId>())
             .Returns(workEntry);
 
         var userServiceMock = Substitute.For<IUserService>();
@@ -38,7 +39,6 @@ public class CreateTests
                 Arg.Any<object?[]>())
             .Returns(AppNotificationResult.SuccessResult());
 
-        var facilityId = (FacilityId)"00100001";
         var facility = new Facility(facilityId);
 
         var facilityRepository = Substitute.For<IFacilityService>();
