@@ -9,7 +9,7 @@ public class LocalSourceTestServiceTests
     {
         // Arrange
         var service = new LocalSourceTestService();
-        var test = SourceTestData.GetData[0];
+        var test = service.Items.ElementAt(0);
 
         // Act
         var result = await service.FindAsync(test.ReferenceNumber);
@@ -21,8 +21,10 @@ public class LocalSourceTestServiceTests
     [Test]
     public async Task IfNotExists_Find_ReturnsNull()
     {
-        // Act
+        // Arrange
         var service = new LocalSourceTestService();
+
+        // Act
         var result = await service.FindAsync(0);
 
         // Assert

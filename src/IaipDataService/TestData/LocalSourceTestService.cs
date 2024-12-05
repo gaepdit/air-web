@@ -6,7 +6,7 @@ namespace IaipDataService.TestData;
 
 public class LocalSourceTestService : ISourceTestService
 {
-    private IReadOnlyCollection<BaseSourceTestReport> Items { get; } = SourceTestData.GetData.ToList();
+    internal IReadOnlyCollection<BaseSourceTestReport> Items { get; } = SourceTestData.GetData.ToList();
 
     public Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
