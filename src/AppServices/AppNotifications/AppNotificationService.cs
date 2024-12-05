@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.ErrorLogging;
 using GaEpd.EmailService;
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -8,7 +8,7 @@ namespace AirWeb.AppServices.AppNotifications;
 
 public class AppNotificationService(
     IEmailService emailService,
-    IEmailLogRepository repository,
+    IEmailLogRepository emailLogRepository,
     IHostEnvironment environment,
     IConfiguration configuration,
     IErrorLogger errorLogger) : IAppNotificationService
@@ -38,7 +38,7 @@ public class AppNotificationService(
         Message message;
         try
         {
-            message = Message.Create(subject, recipientEmail, settings.DefaultSender, textBody, htmlBody);
+            message = Message.Create(subject, recipientEmail, textBody, htmlBody);
         }
         catch (Exception e)
         {
@@ -46,7 +46,7 @@ public class AppNotificationService(
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
-        if (settings.SaveEmail) await repository.InsertAsync(EmailLog.Create(message), token).ConfigureAwait(false);
+        await emailLogRepository.InsertAsync(message, token).ConfigureAwait(false);
 
         if (settings is { EnableEmail: false, EnableEmailAuditing: false })
         {
@@ -55,7 +55,7 @@ public class AppNotificationService(
 
         try
         {
-            await emailService.SendEmailAsync(message, settings, token).ConfigureAwait(false);
+            _ = emailService.SendEmailAsync(message, token);
         }
         catch (Exception e)
         {

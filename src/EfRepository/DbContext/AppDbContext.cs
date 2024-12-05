@@ -4,7 +4,7 @@ using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.DbContext.Configuration;
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AirWeb.EfRepository.DbContext;
