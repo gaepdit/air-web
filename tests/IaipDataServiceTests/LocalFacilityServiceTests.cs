@@ -14,7 +14,7 @@ public class LocalFacilityServiceTests
     public async Task IfExists_Find_ReturnsData()
     {
         // Arrange
-        var facility = FacilityData.GetData[0];
+        var facility = _service.Items.ElementAt(0);
 
         // Act
         var result = await _service.FindAsync(facility.Id);
@@ -37,7 +37,7 @@ public class LocalFacilityServiceTests
     public async Task IfExists_Get_ReturnsData()
     {
         // Arrange
-        var facility = FacilityData.GetData[0];
+        var facility = _service.Items.ElementAt(0);
 
         // Act
         var result = await _service.GetAsync(facility.Id);
@@ -60,7 +60,7 @@ public class LocalFacilityServiceTests
     public async Task IfExists_GetName_ReturnsData()
     {
         // Arrange
-        var facility = FacilityData.GetData[0];
+        var facility = _service.Items.ElementAt(0);
 
         // Act
         var result = await _service.GetNameAsync(facility.Id);
@@ -83,7 +83,7 @@ public class LocalFacilityServiceTests
     public async Task IfExists_Exists_ReturnsTrue()
     {
         // Arrange
-        var facility = FacilityData.GetData[0];
+        var facility = _service.Items.ElementAt(0);
 
         // Act
         var result = await _service.ExistsAsync(facility.Id);

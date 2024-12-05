@@ -5,8 +5,10 @@ namespace IaipDataService.TestData;
 
 public sealed class LocalFacilityService : IFacilityService
 {
-    private IReadOnlyCollection<Facility> Items { get; } = FacilityData.GetData.ToList();
-    private ReadOnlyDictionary<FacilityId, string> FacilityList { get; } = FacilityData.GetFacilityList();
+    internal IReadOnlyCollection<Facility> Items { get; } = FacilityData.GetData.ToList();
+
+    private ReadOnlyDictionary<FacilityId, string> FacilityList =>
+        new(Items.ToDictionary(facility => facility.Id, facility => facility.Name));
 
     public Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false) =>
         Task.FromResult(Items.Single(facility => facility.Id.Equals(id)));
