@@ -7,7 +7,7 @@ using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.WebApp.Platform.Settings;
-using GaEpd.EmailService.Repository;
+using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -15,20 +15,22 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public static class DataPersistence
 {
-    public static void AddDataPersistence(this IServiceCollection services, ConfigurationManager configuration,
-        IWebHostEnvironment environment)
+    public static IServiceCollection AddDataPersistence(this IServiceCollection services,
+        ConfigurationManager configuration, IWebHostEnvironment environment)
     {
         // When configured, use in-memory data; otherwise use a SQL Server database.
         if (AppSettings.DevSettings.UseInMemoryData)
         {
             // Use in-memory data for all repositories.
-            services.AddSingleton<IComplianceSearchRepository, LocalComplianceSearchRepository>();
-            services.AddSingleton<IEmailLogRepository, LocalEmailLogRepository>();
-            services.AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>();
-            services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
-            services.AddSingleton<IFceRepository, LocalFceRepository>();
-            services.AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
-            return;
+            services
+                .AddSingleton<IComplianceSearchRepository, LocalComplianceSearchRepository>()
+                .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
+                .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
+                .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
+                .AddSingleton<IFceRepository, LocalFceRepository>()
+                .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
+
+            return services;
         }
 
         // When in-memory data is disabled, use a database connection.
@@ -54,11 +56,14 @@ public static class DataPersistence
         }
 
         // Repositories
-        services.AddScoped<IComplianceSearchRepository, ComplianceSearchRepository>();
-        services.AddScoped<IEmailLogRepository, EmailLogRepository>();
-        services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
-        services.AddScoped<IOfficeRepository, OfficeRepository>();
-        services.AddScoped<IFceRepository, FceRepository>();
-        services.AddScoped<IWorkEntryRepository, WorkEntryRepository>();
+        services
+            .AddScoped<IComplianceSearchRepository, ComplianceSearchRepository>()
+            .AddScoped<IEmailLogRepository, EmailLogRepository>()
+            .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
+            .AddScoped<IOfficeRepository, OfficeRepository>()
+            .AddScoped<IFceRepository, FceRepository>()
+            .AddScoped<IWorkEntryRepository, WorkEntryRepository>();
+
+        return services;
     }
 }

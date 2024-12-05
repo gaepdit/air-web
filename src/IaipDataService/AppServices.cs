@@ -8,13 +8,14 @@ namespace IaipDataService;
 
 public static class AppServices
 {
-    public static void AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
+    public static IServiceCollection AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
         string? connectionString)
     {
         if (useInMemoryIaipData)
         {
-            services.AddSingleton<IFacilityService, LocalFacilityService>();
-            services.AddSingleton<ISourceTestService, LocalSourceTestService>();
+            services
+                .AddSingleton<IFacilityService, LocalFacilityService>()
+                .AddSingleton<ISourceTestService, LocalSourceTestService>();
         }
         else
         {
@@ -23,10 +24,12 @@ public static class AppServices
 
             // DB connection factory for Dapper
             if (connectionString is null) throw new ArgumentException("IAIP connection string missing.");
-            services.AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ =>
-                new DbConnectionFactory(connectionString));
-            services.AddSingleton<IFacilityService, IaipFacilityService>();
-            services.AddSingleton<ISourceTestService, IaipSourceTestService>();
+            services
+                .AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ => new DbConnectionFactory(connectionString))
+                .AddSingleton<IFacilityService, IaipFacilityService>()
+                .AddSingleton<ISourceTestService, IaipSourceTestService>();
         }
+
+        return services;
     }
 }

@@ -9,39 +9,35 @@ using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
-using GaEpd.EmailService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.RegisterServices;
 
 public static class AppServices
 {
-    public static void AddAppServices(this IServiceCollection services)
-    {
+    public static IServiceCollection AddAppServices(this IServiceCollection services) => services
         // Work Entries
-        services.AddScoped<IWorkEntryManager, WorkEntryManager>();
-        services.AddScoped<IWorkEntryService, WorkEntryService>();
+        .AddScoped<IWorkEntryManager, WorkEntryManager>()
+        .AddScoped<IWorkEntryService, WorkEntryService>()
 
         // FCEs
-        services.AddScoped<IFceManager, FceManager>();
-        services.AddScoped<IFceService, FceService>();
+        .AddScoped<IFceManager, FceManager>()
+        .AddScoped<IFceService, FceService>()
 
         // Comments
-        services.AddScoped<ICommentService<int>, CommentService<int>>();
+        .AddScoped<ICommentService<int>, CommentService<int>>()
 
         // Compliance search
-        services.AddScoped<IComplianceSearchService, ComplianceSearchService>();
+        .AddScoped<IComplianceSearchService, ComplianceSearchService>()
 
         // Notification Types
-        services.AddScoped<INotificationTypeManager, NotificationTypeManager>();
-        services.AddScoped<INotificationTypeService, NotificationTypeService>();
+        .AddScoped<INotificationTypeManager, NotificationTypeManager>()
+        .AddScoped<INotificationTypeService, NotificationTypeService>()
 
         // Email
-        services.AddTransient<IEmailService, EmailService>();
-        services.AddScoped<IAppNotificationService, AppNotificationService>();
+        .AddScoped<IAppNotificationService, AppNotificationService>()
 
         // Offices
-        services.AddScoped<IOfficeManager, OfficeManager>();
-        services.AddScoped<IOfficeService, OfficeService>();
-    }
+        .AddScoped<IOfficeManager, OfficeManager>()
+        .AddScoped<IOfficeService, OfficeService>();
 }

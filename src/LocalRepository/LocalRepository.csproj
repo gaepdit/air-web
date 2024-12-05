@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="GaEpd.EmailService"/>
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -16,7 +17,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\EmailService\EmailService.csproj"/>
         <ProjectReference Include="..\TestData\TestData.csproj" />
     </ItemGroup>
 
