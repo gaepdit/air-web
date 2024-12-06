@@ -42,4 +42,6 @@ public record FceViewDto : IHasOwnerAndDeletable
     public string? DeleteComments { get; init; }
 
     public string OwnerId => ReviewedBy?.Id ?? string.Empty;
+
+    public string PrintoutUrl => $"~/report/facility/{FacilityId}/fce/{Id}";
 }

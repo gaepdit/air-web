@@ -1,0 +1,51 @@
+﻿@model (List<AirWeb.Domain.Reports.Compliance.WorkItems.InspectionPartial> Inspections, bool IsRmp)
+@{
+    var labelId = Model.IsRmp ? "rmp-inspections" : "inspections";
+    var labelText = Model.IsRmp ? "RMP Inspections" : "Inspections";
+}
+
+<h2 id="@labelId">@labelText</h2>
+
+@{
+    if (Model.Inspections is not { Count: > 0 })
+    {
+        <div class="fce-content">None.</div>
+        return;
+    }
+
+    var firstItem = Model.Inspections.FirstOrDefault()!;
+}
+
+<table aria-labelledby="@labelId">
+    <thead>
+    <tr>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(m => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.InspectionDate)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.Inspector)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.Reason)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.FacilityWasOperating)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.ComplianceStatus)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var i in Model.Inspections)
+    {
+        <tr>
+            <th scope="row" rowspan="2">@i.Id.ToString()</th>
+            <td>@Html.DisplayFor(m => i.InspectionDate)</td>
+            <td>@i.Inspector.SortableFullName</td>
+            <td>@i.Reason</td>
+            <td>@Html.DisplayFor(m => i.FacilityWasOperating, "BooleanYesNo")</td>
+            <td>@i.ComplianceStatus</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(m => firstItem.Comments)</dt>
+                    <dd>@i.Comments</dd>
+                </dl>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,107 @@
+@page "~/facility/{facilityId}/fce/{id:int}"
+@using WebApp.Platform.Settings
+@model IndexModel
+@{
+    Layout = "_ReportLayout";
+    ViewBag.BodyCssClass = "fce sans-serif";
+
+    var report = Model.Report!;
+    var facility = report.Facility!;
+    var regulatoryData = facility.RegulatoryData!;
+
+    ViewData["Title"] = $"Facility {facility.Id} - FCE Report: {report.FceYear.ToString()}";
+}
+
+<div class="page-wrapper" aria-label="Document">
+    <partial name="_EpdBannerPartial" model="AppSettings.OrganizationInfo" />
+
+    <header>
+        <h1>Full Compliance Evaluation Report</h1>
+
+        <div class="title split-lr">
+            <div aria-label="Facility name and city">@facility.Name, @facility.FacilityAddress?.City</div>
+            <div aria-label="Facility ID">@facility.Id</div>
+        </div>
+    </header>
+
+    <div class="fce-content">
+        <dl class="dl-inline">
+            <dt>@Html.DisplayNameFor(m => facility.Description)</dt>
+            <dd>@facility.Description</dd>
+        </dl>
+
+        <div class="grid-half">
+            <div aria-label="Facility location">
+                @Html.DisplayFor(m => facility.FacilityAddress)
+                <br />
+                <div>
+                    @facility.County County<br />
+                    @Html.DisplayFor(m => facility.GeoCoordinates)
+                </div>
+            </div>
+            <div>
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.OperatingStatus)</dt>
+                    <dd>@regulatoryData.OperatingStatus</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.Classification)</dt>
+                    <dd>@regulatoryData.Classification</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.CmsClassification)</dt>
+                    <dd>@regulatoryData.CmsClassification</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.Sic)</dt>
+                    <dd>@regulatoryData.Sic</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.Naics)</dt>
+                    <dd>@regulatoryData.Naics</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.AirPrograms)</dt>
+                    <dd>@Html.DisplayFor(m => regulatoryData.AirPrograms, "StringCollection")</dd>
+                    <dt>@Html.DisplayNameFor(m => regulatoryData.ProgramClassifications)</dt>
+                    <dd>@Html.DisplayFor(m => regulatoryData.ProgramClassifications, "StringCollection")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <h2>Full Compliance Evaluation</h2>
+
+    <div class="fce-content">
+        <div class="grid-half">
+            <div>
+                <dl class="dl-inline">
+                    <dt>
+                        <strong>@Html.DisplayNameFor(m => report.FceYear)</strong>
+                    </dt>
+                    <dd>
+                        <strong>@report.FceYear</strong>
+                    </dd>
+                    <dt>@Html.DisplayNameFor(m => report.StaffReviewedBy)</dt>
+                    <dd>@report.StaffReviewedBy.SortableFullName</dd>
+                    <dt>@Html.DisplayNameFor(m => report.WithOnsiteInspection)</dt>
+                    <dd>@Html.DisplayFor(m => report.WithOnsiteInspection, "BooleanYesNo")</dd>
+                </dl>
+            </div>
+            <div>
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(m => report.Id)</dt>
+                    <dd>@report.Id</dd>
+                    <dt>@Html.DisplayNameFor(m => report.DateCompleted)</dt>
+                    <dd>@Html.DisplayFor(m => report.DateCompleted)</dd>
+                </dl>
+            </div>
+        </div>
+        <dl class="dl-inline">
+            <dt>@Html.DisplayNameFor(m => report.Comments)</dt>
+            <dd>@report.Comments</dd>
+        </dl>
+    </div>
+
+    <h1>Supporting compliance data for @Html.DisplayFor(m => report.SupportingDataDateRange, new { Connector = "through" })</h1>
+
+    <partial name="_InspectionsPartial" model="(report.Inspections, false)" />
+    <partial name="_InspectionsPartial" model="(report.RmpInspections, true)" />
+    <partial name="_AccsPartial" model="report.Accs" />
+    <partial name="_ReportsPartial" model="report.Reports" />
+    <partial name="_NotificationsPartial" model="report.Notifications" />
+    <partial name="_StackTestsPartial" model="report.StackTests" />
+    <partial name="_FeesDataPartial" model="report.FeesHistory" />
+    <partial name="_EnforcementHistoryPartial" model="report.EnforcementHistory" />
+
+</div>

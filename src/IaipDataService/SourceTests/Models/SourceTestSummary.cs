@@ -61,5 +61,5 @@ public record SourceTestSummary
     public PersonName ReviewedByStaff { get; set; }
 
     public bool HasPrintout => ReportClosed;
-    public string PrintoutUrl => $"https://air.gaepd.org/stack-test/{ReferenceNumber}";
+    public string PrintoutUrl => $"~/facility/{Facility?.Id}/stack-test/{ReferenceNumber}";
 }

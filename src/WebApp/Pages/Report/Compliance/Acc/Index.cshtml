@@ -1,0 +1,79 @@
+﻿@page "~/facility/{facilityId}/acc-report/{id:int}"
+@using WebApp.Platform.Settings
+@model IndexModel
+@{
+    Layout = "_ReportLayout";
+    ViewBag.BodyCssClass = "acc";
+
+    ViewData["Title"] = $"Facility {Model.Report!.Facility!.Id} - Title V ACC Memo: {Model.Report.AccReportingYear.ToString()}";
+}
+
+<div class="page-wrapper">
+    <partial name="_EpdBannerPartial" model="AppSettings.OrganizationInfo" />
+    <partial name="_MemoHeaderPartial" model="Model.MemoHeader" />
+
+    <section>
+        <p id="acc-description">
+            Condition 8.14.1 of each Title V Permit requires the company to submit an annual compliance
+            certification by January 30 or February 28 each calendar year. After reviewing the compliance
+            certification for the year @Model.Report.AccReportingYear.ToString() for the above facility, I have determined the following:
+        </p>
+
+        <table class="table-values-list" aria-describedby="acc-description">
+            <tbody>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DatePostmarked)</th>
+                <td>@Html.DisplayFor(m => m.Report!.DatePostmarked)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DateReceived)</th>
+                <td>@Html.DisplayFor(m => m.Report!.DateReceived)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.PostmarkedByDeadline)</th>
+                <td>@Html.DisplayFor(m => m.Report!.PostmarkedByDeadline)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.SignedByResponsibleOfficial)</th>
+                <td>@Html.DisplayFor(m => m.Report!.SignedByResponsibleOfficial)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.CorrectFormsUsed)</th>
+                <td>@Html.DisplayFor(m => m.Report!.CorrectFormsUsed)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.AllTitleVConditionsListed)</th>
+                <td>@Html.DisplayFor(m => m.Report!.AllTitleVConditionsListed)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.CorrectlyFilledOut)</th>
+                <td>@Html.DisplayFor(m => m.Report!.CorrectlyFilledOut)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DeviationsReported)</th>
+                <td>@Html.DisplayFor(m => m.Report!.DeviationsReported)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.UnreportedDeviationsReported)</th>
+                <td>@Html.DisplayFor(m => m.Report!.UnreportedDeviationsReported)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.AllDeviationsReported)</th>
+                <td>@Html.DisplayFor(m => m.Report!.AllDeviationsReported)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.EnforcementRecommended)</th>
+                <td>@Html.DisplayFor(m => m.Report!.EnforcementRecommended)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(m => m.Report!.ResubmittalRequested)</th>
+                <td>@Html.DisplayFor(m => m.Report!.ResubmittalRequested)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Comments:</h2>
+
+        <p class="preserve-whitespace">@Model.Report.Comments</p>
+    </section>
+</div>

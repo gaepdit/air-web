@@ -1,0 +1,50 @@
+﻿@model List<AirWeb.Domain.Reports.Compliance.WorkItems.ReportPartial>
+
+<h2 id="reports">Reports</h2>
+
+@{
+    if (Model is not { Count: > 0 })
+    {
+        <div class="fce-content">None.</div>
+        return;
+    }
+
+    var firstItem = Model.FirstOrDefault()!;
+}
+
+<table aria-labelledby="reports">
+    <thead>
+    <tr>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(m => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.ReportPeriod)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.ReceivedDate)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.Reviewer)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.DeviationsReported)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var i in Model)
+    {
+        <tr>
+            <th scope="row" rowspan="2">
+                <p>@i.Id</p>
+            </th>
+            <td>
+                @i.ReportPeriod<br />
+                @Html.DisplayFor(m => i.ReportPeriodDateRange, new { Connector = "–" })
+            </td>
+            <td>@Html.DisplayFor(m => i.ReceivedDate)</td>
+            <td>@i.Reviewer.SortableFullName</td>
+            <td>@Html.DisplayFor(m => i.DeviationsReported, "BooleanYesNo")</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(m => firstItem.Comments)</dt>
+                    <dd>@i.Comments</dd>
+                </dl>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

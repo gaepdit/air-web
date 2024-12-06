@@ -1,0 +1,18 @@
+﻿@using AirWeb.Domain.Reports
+@using AirWeb.WebApp.Platform.ReportsModels
+@model AirWeb.WebApp.Platform.ReportsModels.OrganizationInfo
+<div role="banner" class="nameplate split-lr">
+    <div>
+        <img class="logo" src="~/images/epd-logo.svg" alt="Georgia Environmental Protection Division" />
+    </div>
+    <div aria-label="EPD address">
+        <address>
+            <div class="director">@Model.NameOfDirector, Director</div>
+            <div class="branch">@OrganizationInfo.Org</div>
+            <div class="address">
+                @Html.DisplayFor(m => OrganizationInfo.OrgAddress)
+                @OrganizationInfo.OrgPhoneNumber
+            </div>
+        </address>
+    </div>
+</div>

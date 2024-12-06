@@ -1,0 +1,35 @@
+﻿@model List<AirWeb.Domain.Reports.Compliance.WorkItems.EnforcementPartial>
+
+<h2 id="enforcement-history">Five-Year History of Enforcement Actions</h2>
+
+@{
+    if (Model is not { Count: > 0 })
+    {
+        <div class="fce-content">None.</div>
+        return;
+    }
+
+    var firstItem = Model.FirstOrDefault()!;
+}
+
+<table aria-labelledby="enforcement-history">
+    <thead>
+    <tr>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(m => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.StaffResponsible)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.EnforcementDate)</th>
+        <th scope="col">@Html.DisplayNameFor(m => firstItem.EnforcementType)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var i in Model)
+    {
+        <tr>
+            <th scope="row">@i.Id</th>
+            <td>@i.StaffResponsible.SortableFullName</td>
+            <td>@Html.DisplayFor(m => i.EnforcementDate)</td>
+            <td>@i.EnforcementType</td>
+        </tr>
+    }
+    </tbody>
+</table>
