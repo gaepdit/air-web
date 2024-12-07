@@ -1,5 +1,5 @@
-using AirWeb.Domain.Reports;
-using AirWeb.Domain.Reports.Compliance;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.WebApp.Platform.ReportsModels;
 using IaipDataService.Facilities;
 
@@ -7,11 +7,13 @@ namespace AirWeb.WebApp.Pages.Report.Compliance.Acc;
 
 public class IndexModel : PageModel
 {
-    public AccReport? Report { get; set; }
+    public AccViewDto? Report { get; set; }
+    public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public MemoHeader MemoHeader { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
-        [FromServices] IReportsRepository repository,
+        [FromServices] IWorkEntryService workEntryService,
+        [FromServices] IFacilityService facilityService,
         [FromRoute] string facilityId,
         [FromRoute] int id)
     {
@@ -25,16 +27,17 @@ public class IndexModel : PageModel
             return NotFound("Facility ID is invalid.");
         }
 
-        Report = await repository.GetAccReportAsync(airs, id);
-        if (Report?.Facility is null) return NotFound();
+        Facility = await facilityService.FindAsync(airs);
+        Report = await workEntryService.FindAsync(id) as AccViewDto;
+        if (Facility == null || Report == null) return NotFound();
 
         MemoHeader = new MemoHeader
         {
-            Date = Report.DateComplete,
-            From = Report.StaffResponsible.DisplayName,
+            Date = Report.ClosedDate,
+            From = Report.ResponsibleStaff?.DisplayName,
             Subject = $"Title V Annual Certification for {Report.AccReportingYear}" + Environment.NewLine +
-                $"{Report.Facility.Name}, {Report.Facility.FacilityAddress?.City}" + Environment.NewLine +
-                $"AIRS # {Report.Facility.Id}",
+                      $"{Facility.Name}, {Facility.FacilityAddress?.City}" + Environment.NewLine +
+                      $"AIRS # {Facility.Id}",
         };
 
         return Page();

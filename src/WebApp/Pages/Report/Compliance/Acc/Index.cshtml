@@ -1,11 +1,14 @@
-﻿@page "~/facility/{facilityId}/acc-report/{id:int}"
-@using WebApp.Platform.Settings
+﻿@page "~/report/facility/{facilityId}/acc-report/{id:int}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
 @model IndexModel
 @{
     Layout = "_ReportLayout";
     ViewBag.BodyCssClass = "acc";
 
-    ViewData["Title"] = $"Facility {Model.Report!.Facility!.Id} - Title V ACC Memo: {Model.Report.AccReportingYear.ToString()}";
+    var report = Model.Report!;
+
+    ViewData["Title"] = $"Facility {Model.Facility!.Id} - Title V ACC Memo: {Model.Report!.AccReportingYear.ToString()}";
 }
 
 <div class="page-wrapper">
@@ -16,64 +19,65 @@
         <p id="acc-description">
             Condition 8.14.1 of each Title V Permit requires the company to submit an annual compliance
             certification by January 30 or February 28 each calendar year. After reviewing the compliance
-            certification for the year @Model.Report.AccReportingYear.ToString() for the above facility, I have determined the following:
+            certification for the year @Model.Report.AccReportingYear.ToString() for the above facility, I have
+            determined the following:
         </p>
 
         <table class="table-values-list" aria-describedby="acc-description">
             <tbody>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DatePostmarked)</th>
-                <td>@Html.DisplayFor(m => m.Report!.DatePostmarked)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.Postmarked)</th>
+                <td>@Html.DisplayFor(_ => report.Postmarked)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DateReceived)</th>
-                <td>@Html.DisplayFor(m => m.Report!.DateReceived)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReceivedDate)</th>
+                <td>@Html.DisplayFor(_ => report.ReceivedDate)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.PostmarkedByDeadline)</th>
-                <td>@Html.DisplayFor(m => m.Report!.PostmarkedByDeadline)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.PostmarkedOnTime)</th>
+                <td>@Html.DisplayFor(_ => report.PostmarkedOnTime, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.SignedByResponsibleOfficial)</th>
-                <td>@Html.DisplayFor(m => m.Report!.SignedByResponsibleOfficial)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.SignedByRo)</th>
+                <td>@Html.DisplayFor(_ => report.SignedByRo, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.CorrectFormsUsed)</th>
-                <td>@Html.DisplayFor(m => m.Report!.CorrectFormsUsed)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.OnCorrectForms)</th>
+                <td>@Html.DisplayFor(_ => report.OnCorrectForms, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.AllTitleVConditionsListed)</th>
-                <td>@Html.DisplayFor(m => m.Report!.AllTitleVConditionsListed)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.IncludesAllTvConditions)</th>
+                <td>@Html.DisplayFor(_ => report.IncludesAllTvConditions, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.CorrectlyFilledOut)</th>
-                <td>@Html.DisplayFor(m => m.Report!.CorrectlyFilledOut)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.CorrectlyCompleted)</th>
+                <td>@Html.DisplayFor(_ => report.CorrectlyCompleted, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.DeviationsReported)</th>
-                <td>@Html.DisplayFor(m => m.Report!.DeviationsReported)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReportsDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.ReportsDeviations, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.UnreportedDeviationsReported)</th>
-                <td>@Html.DisplayFor(m => m.Report!.UnreportedDeviationsReported)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.IncludesPreviouslyUnreportedDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.IncludesPreviouslyUnreportedDeviations, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.AllDeviationsReported)</th>
-                <td>@Html.DisplayFor(m => m.Report!.AllDeviationsReported)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReportsAllKnownDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.ReportsAllKnownDeviations, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.EnforcementRecommended)</th>
-                <td>@Html.DisplayFor(m => m.Report!.EnforcementRecommended)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.EnforcementNeeded)</th>
+                <td>@Html.DisplayFor(_ => report.EnforcementNeeded, DisplayTemplate.BoolYesNo)</td>
             </tr>
             <tr>
-                <th scope="row">@Html.DisplayNameFor(m => m.Report!.ResubmittalRequested)</th>
-                <td>@Html.DisplayFor(m => m.Report!.ResubmittalRequested)</td>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ResubmittalRequired)</th>
+                <td>@Html.DisplayFor(_ => report.ResubmittalRequired, DisplayTemplate.BoolYesNo)</td>
             </tr>
             </tbody>
         </table>
 
         <h2>Comments:</h2>
 
-        <p class="preserve-whitespace">@Model.Report.Comments</p>
+        <p class="preserve-whitespace">@Model.Report.Notes</p>
     </section>
 </div>

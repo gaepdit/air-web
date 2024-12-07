@@ -1,4 +1,4 @@
-﻿@model AirWeb.Domain.Reports.StackTest.StackTestReportFlare
+﻿@model AirWeb.AppServices.Reports.StackTestDto.StackTestReportFlare
 @{
     if (Model.TestRuns is not { Count: > 0 }) return;
     var firstTestRun = Model.TestRuns.FirstOrDefault()!;

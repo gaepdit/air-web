@@ -1,4 +1,4 @@
-﻿@model AirWeb.Domain.Reports.StackTest.StackTestReportPondTreatment
+﻿@model AirWeb.AppServices.Reports.StackTestDto.StackTestReportPondTreatment
 @{
     if (Model.TestRuns is not { Count: > 0 }) return;
     var firstTestRun = Model.TestRuns.FirstOrDefault()!;

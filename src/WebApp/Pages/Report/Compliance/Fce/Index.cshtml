@@ -1,4 +1,5 @@
-@page "~/facility/{facilityId}/fce/{id:int}"
+@page "~/report/facility/{facilityId}/fce/{id:int}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using WebApp.Platform.Settings
 @model IndexModel
 @{
@@ -6,10 +7,10 @@
     ViewBag.BodyCssClass = "fce sans-serif";
 
     var report = Model.Report!;
-    var facility = report.Facility!;
-    var regulatoryData = facility.RegulatoryData!;
+    var facility = Model.Facility!;
+    var regulatoryData = Model.Facility!.RegulatoryData!;
 
-    ViewData["Title"] = $"Facility {facility.Id} - FCE Report: {report.FceYear.ToString()}";
+    ViewData["Title"] = $"Facility {facility.Id} - FCE Report: {report.Year.ToString()}";
 }
 
 <div class="page-wrapper" aria-label="Document">
@@ -32,11 +33,11 @@
 
         <div class="grid-half">
             <div aria-label="Facility location">
-                @Html.DisplayFor(m => facility.FacilityAddress)
+                @Html.DisplayFor(m => facility.FacilityAddress, DisplayTemplate.IaipAddress)
                 <br />
                 <div>
                     @facility.County County<br />
-                    @Html.DisplayFor(m => facility.GeoCoordinates)
+                    @Html.DisplayFor(m => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
                 </div>
             </div>
             <div>
@@ -67,41 +68,41 @@
             <div>
                 <dl class="dl-inline">
                     <dt>
-                        <strong>@Html.DisplayNameFor(m => report.FceYear)</strong>
+                        <strong>@Html.DisplayNameFor(_ => report.Year)</strong>
                     </dt>
                     <dd>
-                        <strong>@report.FceYear</strong>
+                        <strong>@report.Year</strong>
                     </dd>
-                    <dt>@Html.DisplayNameFor(m => report.StaffReviewedBy)</dt>
-                    <dd>@report.StaffReviewedBy.SortableFullName</dd>
-                    <dt>@Html.DisplayNameFor(m => report.WithOnsiteInspection)</dt>
-                    <dd>@Html.DisplayFor(m => report.WithOnsiteInspection, "BooleanYesNo")</dd>
+                    <dt>@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
+                    <dd>@report.ReviewedBy!.SortableFullName</dd>
+                    <dt>@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
+                    <dd>@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
                 </dl>
             </div>
             <div>
                 <dl class="dl-inline">
-                    <dt>@Html.DisplayNameFor(m => report.Id)</dt>
+                    <dt>@Html.DisplayNameFor(_ => report.Id)</dt>
                     <dd>@report.Id</dd>
-                    <dt>@Html.DisplayNameFor(m => report.DateCompleted)</dt>
-                    <dd>@Html.DisplayFor(m => report.DateCompleted)</dd>
+                    <dt>@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
+                    <dd>@Html.DisplayFor(_ => report.CompletedDate)</dd>
                 </dl>
             </div>
         </div>
         <dl class="dl-inline">
-            <dt>@Html.DisplayNameFor(m => report.Comments)</dt>
+            <dt>@Html.DisplayNameFor(_ => report.Comments)</dt>
             <dd>@report.Comments</dd>
         </dl>
     </div>
 
-    <h1>Supporting compliance data for @Html.DisplayFor(m => report.SupportingDataDateRange, new { Connector = "through" })</h1>
-
-    <partial name="_InspectionsPartial" model="(report.Inspections, false)" />
-    <partial name="_InspectionsPartial" model="(report.RmpInspections, true)" />
-    <partial name="_AccsPartial" model="report.Accs" />
-    <partial name="_ReportsPartial" model="report.Reports" />
-    <partial name="_NotificationsPartial" model="report.Notifications" />
-    <partial name="_StackTestsPartial" model="report.StackTests" />
-    <partial name="_FeesDataPartial" model="report.FeesHistory" />
-    <partial name="_EnforcementHistoryPartial" model="report.EnforcementHistory" />
+    @* <h1>Supporting compliance data for @Html.DisplayFor(_ => report.SupportingDataDateRange, new { Connector = "through" })</h1> *@
+    @* *@
+    @* <partial name="_InspectionsPartial" model="(report.Inspections, false)" /> *@
+    @* <partial name="_InspectionsPartial" model="(report.RmpInspections, true)" /> *@
+    @* <partial name="_AccsPartial" model="report.Accs" /> *@
+    @* <partial name="_ReportsPartial" model="report.Reports" /> *@
+    @* <partial name="_NotificationsPartial" model="report.Notifications" /> *@
+    @* <partial name="_StackTestsPartial" model="report.StackTests" /> *@
+    @* <partial name="_FeesDataPartial" model="report.FeesHistory" /> *@
+    @* <partial name="_EnforcementHistoryPartial" model="report.EnforcementHistory" /> *@
 
 </div>

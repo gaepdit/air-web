@@ -1,4 +1,4 @@
-﻿@model (List<AirWeb.Domain.Reports.Compliance.WorkItems.InspectionPartial> Inspections, bool IsRmp)
+﻿@model (List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.InspectionPartial> Inspections, bool IsRmp)
 @{
     var labelId = Model.IsRmp ? "rmp-inspections" : "inspections";
     var labelText = Model.IsRmp ? "RMP Inspections" : "Inspections";

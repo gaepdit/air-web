@@ -1,6 +1,6 @@
+using AirWeb.AppServices.Reports;
+using AirWeb.AppServices.Reports.StackTestDto;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.Reports;
-using AirWeb.Domain.Reports.StackTest;
 using AirWeb.WebApp.Platform.ReportsModels;
 using AirWeb.WebApp.Platform.Settings;
 using IaipDataService.Facilities;
@@ -15,7 +15,7 @@ public class IndexModel : PageModel
     public bool ShowConfidentialWarning { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
-        [FromServices] IReportsRepository repository,
+        [FromServices] IReportsService service,
         [FromRoute] string facilityId,
         [FromRoute] int referenceNumber,
         [FromQuery] bool includeConfidentialInfo = false)
@@ -36,7 +36,7 @@ public class IndexModel : PageModel
             return NotFound("Facility ID is invalid.");
         }
 
-        var report = await repository.GetStackTestReportAsync(airs, referenceNumber);
+        var report = await service.GetStackTestReportAsync(airs, referenceNumber);
         if (report?.Facility is null) return NotFound();
 
         Report = includeConfidentialInfo ? report : report.RedactedStackTestReport();

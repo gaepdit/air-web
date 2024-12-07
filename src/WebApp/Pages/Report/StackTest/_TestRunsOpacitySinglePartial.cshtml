@@ -1,5 +1,5 @@
-﻿@using AirWeb.Domain.Reports.StackTest
-@model AirWeb.Domain.Reports.StackTest.StackTestReportOpacity
+﻿@using AirWeb.AppServices.Reports.StackTestDto
+@model AirWeb.AppServices.Reports.StackTestDto.StackTestReportOpacity
 @{
     if (Model.TestRuns is not { Count: 1 }) return;
     var run = Model.TestRuns.FirstOrDefault()!;

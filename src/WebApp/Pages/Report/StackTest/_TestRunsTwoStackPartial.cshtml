@@ -1,5 +1,5 @@
-﻿@using AirWeb.Domain.Reports.StackTest
-@model AirWeb.Domain.Reports.StackTest.StackTestReportTwoStack
+﻿@using AirWeb.AppServices.Reports.StackTestDto
+@model AirWeb.AppServices.Reports.StackTestDto.StackTestReportTwoStack
 @{
     if (Model.TestRuns is not { Count: > 0 }) return;
     var firstTestRun = Model.TestRuns.FirstOrDefault()!;
