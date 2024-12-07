@@ -134,6 +134,7 @@ app
     .UseHttpsRedirection()
     .UseWebOptimizer()
     .UseStaticFiles()
+    .UseAppUrlRedirects()
     .UseRouting()
     .UseAuthentication()
     .UseAuthorization();

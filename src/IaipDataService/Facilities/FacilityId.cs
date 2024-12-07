@@ -38,14 +38,14 @@ public partial record FacilityId : IComparable<FacilityId>
     public override int GetHashCode() => string.GetHashCode(_id, StringComparison.Ordinal);
 
     // Format validation
-    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
+    public static bool IsValidFormat(string id) => FacilityIdCompiledRegex().IsMatch(id);
 
     // Test at https://regex101.com/r/2uYyHl/6
     // language:regex
-    public const string FacilityIdPattern = @"^(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}$";
+    public const string FacilityIdRegex = @"^(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}$";
 
-    [GeneratedRegex(FacilityIdPattern)]
-    private static partial Regex FacilityIdRegex();
+    [GeneratedRegex(FacilityIdRegex)]
+    private static partial Regex FacilityIdCompiledRegex();
 
     public static string CleanFacilityId(string? input)
     {
