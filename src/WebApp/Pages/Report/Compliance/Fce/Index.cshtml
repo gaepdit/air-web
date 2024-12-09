@@ -94,16 +94,14 @@
         </dl>
     </div>
 
-    @* TODO: Add supporting compliance data. *@
-    @* <h1>Supporting compliance data for @Html.DisplayFor(_ => report.SupportingDataDateRange, new { Connector = "through" })</h1> *@
-    @* *@
-    @* <partial name="_InspectionsPartial" model="(report.Inspections, false)" /> *@
-    @* <partial name="_InspectionsPartial" model="(report.RmpInspections, true)" /> *@
-    @* <partial name="_AccsPartial" model="report.Accs" /> *@
-    @* <partial name="_ReportsPartial" model="report.Reports" /> *@
-    @* <partial name="_NotificationsPartial" model="report.Notifications" /> *@
-    @* <partial name="_SourceTestsPartial" model="report.StackTests" /> *@
-    @* <partial name="_FeesDataPartial" model="report.FeesHistory" /> *@
-    @* <partial name="_EnforcementHistoryPartial" model="report.EnforcementHistory" /> *@
-
+    <h1>Supporting compliance data for @Html.DisplayFor(m => m.SupportingData.SupportingDataDateRange, new { Connector = "through" })</h1>
+    
+    <partial name="_InspectionsPartial" model="(Model.SupportingData.Inspections, false)" />
+    <partial name="_InspectionsPartial" model="(Model.SupportingData.RmpInspections, true)" />
+    <partial name="_AccsPartial" model="Model.SupportingData.Accs" />
+    <partial name="_ReportsPartial" model="Model.SupportingData.Reports" />
+    <partial name="_NotificationsPartial" model="Model.SupportingData.Notifications" />
+    <partial name="_SourceTestsPartial" model="Model.SupportingData.SourceTests" />
+    <partial name="_FeesDataPartial" model="Model.SupportingData.FeesHistory" />
+    <partial name="_EnforcementHistoryPartial" model="Model.SupportingData.EnforcementHistory" />
 </div>

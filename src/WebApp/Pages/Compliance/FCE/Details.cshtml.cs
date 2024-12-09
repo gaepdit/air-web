@@ -1,19 +1,26 @@
 ﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+public class DetailsModel(
+    IFceService fceService,
+    IComplianceSearchService searchService,
+    IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
+    public IPaginatedResult<WorkEntrySearchResultDto> SupportingData { get; private set; } = default!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -23,14 +30,24 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await fceService.FindAsync(Id);
+        Item = await fceService.FindAsync(Id, token);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
         if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
+
+        SupportingData = await searchService.SearchWorkEntriesAsync(
+            new WorkEntrySearchDto
+            {
+                EventDateTo = Item.CompletedDate,
+                EventDateFrom = Item.CompletedDate.AddYears(-FceSupportingDataDto.FceDataPeriod),
+            },
+            new PaginatedRequest(1, 1000, "EventDate, Id"),
+            loadFacilities: false,
+            token: token).ConfigureAwait(false);
 
         CommentSection = new CommentsSectionModel
         {
@@ -41,6 +58,7 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
             CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
             CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
         };
+
         return Page();
     }
 

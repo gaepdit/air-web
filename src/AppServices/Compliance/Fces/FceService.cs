@@ -2,10 +2,14 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Identity;
 using AutoMapper;
+using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -15,6 +19,7 @@ public sealed class FceService(
     IFceRepository fceRepository,
     IFceManager fceManager,
     IFacilityService facilityService,
+    IComplianceSearchService complianceSearch,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -40,9 +45,26 @@ public sealed class FceService(
         return fce;
     }
 
-    public Task<FceSupportingDataDto> GetSupportingDataAsync(int id, CancellationToken token = default)
+    public async Task<FceSupportingDataDto> GetSupportingDataAsync(int id, DateOnly endDate,
+        CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var supportingData =await complianceSearch.SearchWorkEntriesAsync(
+            new WorkEntrySearchDto
+            {
+                EventDateTo = endDate,
+                EventDateFrom = endDate.AddYears(-FceSupportingDataDto.FceDataPeriod),
+            },
+            new PaginatedRequest(1, 1000, "EventDate, Id"),
+            loadFacilities: false,
+            token: token).ConfigureAwait(false);
+        
+        var supportingDataDto = new FceSupportingDataDto
+        {
+            CompletedDate = endDate,
+            Inspections = supportingData.Items.Where(e => e.WorkEntryType == WorkEntryType.Inspection)
+        };
+        
+        return supportingDataDto;
     }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
