@@ -1,8 +1,8 @@
 ﻿using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.AppServices.Reports.ComplianceDto.WorkItems;
+namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record StackTestWorkPartial
+public record SourceTestSummaryDto
 {
     [Display(Name = "Tracking #")]
     public int Id { get; init; }
@@ -11,9 +11,9 @@ public record StackTestWorkPartial
     public int ReferenceNumber { get; init; }
 
     [Display(Name = "Date received")]
-    public DateOnly ReceivedDate { get; init; }
+    public DateOnly ReceivedByCompliance { get; init; }
 
-    public PersonName Reviewer { get; init; }
+    public PersonName ResponsibleStaff { get; init; }
 
     [Display(Name = "Compliance status")]
     public string ComplianceStatus { get; init; } = "";

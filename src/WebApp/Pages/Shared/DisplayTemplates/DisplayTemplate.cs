@@ -12,11 +12,14 @@ public static class DisplayTemplate
     public const string BoolActive = nameof(BoolActive);
     public const string BoolAsterisk = nameof(BoolAsterisk);
     public const string BoolClosed = nameof(BoolClosed);
+    public const string BoolDeviationsNoted = nameof(BoolDeviationsNoted);
     public const string BoolYesNo = nameof(BoolYesNo);
     public const string County = nameof(County);
     public const string Currency = nameof(Currency);
+    public const string DateRange = nameof(DateRange);
     public const string DateTimeLong = nameof(DateTimeLong);
     public const string DateTimeNullableShort = nameof(DateTimeNullableShort);
+    public const string DateTimeRange = nameof(DateTimeRange);
     public const string EnumNullable = nameof(EnumNullable);
     public const string FileSize = nameof(FileSize);
     public const string FileTypeIcon = nameof(FileTypeIcon);
@@ -43,6 +46,7 @@ public static class DisplayTemplate
     public const string ValueWithUnitsCollection = nameof(ValueWithUnitsCollection);
 
     public const string IaipAddress = nameof(IaipAddress);
+    public const string IaipDateRange = nameof(IaipDateRange);
     public const string IaipGeoCoordinates = nameof(IaipGeoCoordinates);
     public const string IaipPersonCollection = nameof(IaipPersonCollection);
 }

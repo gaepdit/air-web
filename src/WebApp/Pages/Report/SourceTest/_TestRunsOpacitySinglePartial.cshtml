@@ -7,25 +7,25 @@
 
 <tr class="table-section">
     <th scope="row">
-        @Html.DisplayNameFor(m => run.MaxOperatingCapacity)
+        @Html.DisplayNameFor(_ => run.MaxOperatingCapacity)
     </th>
     <td>@run.MaxOperatingCapacity @Model.MaxOperatingCapacityUnits</td>
 </tr>
 <tr>
     <th scope="row">
-        @Html.DisplayNameFor(m => run.OperatingCapacity)
+        @Html.DisplayNameFor(_ => run.OperatingCapacity)
     </th>
     <td>@run.OperatingCapacity @Model.OperatingCapacityUnits</td>
 </tr>
 <tr>
     <th scope="row">
-        @Html.DisplayNameFor(m => run.AllowableEmissionRate)
+        @Html.DisplayNameFor(_ => run.AllowableEmissionRate)
     </th>
     <td>@run.AllowableEmissionRate @Model.AllowableEmissionRateUnits</td>
 </tr>
 <tr>
     <th scope="row">
-        @Html.DisplayNameFor(m => Model.TestDuration)
+        @Html.DisplayNameFor(m => m.TestDuration)
     </th>
     <td>@Model.TestDuration</td>
 </tr>
@@ -34,7 +34,7 @@
 {
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => run.Opacity)
+            @Html.DisplayNameFor(_ => run.Opacity)
             <span class="units">(%)</span>
             <span class="units">(@Model.OpacityStandard)</span>
         </th>
@@ -45,7 +45,7 @@ else // DocumentType.Method22
 {
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => run.AccumulatedEmissionTime)
+            @Html.DisplayNameFor(_ => run.AccumulatedEmissionTime)
             <span class="units">(min:sec)</span>
         </th>
         <td>@run.AccumulatedEmissionTime</td>

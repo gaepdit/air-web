@@ -1,6 +1,6 @@
-﻿namespace AirWeb.AppServices.Reports.ComplianceDto.WorkItems;
+﻿namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record FeeYearPartial
+public record FeeYearSummaryDto
 {
     [Display(Name = "Fee year")]
     public int Year { get; init; }
@@ -13,5 +13,5 @@ public record FeeYearPartial
 
     public decimal Balance { get; init; }
 
-    public string Status { get; init; } = "";
+    public string Status { get; init; } = string.Empty;
 }

@@ -1,11 +1,11 @@
-using AirWeb.Domain.Identity;
+using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Platform.ReportsModels;
 using AirWeb.WebApp.Platform.Settings;
-using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
-namespace AirWeb.WebApp.Pages.Report.StackTest;
+namespace AirWeb.WebApp.Pages.Report.SourceTest;
 
 public class IndexModel : PageModel
 {
@@ -16,13 +16,14 @@ public class IndexModel : PageModel
 
     public async Task<ActionResult> OnGetAsync(
         [FromServices] ISourceTestService sourceTestService,
+        [FromServices] IAuthorizationService authorizationService,
         [FromRoute] int referenceNumber,
         [FromQuery] bool includeConfidentialInfo = false)
     {
         if (includeConfidentialInfo)
         {
-            if (User.Identity is not { IsAuthenticated: true }) return Challenge();
-            if (User.Identity.Name is null || !User.Identity.Name.IsValidEmailDomain()) return Forbid();
+            var activeUser = await authorizationService.Succeeded(User, Policies.ActiveUser);
+            if (!activeUser) return Challenge();
         }
 
         var sourceTestTask = sourceTestService.FindAsync(referenceNumber);

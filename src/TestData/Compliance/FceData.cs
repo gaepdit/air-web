@@ -17,7 +17,7 @@ internal static class FceData
         },
         new(402, DomainData.GetRandomFacility().Id, 2021)
         {
-            ReviewedBy = null,
+            ReviewedBy = UserData.GetUsers.ElementAt(2),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-12).Date),
             OnsiteInspection = false,
             Notes = string.Empty,

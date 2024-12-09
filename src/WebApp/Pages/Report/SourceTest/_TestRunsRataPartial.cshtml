@@ -9,13 +9,13 @@
 <table class="table-subtable-vertical" aria-label="Test run data">
     <thead>
     <tr>
-        <th scope="col">@Html.DisplayNameFor(m => firstTestRun.RunNumber)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
         <th scope="col">
-            @Html.DisplayNameFor(m => firstTestRun.ReferenceMethod)<br />
+            @Html.DisplayNameFor(_ => firstTestRun.ReferenceMethod)<br />
             <span class="units">(@Model.Units)</span>
         </th>
         <th scope="col">
-            @Html.DisplayNameFor(m => firstTestRun.Cms)<br />
+            @Html.DisplayNameFor(_ => firstTestRun.Cms)<br />
             <span class="units">(@Model.Units)</span>
         </th>
     </tr>

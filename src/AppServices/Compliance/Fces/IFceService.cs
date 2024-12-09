@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -11,6 +12,7 @@ public interface IFceService : IDisposable, IAsyncDisposable
     Task<FceViewDto?> FindAsync(int id, CancellationToken token = default);
     Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default);
     Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
+    Task<FceSupportingDataDto> GetSupportingDataAsync(int id, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);

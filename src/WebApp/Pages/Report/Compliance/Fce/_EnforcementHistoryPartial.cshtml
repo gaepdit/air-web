@@ -1,10 +1,10 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.EnforcementPartial>
+@model IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.EnforcementSummaryDto>
 
 <h2 id="enforcement-history">Five-Year History of Enforcement Actions</h2>
 
 @{
-    if (Model is not { Count: > 0 })
+    if (!Model.Any())
     {
         <div class="fce-content">None.</div>
         return;
@@ -17,7 +17,7 @@
     <thead>
     <tr>
         <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
-        <th scope="col">@Html.DisplayNameFor(_ => firstItem.StaffResponsible)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.EnforcementDate)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.EnforcementType)</th>
     </tr>
@@ -27,7 +27,7 @@
     {
         <tr>
             <th scope="row">@i.Id</th>
-            <td>@i.StaffResponsible.SortableFullName</td>
+            <td>@i.ResponsibleStaff.SortableFullName</td>
             <td>@Html.DisplayFor(_ => i.EnforcementDate, DisplayTemplate.LongDateOnly)</td>
             <td>@Html.DisplayFor(_ => i.EnforcementType, DisplayTemplate.TextOrPlaceholder)</td>
         </tr>

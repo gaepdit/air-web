@@ -3,7 +3,7 @@
 @using AirWeb.WebApp.Platform.Constants
 @using IaipDataService.SourceTests.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model AirWeb.WebApp.Pages.Report.StackTest.IndexModel
+@model IndexModel
 @{
     Layout = "_ReportLayout";
     ViewBag.BodyCssClass = "stack-test sans-serif";
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.TestDates)</th>
-                <td>@Html.DisplayFor(_ => report.TestDates)</td>
+                <td>@Html.DisplayFor(_ => report.TestDates, DisplayTemplate.IaipDateRange)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.DateReceivedByApb)</th>

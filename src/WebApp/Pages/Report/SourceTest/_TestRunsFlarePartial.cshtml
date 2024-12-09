@@ -7,7 +7,7 @@
 <table class="table-subtable-vertical" aria-label="Test run data">
     <thead>
     <tr>
-        <th scope="row">@Html.DisplayNameFor(m => firstTestRun.RunNumber)</th>
+        <th scope="row">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
         @foreach (var r in Model.TestRuns)
         {
             <th scope="col">@r.RunNumber</th>
@@ -18,7 +18,7 @@
     <tbody>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.HeatingValue)
+            @Html.DisplayNameFor(_ => firstTestRun.HeatingValue)
             <span class="units">(@Model.AvgHeatingValue.Units)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -29,7 +29,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.EmissionRateVelocity)
+            @Html.DisplayNameFor(_ => firstTestRun.EmissionRateVelocity)
             <span class="units">(@Model.AvgEmissionRateVelocity.Units)</span>
         </th>
         @foreach (var r in Model.TestRuns)

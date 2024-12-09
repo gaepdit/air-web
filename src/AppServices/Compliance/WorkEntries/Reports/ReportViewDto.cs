@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using System.ComponentModel.DataAnnotations;
+using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 
@@ -17,6 +17,9 @@ public record ReportViewDto : WorkEntryViewDto
 
     [Display(Name = "End")]
     public DateOnly? ReportingPeriodEnd { get; init; }
+
+    [Display(Name = "Date")]
+    public DateRange ReportPeriodDateRange => new(ReportingPeriodStart, ReportingPeriodEnd);
 
     [Display(Name = "Reporting Period Comment")]
     public string? ReportingPeriodComment { get; init; }

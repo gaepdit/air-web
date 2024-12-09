@@ -1,10 +1,10 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.StackTestWorkPartial>
+@model IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.SourceTestSummaryDto>
 
 <h2 id="source-tests">Source Tests</h2>
 
 @{
-    if (Model is not { Count: > 0 })
+    if (!Model.Any())
     {
         <div class="fce-content">None.</div>
         return;
@@ -16,11 +16,11 @@
 <table aria-labelledby="source-tests">
     <thead>
     <tr>
-        <th scope="col" class="no-wrap">@Html.DisplayNameFor(m => firstItem.Id)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.ReferenceNumber)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.ReceivedDate)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.Reviewer)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.ComplianceStatus)</th>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReferenceNumber)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReceivedByCompliance)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ComplianceStatus)</th>
     </tr>
     </thead>
     <tbody>
@@ -29,14 +29,14 @@
         <tr>
             <th scope="row" rowspan="2">@i.Id.ToString()</th>
             <td>@i.ReferenceNumber.ToString()</td>
-            <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
-            <td>@i.Reviewer.SortableFullName</td>
+            <td>@Html.DisplayFor(_ => i.ReceivedByCompliance, DisplayTemplate.LongDateOnly)</td>
+            <td>@i.ResponsibleStaff.SortableFullName</td>
             <td>@i.ComplianceStatus</td>
         </tr>
         <tr>
             <td colspan="4">
                 <dl class="dl-inline">
-                    <dt>@Html.DisplayNameFor(m => firstItem.SourceTested)</dt>
+                    <dt>@Html.DisplayNameFor(_ => firstItem.SourceTested)</dt>
                     <dd>@i.PollutantMeasured – @i.SourceTested</dd>
                 </dl>
             </td>

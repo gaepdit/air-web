@@ -1,10 +1,10 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.AccPartial>
+@model IEnumerable<AirWeb.AppServices.Compliance.WorkEntries.Accs.AccViewDto>
 
 <h2 id="accs">Annual Compliance Certifications</h2>
 
 @{
-    if (Model is not { Count: > 0 })
+    if (!Model.Any())
     {
         <div class="fce-content">None.</div>
         return;
@@ -19,8 +19,8 @@
         <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.AccReportingYear)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReceivedDate)</th>
-        <th scope="col">@Html.DisplayNameFor(_ => firstItem.Reviewer)</th>
-        <th scope="col">@Html.DisplayNameFor(_ => firstItem.DeviationsReported)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReportsDeviations)</th>
     </tr>
     </thead>
     <tbody>
@@ -30,8 +30,8 @@
             <th scope="row">@i.Id.ToString()</th>
             <td>@i.AccReportingYear.ToString()</td>
             <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
-            <td>@i.Reviewer.SortableFullName</td>
-            <td>@Html.DisplayFor(_ => i.DeviationsReported, DisplayTemplate.BoolYesNo)</td>
+            <td>@i.ResponsibleStaff?.SortableFullName</td>
+            <td>@Html.DisplayFor(_ => i.ReportsDeviations, DisplayTemplate.BoolYesNo)</td>
         </tr>
     }
     </tbody>

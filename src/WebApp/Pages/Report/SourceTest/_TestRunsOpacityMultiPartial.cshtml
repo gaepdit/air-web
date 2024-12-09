@@ -19,7 +19,7 @@
             <tbody>
             <tr>
                 <th scope="row">
-                    @Html.DisplayNameFor(m => firstTestRun.MaxOperatingCapacity)
+                    @Html.DisplayNameFor(_ => firstTestRun.MaxOperatingCapacity)
                     <span class="units">(@Model.MaxOperatingCapacityUnits)</span>
                 </th>
                 @foreach (var r in Model.TestRuns)
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    @Html.DisplayNameFor(m => firstTestRun.OperatingCapacity)
+                    @Html.DisplayNameFor(_ => firstTestRun.OperatingCapacity)
                     <span class="units">(@Model.OperatingCapacityUnits)</span>
                 </th>
                 @foreach (var r in Model.TestRuns)
@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    @Html.DisplayNameFor(m => firstTestRun.AllowableEmissionRate)
+                    @Html.DisplayNameFor(_ => firstTestRun.AllowableEmissionRate)
                     <span class="units">(@Model.AllowableEmissionRateUnits)</span>
                 </th>
                 @foreach (var r in Model.TestRuns)
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    @Html.DisplayNameFor(m => firstTestRun.Opacity)
+                    @Html.DisplayNameFor(_ => firstTestRun.Opacity)
                     <span class="units">(%)</span>
                     <span class="units">(@Model.OpacityStandard)</span>
                 </th>

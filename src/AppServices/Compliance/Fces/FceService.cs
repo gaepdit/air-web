@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.Identity;
@@ -37,6 +38,11 @@ public sealed class FceService(
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
+    }
+
+    public Task<FceSupportingDataDto> GetSupportingDataAsync(int id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)

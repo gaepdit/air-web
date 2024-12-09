@@ -1,14 +1,14 @@
 ﻿using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.AppServices.Reports.ComplianceDto.WorkItems;
+namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record EnforcementPartial
+public record EnforcementSummaryDto
 {
     [Display(Name = "Tracking #")]
     public int Id { get; init; }
 
     [Display(Name = "Staff responsible")]
-    public PersonName StaffResponsible { get; init; }
+    public PersonName ResponsibleStaff { get; init; }
 
     [Display(Name = "Date")]
     public DateOnly EnforcementDate { get; init; }

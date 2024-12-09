@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using System.ComponentModel.DataAnnotations;
+using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
@@ -11,6 +11,9 @@ public record InspectionViewDto : WorkEntryViewDto
 
     [Display(Name = "End")]
     public DateTime InspectionEnded { get; init; }
+
+    [Display(Name = "Date")]
+    public DateTimeRange InspectionDateRange => new(InspectionStarted, InspectionEnded);
 
     [Display(Name = "Inspection Reason")]
     public InspectionReason? InspectionReason { get; init; }

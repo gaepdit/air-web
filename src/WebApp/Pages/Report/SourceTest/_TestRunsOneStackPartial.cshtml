@@ -7,7 +7,7 @@
 <table class="table-subtable-vertical" aria-label="Test run data">
     <thead>
     <tr>
-        <th scope="row">@Html.DisplayNameFor(m => firstTestRun.RunNumber)</th>
+        <th scope="row">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
         @foreach (var r in Model.TestRuns)
         {
             <th scope="col">@r.RunNumber</th>
@@ -18,7 +18,7 @@
     <tbody>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.GasTemperature)
+            @Html.DisplayNameFor(_ => firstTestRun.GasTemperature)
             <span class="units">(°F)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -29,7 +29,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.GasMoisture)
+            @Html.DisplayNameFor(_ => firstTestRun.GasMoisture)
             <span class="units">(%)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -40,7 +40,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.GasFlowRateAcfm)
+            @Html.DisplayNameFor(_ => firstTestRun.GasFlowRateAcfm)
             <span class="units">(ACFM)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -51,7 +51,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.GasFlowRateDscfm)
+            @Html.DisplayNameFor(_ => firstTestRun.GasFlowRateDscfm)
             <span class="units">(DSCFM)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -62,7 +62,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.PollutantConcentration)
+            @Html.DisplayNameFor(_ => firstTestRun.PollutantConcentration)
             <span class="units">(@Model.AvgPollutantConcentration.Units)</span>
         </th>
         @foreach (var r in Model.TestRuns)
@@ -73,7 +73,7 @@
     </tr>
     <tr>
         <th scope="row">
-            @Html.DisplayNameFor(m => firstTestRun.EmissionRate)
+            @Html.DisplayNameFor(_ => firstTestRun.EmissionRate)
             <span class="units">(@Model.AvgEmissionRate.Units)</span>
         </th>
         @foreach (var r in Model.TestRuns)

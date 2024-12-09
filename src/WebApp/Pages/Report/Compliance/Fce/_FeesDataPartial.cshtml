@@ -1,10 +1,10 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.FeeYearPartial>
+@model IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.FeeYearSummaryDto>
 
 <h2 id="permit-fees">Five-Year History of Annual Permit Fees</h2>
 
 @{
-    if (Model is not { Count: > 0 })
+    if (!Model.Any())
     {
         <div class="fce-content">None.</div>
         return;

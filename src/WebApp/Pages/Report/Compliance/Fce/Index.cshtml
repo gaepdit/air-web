@@ -27,7 +27,7 @@
 
     <div class="fce-content">
         <dl class="dl-inline">
-            <dt>@Html.DisplayNameFor(m => facility.Description)</dt>
+            <dt>@Html.DisplayNameFor(_ => facility.Description)</dt>
             <dd>@facility.Description</dd>
         </dl>
 
@@ -71,10 +71,10 @@
                         <strong>@Html.DisplayNameFor(_ => report.Year)</strong>
                     </dt>
                     <dd>
-                        <strong>@report.Year</strong>
+                        <strong>@report.Year.ToString()</strong>
                     </dd>
                     <dt>@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
-                    <dd>@report.ReviewedBy!.SortableFullName</dd>
+                    <dd>@report.ReviewedBy?.SortableFullName</dd>
                     <dt>@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
                     <dd>@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
                 </dl>
