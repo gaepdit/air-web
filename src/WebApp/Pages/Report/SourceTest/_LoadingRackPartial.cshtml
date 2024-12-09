@@ -1,0 +1,51 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model IaipDataService.SourceTests.Models.SourceTestReportLoadingRack
+<tr class="table-section">
+    <th scope="row">@Html.DisplayNameFor(m => m.MaxOperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.MaxOperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.OperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.OperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.AllowableEmissionRates)</th>
+    <td>@Html.DisplayFor(m => m.AllowableEmissionRates, DisplayTemplate.ValueWithUnitsCollection)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.ControlEquipmentInfo)</th>
+    <td class="preserve-whitespace">@Model.ControlEquipmentInfo</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.TestDuration)</th>
+    <td>@Html.DisplayFor(m => m.TestDuration)</td>
+</tr>
+<tr>
+    <th scope="row" id="pollutant-concentration">@Html.DisplayNameFor(m => m.PollutantConcentrationIn)</th>
+    <td class="table-subtable">
+        <table class="table-subtable-horizontal" aria-labelledby="pollutant-concentration">
+            <tbody>
+            <tr>
+                <th scope="row">IN</th>
+                <td>@Html.DisplayFor(m => m.PollutantConcentrationIn)</td>
+            </tr>
+            <tr>
+                <th scope="row">OUT</th>
+                <td>@Html.DisplayFor(m => m.PollutantConcentrationOut)</td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.EmissionRate)</th>
+    <td>@Html.DisplayFor(m => m.EmissionRate)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.DestructionReduction)</th>
+    <td>@Html.DisplayFor(m => m.DestructionReduction)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+    <td class="preserve-whitespace">@Model.Comments</td>
+</tr>

@@ -1,4 +1,5 @@
-﻿@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.FeeYearPartial>
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.FeeYearPartial>
 
 <h2 id="permit-fees">Five-Year History of Annual Permit Fees</h2>
 
@@ -15,11 +16,11 @@
 <table aria-labelledby="permit-fees">
     <thead>
     <tr>
-        <th scope="col" class="minimize-col-width">@Html.DisplayNameFor(m => firstItem.Year)</th>
-        <th scope="col" class="align-right minimize-col-width">@Html.DisplayNameFor(m => firstItem.InvoicedAmount)</th>
-        <th scope="col" class="align-right">@Html.DisplayNameFor(m => firstItem.AmountPaid)</th>
-        <th scope="col" class="align-right">@Html.DisplayNameFor(m => firstItem.Balance)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.Status)</th>
+        <th scope="col" class="minimize-col-width">@Html.DisplayNameFor(_ => firstItem.Year)</th>
+        <th scope="col" class="align-right minimize-col-width">@Html.DisplayNameFor(_ => firstItem.InvoicedAmount)</th>
+        <th scope="col" class="align-right">@Html.DisplayNameFor(_ => firstItem.AmountPaid)</th>
+        <th scope="col" class="align-right">@Html.DisplayNameFor(_ => firstItem.Balance)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.Status)</th>
     </tr>
     </thead>
     <tbody>
@@ -27,9 +28,9 @@
     {
         <tr>
             <th scope="row">@i.Year</th>
-            <td class="align-right">@Html.DisplayFor(m => i.InvoicedAmount, "Currency")</td>
-            <td class="align-right">@Html.DisplayFor(m => i.AmountPaid, "Currency")</td>
-            <td class="align-right">@Html.DisplayFor(m => i.Balance, "Currency")</td>
+            <td class="align-right">@Html.DisplayFor(_ => i.InvoicedAmount, DisplayTemplate.Currency)</td>
+            <td class="align-right">@Html.DisplayFor(_ => i.AmountPaid, DisplayTemplate.Currency)</td>
+            <td class="align-right">@Html.DisplayFor(_ => i.Balance, DisplayTemplate.Currency)</td>
             <td>@i.Status</td>
         </tr>
     }

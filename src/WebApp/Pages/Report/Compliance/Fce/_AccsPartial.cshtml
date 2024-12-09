@@ -1,4 +1,5 @@
-﻿@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.AccPartial>
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.AccPartial>
 
 <h2 id="accs">Annual Compliance Certifications</h2>
 
@@ -15,11 +16,11 @@
 <table aria-labelledby="accs">
     <thead>
     <tr>
-        <th scope="col" class="no-wrap">@Html.DisplayNameFor(m => firstItem.Id)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.AccReportingYear)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.ReceivedDate)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.Reviewer)</th>
-        <th scope="col">@Html.DisplayNameFor(m => firstItem.DeviationsReported)</th>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.AccReportingYear)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReceivedDate)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.Reviewer)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.DeviationsReported)</th>
     </tr>
     </thead>
     <tbody>
@@ -28,9 +29,9 @@
         <tr>
             <th scope="row">@i.Id.ToString()</th>
             <td>@i.AccReportingYear.ToString()</td>
-            <td>@Html.DisplayFor(m => i.ReceivedDate)</td>
+            <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
             <td>@i.Reviewer.SortableFullName</td>
-            <td>@Html.DisplayFor(m => i.DeviationsReported, "BooleanYesNo")</td>
+            <td>@Html.DisplayFor(_ => i.DeviationsReported, DisplayTemplate.BoolYesNo)</td>
         </tr>
     }
     </tbody>

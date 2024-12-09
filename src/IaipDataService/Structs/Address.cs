@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using IaipDataService.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace IaipDataService.Structs;
 
@@ -21,4 +22,14 @@ public readonly record struct Address
     [DataType(DataType.PostalCode)]
     [Display(Name = "Postal Code")]
     public string PostalCode { get; [UsedImplicitly] init; }
+
+    // Readonly properties
+    public string OneLine => new[]
+        {
+            Street, Street2, City,
+            new[] { State, PostalCode }.ConcatWithSeparator(),
+        }
+        .ConcatWithSeparator(", ");
+
+    public string CityState => new[] { City, State }.ConcatWithSeparator(", ");
 }

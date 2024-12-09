@@ -27,8 +27,10 @@ public class IndexModel : PageModel
             return NotFound("Facility ID is invalid.");
         }
 
-        Facility = await facilityService.FindAsync(airs);
-        Report = await workEntryService.FindAsync(id) as AccViewDto;
+        var facilityTask = facilityService.FindAsync(airs);
+        var entryTask = workEntryService.FindAsync(id);
+        Facility = await facilityTask;
+        Report = await entryTask as AccViewDto;
         if (Facility == null || Report == null) return NotFound();
 
         MemoHeader = new MemoHeader

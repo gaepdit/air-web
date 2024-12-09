@@ -8,12 +8,12 @@ public record NotificationPartial
     public int Id { get; init; }
 
     [Display(Name = "Date received")]
-    public DateTime ReceivedDate { get; init; }
+    public DateOnly ReceivedDate { get; init; }
 
-    public PersonName Reviewer { get; set; }
+    public PersonName Reviewer { get; init; }
 
     [Display(Name = "Notification type")]
     public string Type { get; init; } = "";
 
-    public string Comments { get; init; } = "";
+    public string Notes { get; init; } = "";
 }

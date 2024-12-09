@@ -9,7 +9,7 @@
             <div class="director">@Model.NameOfDirector, Director</div>
             <div class="branch">@OrganizationInfo.Org</div>
             <div class="address">
-                @Html.DisplayFor(m => OrganizationInfo.OrgAddress)
+                @Html.DisplayFor(_ => OrganizationInfo.OrgAddress)
                 @OrganizationInfo.OrgPhoneNumber
             </div>
         </address>

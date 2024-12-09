@@ -21,7 +21,7 @@ public static class AppUrlRedirects
                     replacement: "report/facility/$1/acc/$2",
                     statusCode: StatusCodes.Status302Found)
                 .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdRegex}/stack-test/{IntRegex}$",
-                    replacement: "report/facility/$1/source-test/$2",
+                    replacement: "report/source-test/$2",
                     statusCode: StatusCodes.Status302Found)
                 .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdRegex}/fce/{IntRegex}$",
                     replacement: "report/facility/$1/fce/$2",

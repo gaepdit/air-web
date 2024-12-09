@@ -27,11 +27,11 @@
             <tbody>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.Postmarked)</th>
-                <td>@Html.DisplayFor(_ => report.Postmarked)</td>
+                <td>@Html.DisplayFor(_ => report.Postmarked, DisplayTemplate.LongDateOnly)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.ReceivedDate)</th>
-                <td>@Html.DisplayFor(_ => report.ReceivedDate)</td>
+                <td>@Html.DisplayFor(_ => report.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.PostmarkedOnTime)</th>

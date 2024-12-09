@@ -24,8 +24,10 @@ public class IndexModel : PageModel
             return NotFound("Facility ID is invalid.");
         }
 
-        Facility = await facilityService.FindAsync(airs);
-        Report = await fceService.FindAsync(id);
+        var facilityTask = facilityService.FindAsync(airs);
+        var fceTask = fceService.FindAsync(id);
+        Facility = await facilityTask;
+        Report = await fceTask;
         if (Facility == null || Report == null) return NotFound();
 
         return Page();

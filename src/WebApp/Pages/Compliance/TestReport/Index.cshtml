@@ -18,7 +18,8 @@
     <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
         {
-            <a asp-page="@Model.TestSummary.PrintoutUrl" target="_blank" rel="noopener"
+            <a asp-page="/Report/SourceTest/Index" target="_blank" rel="noopener"
+               asp-route-referenceNumber="@summary.ReferenceNumber"
                class="btn btn-outline-secondary icon-link no-external-link">
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>

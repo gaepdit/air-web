@@ -33,29 +33,29 @@
 
         <div class="grid-half">
             <div aria-label="Facility location">
-                @Html.DisplayFor(m => facility.FacilityAddress, DisplayTemplate.IaipAddress)
+                @Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)
                 <br />
                 <div>
                     @facility.County County<br />
-                    @Html.DisplayFor(m => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
+                    @Html.DisplayFor(_ => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
                 </div>
             </div>
             <div>
                 <dl class="dl-inline">
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.OperatingStatus)</dt>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
                     <dd>@regulatoryData.OperatingStatus</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.Classification)</dt>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
                     <dd>@regulatoryData.Classification</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.CmsClassification)</dt>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
                     <dd>@regulatoryData.CmsClassification</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.Sic)</dt>
-                    <dd>@regulatoryData.Sic</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.Naics)</dt>
-                    <dd>@regulatoryData.Naics</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.AirPrograms)</dt>
-                    <dd>@Html.DisplayFor(m => regulatoryData.AirPrograms, "StringCollection")</dd>
-                    <dt>@Html.DisplayNameFor(m => regulatoryData.ProgramClassifications)</dt>
-                    <dd>@Html.DisplayFor(m => regulatoryData.ProgramClassifications, "StringCollection")</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Sic)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.Sic, DisplayTemplate.TextOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
                 </dl>
             </div>
         </div>
@@ -84,7 +84,7 @@
                     <dt>@Html.DisplayNameFor(_ => report.Id)</dt>
                     <dd>@report.Id</dd>
                     <dt>@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
-                    <dd>@Html.DisplayFor(_ => report.CompletedDate)</dd>
+                    <dd>@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.LongDateOnly)</dd>
                 </dl>
             </div>
         </div>
@@ -102,7 +102,7 @@
     @* <partial name="_AccsPartial" model="report.Accs" /> *@
     @* <partial name="_ReportsPartial" model="report.Reports" /> *@
     @* <partial name="_NotificationsPartial" model="report.Notifications" /> *@
-    @* <partial name="_StackTestsPartial" model="report.StackTests" /> *@
+    @* <partial name="_SourceTestsPartial" model="report.StackTests" /> *@
     @* <partial name="_FeesDataPartial" model="report.FeesHistory" /> *@
     @* <partial name="_EnforcementHistoryPartial" model="report.EnforcementHistory" /> *@
 

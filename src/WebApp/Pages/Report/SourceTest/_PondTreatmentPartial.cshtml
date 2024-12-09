@@ -1,0 +1,29 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportPondTreatment
+<tr class="table-section">
+    <th scope="row">@Html.DisplayNameFor(m => m.MaxOperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.MaxOperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.OperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.OperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.ControlEquipmentInfo)</th>
+    <td class="preserve-whitespace">@Model.ControlEquipmentInfo</td>
+</tr>
+<tr>
+    <td colspan="2" class="table-subtable">
+        <partial name="_TestRunsPondTreatmentPartial" model="Model" />
+    </td>
+</tr>
+<tr>
+    <th scope="row">
+        @Html.DisplayNameFor(m => m.DestructionEfficiency)
+        <span class="units">(%)</span>
+    </th>
+    <td>@Model.DestructionEfficiency</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+    <td class="preserve-whitespace">@Model.Comments</td>
+</tr>

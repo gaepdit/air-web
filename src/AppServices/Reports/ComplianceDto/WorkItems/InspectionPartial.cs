@@ -21,5 +21,5 @@ public record InspectionPartial
     [Display(Name = "Compliance status")]
     public string ComplianceStatus { get; init; } = "";
 
-    public string Comments { get; init; } = "";
+    public string Notes { get; init; } = "";
 }

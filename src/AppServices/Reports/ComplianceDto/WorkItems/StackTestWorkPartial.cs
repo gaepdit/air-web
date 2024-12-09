@@ -11,9 +11,9 @@ public record StackTestWorkPartial
     public int ReferenceNumber { get; init; }
 
     [Display(Name = "Date received")]
-    public DateTime ReceivedDate { get; init; }
+    public DateOnly ReceivedDate { get; init; }
 
-    public PersonName Reviewer { get; set; }
+    public PersonName Reviewer { get; init; }
 
     [Display(Name = "Compliance status")]
     public string ComplianceStatus { get; init; } = "";

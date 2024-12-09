@@ -1,4 +1,5 @@
-﻿@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.ReportPartial>
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model List<AirWeb.AppServices.Reports.ComplianceDto.WorkItems.ReportPartial>
 
 <h2 id="reports">Reports</h2>
 
@@ -31,17 +32,17 @@
             </th>
             <td>
                 @i.ReportPeriod<br />
-                @Html.DisplayFor(m => i.ReportPeriodDateRange, new { Connector = "–" })
+                @Html.DisplayFor(_ => i.ReportPeriodDateRange, new { Connector = "–" })
             </td>
-            <td>@Html.DisplayFor(m => i.ReceivedDate)</td>
+            <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
             <td>@i.Reviewer.SortableFullName</td>
-            <td>@Html.DisplayFor(m => i.DeviationsReported, "BooleanYesNo")</td>
+            <td>@Html.DisplayFor(_ => i.DeviationsReported, DisplayTemplate.BoolYesNo)</td>
         </tr>
         <tr>
             <td colspan="4">
                 <dl class="dl-inline">
-                    <dt>@Html.DisplayNameFor(m => firstItem.Comments)</dt>
-                    <dd>@i.Comments</dd>
+                    <dt>@Html.DisplayNameFor(m => firstItem.Notes)</dt>
+                    <dd>@i.Notes</dd>
                 </dl>
             </td>
         </tr>

@@ -1,0 +1,39 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using IaipDataService.SourceTests
+@model IaipDataService.SourceTests.Models.SourceTestMemorandum
+
+@if (Model.DocumentType == DocumentType.PTE)
+{
+    <tr class="table-section">
+        <th scope="row">@Html.DisplayNameFor(m => m.MaxOperatingCapacity)</th>
+        <td>@Html.DisplayFor(m => m.MaxOperatingCapacity)</td>
+    </tr>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(m => m.OperatingCapacity)</th>
+        <td>@Html.DisplayFor(m => m.OperatingCapacity)</td>
+    </tr>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(m => m.AllowableEmissionRates)</th>
+        <td>@Html.DisplayFor(m => m.AllowableEmissionRates, DisplayTemplate.ValueWithUnitsCollection)</td>
+    </tr>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(m => m.ControlEquipmentInfo)</th>
+        <td class="preserve-whitespace">@Model.ControlEquipmentInfo</td>
+    </tr>
+}
+else if (Model.DocumentType == DocumentType.MemorandumToFile)
+{
+    <tr class="table-section">
+        <th scope="row">@Html.DisplayNameFor(m => m.MonitorManufacturer)</th>
+        <td>@Model.MonitorManufacturer</td>
+    </tr>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(m => m.MonitorSerialNumber)</th>
+        <td>@Model.MonitorSerialNumber</td>
+    </tr>
+}
+
+<tr>
+    <th scope="row">Memorandum</th>
+    <td class="preserve-whitespace">@Model.Comments</td>
+</tr>
