@@ -1,7 +1,6 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -16,7 +15,7 @@ public record FceViewDto : IHasOwnerAndDeletable
     public int Year { get; init; }
 
     [Display(Name = "Reviewed by")]
-    public StaffViewDto? ReviewedBy { get; init; } = default!;
+    public StaffViewDto? ReviewedBy { get; init; }
 
     [Display(Name = "Date completed")]
     public DateOnly CompletedDate { get; init; }
@@ -41,7 +40,6 @@ public record FceViewDto : IHasOwnerAndDeletable
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
 
+    // Calculated properties
     public string OwnerId => ReviewedBy?.Id ?? string.Empty;
-
-    public string PrintoutUrl => $"~/report/facility/{FacilityId}/fce/{Id}";
 }

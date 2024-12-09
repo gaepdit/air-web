@@ -50,7 +50,8 @@
             {
                 <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
-            <a asp-page="@report.PrintoutUrl" target="_blank" rel="noopener"
+            <a asp-page="/Report/Compliance/Fce/Index" target="_blank" rel="noopener"
+               asp-route-facilityId="@report.FacilityId" asp-route-id="@Model.Id"
                class="btn btn-outline-secondary icon-link no-external-link">
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
@@ -65,7 +66,7 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId,report.FacilityName)" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId, report.FacilityName)" />
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
     <dd class="col-sm-8 col-lg-9">
@@ -84,6 +85,9 @@
         </div>
     </dd>
 </dl>
+
+@* TODO: Add supporting compliance data. *@
+@* <h1>Supporting compliance data for @Html.DisplayFor(_ => report.SupportingDataDateRange, new { Connector = "through" })</h1> *@
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
 

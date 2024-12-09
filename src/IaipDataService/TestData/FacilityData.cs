@@ -1,6 +1,5 @@
 using IaipDataService.Facilities;
 using IaipDataService.Structs;
-using System.Collections.ObjectModel;
 
 namespace IaipDataService.TestData;
 
@@ -144,6 +143,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
+            RegulatoryData = new RegulatoryData(),
         },
         new("05900071")
         {
@@ -158,6 +158,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
+            RegulatoryData = new RegulatoryData(),
         },
         new("05700040")
         {
@@ -173,6 +174,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("00100005")
         {
@@ -225,6 +227,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("07300003")
         {
@@ -240,6 +243,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("11500021")
         {
@@ -255,6 +259,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("15300040")
         {
@@ -270,6 +275,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("30500001")
         {
@@ -285,6 +291,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
         new("31300062")
         {
@@ -300,6 +307,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = new RegulatoryData(),
         },
     ];
 

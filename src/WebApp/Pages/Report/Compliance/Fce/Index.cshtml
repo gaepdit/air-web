@@ -89,11 +89,12 @@
             </div>
         </div>
         <dl class="dl-inline">
-            <dt>@Html.DisplayNameFor(_ => report.Comments)</dt>
-            <dd>@report.Comments</dd>
+            <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+            <dd>@report.Notes</dd>
         </dl>
     </div>
 
+    @* TODO: Add supporting compliance data. *@
     @* <h1>Supporting compliance data for @Html.DisplayFor(_ => report.SupportingDataDateRange, new { Connector = "through" })</h1> *@
     @* *@
     @* <partial name="_InspectionsPartial" model="(report.Inspections, false)" /> *@

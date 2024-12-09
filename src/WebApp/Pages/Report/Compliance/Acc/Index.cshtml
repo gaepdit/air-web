@@ -1,4 +1,4 @@
-﻿@page "~/report/facility/{facilityId}/acc-report/{id:int}"
+﻿@page "~/report/facility/{facilityId}/acc/{id:int}"
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
@@ -76,8 +76,8 @@
             </tbody>
         </table>
 
-        <h2>Comments:</h2>
+        <h2>@Html.DisplayNameFor(_ => report.Notes):</h2>
 
-        <p class="preserve-whitespace">@Model.Report.Notes</p>
+        <p class="preserve-whitespace">@report.Notes</p>
     </section>
 </div>

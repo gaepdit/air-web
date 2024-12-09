@@ -15,7 +15,7 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; init; }
     public virtual bool HasPrintout => false;
-    public virtual string? PrintoutUrl => null;
+    public virtual string PrintoutPath => string.Empty;
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }

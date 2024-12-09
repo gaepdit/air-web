@@ -13,5 +13,5 @@ public interface IWorkEntryViewDto : IWorkEntrySummaryDto
 
     // Display properties
     public bool HasPrintout { get; }
-    public string? PrintoutUrl { get; }
+    public string PrintoutPath { get; }
 }
