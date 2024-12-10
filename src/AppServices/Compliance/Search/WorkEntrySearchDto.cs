@@ -8,8 +8,8 @@ public record WorkEntrySearchDto : IComplianceSearchDto
 
     // == Statuses ==
 
-    [Display(Name = "Closed/Completed")]
-    public YesNoAny? Closed { get; init; }
+    [Display(Name = "Open/Closed (Completed)")]
+    public ClosedOpenAny? Closed { get; init; }
 
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }

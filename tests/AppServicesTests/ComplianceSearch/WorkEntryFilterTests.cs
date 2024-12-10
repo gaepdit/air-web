@@ -55,7 +55,7 @@ public class WorkEntryFilterTests
     public void Closed_Yes()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Closed = YesNoAny.Yes };
+        var spec = new WorkEntrySearchDto { Closed = ClosedOpenAny.Closed };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>
@@ -72,7 +72,7 @@ public class WorkEntryFilterTests
     public void Closed_No()
     {
         // Arrange
-        var spec = new WorkEntrySearchDto { Closed = YesNoAny.No };
+        var spec = new WorkEntrySearchDto { Closed = ClosedOpenAny.Open };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
         var expected = WorkEntryData.GetData.Where(entry =>

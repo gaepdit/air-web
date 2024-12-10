@@ -20,7 +20,6 @@ public class DetailsModel(
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
-    public WorkEntrySearchDto Spec { get; private set; } = default!;
     public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = default!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
@@ -96,14 +95,14 @@ public class DetailsModel(
 
     private async Task LoadSupportingData(CancellationToken token)
     {
-        Spec = new WorkEntrySearchDto
+       var spec = new WorkEntrySearchDto
         {
             PartialFacilityId = Item!.FacilityId,
             EventDateTo = Item.CompletedDate,
             EventDateFrom = Item.SupportingDataStartDate,
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100, sorting: SortBy.WorkTypeAsc.GetDescription());
-        SearchResults = await searchService.SearchWorkEntriesAsync(Spec, paging, token: token);
+        SearchResults = await searchService.SearchWorkEntriesAsync(spec, paging, token: token);
     }
 
     private async Task SetPermissionsAsync() =>

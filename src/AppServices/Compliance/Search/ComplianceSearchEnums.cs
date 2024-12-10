@@ -32,6 +32,16 @@ public enum YesNoAny
     No = 0,
 }
 
+// "(Any)" (null) = no filtering
+// "Closed" = only if "closed" value is true
+// "Open" = only if "closed" value is false
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum ClosedOpenAny
+{
+    Closed = 1,
+    Open = 0,
+}
+
 // "Not Deleted" (null) = only non-deleted entries
 // "Deleted" = only deleted entries
 // "All" = both deleted and not-deleted entries
