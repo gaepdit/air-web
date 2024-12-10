@@ -1,6 +1,8 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -42,4 +44,7 @@ public record FceViewDto : IHasOwnerAndDeletable
 
     // Calculated properties
     public string OwnerId => ReviewedBy?.Id ?? string.Empty;
+    public DateOnly SupportingDataStartDate => CompletedDate.AddYears(-Fce.DataPeriod);
+    public DateRange SupportingDataDateRange => new(SupportingDataStartDate, CompletedDate);
+    public DateOnly ExtendedDataStartDate => CompletedDate.AddYears(-Fce.ExtendedDataPeriod);
 }

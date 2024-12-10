@@ -46,8 +46,16 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     public string? DeleteComments { get; set; }
 
     // Business Logic
-    public const int EarliestFceYear = 2002;
 
+    // The number of calendar years of supporting data covered by an FCE.
+    public const int DataPeriod = 1; // One year
+
+    // The number of calendar years of supporting data
+    // for fees history and enforcement history.
+    public const int ExtendedDataPeriod = 5; // Five years
+
+    // The earliest year for which an FCE exists.
+    public const int EarliestFceYear = 2002;
     public static List<int> ValidFceYears
     {
         get

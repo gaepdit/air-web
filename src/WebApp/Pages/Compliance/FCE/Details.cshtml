@@ -5,7 +5,7 @@
 @model DetailsModel
 @{
     var report = Model.Item!;
-    ViewData["Title"] = $"Facility {report.FacilityId} – FCE Report: {report.Year.ToString()}";
+    ViewData["Title"] = $"FCE Report for {report.Year.ToString()}, Facility {report.FacilityId}";
 }
 
 @if (report.IsDeleted)
@@ -66,7 +66,8 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId, report.FacilityName)" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(report.FacilityId, report.FacilityName)" />
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
     <dd class="col-sm-8 col-lg-9">
@@ -87,7 +88,21 @@
 </dl>
 
 @* TODO: Add supporting compliance data. *@
-@* <h1>Supporting compliance data for @Html.DisplayFor(_ => report.SupportingDataDateRange, new { Connector = "through" })</h1> *@
+<h2 class="h4 mt-4">Supporting compliance data for
+    @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through " })</h2>
+
+@if (Model.SearchResults.TotalCount == 0)
+{
+    <p class="lead text-info">No data found in date range.</p>
+}
+else
+{
+    <details class="border rounded-1 border-bottom-0">
+        <summary class="bg-body-secondary px-2 py-1 border-bottom">View data</summary>
+        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                 model="(Model.SearchResults.Items, Model.Spec)" />
+    </details>
+}
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
 
