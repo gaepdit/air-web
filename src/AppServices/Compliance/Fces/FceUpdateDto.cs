@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceUpdateDto

@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain;
 using GaEpd.AppLibrary.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
 

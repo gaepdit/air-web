@@ -1,15 +1,10 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Compliance.Fces.SupportingData;
-using AirWeb.AppServices.Compliance.Search;
-using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Identity;
 using AutoMapper;
-using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces;

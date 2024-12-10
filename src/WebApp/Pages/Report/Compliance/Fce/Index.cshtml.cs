@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Report.Compliance.Fce;
@@ -13,25 +14,14 @@ public class IndexModel : PageModel
     public async Task<ActionResult> OnGetAsync(
         [FromServices] IFceService fceService,
         [FromServices] IFacilityService facilityService,
-        [FromRoute] string facilityId,
+        [FromServices] IWorkEntryService workEntryService,
         [FromRoute] int id,
         CancellationToken token = default)
     {
-        FacilityId airs;
-        try
-        {
-            airs = new FacilityId(facilityId);
-        }
-        catch (ArgumentException)
-        {
-            return NotFound("Facility ID is invalid.");
-        }
-
-        var facilityTask = facilityService.FindAsync(airs);
-        var fceTask = fceService.FindAsync(id, token);
-        Facility = await facilityTask;
-        Report = await fceTask;
-        if (Facility == null || Report == null) return NotFound();
+        Report = await fceService.FindAsync(id, token);
+        if (Report == null) return NotFound();
+        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        if (Facility == null) return NotFound();
 
         return Page();
     }

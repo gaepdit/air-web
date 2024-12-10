@@ -14,24 +14,12 @@ public class IndexModel : PageModel
     public async Task<ActionResult> OnGetAsync(
         [FromServices] IWorkEntryService workEntryService,
         [FromServices] IFacilityService facilityService,
-        [FromRoute] string facilityId,
         [FromRoute] int id)
     {
-        FacilityId airs;
-        try
-        {
-            airs = new FacilityId(facilityId);
-        }
-        catch (ArgumentException)
-        {
-            return NotFound("Facility ID is invalid.");
-        }
-
-        var facilityTask = facilityService.FindAsync(airs);
-        var entryTask = workEntryService.FindAsync(id);
-        Facility = await facilityTask;
-        Report = await entryTask as AccViewDto;
-        if (Facility == null || Report == null) return NotFound();
+        Report = await workEntryService.FindAsync(id) as AccViewDto;
+        if (Report == null) return NotFound();
+        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        if (Facility == null) return NotFound();
 
         MemoHeader = new MemoHeader
         {

@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Identity;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Staff.Dto;
 
