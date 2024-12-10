@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.ValueObjects;
 
-namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
+namespace AirWeb.AppServices.Enforcement;
 
 public record EnforcementSummaryDto
 {

@@ -1,6 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
@@ -8,7 +9,7 @@ internal static class FceData
 {
     private static IEnumerable<Fce> FceSeedItems =>
     [
-        new(401, DomainData.GetRandomFacility().Id, 2020)
+        new(401, (FacilityId)"00100001", 2020)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(0),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),

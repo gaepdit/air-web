@@ -95,7 +95,7 @@
     </div>
 
     <h1>Supporting compliance data for
-        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = "through" })</h1>
+        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through " })</h1>
 
     <partial name="_InspectionsPartial" model="(Model.SupportingData.Inspections, false)" />
     <partial name="_InspectionsPartial" model="(Model.SupportingData.RmpInspections, true)" />

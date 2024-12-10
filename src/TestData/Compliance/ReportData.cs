@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
@@ -8,7 +9,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Report> ReportData =>
     [
-        new(9001, UserData.GetUsers.ElementAt(0), DomainData.GetRandomFacility().Id)
+        new(9001, UserData.GetUsers.ElementAt(0), (FacilityId)"00100001")
         {
             WorkEntryType = WorkEntryType.Report,
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),

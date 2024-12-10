@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
@@ -99,7 +98,8 @@ public class DetailsModel(
     {
         Spec = new WorkEntrySearchDto
         {
-            EventDateTo = Item!.CompletedDate,
+            PartialFacilityId = Item!.FacilityId,
+            EventDateTo = Item.CompletedDate,
             EventDateFrom = Item.SupportingDataStartDate,
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100, sorting: SortBy.WorkTypeAsc.GetDescription());

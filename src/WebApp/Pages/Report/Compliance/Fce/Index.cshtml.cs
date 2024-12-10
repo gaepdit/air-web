@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Report.Compliance.Fce;
@@ -8,7 +8,7 @@ namespace AirWeb.WebApp.Pages.Report.Compliance.Fce;
 public class IndexModel : PageModel
 {
     public FceViewDto? Report { get; private set; }
-    public FceSupportingDataDto SupportingData { get; set; } = default!;
+    public WorkEntryDataSummary SupportingData { get; set; } = default!;
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
@@ -22,6 +22,8 @@ public class IndexModel : PageModel
         if (Report == null) return NotFound();
         Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
         if (Facility == null) return NotFound();
+
+        SupportingData = await workEntryService.GetDataSummaryAsync(Facility.Id, token);
 
         return Page();
     }

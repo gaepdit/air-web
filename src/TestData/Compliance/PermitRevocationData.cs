@@ -1,6 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
@@ -8,7 +9,7 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<PermitRevocation> PermitRevocationData =>
     [
-        new(8001, DomainData.GetRandomFacility().Id)
+        new(8001, (FacilityId)"00100001")
         {
             WorkEntryType = WorkEntryType.PermitRevocation,
             ResponsibleStaff = UserData.GetUsers.ElementAt(0),
