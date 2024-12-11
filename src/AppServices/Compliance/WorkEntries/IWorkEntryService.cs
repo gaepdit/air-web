@@ -5,6 +5,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -15,6 +16,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<IWorkEntryCommandDto?> FindForUpdateAsync(int id, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    Task<WorkEntryDataSummary> GetDataSummaryAsync(FacilityId facilityId, CancellationToken token = default);
 
     // Source test-specific
     Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default);

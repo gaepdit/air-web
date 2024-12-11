@@ -1,0 +1,83 @@
+﻿@page "~/print/acc/{id:int}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
+@model IndexModel
+@{
+    Layout = "_ReportLayout";
+    ViewBag.BodyCssClass = "acc";
+
+    var report = Model.Report!;
+
+    ViewData["Title"] = $"Facility {Model.Facility!.Id} - Title V ACC Memo: {Model.Report!.AccReportingYear.ToString()}";
+}
+
+<div class="page-wrapper">
+    <partial name="_EpdBannerPartial" model="AppSettings.OrganizationInfo" />
+    <partial name="_MemoHeaderPartial" model="Model.MemoHeader" />
+
+    <section>
+        <p id="acc-description">
+            Condition 8.14.1 of each Title V Permit requires the company to submit an annual compliance
+            certification by January 30 or February 28 each calendar year. After reviewing the compliance
+            certification for the year @Model.Report.AccReportingYear.ToString() for the above facility, I have
+            determined the following:
+        </p>
+
+        <table class="table-values-list" aria-describedby="acc-description">
+            <tbody>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.Postmarked)</th>
+                <td>@Html.DisplayFor(_ => report.Postmarked, DisplayTemplate.LongDateOnly)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReceivedDate)</th>
+                <td>@Html.DisplayFor(_ => report.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.PostmarkedOnTime)</th>
+                <td>@Html.DisplayFor(_ => report.PostmarkedOnTime, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.SignedByRo)</th>
+                <td>@Html.DisplayFor(_ => report.SignedByRo, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.OnCorrectForms)</th>
+                <td>@Html.DisplayFor(_ => report.OnCorrectForms, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.IncludesAllTvConditions)</th>
+                <td>@Html.DisplayFor(_ => report.IncludesAllTvConditions, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.CorrectlyCompleted)</th>
+                <td>@Html.DisplayFor(_ => report.CorrectlyCompleted, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReportsDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.ReportsDeviations, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.IncludesPreviouslyUnreportedDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.IncludesPreviouslyUnreportedDeviations, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReportsAllKnownDeviations)</th>
+                <td>@Html.DisplayFor(_ => report.ReportsAllKnownDeviations, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.EnforcementNeeded)</th>
+                <td>@Html.DisplayFor(_ => report.EnforcementNeeded, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ResubmittalRequired)</th>
+                <td>@Html.DisplayFor(_ => report.ResubmittalRequired, DisplayTemplate.BoolYesNo)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>@Html.DisplayNameFor(_ => report.Notes):</h2>
+
+        <p class="preserve-whitespace">@report.Notes</p>
+    </section>
+</div>

@@ -42,9 +42,10 @@ public partial record FacilityId : IComparable<FacilityId>
 
     // Test at https://regex101.com/r/2uYyHl/6
     // language:regex
-    public const string FacilityIdPattern = @"^(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}$";
+    public const string FacilityIdPattern = @"(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}";
+    public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
 
-    [GeneratedRegex(FacilityIdPattern)]
+    [GeneratedRegex(FacilityIdEnclosedPattern)]
     private static partial Regex FacilityIdRegex();
 
     public static string CleanFacilityId(string? input)

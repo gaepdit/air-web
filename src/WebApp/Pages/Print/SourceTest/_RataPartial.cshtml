@@ -1,0 +1,30 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportRata
+<tr class="table-section">
+    <th scope="row">@Html.DisplayNameFor(m => m.ApplicableStandard)</th>
+    <td>@Model.ApplicableStandard</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.Diluent)</th>
+    <td>@Model.Diluent</td>
+</tr>
+<tr>
+    <td colspan="2" class="table-subtable">
+        <partial name="_TestRunsRataPartial" model="Model" />
+    </td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.RelativeAccuracyPercent)</th>
+    <td>@Model.RelativeAccuracyPercent @Model.RelativeAccuracyLabel</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.ComplianceStatus)</th>
+    <td>@Model.ComplianceStatus</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.RelativeAccuracyRequiredPercent)</th>
+    <td>@Model.RelativeAccuracyRequiredPercent @Model.RelativeAccuracyRequiredLabel</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+    <td class="preserve-whitespace">@Model.Comments</td>
+</tr>

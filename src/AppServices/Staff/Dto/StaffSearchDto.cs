@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Staff.Dto;
 
-public record StaffSearchDto
-(
+public record StaffSearchDto(
     // Sorting
     SortBy Sort,
 

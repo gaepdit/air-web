@@ -15,7 +15,7 @@ public class IndexModel(IFacilityService service) : PageModel
 
     [BindProperty]
     [Required(ErrorMessage = "Enter a facility ID.")]
-    [RegularExpression(FacilityId.FacilityIdPattern, ErrorMessage = FacilityIdFormatError)]
+    [RegularExpression(FacilityId.FacilityIdEnclosedPattern, ErrorMessage = FacilityIdFormatError)]
     public string? FindId { get; set; }
 
     private const string FacilityIdFormatError = "The Facility ID entered is not valid.";

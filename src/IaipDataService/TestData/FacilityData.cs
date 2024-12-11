@@ -1,13 +1,40 @@
 using IaipDataService.Facilities;
 using IaipDataService.Structs;
-using System.Collections.ObjectModel;
 
 namespace IaipDataService.TestData;
 
 public static class FacilityData
 {
     public static Facility GetRandomFacility() => GetData[new Random().Next(GetData.Count)];
-    public static Facility GetFacility(string id) => GetData.Single(facility => facility.Id == id);
+    public static Facility GetFacility(FacilityId id) => GetData.Single(facility => facility.Id == id);
+
+    private static readonly RegulatoryData SampleRegulatoryData = new()
+    {
+        OperatingStatusCode = FacilityOperatingStatus.O,
+        ClassificationCode = FacilityClassification.SM,
+        CmsClassificationCode = FacilityCmsClassification.S,
+        Sic = "1234",
+        Naics = "123456",
+        RmpId = "1234-5678-9012",
+        OwnershipType = "Federal Facility (U.S. Government)",
+        StartupDate = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local),
+        PermitRevocationDate = null,
+        Pollutants = new Dictionary<string, string>
+        {
+            { "10193", "Carbon Monoxide" },
+            { "300000005", "Nitrogen Dioxide" },
+            { "300000242", "Total HAP" },
+            { "300000301", "Fugitive Dust" },
+            { "300000319", "Particulate Matter < 10 um" },
+            { "300000329", "Facility Wide" },
+        },
+        AirPrograms = [AirProgram.SIP, AirProgram.NSPS],
+        ProgramClassifications = [AirProgramClassifications.NsrMajor, AirProgramClassifications.HapMajor],
+        OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
+        EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,
+        PmFineNonattainment = PmFineNonattainmentStatus.None,
+        NspsFeeExempt = true,
+    };
 
     private static IEnumerable<Facility> FacilitySeedItems =>
     [
@@ -73,33 +100,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
-            RegulatoryData = new RegulatoryData
-            {
-                OperatingStatusCode = FacilityOperatingStatus.O,
-                ClassificationCode = FacilityClassification.SM,
-                CmsClassificationCode = FacilityCmsClassification.S,
-                Sic = "1234",
-                Naics = "123456",
-                RmpId = "1234-5678-9012",
-                OwnershipType = "Federal Facility (U.S. Government)",
-                StartupDate = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local),
-                PermitRevocationDate = null,
-                Pollutants = new Dictionary<string, string>
-                {
-                    { "10193", "Carbon Monoxide" },
-                    { "300000005", "Nitrogen Dioxide" },
-                    { "300000242", "Total HAP" },
-                    { "300000301", "Fugitive Dust" },
-                    { "300000319", "Particulate Matter < 10 um" },
-                    { "300000329", "Facility Wide" },
-                },
-                AirPrograms = [AirProgram.SIP, AirProgram.NSPS],
-                ProgramClassifications = [AirProgramClassifications.NsrMajor, AirProgramClassifications.HapMajor],
-                OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
-                EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,
-                PmFineNonattainment = PmFineNonattainmentStatus.None,
-                NspsFeeExempt = true,
-            },
+            RegulatoryData = SampleRegulatoryData,
         },
         new("05100149")
         {
@@ -144,6 +145,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
+            RegulatoryData = SampleRegulatoryData,
         },
         new("05900071")
         {
@@ -158,6 +160,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
+            RegulatoryData = SampleRegulatoryData,
         },
         new("05700040")
         {
@@ -173,6 +176,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("00100005")
         {
@@ -225,6 +229,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("07300003")
         {
@@ -240,6 +245,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("11500021")
         {
@@ -255,6 +261,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("15300040")
         {
@@ -270,6 +277,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("30500001")
         {
@@ -285,6 +293,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
         new("31300062")
         {
@@ -300,6 +309,7 @@ public static class FacilityData
                 PostalCode = "30000",
             },
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            RegulatoryData = SampleRegulatoryData,
         },
     ];
 

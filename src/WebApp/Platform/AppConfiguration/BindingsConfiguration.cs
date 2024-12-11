@@ -10,6 +10,8 @@ public static class BindingsConfiguration
         // App settings
         builder.Configuration.GetSection(nameof(AppSettings.SupportSettings))
             .Bind(AppSettings.SupportSettings);
+        builder.Configuration.GetSection(nameof(AppSettings.OrganizationInfo))
+            .Bind(AppSettings.OrganizationInfo);
         builder.Configuration.GetSection(nameof(AppSettings.RaygunSettings))
             .Bind(AppSettings.RaygunSettings);
 

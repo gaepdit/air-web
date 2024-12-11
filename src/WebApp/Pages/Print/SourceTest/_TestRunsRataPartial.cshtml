@@ -1,0 +1,41 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model IaipDataService.SourceTests.Models.SourceTestReportRata
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+    var someOmitted = false;
+}
+
+<table class="table-subtable-vertical" aria-label="Test run data">
+    <thead>
+    <tr>
+        <th scope="col">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
+        <th scope="col">
+            @Html.DisplayNameFor(_ => firstTestRun.ReferenceMethod)<br />
+            <span class="units">(@Model.Units)</span>
+        </th>
+        <th scope="col">
+            @Html.DisplayNameFor(_ => firstTestRun.Cms)<br />
+            <span class="units">(@Model.Units)</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody class="table-subtable-indent">
+    @foreach (var r in Model.TestRuns)
+    {
+        someOmitted = someOmitted || r.Omitted;
+
+        <tr>
+            <th scope="row">@r.RunNumber @Html.DisplayFor(_ => r.Omitted, DisplayTemplate.BoolAsterisk)</th>
+            <td>@r.ReferenceMethod</td>
+            <td>@r.Cms</td>
+        </tr>
+    }
+    @if (someOmitted)
+    {
+        <tr>
+            <td colspan="3">* Indicates test runs that are not included in the Relative Accuracy Determination.</td>
+        </tr>
+    }
+    </tbody>
+</table>

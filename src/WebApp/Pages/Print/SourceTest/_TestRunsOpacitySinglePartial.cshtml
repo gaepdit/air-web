@@ -1,0 +1,53 @@
+﻿@using IaipDataService.SourceTests
+@model IaipDataService.SourceTests.Models.SourceTestReportOpacity
+@{
+    if (Model.TestRuns is not { Count: 1 }) return;
+    var run = Model.TestRuns.FirstOrDefault()!;
+}
+
+<tr class="table-section">
+    <th scope="row">
+        @Html.DisplayNameFor(_ => run.MaxOperatingCapacity)
+    </th>
+    <td>@run.MaxOperatingCapacity @Model.MaxOperatingCapacityUnits</td>
+</tr>
+<tr>
+    <th scope="row">
+        @Html.DisplayNameFor(_ => run.OperatingCapacity)
+    </th>
+    <td>@run.OperatingCapacity @Model.OperatingCapacityUnits</td>
+</tr>
+<tr>
+    <th scope="row">
+        @Html.DisplayNameFor(_ => run.AllowableEmissionRate)
+    </th>
+    <td>@run.AllowableEmissionRate @Model.AllowableEmissionRateUnits</td>
+</tr>
+<tr>
+    <th scope="row">
+        @Html.DisplayNameFor(m => m.TestDuration)
+    </th>
+    <td>@Model.TestDuration</td>
+</tr>
+
+@if (Model.DocumentType == DocumentType.Method9Single)
+{
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => run.Opacity)
+            <span class="units">(%)</span>
+            <span class="units">(@Model.OpacityStandard)</span>
+        </th>
+        <td>@run.Opacity @Model.AllowableEmissionRateUnits</td>
+    </tr>
+}
+else // DocumentType.Method22
+{
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => run.AccumulatedEmissionTime)
+            <span class="units">(min:sec)</span>
+        </th>
+        <td>@run.AccumulatedEmissionTime</td>
+    </tr>
+}

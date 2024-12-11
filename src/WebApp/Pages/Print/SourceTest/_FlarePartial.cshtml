@@ -1,0 +1,35 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IaipDataService.SourceTests.Models.SourceTestReportFlare
+<tr class="table-section">
+    <th scope="row">@Html.DisplayNameFor(m => m.MaxOperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.MaxOperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.OperatingCapacity)</th>
+    <td>@Html.DisplayFor(m => m.OperatingCapacity)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.AllowableEmissionRates)</th>
+    <td>@Html.DisplayFor(m => m.AllowableEmissionRates, DisplayTemplate.ValueWithUnitsCollection)</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.ControlEquipmentInfo)</th>
+    <td class="preserve-whitespace">@Model.ControlEquipmentInfo</td>
+</tr>
+<tr>
+    <td colspan="2" class="table-subtable">
+        <partial name="_TestRunsFlarePartial" model="Model" />
+    </td>
+</tr>
+<tr>
+    <th scope="row">
+        @Html.DisplayNameFor(m => m.PercentAllowable)
+        <span class="units">(%)</span>
+    </th>
+    <td>@Model.PercentAllowable</td>
+</tr>
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+    <td class="preserve-whitespace">@Model.Comments</td>
+</tr>

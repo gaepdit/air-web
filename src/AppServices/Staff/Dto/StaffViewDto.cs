@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.NamedEntities.Offices;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Extensions;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -24,6 +23,9 @@ public record StaffViewDto : INamedEntity
     // Display properties
     [JsonIgnore]
     public string Name => new[] { GivenName, FamilyName }.ConcatWithSeparator();
+
+    [JsonIgnore]
+    public string DisplayName => Name;
 
     [JsonIgnore]
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");

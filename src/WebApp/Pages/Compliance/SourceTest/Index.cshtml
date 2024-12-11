@@ -18,9 +18,9 @@
     <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
         {
-            <a asp-page="/UnderConstruction" target="_blank" rel="noopener"
+            <a asp-page="/Print/SourceTest/Index" target="_blank" rel="noopener"
+               asp-route-referenceNumber="@summary.ReferenceNumber.ToString()"
                class="btn btn-outline-secondary icon-link no-external-link">
-                @* href="@Model.TestSummary.PrintoutUrl" *@
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                 </svg>
@@ -51,7 +51,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.DisplayName</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, new { Connector = " – " })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>

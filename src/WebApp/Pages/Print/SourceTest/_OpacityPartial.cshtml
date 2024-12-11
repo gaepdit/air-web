@@ -1,0 +1,40 @@
+﻿@using IaipDataService.SourceTests
+@model IaipDataService.SourceTests.Models.SourceTestReportOpacity
+
+@if (Model.DocumentType == DocumentType.Method9Multi)
+{
+    <partial name="_TestRunsOpacityMultiPartial" model="Model" />
+}
+else // DocumentType.Method22 or DocumentType.Method9Single
+{
+    <partial name="_TestRunsOpacitySinglePartial" model="Model" />
+}
+
+@if (Model.DocumentType == DocumentType.Method22)
+{
+    <tr class="table-section">
+        <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+        <td class="preserve-whitespace">@Model.Comments</td>
+    </tr>
+}
+else
+{
+    <tr class="table-section">
+        <th scope="row">@Html.DisplayNameFor(m => m.ControlEquipmentInfo)</th>
+        <td class="preserve-whitespace">@Model.ControlEquipmentInfo</td>
+    </tr>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(m => m.Comments)</th>
+        <td class="preserve-whitespace">@Model.Comments</td>
+    </tr>
+}
+
+<tr>
+    <th scope="row">@Html.DisplayNameFor(m => m.ComplianceStatus)</th>
+    <td class="preserve-whitespace">@Model.ComplianceStatus</td>
+</tr>
+
+@if (Model.DocumentType == DocumentType.Method9Multi)
+{
+    <partial name="_TestRunsOpacityMultiEquipmentPartial" model="Model" />
+}

@@ -1,10 +1,12 @@
-﻿using JetBrains.Annotations;
+﻿using AirWeb.WebApp.Platform.PrintoutModels;
+using JetBrains.Annotations;
 
 namespace AirWeb.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
-    // Support settings
+    // Organization settings
+    public static OrganizationInfo OrganizationInfo { get; set; } = new();
     public static SupportSettingsSection SupportSettings { get; } = new();
 
     public record SupportSettingsSection

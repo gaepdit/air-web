@@ -1,0 +1,124 @@
+﻿@page "~/print/source-test/{referenceNumber:int}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Constants
+@using IaipDataService.SourceTests.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IndexModel
+@{
+    Layout = "_ReportLayout";
+    ViewBag.BodyCssClass = "stack-test sans-serif";
+
+    var report = Model.Report!;
+    ViewData["Title"] = $"Facility {report.Facility!.Id} - {report.ReportTypeName} Reference Number: {report.ReferenceNumber.ToString()}";
+}
+
+<div class="page-wrapper">
+    <partial name="_EpdBannerPartial" model="Model.OrganizationInfo" />
+
+    <section class="stack-test-body">
+        <partial name="_MemoHeaderPartial" model="Model.MemoHeader" />
+
+        @if (Model.ShowConfidentialWarning)
+        {
+            <p>
+                <strong>NOTICE: This report contains confidential information.</strong>
+            </p>
+        }
+        <div id="str-description">@report.ReportStatement</div>
+
+        <table aria-labelledby="memo-subject" aria-describedby="str-description">
+            <tbody>
+            <tr class="table-section">
+                <th scope="row">@Html.DisplayNameFor(_ => report.Facility.Name)</th>
+                <td>@report.Facility.Name</td>
+            </tr>
+            <tr>
+                <th scope="row">Location</th>
+                <td>@report.Facility.FacilityAddress?.CityState</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.Source)</th>
+                <td>@report.Source</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.Pollutant)</th>
+                <td>@report.Pollutant</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ReviewedByStaff)</th>
+                <td>@report.ReviewedByStaff.DisplayName</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.WitnessedByStaff)</th>
+                <td>@Html.DisplayFor(_ => report.WitnessedByStaff, DisplayTemplate.IaipPersonCollection)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.TestDates)</th>
+                <td>@Html.DisplayFor(_ => report.TestDates, DisplayTemplate.IaipDateRange)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.DateReceivedByApb)</th>
+                <td>@Html.DisplayFor(_ => report.DateReceivedByApb, DisplayTemplate.DateTimeLong)</td>
+            </tr>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(_ => report.ApplicableRequirement)</th>
+                <td>@report.ApplicableRequirement</td>
+            </tr>
+            @switch (report)
+            {
+                case SourceTestReportOneStack _:
+                    <partial name="_OneStackPartial" model="report" />
+                    break;
+
+                case SourceTestReportTwoStack _:
+                    <partial name="_TwoStackPartial" model="report" />
+                    break;
+
+                case SourceTestReportLoadingRack _:
+                    <partial name="_LoadingRackPartial" model="report" />
+                    break;
+
+                case SourceTestReportPondTreatment _:
+                    <partial name="_PondTreatmentPartial" model="report" />
+                    break;
+
+                case SourceTestReportGasConcentration _:
+                    <partial name="_GasConcentrationPartial" model="report" />
+                    break;
+
+                case SourceTestReportFlare _:
+                    <partial name="_FlarePartial" model="report" />
+                    break;
+
+                case SourceTestReportRata _:
+                    <partial name="_RataPartial" model="report" />
+                    break;
+
+                case SourceTestReportOpacity _:
+                    <partial name="_OpacityPartial" model="report" />
+                    break;
+
+                case SourceTestMemorandum _:
+                    <partial name="_MemorandumPartial" model="report" />
+                    break;
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">
+                    <footer class="split-lr">
+                        <div>
+                            <div>cc: @report.ComplianceManager.DisplayName</div>
+                            <div>AIRS Number: @report.Facility.Id</div>
+                        </div>
+                        <div>
+                            <div>Reference Number: @report.ReferenceNumber.ToString()</div>
+                            <div>Printed: @DateTime.Today.ToString(DateTimeFormatConstants.ShortDateFormat)</div>
+                        </div>
+                    </footer>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </section>
+</div>

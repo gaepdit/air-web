@@ -1,0 +1,53 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
+@model (IEnumerable<AirWeb.AppServices.Compliance.WorkEntries.Inspections.InspectionViewDto> Inspections, bool IsRmp)
+@{
+    var labelId = Model.IsRmp ? "rmp-inspections" : "inspections";
+    var labelText = Model.IsRmp ? "RMP Inspections" : "Inspections";
+}
+
+<h2 id="@labelId">@labelText</h2>
+
+@{
+    if (!Model.Inspections.Any())
+    {
+        <div class="fce-content">None.</div>
+        return;
+    }
+
+    var firstItem = Model.Inspections.FirstOrDefault()!;
+}
+
+<table aria-labelledby="@labelId">
+    <thead>
+    <tr>
+        <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.InspectionDateRange)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.InspectionReason)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.FacilityOperating)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.DeviationsNoted)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var i in Model.Inspections)
+    {
+        <tr>
+            <th scope="row" rowspan="2">@i.Id.ToString()</th>
+            <td>@Html.DisplayFor(_ => i.InspectionDateRange)</td>
+            <td>@i.ResponsibleStaff?.SortableFullName</td>
+            <td>@i.InspectionReason?.GetDescription()</td>
+            <td>@Html.DisplayFor(_ => i.FacilityOperating, DisplayTemplate.BoolYesNo)</td>
+            <td>@Html.DisplayFor(_ => i.DeviationsNoted, DisplayTemplate.BoolDeviationsNoted)</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(_ => firstItem.Notes)</dt>
+                    <dd>@i.Notes</dd>
+                </dl>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

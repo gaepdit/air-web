@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
@@ -45,5 +44,5 @@ public record AccViewDto : WorkEntryViewDto
     public bool EnforcementNeeded { get; init; }
 
     public override bool HasPrintout => IsClosed;
-    public override string PrintoutUrl => $"https://air.gaepd.org/facility/{FacilityId}/acc-report/{Id}";
+    public override string PrintoutPath => "/Print/Acc/Index";
 }
