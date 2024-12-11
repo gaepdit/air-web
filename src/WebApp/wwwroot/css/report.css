@@ -140,11 +140,11 @@ main {
 
 /* Memorandum header layout */
 
-header.memorandum + section {
+.memorandum + section {
     border-top: 1px solid;
 }
 
-header.memorandum dt {
+.memorandum dt {
     text-transform: uppercase;
     font-weight: bold;
     float: left;
@@ -152,11 +152,11 @@ header.memorandum dt {
     width: 6rem;
 }
 
-header.memorandum dd {
+.memorandum dd {
     margin-left: 7rem;
 }
 
-header.memorandum h1 {
+.memorandum h1 {
     font-size: inherit;
     text-transform: uppercase;
     text-decoration: underline;
