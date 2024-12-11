@@ -22,7 +22,7 @@ public class CreateTests
         var workEntry = new PermitRevocation(id, facilityId);
 
         var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
-        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<ApplicationUser?>(), Arg.Any<FacilityId>())
+        workEntryManagerMock.Create(Arg.Any<WorkEntryType>(), Arg.Any<FacilityId>(), Arg.Any<ApplicationUser?>())
             .Returns(workEntry);
 
         var userServiceMock = Substitute.For<IUserService>();

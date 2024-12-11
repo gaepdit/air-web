@@ -15,7 +15,7 @@ public class Insert
         await using var repository = repositoryHelper.GetFceRepository();
 
         var initialCount = repositoryHelper.Context.Set<Fce>().Count();
-        var entity = new Fce(null, _facilityId, 2000);
+        var entity = new Fce(null, _facilityId, 2000, null);
 
         // Act
         await repository.InsertAsync(entity);
@@ -33,7 +33,7 @@ public class Insert
         await using var repository = repositoryHelper.GetFceRepository();
 
         var initialCount = repositoryHelper.Context.Set<Fce>().Count();
-        var entity = new Fce(null, _facilityId, 2000);
+        var entity = new Fce(null, _facilityId, 2000, null);
 
         // Act
         await repository.InsertAsync(entity);

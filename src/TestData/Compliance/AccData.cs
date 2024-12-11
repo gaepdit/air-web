@@ -12,7 +12,7 @@ internal static partial class WorkEntries
         new(5001, (FacilityId)"00100001")
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "Open ACC",
@@ -35,12 +35,11 @@ internal static partial class WorkEntries
         new(5002, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = "Closed ACC",
-            IsClosed = true,
-            ClosedBy = UserData.GetUsers.ElementAt(1),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
@@ -60,16 +59,16 @@ internal static partial class WorkEntries
         },
         new(5003, DomainData.GetRandomFacility().Id)
         {
-            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
-            AcknowledgmentLetterDate = null,
-            Notes = "Deleted ACC",
-            DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
+        WorkEntryType = WorkEntryType.AnnualComplianceCertification,
+        ResponsibleStaff = UserData.GetRandomUser(),
+        AcknowledgmentLetterDate = null,
+        Notes = "Deleted ACC",
+        DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            AccReportingYear = 2002,
-            Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
+        ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+        EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+        AccReportingYear = 2002,
+        Postmarked = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
         },
     ];
 }

@@ -9,11 +9,11 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<SourceTestReview> SourceTestReviewData =>
     [
-        new(11001, UserData.GetUsers.ElementAt(0), SourceTestData.GetData[0].Facility!.Id)
+        new(11001, SourceTestData.GetData[0].Facility!.Id,  UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[0].ReferenceNumber,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
             Notes = "In compliance",
@@ -24,11 +24,11 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new(11002, UserData.GetUsers.ElementAt(1), SourceTestData.GetData[0].Facility!.Id)
+        new(11002, SourceTestData.GetData[0].Facility!.Id, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[1].ReferenceNumber,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
@@ -39,11 +39,11 @@ internal static partial class WorkEntries
             DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new(11003, null, SourceTestData.GetData[0].Facility!.Id)
+        new(11003, SourceTestData.GetData[0].Facility!.Id)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[2].ReferenceNumber,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Source Test Review",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

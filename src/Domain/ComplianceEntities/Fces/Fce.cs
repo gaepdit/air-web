@@ -1,16 +1,15 @@
-using AirWeb.Domain.Comments;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
+public class Fce : DeletableEntity<int>, IComplianceEntity
 {
     // Constructors
-
     [UsedImplicitly] // Used by ORM.
     private Fce() { }
 
-    internal Fce(int? id, FacilityId facilityId, int year)
+    internal Fce(int? id, FacilityId facilityId, int year, ApplicationUser? user = null)
     {
         if (id is not null) Id = id.Value;
         FacilityId = facilityId;
@@ -21,12 +20,14 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
         var fiscalEndDate = new DateOnly(year, 9, 30);
         var today = DateOnly.FromDateTime(DateTime.Today);
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
+
+        SetCreator(user?.Id);
     }
 
-    // FCE Properties
+    // FCE properties
 
-    [MaxLength(9)]
-    public string FacilityId { get; [UsedImplicitly] private init; } = string.Empty;
+    [StringLength(9)]
+    public string FacilityId { get; private set; } = string.Empty;
 
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
@@ -36,14 +37,8 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     [StringLength(7000)]
     public string Notes { get; set; } = string.Empty;
 
-    // Properties: Lists
+    // Comments
     public List<FceComment> Comments { get; } = [];
-
-    // Properties: Deletion
-    public ApplicationUser? DeletedBy { get; set; }
-
-    [StringLength(7000)]
-    public string? DeleteComments { get; set; }
 
     // Business Logic
 
@@ -57,7 +52,7 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
     // The earliest year for which an FCE exists.
     public const int EarliestFceYear = 2002;
 
-    public static List<int> ValidFceYears
+    public static ICollection<int> ValidFceYears
     {
         get
         {
@@ -72,14 +67,4 @@ public class Fce : AuditableSoftDeleteEntity<int>, IComplianceEntity
             return yearList;
         }
     }
-}
-
-public record FceComment : Comment
-{
-    [UsedImplicitly] // Used by ORM.
-    private FceComment() { }
-
-    private FceComment(Comment c) : base(c) { }
-    public FceComment(Comment c, int fceId) : this(c) => FceId = fceId;
-    public int FceId { get; init; }
 }

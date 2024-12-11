@@ -19,7 +19,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking()
             .Include(fce => fce.Comments
-                .Where(comment => !comment.IsDeleted)
+                .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
 

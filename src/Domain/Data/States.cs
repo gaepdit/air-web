@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Data;
 
-public static partial class Data
+public static partial class CommonData
 {
     public static IEnumerable<string> States { get; } =
     [

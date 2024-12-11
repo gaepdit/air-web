@@ -9,14 +9,14 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Inspection> InspectionData =>
     [
-        new(6001, null, (FacilityId)"00100001")
+        new(6001, (FacilityId)"00100001")
         {
             WorkEntryType = WorkEntryType.Inspection,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = "In compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(0),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
 
             InspectionReason = InspectionReason.PlannedUnannounced,
@@ -29,14 +29,14 @@ internal static partial class WorkEntries
             DeviationsNoted = false,
             FollowupTaken = false,
         },
-        new(6002, null, DomainData.GetRandomFacility().Id)
+        new(6002, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Inspection,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = "Not in compliance",
-            ClosedBy = UserData.GetUsers.ElementAt(1),
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
 
             InspectionReason = InspectionReason.Complaint,
@@ -49,10 +49,10 @@ internal static partial class WorkEntries
             DeviationsNoted = true,
             FollowupTaken = true,
         },
-        new(6003, null, DomainData.GetRandomFacility().Id)
+        new(6003, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Inspection,
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

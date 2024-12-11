@@ -10,7 +10,7 @@ public class Notification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private Notification() { }
 
-    internal Notification(int? id, ApplicationUser? user, FacilityId facilityId) : base(id, facilityId)
+    internal Notification(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.Notification;
         Close(user);
@@ -18,7 +18,7 @@ public class Notification : WorkEntry
 
     // Properties
 
-    public NotificationType NotificationType { get; set; } = default!;
+    public NotificationType NotificationType { get; set; } = null!;
     public DateOnly ReceivedDate { get; set; }
     public DateOnly? DueDate { get; set; }
     public DateOnly? SentDate { get; set; }

@@ -2,6 +2,7 @@ using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
+using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
 using GaEpd.AppLibrary.Domain.Entities;
@@ -125,6 +126,8 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 
     private static void ClearAllStaticData()
     {
+        EnforcementActionData.ClearData();
+        EnforcementCaseData.ClearData();
         FceData.ClearData();
         WorkEntryData.ClearData();
         NotificationTypeData.ClearData();
@@ -152,7 +155,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public WorkEntryRepository GetWorkEntryRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
+        DbSeedDataHelpers.SeedComplianceData(_context);
         Context = new AppDbContext(_options);
         return new WorkEntryRepository(Context);
     }
@@ -164,7 +167,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public ComplianceSearchRepository GetComplianceSearchRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
+        DbSeedDataHelpers.SeedComplianceData(_context);
         Context = new AppDbContext(_options);
         return new ComplianceSearchRepository(Context);
     }

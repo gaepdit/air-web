@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.Data;
 
-public static partial class Data
+public static partial class CommonData
 {
     public static List<string> Counties { get; } =
     [

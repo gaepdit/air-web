@@ -51,7 +51,7 @@ public sealed class IaipFacilityService(
 
         facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
         facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<AirProgramClassifications>());
-        facility.RegulatoryData!.Pollutants = (await multi.ReadAsync<KeyValuePair<string, string>>()).ToDictionary();
+        facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
 
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetAbsoluteExpiration(IaipDataConstants.FacilityDataExpiration);

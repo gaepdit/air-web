@@ -19,14 +19,14 @@ public sealed partial class WorkEntryService
         var facilityId = (FacilityId)resource.FacilityId!;
         var workEntry = resource switch
         {
-            AccCreateDto => entryManager.Create(WorkEntryType.AnnualComplianceCertification, currentUser, facilityId),
+            AccCreateDto => entryManager.Create(WorkEntryType.AnnualComplianceCertification, facilityId, currentUser),
             InspectionCreateDto dto => dto.IsRmpInspection
-                ? entryManager.Create(WorkEntryType.RmpInspection, currentUser, facilityId)
-                : entryManager.Create(WorkEntryType.Inspection, currentUser, facilityId),
-            NotificationCreateDto => entryManager.Create(WorkEntryType.Notification, currentUser, facilityId),
-            PermitRevocationCreateDto => entryManager.Create(WorkEntryType.PermitRevocation, currentUser, facilityId),
-            ReportCreateDto => entryManager.Create(WorkEntryType.Report, currentUser, facilityId),
-            SourceTestReviewCreateDto => entryManager.Create(WorkEntryType.SourceTestReview, currentUser, facilityId),
+                ? entryManager.Create(WorkEntryType.RmpInspection, facilityId, currentUser)
+                : entryManager.Create(WorkEntryType.Inspection, facilityId, currentUser),
+            NotificationCreateDto => entryManager.Create(WorkEntryType.Notification, facilityId, currentUser),
+            PermitRevocationCreateDto => entryManager.Create(WorkEntryType.PermitRevocation, facilityId, currentUser),
+            ReportCreateDto => entryManager.Create(WorkEntryType.Report, facilityId, currentUser),
+            SourceTestReviewCreateDto => entryManager.Create(WorkEntryType.SourceTestReview, facilityId, currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
