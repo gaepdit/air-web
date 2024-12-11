@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Comments;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
@@ -13,5 +12,5 @@ public interface IWorkEntryViewDto : IWorkEntrySummaryDto
 
     // Display properties
     public bool HasPrintout { get; }
-    public string? PrintoutUrl { get; }
+    public string PrintoutPath { get; }
 }

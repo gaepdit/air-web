@@ -1,0 +1,32 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model AirWeb.WebApp.Platform.PrintoutModels.MemoHeader
+<header class="memorandum">
+    <h1>Memorandum</h1>
+    <dl>
+        @if (Model.Date != null)
+        {
+            <dt>Date:</dt>
+            <dd>@Html.DisplayFor(m => m.Date, DisplayTemplate.LongDateOnlyNullable)</dd>
+        }
+        @if (Model.To != null)
+        {
+            <dt>To:</dt>
+            <dd>@Model.To</dd>
+        }
+        @if (Model.Through != null)
+        {
+            <dt>Through:</dt>
+            <dd>@Model.Through</dd>
+        }
+        @if (Model.From != null)
+        {
+            <dt>From:</dt>
+            <dd>@Model.From</dd>
+        }
+        @if (Model.Subject != null)
+        {
+            <dt>Subject:</dt>
+            <dd class="preserve-whitespace" id="memo-subject">@Model.Subject</dd>
+        }
+    </dl>
+</header>

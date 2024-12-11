@@ -68,9 +68,8 @@
             }
             @if (report.HasPrintout)
             {
-                <a asp-page="/UnderConstruction" target="_blank" rel="noopener"
+                <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
                    class="btn btn-outline-secondary icon-link no-external-link">
-                    @* href="@report.PrintoutUrl" *@
                     <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                     </svg>

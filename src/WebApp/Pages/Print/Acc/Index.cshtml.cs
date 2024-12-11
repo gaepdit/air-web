@@ -1,0 +1,35 @@
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.Accs;
+using AirWeb.WebApp.Platform.PrintoutModels;
+using IaipDataService.Facilities;
+
+namespace AirWeb.WebApp.Pages.Print.Acc;
+
+public class IndexModel : PageModel
+{
+    public AccViewDto? Report { get; set; }
+    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public MemoHeader MemoHeader { get; private set; }
+
+    public async Task<ActionResult> OnGetAsync(
+        [FromServices] IWorkEntryService workEntryService,
+        [FromServices] IFacilityService facilityService,
+        [FromRoute] int id)
+    {
+        Report = await workEntryService.FindAsync(id) as AccViewDto;
+        if (Report == null) return NotFound();
+        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        if (Facility == null) return NotFound();
+
+        MemoHeader = new MemoHeader
+        {
+            Date = Report.ClosedDate,
+            From = Report.ResponsibleStaff?.DisplayName,
+            Subject = $"Title V Annual Certification for {Report.AccReportingYear}" + Environment.NewLine +
+                      $"{Facility.Name}, {Facility.FacilityAddress?.City}" + Environment.NewLine +
+                      $"AIRS # {Facility.Id}",
+        };
+
+        return Page();
+    }
+}

@@ -1,19 +1,26 @@
 ﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
+using GaEpd.AppLibrary.Extensions;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+public class DetailsModel(
+    IFceService fceService,
+    IComplianceSearchService searchService,
+    IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
+    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = default!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -23,15 +30,16 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await fceService.FindAsync(Id);
+        Item = await fceService.FindAsync(Id, token);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
         if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
 
+        await LoadSupportingData(token);
         CommentSection = new CommentsSectionModel
         {
             Comments = Item.Comments,
@@ -55,6 +63,7 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
 
         if (!ModelState.IsValid)
         {
+            await LoadSupportingData(token);
             CommentSection = new CommentsSectionModel
             {
                 Comments = Item.Comments,
@@ -82,6 +91,18 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
 
         await fceService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
+    }
+
+    private async Task LoadSupportingData(CancellationToken token)
+    {
+        var spec = new WorkEntrySearchDto
+        {
+            PartialFacilityId = Item!.FacilityId,
+            EventDateTo = Item.CompletedDate,
+            EventDateFrom = Item.SupportingDataStartDate,
+        };
+        var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100, sorting: SortBy.WorkTypeAsc.GetDescription());
+        SearchResults = await searchService.SearchWorkEntriesAsync(spec, paging, token: token);
     }
 
     private async Task SetPermissionsAsync() =>

@@ -1,18 +1,22 @@
 ﻿@using AirWeb.WebApp.Platform.Constants
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@model IaipDataService.Structs.DateRange
+@model AirWeb.Domain.ValueObjects.DateRange
+@{
+    var format = ViewData.ContainsKey("Format") ? (string)ViewData["Format"]! : DateTimeFormatConstants.LongDateFormat;
+    var connector = ViewData.ContainsKey("Connector") ? (string)ViewData["Connector"]! : " to ";
+}
 @if (Model.EndDate is null && Model.StartDate == default)
 {
     @DefaultText.NotAvailable
 }
 else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
 {
-    @Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat)
+    @Model.StartDate.ToString(format)
 }
 else
 {
-    var start = Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat);
-    var end = Model.EndDate.ToString(DateTimeFormatConstants.LongDateFormat);
+    var start = Model.StartDate.ToString(format);
+    var end = Model.EndDate.ToString(format);
 
     @if (Model.StartDate.Year == Model.EndDate.Value.Year)
     {
@@ -27,5 +31,5 @@ else
         }
     }
 
-    @string.Join($"{ViewData["Connector"] ?? " to "}", start, end)
+    @string.Join($"{connector}", start, end)
 }

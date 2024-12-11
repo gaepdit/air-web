@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 

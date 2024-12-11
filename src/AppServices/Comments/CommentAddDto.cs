@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace AirWeb.AppServices.Comments;
 
 public record CommentAddDto(int ItemId)

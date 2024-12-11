@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AirWeb.AppServices.CommonDtos;
+﻿namespace AirWeb.AppServices.CommonDtos;
 
 // Used for closing, reopening, deleting, and restoring Entities.
 public record StatusCommentDto

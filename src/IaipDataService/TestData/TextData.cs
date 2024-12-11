@@ -1,4 +1,4 @@
-﻿namespace IaipDataService.Utilities;
+﻿namespace IaipDataService.TestData;
 
 public static class TextData
 {

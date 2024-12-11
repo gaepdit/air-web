@@ -1,11 +1,13 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.AppServices.Compliance.Search
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Constants
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     var report = Model.Item!;
-    ViewData["Title"] = $"Facility {report.FacilityId} – FCE Report: {report.Year.ToString()}";
+    ViewData["Title"] = $"FCE Report for {report.Year.ToString()}, Facility {report.FacilityId}";
 }
 
 @if (report.IsDeleted)
@@ -50,9 +52,8 @@
             {
                 <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
-            <a asp-page="/UnderConstruction" target="_blank" rel="noopener"
+            <a asp-page="/Print/Fce/Index" asp-route-id="@Model.Id" target="_blank" rel="noopener"
                class="btn btn-outline-secondary icon-link no-external-link">
-                @* href="@report.PrintoutUrl" *@
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                 </svg>
@@ -63,28 +64,62 @@
 </div>
 <p class="lead">Tracking #@Model.Id.ToString()</p>
 
-<dl class="row mt-3 mb-0">
-    <dt class="col-sm-4 col-lg-3">Facility</dt>
-    <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId,report.FacilityName)" />
-    </dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
-    <dd class="col-sm-8 col-lg-9">
-        <strong class="text-info-emphasis">@report.Year.ToString()</strong>
-    </dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
-    <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-    <dd>
-        <div class="border rounded p-3 text-break">
-            <div class="text-pre-line">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</div>
+<section class="mb-4">
+    <dl class="row mt-3 mb-0">
+        <dt class="col-sm-4 col-lg-3">Facility</dt>
+        <dd class="col-sm-8 col-lg-9">
+            <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                     model="(report.FacilityId, report.FacilityName)" />
+        </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            <strong class="text-info-emphasis">@report.Year.ToString()</strong>
+        </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+        <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
+        <dd>
+            <div class="border rounded p-3 text-break">
+                <div class="text-pre-line">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</div>
+            </div>
+        </dd>
+    </dl>
+</section>
+
+<section class="mb-4">
+    <div class="row justify-content-between align-items-center">
+        <div class="col mb-md-0">
+            <h2 class="h4">Supporting data for
+                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormatConstants.ShortDateFormat })</h2>
         </div>
-    </dd>
-</dl>
+        <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
+            <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
+               asp-route-EventDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
+               asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
+               asp-page-handler="Search" asp-fragment="search-results"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                View Search
+            </a>
+        </div>
+    </div>
+
+    @if (Model.SearchResults.TotalCount == 0)
+    {
+        <p class="lead text-info">No data found in date range.</p>
+    }
+    else
+    {
+        <details class="border rounded-1 border-bottom-0">
+            <summary class="bg-body-secondary px-2 py-1 border-bottom">View data</summary>
+            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                     model="(Model.SearchResults.Items, (WorkEntrySearchDto?)null)" />
+        </details>
+    }
+</section>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
 

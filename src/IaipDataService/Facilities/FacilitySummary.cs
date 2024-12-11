@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using IaipDataService.Structs;
+using System.ComponentModel.DataAnnotations;
 
 namespace IaipDataService.Facilities;
 
@@ -13,8 +14,8 @@ public record FacilitySummary : IFacilityAirsName
     {
         Id = facility.Id;
         Name = facility.Name;
-        City = facility.FacilityAddress?.City;
-        State = facility.FacilityAddress?.State;
+        Description = facility.Description;
+        FacilityAddress = facility.FacilityAddress;
         County = facility.County;
     }
 
@@ -27,7 +28,14 @@ public record FacilitySummary : IFacilityAirsName
     [Display(Name = "Facility name")]
     public string Name { get; init; } = "";
 
+    [Display(Name = "Facility description")]
+    public string Description { get; init; } = "";
+
+    // Location
+
+    [Display(Name = "Company address")]
+    public Address? FacilityAddress { get; init; }
+
+    [Display(Name = "County")]
     public string County { get; init; } = "";
-    public string? City { get; [UsedImplicitly] init; }
-    public string? State { get; [UsedImplicitly] init; }
 }

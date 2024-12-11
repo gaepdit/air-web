@@ -1,6 +1,5 @@
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -13,6 +12,8 @@ public record FceSummaryDto : IDeletable
 
     [Display(Name = "FCE Year")]
     public int Year { get; init; }
+
+    public DateOnly CompletedDate { get; init; }
 
     // Properties: Deletion
     public bool IsDeleted { get; init; }

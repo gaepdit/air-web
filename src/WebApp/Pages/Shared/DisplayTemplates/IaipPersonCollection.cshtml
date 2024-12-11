@@ -1,0 +1,11 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model ICollection<IaipDataService.Structs.PersonName>
+
+@if (Model is { Count: > 0 })
+{
+    @string.Join(", ", Model)
+}
+else
+{
+    @DefaultText.PlaceholderNotEntered
+}

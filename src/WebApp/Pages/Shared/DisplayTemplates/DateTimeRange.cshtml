@@ -1,0 +1,31 @@
+﻿@using AirWeb.WebApp.Platform.Constants
+@using AirWeb.WebApp.Platform.PageModelHelpers
+@model AirWeb.Domain.ValueObjects.DateTimeRange
+@if (Model.EndDate is null && Model.StartDate == default)
+{
+    @DefaultText.NotAvailable
+}
+else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
+{
+    @Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat)
+}
+else
+{
+    var start = Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat);
+    var end = Model.EndDate.ToString(DateTimeFormatConstants.LongDateFormat);
+
+    @if (Model.StartDate.Year == Model.EndDate.Value.Year)
+    {
+        if (Model.StartDate.Month == Model.EndDate.Value.Month)
+        {
+            start = Model.StartDate.ToString("MMMM\u00a0d");
+            end = Model.EndDate.ToString("d, yyyy");
+        }
+        else
+        {
+            start = Model.StartDate.ToString("MMMM\u00a0d");
+        }
+    }
+
+    @string.Join($"{ViewData["Connector"] ?? " to "}", start, end)
+}

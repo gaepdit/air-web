@@ -1,0 +1,42 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportFlare
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+}
+
+<table class="table-subtable-vertical" aria-label="Test run data">
+    <thead>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <th scope="col">@r.RunNumber</th>
+        }
+        <th scope="col">Average</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => firstTestRun.HeatingValue)
+            <span class="units">(@Model.AvgHeatingValue.Units)</span>
+        </th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.HeatingValue</td>
+        }
+        <td>@Model.AvgHeatingValue.Value</td>
+    </tr>
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => firstTestRun.EmissionRateVelocity)
+            <span class="units">(@Model.AvgEmissionRateVelocity.Units)</span>
+        </th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.EmissionRateVelocity</td>
+        }
+        <td>@Model.AvgEmissionRateVelocity.Value</td>
+    </tr>
+    </tbody>
+</table>

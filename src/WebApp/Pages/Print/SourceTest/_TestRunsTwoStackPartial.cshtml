@@ -1,0 +1,161 @@
+﻿@using IaipDataService.SourceTests
+@model IaipDataService.SourceTests.Models.SourceTestReportTwoStack
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+}
+
+<table class="table-subtable-vertical" aria-label="Test run data">
+    <thead>
+    <tr>
+        <th scope="row" colspan="2">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <th scope="col">@r.RunNumber</th>
+        }
+        <th scope="col">Average</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOneGasTemperature)
+            <span class="units">(°F)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOneGasTemperature</td>
+        }
+        <td></td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoGasTemperature</td>
+        }
+        <td></td>
+    </tr>
+
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOneGasMoisture)
+            <span class="units">(%)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOneGasMoisture</td>
+        }
+        <td></td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoGasMoisture</td>
+        }
+        <td></td>
+    </tr>
+
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOneGasFlowRateAcfm)
+            <span class="units">(ACFM)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOneGasFlowRateAcfm</td>
+        }
+        <td></td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoGasFlowRateAcfm</td>
+        }
+        <td></td>
+    </tr>
+
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOneGasFlowRateDscfm)
+            <span class="units">(DSCFM)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOneGasFlowRateDscfm</td>
+        }
+        <td></td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoGasFlowRateDscfm</td>
+        }
+        <td></td>
+    </tr>
+
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOnePollutantConcentration)
+            <span class="units">(@Model.StackOneAvgPollutantConcentration.Units)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOnePollutantConcentration</td>
+        }
+        <td>@Model.StackOneAvgPollutantConcentration.Value</td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoPollutantConcentration</td>
+        }
+        <td>@Model.StackTwoAvgPollutantConcentration.Value</td>
+    </tr>
+
+    <tr>
+        <th scope="row" rowspan="2">
+            @Html.DisplayNameFor(_ => firstTestRun.StackOneEmissionRate)
+            <span class="units">(@Model.StackOneAvgEmissionRate.Units)</span>
+        </th>
+        <th scope="row">@Model.StackOneName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackOneEmissionRate</td>
+        }
+        <td>@Model.StackOneAvgEmissionRate.Value</td>
+    </tr>
+    <tr>
+        <th scope="row" class="split-table-header">@Model.StackTwoName</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.StackTwoEmissionRate</td>
+        }
+        <td>@Model.StackTwoAvgEmissionRate.Value</td>
+    </tr>
+
+    @if (Model.DocumentType == DocumentType.TwoStackStandard)
+    {
+        <tr>
+            <th scope="row" colspan="2">
+                @Html.DisplayNameFor(_ => firstTestRun.SumEmissionRate)
+                <span class="units">(@Model.SumAvgEmissionRate.Units)</span>
+            </th>
+            @foreach (var r in Model.TestRuns)
+            {
+                <td>@r.SumEmissionRate</td>
+            }
+            <td>@Model.SumAvgEmissionRate.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>

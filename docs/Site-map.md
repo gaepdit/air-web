@@ -9,15 +9,13 @@
 
 These pages are available to the public.
 
-### Reports
+### Report Printouts
 
 *Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) should be implemented.*
 
-Pages must be named "report" because "reports" is reserved by the ArcGIS application.
-
-* `/report/facility/{facilityId}/acc/{accId}` Printable ACC report page.
-* `/report/facility/{facilityId}/source-test/{referenceNumber}` Printable source test report page.
-* `/report/facility/{facilityId}/fce/{fcdId}` Printable FCE report page.
+* `/print/acc/{accId}` Printable ACC report page.
+* `/print/source-test/{referenceNumber}` Printable source test report page.
+* `/print/fce/{fcdId}` Printable FCE report page.
 
 ---
 

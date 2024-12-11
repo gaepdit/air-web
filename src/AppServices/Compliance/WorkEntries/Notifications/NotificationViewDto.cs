@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 

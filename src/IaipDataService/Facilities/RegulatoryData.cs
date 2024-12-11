@@ -87,6 +87,9 @@ public record RegulatoryData
     [Display(Name = "Air programs")]
     public List<AirProgram> AirPrograms { get; init; } = [];
 
+    public IEnumerable<string> AirProgramsAsStrings =>
+        AirPrograms.Select(program => program.GetDescription());
+
     /// <summary>
     /// List of pollutants that apply to a facility.
     /// </summary>
@@ -100,6 +103,9 @@ public record RegulatoryData
     /// </remarks>
     [Display(Name = "Program classifications")]
     public List<AirProgramClassifications> ProgramClassifications { get; init; } = [];
+
+    public IEnumerable<string> ProgramClassificationsAsStrings =>
+        ProgramClassifications.Select(program => program.GetDescription());
 
     #region Regex patterns
 

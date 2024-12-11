@@ -1,0 +1,64 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportOpacity
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+}
+
+<tr>
+    <td colspan="2" class="table-subtable">
+        <table class="table-subtable-vertical" aria-label="Test run data">
+            <thead>
+            <tr>
+                <th scope="row">Test points</th>
+                @foreach (var r in Model.TestRuns)
+                {
+                    <th scope="col">@r.RunNumber</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(_ => firstTestRun.MaxOperatingCapacity)
+                    <span class="units">(@Model.MaxOperatingCapacityUnits)</span>
+                </th>
+                @foreach (var r in Model.TestRuns)
+                {
+                    <td>@r.MaxOperatingCapacity</td>
+                }
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(_ => firstTestRun.OperatingCapacity)
+                    <span class="units">(@Model.OperatingCapacityUnits)</span>
+                </th>
+                @foreach (var r in Model.TestRuns)
+                {
+                    <td>@r.OperatingCapacity</td>
+                }
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(_ => firstTestRun.AllowableEmissionRate)
+                    <span class="units">(@Model.AllowableEmissionRateUnits)</span>
+                </th>
+                @foreach (var r in Model.TestRuns)
+                {
+                    <td>@r.AllowableEmissionRate</td>
+                }
+            </tr>
+            <tr>
+                <th scope="row">
+                    @Html.DisplayNameFor(_ => firstTestRun.Opacity)
+                    <span class="units">(%)</span>
+                    <span class="units">(@Model.OpacityStandard)</span>
+                </th>
+                @foreach (var r in Model.TestRuns)
+                {
+                    <td>@r.Opacity</td>
+                }
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>

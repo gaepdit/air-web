@@ -3,7 +3,6 @@ using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 using IaipDataService.SourceTests.Models.TestRun;
 using IaipDataService.Structs;
-using IaipDataService.Utilities;
 
 namespace IaipDataService.TestData;
 
@@ -18,7 +17,7 @@ public static class SourceTestData
         {
             DocumentType = DocumentType.OneStackThreeRuns,
             ReferenceNumber = 201100541,
-            Facility = new FacilitySummary(FacilityData.GetRandomFacility()),
+            Facility = new FacilitySummary(FacilityData.GetFacility((FacilityId)"00100001")),
             Pollutant = "Total Reduced Sulfur Compounds",
             Source = "Process No. 1",
             ReportType = ReportType.SourceTest,

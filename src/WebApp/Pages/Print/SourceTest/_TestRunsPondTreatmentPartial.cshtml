@@ -1,0 +1,42 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportPondTreatment
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+}
+
+<table class="table-subtable-vertical" aria-label="Test run data">
+    <thead>
+    <tr>
+        <th scope="row">@Html.DisplayNameFor(_ => firstTestRun.RunNumber)</th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <th scope="col">@r.RunNumber</th>
+        }
+        <th scope="col">Average</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => firstTestRun.PollutantCollectionRate)
+            <span class="units">(@Model.AvgPollutantCollectionRate.Units)</span>
+        </th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.PollutantCollectionRate</td>
+        }
+        <td>@Model.AvgPollutantCollectionRate.Value</td>
+    </tr>
+    <tr>
+        <th scope="row">
+            @Html.DisplayNameFor(_ => firstTestRun.TreatmentRate)
+            <span class="units">(@Model.AvgTreatmentRate.Units)</span>
+        </th>
+        @foreach (var r in Model.TestRuns)
+        {
+            <td>@r.TreatmentRate</td>
+        }
+        <td>@Model.AvgTreatmentRate.Value</td>
+    </tr>
+    </tbody>
+</table>

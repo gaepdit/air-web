@@ -12,7 +12,7 @@ using GaEpd.AppLibrary.ListItems;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
-namespace AirWeb.WebApp.Pages.Compliance.TestReport;
+namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class IndexModel(

@@ -1,0 +1,20 @@
+﻿@model IaipDataService.SourceTests.Models.SourceTestReportOpacity
+@{
+    if (Model.TestRuns is not { Count: > 0 }) return;
+    var firstTestRun = Model.TestRuns.FirstOrDefault()!;
+}
+
+<tr class="table-section">
+    <th scope="row">
+        @Html.DisplayNameFor(_ => firstTestRun.EquipmentItem)
+    </th>
+    <td>
+        <dl class="dl-inline">
+            @foreach (var r in Model.TestRuns)
+            {
+                <dt>@r.RunNumber</dt>
+                <dd>@r.EquipmentItem</dd>
+            }
+        </dl>
+    </td>
+</tr>

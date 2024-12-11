@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+﻿namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 
 public record WorkEntryCommandDto : IWorkEntryCommandDto
 {
