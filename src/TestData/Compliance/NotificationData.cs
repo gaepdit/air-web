@@ -9,11 +9,11 @@ internal static partial class WorkEntries
 {
     internal static IEnumerable<Notification> NotificationData =>
     [
-        new(7001, UserData.GetUsers.ElementAt(0), (FacilityId)"00100001")
+        new(7001, (FacilityId)"00100001", UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(0),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
@@ -25,11 +25,11 @@ internal static partial class WorkEntries
             SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
-        new(7002, UserData.GetUsers.ElementAt(1), DomainData.GetRandomFacility().Id)
+        new(7002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(1),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
             Notes = string.Empty,
@@ -41,11 +41,11 @@ internal static partial class WorkEntries
             SentDate = null,
             FollowupTaken = false,
         },
-        new(7003, null, DomainData.GetRandomFacility().Id)
+        new(7003, DomainData.GetRandomFacility().Id)
         {
             WorkEntryType = WorkEntryType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
-            ResponsibleStaff = UserData.GetUsers.ElementAt(3),
+            ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),

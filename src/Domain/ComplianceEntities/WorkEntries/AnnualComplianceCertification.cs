@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class AnnualComplianceCertification : WorkEntry
 {
@@ -7,7 +9,7 @@ public class AnnualComplianceCertification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private AnnualComplianceCertification() { }
 
-    internal AnnualComplianceCertification(int? id, FacilityId facilityId) : base(id, facilityId)
+    internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.AnnualComplianceCertification;
     }

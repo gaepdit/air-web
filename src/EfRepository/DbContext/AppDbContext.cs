@@ -1,5 +1,8 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -36,9 +39,31 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
     public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
 
-    // Ancillary tables
+    // Enforcement - Cases
+    public DbSet<EnforcementCase> EnforcementCases => Set<EnforcementCase>();
+
+    // Enforcement - Actions
+    public DbSet<AdministrativeOrder> AdministrativeOrders => Set<AdministrativeOrder>();
+    public DbSet<AoResolvedLetter> AoResolvedLetters => Set<AoResolvedLetter>();
+    public DbSet<ConsentOrder> ConsentOrders => Set<ConsentOrder>();
+    public DbSet<CoResolvedLetter> CoResolvedLetters => Set<CoResolvedLetter>();
+    public DbSet<EnforcementLetter> EnforcementLetters => Set<EnforcementLetter>();
+    public DbSet<LetterOfNoncompliance> LettersOfNoncompliance => Set<LetterOfNoncompliance>();
+    public DbSet<NoFurtherActionLetter> NoFurtherActionLetters => Set<NoFurtherActionLetter>();
+    public DbSet<NoticeOfViolation> NoticesOfViolation => Set<NoticeOfViolation>();
+    public DbSet<NovNfaLetter> NovNfaLetters => Set<NovNfaLetter>();
+    public DbSet<ProposedConsentOrder> ProposedConsentOrders => Set<ProposedConsentOrder>();
+
+    // Enforcement - Action properties
+    public DbSet<EnforcementActionReview> EnforcementActionReviews => Set<EnforcementActionReview>();
+    public DbSet<StipulatedPenalty> StipulatedPenalties => Set<StipulatedPenalty>();
+
+    // Comments
     public DbSet<FceComment> FceComments => Set<FceComment>();
     public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
+    public DbSet<EnforcementCaseComment> EnforcementCaseComments => Set<EnforcementCaseComment>();
+
+    // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -48,11 +73,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
-            .ConfigureTphMappingStrategy()
-            .ConfigureTphColumnSharing()
+            .ConfigureWorkEntryMapping()
+            .ConfigureEnforcementActionMapping()
+            .ConfigureCommentsMappingStrategy()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
-            .ConfigureTphMappingStrategyForComments()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
 
 #pragma warning disable S125

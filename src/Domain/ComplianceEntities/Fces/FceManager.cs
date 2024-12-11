@@ -10,22 +10,10 @@ public class FceManager(IFceRepository repository, IFacilityService facilityServ
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var fce = new Fce(repository.GetNextId(), facilityId, year);
-        fce.SetCreator(user?.Id);
-
-        return fce;
+        return new Fce(repository.GetNextId(), facilityId, year, user);
     }
 
-    public void Delete(Fce fce, string? comment, ApplicationUser? user)
-    {
-        fce.SetDeleted(user?.Id);
-        fce.DeletedBy = user;
-        fce.DeleteComments = comment;
-    }
+    public void Delete(Fce fce, string? comment, ApplicationUser? user) => fce.Delete(comment, user);
 
-    public void Restore(Fce fce)
-    {
-        fce.SetNotDeleted();
-        fce.DeleteComments = null;
-    }
+    public void Restore(Fce fce) => fce.Undelete();
 }

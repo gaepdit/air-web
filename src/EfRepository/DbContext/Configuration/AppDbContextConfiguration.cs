@@ -1,6 +1,9 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -13,29 +16,44 @@ internal static class AppDbContextConfiguration
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
 
-        // Entities should include any maintenance properties.
+        // Named entities should always be included.
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Notification>().Navigation(notification => notification.NotificationType).AutoInclude();
 
-        // FCEs should include User data.
+        // User data should be included in all entities.
+
+        // FCEs
         var fceEntity = builder.Entity<Fce>();
         fceEntity.Navigation(fce => fce.DeletedBy).AutoInclude();
         fceEntity.Navigation(fce => fce.ReviewedBy).AutoInclude();
 
-        // Work Entries should include User data.
+        // Work Entries
         var workEntryEntity = builder.Entity<WorkEntry>();
         workEntryEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
 
-        // Comments should include User data.
+        // Enforcement entities
+        var enforcementCaseEntity = builder.Entity<EnforcementCase>();
+        enforcementCaseEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
+
+        var enforcementActionEntity = builder.Entity<EnforcementAction>();
+        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ResponsibleStaff).AutoInclude();
+        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ApprovedBy).AutoInclude();
+        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentOwner).AutoInclude();
+
+        var enforcementActionReviewEntity = builder.Entity<EnforcementActionReview>();
+        enforcementActionReviewEntity.Navigation(review => review.ReviewedBy).AutoInclude();
+
+        // Comments
         builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();
 
         return builder;
     }
 
-    internal static ModelBuilder ConfigureTphMappingStrategy(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
     {
+        // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<WorkEntry>()
             .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("WorkEntries")
@@ -47,10 +65,11 @@ internal static class AppDbContextConfiguration
             .HasValue<Report>(WorkEntryType.Report)
             .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
             .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
-        return builder;
+
+        return builder.ConfigureWorkEntryColumnSharing();
     }
 
-    internal static ModelBuilder ConfigureTphColumnSharing(this ModelBuilder builder)
+    private static ModelBuilder ConfigureWorkEntryColumnSharing(this ModelBuilder builder)
     {
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
 
@@ -113,11 +132,112 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
+    internal static ModelBuilder ConfigureEnforcementActionMapping(this ModelBuilder builder)
+    {
+        // Enforcement Actions use Table Per Hierarchy (TPH) mapping strategy.
+        builder.Entity<EnforcementAction>()
+            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
+            .ToTable("EnforcementActions")
+            .HasDiscriminator(action => action.EnforcementActionType)
+            .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
+            .HasValue<AoResolvedLetter>(EnforcementActionType.AoResolvedLetter)
+            .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
+            .HasValue<CoResolvedLetter>(EnforcementActionType.CoResolvedLetter)
+            .HasValue<EnforcementLetter>(EnforcementActionType.EnforcementLetter)
+            .HasValue<LetterOfNoncompliance>(EnforcementActionType.LetterOfNoncompliance)
+            .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherAction)
+            .HasValue<NoticeOfViolation>(EnforcementActionType.NoticeOfViolation)
+            .HasValue<NovNfaLetter>(EnforcementActionType.NovNfaLetter)
+            .HasValue<ProposedConsentOrder>(EnforcementActionType.ProposedConsentOrder);
+
+        // Many-to-many relationships.
+        // https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-with-named-join-table
+        builder.Entity<EnforcementCase>()
+            .HasMany(enforcementCase => enforcementCase.ComplianceEvents)
+            .WithMany(complianceEvent => complianceEvent.EnforcementCases)
+            .UsingEntity("EnforcementCaseComplianceEvents");
+
+        // Self-referencing relationships.
+        builder.Entity<AdministrativeOrder>()
+            .HasOne(order => order.ResolvedLetter)
+            .WithOne(letter => letter.AdministrativeOrder)
+            .HasForeignKey<AoResolvedLetter>("AdministrativeOrderId")
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+        builder.Entity<ConsentOrder>()
+            .HasOne(order => order.ResolvedLetter)
+            .WithOne(letter => letter.ConsentOrder)
+            .HasForeignKey<CoResolvedLetter>("ConsentOrderId")
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+        builder.Entity<NoticeOfViolation>()
+            .HasOne(noticeOfViolation => noticeOfViolation.NoFurtherActionLetter)
+            .WithOne(letter => letter.NoticeOfViolation)
+            .HasForeignKey<NoFurtherActionLetter>("NoticeOfViolationId_for_Nfa")
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+        builder.Entity<ProposedConsentOrder>()
+            .HasOne(letter => letter.NoticeOfViolation)
+            .WithMany()
+            .HasForeignKey("NoticeOfViolationId_for_ProposedCo")
+            .OnDelete(DeleteBehavior.ClientCascade);
+
+        return builder.ConfigureEnforcementActionColumnSharing();
+    }
+
+    private static ModelBuilder ConfigureEnforcementActionColumnSharing(this ModelBuilder builder)
+    {
+        // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
+
+        var aorEntity = builder.Entity<AdministrativeOrder>();
+        var corEntity = builder.Entity<ConsentOrder>();
+        var enlEntity = builder.Entity<EnforcementLetter>();
+        var lonEntity = builder.Entity<LetterOfNoncompliance>();
+        var nnlEntity = builder.Entity<NovNfaLetter>();
+        var novEntity = builder.Entity<NoticeOfViolation>();
+        var pcoEntity = builder.Entity<ProposedConsentOrder>();
+
+        // Executed date
+        aorEntity.Property(e => e.Executed).HasColumnName(nameof(AdministrativeOrder.Executed));
+        corEntity.Property(e => e.Executed).HasColumnName(nameof(ConsentOrder.Executed));
+
+        // Resolved date
+        aorEntity.Property(e => e.Resolved).HasColumnName(nameof(AdministrativeOrder.Resolved));
+        corEntity.Property(e => e.Resolved).HasColumnName(nameof(ConsentOrder.Resolved));
+
+        // Response requested
+        enlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(EnforcementLetter.ResponseRequested));
+        lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
+        nnlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
+        novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
+
+        // Response received
+        enlEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(EnforcementLetter.ResponseReceived));
+        lonEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(LetterOfNoncompliance.ResponseReceived));
+        nnlEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
+        novEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
+        pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
+
+        return builder;
+    }
+
     internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
     {
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-        builder.Entity<WorkEntry>().Property(entity => entity.WorkEntryType).HasConversion<string>();
+
+        // Discriminator
+        builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
+        builder.Entity<EnforcementAction>().Property(e => e.EnforcementActionType).HasConversion<string>();
+
+        // Status
+        builder.Entity<EnforcementCase>().Property(e => e.Status).HasConversion<string>();
+        builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
+
+        // Data exchange status
+        builder.Entity<EnforcementCase>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<EnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;
     }
@@ -154,7 +274,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureTphMappingStrategyForComments(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
     {
         // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
         // directly exposed as a DbSet).

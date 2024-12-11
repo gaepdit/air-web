@@ -48,8 +48,7 @@ public static class DataPersistence
             {
                 dbBuilder
                     .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
-                    .ConfigureWarnings(warningsBuilder =>
-                        warningsBuilder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+                    .ConfigureWarnings(builder => builder.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
 
                 if (environment.IsDevelopment()) dbBuilder.EnableSensitiveDataLogging();
             });

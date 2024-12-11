@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 public class PermitRevocation : WorkEntry
 {
@@ -7,7 +9,7 @@ public class PermitRevocation : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private PermitRevocation() { }
 
-    internal PermitRevocation(int? id, FacilityId facilityId) : base(id, facilityId)
+    internal PermitRevocation(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.PermitRevocation;
     }

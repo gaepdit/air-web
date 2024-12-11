@@ -16,6 +16,10 @@ public partial record FacilityId : IComparable<FacilityId>
 
     // Properties
 
+
+    /// <summary>
+    /// `Id` is the short form of the Facility ID without a hyphen, e.g. "00123456".
+    /// </summary>
     [Key]
     public string Id
     {
@@ -26,7 +30,14 @@ public partial record FacilityId : IComparable<FacilityId>
             : throw new ArgumentException($"The value '{value}' is not a valid Facility ID format.");
     }
 
+    /// <summary>
+    /// `FormattedId` is the long form of the Facility ID with a hyphen, e.g. "001-23456".
+    /// </summary>
     public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
+
+    /// <summary>
+    /// `EpaFacilityIdentifier` is the ID used by EPA.
+    /// </summary>
     public string EpaFacilityIdentifier => $"GA00000013{Id}";
 
     // Operators

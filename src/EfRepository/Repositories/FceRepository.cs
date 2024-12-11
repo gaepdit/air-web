@@ -14,7 +14,7 @@ public sealed class FceRepository(AppDbContext context)
     public Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default) =>
         Context.Set<Fce>().AsNoTracking()
             .Include(fce => fce.Comments
-                .Where(comment => !comment.IsDeleted)
+                .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(fce => fce.Id.Equals(id), token);
 
