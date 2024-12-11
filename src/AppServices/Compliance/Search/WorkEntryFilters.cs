@@ -22,10 +22,10 @@ internal static class WorkEntryFilters
 
     private static Expression<Func<WorkEntry, bool>> ByClosedStatus(
         this Expression<Func<WorkEntry, bool>> predicate,
-        YesNoAny? input) => input switch
+        ClosedOpenAny? input) => input switch
     {
-        YesNoAny.Yes => predicate.And(entry => entry.IsClosed),
-        YesNoAny.No => predicate.And(entry => !entry.IsClosed),
+        ClosedOpenAny.Closed => predicate.And(entry => entry.IsClosed),
+        ClosedOpenAny.Open => predicate.And(entry => !entry.IsClosed),
         _ => predicate,
     };
 
