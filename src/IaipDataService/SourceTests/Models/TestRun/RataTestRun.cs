@@ -5,10 +5,10 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public record RataTestRun : BaseTestRun
 {
     [Display(Name = "Reference method")]
-    public string ReferenceMethod { get; init; } = "";
+    public string ReferenceMethod { get; init; } = null!;
 
     [Display(Name = "CMS")]
-    public string Cms { get; init; } = "";
+    public string Cms { get; init; } = null!;
 
     public bool Omitted { get; init; }
 

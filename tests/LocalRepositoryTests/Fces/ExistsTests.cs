@@ -6,7 +6,7 @@ namespace LocalRepositoryTests.Fces;
 
 public class ExistsTests
 {
-    private LocalFceRepository _repository = default!;
+    private LocalFceRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetFceRepository();

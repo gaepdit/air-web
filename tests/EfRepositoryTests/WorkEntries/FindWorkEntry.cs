@@ -5,7 +5,7 @@ namespace EfRepositoryTests.WorkEntries;
 
 public class FindWorkEntry
 {
-    private WorkEntryRepository _repository = default!;
+    private WorkEntryRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();

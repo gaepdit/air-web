@@ -27,7 +27,7 @@ public class EnforcementCase : ClosableEntity<int>
     [StringLength(9)]
     public string FacilityId { get; private init; } = string.Empty;
 
-    private readonly Facility _facility = default!;
+    private readonly Facility _facility = null!;
 
     [NotMapped]
     public Facility Facility
@@ -46,7 +46,7 @@ public class EnforcementCase : ClosableEntity<int>
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; }
 
     [StringLength(5)]
     private string? ViolationTypeId { get; set; }

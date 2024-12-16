@@ -14,5 +14,5 @@ public record WorkEntryCommandDto : IWorkEntryCommandDto
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    public string? Notes { get; init; } = string.Empty;
+    public string? Notes { get; init; }
 }

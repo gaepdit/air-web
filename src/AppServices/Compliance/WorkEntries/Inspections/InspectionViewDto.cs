@@ -19,10 +19,10 @@ public record InspectionViewDto : WorkEntryViewDto
     public InspectionReason? InspectionReason { get; init; }
 
     [Display(Name = "Weather Conditions")]
-    public required string WeatherConditions { get; init; }
+    public string? WeatherConditions { get; init; }
 
     [Display(Name = "Inspection Guides")]
-    public required string InspectionGuide { get; init; }
+    public string? InspectionGuide { get; init; }
 
     [Display(Name = "Facility Operating")]
     public bool FacilityOperating { get; init; }

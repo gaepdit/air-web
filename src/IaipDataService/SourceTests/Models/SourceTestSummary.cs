@@ -38,13 +38,13 @@ public record SourceTestSummary
     public FacilitySummary? Facility { get; set; }
 
     [Display(Name = "Source tested")]
-    public string Source { get; init; } = "";
+    public string Source { get; init; } = null!;
 
     [Display(Name = "Pollutant determined")]
-    public string Pollutant { get; init; } = "";
+    public string Pollutant { get; init; } = null!;
 
     [Display(Name = "Applicable requirement")]
-    public string ApplicableRequirement { get; init; } = "";
+    public string ApplicableRequirement { get; init; } = null!;
 
     [Display(Name = "Status")]
     public bool ReportClosed { get; init; }

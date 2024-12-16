@@ -10,7 +10,7 @@ namespace LocalRepositoryTests.Identity;
 
 public class UserStore
 {
-    private LocalUserStore _store = default!;
+    private LocalUserStore _store = null!;
 
     [SetUp]
     public void SetUp() => _store = RepositoryHelper.GetUserStore();

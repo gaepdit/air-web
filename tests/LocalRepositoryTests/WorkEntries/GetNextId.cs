@@ -4,7 +4,7 @@ namespace LocalRepositoryTests.WorkEntries;
 
 public class GetNextId
 {
-    private LocalWorkEntryRepository _repository = default!;
+    private LocalWorkEntryRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();

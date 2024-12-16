@@ -8,33 +8,33 @@ public record SourceTestReportOpacity : BaseSourceTestReport
     // Operating data
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; set; } = "";
+    public string ControlEquipmentInfo { get; set; } = null!;
 
     [Display(Name = "Compliance status")]
-    public string ComplianceStatus { get; set; } = "";
+    public string ComplianceStatus { get; set; } = null!;
 
     // `OpacityStandard` is used by "Method9Single" and "Method9Multi"
     // but not by "Method22"
     [Display(Name = "Opacity standard")]
-    public string OpacityStandard { get; set; } = "";
+    public string OpacityStandard { get; set; } = null!;
 
     // `EquipmentItem` is used by "Method9Single" and "Method22"
     // but not by "Method9Multi"
     [Display(Name = "Test duration")]
-    public string TestDuration { get; set; } = "";
+    public string TestDuration { get; set; } = null!;
 
     // Test run data
 
     [Display(Name = "Maximum expected operating capacity")]
-    public string MaxOperatingCapacityUnits { get; set; } = "";
+    public string MaxOperatingCapacityUnits { get; set; } = null!;
 
     [Display(Name = "Operating capacity")]
-    public string OperatingCapacityUnits { get; set; } = "";
+    public string OperatingCapacityUnits { get; set; } = null!;
 
     // `AllowableEmissionRateUnits` is used by "Method9Single" and "Method9Multi"
     // but not by "Method22"
     [Display(Name = "Allowable emission rate(s)")]
-    public string AllowableEmissionRateUnits { get; set; } = "";
+    public string AllowableEmissionRateUnits { get; set; } = null!;
 
     [Display(Name = "Test runs")]
     public List<OpacityTestRun> TestRuns { get; set; } = [];

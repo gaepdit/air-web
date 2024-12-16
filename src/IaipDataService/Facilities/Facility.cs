@@ -21,10 +21,10 @@ public record Facility : IFacilityIdName
     // Description
 
     [Display(Name = "Facility name")]
-    public string Name { get; init; } = "";
+    public string Name { get; init; } = null!;
 
     [Display(Name = "Description")]
-    public string Description { get; init; } = "";
+    public string Description { get; init; } = null!;
 
     // Location
 

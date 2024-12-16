@@ -13,5 +13,5 @@ public record FeeYearSummaryDto
 
     public decimal Balance { get; init; }
 
-    public string Status { get; init; } = string.Empty;
+    public string Status { get; init; } = null!;
 }

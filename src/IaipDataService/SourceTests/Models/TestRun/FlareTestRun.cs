@@ -5,10 +5,10 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public record FlareTestRun : BaseTestRun
 {
     [Display(Name = "Heating value")]
-    public string HeatingValue { get; init; } = "";
+    public string HeatingValue { get; init; } = null!;
 
     [Display(Name = "Emission rate velocity")]
-    public string EmissionRateVelocity { get; init; } = "";
+    public string EmissionRateVelocity { get; init; } = null!;
 
     #region Confidential info handling
 

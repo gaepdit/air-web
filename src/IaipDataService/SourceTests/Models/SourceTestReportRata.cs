@@ -7,25 +7,25 @@ namespace IaipDataService.SourceTests.Models;
 public record SourceTestReportRata : BaseSourceTestReport
 {
     [Display(Name = "Applicable standard")]
-    public string ApplicableStandard { get; set; } = "";
+    public string ApplicableStandard { get; set; } = null!;
 
     [Display(Name = "Diluent monitored")]
-    public string Diluent { get; set; } = "";
+    public string Diluent { get; set; } = null!;
 
     // Test run data
 
     [Display(Name = "Units")]
-    public string Units { get; set; } = "";
+    public string Units { get; set; } = null!;
 
     [Display(Name = "Test data")]
     public List<RataTestRun> TestRuns { get; set; } = [];
 
     [Display(Name = "Accuracy choice")] // STRACCURACYCHOICE
     [JsonIgnore]
-    public string RelativeAccuracyCode { get; set; } = "";
+    public string RelativeAccuracyCode { get; set; } = null!;
 
     [Display(Name = "Relative accuracy")] // STRRELATIVEACCURACYPERCENT
-    public string RelativeAccuracyPercent { get; set; } = "";
+    public string RelativeAccuracyPercent { get; set; } = null!;
 
     public string RelativeAccuracyLabel =>
         RelativeAccuracyCode switch
@@ -37,13 +37,13 @@ public record SourceTestReportRata : BaseSourceTestReport
         };
 
     [Display(Name = "Relative accuracy required")] // STRACCURACYREQUIREDPERCENT
-    public string RelativeAccuracyRequiredPercent { get; set; } = "";
+    public string RelativeAccuracyRequiredPercent { get; set; } = null!;
 
     [Display(Name = "Relative accuracy required statement")] // STRACCURACYREQUIREDSTATEMENT
-    public string RelativeAccuracyRequiredLabel { get; set; } = "";
+    public string RelativeAccuracyRequiredLabel { get; set; } = null!;
 
     [Display(Name = "Result")]
-    public string ComplianceStatus { get; set; } = "";
+    public string ComplianceStatus { get; set; } = null!;
 
     #region Confidential info handling
 

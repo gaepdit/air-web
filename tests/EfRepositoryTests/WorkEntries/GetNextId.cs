@@ -5,7 +5,7 @@ namespace EfRepositoryTests.WorkEntries;
 
 public class GetNextId
 {
-    private WorkEntryRepository _repository = default!;
+    private WorkEntryRepository _repository = null!;
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

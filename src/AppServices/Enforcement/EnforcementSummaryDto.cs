@@ -14,5 +14,5 @@ public record EnforcementSummaryDto
     public DateOnly EnforcementDate { get; init; }
 
     [Display(Name = "Type")]
-    public string EnforcementType { get; init; } = string.Empty;
+    public string EnforcementType { get; init; } = null!;
 }

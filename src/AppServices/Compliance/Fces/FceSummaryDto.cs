@@ -7,7 +7,7 @@ public record FceSummaryDto : IDeletable
 {
     public int Id { get; init; }
 
-    public string FacilityId { get; init; } = default!;
+    public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
 
     [Display(Name = "FCE Year")]

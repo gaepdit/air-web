@@ -5,28 +5,28 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public record OpacityTestRun : BaseTestRun
 {
     [Display(Name = "Maximum expected operating capacity")]
-    public string MaxOperatingCapacity { get; init; } = "";
+    public string MaxOperatingCapacity { get; init; } = null!;
 
     [Display(Name = "Operating capacity")]
-    public string OperatingCapacity { get; init; } = "";
+    public string OperatingCapacity { get; init; } = null!;
 
     [Display(Name = "Allowable emission rate")]
-    public string AllowableEmissionRate { get; init; } = "";
+    public string AllowableEmissionRate { get; init; } = null!;
 
     // `Opacity` is used by "Method 9 (Single)" and "Method 9 (Multi.)"
     // but not by "Method22"
     [Display(Name = "Opacity")]
-    public string Opacity { get; init; } = "";
+    public string Opacity { get; init; } = null!;
 
     // `EquipmentItem` is used by "Method22"
     // but not by "Method 9 (Single)" or "Method 9 (Multi.)"
     [Display(Name = "Accumulated emission time")]
-    public string AccumulatedEmissionTime { get; init; } = "";
+    public string AccumulatedEmissionTime { get; init; } = null!;
 
     // `EquipmentItem` is used by "Method 9 (Multi.)"
     // but not by "Method 9 (Single)" or "Method22"
     [Display(Name = "Equipment list")]
-    public string EquipmentItem { get; init; } = "";
+    public string EquipmentItem { get; init; } = null!;
 
     #region Confidential info handling
 

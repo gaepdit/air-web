@@ -5,22 +5,22 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public record StackTestRun : BaseTestRun
 {
     [Display(Name = "Gas temperature")]
-    public string GasTemperature { get; init; } = "";
+    public string GasTemperature { get; init; } = null!;
 
     [Display(Name = "Gas moisture")]
-    public string GasMoisture { get; init; } = "";
+    public string GasMoisture { get; init; } = null!;
 
     [Display(Name = "Gas flow rate")]
-    public string GasFlowRateAcfm { get; init; } = "";
+    public string GasFlowRateAcfm { get; init; } = null!;
 
     [Display(Name = "Gas flow rate")]
-    public string GasFlowRateDscfm { get; init; } = "";
+    public string GasFlowRateDscfm { get; init; } = null!;
 
     [Display(Name = "Pollutant concentration")]
-    public string PollutantConcentration { get; init; } = "";
+    public string PollutantConcentration { get; init; } = null!;
 
     [Display(Name = "Emission rate")]
-    public string EmissionRate { get; init; } = "";
+    public string EmissionRate { get; init; } = null!;
 
     #region Confidential info handling
 

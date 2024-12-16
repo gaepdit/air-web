@@ -27,7 +27,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionType EnforcementActionType { get; protected init; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; }
 
     // Staff
     public ApplicationUser? ResponsibleStaff { get; set; }

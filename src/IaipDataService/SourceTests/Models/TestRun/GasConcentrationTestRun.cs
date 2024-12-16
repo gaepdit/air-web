@@ -5,10 +5,10 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public record GasConcentrationTestRun : BaseTestRun
 {
     [Display(Name = "Pollutant concentration")]
-    public string PollutantConcentration { get; init; } = "";
+    public string PollutantConcentration { get; init; } = null!;
 
     [Display(Name = "Emission rate")]
-    public string EmissionRate { get; init; } = "";
+    public string EmissionRate { get; init; } = null!;
 
     #region Confidential info handling
 

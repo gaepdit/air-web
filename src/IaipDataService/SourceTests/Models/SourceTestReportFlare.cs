@@ -18,7 +18,7 @@ public record SourceTestReportFlare : BaseSourceTestReport
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; set; } = "";
+    public string ControlEquipmentInfo { get; set; } = null!;
 
     // Test run data
 
@@ -32,7 +32,7 @@ public record SourceTestReportFlare : BaseSourceTestReport
     public ValueWithUnits AvgEmissionRateVelocity { get; set; }
 
     [Display(Name = "Percent allowable")]
-    public string PercentAllowable { get; set; } = "";
+    public string PercentAllowable { get; set; } = null!;
 
     #region Confidential info handling
 

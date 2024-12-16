@@ -6,7 +6,7 @@ namespace EfRepositoryTests.Fces;
 
 public class GetIncludeProperty
 {
-    private FceRepository _repository = default!;
+    private FceRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetFceRepository();

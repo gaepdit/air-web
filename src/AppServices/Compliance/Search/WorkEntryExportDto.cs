@@ -37,7 +37,7 @@ public record WorkEntryExportDto : IStandardSearchResult
     public DateOnly EventDate { get; init; }
 
     [XLColumn(Header = "Event")]
-    public string EventDateName { get; init; } = string.Empty;
+    public string EventDateName { get; init; }
 
     [XLColumn(Header = "Staff Responsible")]
     public string? ResponsibleStaff { get; init; }

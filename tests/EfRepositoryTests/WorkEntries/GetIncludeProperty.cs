@@ -6,7 +6,7 @@ namespace EfRepositoryTests.WorkEntries;
 
 public class GetIncludeProperty
 {
-    private WorkEntryRepository _repository = default!;
+    private WorkEntryRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();

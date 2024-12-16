@@ -31,5 +31,5 @@ public record FceCreateDto
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
     [Display(Name = "Notes")]
-    public string? Notes { get; init; } = string.Empty;
+    public string? Notes { get; init; }
 }
