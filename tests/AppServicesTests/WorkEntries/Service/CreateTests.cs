@@ -39,15 +39,9 @@ public class CreateTests
                 Arg.Any<object?[]>())
             .Returns(AppNotificationResult.SuccessResult());
 
-        var facility = new Facility(facilityId);
-
-        var facilityRepository = Substitute.For<IFacilityService>();
-        facilityRepository.GetAsync(facilityId)
-            .Returns(facility);
-
-        var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, facilityRepository, Substitute.For<ICommentService<int>>(), userServiceMock,
-            notificationMock);
+        var entryService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
+            workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ICommentService<int>>(),
+            userServiceMock, notificationMock);
 
         var item = new PermitRevocationCreateDto
         {
@@ -57,7 +51,7 @@ public class CreateTests
         };
 
         // Act
-        var result = await appService.CreateAsync(item, CancellationToken.None);
+        var result = await entryService.CreateAsync(item, CancellationToken.None);
 
         // Assert
         using var scope = new AssertionScope();

@@ -27,7 +27,7 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
         }
 
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId, RefreshIaipData);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData))

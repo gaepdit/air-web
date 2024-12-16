@@ -13,7 +13,7 @@ public class RestoreModel(IFceService fceService, IAuthorizationService authoriz
     [FromRoute]
     public int Id { get; set; }
 
-    public FceSummaryDto ItemSummary { get; private set; } = default!;
+    public FceSummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

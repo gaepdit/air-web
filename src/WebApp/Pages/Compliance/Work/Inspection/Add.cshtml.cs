@@ -18,7 +18,7 @@ public class AddModel(
     private readonly IStaffService _staffService = staffService;
 
     [BindProperty]
-    public InspectionCreateDto Item { get; set; } = default!;
+    public InspectionCreateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(bool isRmp = false)
     {

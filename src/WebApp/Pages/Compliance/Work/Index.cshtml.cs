@@ -19,15 +19,15 @@ public class ComplianceIndexModel(
     IAuthorizationService authorization)
     : PageModel
 {
-    public WorkEntrySearchDto Spec { get; set; } = default!;
+    public WorkEntrySearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = default!;
+    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     // Select lists
-    public SelectList StaffSelectList { get; private set; } = default!;
-    public SelectList OfficesSelectList { get; set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
+    public SelectList OfficesSelectList { get; set; } = null!;
 
     public async Task OnGetAsync(CancellationToken token = default)
     {

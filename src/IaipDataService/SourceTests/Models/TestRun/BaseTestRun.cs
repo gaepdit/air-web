@@ -26,20 +26,17 @@ public abstract record BaseTestRun
 
     protected string CheckConfidential(string input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? IaipDataConstants.ConfidentialInfoPlaceholder
+            ? BaseSourceTestReport.ConfidentialInfoPlaceholder
             : input;
 
     protected ValueWithUnits CheckConfidential(ValueWithUnits input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? new ValueWithUnits(IaipDataConstants.ConfidentialInfoPlaceholder, input.Units, input.Preamble)
+            ? input with { Value = BaseSourceTestReport.ConfidentialInfoPlaceholder }
             : input;
 
     protected abstract void ParseConfidentialParameters();
 
-    protected void ParseBaseConfidentialParameters()
-    {
-        AddIfConfidential(1, nameof(RunNumber));
-    }
+    protected void ParseBaseConfidentialParameters() => AddIfConfidential(1, nameof(RunNumber));
 
     // Uses "ONE"-based position to better correlate with IAIP code
     protected void AddIfConfidential(int position, string parameter)
@@ -48,12 +45,8 @@ public abstract record BaseTestRun
         if (ConfidentialParametersCode[position - 1] == '1') ConfidentialParameters.Add(parameter);
     }
 
-    internal static List<T> RedactedTestRuns<T>(List<T> testRuns) where T : BaseTestRun
-    {
-        var redactedTestRuns = new List<T>();
-        foreach (var r in testRuns) redactedTestRuns.Add((T)r.RedactedTestRun());
-        return redactedTestRuns;
-    }
+    internal static List<T> RedactedTestRuns<T>(List<T> testRuns) where T : BaseTestRun =>
+        testRuns.Select(r => (T)r.RedactedTestRun()).ToList();
 
     internal static List<T> ParsedTestRuns<T>(List<T> testRuns) where T : BaseTestRun
     {

@@ -22,9 +22,9 @@ public class EditModel(
     private readonly IWorkEntryService _entryService = entryService;
 
     [BindProperty]
-    public SourceTestReviewUpdateDto Item { get; set; } = default!;
+    public SourceTestReviewUpdateDto Item { get; set; } = null!;
 
-    public SourceTestSummary TestSummary { get; private set; } = default!;
+    public SourceTestSummary TestSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 public class AddModel : AddBase
 {
     [BindProperty]
-    public OfficeCreateDto Item { get; set; } = default!;
+    public OfficeCreateDto Item { get; set; } = null!;
 
     public void OnGet()
     {

@@ -5,55 +5,55 @@ namespace IaipDataServiceTests;
 
 public class LocalFacilityServiceTests
 {
-    private LocalFacilityService _service = default!;
+    private LocalFacilityService _service = null!;
 
     [SetUp]
     public void SetUp() => _service = new LocalFacilityService();
 
     [Test]
-    public async Task IfExists_Find_ReturnsData()
+    public async Task IfExists_FindDetails_ReturnsData()
     {
         // Arrange
         var facility = _service.Items.ElementAt(0);
 
         // Act
-        var result = await _service.FindAsync(facility.Id);
+        var result = await _service.FindFacilityDetailsAsync(facility.Id);
 
         // Assert
         result.Should().BeEquivalentTo(facility);
     }
 
     [Test]
-    public async Task IfNotExists_Find_ReturnsNull()
+    public async Task IfNotExists_FindDetails_ReturnsNull()
     {
         // Act
-        var result = await _service.FindAsync((FacilityId)"777-99999");
+        var result = await _service.FindFacilityDetailsAsync((FacilityId)"777-99999");
 
         // Assert
         result.Should().BeNull();
     }
 
     [Test]
-    public async Task IfExists_Get_ReturnsData()
+    public async Task IfExists_FindSummary_ReturnsData()
     {
         // Arrange
         var facility = _service.Items.ElementAt(0);
 
         // Act
-        var result = await _service.GetAsync(facility.Id);
+        var result = await _service.FindFacilitySummaryAsync(facility.Id);
 
         // Assert
         result.Should().BeEquivalentTo(facility);
     }
 
     [Test]
-    public async Task IfNotExists_Get_Throws()
+    public async Task IfNotExists_FindSummary_ReturnsNull()
     {
         // Act
-        var func = async () => await _service.GetAsync((FacilityId)"777-99999");
+        var result = await _service.FindFacilitySummaryAsync((FacilityId)"777-99999");
 
         // Assert
-        await func.Should().ThrowAsync<InvalidOperationException>();
+        result.Should().BeNull();
     }
 
     [Test]

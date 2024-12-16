@@ -21,9 +21,9 @@ public class AddModel(
     private readonly IStaffService _staffService = staffService;
 
     [BindProperty]
-    public NotificationCreateDto Item { get; set; } = default!;
+    public NotificationCreateDto Item { get; set; } = null!;
 
-    public SelectList NotificationTypeSelectList { get; private set; } = default!;
+    public SelectList NotificationTypeSelectList { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

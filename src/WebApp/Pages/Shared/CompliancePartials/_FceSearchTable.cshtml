@@ -12,7 +12,6 @@
             {
                 <th scope="col" class="text-nowrap">ID</th>
                 <th scope="col" class="text-nowrap">FCE Year</th>
-                <th scope="col" class="text-nowrap">Facility</th>
             }
             else
             {
@@ -44,9 +43,12 @@
                     }
                 </th>
                 <td class="text-nowrap">@item.Year</td>
-                <td>
-                    <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
-                </td>
+                @if (Model.Spec is not null)
+                {
+                    <td>
+                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                    </td>
+                }
                 <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
                 <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
                 <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>

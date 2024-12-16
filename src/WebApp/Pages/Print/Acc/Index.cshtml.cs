@@ -18,7 +18,7 @@ public class IndexModel : PageModel
     {
         Report = await workEntryService.FindAsync(id) as AccViewDto;
         if (Report == null) return NotFound();
-        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId?)Report!.FacilityId);
         if (Facility == null) return NotFound();
 
         MemoHeader = new MemoHeader

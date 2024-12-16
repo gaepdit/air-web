@@ -11,7 +11,7 @@ public class IndexModel : PageModel
 {
     public BaseSourceTestReport? Report { get; private set; }
     public MemoHeader MemoHeader { get; private set; }
-    public OrganizationInfo OrganizationInfo { get; private set; } = default!;
+    public OrganizationInfo OrganizationInfo { get; private set; } = null!;
     public bool ShowConfidentialWarning { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(

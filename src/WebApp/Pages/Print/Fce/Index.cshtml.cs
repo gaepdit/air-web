@@ -8,7 +8,7 @@ namespace AirWeb.WebApp.Pages.Print.Fce;
 public class IndexModel : PageModel
 {
     public FceViewDto? Report { get; private set; }
-    public WorkEntryDataSummary SupportingData { get; set; } = default!;
+    public WorkEntryDataSummary SupportingData { get; set; } = null!;
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
@@ -20,7 +20,7 @@ public class IndexModel : PageModel
     {
         Report = await fceService.FindAsync(id, token);
         if (Report == null) return NotFound();
-        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId?)Report!.FacilityId);
         if (Facility == null) return NotFound();
 
         SupportingData = await workEntryService.GetDataSummaryAsync(Facility.Id, token);

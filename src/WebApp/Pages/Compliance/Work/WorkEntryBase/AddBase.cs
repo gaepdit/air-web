@@ -20,12 +20,12 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
     public WorkEntryType EntryType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
 
     protected async Task<IActionResult> DoGetAsync()
     {
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         await PopulateSelectListsAsync();
@@ -42,7 +42,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync((FacilityId)item.FacilityId);
+            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)item.FacilityId);
             if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();

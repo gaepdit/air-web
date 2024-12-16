@@ -22,9 +22,9 @@ public class EditModel(
     private readonly IWorkEntryService _entryService = entryService;
 
     [BindProperty]
-    public NotificationUpdateDto Item { get; set; } = default!;
+    public NotificationUpdateDto Item { get; set; } = null!;
 
-    public SelectList NotificationTypeSelectList { get; private set; } = default!;
+    public SelectList NotificationTypeSelectList { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

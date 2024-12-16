@@ -18,7 +18,7 @@ public class AddModel(
     private readonly IStaffService _staffService = staffService;
 
     [BindProperty]
-    public ReportCreateDto Item { get; set; } = default!;
+    public ReportCreateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

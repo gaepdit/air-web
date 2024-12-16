@@ -54,7 +54,7 @@ public class IaipSourceTestService(
             return cachedTestSummary;
         }
 
-        logger.LogCacheRefresh(forceRefresh, cacheKey);
+        logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         using var db = dbf.Create();
 
@@ -71,7 +71,7 @@ public class IaipSourceTestService(
             }).SingleOrDefault();
 
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(IaipDataConstants.SourceTestSummaryExpiration);
+            .SetAbsoluteExpiration(CacheConstants.SourceTestExpiration);
         cache.Set(cacheKey, testSummary, cacheEntryOptions);
 
         return testSummary;
@@ -88,7 +88,7 @@ public class IaipSourceTestService(
             return cachedSourceTests;
         }
 
-        logger.LogCacheRefresh(forceRefresh, cacheKey);
+        logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         using var db = dbf.Create();
 
@@ -104,7 +104,7 @@ public class IaipSourceTestService(
             }).ToList();
 
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(IaipDataConstants.SourceTestListExpiration);
+            .SetAbsoluteExpiration(CacheConstants.SourceTestListExpiration);
         cache.Set(cacheKey, sourceTests, cacheEntryOptions);
 
         return sourceTests;

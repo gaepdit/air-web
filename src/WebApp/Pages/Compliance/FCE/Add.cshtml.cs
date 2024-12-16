@@ -18,16 +18,16 @@ public class AddModel(
     IValidator<FceCreateDto> validator) : PageModel
 {
     [BindProperty]
-    public FceCreateDto Item { get; set; } = default!;
+    public FceCreateDto Item { get; set; } = null!;
 
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(string? facilityId)
     {
         if (facilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)facilityId);
+        Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)facilityId);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound("Facility ID not found.");
@@ -45,7 +45,7 @@ public class AddModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync((FacilityId)Item.FacilityId);
+            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)Item.FacilityId);
             if (Facility is null) return BadRequest("Facility ID not found.");
 
             await PopulateSelectListsAsync();
