@@ -3,14 +3,14 @@ GO
 SET ANSI_NULLS ON;
 GO
 
-CREATE OR ALTER PROCEDURE air.GetIaipFacility
+CREATE OR ALTER PROCEDURE air.GetIaipFacilityDetails
     @FacilityId varchar(8)
 AS
 
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:   Retrieves facility summary info for a given ID for use by the Air Web IAIP data service.
+Overview:   Retrieves detailed facility info for a given ID for use by the Air Web IAIP data service.
 
 Input Parameters:
     @FacilityId - The facility ID
@@ -18,7 +18,10 @@ Input Parameters:
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2024-12-16  DWaldron            Initial version (based on `air.GetIaipFacilityDetails`)
+2022-02-22  DWaldron            Initial version (for Air Reports app)
+2022-12-08  DWaldron            Update filter for approved facilities (IAIP-1177)
+2024-10-04  DWaldron            Change Facility ID to 8 characters and move data to Views (#162)
+2024-10-30  DWaldron            Add pollutant data (#66)
 
 ***************************************************************************************************/
 
@@ -54,6 +57,22 @@ BEGIN
            NspsFeeExempt
     from air.IaipFacilityData
     where Id = @FacilityId;
+
+    select AirProgram
+    from air.IaipFacilityAirProgramData
+    where FacilityId = @FacilityId
+    order by Sequence;
+
+    select AirProgramClassification
+    from air.IaipFacilityProgramClassificationData
+    where FacilityId = @FacilityId
+    order by Sequence;
+
+    select Code,
+           Description
+    from air.IaipFacilityPollutantData
+    where FacilityId = @FacilityId
+    order by Description;
 
 END;
 

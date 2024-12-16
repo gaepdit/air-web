@@ -45,7 +45,7 @@ public class DetailsModel(
         }
 
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId, RefreshIaipData);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search service.

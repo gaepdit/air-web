@@ -25,7 +25,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     protected async Task<IActionResult> DoGetAsync()
     {
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         await PopulateSelectListsAsync();
@@ -42,7 +42,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindAsync((FacilityId)item.FacilityId);
+            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)item.FacilityId);
             if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();

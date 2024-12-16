@@ -4,8 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace IaipDataService.Facilities;
 
-public record Facility : IFacilityAirsName
+public record Facility : IFacilityIdName
 {
+    [UsedImplicitly]
+    private Facility() { } // Used by ORM.
+
     public Facility(string id) => Id = (FacilityId)id;
 
     [Key]

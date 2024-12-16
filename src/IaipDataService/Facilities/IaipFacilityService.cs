@@ -14,30 +14,46 @@ public sealed class IaipFacilityService(
     IMemoryCache cache,
     ILogger<IaipFacilityService> logger) : IFacilityService
 {
-    public async Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false)
-    {
-        var facility = await FindAsync(id, forceRefresh);
-        if (facility is null) throw new InvalidOperationException("Facility not found.");
-        return facility;
-    }
+    public Task<Facility?> FindFacilityDetailsAsync(FacilityId? id, bool forceRefresh = false) =>
+        GetFacilityAsync(id, forceRefresh, loadDetails: true);
 
-    public async Task<Facility?> FindAsync(FacilityId? id, bool forceRefresh = false)
+    public Task<Facility?> FindFacilitySummaryAsync(FacilityId? id, bool forceRefresh = false) =>
+        GetFacilityAsync(id, forceRefresh, loadDetails: false);
+
+    private async Task<Facility?> GetFacilityAsync(FacilityId? id, bool forceRefresh, bool loadDetails)
     {
         if (id is null || !await ExistsAsync(id)) return null;
 
-        var cacheKey = $"IaipFacilityService.FindAsync.{id}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, out Facility? cachedFacility) && cachedFacility != null)
-        {
-            logger.LogCacheHit(cacheKey);
-            return cachedFacility;
-        }
+        var facilityDetailsCacheKey = FacilityDetailsCacheKey(id);
+        var facilitySummaryCacheKey = FacilitySummaryCacheKey(id);
+        var cacheKey = loadDetails ? facilityDetailsCacheKey : facilitySummaryCacheKey;
+        var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(CacheConstants.FacilityExpiration);
 
-        logger.LogCacheRefresh(forceRefresh, cacheKey);
+        if (!forceRefresh)
+        {
+            // When requesting a facility summary, check the summary cache first.
+            if (!loadDetails && cache.TryGetValue(facilitySummaryCacheKey, out Facility? cachedFacility) &&
+                cachedFacility != null)
+            {
+                logger.LogCacheHit(cacheKey);
+                return cachedFacility;
+            }
+
+            // Check the details cache when requesting facility details or
+            // when requesting a summary that is not in the summary cache.
+            if (cache.TryGetValue(facilityDetailsCacheKey, out cachedFacility) && cachedFacility != null)
+            {
+                if (!loadDetails) cache.Set(cacheKey, cachedFacility, cacheEntryOptions);
+                logger.LogCacheHit(cacheKey);
+                return cachedFacility;
+            }
+        }
 
         using var db = dbf.Create();
 
-        var varMultiTask = db.QueryMultipleAsync("air.GetIaipFacility",
-            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+        var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
+        var varMultiTask = db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
+            commandType: CommandType.StoredProcedure);
 
         await using var multi = await varMultiTask;
         var facility = multi.Read<Facility, Address, GeoCoordinates, RegulatoryData, Facility>(
@@ -49,16 +65,22 @@ public sealed class IaipFacilityService(
                 return facility;
             }, splitOn: "FacilityAddressId,GeoCoordinatesId,RegulatoryDataId").Single();
 
-        facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
-        facility.RegulatoryData!.ProgramClassifications.AddRange(await multi.ReadAsync<AirProgramClassifications>());
-        facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
+        if (loadDetails)
+        {
+            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
+            facility.RegulatoryData!.ProgramClassifications.AddRange(
+                await multi.ReadAsync<AirProgramClassifications>());
+            facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
+        }
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(IaipDataConstants.FacilityDataExpiration);
         cache.Set(cacheKey, facility, cacheEntryOptions);
+        logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         return facility;
     }
+
+    private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
+    private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
     public async Task<string> GetNameAsync(string id)
     {
@@ -75,7 +97,7 @@ public sealed class IaipFacilityService(
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
-    private const string FacilityListCacheKey = "IaipFacilityService.GetListAsync";
+    private const string FacilityListCacheKey = "IaipFacilityList";
 
     public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
     {
@@ -87,7 +109,7 @@ public sealed class IaipFacilityService(
             return cachedFacilityList;
         }
 
-        logger.LogCacheRefresh(forceRefresh, FacilityListCacheKey);
+        logger.LogCacheRefresh(FacilityListCacheKey, forceRefresh);
 
         using var db = dbf.Create();
         var facilityList = new ReadOnlyDictionary<FacilityId, string>(
@@ -95,7 +117,7 @@ public sealed class IaipFacilityService(
                 sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
 
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(IaipDataConstants.FacilityListExpiration);
+            .SetAbsoluteExpiration(CacheConstants.FacilityListExpiration);
         cache.Set(FacilityListCacheKey, facilityList, cacheEntryOptions);
 
         return facilityList;

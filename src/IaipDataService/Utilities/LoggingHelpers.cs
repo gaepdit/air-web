@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IaipDataService.Utilities;
 
@@ -9,11 +10,10 @@ internal static class LoggingHelpers
         logger.LogInformation("Cache hit for key: {CacheKey}", cacheKey);
     }
 
-    public static void LogCacheRefresh(this ILogger logger, bool forceRefresh, string cacheKey)
+    [SuppressMessage("Usage", "CA2254:Template should be a static expression")]
+    public static void LogCacheRefresh(this ILogger logger, string cacheKey, bool forceRefresh = false)
     {
-        if (forceRefresh)
-            logger.LogInformation("Forcing cache refresh for key: {CacheKey}", cacheKey);
-        else
-            logger.LogInformation("Cache miss for key: {CacheKey}", cacheKey);
+        var message = forceRefresh ? "Forcing cache refresh for key: {CacheKey}" : "Cache miss for key: {CacheKey}";
+        logger.LogInformation(message, cacheKey);
     }
 }

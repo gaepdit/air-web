@@ -79,6 +79,8 @@ public abstract record BaseSourceTestReport
 
     #region Confidential info handling
 
+    internal const string ConfidentialInfoPlaceholder = "--Conf--";
+
     // For documentation of the ConfidentialParametersCode string, see:
     // https://github.com/gaepdit/iaip/blob/main/IAIP/ISMP/ISMPConfidentialData.vb
 
@@ -105,7 +107,7 @@ public abstract record BaseSourceTestReport
 
     protected string CheckConfidential(string input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? IaipDataConstants.ConfidentialInfoPlaceholder
+            ? ConfidentialInfoPlaceholder
             : input;
 
     protected DateTime CheckConfidential(DateTime input, string parameter) =>
@@ -125,22 +127,22 @@ public abstract record BaseSourceTestReport
 
     protected PersonName CheckConfidential(PersonName input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? new PersonName("", IaipDataConstants.ConfidentialInfoPlaceholder)
+            ? new PersonName("", ConfidentialInfoPlaceholder)
             : input;
 
     protected List<PersonName> CheckConfidential(List<PersonName> input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? [new PersonName("", IaipDataConstants.ConfidentialInfoPlaceholder)]
+            ? [new PersonName("", ConfidentialInfoPlaceholder)]
             : input;
 
     protected ValueWithUnits CheckConfidential(ValueWithUnits input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? input with { Value = IaipDataConstants.ConfidentialInfoPlaceholder }
+            ? input with { Value = ConfidentialInfoPlaceholder }
             : input;
 
     protected List<ValueWithUnits> CheckConfidential(List<ValueWithUnits> input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
-            ? [new ValueWithUnits(IaipDataConstants.ConfidentialInfoPlaceholder, "")]
+            ? [new ValueWithUnits(ConfidentialInfoPlaceholder, "")]
             : input;
 
     public abstract void ParseConfidentialParameters();

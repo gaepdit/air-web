@@ -1,6 +1,6 @@
 ﻿namespace IaipDataService.Facilities;
 
-public interface IFacilityAirsName
+public interface IFacilityIdName
 {
     public string FacilityId { get; }
     public string Name { get; }

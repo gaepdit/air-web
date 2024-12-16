@@ -8,8 +8,10 @@ namespace IaipDataService.TestData;
 
 public static class SourceTestData
 {
-    public const string ReportStatement = "The following test has been reviewed and was conducted " +
-                                          "in an acceptable fashion for the purpose intended.";
+    private const string ReportStatement = "The following test has been reviewed and was conducted " +
+                                           "in an acceptable fashion for the purpose intended.";
+
+    private const string EpdDirector = "A. Director";
 
     private static IEnumerable<BaseSourceTestReport> StackTestReportSeedItems =>
     [
@@ -38,7 +40,7 @@ public static class SourceTestData
             ],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("100", "tons/hr"),
             OperatingCapacity = new ValueWithUnits("90", "tons/hr"),
@@ -111,7 +113,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("100", "tons/hr"),
             OperatingCapacity = new ValueWithUnits("90", "tons/hr"),
@@ -184,7 +186,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("40", "ton/HR"),
             OperatingCapacity = new ValueWithUnits("30", "ton/HR"),
@@ -284,7 +286,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("40", "ton/HR"),
             OperatingCapacity = new ValueWithUnits("30", "ton/HR"),
@@ -380,7 +382,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("400,000,000", "GPY"),
             OperatingCapacity = new ValueWithUnits("90,000", "GPY"),
@@ -417,7 +419,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
             OperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
@@ -474,7 +476,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
             OperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
@@ -535,7 +537,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             MaxOperatingCapacity = new ValueWithUnits("100", "%"),
             OperatingCapacity = new ValueWithUnits("100", "%"),
@@ -597,7 +599,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             ApplicableStandard = TextData.Short,
             Diluent = "Oxygen",
@@ -686,7 +688,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             Comments = TextData.LongMultiline,
         },
@@ -710,7 +712,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             Comments = TextData.LongMultiline,
             MonitorManufacturer = TextData.Short,
@@ -736,7 +738,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             Comments = TextData.LongMultiline,
             MaxOperatingCapacity = new ValueWithUnits("100000", "Units"),
@@ -768,7 +770,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
             ComplianceStatus = "In Compliance",
@@ -846,7 +848,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
             ComplianceStatus = "Not In Compliance",
@@ -886,7 +888,7 @@ public static class SourceTestData
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
             TestingUnitManager = StaffData.GetRandomStaff().Name,
-            EpdDirector = IaipDataConstants.EpdDirector,
+            EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
             ComplianceStatus = "In Compliance",

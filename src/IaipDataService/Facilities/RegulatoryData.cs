@@ -78,6 +78,9 @@ public record RegulatoryData
     [Display(Name = "NSPS fee exempt")]
     public bool NspsFeeExempt { get; init; }
 
+    // The following lists are returned by the Facility Service when requesting facility details, but not when
+    // requesting a facility summary.
+
     /// <summary>
     /// List of air programs that apply to a facility.
     /// </summary>

@@ -10,11 +10,11 @@ public sealed class LocalFacilityService : IFacilityService
     private ReadOnlyDictionary<FacilityId, string> FacilityList =>
         new(Items.ToDictionary(facility => facility.Id, facility => facility.Name));
 
-    public Task<Facility> GetAsync(FacilityId id, bool forceRefresh = false) =>
-        Task.FromResult(Items.Single(facility => facility.Id.Equals(id)));
-
-    public Task<Facility?> FindAsync(FacilityId? id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilityDetailsAsync(FacilityId? id, bool forceRefresh = false) =>
         Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
+
+    public Task<Facility?> FindFacilitySummaryAsync(FacilityId? id, bool forceRefresh = false) =>
+        FindFacilityDetailsAsync(id, forceRefresh);
 
     public Task<string> GetNameAsync(string id) =>
         FacilityList.TryGetValue((FacilityId)id, out var name)

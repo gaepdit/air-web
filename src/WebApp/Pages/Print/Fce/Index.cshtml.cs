@@ -20,7 +20,7 @@ public class IndexModel : PageModel
     {
         Report = await fceService.FindAsync(id, token);
         if (Report == null) return NotFound();
-        Facility = await facilityService.FindAsync((FacilityId?)Report!.FacilityId);
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId?)Report!.FacilityId);
         if (Facility == null) return NotFound();
 
         SupportingData = await workEntryService.GetDataSummaryAsync(Facility.Id, token);

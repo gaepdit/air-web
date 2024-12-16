@@ -13,7 +13,6 @@
             {
                 <th scope="col" class="text-nowrap">ID</th>
                 <th scope="col" class="text-nowrap">Work Type</th>
-                <th scope="col" class="text-nowrap">Facility</th>
                 <th scope="col" class="text-nowrap">Event Date</th>
             }
             else
@@ -47,9 +46,12 @@
                     }
                 </th>
                 <td class="text-nowrap">@item.WorkEntryType.GetDescription()</td>
-                <td>
-                    <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
-                </td>
+                @if (Model.Spec is not null)
+                {
+                    <td>
+                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                    </td>
+                }
                 <td>
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                     @item.EventDateName
