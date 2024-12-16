@@ -61,32 +61,32 @@ These pages are only available to logged-in staff.
 
 ### Enforcement
 
-* `/Compliance/Enforcement` Enforcement search form.
-* `/Compliance/Enforcement/Details/{enforcementId}` Enforcement details.
+* `/Enforcement` Enforcement search form.
+* `/Enforcement/Details/{enforcementId}` Enforcement details.
 
 #### Enforcement Case Initiation
 
-* `/Compliance/Enforcement/Add/{facilityId}` Start new enforcement case for the specified facility.
-* `/Compliance/Enforcement/Add/{facilityId}/{entryId}` Start new enforcement case for the specified work entry.
+* `/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
+* `/Enforcement/Add?{entryId}` Start new enforcement case for the specified compliance entry.
 
 #### Enforcement Case Workflow
 
-* `/Compliance/Enforcement/Edit/{enforcementId}` Edit enforcement details.
-* `/Compliance/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
-* `/Compliance/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
-* `/Compliance/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore an enforcement case.
+* `/Enforcement/Edit/{enforcementId}` Edit enforcement details.
+* `/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
+* `/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
+* `/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore an enforcement case.
 
 #### Enforcement Action Workflow
 
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/Add/{actionId}` Add an enforcement action linked from another
+* `/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
+* `/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
+* `/Enforcement/Details/{enforcementId}/Action/Add/{actionId}` Add an enforcement action linked from another
   enforcement action.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
+* `/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
+* `/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
+* `/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
   action review.
-* `/Compliance/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
+* `/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
 
 ## User Account
 
