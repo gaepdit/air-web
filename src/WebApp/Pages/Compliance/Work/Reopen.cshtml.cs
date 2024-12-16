@@ -14,7 +14,7 @@ public class ReopenModel(IWorkEntryService entryService, IAuthorizationService a
     [FromRoute]
     public int Id { get; set; }
 
-    public WorkEntrySummaryDto ItemSummary { get; private set; } = default!;
+    public WorkEntrySummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

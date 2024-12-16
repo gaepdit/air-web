@@ -10,7 +10,7 @@ public abstract class EditBase : PageModel
     [FromRoute]
     public Guid? Id { get; set; }
 
-    public MaintenanceOption ThisOption { get; protected set; } = default!;
+    public MaintenanceOption ThisOption { get; protected set; } = null!;
 
     [BindProperty]
     public string OriginalName { get; set; } = string.Empty;

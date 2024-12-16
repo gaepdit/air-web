@@ -5,7 +5,7 @@ namespace IaipDataServiceTests;
 
 public class LocalFacilityServiceTests
 {
-    private LocalFacilityService _service = default!;
+    private LocalFacilityService _service = null!;
 
     [SetUp]
     public void SetUp() => _service = new LocalFacilityService();

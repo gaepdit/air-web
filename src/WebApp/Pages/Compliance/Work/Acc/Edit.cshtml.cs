@@ -17,7 +17,7 @@ public class EditModel(
     private readonly IWorkEntryService _entryService = entryService;
 
     [BindProperty]
-    public AccUpdateDto Item { get; set; } = default!;
+    public AccUpdateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

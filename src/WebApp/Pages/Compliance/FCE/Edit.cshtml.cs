@@ -18,10 +18,10 @@ public class EditModel(
     public int Id { get; set; }
 
     [BindProperty]
-    public FceUpdateDto Item { get; set; } = default!;
+    public FceUpdateDto Item { get; set; } = null!;
 
-    public FceSummaryDto ItemView { get; private set; } = default!;
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public FceSummaryDto ItemView { get; private set; } = null!;
+    public SelectList StaffSelectList { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

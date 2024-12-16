@@ -20,7 +20,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
     public WorkEntryType EntryType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
 
     protected async Task<IActionResult> DoGetAsync()
     {

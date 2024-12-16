@@ -16,9 +16,9 @@ public class DeleteModel(IWorkEntryService entryService, IAuthorizationService a
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto StatusComment { get; set; } = default!;
+    public StatusCommentDto StatusComment { get; set; } = null!;
 
-    public WorkEntrySummaryDto ItemSummary { get; private set; } = default!;
+    public WorkEntrySummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

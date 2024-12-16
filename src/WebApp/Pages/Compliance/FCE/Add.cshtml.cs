@@ -18,9 +18,9 @@ public class AddModel(
     IValidator<FceCreateDto> validator) : PageModel
 {
     [BindProperty]
-    public FceCreateDto Item { get; set; } = default!;
+    public FceCreateDto Item { get; set; } = null!;
 
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 

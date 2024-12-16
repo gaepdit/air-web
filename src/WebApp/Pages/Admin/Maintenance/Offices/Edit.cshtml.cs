@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 public class EditModel(IOfficeService service, IValidator<OfficeUpdateDto> validator) : EditBase
 {
     [BindProperty]
-    public OfficeUpdateDto Item { get; set; } = default!;
+    public OfficeUpdateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

@@ -19,7 +19,7 @@ public class EditModel(
     private readonly IWorkEntryService _entryService = entryService;
 
     [BindProperty]
-    public PermitRevocationUpdateDto Item { get; set; } = default!;
+    public PermitRevocationUpdateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

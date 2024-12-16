@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 public class AddModel : AddBase
 {
     [BindProperty]
-    public NotificationTypeCreateDto Item { get; set; } = default!;
+    public NotificationTypeCreateDto Item { get; set; } = null!;
 
     public void OnGet()
     {

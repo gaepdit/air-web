@@ -20,15 +20,15 @@ public class FceIndexModel(
     IAuthorizationService authorization)
     : PageModel
 {
-    public FceSearchDto Spec { get; set; } = default!;
+    public FceSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
-    public IPaginatedResult<FceSearchResultDto> SearchResults { get; private set; } = default!;
+    public IPaginatedResult<FceSearchResultDto> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     // Select lists
-    public SelectList StaffSelectList { get; private set; } = default!;
-    public SelectList OfficesSelectList { get; set; } = default!;
+    public SelectList StaffSelectList { get; private set; } = null!;
+    public SelectList OfficesSelectList { get; set; } = null!;
 
     private static int _finalYear = DateTime.Today.Month > 9 ? DateTime.Now.Year + 1 : DateTime.Now.Year;
     private static int _years = _finalYear - Fce.EarliestFceYear + 1;

@@ -16,7 +16,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
     [BindProperty]
     public List<RoleSetting> RoleSettings { get; set; } = [];
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
+    public StaffViewDto DisplayStaff { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
 
     public async Task<IActionResult> OnGetAsync(string? id)

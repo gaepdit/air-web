@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 public class EditModel(INotificationTypeService service, IValidator<NotificationTypeUpdateDto> validator) : EditBase
 {
     [BindProperty]
-    public NotificationTypeUpdateDto Item { get; set; } = default!;
+    public NotificationTypeUpdateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

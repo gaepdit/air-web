@@ -17,8 +17,8 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
     [FromRoute]
     public int Id { get; set; }
 
-    public WorkEntrySummaryDto ItemView { get; protected set; } = default!;
-    public SelectList StaffSelectList { get; private set; } = default!;
+    public WorkEntrySummaryDto ItemView { get; protected set; } = null!;
+    public SelectList StaffSelectList { get; private set; } = null!;
 
     protected async Task<IActionResult> DoGetAsync()
     {

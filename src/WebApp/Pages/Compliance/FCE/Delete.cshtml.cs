@@ -15,9 +15,9 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto StatusComment { get; set; } = default!;
+    public StatusCommentDto StatusComment { get; set; } = null!;
 
-    public FceSummaryDto ItemSummary { get; private set; } = default!;
+    public FceSummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

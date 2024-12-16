@@ -6,7 +6,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 public abstract class IndexBase : PageModel
 {
-    public IReadOnlyList<NamedEntityViewDto> Items { get; private set; } = default!;
+    public IReadOnlyList<NamedEntityViewDto> Items { get; private set; } = null!;
     public bool IsMaintainer { get; private set; }
     public virtual MaintenanceOption ThisOption => null!;
     public virtual AuthorizationPolicy Policy => null!;

@@ -20,7 +20,7 @@ public class DetailsModel(
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = default!;
+    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = null!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 

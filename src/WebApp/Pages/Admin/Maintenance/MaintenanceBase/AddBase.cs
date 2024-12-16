@@ -7,7 +7,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 public abstract class AddBase : PageModel
 {
-    public MaintenanceOption ThisOption { get; protected set; } = default!;
+    public MaintenanceOption ThisOption { get; protected set; } = null!;
 
     [TempData]
     public Guid HighlightId { get; set; }
