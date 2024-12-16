@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
-
-namespace AirWeb.Domain.EnforcementEntities.Data;
+﻿namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 // Source of data from IAIP airbranch DB:
 //
@@ -14,14 +12,11 @@ namespace AirWeb.Domain.EnforcementEntities.Data;
 // order by SEVERITYCODE, DEPRECATED, VIOLATIONTYPEDESC
 // ```
 
-public static class EnforcementData
+public static class ViolationTypeData
 {
-    public static ViolationType GetRandomViolationType() =>
-        ViolationTypes.Where(t => !t.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
-
     public static ViolationType? GetViolationType(string? code) => ViolationTypes.Find(type => type.Code == code);
 
-    private static List<ViolationType> ViolationTypes { get; } =
+    internal static List<ViolationType> ViolationTypes { get; } =
     [
         new("FCIO",
             "Failure to construct, install or operate facility/equipment in accordance with permit or regulation",

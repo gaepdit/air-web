@@ -3,7 +3,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Data;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -55,7 +55,7 @@ public class EnforcementCase : ClosableEntity<int>
     // Required if the data flow is enabled.
     public ViolationType? ViolationType
     {
-        get => EnforcementData.GetViolationType(ViolationTypeId);
+        get => ViolationTypeData.GetViolationType(ViolationTypeId);
         set => ViolationTypeId = value?.Code;
     }
 
