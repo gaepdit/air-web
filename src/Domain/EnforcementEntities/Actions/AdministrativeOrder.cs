@@ -15,8 +15,8 @@ public class AdministrativeOrder : EnforcementAction
         EnforcementActionType = EnforcementActionType.AdministrativeOrder;
     }
 
-    public DateOnly? Executed { get; set; }
-    public DateOnly? Appealed { get; set; }
-    public DateOnly? Resolved { get; set; }
+    public DateOnly? ExecutedDate { get; set; }
+    public DateOnly? AppealedDate { get; set; }
+    public DateOnly? ResolvedDate { get; set; }
     public AoResolvedLetter? ResolvedLetter { get; set; }
 }

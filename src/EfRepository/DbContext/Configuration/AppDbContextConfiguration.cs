@@ -198,12 +198,12 @@ internal static class AppDbContextConfiguration
         var pcoEntity = builder.Entity<ProposedConsentOrder>();
 
         // Executed date
-        aorEntity.Property(e => e.Executed).HasColumnName(nameof(AdministrativeOrder.Executed));
-        corEntity.Property(e => e.Executed).HasColumnName(nameof(ConsentOrder.Executed));
+        aorEntity.Property(e => e.ExecutedDate).HasColumnName(nameof(AdministrativeOrder.ExecutedDate));
+        corEntity.Property(e => e.ExecutedDate).HasColumnName(nameof(ConsentOrder.ExecutedDate));
 
         // Resolved date
-        aorEntity.Property(e => e.Resolved).HasColumnName(nameof(AdministrativeOrder.Resolved));
-        corEntity.Property(e => e.Resolved).HasColumnName(nameof(ConsentOrder.Resolved));
+        aorEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(AdministrativeOrder.ResolvedDate));
+        corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
 
         // Response requested
         enlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(EnforcementLetter.ResponseRequested));
@@ -252,7 +252,7 @@ internal static class AppDbContextConfiguration
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then convert(date, ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByComplianceDate)
                                           else convert(date, '1900-1-1')
                                       end
                                       """);
@@ -265,7 +265,7 @@ internal static class AppDbContextConfiguration
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then date(ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByCompliance)
+                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByComplianceDate)
                                           else '1900-1-1'
                                       end
                                       """);

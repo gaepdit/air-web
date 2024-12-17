@@ -19,10 +19,10 @@ public class EnforcementActionReview : AuditableEntity
 
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
 
-    public DateOnly DateRequested { get; internal init; }
+    public DateOnly RequestedDate { get; internal init; }
     public ApplicationUser? ReviewedBy { get; internal init; }
-    public bool IsCompleted => DateCompleted.HasValue;
-    public DateOnly? DateCompleted { get; internal set; }
+    public bool IsCompleted => CompletedDate.HasValue;
+    public DateOnly? CompletedDate { get; internal set; }
 
     [StringLength(11)]
     public ReviewResult? Status { get; internal set; }

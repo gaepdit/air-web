@@ -27,9 +27,9 @@ public class ConsentOrder : EnforcementAction
     public ProposedConsentOrder? ProposedConsentOrder { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
-    public DateOnly? Executed { get; set; }
+    public DateOnly? ExecutedDate { get; set; }
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
-    public DateOnly? Resolved { get; set; }
+    public DateOnly? ResolvedDate { get; set; }
     public CoResolvedLetter? ResolvedLetter { get; set; }
 
     public short? OrderNumber { get; set; }

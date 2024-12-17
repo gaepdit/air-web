@@ -37,7 +37,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DateTimeOffset? CurrentOwnerAssignedDate { get; internal set; }
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
     public bool IsApproved { get; internal set; }
-    public DateOnly? DateApproved { get; internal set; }
+    public DateOnly? ApprovedDate { get; internal set; }
     public ApplicationUser? ApprovedBy { get; set; }
 
     // Status

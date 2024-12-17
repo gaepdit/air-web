@@ -18,10 +18,10 @@ public class AccCommandValidator : AbstractValidator<AccCommandDto>
             .WithMessage("The Received Date cannot be in the future.")
             .Must(date => date.Year >= WorkEntry.EarliestWorkEntryYear)
             .WithMessage($"The Received Date cannot be earlier than {WorkEntry.EarliestWorkEntryYear}.")
-            .Must((dto, date) => date >= dto.Postmarked)
+            .Must((dto, date) => date >= dto.PostmarkDate)
             .WithMessage("The Received Date must be later than the Postmark Date.");
 
-        RuleFor(dto => dto.Postmarked)
+        RuleFor(dto => dto.PostmarkDate)
             .Must(date => date <= today)
             .WithMessage("The Postmark Date cannot be in the future.")
             .Must(date => date.Year >= WorkEntry.EarliestWorkEntryYear)

@@ -8,7 +8,7 @@ public record SourceTestReviewViewDto : WorkEntryViewDto
     public int ReferenceNumber { get; init; }
 
     [Display(Name = "Date Received")]
-    public DateOnly ReceivedByCompliance { get; init; }
+    public DateOnly ReceivedByComplianceDate { get; init; }
 
     [Display(Name = "Test Due Date")]
     public DateOnly? DueDate { get; init; }

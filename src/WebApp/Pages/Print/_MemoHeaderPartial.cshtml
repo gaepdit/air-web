@@ -3,10 +3,10 @@
 <header class="memorandum">
     <h1>Memorandum</h1>
     <dl>
-        @if (Model.Date != null)
+        @if (Model.MemoDate != null)
         {
             <dt>Date:</dt>
-            <dd>@Html.DisplayFor(m => m.Date, DisplayTemplate.LongDateOnlyNullable)</dd>
+            <dd>@Html.DisplayFor(m => m.MemoDate, DisplayTemplate.LongDateOnlyNullable)</dd>
         }
         @if (Model.To != null)
         {

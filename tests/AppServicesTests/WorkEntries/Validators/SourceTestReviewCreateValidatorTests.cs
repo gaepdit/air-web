@@ -65,7 +65,7 @@ public class SourceTestReviewCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -80,7 +80,7 @@ public class SourceTestReviewCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.ReceivedByCompliance);
+        result.ShouldHaveValidationErrorFor(dto => dto.ReceivedByComplianceDate);
     }
 
     [Test]
@@ -92,7 +92,7 @@ public class SourceTestReviewCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
-            ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Today),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -118,7 +118,7 @@ public class SourceTestReviewCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedByCompliance = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -133,6 +133,6 @@ public class SourceTestReviewCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.ReceivedByCompliance);
+        result.ShouldHaveValidationErrorFor(dto => dto.ReceivedByComplianceDate);
     }
 }

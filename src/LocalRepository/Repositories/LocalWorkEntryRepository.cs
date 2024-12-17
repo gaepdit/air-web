@@ -64,7 +64,7 @@ public sealed class LocalWorkEntryRepository()
         WorkEntryType.PermitRevocation => (entry as PermitRevocation)!.ReceivedDate,
         WorkEntryType.Report => (entry as Report)!.ReceivedDate,
         WorkEntryType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
-        WorkEntryType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByCompliance,
+        WorkEntryType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByComplianceDate,
         _ => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.MinValue),
     };
 }

@@ -109,14 +109,14 @@ public static class EnforcementActionData
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-88).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-90).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-90).Date),
         },
 
         // 314 (14)
         new AdministrativeOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(14), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-220).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-220).Date),
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-218).Date),
         },
     ];
@@ -150,7 +150,7 @@ public static class EnforcementActionData
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
-            Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
             OrderNumber = 1552,
             PenaltyAmount = 1000,
@@ -163,7 +163,7 @@ public static class EnforcementActionData
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-18).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
-            Executed = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
             OrderNumber = 1663,
             PenaltyAmount = 10_000,
@@ -220,7 +220,7 @@ public static class EnforcementActionData
             {
                 enforcementAction.IsApproved = true;
                 enforcementAction.ApprovedBy = UserData.GetRandomUser();
-                enforcementAction.DateApproved = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
+                enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
                 GenerateEnforcementActionReviews(enforcementAction);
             }
 
@@ -243,7 +243,7 @@ public static class EnforcementActionData
                 ConsentOrder = consentOrder,
                 Amount = random.Next(1000, 5000),
                 Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-                DateReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddMonths(i + 1).Date),
+                ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddMonths(i + 1).Date),
             };
             consentOrder.StipulatedPenalties.Add(penalty);
         }
@@ -256,8 +256,8 @@ public static class EnforcementActionData
         {
             var review = new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser())
             {
-                DateRequested = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10 * (i + 1)).Date),
-                DateCompleted = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5 * (i + 1)).Date),
+                RequestedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10 * (i + 1)).Date),
+                CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5 * (i + 1)).Date),
                 Status = (ReviewResult)new Random().Next(0, 4), // Random status
                 ReviewComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
                 ReviewedBy = UserData.GetRandomUser(),

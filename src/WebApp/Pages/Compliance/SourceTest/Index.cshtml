@@ -83,7 +83,7 @@
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByCompliance, EditorTemplate.InputDateOnly)
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnly)
                     </div>
                     <div class="col-md mb-3">
                         @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
@@ -174,8 +174,8 @@ else
 
     <h3 class="mt-4">Details</h3>
     <dl class="row mt-3 mb-0">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByCompliance)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByCompliance, DisplayTemplate.ShortDateOnly)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByComplianceDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByComplianceDate, DisplayTemplate.ShortDateOnly)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.DueDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.DueDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.FollowupTaken)</dt>

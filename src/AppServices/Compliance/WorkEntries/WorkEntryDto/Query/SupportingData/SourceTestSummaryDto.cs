@@ -11,7 +11,7 @@ public record SourceTestSummaryDto
     public int ReferenceNumber { get; init; }
 
     [Display(Name = "Date received")]
-    public DateOnly ReceivedByCompliance { get; init; }
+    public DateOnly ReceivedByComplianceDate { get; init; }
 
     public PersonName ResponsibleStaff { get; init; }
 
