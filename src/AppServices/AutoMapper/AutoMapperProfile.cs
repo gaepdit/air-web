@@ -8,12 +8,14 @@ using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
+using AirWeb.AppServices.Enforcement.Query;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -38,6 +40,7 @@ public class AutoMapperProfile : Profile
         RmpInspections();
         SourceTestReviews();
         SearchResults();
+        Enforcement();
     }
 
     private void WorkEntries()
@@ -145,6 +148,12 @@ public class AutoMapperProfile : Profile
         CreateMap<WorkEntry, WorkEntrySearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<Fce, FceSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+    }
+
+    private void Enforcement()
+    {
+        CreateMap<CaseFile, CaseFileViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }

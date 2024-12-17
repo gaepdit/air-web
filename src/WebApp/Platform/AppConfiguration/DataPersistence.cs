@@ -1,5 +1,6 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.Domain.Search;
@@ -28,7 +29,9 @@ public static class DataPersistence
                 .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
                 .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
                 .AddSingleton<IFceRepository, LocalFceRepository>()
-                .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>();
+                .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>()
+                .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
+                .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
 
             return services;
         }
@@ -61,7 +64,11 @@ public static class DataPersistence
             .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
             .AddScoped<IOfficeRepository, OfficeRepository>()
             .AddScoped<IFceRepository, FceRepository>()
-            .AddScoped<IWorkEntryRepository, WorkEntryRepository>();
+            .AddScoped<IWorkEntryRepository, WorkEntryRepository>()
+
+            // TODO: Replace these with EF repositories.
+            .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
+            .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
 
         return services;
     }

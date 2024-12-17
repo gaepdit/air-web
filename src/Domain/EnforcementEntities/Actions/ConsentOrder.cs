@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ConsentOrder : EnforcementAction
+public class ConsentOrder : EnforcementAction, IResolvable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -30,6 +30,7 @@ public class ConsentOrder : EnforcementAction
     public DateOnly? ExecutedDate { get; set; }
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
     public DateOnly? ResolvedDate { get; set; }
+    public bool IsResolved => ResolvedDate.HasValue;
     public CoResolvedLetter? ResolvedLetter { get; set; }
 
     public short? OrderNumber { get; set; }

@@ -26,10 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Enforcement\"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <Compile Update="Compliance\WorkEntries\WorkEntryService.Mapping.cs">
             <DependentUpon>WorkEntryService.cs</DependentUpon>
         </Compile>

@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class AdministrativeOrder : EnforcementAction
+public class AdministrativeOrder : EnforcementAction, IResolvable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -18,5 +18,6 @@ public class AdministrativeOrder : EnforcementAction
     public DateOnly? ExecutedDate { get; set; }
     public DateOnly? AppealedDate { get; set; }
     public DateOnly? ResolvedDate { get; set; }
+    public bool IsResolved => ResolvedDate.HasValue;
     public AoResolvedLetter? ResolvedLetter { get; set; }
 }
