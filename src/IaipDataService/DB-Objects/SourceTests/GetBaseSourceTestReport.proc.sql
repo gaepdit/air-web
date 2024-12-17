@@ -46,7 +46,6 @@ BEGIN
            -- Facility Summary
            right(i.STRAIRSNUMBER, 8)          as Id,
            f.STRFACILITYNAME                  as Name,
-           lc.STRCOUNTYNAME                   as County,
            trim(f.STRFACILITYCITY)            as City,
            f.STRFACILITYSTATE                 as State,
 
