@@ -9,8 +9,8 @@ public class EnforcementLetter : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private EnforcementLetter() { }
 
-    internal EnforcementLetter(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user)
+    internal EnforcementLetter(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
         EnforcementActionType = EnforcementActionType.EnforcementLetter;
     }

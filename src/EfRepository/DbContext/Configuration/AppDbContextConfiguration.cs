@@ -34,7 +34,7 @@ internal static class AppDbContextConfiguration
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
 
         // Enforcement entities
-        var enforcementCaseEntity = builder.Entity<EnforcementCase>();
+        var enforcementCaseEntity = builder.Entity<CaseFile>();
         enforcementCaseEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
@@ -152,9 +152,9 @@ internal static class AppDbContextConfiguration
 
         // Many-to-many relationships.
         // https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-with-named-join-table
-        builder.Entity<EnforcementCase>()
+        builder.Entity<CaseFile>()
             .HasMany(enforcementCase => enforcementCase.ComplianceEvents)
-            .WithMany(complianceEvent => complianceEvent.EnforcementCases)
+            .WithMany(complianceEvent => complianceEvent.CaseFiles)
             .UsingEntity("EnforcementCaseComplianceEvents");
 
         // Self-referencing relationships.
@@ -231,11 +231,11 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>().Property(e => e.EnforcementActionType).HasConversion<string>();
 
         // Status
-        builder.Entity<EnforcementCase>().Property(e => e.Status).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.Status).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
 
         // Data exchange status
-        builder.Entity<EnforcementCase>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<EnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 

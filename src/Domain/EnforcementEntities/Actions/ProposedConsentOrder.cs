@@ -10,14 +10,14 @@ public class ProposedConsentOrder : EnforcementAction
     private ProposedConsentOrder() { }
 
     internal ProposedConsentOrder(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user) :
-        base(id, noticeOfViolation.EnforcementCase, user)
+        base(id, noticeOfViolation.CaseFile, user)
     {
         EnforcementActionType = EnforcementActionType.ProposedConsentOrder;
         NoticeOfViolation = noticeOfViolation;
     }
 
-    internal ProposedConsentOrder(Guid id, EnforcementCase enforcementCase, ApplicationUser? user) :
-        base(id, enforcementCase, user)
+    internal ProposedConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
+        base(id, caseFile, user)
     {
         EnforcementActionType = EnforcementActionType.ProposedConsentOrder;
     }

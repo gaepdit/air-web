@@ -15,15 +15,15 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [UsedImplicitly] // Used by ORM.
     private protected EnforcementAction() { }
 
-    private protected EnforcementAction(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
+    private protected EnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
     {
         Id = id;
-        EnforcementCase = enforcementCase;
+        CaseFile = caseFile;
         SetCreator(user?.Id);
     }
 
     // Basic data
-    public EnforcementCase EnforcementCase { get; init; } = null!;
+    public CaseFile CaseFile { get; init; } = null!;
     public EnforcementActionType EnforcementActionType { get; protected init; }
 
     [StringLength(7000)]

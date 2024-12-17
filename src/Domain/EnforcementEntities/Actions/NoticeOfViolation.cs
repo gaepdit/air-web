@@ -9,8 +9,8 @@ public class NoticeOfViolation : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private NoticeOfViolation() { }
 
-    internal NoticeOfViolation(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user)
+    internal NoticeOfViolation(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
         EnforcementActionType = EnforcementActionType.NoticeOfViolation;
     }

@@ -11,10 +11,10 @@ public abstract class ComplianceEvent : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private protected ComplianceEvent() { }
 
-    private protected ComplianceEvent(int? id, FacilityId facilityId, ApplicationUser? user) 
+    private protected ComplianceEvent(int? id, FacilityId facilityId, ApplicationUser? user)
         : base(id, facilityId, user) { }
 
-    public ICollection<EnforcementCase> EnforcementCases { get; } = [];
+    public ICollection<CaseFile> CaseFiles { get; } = [];
 
     // Data exchange properties
     public bool IsDataFlowEnabled => IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;

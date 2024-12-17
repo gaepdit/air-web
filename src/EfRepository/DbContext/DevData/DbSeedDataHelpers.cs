@@ -40,7 +40,7 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT EnforcementCases ON");
 
-        context.EnforcementCases.AddRange(EnforcementCaseData.GetData);
+        context.EnforcementCases.AddRange(CaseFileData.GetData);
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)

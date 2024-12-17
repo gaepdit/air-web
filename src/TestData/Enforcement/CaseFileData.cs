@@ -7,12 +7,12 @@ using IaipDataService.TestData;
 
 namespace AirWeb.TestData.Enforcement;
 
-internal static class EnforcementCaseData
+internal static class CaseFileData
 {
-    public static ViolationType GetRandomViolationType() =>
+    private static ViolationType GetRandomViolationType() =>
         ViolationTypeData.ViolationTypes.Where(type => !type.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
 
-    private static IEnumerable<EnforcementCase> EnforcementCaseSeedItems =>
+    private static IEnumerable<CaseFile> CaseFileSeedItems =>
     [
         new(300, DomainData.GetRandomFacility().Id, null)
         {
@@ -127,39 +127,39 @@ internal static class EnforcementCaseData
         },
     ];
 
-    private static IEnumerable<EnforcementCase>? _enforcementCases;
+    private static IEnumerable<CaseFile>? _caseFiles;
 
-    public static IEnumerable<EnforcementCase> GetData
+    public static IEnumerable<CaseFile> GetData
     {
         get
         {
-            if (_enforcementCases is not null) return _enforcementCases;
-            _enforcementCases = EnforcementCaseSeedItems.ToList();
+            if (_caseFiles is not null) return _caseFiles;
+            _caseFiles = CaseFileSeedItems.ToList();
 
-            foreach (var enforcementCase in _enforcementCases)
+            foreach (var caseFile in _caseFiles)
             {
-                enforcementCase.ResponsibleStaff = UserData.GetRandomUser();
-                enforcementCase.Comments.AddRange(CommentData.GetRandomCommentsList(1)
-                    .Select(comment => new EnforcementCaseComment(comment, enforcementCase.Id)));
+                caseFile.ResponsibleStaff = UserData.GetRandomUser();
+                caseFile.Comments.AddRange(CommentData.GetRandomCommentsList(1)
+                    .Select(comment => new CaseFileComment(comment, caseFile.Id)));
 
-                if (enforcementCase is not { Id: > 302 }) continue;
+                if (caseFile is not { Id: > 302 }) continue;
 
-                enforcementCase.ComplianceEvents.Add(WorkEntryData.GetRandomComplianceEvent());
+                caseFile.ComplianceEvents.Add(WorkEntryData.GetRandomComplianceEvent());
 
-                var facility = FacilityData.GetFacility(enforcementCase.FacilityId);
+                var facility = FacilityData.GetFacility(caseFile.FacilityId);
                 if (facility.RegulatoryData is null) continue;
 
-                enforcementCase.PollutantIds.AddRange(
+                caseFile.PollutantIds.AddRange(
                     facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
-                enforcementCase.AirPrograms.AddRange(facility.RegulatoryData.AirPrograms);
+                caseFile.AirPrograms.AddRange(facility.RegulatoryData.AirPrograms);
             }
 
             // Set as deleted
-            _enforcementCases.Single(enforcementCase => enforcementCase.Id == 329).SetDeleted(UserData.AdminUserId);
+            _caseFiles.Single(enforcementCase => enforcementCase.Id == 329).SetDeleted(UserData.AdminUserId);
 
-            return _enforcementCases;
+            return _caseFiles;
         }
     }
 
-    public static void ClearData() => _enforcementCases = null;
+    public static void ClearData() => _caseFiles = null;
 }

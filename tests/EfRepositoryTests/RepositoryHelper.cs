@@ -127,7 +127,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private static void ClearAllStaticData()
     {
         EnforcementActionData.ClearData();
-        EnforcementCaseData.ClearData();
+        CaseFileData.ClearData();
         FceData.ClearData();
         WorkEntryData.ClearData();
         NotificationTypeData.ClearData();

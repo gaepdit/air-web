@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
@@ -10,46 +10,32 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Cases;
 
-public class EnforcementCase : ClosableEntity<int>
+public class CaseFile : ClosableEntity<int>
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private EnforcementCase() { }
+    private CaseFile() { }
 
-    internal EnforcementCase(int? id, FacilityId facilityId, ApplicationUser? user)
+    internal CaseFile(int? id, FacilityId facilityId, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
         FacilityId = facilityId;
         SetCreator(user?.Id);
     }
 
-    // Facility properties
-    [StringLength(9)]
-    public string FacilityId { get; private init; } = string.Empty;
-
-    private readonly Facility _facility = null!;
-
-    [NotMapped]
-    public Facility Facility
-    {
-        get => _facility;
-        init
-        {
-            _facility = value;
-            FacilityId = value.Id;
-        }
-    }
-
     // Basic data
 
-    // Required but nullable for historical data.
-    public ApplicationUser? ResponsibleStaff { get; set; }
+    [StringLength(9)]
+    public string FacilityId { get; } = null!;
 
-    [StringLength(7000)]
-    public string? Notes { get; set; }
+    // Required for new cases but nullable for historical data.
+    public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(5)]
     private string? ViolationTypeId { get; set; }
+
+    [StringLength(7000)]
+    public string? Notes { get; set; }
 
     [NotMapped]
     // Required if the data flow is enabled.
@@ -64,7 +50,28 @@ public class EnforcementCase : ClosableEntity<int>
     [StringLength(27)]
     public EnforcementCaseStatus Status { get; set; }
 
-    // Required but nullable for historical data.
+    public EnforcementCaseStatus StatusCalc
+    {
+        // TODO: Review the logic for this property.
+        get
+        {
+            if (IsClosed) return EnforcementCaseStatus.CaseClosed;
+
+            if (EnforcementActions.Exists(action =>
+                    action.EnforcementActionType is EnforcementActionType.ConsentOrder
+                        or EnforcementActionType.AdministrativeOrder &&
+                    action.IsIssued))
+            {
+                return EnforcementActions.Exists(action => !((IResolvable)action).IsResolved)
+                    ? EnforcementCaseStatus.SubjectToComplianceSchedule
+                    : EnforcementCaseStatus.CaseResolved;
+            }
+
+            return EnforcementCaseStatus.CaseOpen;
+        }
+    }
+
+    // Required for new cases but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
 
     private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
@@ -92,11 +99,11 @@ public class EnforcementCase : ClosableEntity<int>
     public List<AirProgram> AirPrograms { get; } = [];
 
     // Comments
-    public List<EnforcementCaseComment> Comments { get; } = [];
+    public List<CaseFileComment> Comments { get; } = [];
 
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
-    public ICollection<EnforcementAction> EnforcementActions { get; } = [];
+    public List<EnforcementAction> EnforcementActions { get; } = [];
 
     // Data flow properties
 
@@ -104,7 +111,7 @@ public class EnforcementCase : ClosableEntity<int>
     // or Cases where the only linked compliance event is an RMP inspection.
     public bool IsDataFlowEnabled =>
         ComplianceEvents.Any(complianceEvent => complianceEvent.IsDataFlowEnabled) &&
-        EnforcementActions.Any(action => action.IsDataFlowEnabled);
+        EnforcementActions.Exists(action => action.IsDataFlowEnabled);
 
     // Required if the data flow is enabled.
     public short? ActionNumber { get; set; }
