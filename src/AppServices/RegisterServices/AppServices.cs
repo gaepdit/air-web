@@ -3,6 +3,7 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -33,6 +34,9 @@ public static class AppServices
         // Notification Types
         .AddScoped<INotificationTypeManager, NotificationTypeManager>()
         .AddScoped<INotificationTypeService, NotificationTypeService>()
+
+        // Enforcement
+        .AddScoped<IEnforcementService, EnforcementService>()
 
         // Email
         .AddScoped<IAppNotificationService, AppNotificationService>()

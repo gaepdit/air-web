@@ -1,4 +1,4 @@
-﻿@page "{id:int?}"
+@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
@@ -84,7 +84,8 @@
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId, report.FacilityName)" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(report.FacilityId, report.FacilityName)" />
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ResponsibleStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>

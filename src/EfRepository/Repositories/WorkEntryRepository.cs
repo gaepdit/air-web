@@ -18,7 +18,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
         where TEntry : WorkEntry =>
         Context.Set<TEntry>().AsNoTracking()
-            .Include(fce => fce.Comments
+            .Include(entry => entry.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
             .SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
