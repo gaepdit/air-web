@@ -30,6 +30,4 @@ public readonly record struct Address
             new[] { State, PostalCode }.ConcatWithSeparator(),
         }
         .ConcatWithSeparator(", ");
-
-    public string CityState => new[] { City, State }.ConcatWithSeparator(", ");
 }

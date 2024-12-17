@@ -1,41 +1,26 @@
-﻿using IaipDataService.Structs;
+﻿using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace IaipDataService.Facilities;
 
-// FUTURE: Is this class needed? It's only used by the Source Tests, and from there,
-//   only the `FacilityId` and `Name` properties are used.
 public record FacilitySummary : IFacilityIdName
 {
-    private FacilitySummary() { }
-    public FacilitySummary(string id) => Id = (FacilityId)id;
+    public FacilitySummary() { }
 
     public FacilitySummary(Facility facility)
     {
         Id = facility.Id;
         Name = facility.Name;
-        Description = facility.Description;
-        FacilityAddress = facility.FacilityAddress;
-        County = facility.County;
+        City = facility.FacilityAddress?.City ?? string.Empty;
+        State = facility.FacilityAddress?.State ?? string.Empty;
     }
 
     [Key]
-    [Display(Name = "AIRS Number")]
-    public FacilityId Id { get; } = null!;
+    public FacilityId Id { get; init; } = null!;
 
     public string FacilityId => Id.FormattedId;
-
-    [Display(Name = "Facility name")]
-    public string Name { get; init; } = "";
-
-    [Display(Name = "Facility description")]
-    public string Description { get; init; } = "";
-
-    // Location
-
-    [Display(Name = "Company address")]
-    public Address? FacilityAddress { get; init; }
-
-    [Display(Name = "County")]
-    public string County { get; init; } = "";
+    public string Name { get; init; } = null!;
+    private string City { get; init; } = null!;
+    private string State { get; init; } = null!;
+    public string Location => new[] { City, State }.ConcatWithSeparator(", ");
 }
