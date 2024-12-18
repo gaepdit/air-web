@@ -138,7 +138,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>()
             .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("EnforcementActions")
-            .HasDiscriminator(action => action.EnforcementActionType)
+            .HasDiscriminator(action => action.ActionType)
             .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
             .HasValue<AoResolvedLetter>(EnforcementActionType.AoResolvedLetter)
             .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
@@ -228,7 +228,7 @@ internal static class AppDbContextConfiguration
 
         // Discriminator
         builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.EnforcementActionType).HasConversion<string>();
+        builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
 
         // Status
         builder.Entity<CaseFile>().Property(e => e.CaseStatus).HasConversion<string>();

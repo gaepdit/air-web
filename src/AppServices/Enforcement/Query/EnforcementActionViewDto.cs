@@ -6,7 +6,7 @@ namespace AirWeb.AppServices.Enforcement.Query;
 public record EnforcementActionViewDto
 {
     public Guid Id { get; init; }
-    public EnforcementActionType EnforcementActionType { get; init; }
+    public EnforcementActionType ActionType { get; init; }
     public string Notes { get; init; } = null!;
     public StaffViewDto? ResponsibleStaff { get; set; }
 

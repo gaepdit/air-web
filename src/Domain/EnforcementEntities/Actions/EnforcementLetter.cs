@@ -12,7 +12,7 @@ public class EnforcementLetter : EnforcementAction
     internal EnforcementLetter(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.EnforcementLetter;
+        ActionType = EnforcementActionType.EnforcementLetter;
     }
 
     public bool ResponseRequested { get; set; }

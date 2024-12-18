@@ -12,14 +12,14 @@ public class ProposedConsentOrder : EnforcementAction
     internal ProposedConsentOrder(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user) :
         base(id, noticeOfViolation.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ProposedConsentOrder;
+        ActionType = EnforcementActionType.ProposedConsentOrder;
         NoticeOfViolation = noticeOfViolation;
     }
 
     internal ProposedConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
         base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ProposedConsentOrder;
+        ActionType = EnforcementActionType.ProposedConsentOrder;
     }
 
     public NoticeOfViolation? NoticeOfViolation { get; set; }

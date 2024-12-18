@@ -11,7 +11,7 @@ public class CoResolvedLetter : EnforcementAction
     internal CoResolvedLetter(Guid id, ConsentOrder consentOrder, ApplicationUser? user)
         : base(id, consentOrder.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.CoResolvedLetter;
+        ActionType = EnforcementActionType.CoResolvedLetter;
         ConsentOrder = consentOrder;
     }
 

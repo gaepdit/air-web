@@ -54,20 +54,18 @@ public class CaseFile : ClosableEntity<int>
         {
             // TODO: Review the logic for this method.
             if (IsClosed) return EnforcementCaseStatus.CaseClosed;
-            else
-            {
-                if (EnforcementActions.Exists(action =>
-                        action.EnforcementActionType is EnforcementActionType.ConsentOrder
-                            or EnforcementActionType.AdministrativeOrder &&
-                        action.IsIssued))
-                {
-                    return EnforcementActions.Exists(action => !((IResolvable)action).IsResolved)
-                        ? EnforcementCaseStatus.SubjectToComplianceSchedule
-                        : EnforcementCaseStatus.CaseResolved;
-                }
 
-                return EnforcementCaseStatus.CaseOpen;
+            if (EnforcementActions.Exists(action =>
+                    action.ActionType is EnforcementActionType.ConsentOrder
+                        or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsExecuted))
+            {
+                return EnforcementActions.Exists(action => action.ActionType is EnforcementActionType.ConsentOrder
+                    or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsResolved)
+                    ? EnforcementCaseStatus.CaseResolved
+                    : EnforcementCaseStatus.SubjectToComplianceSchedule;
             }
+
+            return EnforcementCaseStatus.CaseOpen;
         }
     }
 

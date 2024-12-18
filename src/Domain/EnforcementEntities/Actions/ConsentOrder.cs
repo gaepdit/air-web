@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ConsentOrder : EnforcementAction, IResolvable
+public class ConsentOrder : EnforcementAction, IExecutable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -14,20 +14,21 @@ public class ConsentOrder : EnforcementAction, IResolvable
     internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user) :
         base(id, proposedConsentOrder.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ConsentOrder;
+        ActionType = EnforcementActionType.ConsentOrder;
         ProposedConsentOrder = proposedConsentOrder;
     }
 
     internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
         base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ConsentOrder;
+        ActionType = EnforcementActionType.ConsentOrder;
     }
 
     public ProposedConsentOrder? ProposedConsentOrder { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? ExecutedDate { get; set; }
+    public bool IsExecuted => ExecutedDate.HasValue;
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
     public DateOnly? ResolvedDate { get; set; }
     public bool IsResolved => ResolvedDate.HasValue;

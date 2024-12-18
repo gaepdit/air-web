@@ -21,6 +21,13 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
 
     public EnforcementCaseStatus CaseStatus { get; init; }
 
+    public string CaseStatusClass => CaseStatus switch
+    {
+        EnforcementCaseStatus.CaseOpen => "bg-warning-subtle",
+        EnforcementCaseStatus.CaseClosed => "bg-info-subtle",
+        _ => "bg-success-subtle",
+    };
+
     [Display(Name = "Violation Type")]
     public ViolationType? ViolationType { get; init; }
 
@@ -32,7 +39,7 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
 
     public bool HasFormalEnforcement => EnforcementActions.Exists(action =>
         action is { IsDeleted: false, IsIssued: true } &&
-        EnforcementAction.IsFormalEnforcementAction(action.EnforcementActionType));
+        EnforcementAction.IsFormalEnforcementAction(action.ActionType));
 
     public string Notes { get; init; } = null!;
     public ICollection<Pollutant> Pollutants { get; } = [];

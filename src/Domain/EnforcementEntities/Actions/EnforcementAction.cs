@@ -24,7 +24,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Basic data
     public CaseFile CaseFile { get; init; } = null!;
-    public EnforcementActionType EnforcementActionType { get; protected init; }
+    public EnforcementActionType ActionType { get; protected init; }
 
     [StringLength(7000)]
     public string? Notes { get; set; }
@@ -48,7 +48,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Data flow properties
     public bool IsDataFlowEnabled =>
-        !IsDeleted && IsFormalEnforcementAction(EnforcementActionType);
+        !IsDeleted && IsFormalEnforcementAction(ActionType);
 
     public short? ActionNumber { get; set; }
 

@@ -12,7 +12,7 @@ public class NoticeOfViolation : EnforcementAction
     internal NoticeOfViolation(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.NoticeOfViolation;
+        ActionType = EnforcementActionType.NoticeOfViolation;
     }
 
     public bool ResponseRequested { get; set; } = true;

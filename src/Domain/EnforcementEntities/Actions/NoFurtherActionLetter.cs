@@ -11,7 +11,7 @@ public class NoFurtherActionLetter : EnforcementAction
     internal NoFurtherActionLetter(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user)
         : base(id, noticeOfViolation.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.NoFurtherAction;
+        ActionType = EnforcementActionType.NoFurtherAction;
         NoticeOfViolation = noticeOfViolation;
     }
 

@@ -1,7 +1,6 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Search
 @using AirWeb.AppServices.Enforcement.Permissions
-@using AirWeb.Domain.EnforcementEntities.Cases
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @using GaEpd.AppLibrary.Extensions
@@ -68,7 +67,7 @@
 
 <div class="row justify-content-between align-items-center mt-3 mt-md-2">
     <div
-        class="col-sm-auto lead rounded ms-2 @(caseFile.CaseStatus == EnforcementCaseStatus.CaseClosed ? "bg-info-subtle" : "bg-warning-subtle")">
+        class="col-sm-auto lead rounded ms-2 @(caseFile.CaseStatusClass)">
         <strong>@caseFile.CaseStatus.GetDescription()</strong>
     </div>
     <div class="col-sm-auto lead">Tracking #@Model.Id.ToString()</div>
@@ -187,7 +186,7 @@
                 <div class="col">
                     <div id="@action.Id.ToString()" class="card">
                         <div class="card-body ">
-                            <div class="text-break text-pre-line">@action.EnforcementActionType.GetDescription()</div>
+                            <div class="text-break text-pre-line">@action.ActionType.GetDescription()</div>
                         </div>
                         <div class="card-footer">
                             <div class="container-full">
