@@ -48,31 +48,33 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Data flow properties
     public bool IsDataFlowEnabled =>
-        !IsDeleted &&
-        EnforcementActionType
-            is EnforcementActionType.AdministrativeOrder
-            or EnforcementActionType.ConsentOrder
-            or EnforcementActionType.ProposedConsentOrder
-            or EnforcementActionType.NoticeOfViolation;
+        !IsDeleted && IsFormalEnforcementAction(EnforcementActionType);
 
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
+
+    public static bool IsFormalEnforcementAction(EnforcementActionType type) =>
+        type is EnforcementActionType.AdministrativeOrder
+            or EnforcementActionType.ConsentOrder
+            or EnforcementActionType.NoticeOfViolation
+            or EnforcementActionType.NovNfaLetter
+            or EnforcementActionType.ProposedConsentOrder;
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum EnforcementActionType
 {
-    [Description("Letter of Noncompliance")] LetterOfNoncompliance,
-    [Description("Notice of Violation")] NoticeOfViolation,
-    [Description("No Further Action Letter")] NoFurtherAction,
-    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
-    [Description("Proposed Consent Order")] ProposedConsentOrder,
-    [Description("Consent Order")] ConsentOrder,
-    [Description("Consent Order Resolved")] CoResolvedLetter,
     [Description("Administrative Order")] AdministrativeOrder,
     [Description("Administrative Order Resolved")] AoResolvedLetter,
+    [Description("Consent Order")] ConsentOrder,
+    [Description("Consent Order Resolved")] CoResolvedLetter,
     [Description("Letter")] EnforcementLetter,
+    [Description("Letter of Noncompliance")] LetterOfNoncompliance,
+    [Description("No Further Action Letter")] NoFurtherAction,
+    [Description("Notice of Violation")] NoticeOfViolation,
+    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
+    [Description("Proposed Consent Order")] ProposedConsentOrder,
 }

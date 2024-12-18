@@ -231,7 +231,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>().Property(e => e.EnforcementActionType).HasConversion<string>();
 
         // Status
-        builder.Entity<CaseFile>().Property(e => e.Status).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.CaseStatus).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
 
         // Data exchange status

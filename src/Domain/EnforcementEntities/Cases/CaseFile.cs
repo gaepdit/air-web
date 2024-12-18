@@ -48,26 +48,26 @@ public class CaseFile : ClosableEntity<int>
     // Status
 
     [StringLength(27)]
-    public EnforcementCaseStatus Status { get; set; }
-
-    public EnforcementCaseStatus StatusCalc
+    public EnforcementCaseStatus CaseStatus
     {
-        // TODO: Review the logic for this property.
         get
         {
+            // TODO: Review the logic for this method.
             if (IsClosed) return EnforcementCaseStatus.CaseClosed;
-
-            if (EnforcementActions.Exists(action =>
-                    action.EnforcementActionType is EnforcementActionType.ConsentOrder
-                        or EnforcementActionType.AdministrativeOrder &&
-                    action.IsIssued))
+            else
             {
-                return EnforcementActions.Exists(action => !((IResolvable)action).IsResolved)
-                    ? EnforcementCaseStatus.SubjectToComplianceSchedule
-                    : EnforcementCaseStatus.CaseResolved;
-            }
+                if (EnforcementActions.Exists(action =>
+                        action.EnforcementActionType is EnforcementActionType.ConsentOrder
+                            or EnforcementActionType.AdministrativeOrder &&
+                        action.IsIssued))
+                {
+                    return EnforcementActions.Exists(action => !((IResolvable)action).IsResolved)
+                        ? EnforcementCaseStatus.SubjectToComplianceSchedule
+                        : EnforcementCaseStatus.CaseResolved;
+                }
 
-            return EnforcementCaseStatus.CaseOpen;
+                return EnforcementCaseStatus.CaseOpen;
+            }
         }
     }
 

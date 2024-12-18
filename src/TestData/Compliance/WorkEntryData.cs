@@ -26,7 +26,8 @@ internal static class WorkEntryData
     private static IEnumerable<WorkEntry>? _workEntries;
 
     public static ComplianceEvent GetRandomComplianceEvent() =>
-        (ComplianceEvent)GetData.Where(entry => entry is ComplianceEvent).OrderBy(_ => Guid.NewGuid()).First();
+        (ComplianceEvent)GetData.Where(entry => entry is ComplianceEvent && !entry.IsDeleted)
+            .OrderBy(_ => Guid.NewGuid()).First();
 
     public static IEnumerable<WorkEntry> GetData
     {

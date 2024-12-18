@@ -1,7 +1,8 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using IaipDataService.Facilities;
@@ -18,7 +19,7 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
-    public EnforcementCaseStatus Status { get; init; }
+    public EnforcementCaseStatus CaseStatus { get; init; }
 
     [Display(Name = "Violation Type")]
     public ViolationType? ViolationType { get; init; }
@@ -29,10 +30,17 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
     [Display(Name = "Day Zero")]
     public DateOnly? DayZero { get; init; }
 
+    public bool HasFormalEnforcement => EnforcementActions.Exists(action =>
+        action is { IsDeleted: false, IsIssued: true } &&
+        EnforcementAction.IsFormalEnforcementAction(action.EnforcementActionType));
+
     public string Notes { get; init; } = null!;
     public ICollection<Pollutant> Pollutants { get; } = [];
+
+    [Display(Name = "Air Programs")]
     public ICollection<AirProgram> AirPrograms { get; } = [];
-    public ICollection<WorkEntrySummaryDto> ComplianceEvents { get; } = [];
+
+    public IList<WorkEntrySearchResultDto> ComplianceEvents { get; } = [];
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];

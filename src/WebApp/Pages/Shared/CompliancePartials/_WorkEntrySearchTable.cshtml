@@ -11,14 +11,14 @@
         <tr>
             @if (Model.Spec is null)
             {
-                <th scope="col" class="text-nowrap">ID</th>
+                <th scope="col" class="text-nowrap">Tracking #</th>
                 <th scope="col" class="text-nowrap">Work Type</th>
                 <th scope="col" class="text-nowrap">Event Date</th>
             }
             else
             {
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Tracking #", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Work Type", SortBy.WorkTypeAsc, SortBy.WorkTypeDesc, Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
