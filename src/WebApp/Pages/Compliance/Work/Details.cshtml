@@ -44,12 +44,12 @@
 }
 
 <div class="row justify-content-between align-items-center">
-    <div class="col-md mb-md-0">
+    <div class="col-md">
         <h1>@workEntryName</h1>
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>

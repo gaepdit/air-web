@@ -9,7 +9,7 @@
 }
 
 <div class="row justify-content-between align-items-start">
-    <div class="col-md mb-md-0">
+    <div class="col-md">
         <h1>
             <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
         </h1>
@@ -17,7 +17,7 @@
 
     @if (Model.IsComplianceStaff)
     {
-        <div class="col-md-auto mb-3 my-md-0 ms-md-3 d-print-none">
+        <div class="col-md-auto ms-md-3 d-print-none">
             <div class="dropdown my-2">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,7 +75,7 @@
     }
 </div>
 
-<section class="mt-md-3 mb-4">
+<section class="mt-2">
     <details class="border rounded-1">
         <summary class="bg-body-secondary px-2 py-1">
             Facility Details
@@ -84,7 +84,7 @@
     </details>
 </section>
 
-<section class="mb-4">
+<section class="mt-4">
     @if (!Model.ComplianceWork.Any())
     {
         <h2>Recent Compliance Work</h2>
@@ -94,11 +94,11 @@
     }
     else
     {
-        <div class="row justify-content-between align-items-center">
-            <div class="col mb-md-0">
+        <div class="row justify-content-between align-items-center mb-1">
+            <div class="col">
                 <h2>Recent Compliance Work</h2>
             </div>
-            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.FacilityId"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
@@ -122,7 +122,7 @@
     }
 </section>
 
-<section class="mb-4">
+<section class="mt-4">
     @if (!Model.Fces.Any())
     {
         <h2>Recent FCEs</h2>
@@ -133,10 +133,10 @@
     else
     {
         <div class="row justify-content-between align-items-center">
-            <div class="col mb-md-0">
+            <div class="col">
                 <h2>Recent FCEs</h2>
             </div>
-            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.FacilityId"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
@@ -159,7 +159,7 @@
     }
 </section>
 
-<section class="mb-4">
+<section class="mt-4">
     @if (!Model.SourceTests.Any())
     {
         <h2>Recent Source Tests</h2>
@@ -170,10 +170,10 @@
     else
     {
         <div class="row justify-content-between align-items-center">
-            <div class="col mb-md-0">
+            <div class="col">
                 <h2>Recent Source Tests</h2>
             </div>
-            <div class="col-auto mb-3 my-md-0 ms-md-3 d-print-none">
+            <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Facility/SourceTests" asp-route-FacilityId="@Model.FacilityId"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
