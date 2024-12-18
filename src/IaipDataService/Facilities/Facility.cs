@@ -14,7 +14,7 @@ public record Facility : IFacilityIdName
     [Key]
     [JsonIgnore]
     [Display(Name = "AIRS Number")]
-    public FacilityId Id { get; } = null!;
+    public FacilityId Id { get; init; } = null!;
 
     public string FacilityId => Id.FormattedId;
 

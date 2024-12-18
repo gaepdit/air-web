@@ -21,7 +21,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     // Properties: Basic data
 
     [StringLength(9)]
-    public string FacilityId { get; } = null!;
+    public string FacilityId { get; init; } = null!;
 
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; }

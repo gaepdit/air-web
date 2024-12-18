@@ -27,7 +27,7 @@ public class Fce : DeletableEntity<int>, IComplianceEntity
     // FCE properties
 
     [StringLength(9)]
-    public string FacilityId { get; } = null!;
+    public string FacilityId { get; init; } = null!;
 
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }

@@ -1,8 +1,7 @@
 ﻿namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 public record ViolationType(
-    [StringLength(3)] string Code,
+    [property: Key] [property: StringLength(5)] string Code,
     string Description,
-    [StringLength(3)] string SeverityCode,
-    bool Deprecated
-);
+    [property: StringLength(3)] string SeverityCode,
+    bool Deprecated);

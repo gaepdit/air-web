@@ -5,7 +5,9 @@ using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Cases;
@@ -31,19 +33,19 @@ public class CaseFile : ClosableEntity<int>
     // Required for new cases but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
 
-    [StringLength(5)]
-    private string? ViolationTypeId { get; set; }
-
     [StringLength(7000)]
     public string? Notes { get; set; }
 
-    [NotMapped]
     // Required if the data flow is enabled.
+    [BackingField(nameof(_violationTypeCode))]
     public ViolationType? ViolationType
     {
-        get => ViolationTypeData.GetViolationType(ViolationTypeId);
-        set => ViolationTypeId = value?.Code;
+        get => ViolationTypeData.GetViolationType(_violationTypeCode);
+        set => _violationTypeCode = value?.Code;
     }
+
+    [StringLength(5)]
+    private string? _violationTypeCode;
 
     // Status
 
@@ -67,6 +69,15 @@ public class CaseFile : ClosableEntity<int>
 
             return CaseFileStatus.CaseOpen;
         }
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty.
+            // This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
     }
 
     // Required for new cases but nullable for historical data.
@@ -85,6 +96,15 @@ public class CaseFile : ClosableEntity<int>
                 .Append(MaxDayZero);
             var dates = actionDates.Where(date => date.HasValue).ToArray();
             return dates.Length == 0 ? null : dates.Min();
+        }
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty.
+            // This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
 
