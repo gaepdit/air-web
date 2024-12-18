@@ -1,20 +1,22 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.Domain.EnforcementEntities.Cases
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
-    var report = Model.Item!;
-    ViewData["Title"] = $"Facility {report.FacilityId} – Enforcement ({Model.Id})";
+    var caseFile = Model.Item!;
+    ViewData["Title"] = $"Facility {caseFile.FacilityId} – Enforcement ({Model.Id})";
 }
 
-@if (report.IsDeleted)
+@if (caseFile.IsDeleted)
 {
     <div class="callout callout-danger mb-3">
         <div class="container-full">
             <div class="row justify-content-between align-items-center g-0 my-1">
                 <div class="col">
-                    <h4 class="text-danger-emphasis">This Enforcement has been deleted.</h4>
+                    <h2 class="h4 text-danger-emphasis">This Enforcement has been deleted.</h2>
                 </div>
                 @if (Model.UserCan[EnforcementOperation.Restore])
                 {
@@ -27,21 +29,21 @@
             </div>
         </div>
         <p>
-            Deleted by @Html.DisplayFor(_ => report.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-            on @Html.DisplayFor(_ => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
+            Deleted by @Html.DisplayFor(_ => caseFile.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+            on @Html.DisplayFor(_ => caseFile.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
         </p>
-        <h5>Comments</h5>
-        <p class="text-break text-pre-line">@Html.DisplayFor(_ => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+        <h3 class="h5">Comments</h3>
+        <p class="text-break text-pre-line">@Html.DisplayFor(_ => caseFile.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
     </div>
 }
 
 <div class="row justify-content-between align-items-center">
-    <div class="col-md mb-md-0">
+    <div class="col-md">
         <h1>Enforcement</h1>
     </div>
-    @if (!report.IsDeleted)
+    @if (!caseFile.IsDeleted)
     {
-        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[EnforcementOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
@@ -61,30 +63,75 @@
         </div>
     }
 </div>
-<p class="lead mt-2 mt-md-0">Tracking #@Model.Id.ToString()</p>
 
-<dl class="row mt-3">
+<div class="row justify-content-between align-items-center mt-3">
+    <div class="col-sm-auto lead rounded ms-2 @(caseFile.Status == EnforcementCaseStatus.CaseClosed ? "bg-info-subtle" : "bg-warning-subtle")">
+        @caseFile.Status.GetDescription()
+    </div>
+    <div class="col-sm-auto lead">Tracking #@Model.Id.ToString()</div>
+</div>
+
+<dl class="row mt-4">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
     <dd class="col-sm-8 col-lg-9">
-        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink" model="(report.FacilityId, report.FacilityName)" />
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(caseFile.FacilityId, caseFile.FacilityName)" />
     </dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ResponsibleStaff)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.ResponsibleStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
     <dt class="col-sm-4 col-lg-3">Status</dt>
     <dd class="col-sm-8 col-lg-9">
-        @if (report.IsClosed)
+        @if (caseFile.IsClosed)
         {
-            @:Closed by @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-            @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
+            @:Closed by @Html.DisplayFor(_ => caseFile.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+            @:on @Html.DisplayFor(_ => caseFile.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
         }
         else
         {
             @:Open
         }
     </dd>
-    <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-    <dd><div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</div></dd>
+    <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
+    <dd>
+        <div
+            class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder)</div>
+    </dd>
 </dl>
+
+<section class="mt-3">
+    <h2 class="h3">Enforcement Actions</h2>
+
+    @if (!caseFile.EnforcementActions.Any())
+    {
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="row row-cols-1 g-3 mb-3">
+            @foreach (var action in caseFile.EnforcementActions)
+            {
+                <div class="col">
+                    <div id="@action.Id.ToString()" class="card">
+                        <div class="card-body ">
+                            <div class="text-break text-pre-line">@action.EnforcementActionType.GetDescription()</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="container-full">
+                                <div class="row justify-content-between align-items-center g-0 my-1">
+                                    <small class="col text-body-secondary">
+                                        @Html.DisplayFor(_ => action.ResponsibleStaff, DisplayTemplate.Name)
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</section>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
 

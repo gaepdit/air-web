@@ -10,16 +10,19 @@ public class EnforcementActionReview : AuditableEntity
     [UsedImplicitly] // Used by ORM.
     private EnforcementActionReview() { }
 
-    internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser? user)
+    internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser reviewer,
+        ApplicationUser? user)
     {
         Id = id;
         EnforcementAction = enforcementAction;
+        RequestedTo = reviewer;
         SetCreator(user?.Id);
     }
 
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
 
     public DateOnly RequestedDate { get; internal init; }
+    public ApplicationUser RequestedTo { get; internal init; } = null!;
     public ApplicationUser? ReviewedBy { get; internal init; }
     public bool IsCompleted => CompletedDate.HasValue;
     public DateOnly? CompletedDate { get; internal set; }

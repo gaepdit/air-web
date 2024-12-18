@@ -40,7 +40,7 @@ internal static class AppDbContextConfiguration
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ResponsibleStaff).AutoInclude();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ApprovedBy).AutoInclude();
-        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentOwner).AutoInclude();
+        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentReviewer).AutoInclude();
 
         var enforcementActionReviewEntity = builder.Entity<EnforcementActionReview>();
         enforcementActionReviewEntity.Navigation(review => review.ReviewedBy).AutoInclude();

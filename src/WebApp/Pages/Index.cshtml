@@ -24,15 +24,6 @@
                 <a asp-page="/Compliance/Work/Index">Compliance Work search page</a>
             </li>
             <li>
-                <a asp-page="/Account/Index">Your account page</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Users/Index">All users</a>
-            </li>
-            <li>
-                <a asp-page="/Admin/Maintenance/Index">Site maintenance</a>
-            </li>
-            <li>
                 Printouts
                 <ul>
                     <li>
@@ -43,6 +34,17 @@
                     </li>
                     <li>
                         <a asp-page="/Print/SourceTest/Index" asp-route-referenceNumber="201100541">Source Test</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Enforcement
+                <ul>
+                    <li>
+                        <a asp-page="/Enforcement/Index">List of Enforcements</a>
+                    </li>
+                    <li>
+                        <a asp-page="/Enforcement/Details" asp-route-id="300">Example Enforcement</a>
                     </li>
                 </ul>
             </li>

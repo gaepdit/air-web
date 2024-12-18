@@ -2,6 +2,7 @@
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using Random = System.Random;
 
 namespace AirWeb.TestData.Enforcement;
 
@@ -212,8 +213,8 @@ public static class EnforcementActionData
             foreach (var enforcementAction in _enforcementActions)
             {
                 enforcementAction.ResponsibleStaff = UserData.GetRandomUser();
-                enforcementAction.CurrentOwner = UserData.GetRandomUser();
-                enforcementAction.CurrentOwnerAssignedDate = DateTimeOffset.Now.AddDays(-10);
+                enforcementAction.CurrentReviewer = UserData.GetRandomUser();
+                enforcementAction.ReviewRequestedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10).Date);
             }
 
             foreach (var enforcementAction in _enforcementActions.Where(action => action.IsIssued))
@@ -251,20 +252,33 @@ public static class EnforcementActionData
 
     private static void GenerateEnforcementActionReviews(EnforcementAction enforcementAction)
     {
-        var reviewCount = new Random().Next(1, 3); // Generate 1 or 2 reviews
+        var random = new Random();
+        var reviewCount = random.Next(1, 4); // Generate 1 to 3 reviews.
         for (var i = 0; i < reviewCount; i++)
         {
-            var review = new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser())
-            {
-                RequestedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10 * (i + 1)).Date),
-                CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5 * (i + 1)).Date),
-                Status = (ReviewResult)new Random().Next(0, 4), // Random status
-                ReviewComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-                ReviewedBy = UserData.GetRandomUser(),
-            };
+            var incomplete = i + 1 == reviewCount && random.NextBoolean(); // Final review may be incomplete.
+            var review = GenerateReview(i, incomplete, enforcementAction, random);
             enforcementAction.Reviews.Add(review);
         }
     }
+
+    private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction,
+        Random random)
+    {
+        var requestedDate = DateOnly.FromDateTime(DateTime.Now).AddDays(-10 * (i + 1));
+        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(), null)
+        {
+            RequestedDate = requestedDate,
+            CompletedDate = incomplete ? null : requestedDate.AddDays(random.Next(1, 5)),
+            Status = incomplete ? null : (ReviewResult)random.Next(0, 4), // Random status
+            ReviewComments = incomplete ? null : SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            ReviewedBy = incomplete ? null : UserData.GetRandomUser(),
+        };
+    }
+
+    // Next() returns an int in the range [0..Int32.MaxValue]
+    private const int HalfMaxValue = int.MaxValue / 2;
+    private static bool NextBoolean(this Random random) => random.Next() > HalfMaxValue;
 
     public static void ClearData() => _enforcementActions = null;
 }

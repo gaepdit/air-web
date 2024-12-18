@@ -33,8 +33,8 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     // Review process
-    public ApplicationUser? CurrentOwner { get; internal set; }
-    public DateTimeOffset? CurrentOwnerAssignedDate { get; internal set; }
+    public ApplicationUser? CurrentReviewer { get; internal set; }
+    public DateOnly? ReviewRequestedDate { get; internal set; }
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
     public bool IsApproved { get; internal set; }
     public DateOnly? ApprovedDate { get; internal set; }

@@ -10,12 +10,13 @@ namespace AirWeb.AppServices.Enforcement;
 
 public class EnforcementService(
     IMapper mapper,
-    ICaseFileRepository repository,
+    ICaseFileRepository caseFileRepository,
     IFacilityService facilityService) : IEnforcementService
 {
-    public async Task<CaseFileViewDto?> FindAsync(int id, CancellationToken token = default)
+    public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
     {
-        var caseFile = mapper.Map<CaseFileViewDto?>(await repository.FindAsync(id, token).ConfigureAwait(false));
+        var caseFile = mapper.Map<CaseFileViewDto?>(await caseFileRepository.FindDetailedCaseFileAsync(id, token)
+            .ConfigureAwait(false));
 
         if (caseFile != null)
         {

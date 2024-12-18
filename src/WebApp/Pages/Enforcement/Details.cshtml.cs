@@ -27,7 +27,7 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await enforcementService.FindAsync(Id);
+        Item = await enforcementService.FindDetailedCaseFileAsync(Id);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
@@ -49,7 +49,7 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await enforcementService.FindAsync(Id, token);
+        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
@@ -76,7 +76,7 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await enforcementService.FindAsync(Id, token);
+        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();

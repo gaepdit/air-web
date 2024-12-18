@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
+﻿using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.Cases;
 
 namespace AirWeb.Domain.EnforcementEntities;
 
@@ -12,10 +13,11 @@ public interface ICaseFileRepository : IRepository<CaseFile, int>, ICommentRepos
 
     /// <summary>
     /// Returns the <see cref="CaseFile"/> with the given <paramref name="id"/>. Returns null if there are no matches.
-    /// The returned entity will include the Comments navigation property.
+    /// The returned entity will include all navigation properties (<see cref="EnforcementAction"/>,
+    /// <see cref="CaseFileComment"/>).
     /// </summary>
-    /// <param name="id">The ID of the entity.</param>
+    /// <param name="id">The ID (tracking number) of the Case File.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>A Case File with Comments included or null.</returns>
-    Task<CaseFile?> FindWithCommentsAsync(int id, CancellationToken token = default);
+    /// <returns>A Case File with all properties included or null.</returns>
+    Task<CaseFile?> FindDetailedCaseFileAsync(int id, CancellationToken token = default);
 }

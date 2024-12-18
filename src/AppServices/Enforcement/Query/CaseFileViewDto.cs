@@ -37,8 +37,7 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
 
-    // TODO
-    // public ICollection<EnforcementActionViewDto> EnforcementActions { get; } = [];
+    public List<EnforcementActionViewDto> EnforcementActions { get; } = [];
 
     // Properties: Closure
     [Display(Name = "Completed By")]

@@ -8,7 +8,7 @@ namespace AirWeb.AppServices.Enforcement;
 public interface IEnforcementService
 {
     // Query
-    Task<CaseFileViewDto?> FindAsync(int id, CancellationToken token = default);
+    Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource, CancellationToken token = default);

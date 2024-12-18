@@ -15,6 +15,8 @@ using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
@@ -155,5 +157,7 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<CaseFile, CaseFileViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<EnforcementAction, EnforcementActionViewDto>();
+        CreateMap<EnforcementActionReview, ReviewDto>();
     }
 }
