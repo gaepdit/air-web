@@ -1,20 +1,20 @@
 # Enforcement Workflow
 
-## Enforcement Case
+## Case File
 
-* A new Enforcement Case can be entered from a Facility or Compliance Event.
-* An Enforcement Case can be linked to multiple Compliance Events.
-* The Enforcement Case can be edited while open.
-* Closing/finalizing an Enforcement Case disables all editing.
-* Reopening an Enforcement Case enables all editing.
+* A new Case File can be entered from a Facility or Compliance Event.
+* A Case File can be linked to multiple Compliance Events.
+* The Case File can be edited while open.
+* Closing/finalizing a Case File disables all editing.
+* Reopening a Case File enables all editing.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown in diagram)*.
-* An Enforcement Case can be deleted *(not shown)*.
+* A Case File can be deleted *(not shown)*.
 
 ## Enforcement Action
 
-* An Enforcement Action can be added to an open Enforcement Case.
-* An Enforcement Action can be edited while the Enforcement Case is open.
+* An Enforcement Action can be added to an open Case File.
+* An Enforcement Action can be edited while the Case File is open.
 * An Enforcement Action can be closed as unsent.
 * Issuing an Enforcement Action closes it and disables all editing (including deleting).
 * Comments can be added and edited.
@@ -29,11 +29,11 @@
 ## Data Exchange
 
 * When an Informal or Formal Enforcement Action (EA) exists and a Compliance Event is linked, the Data Exchange is
-  enabled for the Enforcement Case *(not shown)*.
+  enabled for the Case File *(not shown)*.
 
 | Item                          |  ICIS-Air Data Type   |        Pathway Activity *         |
 |-------------------------------|:---------------------:|:---------------------------------:|
-| Enforcement Case              |       Case File       |                                   |
+| Case File                     |       Case File       |                                   |
 | Compliance Event              | Compliance Monitoring |             Discovery             |
 | Notice of Violation           |      Informal EA      |           Notification            |
 | No Further Action Letter      |                       |      Addressing & Resolving       |
@@ -45,7 +45,7 @@
 | Administrative Order Resolved |                       |             Resolving             |
 
 <small>
-* Indicates Pathway Activities tracked for each Enforcement Case.
+* Indicates Pathway Activities tracked for each Case File.
 </small>
 
 ## Flow Chart
@@ -54,7 +54,7 @@
 flowchart
     EVT{{Compliance Event}}
     FAC{{Facility}}
-    ENF{{"`**Enforcement Case**`"}}
+    ENF{{"`**Case File**`"}}
     CTE{{Enforcement Comment}}
     ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}

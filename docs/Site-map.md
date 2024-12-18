@@ -62,24 +62,24 @@ These pages are only available to logged-in staff.
 ### Enforcement
 
 * `/Enforcement` Enforcement search form.
-* `/Enforcement/Details/{enforcementId}` Enforcement details.
+* `/Enforcement/Details/{enforcementId}` Case File details.
 
-#### Enforcement Case Initiation
+#### Case File Initiation
 
-* `/Enforcement/Add?{facilityId}` Start new enforcement case for the specified facility.
-* `/Enforcement/Add?{entryId}` Start new enforcement case for the specified compliance entry.
+* `/Enforcement/Add?{facilityId}` Start new case file for the specified facility.
+* `/Enforcement/Add?{entryId}` Start new case file for the specified compliance entry.
 
-#### Enforcement Case Workflow
+#### Case File Workflow
 
-* `/Enforcement/Edit/{enforcementId}` Edit enforcement details.
-* `/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen an enforcement case.
-* `/Enforcement/Link/{enforcementId}` Link an enforcement case to a compliance event.
-* `/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore an enforcement case.
+* `/Enforcement/Edit/{enforcementId}` Edit details.
+* `/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen a case file.
+* `/Enforcement/Link/{enforcementId}` Link a case file to a compliance event.
+* `/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore a case file.
 
 #### Enforcement Action Workflow
 
 * `/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
-* `/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to an enforcement case.
+* `/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to a case file.
 * `/Enforcement/Details/{enforcementId}/Action/Add/{actionId}` Add an enforcement action linked from another
   enforcement action.
 * `/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.

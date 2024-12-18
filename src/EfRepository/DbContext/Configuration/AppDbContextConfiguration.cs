@@ -34,8 +34,8 @@ internal static class AppDbContextConfiguration
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
 
         // Enforcement entities
-        var enforcementCaseEntity = builder.Entity<CaseFile>();
-        enforcementCaseEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
+        var caseFileEntity = builder.Entity<CaseFile>();
+        caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ResponsibleStaff).AutoInclude();
@@ -153,9 +153,9 @@ internal static class AppDbContextConfiguration
         // Many-to-many relationships.
         // https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-with-named-join-table
         builder.Entity<CaseFile>()
-            .HasMany(enforcementCase => enforcementCase.ComplianceEvents)
+            .HasMany(caseFile => caseFile.ComplianceEvents)
             .WithMany(complianceEvent => complianceEvent.CaseFiles)
-            .UsingEntity("EnforcementCaseComplianceEvents");
+            .UsingEntity("CaseFileComplianceEvents");
 
         // Self-referencing relationships.
         builder.Entity<AdministrativeOrder>()
@@ -231,7 +231,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
 
         // Status
-        builder.Entity<CaseFile>().Property(e => e.CaseStatus).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.CaseFileStatus).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
 
         // Data exchange status

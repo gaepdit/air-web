@@ -48,12 +48,12 @@ public class CaseFile : ClosableEntity<int>
     // Status
 
     [StringLength(27)]
-    public EnforcementCaseStatus CaseStatus
+    public CaseFileStatus CaseFileStatus
     {
         get
         {
             // TODO: Review the logic for this method.
-            if (IsClosed) return EnforcementCaseStatus.CaseClosed;
+            if (IsClosed) return CaseFileStatus.CaseClosed;
 
             if (EnforcementActions.Exists(action =>
                     action.ActionType is EnforcementActionType.ConsentOrder
@@ -61,11 +61,11 @@ public class CaseFile : ClosableEntity<int>
             {
                 return EnforcementActions.Exists(action => action.ActionType is EnforcementActionType.ConsentOrder
                     or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsResolved)
-                    ? EnforcementCaseStatus.CaseResolved
-                    : EnforcementCaseStatus.SubjectToComplianceSchedule;
+                    ? CaseFileStatus.CaseResolved
+                    : CaseFileStatus.SubjectToComplianceSchedule;
             }
 
-            return EnforcementCaseStatus.CaseOpen;
+            return CaseFileStatus.CaseOpen;
         }
     }
 
@@ -119,7 +119,7 @@ public class CaseFile : ClosableEntity<int>
     public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
-public enum EnforcementCaseStatus
+public enum CaseFileStatus
 {
     [Description("Open enforcement case")] CaseOpen,
     [Description("Subject to compliance schedule")] SubjectToComplianceSchedule,

@@ -18,7 +18,7 @@ public static class DbSeedDataHelpers
         SeedFceData(context);
         SeedNotificationTypeData(context);
         SeedWorkEntryData(context);
-        SeedEnforcementCaseData(context);
+        SeedCaseFileData(context);
         SeedEnforcementActionData(context);
     }
 
@@ -31,20 +31,20 @@ public static class DbSeedDataHelpers
         SeedWorkEntryData(context);
     }
 
-    private static void SeedEnforcementCaseData(AppDbContext context)
+    private static void SeedCaseFileData(AppDbContext context)
     {
-        if (context.EnforcementCases.Any()) return;
+        if (context.CaseFiles.Any()) return;
 
         context.Database.BeginTransaction();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT EnforcementCases ON");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles ON");
 
-        context.EnforcementCases.AddRange(CaseFileData.GetData);
+        context.CaseFiles.AddRange(CaseFileData.GetData);
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT EnforcementCases OFF");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles OFF");
 
         context.Database.CommitTransaction();
     }

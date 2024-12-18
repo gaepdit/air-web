@@ -19,12 +19,12 @@ public record CaseFileViewDto : ICloseableAndDeletable, IHasOwnerAndDeletable
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
-    public EnforcementCaseStatus CaseStatus { get; init; }
+    public CaseFileStatus CaseFileStatus { get; init; }
 
-    public string CaseStatusClass => CaseStatus switch
+    public string CaseStatusClass => CaseFileStatus switch
     {
-        EnforcementCaseStatus.CaseOpen => "bg-warning-subtle",
-        EnforcementCaseStatus.CaseClosed => "bg-info-subtle",
+        CaseFileStatus.CaseOpen => "bg-warning-subtle",
+        CaseFileStatus.CaseClosed => "bg-info-subtle",
         _ => "bg-success-subtle",
     };
 

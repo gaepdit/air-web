@@ -40,7 +40,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
 
     // Enforcement - Cases
-    public DbSet<CaseFile> EnforcementCases => Set<CaseFile>();
+    public DbSet<CaseFile> CaseFiles => Set<CaseFile>();
 
     // Enforcement - Actions
     public DbSet<AdministrativeOrder> AdministrativeOrders => Set<AdministrativeOrder>();
@@ -61,7 +61,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // Comments
     public DbSet<FceComment> FceComments => Set<FceComment>();
     public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
-    public DbSet<CaseFileComment> EnforcementCaseComments => Set<CaseFileComment>();
+    public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();
 
     // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();

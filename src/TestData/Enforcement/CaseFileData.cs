@@ -140,7 +140,7 @@ internal static class CaseFileData
             }
 
             // Set as deleted
-            _caseFiles.Single(enforcementCase => enforcementCase.Id == 329).SetDeleted(UserData.AdminUserId);
+            _caseFiles.Single(caseFile => caseFile.Id == 329).SetDeleted(UserData.AdminUserId);
 
             return _caseFiles;
         }
