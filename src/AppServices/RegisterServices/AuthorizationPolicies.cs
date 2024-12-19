@@ -1,5 +1,4 @@
-using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Permissions;
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
@@ -22,8 +21,8 @@ public static class AuthorizationPolicies
 
         // ViewRequirements are added scoped if they consume scoped services.
         services.AddScoped<IAuthorizationHandler, CaseFileViewRequirement>();
-        services.AddScoped<IAuthorizationHandler, FceRequirement>();
-        services.AddScoped<IAuthorizationHandler, WorkEntryRequirement>();
+        services.AddScoped<IAuthorizationHandler, FceRequirementsHandler>();
+        services.AddScoped<IAuthorizationHandler, WorkEntryRequirementsHandler>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

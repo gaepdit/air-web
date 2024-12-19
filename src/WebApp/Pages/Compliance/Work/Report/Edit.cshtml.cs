@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
@@ -12,7 +12,6 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.Report;
 public class EditModel(
     IWorkEntryService entryService,
     IStaffService staffService,
-    IAuthorizationService authorization,
     IValidator<ReportUpdateDto> validator)
     : EditBase(entryService, staffService)
 {
@@ -27,7 +26,7 @@ public class EditModel(
 
         var item = (ReportUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await authorization.UserCanEditAsync(User, item)) return Forbid();
+        if (!User.CanEdit(item)) return Forbid();
         Item = item;
 
         return await DoGetAsync();
@@ -36,7 +35,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (ReportUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await authorization.UserCanEditAsync(User, original)) return BadRequest();
+        if (original is null || !User.CanEdit(original)) return BadRequest();
 
         return await DoPostAsync(Item, validator, token);
     }

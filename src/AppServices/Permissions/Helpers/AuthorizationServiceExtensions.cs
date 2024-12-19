@@ -1,6 +1,4 @@
-﻿using AirWeb.AppServices.CommonInterfaces;
-using AirWeb.AppServices.Permissions.OperationRequirements;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -19,12 +17,4 @@ public static class AuthorizationServiceExtensions
     public static async Task<bool> Succeeded(this IAuthorizationService service,
         IPrincipal user, AuthorizationPolicy policy) =>
         (await service.AuthorizeAsync((ClaimsPrincipal)user, policy).ConfigureAwait(false)).Succeeded;
-
-    public static Task<bool> UserCanEditAsync(this IAuthorizationService authorization,
-        ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        authorization.Succeeded(user, item, new UpdateCloseableDeletableRequirement());
-
-    public static Task<bool> UserCanEditAsync(this IAuthorizationService authorization,
-        ClaimsPrincipal user, IIsDeleted item) =>
-        authorization.Succeeded(user, item, new UpdateDeletableRequirement());
 }

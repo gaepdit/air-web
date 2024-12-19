@@ -33,7 +33,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
+        if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
             return RedirectToPage("../SourceTest/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
@@ -44,8 +44,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             NewComment = new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
-            CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-            CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+            CanAddComment = UserCan[ComplianceOperation.AddComment],
+            CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
         return Page();
     }
@@ -57,7 +57,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -65,8 +65,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             {
                 Comments = Item.Comments,
                 NewComment = newComment,
-                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+                CanAddComment = UserCan[ComplianceOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
             return Page();
         }
@@ -84,12 +84,12 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await entryService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
     }
 
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, Item);
+        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, Item);
 }

@@ -1,4 +1,4 @@
-@page "{id:int?}"
+﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.AppServices.Compliance.WorkEntries.Accs
 @using AirWeb.AppServices.Compliance.WorkEntries.Inspections
@@ -24,7 +24,7 @@
                 <div class="col">
                     <h4 class="text-danger-emphasis">This @report.ItemName has been deleted.</h4>
                 </div>
-                @if (Model.UserCan[ComplianceWorkOperation.Restore])
+                @if (Model.UserCan[ComplianceOperation.Restore])
                 {
                     <div class="col-auto d-print-none ms-2">
                         <a asp-page="Restore" asp-route-id="@Model.Id" class="btn btn-outline-warning">
@@ -50,19 +50,19 @@
     @if (!report.IsDeleted)
     {
         <div class="col-md-auto ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceWorkOperation.Close])
+            @if (Model.UserCan[ComplianceOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Reopen])
+            @if (Model.UserCan[ComplianceOperation.Reopen])
             {
                 <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            @if (Model.UserCan[ComplianceOperation.Edit])
             {
                 <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Delete])
+            @if (Model.UserCan[ComplianceOperation.Delete])
             {
                 <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }
