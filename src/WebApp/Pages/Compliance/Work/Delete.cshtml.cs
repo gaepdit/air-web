@@ -3,14 +3,13 @@ using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class DeleteModel(IWorkEntryService entryService, IAuthorizationService authorization) : PageModel
+public class DeleteModel(IWorkEntryService entryService) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -26,7 +25,7 @@ public class DeleteModel(IWorkEntryService entryService, IAuthorizationService a
 
         var item = await entryService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanDeleteAsync(item)) return Forbid();
+        if (!User.CanDelete(item)) return Forbid();
 
         ItemSummary = item;
         return Page();
@@ -37,7 +36,7 @@ public class DeleteModel(IWorkEntryService entryService, IAuthorizationService a
         if (!ModelState.IsValid) return BadRequest();
 
         var item = await entryService.FindSummaryAsync(Id, token);
-        if (item is null || !await UserCanDeleteAsync(item))
+        if (item is null || !User.CanDelete(item))
             return BadRequest();
 
         var notificationResult = await entryService.DeleteAsync(Id, StatusComment, token);
@@ -47,7 +46,4 @@ public class DeleteModel(IWorkEntryService entryService, IAuthorizationService a
 
         return RedirectToPage("Details", new { Id });
     }
-
-    private Task<bool> UserCanDeleteAsync(WorkEntrySummaryDto item) =>
-        authorization.Succeeded(User, item, ComplianceWorkOperation.Delete);
 }

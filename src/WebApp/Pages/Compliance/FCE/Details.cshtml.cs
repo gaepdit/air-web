@@ -37,7 +37,7 @@ public class DetailsModel(
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (Item.IsDeleted && !UserCan[ComplianceWorkOperation.ViewDeleted]) return NotFound();
+        if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         await LoadSupportingData(token);
         CommentSection = new CommentsSectionModel
@@ -46,8 +46,8 @@ public class DetailsModel(
             NewComment = new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
-            CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-            CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+            CanAddComment = UserCan[ComplianceOperation.AddComment],
+            CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
         return Page();
     }
@@ -59,7 +59,7 @@ public class DetailsModel(
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -68,8 +68,8 @@ public class DetailsModel(
             {
                 Comments = Item.Comments,
                 NewComment = newComment,
-                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+                CanAddComment = UserCan[ComplianceOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
             return Page();
         }
@@ -87,7 +87,7 @@ public class DetailsModel(
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await fceService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
@@ -106,5 +106,5 @@ public class DetailsModel(
     }
 
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, Item);
+        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, Item);
 }

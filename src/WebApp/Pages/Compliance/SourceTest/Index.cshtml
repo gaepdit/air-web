@@ -124,24 +124,24 @@ else
             <h2 id="compliance-review">Compliance Review</h2>
         </div>
         <div class="col-md-auto ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceWorkOperation.Close])
+            @if (Model.UserCan[ComplianceOperation.Close])
             {
                 <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                    class="btn btn-outline-primary">Close</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Reopen])
+            @if (Model.UserCan[ComplianceOperation.Reopen])
             {
                 <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                    class="btn btn-outline-primary">
                     Reopen
                 </a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            @if (Model.UserCan[ComplianceOperation.Edit])
             {
                 <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                    class="btn btn-outline-primary">Edit</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Delete])
+            @if (Model.UserCan[ComplianceOperation.Delete])
             {
                 <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                    class="btn btn-outline-danger">Delete</a>

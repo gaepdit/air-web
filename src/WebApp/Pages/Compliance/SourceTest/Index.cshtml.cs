@@ -86,8 +86,8 @@ public class IndexModel(
                 NewComment = new CommentAddDto(ComplianceReview.Id),
                 NewCommentId = NewCommentId,
                 NotificationFailureMessage = NotificationFailureMessage,
-                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+                CanAddComment = UserCan[ComplianceOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
         }
 
@@ -143,7 +143,7 @@ public class IndexModel(
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.AddComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -151,8 +151,8 @@ public class IndexModel(
             {
                 Comments = ComplianceReview.Comments,
                 NewComment = newComment,
-                CanAddComment = UserCan[ComplianceWorkOperation.AddComment],
-                CanDeleteComment = UserCan[ComplianceWorkOperation.DeleteComment],
+                CanAddComment = UserCan[ComplianceOperation.AddComment],
+                CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
             return Page();
         }
@@ -175,7 +175,7 @@ public class IndexModel(
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[ComplianceWorkOperation.DeleteComment]) return BadRequest();
+        if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await entryService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
@@ -186,7 +186,7 @@ public class IndexModel(
     {
         CanAddNewReview = await authorization.Succeeded(User, Policies.ComplianceStaff) &&
                           TestSummary is { ReportClosed: true } && ComplianceReview is null;
-        UserCan = await authorization.SetPermissions(ComplianceWorkOperation.AllOperations, User, ComplianceReview);
+        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
     private async Task PopulateSelectListsAsync() =>

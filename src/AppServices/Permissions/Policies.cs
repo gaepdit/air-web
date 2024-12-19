@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Permissions.Requirements;
-using AirWeb.AppServices.Permissions.Requirements.Compliance;
+﻿using AirWeb.AppServices.Permissions.UserRequirements;
+using AirWeb.AppServices.Permissions.UserRequirements.Compliance;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 

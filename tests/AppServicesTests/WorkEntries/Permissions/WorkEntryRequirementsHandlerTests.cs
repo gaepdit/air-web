@@ -1,20 +1,19 @@
 ﻿using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Permissions;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Permissions;
 
-public class WorkEntryViewRequirementTests
+public class WorkEntryRequirementsHandlerTests
 {
     [Test]
     public async Task ManageDeletions_WhenAllowed_Succeeds()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.Delete };
+        var requirements = new[] { ComplianceOperation.Delete };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -23,7 +22,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -36,7 +35,7 @@ public class WorkEntryViewRequirementTests
     public async Task ManageDeletions_WhenNotAuthenticated_DoesNotSucceed()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.Delete };
+        var requirements = new[] { ComplianceOperation.Delete };
 
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
@@ -44,7 +43,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -57,11 +56,11 @@ public class WorkEntryViewRequirementTests
     public async Task ManageDeletions_WhenNotAllowed_DoesNotSucceed()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.Delete };
+        var requirements = new[] { ComplianceOperation.Delete };
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -74,7 +73,7 @@ public class WorkEntryViewRequirementTests
     public async Task EditEntry_WhenDeleted_IsForbidden()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.Edit };
+        var requirements = new[] { ComplianceOperation.Edit };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -84,7 +83,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -97,7 +96,7 @@ public class WorkEntryViewRequirementTests
     public async Task EditEntry_WhenNotDeleted_IsAllowed()
     {
         // Arrange
-        var requirements = new[] { ComplianceWorkOperation.Edit };
+        var requirements = new[] { ComplianceOperation.Edit };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -107,7 +106,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);

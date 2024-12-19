@@ -30,5 +30,7 @@ internal static class CommonFilters
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
         string? input) where TEntity : IComplianceEntity =>
-        string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(entry => entry.Notes.Contains(input));
+        string.IsNullOrWhiteSpace(input)
+            ? predicate
+            : predicate.And(entry => entry.Notes != null && entry.Notes.Contains(input));
 }

@@ -1,5 +1,5 @@
 ﻿namespace AirWeb.AppServices.CommonInterfaces;
 
-public interface ICloseableAndDeletable : IDeletable, ICloseable;
+public interface IIsClosedAndIsDeleted : IIsDeleted, IIsClosed;
 
 public interface IHasOwnerAndDeletable : IHasOwner, IDeletable;

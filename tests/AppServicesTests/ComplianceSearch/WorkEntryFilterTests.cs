@@ -419,11 +419,11 @@ public class WorkEntryFilterTests
     public void Notes_Match()
     {
         // Arrange
-        var note = WorkEntryData.GetData.First(entry => !string.IsNullOrWhiteSpace(entry.Notes)).Notes[..3];
+        var note = WorkEntryData.GetData.First(entry => !string.IsNullOrWhiteSpace(entry.Notes)).Notes![..3];
         var spec = new WorkEntrySearchDto { Notes = note };
         var expression = WorkEntryFilters.SearchPredicate(spec);
 
-        var expected = WorkEntryData.GetData.Where(entry => entry.Notes.Contains(note));
+        var expected = WorkEntryData.GetData.Where(entry => entry.Notes != null && entry.Notes.Contains(note));
 
         // Act
         var result = WorkEntryData.GetData.Where(expression.Compile());

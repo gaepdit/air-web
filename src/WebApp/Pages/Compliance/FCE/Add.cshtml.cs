@@ -34,7 +34,7 @@ public class AddModel(
 
         await PopulateSelectListsAsync();
         var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
-        Item = new FceCreateDto((FacilityId)facilityId!, currentUserId);
+        Item = new FceCreateDto((FacilityId)facilityId, currentUserId);
         return Page();
     }
 

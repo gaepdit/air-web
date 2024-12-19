@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
@@ -15,7 +15,6 @@ public class EditModel(
     IWorkEntryService entryService,
     ISourceTestService sourceTestService,
     IStaffService staffService,
-    IAuthorizationService authorization,
     IValidator<SourceTestReviewUpdateDto> validator)
     : EditBase(entryService, staffService)
 {
@@ -32,7 +31,7 @@ public class EditModel(
 
         var item = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!User.CanEdit(item)) return Forbid();
 
         var testSummary = await sourceTestService.FindSummaryAsync(item.ReferenceNumber);
         if (testSummary is null) return BadRequest();
@@ -46,7 +45,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !User.CanEdit(original)) return BadRequest();
 
         var testSummary = await sourceTestService.FindSummaryAsync(original.ReferenceNumber);
         if (testSummary is null) return BadRequest();
@@ -55,7 +54,4 @@ public class EditModel(
 
         return await DoPostAsync(Item, validator, token);
     }
-
-    private Task<bool> UserCanEditAsync(SourceTestReviewUpdateDto item) =>
-        authorization.Succeeded(User, item, new SourceTestReviewUpdateRequirement());
 }

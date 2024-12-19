@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
@@ -15,7 +15,6 @@ public class EditModel(
     IWorkEntryService entryService,
     INotificationTypeService notificationTypeService,
     IStaffService staffService,
-    IAuthorizationService authorization,
     IValidator<NotificationUpdateDto> validator)
     : EditBase(entryService, staffService)
 {
@@ -32,7 +31,7 @@ public class EditModel(
 
         var item = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!User.CanEdit(item)) return Forbid();
         Item = item;
 
         return await DoGetAsync();
@@ -41,7 +40,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !User.CanEdit(original)) return BadRequest();
 
         return await DoPostAsync(Item, validator, token);
     }
@@ -51,7 +50,4 @@ public class EditModel(
         await base.PopulateSelectListsAsync();
         NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
     }
-
-    private Task<bool> UserCanEditAsync(NotificationUpdateDto item) =>
-        authorization.Succeeded(User, item, new NotificationUpdateRequirement());
 }

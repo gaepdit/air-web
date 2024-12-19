@@ -1,6 +1,8 @@
-﻿namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
+﻿using AirWeb.AppServices.CommonInterfaces;
 
-public record InspectionUpdateDto : InspectionCommandDto
+namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
+
+public record InspectionUpdateDto : InspectionCommandDto, IIsClosedAndIsDeleted
 {
     public bool IsDeleted { get; init; }
     public bool IsClosed { get; init; }

@@ -1,9 +1,8 @@
-using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceSummaryDto : IDeletable
+public record FceSummaryDto : IFceBasicViewDto
 {
     public int Id { get; init; }
 
@@ -26,4 +25,9 @@ public record FceSummaryDto : IDeletable
 
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
+
+    // Calculated properties
+
+    // Not used for FCE summary but required by the interface.
+    public string OwnerId => string.Empty;
 }

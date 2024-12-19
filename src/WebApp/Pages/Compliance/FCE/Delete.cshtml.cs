@@ -2,14 +2,13 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.ComplianceManager))]
-public class DeleteModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+public class DeleteModel(IFceService fceService) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -25,7 +24,7 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
 
         var item = await fceService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanDeleteAsync(item)) return Forbid();
+        if (!User.CanDelete(item)) return Forbid();
 
         ItemSummary = item;
         return Page();
@@ -36,7 +35,7 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
         if (!ModelState.IsValid) return BadRequest();
 
         var item = await fceService.FindSummaryAsync(Id, token);
-        if (item is null || !await UserCanDeleteAsync(item))
+        if (item is null || !User.CanDelete(item))
             return BadRequest();
 
         var notificationResult = await fceService.DeleteAsync(Id, StatusComment, token);
@@ -46,7 +45,4 @@ public class DeleteModel(IFceService fceService, IAuthorizationService authoriza
 
         return RedirectToPage("Details", new { Id });
     }
-
-    private Task<bool> UserCanDeleteAsync(FceSummaryDto item) =>
-        authorization.Succeeded(User, item, ComplianceWorkOperation.Delete);
 }
