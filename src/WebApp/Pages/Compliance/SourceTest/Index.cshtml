@@ -12,10 +12,10 @@
 }
 
 <div class="row justify-content-between align-items-center">
-    <div class="col-md mb-md-0">
+    <div class="col-md">
         <h1>Source Test Summary</h1>
     </div>
-    <div class="col-md-auto my-3 my-md-0 ms-md-3 d-print-none">
+    <div class="col-md-auto ms-md-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
         {
             <a asp-page="/Print/SourceTest/Index" target="_blank" rel="noopener"
@@ -83,7 +83,7 @@
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByCompliance, EditorTemplate.InputDateOnly)
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnly)
                     </div>
                     <div class="col-md mb-3">
                         @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
@@ -120,10 +120,10 @@
 else
 {
     <div class="row justify-content-between align-items-center">
-        <div class="col-md mb-md-0">
+        <div class="col-md">
             <h2 id="compliance-review">Compliance Review</h2>
         </div>
-        <div class="col-md-auto my-3 my-md-0 ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceWorkOperation.Close])
             {
                 <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
@@ -174,8 +174,8 @@ else
 
     <h3 class="mt-4">Details</h3>
     <dl class="row mt-3 mb-0">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByCompliance)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByCompliance, DisplayTemplate.ShortDateOnly)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByComplianceDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByComplianceDate, DisplayTemplate.ShortDateOnly)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.DueDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.DueDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.FollowupTaken)</dt>

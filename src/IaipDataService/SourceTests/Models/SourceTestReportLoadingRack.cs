@@ -17,7 +17,7 @@ public record SourceTestReportLoadingRack : BaseSourceTestReport
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; set; } = "";
+    public string ControlEquipmentInfo { get; set; } = null!;
 
     // Test run data
 

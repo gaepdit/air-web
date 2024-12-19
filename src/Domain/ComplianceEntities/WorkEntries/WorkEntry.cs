@@ -20,9 +20,9 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
 
     // Properties: Basic data
 
-    [MaxLength(9)]
-    public string FacilityId { get; [UsedImplicitly] private init; } = string.Empty;
-    
+    [StringLength(9)]
+    public string FacilityId { get; init; } = null!;
+
     [StringLength(29)]
     public WorkEntryType WorkEntryType { get; internal init; }
 
@@ -30,7 +30,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     public DateOnly? AcknowledgmentLetterDate { get; set; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; }
 
     // Comments
     public List<WorkEntryComment> Comments { get; } = [];

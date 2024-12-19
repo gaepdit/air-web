@@ -11,19 +11,19 @@ erDiagram
         string facilityId FK
     }
 
-    ENF["Enforcement Case"] {
+    ENF["Case File"] {
         int Id PK
         string facilityId FK
     }
 
-    CTE["Enforcement Comment"] {
+    CTE["Case File Comment"] {
         Guid Id PK
-        int enforcementCaseId FK
+        int caseFileId FK
     }
 
     ACT["Enforcement Action †"] {
         Guid Id PK
-        int enforcementCaseId FK
+        int caseFileId FK
     }
 
     POL["Pollutants & Air Programs ‡"]
@@ -93,9 +93,9 @@ erDiagram
 
 Columns from the `SSCP_AUDITEDENFORCEMENT` table:
 
-| Column                     | Type          | Migrate | Case                    | Action                      | Review            |
+| Column                     | Type          | Migrate | Case File               | Enforcement Action          | Action Review     |
 |----------------------------|---------------|:-------:|-------------------------|-----------------------------|-------------------|
-| STRENFORCEMENTNUMBER       | numeric(10)   |    ✓    | Id                      | EnforcementCase             |                   |
+| STRENFORCEMENTNUMBER       | numeric(10)   |    ✓    | Id                      | CaseFile                    |                   |
 | STRTRACKINGNUMBER          | numeric(10)   |    ✗    |                         |                             |                   |
 | STRAIRSNUMBER              | varchar(12)   |    ✓    | FacilityId              |                             |                   |
 | STRENFORCEMENTFINALIZED    | varchar(5)    |    ✓    | IsClosed, Status        |                             |                   |

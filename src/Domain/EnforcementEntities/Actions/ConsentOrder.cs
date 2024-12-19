@@ -5,31 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ConsentOrder : EnforcementAction
+public class ConsentOrder : EnforcementAction, IExecutable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
     private ConsentOrder() { }
 
     internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user) :
-        base(id, proposedConsentOrder.EnforcementCase, user)
+        base(id, proposedConsentOrder.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ConsentOrder;
+        ActionType = EnforcementActionType.ConsentOrder;
         ProposedConsentOrder = proposedConsentOrder;
     }
 
-    internal ConsentOrder(Guid id, EnforcementCase enforcementCase, ApplicationUser? user) :
-        base(id, enforcementCase, user)
+    internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
+        base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.ConsentOrder;
+        ActionType = EnforcementActionType.ConsentOrder;
     }
 
     public ProposedConsentOrder? ProposedConsentOrder { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
-    public DateOnly? Executed { get; set; }
+    public DateOnly? ExecutedDate { get; set; }
+    public bool IsExecuted => ExecutedDate.HasValue;
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
-    public DateOnly? Resolved { get; set; }
+    public DateOnly? ResolvedDate { get; set; }
+    public bool IsResolved => ResolvedDate.HasValue;
     public CoResolvedLetter? ResolvedLetter { get; set; }
 
     public short? OrderNumber { get; set; }

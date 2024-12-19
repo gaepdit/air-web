@@ -5,7 +5,7 @@ namespace LocalRepositoryTests.Identity;
 
 public class RoleStore
 {
-    private static LocalRoleStore _store = default!;
+    private static LocalRoleStore _store = null!;
 
     [SetUp]
     public void SetUp() => _store = new LocalRoleStore();

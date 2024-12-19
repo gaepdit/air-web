@@ -18,12 +18,12 @@ public record SourceTestReportTwoStack : BaseSourceTestReport
     public List<ValueWithUnits> AllowableEmissionRates { get; init; } = [];
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; set; } = "";
+    public string ControlEquipmentInfo { get; set; } = null!;
 
     // Stacks
 
-    public string StackOneName { get; set; } = "";
-    public string StackTwoName { get; set; } = "";
+    public string StackOneName { get; set; } = null!;
+    public string StackTwoName { get; set; } = null!;
 
     [Display(Name = "Test runs")]
     public List<TwoStackTestRun> TestRuns { get; set; } = [];
@@ -44,11 +44,11 @@ public record SourceTestReportTwoStack : BaseSourceTestReport
 
     // `PercentAllowable` is only used by Two Stack (Standard)
     [Display(Name = "Percent allowable")]
-    public string PercentAllowable { get; set; } = "";
+    public string PercentAllowable { get; set; } = null!;
 
     // `DestructionEfficiency` is only used by Two Stack (DRE)
     [Display(Name = "Destruction efficiency")]
-    public string DestructionEfficiency { get; set; } = "";
+    public string DestructionEfficiency { get; set; } = null!;
 
     #region Confidential info handling
 

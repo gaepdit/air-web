@@ -42,7 +42,7 @@
                     additionalViewData: new { Min = WorkEntry.EarliestWorkEntryYear, Max = DateTime.Now.Year })
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.Postmarked, EditorTemplate.InputDateOnly)
+                @Html.EditorFor(m => m.Item.PostmarkDate, EditorTemplate.InputDateOnly)
             </div>
         </div>
 

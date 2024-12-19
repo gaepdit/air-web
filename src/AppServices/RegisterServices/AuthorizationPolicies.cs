@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Permissions;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using Microsoft.AspNetCore.Authentication;
@@ -20,6 +21,7 @@ public static class AuthorizationPolicies
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
         // ViewRequirements are added scoped if they consume scoped services.
+        services.AddScoped<IAuthorizationHandler, CaseFileViewRequirement>();
         services.AddScoped<IAuthorizationHandler, FceViewRequirement>();
         services.AddScoped<IAuthorizationHandler, FceSummaryRequirement>();
         services.AddScoped<IAuthorizationHandler, WorkEntryViewRequirement>();

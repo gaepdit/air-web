@@ -8,41 +8,41 @@ public record TwoStackTestRun : BaseTestRun
     // The database and IAIP allow each stack to have different run numbers,
     // but only the Stack One run numbers are displayed in the report.
     // Stack Two run numbers are not used:
-    // `public string StackTwoRunNumber { get; init; } = "";`
+    // `public string StackTwoRunNumber { get; init; } = null!;
 
     [Display(Name = "Gas temperature")]
-    public string StackOneGasTemperature { get; init; } = "";
+    public string StackOneGasTemperature { get; init; } = null!;
 
-    public string StackTwoGasTemperature { get; init; } = "";
+    public string StackTwoGasTemperature { get; init; } = null!;
 
     [Display(Name = "Gas moisture")]
-    public string StackOneGasMoisture { get; init; } = "";
+    public string StackOneGasMoisture { get; init; } = null!;
 
-    public string StackTwoGasMoisture { get; init; } = "";
-
-    [Display(Name = "Gas flow rate")]
-    public string StackOneGasFlowRateAcfm { get; init; } = "";
-
-    public string StackTwoGasFlowRateAcfm { get; init; } = "";
+    public string StackTwoGasMoisture { get; init; } = null!;
 
     [Display(Name = "Gas flow rate")]
-    public string StackOneGasFlowRateDscfm { get; init; } = "";
+    public string StackOneGasFlowRateAcfm { get; init; } = null!;
 
-    public string StackTwoGasFlowRateDscfm { get; init; } = "";
+    public string StackTwoGasFlowRateAcfm { get; init; } = null!;
+
+    [Display(Name = "Gas flow rate")]
+    public string StackOneGasFlowRateDscfm { get; init; } = null!;
+
+    public string StackTwoGasFlowRateDscfm { get; init; } = null!;
 
     [Display(Name = "Pollutant concentration")]
-    public string StackOnePollutantConcentration { get; init; } = "";
+    public string StackOnePollutantConcentration { get; init; } = null!;
 
-    public string StackTwoPollutantConcentration { get; init; } = "";
+    public string StackTwoPollutantConcentration { get; init; } = null!;
 
     [Display(Name = "Emission rate")]
-    public string StackOneEmissionRate { get; init; } = "";
+    public string StackOneEmissionRate { get; init; } = null!;
 
-    public string StackTwoEmissionRate { get; init; } = "";
+    public string StackTwoEmissionRate { get; init; } = null!;
 
     // `SumEmissionRate` is used by Two Stack (Standard) but not by Two Stack (DRE)
     [Display(Name = "Total")]
-    public string SumEmissionRate { get; init; } = "";
+    public string SumEmissionRate { get; init; } = null!;
 
     #region Confidential info handling
 

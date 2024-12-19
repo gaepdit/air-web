@@ -9,9 +9,9 @@ public class AoResolvedLetter : EnforcementAction
     private AoResolvedLetter() { }
 
     internal AoResolvedLetter(Guid id, AdministrativeOrder administrativeOrder, ApplicationUser? user)
-        : base(id, administrativeOrder.EnforcementCase, user)
+        : base(id, administrativeOrder.CaseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.AoResolvedLetter;
+        ActionType = EnforcementActionType.AoResolvedLetter;
         AdministrativeOrder = administrativeOrder;
     }
 

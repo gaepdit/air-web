@@ -9,7 +9,8 @@ public class AnnualComplianceCertification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private AnnualComplianceCertification() { }
 
-    internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
+    internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user = null) : base(id,
+        facilityId, user)
     {
         WorkEntryType = WorkEntryType.AnnualComplianceCertification;
     }
@@ -17,7 +18,7 @@ public class AnnualComplianceCertification : WorkEntry
     // Properties
     public DateOnly ReceivedDate { get; set; }
     public int AccReportingYear { get; set; }
-    public DateOnly Postmarked { get; set; }
+    public DateOnly PostmarkDate { get; set; }
     public bool PostmarkedOnTime { get; set; }
     public bool SignedByRo { get; set; }
     public bool OnCorrectForms { get; set; }

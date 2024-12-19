@@ -115,7 +115,7 @@ public class AccCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
-            Postmarked = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
         };
 
         // Act
@@ -135,7 +135,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            Postmarked = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
 
         // Act
@@ -144,7 +144,7 @@ public class AccCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.Postmarked);
+        result.ShouldHaveValidationErrorFor(dto => dto.PostmarkDate);
     }
 
     [Test]
@@ -155,7 +155,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            Postmarked = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            PostmarkDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -164,6 +164,6 @@ public class AccCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.Postmarked);
+        result.ShouldHaveValidationErrorFor(dto => dto.PostmarkDate);
     }
 }

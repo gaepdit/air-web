@@ -6,19 +6,19 @@
 @model (IList<AirWeb.AppServices.Compliance.Search.WorkEntrySearchResultDto> Items, AirWeb.AppServices.Compliance.Search.WorkEntrySearchDto? Spec)
 
 <div class="table-responsive-md mb-3">
-    <table class="table table-hover" aria-label="Compliance Work Entry results table">
+    <table class="table table-hover mb-0" aria-label="Compliance Work Entry results table">
         <thead>
         <tr>
             @if (Model.Spec is null)
             {
-                <th scope="col" class="text-nowrap">ID</th>
+                <th scope="col" class="text-nowrap">Tracking #</th>
                 <th scope="col" class="text-nowrap">Work Type</th>
                 <th scope="col" class="text-nowrap">Event Date</th>
             }
             else
             {
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("ID", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Tracking #", SortBy.IdAsc, SortBy.IdDesc, Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Work Type", SortBy.WorkTypeAsc, SortBy.WorkTypeDesc, Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"

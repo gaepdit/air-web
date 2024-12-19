@@ -27,7 +27,7 @@ public class Fce : DeletableEntity<int>, IComplianceEntity
     // FCE properties
 
     [StringLength(9)]
-    public string FacilityId { get; private set; } = string.Empty;
+    public string FacilityId { get; init; } = null!;
 
     public int Year { get; init; }
     public ApplicationUser? ReviewedBy { get; set; }
@@ -35,7 +35,7 @@ public class Fce : DeletableEntity<int>, IComplianceEntity
     public bool OnsiteInspection { get; set; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; }
 
     // Comments
     public List<FceComment> Comments { get; } = [];

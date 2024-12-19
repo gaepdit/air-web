@@ -7,12 +7,12 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 public abstract record BaseTestRun
 {
     [Display(Name = "Test run #")]
-    public string RunNumber { get; init; } = "";
+    public string RunNumber { get; init; } = null!;
 
     #region Confidential info handling
 
     [JsonIgnore]
-    public string ConfidentialParametersCode { protected get; init; } = "";
+    public string ConfidentialParametersCode { protected get; init; } = null!;
 
     protected ICollection<string> ConfidentialParameters { get; set; } = new HashSet<string>();
 

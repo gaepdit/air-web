@@ -16,7 +16,7 @@ public record Comment : ISoftDelete<string>
     public Guid Id { get; init; }
 
     [StringLength(15_000)]
-    public string Text { get; init; } = string.Empty;
+    public string Text { get; init; } = null!;
 
     public ApplicationUser? CommentBy { get; init; }
     public DateTimeOffset CommentedAt { get; init; } = DateTimeOffset.Now;
@@ -34,7 +34,7 @@ public record Comment : ISoftDelete<string>
 
     public void SetNotDeleted()
     {
-        DeletedAt = default;
-        DeletedById = default;
+        DeletedAt = null;
+        DeletedById = null;
     }
 }

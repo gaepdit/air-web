@@ -9,10 +9,10 @@ public class LetterOfNoncompliance : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private LetterOfNoncompliance() { }
 
-    internal LetterOfNoncompliance(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
-        : base(id, enforcementCase, user)
+    internal LetterOfNoncompliance(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
-        EnforcementActionType = EnforcementActionType.LetterOfNoncompliance;
+        ActionType = EnforcementActionType.LetterOfNoncompliance;
     }
 
     public bool ResponseRequested { get; set; }

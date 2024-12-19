@@ -5,7 +5,7 @@ namespace IaipDataService.Facilities;
 
 public partial record FacilityId : IComparable<FacilityId>
 {
-    private readonly string? _id = string.Empty;
+    private readonly string? _id;
 
     // Constructor
 

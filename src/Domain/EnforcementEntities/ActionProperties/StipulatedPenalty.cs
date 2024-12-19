@@ -21,7 +21,7 @@ public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
     [Precision(12, 2)]
     public decimal Amount { get; set; }
 
-    public DateOnly DateReceived { get; set; }
+    public DateOnly ReceivedDate { get; set; }
 
     [StringLength(7000)]
     public string? Notes { get; set; }

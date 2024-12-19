@@ -25,10 +25,10 @@ public abstract class BaseInspection : ComplianceEvent
     public DateTime InspectionEnded { get; set; }
 
     [StringLength(250)]
-    public string WeatherConditions { get; set; } = string.Empty;
+    public string? WeatherConditions { get; set; }
 
     [StringLength(250)]
-    public string InspectionGuide { get; set; } = string.Empty;
+    public string? InspectionGuide { get; set; }
 
     public bool FacilityOperating { get; set; }
 

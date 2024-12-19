@@ -10,7 +10,7 @@ public record FceViewDto : IHasOwnerAndDeletable
 {
     public int Id { get; init; }
 
-    public string FacilityId { get; init; } = default!;
+    public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
 
     [Display(Name = "FCE Year")]
@@ -25,7 +25,7 @@ public record FceViewDto : IHasOwnerAndDeletable
     [Display(Name = "With on-site inspection")]
     public bool OnsiteInspection { get; init; }
 
-    public string Notes { get; init; } = string.Empty;
+    public string Notes { get; init; } = null!;
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];

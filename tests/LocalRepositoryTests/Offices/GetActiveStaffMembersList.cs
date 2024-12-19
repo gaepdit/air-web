@@ -4,7 +4,7 @@ namespace LocalRepositoryTests.Offices;
 
 public class GetActiveStaffMembersList
 {
-    private LocalOfficeRepository _repository = default!;
+    private LocalOfficeRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetOfficeRepository();

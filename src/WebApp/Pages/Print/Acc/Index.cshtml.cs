@@ -23,7 +23,7 @@ public class IndexModel : PageModel
 
         MemoHeader = new MemoHeader
         {
-            Date = Report.ClosedDate,
+            MemoDate = Report.ClosedDate,
             From = Report.ResponsibleStaff?.DisplayName,
             Subject = $"Title V Annual Certification for {Report.AccReportingYear}" + Environment.NewLine +
                       $"{Facility.Name}, {Facility.FacilityAddress?.City}" + Environment.NewLine +

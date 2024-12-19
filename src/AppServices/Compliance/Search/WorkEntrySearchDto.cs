@@ -26,7 +26,7 @@ public record WorkEntrySearchDto : IComplianceSearchDto
 
     // == Staff ==
 
-    [Display(Name = "Responsible Staff")]
+    [Display(Name = "Staff Responsible")]
     // Guid as string
     public string? ResponsibleStaff { get; init; }
 

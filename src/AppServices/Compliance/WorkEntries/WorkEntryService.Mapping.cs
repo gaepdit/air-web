@@ -108,7 +108,7 @@ public sealed partial class WorkEntryService
     {
         acc.ReceivedDate = resource.ReceivedDate;
         acc.AccReportingYear = resource.AccReportingYear;
-        acc.Postmarked = resource.Postmarked;
+        acc.PostmarkDate = resource.PostmarkDate;
         acc.PostmarkedOnTime = resource.PostmarkedOnTime;
         acc.SignedByRo = resource.SignedByRo;
         acc.OnCorrectForms = resource.OnCorrectForms;
@@ -168,7 +168,7 @@ public sealed partial class WorkEntryService
 
     private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)
     {
-        str.ReceivedByCompliance = resource.ReceivedByCompliance;
+        str.ReceivedByComplianceDate = resource.ReceivedByComplianceDate;
         str.DueDate = resource.DueDate;
         str.FollowupTaken = resource.FollowupTaken;
     }

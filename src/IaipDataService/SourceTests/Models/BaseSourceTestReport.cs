@@ -22,10 +22,10 @@ public abstract record BaseSourceTestReport
     public FacilitySummary? Facility { get; set; }
 
     [Display(Name = "Pollutant determined")]
-    public string Pollutant { get; init; } = "";
+    public string Pollutant { get; init; } = null!;
 
     [Display(Name = "Source tested")]
-    public string Source { get; init; } = "";
+    public string Source { get; init; } = null!;
 
     [JsonIgnore]
     public ReportType ReportType { get; init; }
@@ -44,12 +44,12 @@ public abstract record BaseSourceTestReport
     };
 
     [Display(Name = "Applicable requirement")]
-    public string ApplicableRequirement { get; init; } = "";
+    public string ApplicableRequirement { get; init; } = null!;
 
     [Display(Name = "Other information")]
-    public string Comments { get; set; } = "";
+    public string Comments { get; set; } = null!;
 
-    public string ReportStatement { get; init; } = "";
+    public string ReportStatement { get; init; } = null!;
     public bool ReportClosed { get; init; }
 
     // Test report routing
@@ -75,7 +75,7 @@ public abstract record BaseSourceTestReport
     public PersonName TestingUnitManager { get; set; }
 
     [Display(Name = "Director")]
-    public string EpdDirector { get; init; } = string.Empty;
+    public string EpdDirector { get; init; } = null!;
 
     #region Confidential info handling
 
@@ -85,7 +85,7 @@ public abstract record BaseSourceTestReport
     // https://github.com/gaepdit/iaip/blob/main/IAIP/ISMP/ISMPConfidentialData.vb
 
     [JsonIgnore]
-    public string ConfidentialParametersCode { protected get; init; } = "";
+    public string ConfidentialParametersCode { protected get; init; } = null!;
 
     public ICollection<string> ConfidentialParameters { get; protected set; } = [];
 

@@ -11,16 +11,16 @@ public record SourceTestSummaryDto
     public int ReferenceNumber { get; init; }
 
     [Display(Name = "Date received")]
-    public DateOnly ReceivedByCompliance { get; init; }
+    public DateOnly ReceivedByComplianceDate { get; init; }
 
     public PersonName ResponsibleStaff { get; init; }
 
     [Display(Name = "Compliance status")]
-    public string ComplianceStatus { get; init; } = "";
+    public string ComplianceStatus { get; init; } = null!;
 
     [Display(Name = "Pollutant measured")]
-    public string PollutantMeasured { get; init; } = "";
+    public string PollutantMeasured { get; init; } = null!;
 
     [Display(Name = "Source tested")]
-    public string SourceTested { get; init; } = "";
+    public string SourceTested { get; init; } = null!;
 }

@@ -4,7 +4,7 @@ namespace LocalRepositoryTests.Fces;
 
 public class GetNextId
 {
-    private LocalFceRepository _repository = default!;
+    private LocalFceRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetFceRepository();

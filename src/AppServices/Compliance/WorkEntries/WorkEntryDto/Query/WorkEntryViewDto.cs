@@ -11,7 +11,7 @@ public record WorkEntryViewDto : IWorkEntryViewDto
 
     public int Id { get; init; }
     public string ItemName => WorkEntryType.GetDescription();
-    public string FacilityId { get; init; } = default!;
+    public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; init; }
     public virtual bool HasPrintout => false;
@@ -23,7 +23,7 @@ public record WorkEntryViewDto : IWorkEntryViewDto
     [Display(Name = "Date Acknowledgment Letter Sent")]
     public DateOnly? AcknowledgmentLetterDate { get; init; }
 
-    public string Notes { get; init; } = string.Empty;
+    public string Notes { get; init; } = null!;
     public List<CommentViewDto> Comments { get; } = [];
 
     // Properties: Closure

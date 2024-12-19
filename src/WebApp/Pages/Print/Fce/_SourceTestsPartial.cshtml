@@ -18,7 +18,7 @@
     <tr>
         <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReferenceNumber)</th>
-        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReceivedByCompliance)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.ReceivedByComplianceDate)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.ComplianceStatus)</th>
     </tr>
@@ -29,7 +29,7 @@
         <tr>
             <th scope="row" rowspan="2">@i.Id.ToString()</th>
             <td>@i.ReferenceNumber.ToString()</td>
-            <td>@Html.DisplayFor(_ => i.ReceivedByCompliance, DisplayTemplate.LongDateOnly)</td>
+            <td>@Html.DisplayFor(_ => i.ReceivedByComplianceDate, DisplayTemplate.LongDateOnly)</td>
             <td>@i.ResponsibleStaff.SortableFullName</td>
             <td>@i.ComplianceStatus</td>
         </tr>

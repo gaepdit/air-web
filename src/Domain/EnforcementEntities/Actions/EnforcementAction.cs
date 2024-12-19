@@ -15,29 +15,29 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [UsedImplicitly] // Used by ORM.
     private protected EnforcementAction() { }
 
-    private protected EnforcementAction(Guid id, EnforcementCase enforcementCase, ApplicationUser? user)
+    private protected EnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
     {
         Id = id;
-        EnforcementCase = enforcementCase;
+        CaseFile = caseFile;
         SetCreator(user?.Id);
     }
 
     // Basic data
-    public EnforcementCase EnforcementCase { get; init; } = null!;
-    public EnforcementActionType EnforcementActionType { get; protected init; }
+    public CaseFile CaseFile { get; init; } = null!;
+    public EnforcementActionType ActionType { get; protected init; }
 
     [StringLength(7000)]
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; }
 
     // Staff
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     // Review process
-    public ApplicationUser? CurrentOwner { get; internal set; }
-    public DateTimeOffset? CurrentOwnerAssignedDate { get; internal set; }
+    public ApplicationUser? CurrentReviewer { get; internal set; }
+    public DateOnly? ReviewRequestedDate { get; internal set; }
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
     public bool IsApproved { get; internal set; }
-    public DateOnly? DateApproved { get; internal set; }
+    public DateOnly? ApprovedDate { get; internal set; }
     public ApplicationUser? ApprovedBy { get; set; }
 
     // Status
@@ -48,31 +48,33 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Data flow properties
     public bool IsDataFlowEnabled =>
-        !IsDeleted &&
-        EnforcementActionType
-            is EnforcementActionType.AdministrativeOrder
-            or EnforcementActionType.ConsentOrder
-            or EnforcementActionType.ProposedConsentOrder
-            or EnforcementActionType.NoticeOfViolation;
+        !IsDeleted && IsFormalEnforcementAction(ActionType);
 
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
+
+    public static bool IsFormalEnforcementAction(EnforcementActionType type) =>
+        type is EnforcementActionType.AdministrativeOrder
+            or EnforcementActionType.ConsentOrder
+            or EnforcementActionType.NoticeOfViolation
+            or EnforcementActionType.NovNfaLetter
+            or EnforcementActionType.ProposedConsentOrder;
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum EnforcementActionType
 {
-    [Description("Letter of Noncompliance")] LetterOfNoncompliance,
-    [Description("Notice of Violation")] NoticeOfViolation,
-    [Description("No Further Action Letter")] NoFurtherAction,
-    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
-    [Description("Proposed Consent Order")] ProposedConsentOrder,
-    [Description("Consent Order")] ConsentOrder,
-    [Description("Consent Order Resolved")] CoResolvedLetter,
     [Description("Administrative Order")] AdministrativeOrder,
     [Description("Administrative Order Resolved")] AoResolvedLetter,
+    [Description("Consent Order")] ConsentOrder,
+    [Description("Consent Order Resolved")] CoResolvedLetter,
     [Description("Letter")] EnforcementLetter,
+    [Description("Letter of Noncompliance")] LetterOfNoncompliance,
+    [Description("No Further Action Letter")] NoFurtherAction,
+    [Description("Notice of Violation")] NoticeOfViolation,
+    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
+    [Description("Proposed Consent Order")] ProposedConsentOrder,
 }

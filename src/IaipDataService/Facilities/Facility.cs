@@ -14,17 +14,17 @@ public record Facility : IFacilityIdName
     [Key]
     [JsonIgnore]
     [Display(Name = "AIRS Number")]
-    public FacilityId Id { get; } = null!;
+    public FacilityId Id { get; init; } = null!;
 
     public string FacilityId => Id.FormattedId;
 
     // Description
 
     [Display(Name = "Facility name")]
-    public string Name { get; init; } = "";
+    public string Name { get; init; } = null!;
 
     [Display(Name = "Description")]
-    public string Description { get; init; } = "";
+    public string Description { get; init; } = null!;
 
     // Location
 

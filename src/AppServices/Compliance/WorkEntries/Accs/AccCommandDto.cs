@@ -15,7 +15,7 @@ public record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date postmarked")]
-    public DateOnly Postmarked { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly PostmarkDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "Postmarked by deadline")]
     public bool PostmarkedOnTime { get; init; }

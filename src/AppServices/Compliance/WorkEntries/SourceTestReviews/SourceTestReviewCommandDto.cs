@@ -10,7 +10,7 @@ public record SourceTestReviewCommandDto : WorkEntryCommandDto, ISourceTestRevie
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received By Compliance")]
-    public DateOnly ReceivedByCompliance { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly ReceivedByComplianceDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

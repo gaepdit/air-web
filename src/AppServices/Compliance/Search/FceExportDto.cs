@@ -12,7 +12,7 @@ public record FceExportDto : IStandardSearchResult
         FacilityId = fce.FacilityId;
         Year = fce.Year;
         ReviewedBy = fce.ReviewedBy?.SortableFullName;
-        DateCompleted = fce.CompletedDate;
+        CompletedDate = fce.CompletedDate;
         Notes = fce.Notes;
         Deleted = fce.IsDeleted ? "Deleted" : "No";
     }
@@ -33,7 +33,7 @@ public record FceExportDto : IStandardSearchResult
     public string? ReviewedBy { get; init; }
 
     [XLColumn(Header = "Date Completed")]
-    public DateOnly? DateCompleted { get; init; }
+    public DateOnly? CompletedDate { get; init; }
 
     [XLColumn(Header = "Notes")]
     public string? Notes { get; init; }

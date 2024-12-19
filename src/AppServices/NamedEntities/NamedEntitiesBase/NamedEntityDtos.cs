@@ -23,7 +23,7 @@ public abstract record NamedEntityUpdateDto
     [Required(AllowEmptyStrings = false)]
     [StringLength(AppConstants.MaximumNameLength,
         MinimumLength = AppConstants.MinimumNameLength)]
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; init; } = null!;
 
     public bool Active { get; init; }
 }

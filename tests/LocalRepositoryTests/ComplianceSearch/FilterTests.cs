@@ -8,9 +8,9 @@ namespace LocalRepositoryTests.ComplianceSearch;
 
 public class FilterTests
 {
-    private LocalFceRepository _fceRepository = default!;
-    private LocalWorkEntryRepository _entryRepository = default!;
-    private LocalComplianceSearchRepository _repository = default!;
+    private LocalFceRepository _fceRepository = null!;
+    private LocalWorkEntryRepository _entryRepository = null!;
+    private LocalComplianceSearchRepository _repository = null!;
 
     private readonly Expression<Func<WorkEntry, bool>> _workEntryTrueExpression = f => true;
     private readonly Expression<Func<WorkEntry, bool>> _workEntryNotDeletedExpression = f => !f.IsDeleted;

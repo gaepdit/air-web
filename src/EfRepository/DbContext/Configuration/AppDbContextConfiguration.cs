@@ -34,13 +34,13 @@ internal static class AppDbContextConfiguration
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
 
         // Enforcement entities
-        var enforcementCaseEntity = builder.Entity<EnforcementCase>();
-        enforcementCaseEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
+        var caseFileEntity = builder.Entity<CaseFile>();
+        caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ResponsibleStaff).AutoInclude();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ApprovedBy).AutoInclude();
-        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentOwner).AutoInclude();
+        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentReviewer).AutoInclude();
 
         var enforcementActionReviewEntity = builder.Entity<EnforcementActionReview>();
         enforcementActionReviewEntity.Navigation(review => review.ReviewedBy).AutoInclude();
@@ -138,7 +138,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>()
             .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("EnforcementActions")
-            .HasDiscriminator(action => action.EnforcementActionType)
+            .HasDiscriminator(action => action.ActionType)
             .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
             .HasValue<AoResolvedLetter>(EnforcementActionType.AoResolvedLetter)
             .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
@@ -152,10 +152,10 @@ internal static class AppDbContextConfiguration
 
         // Many-to-many relationships.
         // https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-with-named-join-table
-        builder.Entity<EnforcementCase>()
-            .HasMany(enforcementCase => enforcementCase.ComplianceEvents)
-            .WithMany(complianceEvent => complianceEvent.EnforcementCases)
-            .UsingEntity("EnforcementCaseComplianceEvents");
+        builder.Entity<CaseFile>()
+            .HasMany(caseFile => caseFile.ComplianceEvents)
+            .WithMany(complianceEvent => complianceEvent.CaseFiles)
+            .UsingEntity("CaseFileComplianceEvents");
 
         // Self-referencing relationships.
         builder.Entity<AdministrativeOrder>()
@@ -198,12 +198,12 @@ internal static class AppDbContextConfiguration
         var pcoEntity = builder.Entity<ProposedConsentOrder>();
 
         // Executed date
-        aorEntity.Property(e => e.Executed).HasColumnName(nameof(AdministrativeOrder.Executed));
-        corEntity.Property(e => e.Executed).HasColumnName(nameof(ConsentOrder.Executed));
+        aorEntity.Property(e => e.ExecutedDate).HasColumnName(nameof(AdministrativeOrder.ExecutedDate));
+        corEntity.Property(e => e.ExecutedDate).HasColumnName(nameof(ConsentOrder.ExecutedDate));
 
         // Resolved date
-        aorEntity.Property(e => e.Resolved).HasColumnName(nameof(AdministrativeOrder.Resolved));
-        corEntity.Property(e => e.Resolved).HasColumnName(nameof(ConsentOrder.Resolved));
+        aorEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(AdministrativeOrder.ResolvedDate));
+        corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
 
         // Response requested
         enlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(EnforcementLetter.ResponseRequested));
@@ -228,14 +228,14 @@ internal static class AppDbContextConfiguration
 
         // Discriminator
         builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.EnforcementActionType).HasConversion<string>();
+        builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
 
         // Status
-        builder.Entity<EnforcementCase>().Property(e => e.Status).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.CaseFileStatus).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
 
         // Data exchange status
-        builder.Entity<EnforcementCase>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<EnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
@@ -252,7 +252,7 @@ internal static class AppDbContextConfiguration
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then convert(date, ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByCompliance)
+                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByComplianceDate)
                                           else convert(date, '1900-1-1')
                                       end
                                       """);
@@ -265,7 +265,7 @@ internal static class AppDbContextConfiguration
                                           when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
                                               then date(ReceivedDate)
                                           when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByCompliance)
+                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByComplianceDate)
                                           else '1900-1-1'
                                       end
                                       """);

@@ -16,7 +16,7 @@ public record WorkEntryExportDto : IStandardSearchResult
         EventDateName = workEntry.EventDateName;
         ResponsibleStaff = workEntry.ResponsibleStaff?.SortableFullName;
         Closed = workEntry.IsClosed ? "Closed" : "Open";
-        DateClosed = workEntry.ClosedDate;
+        ClosedDate = workEntry.ClosedDate;
         Notes = workEntry.Notes;
         Deleted = workEntry.IsDeleted ? "Deleted" : "No";
     }
@@ -37,7 +37,7 @@ public record WorkEntryExportDto : IStandardSearchResult
     public DateOnly EventDate { get; init; }
 
     [XLColumn(Header = "Event")]
-    public string EventDateName { get; init; } = string.Empty;
+    public string EventDateName { get; init; }
 
     [XLColumn(Header = "Staff Responsible")]
     public string? ResponsibleStaff { get; init; }
@@ -46,7 +46,7 @@ public record WorkEntryExportDto : IStandardSearchResult
     public string Closed { get; init; }
 
     [XLColumn(Header = "Date Closed")]
-    public DateOnly? DateClosed { get; init; }
+    public DateOnly? ClosedDate { get; init; }
 
     [XLColumn(Header = "Notes")]
     public string? Notes { get; init; }

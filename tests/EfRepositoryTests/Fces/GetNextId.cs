@@ -5,7 +5,7 @@ namespace EfRepositoryTests.Fces;
 
 public class GetNextId
 {
-    private FceRepository _repository = default!;
+    private FceRepository _repository = null!;
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

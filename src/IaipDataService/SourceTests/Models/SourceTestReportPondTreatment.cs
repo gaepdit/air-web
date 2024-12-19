@@ -15,7 +15,7 @@ public record SourceTestReportPondTreatment : BaseSourceTestReport
     public ValueWithUnits OperatingCapacity { get; set; }
 
     [Display(Name = "Control equipment and monitoring data")]
-    public string ControlEquipmentInfo { get; set; } = "";
+    public string ControlEquipmentInfo { get; set; } = null!;
 
     // Test run data
 
@@ -29,7 +29,7 @@ public record SourceTestReportPondTreatment : BaseSourceTestReport
     public ValueWithUnits AvgTreatmentRate { get; set; }
 
     [Display(Name = "Destruction efficiency")]
-    public string DestructionEfficiency { get; set; } = "";
+    public string DestructionEfficiency { get; set; } = null!;
 
     #region Confidential info handling
 
