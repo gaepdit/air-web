@@ -5,7 +5,7 @@ namespace AirWeb.TestData.SampleData;
 public static class AddressData
 {
     public static Address GetRandomAddress() => new[] { CompleteAddress, LessCompleteAddress, IncompleteAddress }
-        [new Random().Next(3)];
+        [Random.Shared.Next(3)];
 
     private static Address CompleteAddress => new()
     {

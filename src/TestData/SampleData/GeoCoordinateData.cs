@@ -14,5 +14,5 @@ public static class GeoCoordinateData
     ];
 
     public static GeoCoordinates GetRandomGeoCoordinates() =>
-        GeoCoordinatesData[new Random().Next(GeoCoordinatesData.Length)];
+        GeoCoordinatesData[Random.Shared.Next(GeoCoordinatesData.Length)];
 }

@@ -27,8 +27,8 @@ public static class SampleText
 
     public static string GetRandomText(TextLength length, bool allowEmpty = false) =>
         allowEmpty
-            ? TextAllowEmpty[length][new Random().Next(TextAllowEmpty[length].Length)]
-            : Text[length][new Random().Next(Text[length].Length)];
+            ? TextAllowEmpty[length][Random.Shared.Next(TextAllowEmpty[length].Length)]
+            : Text[length][Random.Shared.Next(Text[length].Length)];
 
     private static Dictionary<TextLength, string[]> Text { get; } = new()
     {
