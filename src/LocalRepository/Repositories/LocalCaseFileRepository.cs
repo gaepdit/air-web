@@ -13,7 +13,8 @@ public sealed class LocalCaseFileRepository(IEnforcementActionRepository actionR
 
     public async Task<CaseFile?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await base.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await FindAsync(id, token).ConfigureAwait(false);
+        if (caseFile == null) return null;
 
         caseFile.EnforcementActions.Clear();
         caseFile.EnforcementActions.AddRange(await actionRepository

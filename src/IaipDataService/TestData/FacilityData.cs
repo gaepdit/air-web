@@ -5,7 +5,7 @@ namespace IaipDataService.TestData;
 
 public static class FacilityData
 {
-    public static Facility GetRandomFacility() => GetData[new Random().Next(GetData.Count)];
+    public static Facility GetRandomFacility() => GetData[Random.Shared.Next(GetData.Count)];
     public static Facility GetFacility(FacilityId id) => GetData.Single(facility => facility.Id == id);
     public static Facility GetFacility(string id) => GetData.Single(facility => facility.Id == id);
 
