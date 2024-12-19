@@ -11,7 +11,6 @@ using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.Identity;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -141,9 +140,9 @@ public sealed partial class WorkEntryService(
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await entryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(workEntry.Id,
-            await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryCreated, token)
-                .ConfigureAwait(false));
+        return new CreateResult<int>(workEntry.Id, await appNotificationService
+            .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .ConfigureAwait(false));
     }
 
     public async Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryCommandDto resource,
@@ -154,7 +153,8 @@ public sealed partial class WorkEntryService(
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
-        return await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryUpdated, token)
+        return await appNotificationService
+            .SendNotificationAsync(Template.EntryUpdated, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
@@ -165,7 +165,9 @@ public sealed partial class WorkEntryService(
 
         entryManager.Close(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryClosed, token)
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EntryClosed, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
@@ -176,7 +178,9 @@ public sealed partial class WorkEntryService(
 
         entryManager.Reopen(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryReopened, token)
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EntryReopened, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
@@ -188,7 +192,9 @@ public sealed partial class WorkEntryService(
 
         entryManager.Delete(workEntry, resource.Comment, currentUser);
         await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryDeleted, token)
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EntryDeleted, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
@@ -197,7 +203,9 @@ public sealed partial class WorkEntryService(
         var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
         entryManager.Restore(workEntry);
         await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryRestored, token)
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EntryRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
@@ -208,33 +216,14 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false);
 
         var workEntry = await entryRepository.GetAsync(itemId, token).ConfigureAwait(false);
-        return new CreateResult<Guid>(result.CommentId,
-            await NotifyOwnerAsync(workEntry.Id, workEntry.ResponsibleStaff, Template.EntryCommentAdded, token,
+
+        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+            .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
         commentService.DeleteCommentAsync(entryRepository, commentId, token);
-
-    private async Task<AppNotificationResult> NotifyOwnerAsync(int entryId, ApplicationUser? recipient,
-        Template template,
-        CancellationToken token, string? comment = null, string? commentBy = null)
-    {
-        if (recipient is null)
-            return AppNotificationResult.FailureResult("This Work Entry does not have an available recipient.");
-        if (!recipient.Active)
-            return AppNotificationResult.FailureResult("The Work Entry recipient is not an active user.");
-        if (recipient.Email is null)
-            return AppNotificationResult.FailureResult("The Work Entry recipient cannot be emailed.");
-
-        return comment is null
-            ? await appNotificationService
-                .SendNotificationAsync(template, recipient.Email, token, entryId.ToString())
-                .ConfigureAwait(false)
-            : await appNotificationService
-                .SendNotificationAsync(template, recipient.Email, token, entryId.ToString(), comment, commentBy)
-                .ConfigureAwait(false);
-    }
 
     #region IDisposable,  IAsyncDisposable
 

@@ -3,7 +3,6 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.Identity;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -51,8 +50,8 @@ public sealed class FceService(
 
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(fce.Id,
-            await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceCreated, token).ConfigureAwait(false));
+        return new CreateResult<int>(fce.Id, await appNotificationService
+            .SendNotificationAsync(Template.FceCreated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false));
     }
 
     public async Task<AppNotificationResult> UpdateAsync(int id, FceUpdateDto resource,
@@ -66,7 +65,9 @@ public sealed class FceService(
         fce.Notes = resource.Notes ?? string.Empty;
 
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceUpdated, token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.FceUpdated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
     }
 
     public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
@@ -77,7 +78,9 @@ public sealed class FceService(
 
         fceManager.Delete(fce, resource.Comment, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceDeleted, token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.FceDeleted, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
     }
 
     public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
@@ -85,7 +88,9 @@ public sealed class FceService(
         var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
         fceManager.Restore(fce);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
-        return await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceRestored, token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.FceRestored, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
     }
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
@@ -98,32 +103,14 @@ public sealed class FceService(
             .ConfigureAwait(false);
 
         var fce = await fceRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
-        return new CreateResult<Guid>(result.CommentId,
-            await NotifyOwnerAsync(fce.Id, fce.ReviewedBy, Template.FceCommentAdded, token, resource.Comment,
-                result.CommentUser?.FullName).ConfigureAwait(false));
+
+        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+            .SendNotificationAsync(Template.FceCommentAdded, fce.ReviewedBy, token, itemId,
+                resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
         commentService.DeleteCommentAsync(fceRepository, commentId, token);
-
-    private async Task<AppNotificationResult> NotifyOwnerAsync(int fceId, ApplicationUser? recipient, Template template,
-        CancellationToken token, string? comment = null, string? commentBy = null)
-    {
-        if (recipient is null)
-            return AppNotificationResult.NotAttemptedResult();
-        if (!recipient.Active)
-            return AppNotificationResult.FailureResult("The recipient is not an active user.");
-        if (recipient.Email is null)
-            return AppNotificationResult.FailureResult("The recipient cannot be emailed.");
-
-        return comment is null
-            ? await appNotificationService
-                .SendNotificationAsync(template, recipient.Email, token, fceId.ToString())
-                .ConfigureAwait(false)
-            : await appNotificationService
-                .SendNotificationAsync(template, recipient.Email, token, fceId.ToString(), comment, commentBy)
-                .ConfigureAwait(false);
-    }
 
     #region IDisposable,  IAsyncDisposable
 

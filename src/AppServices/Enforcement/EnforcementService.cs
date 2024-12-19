@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement.Command;
 using AirWeb.AppServices.Enforcement.Query;
@@ -11,7 +12,10 @@ namespace AirWeb.AppServices.Enforcement;
 public class EnforcementService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
-    IFacilityService facilityService) : IEnforcementService
+    ICommentService<int> commentService,
+    IFacilityService facilityService,
+    IAppNotificationService appNotificationService)
+    : IEnforcementService
 {
     public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
     {
@@ -32,14 +36,19 @@ public class EnforcementService(
         throw new NotImplementedException();
     }
 
-    public Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var result = await commentService.AddCommentAsync(caseFileRepository, itemId, resource, token)
+            .ConfigureAwait(false);
+
+        var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
+
+        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+            .SendNotificationAsync(Template.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId,
+                resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }
 
-    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
+        commentService.DeleteCommentAsync(caseFileRepository, commentId, token);
 }
