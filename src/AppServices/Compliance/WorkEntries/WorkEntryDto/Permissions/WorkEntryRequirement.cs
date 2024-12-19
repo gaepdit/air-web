@@ -1,11 +1,12 @@
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
+using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Permissions;
 
-internal class WorkEntryViewRequirement(IWorkEntryService service) :
+internal class WorkEntryRequirement(IWorkEntryService service) :
     AuthorizationHandler<ComplianceWorkOperation, IWorkEntrySummaryDto>
 {
     protected override async Task HandleRequirementAsync(
@@ -17,15 +18,14 @@ internal class WorkEntryViewRequirement(IWorkEntryService service) :
 
         var success = requirement.Name switch
         {
-            nameof(ComplianceWorkOperation.AddComment) => ComplianceWorkOperation.CanAddComment(context.User, resource),
-            nameof(ComplianceWorkOperation.Close) => ComplianceWorkOperation.CanClose(context.User, resource),
-            nameof(ComplianceWorkOperation.Delete) => ComplianceWorkOperation.CanDelete(context.User, resource),
-            nameof(ComplianceWorkOperation.DeleteComment) => ComplianceWorkOperation.CanDeleteComment(context.User,
-                resource),
-            nameof(ComplianceWorkOperation.Edit) => ComplianceWorkOperation.CanEdit(context.User, resource),
-            nameof(ComplianceWorkOperation.Reopen) => ComplianceWorkOperation.CanReopen(context.User, resource),
+            nameof(ComplianceWorkOperation.AddComment) => context.User.CanAddComment(resource),
+            nameof(ComplianceWorkOperation.Close) => context.User.CanClose(resource),
+            nameof(ComplianceWorkOperation.Delete) => context.User.CanDelete(resource),
+            nameof(ComplianceWorkOperation.DeleteComment) => context.User.CanDeleteComment(resource),
+            nameof(ComplianceWorkOperation.Edit) => context.User.CanEdit(resource),
+            nameof(ComplianceWorkOperation.Reopen) => context.User.CanReopen(resource),
             nameof(ComplianceWorkOperation.Restore) => await CanRestoreAsync(context, resource).ConfigureAwait(false),
-            nameof(ComplianceWorkOperation.ViewDeleted) => ComplianceWorkOperation.CanManageDeletions(context.User),
+            nameof(ComplianceWorkOperation.ViewDeleted) => context.User.CanManageDeletions(),
             _ => false,
         };
 
@@ -33,7 +33,7 @@ internal class WorkEntryViewRequirement(IWorkEntryService service) :
     }
 
     private async Task<bool> CanRestoreAsync(AuthorizationHandlerContext context, IWorkEntrySummaryDto resource) =>
-        ComplianceWorkOperation.CanRestore(context.User, resource) &&
+        context.User.CanRestore(resource) &&
         (resource is not SourceTestReviewViewDto dto ||
          !await service.SourceTestReviewExistsAsync(dto.ReferenceNumber).ConfigureAwait(false));
 }

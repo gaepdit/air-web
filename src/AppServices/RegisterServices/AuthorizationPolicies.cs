@@ -22,9 +22,8 @@ public static class AuthorizationPolicies
 
         // ViewRequirements are added scoped if they consume scoped services.
         services.AddScoped<IAuthorizationHandler, CaseFileViewRequirement>();
-        services.AddScoped<IAuthorizationHandler, FceViewRequirement>();
-        services.AddScoped<IAuthorizationHandler, FceSummaryRequirement>();
-        services.AddScoped<IAuthorizationHandler, WorkEntryViewRequirement>();
+        services.AddScoped<IAuthorizationHandler, FceRequirement>();
+        services.AddScoped<IAuthorizationHandler, WorkEntryRequirement>();
 
         // Add claims transformations
         services.AddScoped<IClaimsTransformation, AppClaimsTransformation>();

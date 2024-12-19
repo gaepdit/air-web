@@ -32,7 +32,7 @@ public class EditModel(
 
         var item = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!await authorization.UserCanEditAsync(User, item)) return Forbid();
         Item = item;
 
         return await DoGetAsync();
@@ -41,7 +41,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !await authorization.UserCanEditAsync(User, original)) return BadRequest();
 
         return await DoPostAsync(Item, validator, token);
     }
@@ -51,7 +51,4 @@ public class EditModel(
         await base.PopulateSelectListsAsync();
         NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
     }
-
-    private Task<bool> UserCanEditAsync(NotificationUpdateDto item) =>
-        authorization.Succeeded(User, item, new NotificationUpdateRequirement());
 }

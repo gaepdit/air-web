@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.Fces.Permissions;
 
-public class FceViewRequirementTests
+public class FceRequirementTests
 {
     private readonly FacilityId _facilityId = new("00100001");
 
@@ -24,7 +24,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -46,7 +46,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -68,7 +68,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -90,7 +90,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -112,7 +112,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -139,7 +139,7 @@ public class FceViewRequirementTests
         fceService.ExistsAsync(Arg.Any<FacilityId>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var handler = new FceViewRequirement(fceService);
+        var handler = new FceRequirement(fceService);
 
         // Act
         await handler.HandleAsync(context);
@@ -166,7 +166,7 @@ public class FceViewRequirementTests
         fceService.ExistsAsync(Arg.Any<FacilityId>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
 
-        var handler = new FceViewRequirement(fceService);
+        var handler = new FceRequirement(fceService);
 
         // Act
         await handler.HandleAsync(context);
@@ -188,7 +188,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -210,7 +210,7 @@ public class FceViewRequirementTests
 
         var resource = new FceViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new FceViewRequirement(Substitute.For<IFceService>());
+        var handler = new FceRequirement(Substitute.For<IFceService>());
 
         // Act
         await handler.HandleAsync(context);

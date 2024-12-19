@@ -29,7 +29,7 @@ public class EditModel(
 
         var item = await fceService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!await authorization.UserCanEditAsync(User, item)) return Forbid();
 
         var itemView = await fceService.FindSummaryAsync(Id);
         if (itemView is null) return BadRequest();
@@ -44,7 +44,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = await fceService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !await authorization.UserCanEditAsync(User, original)) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -64,7 +64,4 @@ public class EditModel(
     // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
     private async Task PopulateSelectListsAsync() =>
         StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
-
-    private Task<bool> UserCanEditAsync(FceUpdateDto item) =>
-        authorization.Succeeded(User, item, new FceUpdateRequirement());
 }

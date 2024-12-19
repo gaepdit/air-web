@@ -1,12 +1,11 @@
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IHasOwnerAndDeletable
+public record FceViewDto : IFceBasicViewDto
 {
     public int Id { get; init; }
 

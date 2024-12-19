@@ -32,7 +32,7 @@ public class EditModel(
 
         var item = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!await authorization.UserCanEditAsync(User, item)) return Forbid();
 
         var testSummary = await sourceTestService.FindSummaryAsync(item.ReferenceNumber);
         if (testSummary is null) return BadRequest();
@@ -46,7 +46,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !await authorization.UserCanEditAsync(User, original)) return BadRequest();
 
         var testSummary = await sourceTestService.FindSummaryAsync(original.ReferenceNumber);
         if (testSummary is null) return BadRequest();
@@ -55,7 +55,4 @@ public class EditModel(
 
         return await DoPostAsync(Item, validator, token);
     }
-
-    private Task<bool> UserCanEditAsync(SourceTestReviewUpdateDto item) =>
-        authorization.Succeeded(User, item, new SourceTestReviewUpdateRequirement());
 }

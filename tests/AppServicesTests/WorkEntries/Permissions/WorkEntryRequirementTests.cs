@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Permissions;
 
-public class WorkEntryViewRequirementTests
+public class WorkEntryRequirementTests
 {
     [Test]
     public async Task ManageDeletions_WhenAllowed_Succeeds()
@@ -23,7 +23,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirement(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -44,7 +44,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirement(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -61,7 +61,7 @@ public class WorkEntryViewRequirementTests
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirement(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -84,7 +84,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirement(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -107,7 +107,7 @@ public class WorkEntryViewRequirementTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryViewRequirement(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirement(Substitute.For<IWorkEntryService>());
 
         // Act
         await handler.HandleAsync(context);

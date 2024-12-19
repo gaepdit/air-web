@@ -27,7 +27,7 @@ public class EditModel(
 
         var item = (ReportUpdateDto?)await _entryService.FindForUpdateAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
+        if (!await authorization.UserCanEditAsync(User, item)) return Forbid();
         Item = item;
 
         return await DoGetAsync();
@@ -36,11 +36,8 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var original = (ReportUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !await UserCanEditAsync(original)) return BadRequest();
+        if (original is null || !await authorization.UserCanEditAsync(User, original)) return BadRequest();
 
         return await DoPostAsync(Item, validator, token);
     }
-
-    private Task<bool> UserCanEditAsync(ReportUpdateDto item) =>
-        authorization.Succeeded(User, item, new ReportUpdateRequirement());
 }
