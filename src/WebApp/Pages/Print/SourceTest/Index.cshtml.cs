@@ -26,8 +26,7 @@ public class IndexModel : PageModel
             if (!activeUser) return Challenge();
         }
 
-        var sourceTestTask = sourceTestService.FindAsync(referenceNumber);
-        Report = await sourceTestTask;
+        Report = await sourceTestService.FindAsync(referenceNumber);
         if (Report?.Facility == null) return NotFound();
 
         Report = includeConfidentialInfo ? Report : Report.RedactedStackTestReport();
