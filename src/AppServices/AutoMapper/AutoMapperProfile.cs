@@ -157,6 +157,8 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<CaseFile, CaseFileViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<CaseFile, CaseFileSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<EnforcementAction, EnforcementActionViewDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
     }

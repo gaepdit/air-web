@@ -3,9 +3,12 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement.Command;
 using AirWeb.AppServices.Enforcement.Query;
+using AirWeb.AppServices.Users;
 using AirWeb.Domain.EnforcementEntities;
 using AutoMapper;
+using FluentValidation;
 using IaipDataService.Facilities;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace AirWeb.AppServices.Enforcement;
 
@@ -14,6 +17,8 @@ public class EnforcementService(
     ICaseFileRepository caseFileRepository,
     ICommentService<int> commentService,
     IFacilityService facilityService,
+    IUserService userService,
+    IValidator<CaseFileUpdateDto> updateValidator,
     IAppNotificationService appNotificationService)
     : IEnforcementService
 {
@@ -24,16 +29,46 @@ public class EnforcementService(
 
         if (caseFile != null)
         {
-            caseFile.FacilityName =
-                await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId).ConfigureAwait(false);
+            caseFile.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
+                .ConfigureAwait(false);
         }
 
         return caseFile;
     }
 
-    public Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource, CancellationToken token = default)
+    public async Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository.FindAsync(id, token)
+            .ConfigureAwait(false));
+
+        if (caseFile != null)
+        {
+            caseFile.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
+                .ConfigureAwait(false);
+        }
+
+        return caseFile;
+    }
+
+    public async Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
+        CancellationToken token)
+    {
+        var validationResult = await updateValidator.ValidateAsync(resource, token).ConfigureAwait(false);
+        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        caseFile.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+
+        // Update the case file properties
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.DiscoveryDate = resource.DiscoveryDate;
+        caseFile.Notes = resource.Notes;
+
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementUpdated, caseFile.ResponsibleStaff, token, id)
+            .ConfigureAwait(false);
     }
 
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
