@@ -2,9 +2,8 @@
 
 namespace AirWeb.AppServices.CommonInterfaces;
 
-public interface IDeletable
+public interface IDeletable : IIsDeleted
 {
-    public bool IsDeleted { get; }
     public StaffViewDto? DeletedBy { get; }
     public DateTimeOffset? DeletedAt { get; }
     public string? DeleteComments { get; }

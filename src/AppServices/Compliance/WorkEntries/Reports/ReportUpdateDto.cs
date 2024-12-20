@@ -1,6 +1,8 @@
-﻿namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
+﻿using AirWeb.AppServices.CommonInterfaces;
 
-public record ReportUpdateDto : ReportCommandDto
+namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
+
+public record ReportUpdateDto : ReportCommandDto, IIsClosedAndIsDeleted
 {
     public bool IsClosed { get; init; }
     public bool IsDeleted { get; init; }

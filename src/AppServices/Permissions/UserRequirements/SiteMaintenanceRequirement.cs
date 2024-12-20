@@ -1,16 +1,16 @@
 ﻿using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Permissions.Requirements.Compliance;
+namespace AirWeb.AppServices.Permissions.UserRequirements;
 
-internal class ComplianceStaffRequirement :
-    AuthorizationHandler<ComplianceStaffRequirement>, IAuthorizationRequirement
+internal class SiteMaintenanceRequirement :
+    AuthorizationHandler<SiteMaintenanceRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        ComplianceStaffRequirement requirement)
+        SiteMaintenanceRequirement requirement)
     {
-        if (context.User.IsComplianceStaff())
+        if (context.User.IsSiteMaintainer())
             context.Succeed(requirement);
 
         return Task.FromResult(0);

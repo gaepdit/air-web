@@ -18,7 +18,7 @@
                 <div class="col">
                     <h4 class="text-danger-emphasis">This FCE has been deleted.</h4>
                 </div>
-                @if (Model.UserCan[ComplianceWorkOperation.Restore])
+                @if (Model.UserCan[ComplianceOperation.Restore])
                 {
                     <div class="col-auto d-print-none ms-2">
                         <a asp-page="Restore" asp-route-id="@Model.Id" class="btn btn-outline-warning">
@@ -44,11 +44,11 @@
     @if (!report.IsDeleted)
     {
         <div class="col-md-auto ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceWorkOperation.Edit])
+            @if (Model.UserCan[ComplianceOperation.Edit])
             {
                 <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
-            @if (Model.UserCan[ComplianceWorkOperation.Delete])
+            @if (Model.UserCan[ComplianceOperation.Delete])
             {
                 <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
             }

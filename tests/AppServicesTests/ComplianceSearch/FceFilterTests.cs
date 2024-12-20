@@ -318,11 +318,11 @@ public class FceFilterTests
     public void Notes_Match()
     {
         // Arrange
-        var note = FceData.GetData.First(fce => !string.IsNullOrWhiteSpace(fce.Notes)).Notes[..3];
+        var note = FceData.GetData.First(fce => !string.IsNullOrWhiteSpace(fce.Notes)).Notes![..3];
         var spec = new FceSearchDto { Notes = note };
         var expression = FceFilters.SearchPredicate(spec);
 
-        var expected = FceData.GetData.Where(fce => fce.Notes.Contains(note));
+        var expected = FceData.GetData.Where(fce => fce.Notes != null && fce.Notes.Contains(note));
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());

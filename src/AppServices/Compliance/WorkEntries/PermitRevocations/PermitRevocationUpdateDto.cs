@@ -1,6 +1,8 @@
-﻿namespace AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+﻿using AirWeb.AppServices.CommonInterfaces;
 
-public record PermitRevocationUpdateDto : PermitRevocationCommandDto
+namespace AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+
+public record PermitRevocationUpdateDto : PermitRevocationCommandDto, IIsClosedAndIsDeleted
 {
     public bool IsClosed { get; init; }
     public bool IsDeleted { get; init; }

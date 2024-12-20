@@ -1,14 +1,13 @@
 ﻿using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.ComplianceManager))]
-public class RestoreModel(IFceService fceService, IAuthorizationService authorization) : PageModel
+public class RestoreModel(IFceService fceService) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -21,7 +20,7 @@ public class RestoreModel(IFceService fceService, IAuthorizationService authoriz
 
         var item = await fceService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
-        if (!await UserCanRestoreAsync(item)) return Forbid();
+        if (!User.CanRestore(item)) return Forbid();
 
         ItemSummary = item;
         return Page();
@@ -32,7 +31,7 @@ public class RestoreModel(IFceService fceService, IAuthorizationService authoriz
         if (!ModelState.IsValid) return BadRequest();
 
         var item = await fceService.FindSummaryAsync(Id, token);
-        if (item is null || !item.IsDeleted || !await UserCanRestoreAsync(item))
+        if (item is null || !item.IsDeleted || !User.CanRestore(item))
             return BadRequest();
 
         var notificationResult = await fceService.RestoreAsync(Id, token);
@@ -42,7 +41,4 @@ public class RestoreModel(IFceService fceService, IAuthorizationService authoriz
 
         return RedirectToPage("Details", new { Id });
     }
-
-    private Task<bool> UserCanRestoreAsync(FceSummaryDto item) =>
-        authorization.Succeeded(User, item, ComplianceWorkOperation.Restore);
 }
