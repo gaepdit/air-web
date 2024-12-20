@@ -17,7 +17,8 @@ public class IndexModel : PageModel
         [FromRoute] int id)
     {
         Report = await workEntryService.FindAsync(id) as AccViewDto;
-        if (Report == null) return NotFound();
+        if (Report == null || Report.IsDeleted) return NotFound();
+
         Facility = await facilityService.FindFacilityDetailsAsync((FacilityId?)Report!.FacilityId);
         if (Facility == null) return NotFound();
 

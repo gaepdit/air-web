@@ -19,9 +19,8 @@ public class IaipSourceTestService(
     public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
         var getDocumentTypeTask = GetDocumentTypeAsync(referenceNumber);
-        var getSourceTestExistsTask = SourceTestExistsAsync(referenceNumber);
 
-        if (!await getSourceTestExistsTask) return null;
+        if (!await SourceTestExistsAsync(referenceNumber)) return null;
 
         return await getDocumentTypeTask switch
         {
