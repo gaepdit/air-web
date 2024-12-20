@@ -20,7 +20,7 @@ public static class AuthorizationPolicies
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
 
         // ViewRequirements are added scoped if they consume scoped services.
-        services.AddScoped<IAuthorizationHandler, CaseFileViewRequirement>();
+        services.AddScoped<IAuthorizationHandler, EnforcementRequirementsHandler>();
         services.AddScoped<IAuthorizationHandler, FceRequirementsHandler>();
         services.AddScoped<IAuthorizationHandler, WorkEntryRequirementsHandler>();
 
