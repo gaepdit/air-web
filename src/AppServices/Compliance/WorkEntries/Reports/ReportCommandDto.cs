@@ -3,7 +3,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 
-public record ReportCommandDto : WorkEntryCommandDto, IReportCommandDto
+public abstract record ReportCommandDto : WorkEntryCommandDto, IReportCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

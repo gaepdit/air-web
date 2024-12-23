@@ -1,13 +1,16 @@
-using AirWeb.AppServices.CommonInterfaces;
-
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceUpdateDto : IIsDeleted
+public record FceUpdateDto
 {
-    // Authorization handler assist properties
-    public bool IsDeleted { get; init; }
+    public FceUpdateDto() { }
 
-    // Data properties
+    public FceUpdateDto(FceSummaryDto fce)
+    {
+        ReviewedById = fce.ReviewedBy?.Id;
+        OnsiteInspection = fce.OnsiteInspection;
+        Notes = fce.Notes;
+    }
+
     [Required]
     [Display(Name = "Reviewed by")]
     public string? ReviewedById { get; init; }

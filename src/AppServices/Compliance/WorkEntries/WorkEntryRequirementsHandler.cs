@@ -1,17 +1,18 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using IaipDataService.Facilities;
+using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.Compliance.Permissions;
+namespace AirWeb.AppServices.Compliance.WorkEntries;
 
-internal class FceRequirementsHandler(IFceService service) :
-    AuthorizationHandler<ComplianceOperation, IFceBasicViewDto>
+internal class WorkEntryRequirementsHandler(IWorkEntryService service) :
+    AuthorizationHandler<ComplianceOperation, IWorkEntrySummaryDto>
 {
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ComplianceOperation requirement,
-        IFceBasicViewDto resource)
+        IWorkEntrySummaryDto resource)
     {
         var user = context.User;
         if (user.Identity is not { IsAuthenticated: true }) return;
@@ -19,9 +20,11 @@ internal class FceRequirementsHandler(IFceService service) :
         var success = requirement.Name switch
         {
             nameof(ComplianceOperation.AddComment) => user.CanAddComment(resource),
+            nameof(ComplianceOperation.Close) => user.CanClose(resource),
             nameof(ComplianceOperation.Delete) => user.CanDelete(resource),
             nameof(ComplianceOperation.DeleteComment) => user.CanDeleteComment(resource),
             nameof(ComplianceOperation.Edit) => user.CanEdit(resource),
+            nameof(ComplianceOperation.Reopen) => user.CanReopen(resource),
             nameof(ComplianceOperation.Restore) => await CanRestoreAsync(user, resource).ConfigureAwait(false),
             nameof(ComplianceOperation.ViewDeleted) => user.CanManageDeletions(),
             _ => false,
@@ -30,7 +33,8 @@ internal class FceRequirementsHandler(IFceService service) :
         if (success) context.Succeed(requirement);
     }
 
-    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IFceBasicViewDto item) =>
-        user.CanRestore(item) &&
-        !await service.ExistsAsync((FacilityId)item.FacilityId, item.Year, item.Id).ConfigureAwait(false);
+    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IWorkEntrySummaryDto resource) =>
+        user.CanRestore(resource) &&
+        (resource is not SourceTestReviewViewDto dto ||
+         !await service.SourceTestReviewExistsAsync(dto.ReferenceNumber).ConfigureAwait(false));
 }

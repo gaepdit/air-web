@@ -23,7 +23,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindAsync(expected.Id, IWorkEntryRepository.IncludeComments);
+        var result = await _repository.FindAsync(expected.Id, includeProperties: IWorkEntryRepository.IncludeComments);
 
         // Assert
         using var scope = new AssertionScope();
@@ -40,7 +40,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindWithCommentsAsync<Notification>(expected.Id);
+        var result = await _repository.FindAsync<Notification>(expected.Id, includeComments: true);
 
         // Assert
         using var scope = new AssertionScope();
@@ -57,7 +57,24 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindAsync(expected!.Id, []);
+        var result = await _repository.FindAsync(expected!.Id, includeProperties: []);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
+        result!.Comments.Count.Should().Be(expected: 0);
+    }
+
+    [Test]
+    public async Task GetWithoutComments_ReturnsEntityWithoutComments()
+    {
+        // Arrange
+        var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
+            entry is { WorkEntryType: WorkEntryType.Notification, Comments.Count: > 0 });
+        if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
+
+        // Act
+        var result = await _repository.FindAsync<Notification>(expected.Id, includeComments: false);
 
         // Assert
         using var scope = new AssertionScope();

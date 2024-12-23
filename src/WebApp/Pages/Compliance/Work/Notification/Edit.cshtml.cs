@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
+using AutoMapper;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
@@ -15,35 +15,25 @@ public class EditModel(
     IWorkEntryService entryService,
     INotificationTypeService notificationTypeService,
     IStaffService staffService,
+    IMapper mapper,
     IValidator<NotificationUpdateDto> validator)
-    : EditBase(entryService, staffService)
+    : EditBase(entryService, staffService, mapper)
 {
-    private readonly IWorkEntryService _entryService = entryService;
-
     [BindProperty]
     public NotificationUpdateDto Item { get; set; } = null!;
 
     public SelectList NotificationTypeSelectList { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
-        if (Id == 0) return RedirectToPage("../Index");
-
-        var item = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id);
-        if (item is null) return NotFound();
-        if (!User.CanEdit(item)) return Forbid();
-        Item = item;
-
-        return await DoGetAsync();
+        var result = await DoGetAsync(token);
+        if (result is not PageResult) return result;
+        Item = Mapper.Map<NotificationUpdateDto>(ItemView);
+        return result;
     }
 
-    public async Task<IActionResult> OnPostAsync(CancellationToken token)
-    {
-        var original = (NotificationUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !User.CanEdit(original)) return BadRequest();
-
-        return await DoPostAsync(Item, validator, token);
-    }
+    public async Task<IActionResult> OnPostAsync(CancellationToken token) =>
+        await DoPostAsync(Item, validator, token);
 
     protected override async Task PopulateSelectListsAsync()
     {

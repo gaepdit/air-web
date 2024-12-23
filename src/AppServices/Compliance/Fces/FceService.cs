@@ -67,7 +67,8 @@ public sealed class FceService(
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         return await appNotificationService
-            .SendNotificationAsync(Template.FceUpdated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
+            .SendNotificationAsync(Template.FceUpdated, fce.ReviewedBy, token, id)
+            .ConfigureAwait(false);
     }
 
     public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,

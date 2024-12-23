@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 
-public record NotificationCommandDto : WorkEntryCommandDto, INotificationCommandDto
+public abstract record NotificationCommandDto : WorkEntryCommandDto, INotificationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

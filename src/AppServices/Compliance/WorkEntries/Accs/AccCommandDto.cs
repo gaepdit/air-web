@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
-public record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
+public abstract record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
