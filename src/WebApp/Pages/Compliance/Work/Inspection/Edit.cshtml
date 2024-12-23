@@ -55,7 +55,6 @@
                 @Html.EditorFor(m => m.Item.InspectionReason, EditorTemplate.SelectNoPlaceholder,
                     additionalViewData: new { Items = EnumHelper.GetEnumSelectListWithDescription<InspectionReason>().ToArray() })
             </div>
-
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.WeatherConditions, EditorTemplate.InputNullable)
             </div>

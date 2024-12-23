@@ -20,19 +20,16 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
     public FceSummaryDto ItemView { get; private set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await fceService.FindForUpdateAsync(Id);
-        if (item is null) return NotFound();
-        if (!User.CanEdit(item)) return Forbid();
+        var itemView = await fceService.FindSummaryAsync(Id, token);
+        if (itemView is null) return NotFound();
+        if (!User.CanEdit(itemView)) return Forbid();
 
-        var itemView = await fceService.FindSummaryAsync(Id);
-        if (itemView is null) return BadRequest();
-
-        Item = item;
         ItemView = itemView;
+        Item = new FceUpdateDto(ItemView);
 
         await PopulateSelectListsAsync();
         return Page();
@@ -40,15 +37,12 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        var original = await fceService.FindForUpdateAsync(Id, token);
-        if (original is null || !User.CanEdit(original)) return BadRequest();
+        var itemView = await fceService.FindSummaryAsync(Id, token);
+        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
 
         if (!ModelState.IsValid)
         {
-            var itemView = await fceService.FindSummaryAsync(Id, token);
-            if (itemView is null) return BadRequest();
             ItemView = itemView;
-
             await PopulateSelectListsAsync();
             return Page();
         }

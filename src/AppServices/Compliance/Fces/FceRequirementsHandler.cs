@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
+﻿using AirWeb.AppServices.Compliance.Permissions;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.Compliance.Permissions;
+namespace AirWeb.AppServices.Compliance.Fces;
 
 internal class FceRequirementsHandler(IFceService service) :
     AuthorizationHandler<ComplianceOperation, IFceBasicViewDto>
