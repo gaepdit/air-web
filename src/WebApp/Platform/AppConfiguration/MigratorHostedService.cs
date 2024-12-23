@@ -17,10 +17,16 @@ public class MigratorHostedService(IServiceProvider serviceProvider, IConfigurat
         if (AppSettings.DevSettings.UseInMemoryData) return;
 
         var migrationConnectionString = configuration.GetConnectionString("MigrationConnection");
-        var migrationOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlServer(migrationConnectionString, builder => builder.MigrationsAssembly("EfRepository")).Options;
+        var dbContextOptionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
+            .UseSqlServer(migrationConnectionString, builder => builder.MigrationsAssembly("EfRepository"));
 
-        await using var migrationContext = new AppDbContext(migrationOptions);
+        if (AppSettings.DevSettings.UseDevSettings)
+        {
+            dbContextOptionsBuilder
+                .LogTo(Console.WriteLine, [DbLoggerCategory.Database.Command.Name], LogLevel.Information);
+        }
+
+        await using var migrationContext = new AppDbContext(dbContextOptionsBuilder.Options);
 
         if (AppSettings.DevSettings.UseEfMigrations)
         {
@@ -31,8 +37,7 @@ public class MigratorHostedService(IServiceProvider serviceProvider, IConfigurat
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             foreach (var role in AppRole.AllRoles!.Keys)
             {
-                if (!await migrationContext.Roles.AnyAsync(identityRole => identityRole.Name == role,
-                        cancellationToken))
+                if (!await migrationContext.Roles.AnyAsync(idRole => idRole.Name == role, cancellationToken))
                 {
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
