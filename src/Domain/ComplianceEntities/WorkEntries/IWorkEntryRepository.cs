@@ -13,22 +13,14 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <summary>
     /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
     /// <see cref="TEntry"/> type. Returns null if no entity exists with the given ID.
-    /// </summary>
-    /// <param name="id">The ID of the WorkEntry.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>A Work Entry of type TEntry or null.</returns>
-    Task<TEntry?> FindAsync<TEntry>(int id, CancellationToken token = default)
-        where TEntry : WorkEntry;
-
-    /// <summary>
-    /// Returns the <see cref="WorkEntry"/> with the given <paramref name="id"/> converted to the specified
-    /// <see cref="TEntry"/> type. Returns null if no entity exists with the given ID.
     /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the WorkEntry.</param>
+    /// <param name="includeComments">Whether to include the <see cref="WorkEntryComment"/> navigation property with
+    ///     the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Work Entry of type TEntry or null.</returns>
-    Task<TEntry?> FindWithCommentsAsync<TEntry>(int id, CancellationToken token = default)
+    Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments, CancellationToken token = default)
         where TEntry : WorkEntry;
 
     /// <summary>

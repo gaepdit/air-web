@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 
-public record SourceTestReviewCommandDto : WorkEntryCommandDto, ISourceTestReviewCommandDto
+public abstract record SourceTestReviewCommandDto : WorkEntryCommandDto, ISourceTestReviewCommandDto
 {
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }

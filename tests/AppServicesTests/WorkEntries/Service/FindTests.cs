@@ -19,7 +19,7 @@ public class FindTests
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
-        repoMock.FindWithCommentsAsync<PermitRevocation>(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        repoMock.FindAsync<PermitRevocation>(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
             .Returns(item);
         repoMock.GetWorkEntryTypeAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(WorkEntryType.PermitRevocation);
@@ -33,7 +33,7 @@ public class FindTests
             Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
 
         // Act
-        var result = await appService.FindAsync(item.Id);
+        var result = await appService.FindAsync(item.Id, includeComments: false);
 
         // Assert
         result.Should().BeEquivalentTo(item);
@@ -54,7 +54,7 @@ public class FindTests
             Substitute.For<IAppNotificationService>());
 
         // Act
-        var result = await appService.FindAsync(-1);
+        var result = await appService.FindAsync(-1, includeComments: false);
 
         // Assert
         result.Should().BeNull();

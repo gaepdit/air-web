@@ -1,42 +1,30 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
-using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
+using AutoMapper;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Inspection;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class EditModel(
     IWorkEntryService entryService,
     IStaffService staffService,
+    IMapper mapper,
     IValidator<InspectionUpdateDto> validator)
-    : EditBase(entryService, staffService)
+    : EditBase(entryService, staffService, mapper)
 {
-    private readonly IWorkEntryService _entryService = entryService;
-
     [BindProperty]
     public InspectionUpdateDto Item { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
-        if (Id == 0) return RedirectToPage("../Index");
-
-        var item = (InspectionUpdateDto?)await _entryService.FindForUpdateAsync(Id);
-        if (item is null) return NotFound();
-        if (!User.CanEdit(item)) return Forbid();
-        Item = item;
-
-        return await DoGetAsync();
+        var result = await DoGetAsync(token);
+        if (result is not PageResult) return result;
+        Item = Mapper.Map<InspectionUpdateDto>(ItemView);
+        return result;
     }
 
-    public async Task<IActionResult> OnPostAsync(CancellationToken token)
-    {
-        var original = (InspectionUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !User.CanEdit(original)) return BadRequest();
-
-        return await DoPostAsync(Item, validator, token);
-    }
+    public async Task<IActionResult> OnPostAsync(CancellationToken token) =>
+        await DoPostAsync(Item, validator, token);
 }

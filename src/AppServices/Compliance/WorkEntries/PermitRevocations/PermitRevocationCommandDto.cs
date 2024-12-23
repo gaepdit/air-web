@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 
-public record PermitRevocationCommandDto : WorkEntryCommandDto, IPermitRevocationCommandDto
+public abstract record PermitRevocationCommandDto : WorkEntryCommandDto, IPermitRevocationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

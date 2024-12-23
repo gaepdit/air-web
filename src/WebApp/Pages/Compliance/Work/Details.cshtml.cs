@@ -26,10 +26,10 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await entryService.FindAsync(Id);
+        Item = await entryService.FindAsync(Id, true, token);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
@@ -53,7 +53,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await entryService.FindAsync(Id, token);
+        Item = await entryService.FindAsync(Id, true, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
@@ -80,7 +80,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await entryService.FindAsync(Id, token);
+        Item = await entryService.FindAsync(Id, true, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();

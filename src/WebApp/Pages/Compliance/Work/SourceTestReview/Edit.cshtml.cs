@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
+using AutoMapper;
 using FluentValidation;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
@@ -15,43 +15,38 @@ public class EditModel(
     IWorkEntryService entryService,
     ISourceTestService sourceTestService,
     IStaffService staffService,
+    IMapper mapper,
     IValidator<SourceTestReviewUpdateDto> validator)
-    : EditBase(entryService, staffService)
+    : EditBase(entryService, staffService, mapper)
 {
-    private readonly IWorkEntryService _entryService = entryService;
-
     [BindProperty]
     public SourceTestReviewUpdateDto Item { get; set; } = null!;
 
     public SourceTestSummary TestSummary { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
-        if (Id == 0) return RedirectToPage("../Index");
+        var result = await DoGetAsync(token);
+        if (result is not PageResult) return result;
 
-        var item = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id);
-        if (item is null) return NotFound();
-        if (!User.CanEdit(item)) return Forbid();
+        Item = Mapper.Map<SourceTestReviewUpdateDto>(ItemView);
 
-        var testSummary = await sourceTestService.FindSummaryAsync(item.ReferenceNumber);
+        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber);
         if (testSummary is null) return BadRequest();
-
-        Item = item;
         TestSummary = testSummary;
 
-        return await DoGetAsync();
+        return result;
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        var original = (SourceTestReviewUpdateDto?)await _entryService.FindForUpdateAsync(Id, token);
-        if (original is null || !User.CanEdit(original)) return BadRequest();
+        var result = await DoPostAsync(Item, validator, token);
+        if (result is not PageResult) return result;
 
-        var testSummary = await sourceTestService.FindSummaryAsync(original.ReferenceNumber);
-        if (testSummary is null) return BadRequest();
-
+        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber);
+        if (testSummary is null || testSummary.ReferenceNumber != Item.ReferenceNumber) return BadRequest();
         TestSummary = testSummary;
 
-        return await DoPostAsync(Item, validator, token);
+        return result;
     }
 }

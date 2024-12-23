@@ -3,7 +3,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
-public record InspectionCommandDto : WorkEntryCommandDto, IInspectionCommandDto
+public abstract record InspectionCommandDto : WorkEntryCommandDto, IInspectionCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

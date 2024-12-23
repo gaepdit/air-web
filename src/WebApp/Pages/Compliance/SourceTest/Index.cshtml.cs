@@ -54,14 +54,15 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (ReferenceNumber == 0) return NotFound();
+
         if (refresh)
         {
             RefreshIaipData = true;
             return RedirectToPage();
         }
 
-        if (ReferenceNumber > 0)
-            TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -184,6 +185,7 @@ public class IndexModel(
 
     private async Task SetPermissionsAsync()
     {
+        // FUTURE: Refactor this permission check.
         CanAddNewReview = await authorization.Succeeded(User, Policies.ComplianceStaff) &&
                           TestSummary is { ReportClosed: true } && ComplianceReview is null;
         UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);

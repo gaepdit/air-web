@@ -1,9 +1,3 @@
-﻿using AirWeb.AppServices.CommonInterfaces;
+﻿namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-
-public record NotificationUpdateDto : NotificationCommandDto, IIsClosedAndIsDeleted
-{
-    public bool IsClosed { get; init; }
-    public bool IsDeleted { get; init; }
-}
+public record NotificationUpdateDto : NotificationCommandDto;

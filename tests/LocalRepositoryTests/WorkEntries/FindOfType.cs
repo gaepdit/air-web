@@ -13,7 +13,7 @@ public class FindOfType
         var entry = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(WorkEntryType.Notification));
 
         // Act
-        var result = await repository.FindAsync<Notification>(entry.Id);
+        var result = await repository.FindAsync<Notification>(entry.Id, includeComments: true);
 
         // Assert
         using var scope = new AssertionScope();
@@ -29,7 +29,7 @@ public class FindOfType
         await using var repository = RepositoryHelper.GetWorkEntryRepository();
 
         // Act
-        var result = await repository.FindAsync<Notification>(id: 0);
+        var result = await repository.FindAsync<Notification>(id: 0, includeComments: true);
 
         // Assert
         result.Should().BeNull();

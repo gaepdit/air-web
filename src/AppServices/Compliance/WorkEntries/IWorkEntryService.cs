@@ -12,8 +12,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries;
 public interface IWorkEntryService : IDisposable, IAsyncDisposable
 {
     // Query
-    Task<IWorkEntryViewDto?> FindAsync(int id, CancellationToken token = default);
-    Task<IWorkEntryCommandDto?> FindForUpdateAsync(int id, CancellationToken token = default);
+    Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
     Task<WorkEntryDataSummary> GetDataSummaryAsync(FacilityId facilityId, CancellationToken token = default);

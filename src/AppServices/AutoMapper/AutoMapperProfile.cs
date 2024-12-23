@@ -82,14 +82,14 @@ public class AutoMapperProfile : Profile
 
     private void Accs()
     {
-        CreateMap<AnnualComplianceCertification, AccUpdateDto>();
+        CreateMap<AccViewDto, AccUpdateDto>();
         CreateMap<AnnualComplianceCertification, AccViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Inspections()
     {
-        CreateMap<Inspection, InspectionUpdateDto>()
+        CreateMap<InspectionViewDto, InspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
                 expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
             .ForMember(dto => dto.InspectionStartedTime, expression =>
@@ -104,43 +104,36 @@ public class AutoMapperProfile : Profile
 
     private void Notifications()
     {
-        CreateMap<Notification, NotificationUpdateDto>();
+        CreateMap<NotificationViewDto, NotificationUpdateDto>();
         CreateMap<Notification, NotificationViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void PermitRevocations()
     {
-        CreateMap<PermitRevocation, PermitRevocationUpdateDto>();
+        CreateMap<PermitRevocationViewDto, PermitRevocationUpdateDto>();
         CreateMap<PermitRevocation, PermitRevocationViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void Reports()
     {
-        CreateMap<Report, ReportUpdateDto>();
+        CreateMap<ReportViewDto, ReportUpdateDto>();
         CreateMap<Report, ReportViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void RmpInspections()
     {
-        CreateMap<RmpInspection, InspectionUpdateDto>()
-            .ForMember(dto => dto.InspectionStartedDate, expression =>
-                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
-            .ForMember(dto => dto.InspectionStartedTime, expression =>
-                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionStarted.TimeOfDay)))
-            .ForMember(dto => dto.InspectionEndedDate, expression =>
-                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
-            .ForMember(dto => dto.InspectionEndedTime, expression =>
-                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
+        // InspectionUpdateDto is handled in Inspections()
+
         CreateMap<RmpInspection, InspectionViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
     private void SourceTestReviews()
     {
-        CreateMap<SourceTestReview, SourceTestReviewUpdateDto>();
+        CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
