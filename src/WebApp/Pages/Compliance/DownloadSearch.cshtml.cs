@@ -8,7 +8,7 @@ namespace AirWeb.WebApp.Pages.Compliance;
 public class DownloadSearchModel(IComplianceSearchService searchService) : PageModel
 {
     public IComplianceSearchDto Spec { get; private set; } = null!;
-    public string Type { get; private set; } = string.Empty;
+    public string Source { get; private set; } = string.Empty;
     public int ResultsCount { get; private set; }
     private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -18,7 +18,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
         if (spec is null) return BadRequest();
         ResultsCount = await searchService.CountWorkEntriesAsync(spec, token);
         Spec = spec;
-        Type = "Work Entry";
+        Source = "Work";
         return Page();
     }
 
@@ -35,7 +35,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
         if (spec is null) return BadRequest();
         ResultsCount = await searchService.CountFcesAsync(spec, token);
         Spec = spec;
-        Type = "FCE";
+        Source = "FCE";
         return Page();
     }
 

@@ -16,12 +16,12 @@ else
         generate.</p>
     <p>
         If the download fails,
-        @if (Model.Type == "FCE")
+        @if (Model.Source == "FCE")
         {
             <a id="download-link" asp-page-handler="DownloadFces"
                asp-all-route-data="Model.Spec.AsRouteValues()">click here to try again.</a>
         }
-        else
+        else // Source == "Work"
         {
             <a id="download-link" asp-page-handler="DownloadWorkEntries"
                asp-all-route-data="Model.Spec.AsRouteValues()">click here to try again.</a>
@@ -34,12 +34,12 @@ else
 }
 
 <p>
-    @if (Model.Type == "FCE")
+    @if (Model.Source == "FCE")
     {
         <a asp-page="FCE/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
            class="btn btn-sm btn-outline-secondary">Return to search</a>
     }
-    else
+    else // Source == "Work"
     {
         <a asp-page="Work/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
            class="btn btn-sm btn-outline-secondary">Return to search</a>
