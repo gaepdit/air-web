@@ -87,7 +87,6 @@ public class ExternalLoginModel(
         if (externalLoginInfo?.Principal is null)
             return RedirectToLoginPageWithError("Error loading work account information.");
 
-
         var userTenant = externalLoginInfo.Principal.GetTenantId();
         var userEmail = externalLoginInfo.Principal.GetEmail();
         if (userEmail is null || userTenant is null)

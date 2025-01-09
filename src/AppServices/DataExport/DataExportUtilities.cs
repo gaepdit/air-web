@@ -9,7 +9,8 @@ public static class DataExportUtilities
     /// </summary>
     /// <param name="records">The records to add to the spreadsheet.</param>
     /// <param name="sheetName">A name for the worksheet.</param>
-    /// <param name="removeLastColumn">A flag indicating whether to delete the final column in the table.</param>
+    /// <param name="removeLastColumn">A flag indicating whether to remove the final column in the table
+    /// (the column showing deletion status).</param>
     /// <typeparam name="T">The type of the records being inserted.</typeparam>
     /// <returns>A <see cref="MemoryStream"/> containing an Excel spreadsheet with a worksheet named
     /// <paramref name="sheetName"/> containing the data in <paramref name="records"/> as a table.</returns>

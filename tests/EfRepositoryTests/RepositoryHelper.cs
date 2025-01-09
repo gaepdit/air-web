@@ -37,8 +37,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper()
     {
         _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
-            builder.LogTo(Console.WriteLine, [RelationalEventId.CommandExecuted]));
-
+            builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]));
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();
     }
@@ -52,8 +51,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     {
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
             builder: builder => builder.UseSqlServer()
-                .LogTo(Console.WriteLine, [RelationalEventId.CommandExecuted]));
-
+                .LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]));
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
     }
