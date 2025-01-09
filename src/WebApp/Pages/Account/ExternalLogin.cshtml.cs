@@ -3,7 +3,6 @@ using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Logging;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Authentication;
@@ -94,19 +93,19 @@ public class ExternalLoginModel(
 
         if (!userEmail.IsValidEmailDomain())
         {
-            logger.LogWarning("User {UserName} with invalid email domain attempted signin", userEmail.MaskEmail());
+            logger.LogWarning("User with invalid email domain attempted signin");
             return RedirectToPage("./Unavailable");
         }
 
-        logger.LogInformation("User {UserName} in tenant {TenantID} successfully authenticated", userEmail.MaskEmail(),
-            userTenant);
+        logger.LogInformation("User with object ID {ObjectId} in tenant {TenantID} successfully authenticated",
+            externalLoginInfo.Principal.GetObjectId(), userTenant);
 
         // Determine if a user account already exists with the Object ID.
         // If not, then determine if a user account already exists with the given username.
         var user = AppSettings.DevSettings.UseInMemoryData
             ? await userManager.FindByNameAsync(userEmail)
-            : await userManager.Users.SingleOrDefaultAsync(u =>
-                  u.ObjectIdentifier == externalLoginInfo.Principal.GetObjectId()) ??
+            : await userManager.Users.SingleOrDefaultAsync(au =>
+                  au.ObjectIdentifier == externalLoginInfo.Principal.GetObjectId()) ??
               await userManager.FindByNameAsync(userEmail);
 
         // If the user does not have a local account yet, then create one and sign in.
@@ -116,7 +115,7 @@ public class ExternalLoginModel(
         // If user has been marked as inactive, don't sign in.
         if (!user.Active)
         {
-            logger.LogWarning("Inactive user {Email} attempted signin", userEmail.MaskEmail());
+            logger.LogWarning("Inactive user with object ID {ObjectId} attempted signin", user.ObjectIdentifier);
             return RedirectToPage("./Unavailable");
         }
 
@@ -165,18 +164,17 @@ public class ExternalLoginModel(
         var createUserResult = await userManager.CreateAsync(user);
         if (!createUserResult.Succeeded)
         {
-            logger.LogWarning("Failed to create new user {UserName}", user.Email.MaskEmail());
+            logger.LogWarning("Failed to create new user with object ID {ObjectId}", user.ObjectIdentifier);
             return await FailedLoginAsync(createUserResult, user);
         }
 
-        logger.LogInformation("Created new user {Email} with object ID {ObjectId}",
-            user.Email.MaskEmail(), user.ObjectIdentifier);
+        logger.LogInformation("Created new user with object ID {ObjectId}", user.ObjectIdentifier);
 
         // Add new user to application Roles if seeded in app settings or local admin user setting is enabled.
         var seedAdminUsers = configuration.GetSection("SeedAdminUsers").Get<string[]>();
         if (AppSettings.DevSettings.LocalUserIsStaff)
         {
-            logger.LogInformation("Seeding staff role for new user {Email}", user.Email.MaskEmail());
+            logger.LogInformation("Seeding staff role for new user with object ID {ObjectId}", user.ObjectIdentifier);
             await userManager.AddToRoleAsync(user, RoleName.ComplianceStaff);
             await userManager.AddToRoleAsync(user, RoleName.ComplianceSiteMaintenance);
         }
@@ -184,7 +182,7 @@ public class ExternalLoginModel(
         if (AppSettings.DevSettings.LocalUserIsAdmin ||
             (seedAdminUsers != null && seedAdminUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
         {
-            logger.LogInformation("Seeding all roles for new user {Email}", user.Email.MaskEmail());
+            logger.LogInformation("Seeding all roles for new user with object ID {ObjectId}", user.ObjectIdentifier);
             foreach (var role in AppRole.AllRoles!) await userManager.AddToRoleAsync(user, role.Key);
         }
 
@@ -197,8 +195,8 @@ public class ExternalLoginModel(
     // Update local store with from external provider. 
     private async Task<IActionResult> RefreshUserInfoAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
     {
-        logger.LogInformation("Existing user {Email} logged in with {LoginProvider} provider",
-            user.Email.MaskEmail(), info.LoginProvider);
+        logger.LogInformation("Existing user with object ID {ObjectId} logged in with {LoginProvider} provider",
+            user.ObjectIdentifier, info.LoginProvider);
 
         var previousValues = new ApplicationUser
         {
@@ -233,8 +231,8 @@ public class ExternalLoginModel(
 
         if (!addLoginResult.Succeeded)
         {
-            logger.LogWarning("Failed to add login provider {LoginProvider} for user {Email}",
-                info.LoginProvider, user.Email.MaskEmail());
+            logger.LogWarning("Failed to add login provider {LoginProvider} for user with object ID {ObjectId}",
+                info.LoginProvider, user.ObjectIdentifier);
             return await FailedLoginAsync(addLoginResult, user);
         }
 
@@ -242,8 +240,8 @@ public class ExternalLoginModel(
         user.MostRecentLogin = DateTimeOffset.Now;
         await userManager.UpdateAsync(user);
 
-        logger.LogInformation("Login provider {LoginProvider} added for user {Email} with object ID {ObjectId}",
-            info.LoginProvider, user.Email.MaskEmail(), user.ObjectIdentifier);
+        logger.LogInformation("Login provider {LoginProvider} added for user with object ID {ObjectId}",
+            info.LoginProvider, user.ObjectIdentifier);
 
         // Include the access token in the properties.
         var props = new AuthenticationProperties();
