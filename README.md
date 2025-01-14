@@ -64,8 +64,8 @@ The solution contains the following projects:
 
 * **Domain** — A class library containing the data models, business logic, and repository interfaces.
 * **AppServices** — A class library containing the services used by an application to interact with the domain.
-* **LocalRepository** — A class library implementing the repositories and data stores using static in-memory test data (
-  for local development).
+* **LocalRepository** — A class library implementing the repositories and data stores using static in-memory test data
+  (for local development).
 * **EfRepository** — A class library implementing the repositories and data stores using Entity Framework and a
   database (as specified by the configured connection string).
 * **WebApp** — The front end web application and/or API.
@@ -90,7 +90,8 @@ top-level setting named `UseDevSettings`. Here's a sample "appsettings.Developme
     "LocalUserIsAuthenticated": true,
     "LocalUserIsStaff": true,
     "LocalUserIsAdmin": true,
-    "UseSecurityHeadersInDev": false
+      "UseSecurityHeadersInDev": false,
+      "EnableWebOptimizer": false
   }
 }
 ```

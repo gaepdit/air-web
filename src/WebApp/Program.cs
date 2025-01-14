@@ -108,7 +108,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Configure bundling and minification.
-builder.Services.AddWebOptimizer(minifyJavaScript: !isDevelopment);
+builder.Services.AddWebOptimizer(
+    minifyJavaScript: AppSettings.DevSettings.EnableWebOptimizer,
+    minifyCss: AppSettings.DevSettings.EnableWebOptimizer);
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
