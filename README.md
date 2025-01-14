@@ -68,6 +68,7 @@ The solution contains the following projects:
   (for local development).
 * **EfRepository** — A class library implementing the repositories and data stores using Entity Framework and a
   database (as specified by the configured connection string).
+* **IaipDataService** — A class library implementing data services for IAIP data.
 * **WebApp** — The front end web application and/or API.
 * **TestData** — A class library containing test data for development and testing.
 
@@ -81,17 +82,18 @@ To work with these settings, add an `appsettings.Development.json` file in the r
 
 ```json
 {
-  "DevSettings": {
-    "UseDevSettings": true,
-    "UseInMemoryData": true,
-    "UseEfMigrations": false,
-    "DeleteAndRebuildDatabase": true,
-    "UseAzureAd": false,
-    "LocalUserIsAuthenticated": true,
-      "LocalUserRoles": [],
-      "UseSecurityHeadersInDev": false,
-      "EnableWebOptimizer": false
-  }
+    "DevSettings": {
+        "UseDevSettings": true,
+        "UseInMemoryData": true,
+        "UseInMemoryIaipData": true,
+        "UseEfMigrations": false,
+        "DeleteAndRebuildDatabase": true,
+        "UseAzureAd": false,
+        "LocalUserIsAuthenticated": true,
+        "LocalUserRoles": [],
+        "UseSecurityHeadersInDev": false,
+        "EnableWebOptimizer": false
+    }
 }
 ```
 
@@ -102,7 +104,9 @@ To work with these settings, add an `appsettings.Development.json` file in the r
     - When `false`, the `EfRepository` project is used, and a SQL Server database (as specified by the connection
       string) is created. (If the connection string is missing, then a temporary EF Core in-memory database provider is
       used. This option is included for convenience and is not recommended.)
-- *UseInMemoryIaipData* — Works the same as `UseInMemoryData`, but for the IAIP data services.
+- *UseInMemoryIaipData* — Works for the IAIP data services similarly to `UseInMemoryData`, except that when set to
+  `false`, it will only connect to an existing SQL Server database. A new database will not be created or seeded with
+  data.
 - *UseEfMigrations* — Uses Entity Framework database migrations when `true`. When `false`, the`DeleteAndRebuildDatabase`
   setting controls how the database is handled. (Only applies if `UseInMemoryData` is`false`.)
 - *DeleteAndRebuildDatabase* — When set to `true`, the database is deleted and recreated on each run. When set to
@@ -163,6 +167,7 @@ missing), the settings are automatically set to production defaults as follows:
 ```csharp
 UseDevSettings = false,
 UseInMemoryData = false,
+UseInMemoryIaipData = false,
 UseEfMigrations = true,
 DeleteAndRebuildDatabase = false,
 UseAzureAd = true,
@@ -223,5 +228,33 @@ flowchart LR
         A --> R
         R --> B
         B --> D
+    end
+```
+
+#### IAIP data services
+
+Here's a visualization of how the settings configure the IAIP data services at runtime.
+
+```mermaid
+flowchart LR
+    subgraph SPL["'UseInMemoryIaipData' = true"]
+        direction LR
+        T["Test Data (in memory)"]
+        A[IAIP App Services]
+        W([Web App])
+        W --> A
+        A --> T
+    end
+```
+
+```mermaid
+flowchart LR
+    subgraph SPB["Production/staging environment <br> or 'UseInMemoryIaipData' = false"]
+        direction LR
+        A[IAIP App Services]
+        W([Web App])
+        B[(Database)]
+        W --> A
+        A --> B
     end
 ```
