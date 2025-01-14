@@ -1,13 +1,11 @@
 ﻿using AirWeb.Domain.Identity;
 using AirWeb.TestData.NamedEntities;
-using AirWeb.TestData.SampleData;
 
 namespace AirWeb.TestData.Identity;
 
 internal static partial class UserData
 {
     public const string AdminUserId = "00000000-0000-0000-0000-000000000001";
-
     public static ApplicationUser GetRandomUser() => GetUsers.ElementAt(Random.Shared.Next(GetUsers.Count()));
 
     private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
@@ -15,36 +13,26 @@ internal static partial class UserData
         new() // 0
         {
             Id = AdminUserId,
-            GivenName = "Admin",
+            GivenName = "Test",
             FamilyName = "User1",
-            Email = "admin.user@example.net",
-            PhoneNumber = SampleText.ValidPhoneNumber,
+            Email = "test.user@example.net",
             Office = OfficeData.GetData.ElementAt(0),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 1
         {
             Id = "00000000-0000-0000-0000-000000000002",
-            GivenName = "General",
+            GivenName = "Another",
             FamilyName = "User2",
-            Email = "general.user@example.net",
+            Email = "another.user2@example.net",
             Office = OfficeData.GetData.ElementAt(1),
             ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 2
         {
             Id = "00000000-0000-0000-0000-000000000003",
-            GivenName = "Limited",
-            FamilyName = "User3",
-            Email = "limited.user@example.net",
-            Office = OfficeData.GetData.ElementAt(0),
-            ObjectIdentifier = Guid.NewGuid().ToString(),
-        },
-        new() // 3
-        {
-            Id = "00000000-0000-0000-0000-000000000004",
             GivenName = "Inactive",
-            FamilyName = "User4",
+            FamilyName = "User3",
             Email = "inactive.user@example.net",
             Active = false,
             Office = OfficeData.GetData.ElementAt(0),

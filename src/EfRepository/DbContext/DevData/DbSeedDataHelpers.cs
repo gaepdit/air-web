@@ -1,11 +1,9 @@
 ﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.Identity;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
-using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.EfRepository.DbContext.DevData;
 
@@ -22,7 +20,7 @@ public static class DbSeedDataHelpers
         SeedEnforcementActionData(context);
     }
 
-    public static void SeedComplianceData(AppDbContext context)
+    internal static void SeedComplianceData(AppDbContext context)
     {
         SeedOfficeData(context);
         SeedIdentityData(context);
@@ -186,7 +184,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    public static void SeedIdentityData(AppDbContext context)
+    internal static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
         var users = UserData.GetUsers.ToList();
@@ -195,31 +193,6 @@ public static class DbSeedDataHelpers
         // Seed Roles
         var roles = UserData.GetRoles.ToList();
         if (!context.Roles.Any()) context.Roles.AddRange(roles);
-
-        // Seed User Roles
-        if (!context.UserRoles.Any())
-        {
-            // -- admin
-            var adminUserRoles = roles
-                .Select(role => new IdentityUserRole<string>
-                    { RoleId = role.Id, UserId = users.Single(e => e.GivenName == "Admin").Id })
-                .ToList();
-            context.UserRoles.AddRange(adminUserRoles);
-
-            // -- staff
-            var staffUserId = users.Single(e => e.GivenName == "General").Id;
-            context.UserRoles.AddRange(
-                new IdentityUserRole<string>
-                {
-                    RoleId = roles.Single(e => e.Name == RoleName.ComplianceSiteMaintenance).Id,
-                    UserId = staffUserId,
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = roles.Single(e => e.Name == RoleName.ComplianceStaff).Id,
-                    UserId = staffUserId,
-                });
-        }
 
         context.SaveChanges();
     }

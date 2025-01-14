@@ -16,19 +16,19 @@ internal static class FceData
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
         },
-        new(402, DomainData.GetRandomFacility().Id, 2021, null)
+        new(402, DomainData.GetRandomFacility().Id, 2021)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(2),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-12).Date),
             OnsiteInspection = false,
             Notes = string.Empty,
         },
-        new(403, DomainData.GetRandomFacility().Id, 2022, null)
+        new(403, DomainData.GetRandomFacility().Id, 2022)
         {
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-14).Date),
             Notes = "Deleted FCE",
         },
-        new(404, DomainData.GetRandomFacility().Id, 2023, null)
+        new(404, DomainData.GetRandomFacility().Id, 2023)
         {
             ReviewedBy = UserData.GetRandomUser(),
             CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-50).Date),
