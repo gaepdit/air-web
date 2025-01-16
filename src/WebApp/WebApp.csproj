@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
     <PropertyGroup>
         <InformationalVersion>2024.8.27</InformationalVersion>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>AirWeb.WebApp</RootNamespace>
     </PropertyGroup>
 
@@ -15,10 +11,6 @@
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
         <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
-        <PackageReference Include="SonarAnalyzer.CSharp">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
@@ -60,5 +52,4 @@
             <AbsolutePath>web.config</AbsolutePath>
         </MsDeploySkipRules>
     </ItemGroup>
-
 </Project>
