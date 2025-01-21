@@ -17,8 +17,4 @@
         <ProjectReference Include="..\Domain\Domain.csproj"/>
         <ProjectReference Include="..\TestData\TestData.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Migrations" />
-    </ItemGroup>
 </Project>
