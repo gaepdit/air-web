@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Enforcement.Query;
+﻿using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;

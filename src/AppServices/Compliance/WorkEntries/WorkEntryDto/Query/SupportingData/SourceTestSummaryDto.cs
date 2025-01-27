@@ -4,7 +4,6 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query.Supportin
 
 public record SourceTestSummaryDto
 {
-    [Display(Name = "Tracking #")]
     public int Id { get; init; }
 
     [Display(Name = "Test Ref #")]

@@ -2,7 +2,7 @@ using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.Cases;
 
-namespace AirWeb.AppServices.Enforcement.Query;
+namespace AirWeb.AppServices.Enforcement.CaseFiles;
 
 public record CaseFileSummaryDto : IIsClosedAndIsDeleted
 {

@@ -6,4 +6,4 @@ namespace AirWeb.LocalRepository.Repositories;
 
 public class LocalEnforcementActionRepository()
     : BaseRepository<EnforcementAction, Guid>(EnforcementActionData.GetData),
-        IEnforcementActionRepository { }
+        IEnforcementActionRepository;

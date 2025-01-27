@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
 
-namespace AirWeb.AppServices.Enforcement.Query;
+namespace AirWeb.AppServices.Enforcement.EnforcementActions;
 
 public record ReviewDto
 {
@@ -12,7 +12,7 @@ public record ReviewDto
     public DateOnly? CompletedDate { get; internal set; }
 
     [StringLength(11)]
-    public ReviewResult? Status { get; internal set; }
+    public ReviewResult? Result { get; internal set; }
 
     [StringLength(7000)]
     public string? ReviewComments { get; internal set; }

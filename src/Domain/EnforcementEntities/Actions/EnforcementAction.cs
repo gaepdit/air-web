@@ -29,22 +29,27 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [StringLength(7000)]
     public string? Notes { get; set; }
 
-    // Staff
-    public ApplicationUser? ResponsibleStaff { get; set; }
+    // Status
+    public EnforcementActionStatus Status { get; internal set; } = EnforcementActionStatus.Draft;
 
-    // Review process
+    // Status: Under review
     public ApplicationUser? CurrentReviewer { get; internal set; }
     public DateOnly? ReviewRequestedDate { get; internal set; }
+
+    [UsedImplicitly]
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
-    public bool IsApproved { get; internal set; }
+
+    // Status: Approved
     public DateOnly? ApprovedDate { get; internal set; }
     public ApplicationUser? ApprovedBy { get; set; }
 
-    // Status
+    // Status: Issued
     public DateOnly? IssueDate { get; internal set; }
-    public bool IsIssued => IssueDate.HasValue;
-    public DateOnly? ClosedAsUnsent { get; internal set; }
-    public bool IsClosedAsUnsent => ClosedAsUnsent.HasValue;
+    internal bool IsIssued => IssueDate.HasValue;
+
+    // Status: Closed as unsent
+    public DateOnly? ClosedAsUnsentDate { get; internal set; }
+    internal bool IsClosedAsUnsent => ClosedAsUnsentDate.HasValue;
 
     // Data flow properties
     public bool IsDataFlowEnabled =>
@@ -77,4 +82,13 @@ public enum EnforcementActionType
     [Description("Notice of Violation")] NoticeOfViolation,
     [Description("Combined NOV/NFA Letter")] NovNfaLetter,
     [Description("Proposed Consent Order")] ProposedConsentOrder,
+}
+
+public enum EnforcementActionStatus
+{
+    [Description("Draft")] Draft,
+    [Description("Review Requested")] ReviewRequested,
+    [Description("Approved")] Approved,
+    [Description("Issued")] Issued,
+    [Description("Closed As Unsent")] ClosedAsUnsent,
 }

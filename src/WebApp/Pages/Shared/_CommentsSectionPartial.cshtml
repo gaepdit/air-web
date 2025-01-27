@@ -34,37 +34,33 @@
     }
     else
     {
-        <div class="row row-cols-1 g-3 mb-3">
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="col">
-                    <div id="@comment.Id.ToString()" class="card @(comment.Id == Model.NewCommentId ? "border-success" : "")">
-                        <div class="card-body ">
-                            <div class="text-break text-pre-line">@comment.Text</div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="container-full">
-                                <div class="row justify-content-between align-items-center g-0 my-1">
-                                    <small class="col text-body-secondary">
-                                        Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
-                                        on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
-                                    </small>
-                                    @if (Model.CanDeleteComment)
-                                    {
-                                        <div class="col-auto d-print-none ms-2">
-                                            <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                                <input name="commentId" type="hidden" value="@comment.Id.ToString()" />
-                                            </form>
-                                        </div>
-                                    }
+        @foreach (var comment in Model.Comments)
+        {
+            <div id="@comment.Id.ToString()" class="card mb-3 @(comment.Id == Model.NewCommentId ? "border-success" : "")">
+                <div class="card-body ">
+                    <div class="text-break text-pre-line">@comment.Text</div>
+                </div>
+                <div class="card-footer">
+                    <div class="container-full">
+                        <div class="row justify-content-between align-items-center g-0 my-1">
+                            <small class="col text-body-secondary">
+                                Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
+                                on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
+                            </small>
+                            @if (Model.CanDeleteComment)
+                            {
+                                <div class="col-auto d-print-none ms-2">
+                                    <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        <input name="commentId" type="hidden" value="@comment.Id.ToString()" />
+                                    </form>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     }
 
     @if (Model.CanAddComment)

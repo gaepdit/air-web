@@ -54,20 +54,21 @@ public class CaseFile : ClosableEntity<int>
     {
         get
         {
-            // TODO: Review the logic for this method.
-            if (IsClosed) return CaseFileStatus.CaseClosed;
+            if (IsClosed) return CaseFileStatus.Closed;
 
             if (EnforcementActions.Exists(action =>
                     action.ActionType is EnforcementActionType.ConsentOrder
                         or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsExecuted))
             {
-                return EnforcementActions.Exists(action => action.ActionType is EnforcementActionType.ConsentOrder
-                    or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsResolved)
-                    ? CaseFileStatus.CaseResolved
-                    : CaseFileStatus.SubjectToComplianceSchedule;
+                return CaseFileStatus.SubjectToComplianceSchedule;
             }
 
-            return CaseFileStatus.CaseOpen;
+            if (EnforcementActions.Exists(action => action.IsIssued))
+            {
+                return CaseFileStatus.Open;
+            }
+
+            return CaseFileStatus.Draft;
         }
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
@@ -97,6 +98,7 @@ public class CaseFile : ClosableEntity<int>
             var dates = actionDates.Where(date => date.HasValue).ToArray();
             return dates.Length == 0 ? null : dates.Min();
         }
+
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
@@ -141,8 +143,8 @@ public class CaseFile : ClosableEntity<int>
 
 public enum CaseFileStatus
 {
-    [Description("Open enforcement case")] CaseOpen,
+    [Description("Draft")] Draft,
+    [Description("Open")] Open,
     [Description("Subject to compliance schedule")] SubjectToComplianceSchedule,
-    [Description("Enforcement case resolved")] CaseResolved,
-    [Description("Enforcement case closed")] CaseClosed,
+    [Description("Closed")] Closed,
 }
