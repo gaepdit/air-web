@@ -37,8 +37,7 @@ public static class EnforcementActionData
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
-            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).Date),
-            ClosedAsUnsent = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-5).Date),
+            ClosedAsUnsentDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-5).Date),
         },
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(4), null)
         {
@@ -93,7 +92,7 @@ public static class EnforcementActionData
         // 311 (11)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(11), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-45).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
@@ -118,6 +117,7 @@ public static class EnforcementActionData
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-220).Date),
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-218).Date),
+            ResolvedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-200).Date),
         },
     ];
 
@@ -151,8 +151,9 @@ public static class EnforcementActionData
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
             ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
-            OrderNumber = 1552,
+            OrderId = 1552,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -165,7 +166,7 @@ public static class EnforcementActionData
             ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
             ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
-            OrderNumber = 1663,
+            OrderId = 1663,
             PenaltyAmount = 10_000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResolvedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).Date),
@@ -209,19 +210,42 @@ public static class EnforcementActionData
             var doubleNestedItems = DoubleNestedSeedItems(nestedSeedItems);
             _enforcementActions.AddRange(doubleNestedItems);
 
-            foreach (var enforcementAction in _enforcementActions)
+            foreach (var action in _enforcementActions)
             {
-                enforcementAction.ResponsibleStaff = UserData.GetRandomUser();
-                enforcementAction.CurrentReviewer = UserData.GetRandomUser();
-                enforcementAction.ReviewRequestedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-10).Date);
-            }
+                if (action.IsIssued)
+                {
+                    action.Status = EnforcementActionStatus.Issued;
+                    action.ApprovedBy = UserData.GetRandomUser();
+                    action.ApprovedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
+                    GenerateEnforcementActionReviews(action);
+                }
+                else if (action.IsClosedAsUnsent)
+                {
+                    action.Status = EnforcementActionStatus.ClosedAsUnsent;
+                    GenerateEnforcementActionReviews(action);
+                }
+                else if (Random.Shared.NextBoolean())
+                {
+                    action.Status = EnforcementActionStatus.Approved;
+                    action.ApprovedBy = UserData.GetRandomUser();
+                    action.ApprovedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
+                    GenerateEnforcementActionReviews(action);
+                }
+#pragma warning disable S1862
+                else if (Random.Shared.NextBoolean())
+#pragma warning restore S1862
+                {
+                    action.Status = EnforcementActionStatus.ReviewRequested;
+                    action.CurrentReviewer = UserData.GetRandomUser();
+                    action.ReviewRequestedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-3).Date);
+                }
+                else
+                {
+                    action.Status = EnforcementActionStatus.Draft;
+                }
 
-            foreach (var enforcementAction in _enforcementActions.Where(action => action.IsIssued))
-            {
-                enforcementAction.IsApproved = true;
-                enforcementAction.ApprovedBy = UserData.GetRandomUser();
-                enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
-                GenerateEnforcementActionReviews(enforcementAction);
+                CaseFileData.GetData.Single(caseFile => caseFile.Id == action.CaseFile.Id)
+                    .EnforcementActions.Add(action);
             }
 
             GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[19]);
@@ -266,13 +290,13 @@ public static class EnforcementActionData
         {
             RequestedDate = requestedDate,
             CompletedDate = incomplete ? null : requestedDate.AddDays(Random.Shared.Next(1, 5)),
-            Status = incomplete ? null : (ReviewResult)Random.Shared.Next(0, 4), // Random status
+            Result = incomplete ? null : (ReviewResult)Random.Shared.Next(0, 4), // Random status
             ReviewComments = incomplete ? null : SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReviewedBy = incomplete ? null : UserData.GetRandomUser(),
         };
     }
 
-    // Next() returns an int in the range [0..Int32.MaxValue]
+    // Next() returns an int in the range [0 to Int32.MaxValue]
     private const int HalfMaxValue = int.MaxValue / 2;
     private static bool NextBoolean(this Random random) => random.Next() > HalfMaxValue;
 

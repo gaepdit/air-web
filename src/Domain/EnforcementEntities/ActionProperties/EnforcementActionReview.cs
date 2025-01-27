@@ -28,7 +28,7 @@ public class EnforcementActionReview : AuditableEntity
     public DateOnly? CompletedDate { get; internal set; }
 
     [StringLength(11)]
-    public ReviewResult? Status { get; internal set; }
+    public ReviewResult? Result { get; internal set; }
 
     [StringLength(7000)]
     public string? ReviewComments { get; internal set; }

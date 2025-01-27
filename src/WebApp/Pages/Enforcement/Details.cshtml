@@ -1,7 +1,10 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Search
+@using AirWeb.AppServices.Enforcement.EnforcementActions
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.Domain.EnforcementEntities.Actions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Constants
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -17,7 +20,7 @@
         <div class="container-full">
             <div class="row justify-content-between align-items-center g-0 my-1">
                 <div class="col">
-                    <h2 class="h4 text-danger-emphasis">This Enforcement has been deleted.</h2>
+                    <h2 class="h4 text-danger-emphasis">This Enforcement Case has been deleted.</h2>
                 </div>
                 @if (Model.UserCan[EnforcementOperation.Restore])
                 {
@@ -40,7 +43,7 @@
 
 <div class="row justify-content-between align-items-center">
     <div class="col-md">
-        <h1>Enforcement</h1>
+        <h1>Enforcement Case</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
@@ -65,17 +68,22 @@
     }
 </div>
 
-<div class="row justify-content-between align-items-center mt-3 mt-md-2">
-    <div
-        class="col-sm-auto lead rounded ms-2 @(caseFile.CaseStatusClass)">
-        <strong>@caseFile.CaseFileStatus.GetDescription()</strong>
-    </div>
-    <div class="col-sm-auto lead">Tracking #@Model.Id.ToString()</div>
-</div>
+<div class=" lead">Enforcement Tracking #@Model.Id.ToString()</div>
 
 <section class="mt-3">
     <h2 class="visually-hidden">Details</h2>
     <dl class="row mt-4">
+        <dt class="col-sm-4 col-lg-3">Status</dt>
+        <dd class="col-sm-8 col-lg-9">
+            <div class="rounded-1 py-1 px-2 ms-n2 @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDescription()</div>
+            @if (caseFile.IsClosed)
+            {
+                <div class="mt-1">
+                    Closed by @Html.DisplayFor(_ => caseFile.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                    on @Html.DisplayFor(_ => caseFile.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
+                </div>
+            }
+        </dd>
         <dt class="col-sm-4 col-lg-3">Facility</dt>
         <dd class="col-sm-8 col-lg-9">
             <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
@@ -83,18 +91,6 @@
         </dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.ResponsibleStaff)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
-        <dt class="col-sm-4 col-lg-3">Status</dt>
-        <dd class="col-sm-8 col-lg-9">
-            @if (caseFile.IsClosed)
-            {
-                @:Closed by @Html.DisplayFor(_ => caseFile.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-                @:on @Html.DisplayFor(_ => caseFile.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
-            }
-            else
-            {
-                @:Open
-            }
-        </dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
         @if (caseFile.HasFormalEnforcement)
@@ -106,8 +102,7 @@
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
         <dd>
-            <div
-                class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder)</div>
+            <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[None]" })</div>
         </dd>
     </dl>
 
@@ -139,10 +134,10 @@
                     }
                     else
                     {
-                        <ul class="mb-0 columns-md-2 columns-lg-3">
+                        <ul class="mb-0 ms-n2">
                             @foreach (var pollutant in caseFile.Pollutants)
                             {
-                                <li>@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span>
+                                <li class="float-start me-4 ms-2">@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span>
                                 </li>
                             }
                         </ul>
@@ -156,10 +151,10 @@
                     }
                     else
                     {
-                        <ul class="mb-0 columns-md-2 columns-lg-3">
+                        <ul class="mb-0 ms-n2">
                             @foreach (var airProgram in caseFile.AirPrograms)
                             {
-                                <li>@airProgram.GetDescription()</li>
+                                <li class="float-start me-4 ms-2">@airProgram.GetDescription()</li>
                             }
                         </ul>
                     }
@@ -180,27 +175,88 @@
     }
     else
     {
-        <div class="row row-cols-1 g-3 mb-3">
-            @foreach (var action in caseFile.EnforcementActions)
-            {
-                <div class="col">
-                    <div id="@action.Id.ToString()" class="card">
-                        <div class="card-body ">
-                            <div class="text-break text-pre-line">@action.ActionType.GetDescription()</div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="container-full">
-                                <div class="row justify-content-between align-items-center g-0 my-1">
-                                    <small class="col text-body-secondary">
-                                        @Html.DisplayFor(_ => action.ResponsibleStaff, DisplayTemplate.Name)
-                                    </small>
-                                </div>
+        @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
+        {
+            <div id="@action.Id.ToString()" class="card mb-4 @(action.IsDeleted ? "border-danger-subtle" : "")">
+                <div class="card-header ">
+                    <div class="container-full">
+                        <div class="row justify-content-between align-items-start g-0 my-1">
+                            <div class="col">
+                                <h3 class="h5 card-title">
+                                    @if (action.IsDeleted)
+                                    {
+                                        <em class="text-danger-emphasis">Deleted</em>
+                                    }
+                                    @action.ActionType.GetDescription()
+                                </h3>
+                                <h4 class="h5 card-subtitle text-body-secondary">
+                                    @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
+                                </h4>
                             </div>
+                            @if (Model.UserCan[EnforcementOperation.Edit])
+                            {
+                                <div class="col-auto d-print-none ms-2">
+                                    <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+                <div class="card-body">
+                    <dl>
+                        <dt class="mb-2">@Html.DisplayNameFor(_ => action.Notes)</dt>
+                        <dd class="text-break text-pre-line">@Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+                    </dl>
+
+                    @switch (action)
+                    {
+                        case AoViewDto model:
+                            <partial name="_Partials/_AoDetails" model="model" />
+                            break;
+                        case CoViewDto model:
+                            <partial name="_Partials/_CoDetails" model="model" />
+                            break;
+                        case ProposedCoViewDto model:
+                            <partial name="_Partials/_ProposedCoDetails" model="model" />
+                            break;
+                        case ResponseRequestedViewDto model:
+                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
+                            break;
+                    }
+                </div>
+                @if (action.Status is EnforcementActionStatus.Approved or EnforcementActionStatus.ReviewRequested || action.IsDeleted)
+                {
+                    <div class="card-footer">
+                        <small class="text-body-secondary">
+                            @if (action.IsDeleted)
+                            {
+                                <div>
+                                    Deleted
+                                    by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+                                    on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
+                                </div>
+                            }
+                            @if (action.Status == EnforcementActionStatus.ReviewRequested)
+                            {
+                                <div>
+                                    Awaiting review
+                                    by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
+                                    on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                </div>
+                            }
+                            else if (action.Status == EnforcementActionStatus.Approved)
+                            {
+                                <div>
+                                    Approved
+                                    by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
+                                    on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                </div>
+                            }
+                        </small>
+                    </div>
+                }
+            </div>
+        }
     }
 </section>
 

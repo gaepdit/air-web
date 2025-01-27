@@ -2,4 +2,4 @@
 
 namespace AirWeb.Domain.EnforcementEntities;
 
-public interface IEnforcementActionRepository : IRepository<EnforcementAction> { }
+public interface IEnforcementActionRepository : IRepository<EnforcementAction>;

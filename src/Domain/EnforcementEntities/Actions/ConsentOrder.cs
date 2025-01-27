@@ -2,6 +2,7 @@
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
@@ -25,6 +26,7 @@ public class ConsentOrder : EnforcementAction, IExecutable
     }
 
     public ProposedConsentOrder? ProposedConsentOrder { get; set; }
+    public CoResolvedLetter? ResolvedLetter { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? ExecutedDate { get; set; }
@@ -32,9 +34,23 @@ public class ConsentOrder : EnforcementAction, IExecutable
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
     public DateOnly? ResolvedDate { get; set; }
     public bool IsResolved => ResolvedDate.HasValue;
-    public CoResolvedLetter? ResolvedLetter { get; set; }
+    public short? OrderId { get; set; }
 
-    public short? OrderNumber { get; set; }
+    [StringLength(13)]
+    public string? OrderNumber
+    {
+        get => OrderId is null ? null : string.Concat("EPD-AQC-", OrderId.ToString());
+
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty.
+            // This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
+    }
 
     [Precision(12, 2)]
     public decimal? PenaltyAmount { get; set; }

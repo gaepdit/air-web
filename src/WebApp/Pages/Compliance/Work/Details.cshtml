@@ -79,7 +79,7 @@
         </div>
     }
 </div>
-<p class="lead mt-2 mt-md-0">Tracking #@Model.Id.ToString()</p>
+<p class="lead mt-2 mt-md-0">Compliance Tracking #@Model.Id.ToString()</p>
 
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
@@ -109,23 +109,23 @@
 
 @switch (report)
 {
-    case AccViewDto acc:
-        <partial name="_Partials/_AccDetails" model="acc" />
+    case AccViewDto model:
+        <partial name="_Partials/_AccDetails" model="model" />
         break;
-    case InspectionViewDto inspection:
-        <partial name="_Partials/_InspectionDetails" model="inspection" />
+    case InspectionViewDto model:
+        <partial name="_Partials/_InspectionDetails" model="model" />
         break;
-    case NotificationViewDto notification:
-        <partial name="_Partials/_NotificationDetails" model="notification" />
+    case NotificationViewDto model:
+        <partial name="_Partials/_NotificationDetails" model="model" />
         break;
-    case PermitRevocationViewDto permitRevocation:
-        <partial name="_Partials/_PermitRevocationDetails" model="permitRevocation" />
+    case PermitRevocationViewDto model:
+        <partial name="_Partials/_PermitRevocationDetails" model="model" />
         break;
-    case ReportViewDto rpt:
-        <partial name="_Partials/_ReportDetails" model="rpt" />
+    case ReportViewDto model:
+        <partial name="_Partials/_ReportDetails" model="model" />
         break;
-    case SourceTestReviewViewDto sourceTestReview:
-        <partial name="_Partials/_SourceTestReviewDetails" model="sourceTestReview" />
+    case SourceTestReviewViewDto model:
+        <partial name="_Partials/_SourceTestReviewDetails" model="model" />
         break;
 }
 

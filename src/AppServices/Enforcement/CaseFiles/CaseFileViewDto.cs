@@ -1,13 +1,14 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Enforcement.EnforcementActions;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using IaipDataService.Facilities;
 
-namespace AirWeb.AppServices.Enforcement.Query;
+namespace AirWeb.AppServices.Enforcement.CaseFiles;
 
 public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
 {
@@ -23,9 +24,11 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
 
     public string CaseStatusClass => CaseFileStatus switch
     {
-        CaseFileStatus.CaseOpen => "bg-warning-subtle",
-        CaseFileStatus.CaseClosed => "bg-info-subtle",
-        _ => "bg-success-subtle",
+        CaseFileStatus.Open => "bg-warning-subtle",
+        CaseFileStatus.Draft => "bg-info-subtle",
+        CaseFileStatus.SubjectToComplianceSchedule => "bg-success-subtle",
+        CaseFileStatus.Closed => "bg-primary-subtle",
+        _ => "",
     };
 
     [Display(Name = "Violation Type")]
@@ -38,21 +41,21 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
     public DateOnly? DayZero { get; init; }
 
     public bool HasFormalEnforcement => EnforcementActions.Exists(action =>
-        action is { IsDeleted: false, IsIssued: true } &&
+        action is { IsDeleted: false, Status: EnforcementActionStatus.Issued } &&
         EnforcementAction.IsFormalEnforcementAction(action.ActionType));
 
     public string Notes { get; init; } = null!;
-    public ICollection<Pollutant> Pollutants { get; } = [];
+    public IList<Pollutant> Pollutants { get; } = [];
 
     [Display(Name = "Air Programs")]
-    public ICollection<AirProgram> AirPrograms { get; } = [];
+    public IList<AirProgram> AirPrograms { get; } = [];
 
     public IList<WorkEntrySearchResultDto> ComplianceEvents { get; } = [];
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
 
-    public List<EnforcementActionViewDto> EnforcementActions { get; } = [];
+    public List<IActionViewDto> EnforcementActions { get; } = [];
 
     // Properties: Closure
     [Display(Name = "Completed By")]

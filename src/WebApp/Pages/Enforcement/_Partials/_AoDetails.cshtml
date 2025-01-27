@@ -1,0 +1,11 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model AirWeb.AppServices.Enforcement.EnforcementActions.AoViewDto
+
+<dl class="row mt-3 mb-0">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ExecutedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.AppealedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.AppealedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ResolvedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+</dl>

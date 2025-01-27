@@ -1,10 +1,12 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Enforcement.CaseFiles;
 using AirWeb.AppServices.Enforcement.Command;
-using AirWeb.AppServices.Enforcement.Query;
+using AirWeb.AppServices.Enforcement.EnforcementActions;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.EnforcementEntities;
+using AirWeb.Domain.EnforcementEntities.Actions;
 using AutoMapper;
 using FluentValidation;
 using IaipDataService.Facilities;
@@ -22,18 +24,44 @@ public class EnforcementService(
     IAppNotificationService appNotificationService)
     : IEnforcementService
 {
+    public async Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default) =>
+        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync(token)
+            .ConfigureAwait(false)).ToList();
+
     public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
     {
-        var caseFile = mapper.Map<CaseFileViewDto?>(await caseFileRepository.FindDetailedCaseFileAsync(id, token)
-            .ConfigureAwait(false));
+        var caseFile = await caseFileRepository
+            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeEnforcement, token).ConfigureAwait(false);
 
-        if (caseFile != null)
+        if (caseFile == null) return null;
+
+        // Facility name and enforcement actions are ignored in Automapper.
+        var caseFileDto = mapper.Map<CaseFileViewDto>(caseFile);
+
+        // Facility name comes from the IAIP facility service.
+        caseFileDto.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFileDto.FacilityId)
+            .ConfigureAwait(false);
+
+        // Enforcement actions must be mapped individually to their respective DTOs.
+        foreach (var action in caseFile.EnforcementActions)
         {
-            caseFile.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
-                .ConfigureAwait(false);
+            caseFileDto.EnforcementActions.Add(action switch
+            {
+                AdministrativeOrder a => mapper.Map<AoViewDto>(a),
+                AoResolvedLetter a => mapper.Map<ActionViewDto>(a),
+                CoResolvedLetter a => mapper.Map<ActionViewDto>(a),
+                ConsentOrder a => mapper.Map<CoViewDto>(a),
+                EnforcementLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+                LetterOfNoncompliance a => mapper.Map<ResponseRequestedViewDto>(a),
+                NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
+                NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
+                NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+                ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
+                _ => throw new InvalidOperationException("Unknown enforcement action type"),
+            });
         }
 
-        return caseFile;
+        return caseFileDto;
     }
 
     public async Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default)

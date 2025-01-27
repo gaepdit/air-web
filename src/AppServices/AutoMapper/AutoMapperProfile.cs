@@ -8,7 +8,8 @@ using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.AppServices.Enforcement.Query;
+using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.EnforcementActions;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
@@ -34,13 +35,6 @@ public class AutoMapperProfile : Profile
         Comments();
         Fces();
         WorkEntries();
-        Accs();
-        Inspections();
-        Notifications();
-        PermitRevocations();
-        Reports();
-        RmpInspections();
-        SourceTestReviews();
         SearchResults();
         Enforcement();
     }
@@ -49,6 +43,13 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<WorkEntry, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        Accs();
+        Inspections();
+        Notifications();
+        PermitRevocations();
+        Reports();
+        RmpInspections();
+        SourceTestReviews();
     }
 
     private void Users()
@@ -149,10 +150,26 @@ public class AutoMapperProfile : Profile
     private void Enforcement()
     {
         CreateMap<CaseFile, CaseFileViewDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
+            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore());
         CreateMap<CaseFile, CaseFileSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<EnforcementAction, EnforcementActionViewDto>();
+
+        CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
+
+        CreateMap<AdministrativeOrder, AoViewDto>();
+        CreateMap<AoResolvedLetter, ActionViewDto>();
+        CreateMap<CoResolvedLetter, ActionViewDto>();
+        CreateMap<ConsentOrder, CoViewDto>();
+        CreateMap<EnforcementLetter, ResponseRequestedViewDto>();
+        CreateMap<LetterOfNoncompliance, IActionViewDto>();
+        CreateMap<LetterOfNoncompliance, ResponseRequestedViewDto>();
+        CreateMap<NoFurtherActionLetter, ActionViewDto>();
+        CreateMap<NoticeOfViolation, ResponseRequestedViewDto>();
+        CreateMap<NovNfaLetter, ResponseRequestedViewDto>();
+        CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
+
+        CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
     }
 }

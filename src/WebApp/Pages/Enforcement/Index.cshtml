@@ -1,0 +1,22 @@
+﻿@page
+@using GaEpd.AppLibrary.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IndexModel
+@{
+    ViewData["Title"] = "Enforcement Cases";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Here is a list of Enforcement Cases for testing purposes.</p>
+
+<ul>
+    @foreach (var caseFile in Model.CaseFiles)
+    {
+        <li>
+            <a asp-page="Details" asp-route-id="@caseFile.Id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
+                @caseFile.Id - @caseFile.CaseFileStatus.GetDescription()
+            </a>
+        </li>
+    }
+</ul>

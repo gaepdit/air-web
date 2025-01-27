@@ -38,7 +38,6 @@ internal static class AppDbContextConfiguration
         caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
-        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ResponsibleStaff).AutoInclude();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ApprovedBy).AutoInclude();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentReviewer).AutoInclude();
 
@@ -232,7 +231,7 @@ internal static class AppDbContextConfiguration
 
         // Status
         builder.Entity<CaseFile>().Property(e => e.CaseFileStatus).HasConversion<string>();
-        builder.Entity<EnforcementActionReview>().Property(e => e.Status).HasConversion<string>();
+        builder.Entity<EnforcementActionReview>().Property(e => e.Result).HasConversion<string>();
 
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();

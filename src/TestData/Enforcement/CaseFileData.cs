@@ -33,6 +33,8 @@ internal static class CaseFileData
         {
             Notes = "LON - closed",
             DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
+            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-3).Date),
+            ClosedBy = UserData.GetRandomUser(),
         },
         new(304, DomainData.GetRandomFacility().Id, null)
         {
@@ -96,7 +98,6 @@ internal static class CaseFileData
             Notes = "Administrative Order - executed",
             ViolationType = GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-320).Date),
-            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddMonths(-9).Date),
         },
         new(314, DomainData.GetRandomFacility().Id, null)
         {

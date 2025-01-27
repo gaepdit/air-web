@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.CaseFiles;
 using AirWeb.AppServices.Enforcement.Command;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Enforcement.Query;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;

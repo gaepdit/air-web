@@ -62,6 +62,7 @@
 
 [data-bs-theme="dark"] {
     --callout-link: 110, 168, 254;
+    --bs-success-bg-subtle: hsl(153, 92%, 10%);
 }
 
 [data-bs-theme="dark"] .navbar {
@@ -225,6 +226,10 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 -------------------------------------------------- */
 .ms-n1 {
     margin-left: -0.25rem !important;
+}
+
+.ms-n2 {
+    margin-left: -0.5rem !important;
 }
 
 /* External links
