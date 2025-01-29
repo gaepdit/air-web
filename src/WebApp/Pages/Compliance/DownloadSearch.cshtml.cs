@@ -1,11 +1,14 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.DataExport;
 using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Compliance;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DownloadSearchModel(IComplianceSearchService searchService) : PageModel
+public class DownloadSearchModel(IFceSearchService fceSearchService, IWorkEntrySearchService entrySearchService)
+    : PageModel
 {
     public IComplianceSearchDto Spec { get; private set; } = null!;
     public string Source { get; private set; } = string.Empty;
@@ -16,7 +19,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
     public async Task<IActionResult> OnGetWorkEntriesAsync(WorkEntrySearchDto? spec, CancellationToken token)
     {
         if (spec is null) return BadRequest();
-        ResultsCount = await searchService.CountWorkEntriesAsync(spec, token);
+        ResultsCount = await entrySearchService.CountAsync(spec, token);
         Spec = spec;
         Source = "Work";
         return Page();
@@ -25,7 +28,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
     public async Task<IActionResult> OnGetDownloadWorkEntriesAsync(WorkEntrySearchDto? spec, CancellationToken token)
     {
         if (spec is null) return BadRequest();
-        return Export("Compliance", await searchService.ExportWorkEntriesAsync(spec, token), spec.DeleteStatus == null);
+        return Export("Compliance", await entrySearchService.ExportAsync(spec, token), spec.DeleteStatus == null);
     }
 
     // FCEs
@@ -33,7 +36,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
     public async Task<IActionResult> OnGetFcesAsync(FceSearchDto? spec, CancellationToken token)
     {
         if (spec is null) return BadRequest();
-        ResultsCount = await searchService.CountFcesAsync(spec, token);
+        ResultsCount = await fceSearchService.CountAsync(spec, token);
         Spec = spec;
         Source = "FCE";
         return Page();
@@ -42,7 +45,7 @@ public class DownloadSearchModel(IComplianceSearchService searchService) : PageM
     public async Task<IActionResult> OnGetDownloadFcesAsync(FceSearchDto? spec, CancellationToken token)
     {
         if (spec is null) return BadRequest();
-        return Export("FCE", await searchService.ExportFcesAsync(spec, token), spec.DeleteStatus == null);
+        return Export("FCE", await fceSearchService.ExportAsync(spec, token), spec.DeleteStatus == null);
     }
 
     // Common

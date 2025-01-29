@@ -2,23 +2,15 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public interface IComplianceSearchService : IDisposable, IAsyncDisposable
+// FUTURE: Is this reusable for Enforcement search?
+public interface IComplianceSearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
+    where TSearchResultDto : class
 {
-    // Work entries
-    Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
+    Task<IPaginatedResult<TSearchResultDto>> SearchAsync(TSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
 
-    Task<int> CountWorkEntriesAsync(WorkEntrySearchDto spec, CancellationToken token);
+    Task<int> CountAsync(TSearchDto spec, CancellationToken token);
 
-    Task<IReadOnlyList<WorkEntryExportDto>> ExportWorkEntriesAsync(WorkEntrySearchDto spec,
-        CancellationToken token);
-
-    // FCEs
-    Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
-        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
-
-    Task<int> CountFcesAsync(FceSearchDto spec, CancellationToken token);
-
-    Task<IReadOnlyList<FceExportDto>> ExportFcesAsync(FceSearchDto spec,
+    Task<IReadOnlyList<TExportDto>> ExportAsync(TSearchDto spec,
         CancellationToken token);
 }

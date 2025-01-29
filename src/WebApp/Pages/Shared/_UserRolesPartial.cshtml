@@ -10,17 +10,22 @@
 {
     @foreach (var category in AppRole.AllRoleCategories)
     {
-        <div class="p-3 mb-3 border rounded-3 bg-light-subtle">
+        <div class="p-3 pb-0 mb-3 border rounded-3 bg-light-subtle">
             <h4 class="mb-3">@category Roles</h4>
-            <dl>
-                @foreach (var role in Model.Where(role => role.Category == category))
-                {
-                    <dt>@role.DisplayName</dt>
-                    <dd>
-                        <p class="text-body-secondary">@role.Description</p>
-                    </dd>
-                }
-            </dl>
+            @if (Model.Any(role => role.Category == category))
+            {
+                <dl>
+                    @foreach (var role in Model.Where(role => role.Category == category))
+                    {
+                        <dt>@role.DisplayName</dt>
+                        <dd><p class="text-body-secondary">@role.Description</p></dd>
+                    }
+                </dl>
+            }
+            else
+            {
+                <p>None.</p>
+            }
         </div>
     }
 }

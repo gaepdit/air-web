@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
@@ -20,16 +19,15 @@ public static class AppServices
         // Work Entries
         .AddScoped<IWorkEntryManager, WorkEntryManager>()
         .AddScoped<IWorkEntryService, WorkEntryService>()
+        .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
 
         // FCEs
         .AddScoped<IFceManager, FceManager>()
         .AddScoped<IFceService, FceService>()
+        .AddScoped<IFceSearchService, FceSearchService>()
 
         // Comments
         .AddScoped<ICommentService<int>, CommentService<int>>()
-
-        // Compliance search
-        .AddScoped<IComplianceSearchService, ComplianceSearchService>()
 
         // Notification Types
         .AddScoped<INotificationTypeManager, NotificationTypeManager>()

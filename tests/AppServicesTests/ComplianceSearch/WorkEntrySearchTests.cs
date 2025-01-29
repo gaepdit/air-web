@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.Search;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
@@ -22,7 +22,7 @@ public class WorkEntrySearchTests
         var searchDto = new WorkEntrySearchDto();
         var entries = WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
+        var searchRepoMock = Substitute.For<IWorkEntrySearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
@@ -34,12 +34,12 @@ public class WorkEntrySearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
+        var service = new WorkEntrySearchService(searchRepoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act
-        var result = await service.SearchWorkEntriesAsync(searchDto, _paging);
+        var result = await service.SearchAsync(searchDto, _paging);
 
         // Assert
         using var scope = new AssertionScope();
@@ -53,7 +53,7 @@ public class WorkEntrySearchTests
         // Arrange
         var searchDto = new WorkEntrySearchDto();
 
-        var searchRepoMock = Substitute.For<IComplianceSearchRepository>();
+        var searchRepoMock = Substitute.For<IWorkEntrySearchRepository>();
         searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
         searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
@@ -65,12 +65,12 @@ public class WorkEntrySearchTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new ComplianceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
+        var service = new WorkEntrySearchService(searchRepoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act
-        var result = await service.SearchWorkEntriesAsync(searchDto, _paging);
+        var result = await service.SearchAsync(searchDto, _paging);
 
         // Assert
         using var scope = new AssertionScope();

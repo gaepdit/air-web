@@ -1,4 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Platform.Constants;
@@ -12,7 +14,8 @@ namespace AirWeb.WebApp.Pages.Facility;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     IFacilityService facilityService,
-    IComplianceSearchService searchService,
+    IFceSearchService fceSearchService,
+    IWorkEntrySearchService entrySearchService,
     ISourceTestService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
@@ -53,12 +56,12 @@ public class DetailsModel(
             sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData);
 
         // Search service cannot be run in parallel with itself when using Entity Framework.
-        var searchWorkEntries = await searchService.SearchWorkEntriesAsync(
+        var searchWorkEntries = await entrySearchService.SearchAsync(
             new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
-        var searchFces = await searchService.SearchFcesAsync(
+        var searchFces = await fceSearchService.SearchAsync(
             new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
