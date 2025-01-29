@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Rewrite;
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 // URL Rewriting Middleware in ASP.NET Core
-// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/url-rewriting?view=aspnetcore-8.0#performance-tips-for-url-rewrite-and-redirect
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/url-rewriting#performance-tips-for-url-rewrite-and-redirect
 public static class AppUrlRedirects
 {
     // language=regex
