@@ -2,9 +2,9 @@ using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities;
-using AirWeb.Domain.ComplianceEntities.Search;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
+using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +13,7 @@ using System.Linq.Expressions;
 namespace AirWeb.AppServices.Compliance.Search;
 
 public abstract class ComplianceSearchService<TEntity>(
-    IComplianceSearchRepository<TEntity> repository,
+    IRepository<TEntity, int> repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
@@ -33,11 +33,11 @@ public abstract class ComplianceSearchService<TEntity>(
         Expression<Func<TEntity, bool>> expression, bool loadFacilities, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
     {
-        var count = await repository.CountRecordsAsync(expression, token).ConfigureAwait(false);
+        var count = await repository.CountAsync(expression, token).ConfigureAwait(false);
 
         var list = count > 0
-            ? mapper.Map<IEnumerable<TResultDto>>(
-                await repository.GetFilteredRecordsAsync(expression, paging, token).ConfigureAwait(false)).ToList()
+            ? mapper.Map<IReadOnlyCollection<TResultDto>>(
+                await repository.GetPagedListAsync(expression, paging, token).ConfigureAwait(false))
             : [];
 
         if (!loadFacilities) return new PaginatedResult<TResultDto>(list, count, paging);
@@ -48,15 +48,17 @@ public abstract class ComplianceSearchService<TEntity>(
         return new PaginatedResult<TResultDto>(list, count, paging);
     }
 
-    protected async Task<IReadOnlyList<TResultDto>> GetExportResultsAsync<TResultDto>(
+    protected async Task<IEnumerable<TResultDto>> GetExportResultsAsync<TResultDto>(
         Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
     {
-        var list = mapper.Map<IEnumerable<TResultDto>>(
-            await repository.GetFilteredRecordsAsync(expression, sorting, token).ConfigureAwait(false)).ToList();
+        var list = mapper.Map<IReadOnlyCollection<TResultDto>>(await repository.GetListAsync(expression, sorting, token)
+            .ConfigureAwait(false));
 
         foreach (var result in list)
+        {
             result.FacilityName ??= await facilityService.GetNameAsync(result.FacilityId).ConfigureAwait(false);
+        }
 
         return list;
     }

@@ -1,8 +1,9 @@
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using GaEpd.AppLibrary.Domain.Predicates;
 using System.Linq.Expressions;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
 internal static class WorkEntryFilters
 {

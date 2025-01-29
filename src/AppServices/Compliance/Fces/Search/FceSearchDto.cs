@@ -1,6 +1,7 @@
-﻿using IaipDataService.Facilities;
+﻿using AirWeb.AppServices.Compliance.Search;
+using IaipDataService.Facilities;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 public record FceSearchDto : IComplianceSearchDto
 {

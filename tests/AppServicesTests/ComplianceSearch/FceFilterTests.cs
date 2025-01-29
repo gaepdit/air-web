@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.TestData.Compliance;
 
 namespace AppServicesTests.ComplianceSearch;

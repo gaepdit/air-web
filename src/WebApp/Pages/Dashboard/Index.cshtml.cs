@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
-using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;

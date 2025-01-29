@@ -7,10 +7,10 @@ using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Compliance.Fces;
+namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 public sealed class FceSearchService(
-    IFceSearchRepository repository,
+    IFceRepository repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
@@ -31,10 +31,10 @@ public sealed class FceSearchService(
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await repository.CountRecordsAsync(expression, token).ConfigureAwait(false);
+        return await repository.CountAsync(expression, token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyList<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token)
+    public async Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token)
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = FceFilters.SearchPredicate(spec.TrimAll());

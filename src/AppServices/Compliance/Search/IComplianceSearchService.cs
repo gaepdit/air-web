@@ -6,11 +6,10 @@ namespace AirWeb.AppServices.Compliance.Search;
 public interface IComplianceSearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
     where TSearchResultDto : class
 {
-    Task<IPaginatedResult<TSearchResultDto>> SearchAsync(TSearchDto spec,
-        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
+    Task<IPaginatedResult<TSearchResultDto>> SearchAsync(TSearchDto spec, PaginatedRequest paging,
+        bool loadFacilities = true, CancellationToken token = default);
 
     Task<int> CountAsync(TSearchDto spec, CancellationToken token);
 
-    Task<IReadOnlyList<TExportDto>> ExportAsync(TSearchDto spec,
-        CancellationToken token);
+    Task<IEnumerable<TExportDto>> ExportAsync(TSearchDto spec, CancellationToken token);
 }

@@ -1,11 +1,12 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Compliance.WorkEntries.Reports;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement.CaseFiles;

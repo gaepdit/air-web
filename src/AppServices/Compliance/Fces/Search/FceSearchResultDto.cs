@@ -1,6 +1,7 @@
-﻿using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Staff.Dto;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 public record FceSearchResultDto : IStandardSearchResult
 {

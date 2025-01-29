@@ -7,10 +7,10 @@ using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Compliance.WorkEntries;
+namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
 public sealed class WorkEntrySearchService(
-    IWorkEntrySearchRepository repository,
+    IWorkEntryRepository repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
@@ -31,10 +31,10 @@ public sealed class WorkEntrySearchService(
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = WorkEntryFilters.SearchPredicate(spec.TrimAll());
-        return await repository.CountRecordsAsync(expression, token).ConfigureAwait(false);
+        return await repository.CountAsync(expression, token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyList<WorkEntryExportDto>> ExportAsync(WorkEntrySearchDto spec, CancellationToken token)
+    public async Task<IEnumerable<WorkEntryExportDto>> ExportAsync(WorkEntrySearchDto spec, CancellationToken token)
     {
         await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
         var expression = WorkEntryFilters.SearchPredicate(spec.TrimAll());

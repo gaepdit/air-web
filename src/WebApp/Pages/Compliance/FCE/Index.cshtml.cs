@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;

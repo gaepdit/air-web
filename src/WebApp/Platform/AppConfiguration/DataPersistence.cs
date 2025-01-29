@@ -18,11 +18,6 @@ public static class DataPersistence
     public static IServiceCollection AddDataPersistence(this IServiceCollection services,
         ConfigurationManager configuration, IWebHostEnvironment environment)
     {
-        // The search repositories are the same for all configurations
-        services
-            .AddScoped<IFceSearchRepository, FceSearchRepository>()
-            .AddScoped<IWorkEntrySearchRepository, WorkEntrySearchRepository>();
-
         // When configured, use in-memory data; otherwise use a SQL Server database.
         if (AppSettings.DevSettings.UseInMemoryData)
         {

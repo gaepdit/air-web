@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Search;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Compliance;
@@ -22,10 +21,10 @@ public class WorkEntrySearchTests
         var searchDto = new WorkEntrySearchDto();
         var entries = WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<IWorkEntrySearchRepository>();
-        searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        var searchRepoMock = Substitute.For<IWorkEntryRepository>();
+        searchRepoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
@@ -53,10 +52,10 @@ public class WorkEntrySearchTests
         // Arrange
         var searchDto = new WorkEntrySearchDto();
 
-        var searchRepoMock = Substitute.For<IWorkEntrySearchRepository>();
-        searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        var searchRepoMock = Substitute.For<IWorkEntryRepository>();
+        searchRepoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
-        searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns([]);
 

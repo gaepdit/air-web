@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
@@ -22,10 +21,10 @@ public class FceSearchTests
         var searchDto = new FceSearchDto();
         var entries = FceData.GetData.Where(fce => !fce.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<IFceSearchRepository>();
-        searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
+        var searchRepoMock = Substitute.For<IFceRepository>();
+        searchRepoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
+        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
@@ -53,10 +52,10 @@ public class FceSearchTests
         // Arrange
         var searchDto = new FceSearchDto();
 
-        var searchRepoMock = Substitute.For<IFceSearchRepository>();
-        searchRepoMock.CountRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
+        var searchRepoMock = Substitute.For<IFceRepository>();
+        searchRepoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
-        searchRepoMock.GetFilteredRecordsAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
+        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns([]);
 
