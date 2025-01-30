@@ -22,7 +22,7 @@ public enum AirProgram
     [Description("Risk Management Plan")] RMP = 14,
 }
 
-public enum AirProgramClassifications
+public enum AirProgramClassification
 {
     [Description("NSR/PSD Major")] NsrMajor = 1,
     [Description("HAPs Major")] HapMajor = 2,

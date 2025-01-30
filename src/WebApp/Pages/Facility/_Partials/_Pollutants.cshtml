@@ -1,0 +1,16 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model IList<IaipDataService.Facilities.Pollutant>
+@if (Model.Count == 0)
+{
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+}
+else
+{
+    <ul class="mb-0 ms-n2">
+        @foreach (var pollutant in Model)
+        {
+            <li class="float-start me-4 ms-2">@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span>
+            </li>
+        }
+    </ul>
+}

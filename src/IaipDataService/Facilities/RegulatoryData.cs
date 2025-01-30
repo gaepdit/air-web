@@ -107,7 +107,7 @@ public record RegulatoryData
     /// Possible values: NSR/PSD Major, HAPs Major
     /// </remarks>
     [Display(Name = "Program classifications")]
-    public List<AirProgramClassifications> ProgramClassifications { get; init; } = [];
+    public List<AirProgramClassification> ProgramClassifications { get; init; } = [];
 
     public IEnumerable<string> ProgramClassificationsAsStrings =>
         ProgramClassifications.Select(program => program.GetDescription());

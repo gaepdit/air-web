@@ -1,6 +1,4 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.PageModelHelpers
-@using GaEpd.AppLibrary.Extensions
 @model IaipDataService.Facilities.Facility
 
 <div class="container mt-2">
@@ -53,51 +51,15 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.RmpId, DisplayTemplate.TextOrPlaceholder)</dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Pollutants)</dt>
             <dd class="col-sm-8 col-lg-9">
-                @if (regulatoryData.Pollutants.Count == 0)
-                {
-                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                }
-                else
-                {
-                    <ul class="mb-0">
-                        @foreach (var pollutant in regulatoryData.Pollutants)
-                        {
-                            <li>@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span></li>
-                        }
-                    </ul>
-                }
+                <partial name="Facility/_Partials/_Pollutants" model="regulatoryData.Pollutants" />
             </dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
             <dd class="col-sm-8 col-lg-9">
-                @if (regulatoryData.AirPrograms.Count == 0)
-                {
-                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                }
-                else
-                {
-                    <ul class="mb-0">
-                        @foreach (var airProgram in regulatoryData.AirPrograms)
-                        {
-                            <li>@airProgram.GetDescription()</li>
-                        }
-                    </ul>
-                }
+                <partial name="Facility/_Partials/_AirPrograms" model="regulatoryData.AirPrograms" />
             </dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
             <dd class="col-sm-8 col-lg-9">
-                @if (regulatoryData.ProgramClassifications.Count == 0)
-                {
-                    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                }
-                else
-                {
-                    <ul class="mb-0">
-                        @foreach (var classifications in regulatoryData.ProgramClassifications)
-                        {
-                            <li>@classifications.GetDescription()</li>
-                        }
-                    </ul>
-                }
+                <partial name="Facility/_Partials/_ProgramClassifications" model="regulatoryData.ProgramClassifications" />
             </dd>
             <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
             <dd class="col-sm-8 col-lg-9">

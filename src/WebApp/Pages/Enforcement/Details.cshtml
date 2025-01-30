@@ -5,7 +5,6 @@
 @using AirWeb.Domain.EnforcementEntities.Actions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Constants
-@using AirWeb.WebApp.Platform.PageModelHelpers
 @using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
@@ -128,36 +127,11 @@
             <dl class="row">
                 <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
                 <dd class="col-sm-9 col-lg-10 mt-2">
-                    @if (caseFile.Pollutants.Count == 0)
-                    {
-                        <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                    }
-                    else
-                    {
-                        <ul class="mb-0 ms-n2">
-                            @foreach (var pollutant in caseFile.Pollutants)
-                            {
-                                <li class="float-start me-4 ms-2">@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span>
-                                </li>
-                            }
-                        </ul>
-                    }
+                    <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
                 </dd>
                 <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
                 <dd class="col-sm-9 col-lg-10 mt-2">
-                    @if (caseFile.AirPrograms.Count == 0)
-                    {
-                        <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                    }
-                    else
-                    {
-                        <ul class="mb-0 ms-n2">
-                            @foreach (var airProgram in caseFile.AirPrograms)
-                            {
-                                <li class="float-start me-4 ms-2">@airProgram.GetDescription()</li>
-                            }
-                        </ul>
-                    }
+                    <partial name="Facility/_Partials/_AirPrograms" model="caseFile.AirPrograms" />
                 </dd>
             </dl>
         </section>
