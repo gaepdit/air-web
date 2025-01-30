@@ -14,6 +14,7 @@ public class ComplianceOperation :
     public static List<ComplianceOperation> AllOperations { get; } = [];
 
     public static readonly ComplianceOperation AddComment = new(nameof(AddComment));
+    public static readonly ComplianceOperation BeginEnforcement = new(nameof(BeginEnforcement));
     public static readonly ComplianceOperation Close = new(nameof(Close));
     public static readonly ComplianceOperation Delete = new(nameof(Delete));
     public static readonly ComplianceOperation DeleteComment = new(nameof(DeleteComment));

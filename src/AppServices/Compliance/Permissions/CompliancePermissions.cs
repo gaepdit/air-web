@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.Identity.Web;
 using System.Security.Claims;
@@ -9,6 +10,9 @@ public static class CompliancePermissions
 {
     internal static bool CanAddComment(this ClaimsPrincipal user, IDeletable item) =>
         user.IsComplianceStaff() && !item.IsDeleted;
+
+    public static bool CanBeginEnforcement(this ClaimsPrincipal user, IWorkEntrySummaryDto item) =>
+        item is { IsComplianceEvent: true, IsDeleted: false } && user.IsOwnerOrManager(item);
 
     public static bool CanClose(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
         user.CanCloseOrReopen(item) && !item.IsClosed;
@@ -38,4 +42,7 @@ public static class CompliancePermissions
 
     private static bool IsOwner(this ClaimsPrincipal user, IHasOwner item) =>
         item.OwnerId.Equals(user.GetNameIdentifierId());
+
+    private static bool IsOwnerOrManager(this ClaimsPrincipal user, IHasOwner item) =>
+        user.IsOwner(item) || user.IsComplianceManager();
 }

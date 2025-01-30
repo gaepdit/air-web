@@ -10,6 +10,7 @@ public interface IWorkEntrySummaryDto : IIsClosedAndIsDeleted, IHasOwnerAndDelet
     public string FacilityId { get; }
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; }
+    public bool IsComplianceEvent => WorkEntry.IsComplianceEvent(WorkEntryType);
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; }
