@@ -1,7 +1,8 @@
-﻿using AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using ClosedXML.Attributes;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record FceExportDto : IStandardSearchResult

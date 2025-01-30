@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
@@ -14,7 +14,7 @@ namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class FceIndexModel(
-    IComplianceSearchService searchService,
+    IFceSearchService searchService,
     IStaffService staff,
     IOfficeService offices,
     IAuthorizationService authorization)
@@ -47,7 +47,7 @@ public class FceIndexModel(
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
-        SearchResults = await searchService.SearchFcesAsync(Spec, paging, token: token);
+        SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
 
         ShowResults = true;
         await PopulateSelectListsAsync(token);

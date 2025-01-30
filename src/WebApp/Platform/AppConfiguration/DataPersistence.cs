@@ -3,7 +3,6 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
-using AirWeb.Domain.Search;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.LocalRepository.Repositories;
@@ -24,7 +23,6 @@ public static class DataPersistence
         {
             // Use in-memory data for all repositories.
             services
-                .AddSingleton<IComplianceSearchRepository, LocalComplianceSearchRepository>()
                 .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
                 .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
                 .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
@@ -59,7 +57,6 @@ public static class DataPersistence
 
         // Repositories
         services
-            .AddScoped<IComplianceSearchRepository, ComplianceSearchRepository>()
             .AddScoped<IEmailLogRepository, EmailLogRepository>()
             .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
             .AddScoped<IOfficeRepository, OfficeRepository>()

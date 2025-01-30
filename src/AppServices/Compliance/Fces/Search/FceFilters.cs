@@ -1,8 +1,9 @@
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using GaEpd.AppLibrary.Domain.Predicates;
 using System.Linq.Expressions;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 internal static class FceFilters
 {

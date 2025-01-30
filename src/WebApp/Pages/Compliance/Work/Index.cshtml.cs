@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
@@ -13,7 +13,7 @@ namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class ComplianceIndexModel(
-    IComplianceSearchService searchService,
+    IWorkEntrySearchService searchService,
     IStaffService staff,
     IOfficeService offices)
     : PageModel
@@ -43,7 +43,7 @@ public class ComplianceIndexModel(
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
-        SearchResults = await searchService.SearchWorkEntriesAsync(Spec, paging, token: token);
+        SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
 
         ShowResults = true;
         await PopulateSelectListsAsync(token);

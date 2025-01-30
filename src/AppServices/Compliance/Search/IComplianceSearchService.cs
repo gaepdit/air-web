@@ -2,23 +2,16 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.Compliance.Search;
 
-public interface IComplianceSearchService : IDisposable, IAsyncDisposable
+// FUTURE: Is this reusable for Enforcement search?
+#pragma warning disable S2436 // Types and methods should not have too many generic parameters
+public interface IComplianceSearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
+    where TSearchResultDto : class
+#pragma warning restore S2436
 {
-    // Work entries
-    Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchWorkEntriesAsync(WorkEntrySearchDto spec,
-        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
+    Task<IPaginatedResult<TSearchResultDto>> SearchAsync(TSearchDto spec, PaginatedRequest paging,
+        bool loadFacilities = true, CancellationToken token = default);
 
-    Task<int> CountWorkEntriesAsync(WorkEntrySearchDto spec, CancellationToken token);
+    Task<int> CountAsync(TSearchDto spec, CancellationToken token);
 
-    Task<IReadOnlyList<WorkEntryExportDto>> ExportWorkEntriesAsync(WorkEntrySearchDto spec,
-        CancellationToken token);
-
-    // FCEs
-    Task<IPaginatedResult<FceSearchResultDto>> SearchFcesAsync(FceSearchDto spec,
-        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default);
-
-    Task<int> CountFcesAsync(FceSearchDto spec, CancellationToken token);
-
-    Task<IReadOnlyList<FceExportDto>> ExportFcesAsync(FceSearchDto spec,
-        CancellationToken token);
+    Task<IEnumerable<TExportDto>> ExportAsync(TSearchDto spec, CancellationToken token);
 }

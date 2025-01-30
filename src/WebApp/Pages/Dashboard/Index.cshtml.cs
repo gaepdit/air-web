@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
@@ -9,7 +10,7 @@ namespace AirWeb.WebApp.Pages.Dashboard;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DashboardIndexModel(
-    IComplianceSearchService searchService,
+    IWorkEntrySearchService entrySearchService,
     IAuthorizationService authorization,
     IStaffService staffService)
     : PageModel
@@ -31,7 +32,7 @@ public class DashboardIndexModel(
             { Closed = ClosedOpenAny.Open, ResponsibleStaff = currentUser.Id };
         var paging = new PaginatedRequest(1, 15, SortBy.EventDateDesc.GetDescription());
         DashboardCards.Add(new DashboardCard("Open Compliance Work")
-            { WorkEntries = (await searchService.SearchWorkEntriesAsync(spec, paging, token: token)).Items.ToList() });
+            { WorkEntries = (await entrySearchService.SearchAsync(spec, paging, token: token)).Items.ToList() });
 
         return Page();
     }

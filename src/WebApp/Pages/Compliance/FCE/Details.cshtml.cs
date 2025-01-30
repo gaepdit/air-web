@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
@@ -13,7 +14,7 @@ namespace AirWeb.WebApp.Pages.Compliance.FCE;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     IFceService fceService,
-    IComplianceSearchService searchService,
+    IWorkEntrySearchService workEntrySearchService,
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
@@ -102,7 +103,7 @@ public class DetailsModel(
             EventDateFrom = Item.SupportingDataStartDate,
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100, sorting: SortBy.WorkTypeAsc.GetDescription());
-        SearchResults = await searchService.SearchWorkEntriesAsync(spec, paging, token: token);
+        SearchResults = await workEntrySearchService.SearchAsync(spec, paging, token: token);
     }
 
     private async Task SetPermissionsAsync() =>

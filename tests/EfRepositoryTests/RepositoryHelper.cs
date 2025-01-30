@@ -159,18 +159,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
-    /// </summary>
-    /// <returns>An WorkEntryRepository.</returns>
-    public ComplianceSearchRepository GetComplianceSearchRepository()
-    {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedComplianceData(_context);
-        Context = new AppDbContext(_options);
-        return new ComplianceSearchRepository(Context);
-    }
-
-    /// <summary>
     /// Seeds data and returns an instance of <see cref="NotificationTypeRepository"/>.
     /// </summary>
     /// <returns>An NotificationTypeRepository.</returns>

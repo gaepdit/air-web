@@ -1,7 +1,8 @@
-﻿using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
 public record WorkEntrySearchResultDto : IStandardSearchResult
 {
