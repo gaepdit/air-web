@@ -18,60 +18,59 @@
 
     @if (Model.IsComplianceStaff)
     {
-        <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="dropdown my-2">
-                <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                    </svg>
-                    Compliance Work
-                </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Acc/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New ACC
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New FCE
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New Inspection
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add"
-                           asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
-                            New RMP Inspection
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Report/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New Report
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Notification/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New Notification
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/PermitRevocation/Add"
-                           asp-route-facilityId="@Model.FacilityId">
-                            New Permit Revocation
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div class="col-md-auto my-2 ms-md-3 btn-group d-print-none">
+            <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <svg class="bi">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
+                </svg>
+                Compliance Work
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/Acc/Add" asp-route-facilityId="@Model.FacilityId">
+                        New ACC
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.FacilityId">
+                        New FCE
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId">
+                        New Inspection
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/Inspection/Add" asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
+                        New RMP Inspection
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/Report/Add" asp-route-facilityId="@Model.FacilityId">
+                        New Report
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/Notification/Add" asp-route-facilityId="@Model.FacilityId">
+                        New Notification
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Compliance/Work/PermitRevocation/Add" asp-route-facilityId="@Model.FacilityId">
+                        New Permit Revocation
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-page="/Enforcement/Add" asp-route-facilityId="@Model.FacilityId">
+                        Begin Enforcement
+                    </a>
+                </li>
+            </ul>
         </div>
     }
 </div>
