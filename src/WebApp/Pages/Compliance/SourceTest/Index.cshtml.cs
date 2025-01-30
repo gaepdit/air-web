@@ -186,9 +186,10 @@ public class IndexModel(
     private async Task SetPermissionsAsync()
     {
         // FUTURE: Refactor this permission check.
-        CanAddNewReview = await authorization.Succeeded(User, Policies.ComplianceStaff) &&
-                          TestSummary is { ReportClosed: true } && ComplianceReview is null;
-        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
+        CanAddNewReview = ComplianceReview is null && await authorization.Succeeded(User, Policies.ComplianceStaff) &&
+                          TestSummary is { ReportClosed: true };
+        if (ComplianceReview is not null)
+            UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
     private async Task PopulateSelectListsAsync() =>
