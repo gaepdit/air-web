@@ -15,6 +15,9 @@ public interface IWorkEntrySummaryDto : IIsClosedAndIsDeleted, IHasOwnerAndDelet
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; }
 
+    public DateOnly EventDate { get; }
+    public string EventDateName { get; }
+
     // Properties: Closure
     [Display(Name = "Completed By")]
     public StaffViewDto? ClosedBy { get; }

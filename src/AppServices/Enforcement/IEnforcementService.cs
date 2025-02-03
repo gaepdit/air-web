@@ -8,6 +8,7 @@ namespace AirWeb.AppServices.Enforcement;
 
 public interface IEnforcementService
 {
+    // FUTURE: Replace with search.
     Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default);
 
     // Query
@@ -15,7 +16,10 @@ public interface IEnforcementService
     Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default);
 
     // Command
-    Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource, CancellationToken token);
+    Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource, CancellationToken token = default);
+
+    Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
+        CancellationToken token = default);
 
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);

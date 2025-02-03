@@ -3,7 +3,7 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Enforcement.Validators;
 
-public class UpdateValidatorTests
+public class CaseFileUpdateValidatorTests
 {
     private CaseFileUpdateValidator _validator;
 

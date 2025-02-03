@@ -15,6 +15,9 @@ public record WorkEntrySummaryDto : IWorkEntrySummaryDto
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
+    public DateOnly EventDate { get; init; }
+    public string EventDateName { get; init; } = string.Empty;
+
     // Properties: Closure
     [Display(Name = "Closed")]
     public bool IsClosed { get; init; }

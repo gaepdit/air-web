@@ -41,7 +41,7 @@ public class CaseFile : ClosableEntity<int>
     public ViolationType? ViolationType
     {
         get => ViolationTypeData.GetViolationType(_violationTypeCode);
-        set => _violationTypeCode = value?.Code;
+        internal set => _violationTypeCode = value?.Code;
     }
 
     [StringLength(5)]
@@ -93,10 +93,10 @@ public class CaseFile : ClosableEntity<int>
             if (!IsDataFlowEnabled) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsDataFlowEnabled)
-                .Select(action => action.IssueDate)
-                .Append(MaxDayZero);
+                .Select(action => action.IssueDate) // List the dates each enforcement action was issued.
+                .Append(MaxDayZero); // Add the max Day Zero.
             var dates = actionDates.Where(date => date.HasValue).ToArray();
-            return dates.Length == 0 ? null : dates.Min();
+            return dates.Length == 0 ? null : dates.Min(); // Day Zero is the earliest of the above list of dates.
         }
 
         [UsedImplicitly]

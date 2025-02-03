@@ -87,8 +87,8 @@
     @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
     {
         <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
-            <a asp-page="/Enforcement/Add" asp-route-eventId="@Model.Id.ToString()"
-               class="btn btn-sm btn-outline-warning icon-link">
+            <a asp-page="/Enforcement/Add" asp-route-facilityId="@report.FacilityId" asp-route-eventId="@Model.Id.ToString()"
+               class="btn btn-sm btn-outline-primary icon-link">
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
                 </svg>
