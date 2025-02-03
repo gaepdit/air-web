@@ -2,15 +2,15 @@
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public class AnnualComplianceCertification : WorkEntry
+public class AnnualComplianceCertification : ComplianceEvent
 {
     // Constructors
 
     [UsedImplicitly] // Used by ORM.
     private AnnualComplianceCertification() { }
 
-    internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user = null) : base(id,
-        facilityId, user)
+    internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.AnnualComplianceCertification;
     }

@@ -51,12 +51,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     // Business logic
     public const int EarliestWorkEntryYear = 2000;
 
-    public static bool IsComplianceEvent(WorkEntryType workEntryType) =>
-        workEntryType is WorkEntryType.AnnualComplianceCertification
-            or WorkEntryType.Inspection
-            or WorkEntryType.Report
-            or WorkEntryType.RmpInspection
-            or WorkEntryType.SourceTestReview;
+    public bool IsComplianceEvent { get; internal init; }
 }
 
 // Enums

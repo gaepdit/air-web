@@ -9,7 +9,8 @@ public class PermitRevocation : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private PermitRevocation() { }
 
-    internal PermitRevocation(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
+    internal PermitRevocation(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.PermitRevocation;
     }

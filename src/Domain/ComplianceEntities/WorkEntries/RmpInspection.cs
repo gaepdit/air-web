@@ -9,7 +9,8 @@ public class RmpInspection : BaseInspection
     [UsedImplicitly] // Used by ORM.
     private RmpInspection() { }
 
-    internal RmpInspection(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
+    internal RmpInspection(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.RmpInspection;
     }

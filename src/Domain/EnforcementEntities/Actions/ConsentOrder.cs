@@ -12,15 +12,15 @@ public class ConsentOrder : EnforcementAction, IExecutable
     [UsedImplicitly] // Used by ORM.
     private ConsentOrder() { }
 
-    internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user) :
-        base(id, proposedConsentOrder.CaseFile, user)
+    internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user)
+        : base(id, proposedConsentOrder.CaseFile, user)
     {
         ActionType = EnforcementActionType.ConsentOrder;
         ProposedConsentOrder = proposedConsentOrder;
     }
 
-    internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
-        base(id, caseFile, user)
+    internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
         ActionType = EnforcementActionType.ConsentOrder;
     }

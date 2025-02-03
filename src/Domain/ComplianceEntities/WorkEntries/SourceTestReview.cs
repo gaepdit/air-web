@@ -9,7 +9,8 @@ public class SourceTestReview : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     private SourceTestReview() { }
 
-    internal SourceTestReview(int? id, FacilityId facilityId, ApplicationUser? user = null) : base(id, facilityId, user)
+    internal SourceTestReview(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.SourceTestReview;
         Close(user);

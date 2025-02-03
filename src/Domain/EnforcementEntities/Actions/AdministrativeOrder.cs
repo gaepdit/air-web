@@ -9,8 +9,8 @@ public class AdministrativeOrder : EnforcementAction, IExecutable
     [UsedImplicitly] // Used by ORM.
     private AdministrativeOrder() { }
 
-    internal AdministrativeOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
-        base(id, caseFile, user)
+    internal AdministrativeOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
         ActionType = EnforcementActionType.AdministrativeOrder;
     }

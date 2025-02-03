@@ -7,9 +7,10 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 {
     public string ItemName => WorkEntryType.GetDescription();
-    public required string FacilityId { get; init; }
+    public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; init; }
+    public bool IsComplianceEvent { get; init; }
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
