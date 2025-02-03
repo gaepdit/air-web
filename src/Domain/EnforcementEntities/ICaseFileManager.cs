@@ -15,16 +15,30 @@ public interface ICaseFileManager
     Task<CaseFile> CreateCaseFileAsync(FacilityId facilityId, ApplicationUser? user, CancellationToken token = default);
 
     /// <summary>
+    /// Updates the properties of a <see cref="CaseFile"/> to indicate that it was completed and closed.
+    /// </summary>
+    /// <param name="caseFile">The Case File that was closed.</param>
+    /// <param name="user">The user committing the change.</param>
+    void CloseCaseFile(CaseFile caseFile, ApplicationUser? user);
+
+    /// <summary>
+    /// Updates the properties of a closed <see cref="CaseFile"/> to indicate that it was reopened.
+    /// </summary>
+    /// <param name="caseFile">The Case File that was reopened.</param>
+    /// <param name="user">The user committing the change.</param>
+    void ReopenCaseFile(CaseFile caseFile, ApplicationUser? user);
+
+    /// <summary>
     /// Updates the properties of a <see cref="CaseFile"/> to indicate that it was deleted.
     /// </summary>
     /// <param name="caseFile">The Case File to delete.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>
     /// <param name="user">The user committing the change.</param>
-    void Delete(CaseFile caseFile, string? comment, ApplicationUser? user);
+    void DeleteCaseFile(CaseFile caseFile, string? comment, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a deleted <see cref="CaseFile"/> to indicate that it was restored.
     /// </summary>
     /// <param name="caseFile">The Case File to restore.</param>
-    void Restore(CaseFile caseFile);
+    void RestoreCaseFile(CaseFile caseFile);
 }

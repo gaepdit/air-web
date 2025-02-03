@@ -21,6 +21,7 @@ public class CloseModel(IWorkEntryService entryService) : PageModel
 
         var item = await entryService.FindSummaryAsync(Id);
         if (item is null) return NotFound();
+        if (item.IsClosed) return BadRequest();
         if (!User.CanClose(item)) return Forbid();
 
         ItemSummary = item;

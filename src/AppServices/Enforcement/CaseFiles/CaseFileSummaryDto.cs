@@ -23,4 +23,11 @@ public record CaseFileSummaryDto : IIsClosedAndIsDeleted
     public DateOnly? DiscoveryDate { get; init; }
 
     public string Notes { get; init; } = null!;
+
+    // Properties: Closure
+    [Display(Name = "Closed By")]
+    public StaffViewDto? ClosedBy { get; init; }
+
+    [Display(Name = "Date Closed")]
+    public DateOnly? ClosedDate { get; init; }
 }

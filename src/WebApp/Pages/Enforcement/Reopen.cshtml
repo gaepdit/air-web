@@ -4,7 +4,7 @@
 @model ReopenModel
 
 @{
-    ViewData["Title"] = $"Reopen {Model.ItemSummary.ItemName} #{Model.Id}";
+    ViewData["Title"] = $"Reopen Enforcement Case #{Model.Id}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -13,7 +13,7 @@
 </h1>
 
 <div class="p-3 border rounded-3 bg-light-subtle">
-    <p class="lead font-weight-medium">Are you sure you want to reopen this @Model.ItemSummary.ItemName?</p>
+    <p class="lead font-weight-medium">Are you sure you want to reopen this Enforcement Case?</p>
     <dl class="row">
         <dt class="col-sm-4 col-lg-3">Facility</dt>
         <dd class="col-sm-8 col-lg-9">
@@ -21,6 +21,8 @@
         </dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ResponsibleStaff)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DiscoveryDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ClosedBy)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ClosedBy, DisplayTemplate.NameOrPlaceholder) on @Html.DisplayFor(m => m.ItemSummary.ClosedDate, DisplayTemplate.ShortDateOnly)</dd>
     </dl>
