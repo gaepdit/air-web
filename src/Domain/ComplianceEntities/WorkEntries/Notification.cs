@@ -10,7 +10,8 @@ public class Notification : WorkEntry
     [UsedImplicitly] // Used by ORM.
     private Notification() { }
 
-    internal Notification(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
+    internal Notification(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.Notification;
         Close(user);

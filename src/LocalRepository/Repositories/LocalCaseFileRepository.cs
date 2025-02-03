@@ -5,9 +5,10 @@ using AirWeb.TestData.Enforcement;
 
 namespace AirWeb.LocalRepository.Repositories;
 
-public sealed class LocalCaseFileRepository()
-    : BaseRepository<CaseFile, int>(CaseFileData.GetData), ICaseFileRepository
+public sealed class LocalCaseFileRepository : BaseRepository<CaseFile, int>, ICaseFileRepository
 {
+    public LocalCaseFileRepository() : base(CaseFileData.GetData) => _ = EnforcementActionData.GetData;
+
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(caseFile => caseFile.Id).Max() + 1;
 

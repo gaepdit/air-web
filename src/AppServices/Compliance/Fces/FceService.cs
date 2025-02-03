@@ -26,10 +26,6 @@ public sealed class FceService(
         return fce;
     }
 
-    public async Task<FceUpdateDto?> FindForUpdateAsync(int id, CancellationToken token = default) =>
-        mapper.Map<FceUpdateDto?>(await fceRepository.FindAsync(fce => fce.Id.Equals(id) && !fce.IsDeleted, token)
-            .ConfigureAwait(false));
-
     public async Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
         var fce = mapper.Map<FceSummaryDto?>(await fceRepository.FindAsync(id, token).ConfigureAwait(false));

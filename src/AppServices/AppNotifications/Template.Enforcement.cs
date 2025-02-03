@@ -3,6 +3,13 @@ namespace AirWeb.AppServices.AppNotifications;
 public partial class Template
 {
     // Enforcement email templates
+    public static readonly Template EnforcementCreated = new()
+    {
+        Subject = "Enforcement Case Started",
+        TextBody = "Enforcement Case ID {0} has been started.",
+        HtmlBody = "<p>Enforcement Case ID {0} has been started.</p>",
+    };
+
     public static readonly Template EnforcementCommentAdded = new()
     {
         Subject = "New Comment on Enforcement",

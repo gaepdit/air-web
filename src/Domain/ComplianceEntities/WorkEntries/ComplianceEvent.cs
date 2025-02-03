@@ -12,7 +12,10 @@ public abstract class ComplianceEvent : WorkEntry
     private protected ComplianceEvent() { }
 
     private protected ComplianceEvent(int? id, FacilityId facilityId, ApplicationUser? user)
-        : base(id, facilityId, user) { }
+        : base(id, facilityId, user)
+    {
+        IsComplianceEvent = true;
+    }
 
     public ICollection<CaseFile> CaseFiles { get; } = [];
 

@@ -17,7 +17,7 @@ public interface IFceManager
     /// <summary>
     /// Updates the properties of a <see cref="Fce"/> to indicate that it was deleted.
     /// </summary>
-    /// <param name="fce">The FCE to deleted.</param>
+    /// <param name="fce">The FCE to delete.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>
     /// <param name="user">The user committing the change.</param>
     void Delete(Fce fce, string? comment, ApplicationUser? user);
@@ -25,6 +25,6 @@ public interface IFceManager
     /// <summary>
     /// Updates the properties of a deleted <see cref="Fce"/> to indicate that it was restored.
     /// </summary>
-    /// <param name="fce">The FCE to restored.</param>
+    /// <param name="fce">The FCE to restore.</param>
     void Restore(Fce fce);
 }

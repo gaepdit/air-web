@@ -9,7 +9,8 @@ public class Inspection : BaseInspection
     [UsedImplicitly] // Used by ORM.
     private Inspection() { }
 
-    internal Inspection(int? id, FacilityId facilityId, ApplicationUser? user = null) : base(id, facilityId, user)
+    internal Inspection(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.Inspection;
     }

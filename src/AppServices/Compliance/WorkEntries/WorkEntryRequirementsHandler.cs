@@ -20,6 +20,7 @@ internal class WorkEntryRequirementsHandler(IWorkEntryService service) :
         var success = requirement.Name switch
         {
             nameof(ComplianceOperation.AddComment) => user.CanAddComment(resource),
+            nameof(ComplianceOperation.BeginEnforcement) => user.CanBeginEnforcement(resource),
             nameof(ComplianceOperation.Close) => user.CanClose(resource),
             nameof(ComplianceOperation.Delete) => user.CanDelete(resource),
             nameof(ComplianceOperation.DeleteComment) => user.CanDeleteComment(resource),

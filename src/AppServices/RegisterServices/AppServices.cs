@@ -9,6 +9,7 @@ using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,7 @@ public static class AppServices
 
         // Enforcement
         .AddScoped<IEnforcementService, EnforcementService>()
+        .AddScoped<ICaseFileManager, CaseFileManager>()
 
         // Email
         .AddScoped<IAppNotificationService, AppNotificationService>()

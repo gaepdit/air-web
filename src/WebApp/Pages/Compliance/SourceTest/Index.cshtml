@@ -119,9 +119,9 @@
 }
 else
 {
-    <div class="row justify-content-between align-items-center">
+    <div class="row justify-content-between align-items-center mb-2">
         <div class="col-md">
-            <h2 id="compliance-review">Compliance Review</h2>
+            <h2 id="compliance-review" class="mb-0">Compliance Review</h2>
         </div>
         <div class="col-md-auto ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceOperation.Close])
@@ -151,7 +151,23 @@ else
 
     var review = Model.ComplianceReview!;
 
-    <p class="lead mt-2 mt-md-0">Compliance Tracking #@review.Id.ToString()</p>
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md">
+            <div class="lead">Compliance Tracking #@review.Id.ToString()</div>
+        </div>
+        @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
+        {
+            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group btn-group-sm d-print-none">
+                <a asp-page="/Enforcement/Add" asp-route-eventId="@review.Id.ToString()"
+                   class="btn btn-outline-warning icon-link">
+                    <svg class="bi">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
+                    </svg>
+                    Enforcement
+                </a>
+            </div>
+        }
+    </div>
 
     <dl class="row mt-3">
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ResponsibleStaff)</dt>

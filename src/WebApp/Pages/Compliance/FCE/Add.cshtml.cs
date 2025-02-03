@@ -23,14 +23,15 @@ public class AddModel(
     public SelectList StaffSelectList { get; private set; } = null!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    private const string FacilityIdNotFound = "Facility ID not found.";
 
     public async Task<IActionResult> OnGetAsync(string? facilityId)
     {
-        if (facilityId is null) return NotFound("Facility ID not found.");
+        if (facilityId is null) return NotFound(FacilityIdNotFound);
         Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)facilityId);
 
         // FUTURE: Add a facility search feature to the page?
-        if (Facility is null) return NotFound("Facility ID not found.");
+        if (Facility is null) return NotFound(FacilityIdNotFound);
 
         await PopulateSelectListsAsync();
         var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
@@ -40,13 +41,13 @@ public class AddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        if (Item.FacilityId is null) return NotFound("Facility ID not found.");
+        if (Item.FacilityId is null) return NotFound(FacilityIdNotFound);
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
         {
             Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)Item.FacilityId);
-            if (Facility is null) return BadRequest("Facility ID not found.");
+            if (Facility is null) return BadRequest(FacilityIdNotFound);
 
             await PopulateSelectListsAsync();
             return Page();

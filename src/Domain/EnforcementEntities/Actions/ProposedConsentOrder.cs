@@ -9,15 +9,15 @@ public class ProposedConsentOrder : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private ProposedConsentOrder() { }
 
-    internal ProposedConsentOrder(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user) :
-        base(id, noticeOfViolation.CaseFile, user)
+    internal ProposedConsentOrder(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user)
+        : base(id, noticeOfViolation.CaseFile, user)
     {
         ActionType = EnforcementActionType.ProposedConsentOrder;
         NoticeOfViolation = noticeOfViolation;
     }
 
-    internal ProposedConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user) :
-        base(id, caseFile, user)
+    internal ProposedConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
     {
         ActionType = EnforcementActionType.ProposedConsentOrder;
     }

@@ -69,7 +69,7 @@ public sealed class IaipFacilityService(
         {
             facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
             facility.RegulatoryData!.ProgramClassifications.AddRange(
-                await multi.ReadAsync<AirProgramClassifications>());
+                await multi.ReadAsync<AirProgramClassification>());
             facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
         }
 

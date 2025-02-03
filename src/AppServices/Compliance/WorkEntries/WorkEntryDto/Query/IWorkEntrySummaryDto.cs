@@ -10,9 +10,13 @@ public interface IWorkEntrySummaryDto : IIsClosedAndIsDeleted, IHasOwnerAndDelet
     public string FacilityId { get; }
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; }
+    public bool IsComplianceEvent { get; }
 
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; }
+
+    public DateOnly EventDate { get; }
+    public string EventDateName { get; }
 
     // Properties: Closure
     [Display(Name = "Completed By")]

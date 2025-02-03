@@ -5,22 +5,22 @@ using AirWeb.AppServices.Enforcement.CaseFiles;
 using AirWeb.AppServices.Enforcement.Command;
 using AirWeb.AppServices.Enforcement.EnforcementActions;
 using AirWeb.AppServices.Users;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AutoMapper;
-using FluentValidation;
 using IaipDataService.Facilities;
-using ValidationException = FluentValidation.ValidationException;
 
 namespace AirWeb.AppServices.Enforcement;
 
 public class EnforcementService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
+    ICaseFileManager caseFileManager,
+    IWorkEntryRepository workEntryRepository,
     ICommentService<int> commentService,
     IFacilityService facilityService,
     IUserService userService,
-    IValidator<CaseFileUpdateDto> updateValidator,
     IAppNotificationService appNotificationService)
     : IEnforcementService
 {
@@ -78,19 +78,41 @@ public class EnforcementService(
         return caseFile;
     }
 
-    public async Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
-        CancellationToken token)
+    public async Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource,
+        CancellationToken token = default)
     {
-        var validationResult = await updateValidator.ValidateAsync(resource, token).ConfigureAwait(false);
-        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var caseFile = await caseFileManager
+            .CreateCaseFileAsync((FacilityId)resource.FacilityId!, currentUser, token).ConfigureAwait(false);
 
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.DiscoveryDate = resource.DiscoveryDate;
+        caseFile.Notes = resource.Notes ?? string.Empty;
+
+        if (resource.EventId != null &&
+            await workEntryRepository.FindAsync(resource.EventId.Value, token).ConfigureAwait(false) is ComplianceEvent
+                complianceEvent)
+        {
+            caseFile.ComplianceEvents.Add(complianceEvent);
+        }
+
+        await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);
+
+        return new CreateResult<int>(caseFile.Id, await appNotificationService
+            .SendNotificationAsync(Template.EnforcementCreated, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .ConfigureAwait(false));
+    }
+
+    public async Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
+        CancellationToken token = default)
+    {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         caseFile.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         // Update the case file properties
         caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
-        caseFile.Notes = resource.Notes;
+        caseFile.Notes = resource.Notes ?? string.Empty;
 
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 

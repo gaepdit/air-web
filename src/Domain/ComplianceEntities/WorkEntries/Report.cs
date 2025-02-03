@@ -11,7 +11,8 @@ public class Report : ComplianceEvent
     [UsedImplicitly] // Used by ORM.
     private Report() { }
 
-    internal Report(int? id, FacilityId facilityId, ApplicationUser? user=null) : base(id, facilityId, user)
+    internal Report(int? id, FacilityId facilityId, ApplicationUser? user = null)
+        : base(id, facilityId, user)
     {
         WorkEntryType = WorkEntryType.Report;
         Close(user);
