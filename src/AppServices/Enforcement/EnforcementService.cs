@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFiles;
 using AirWeb.AppServices.Enforcement.Command;
 using AirWeb.AppServices.Enforcement.EnforcementActions;
@@ -9,6 +11,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AutoMapper;
+using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
@@ -17,7 +20,7 @@ public class EnforcementService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
-    IWorkEntryRepository workEntryRepository,
+    IWorkEntryRepository entryRepository,
     ICommentService<int> commentService,
     IFacilityService facilityService,
     IUserService userService,
@@ -31,7 +34,7 @@ public class EnforcementService(
     public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository
-            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeEnforcement, token).ConfigureAwait(false);
+            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeDetails, token).ConfigureAwait(false);
 
         if (caseFile == null) return null;
 
@@ -90,7 +93,7 @@ public class EnforcementService(
         caseFile.Notes = resource.Notes ?? string.Empty;
 
         if (resource.EventId != null &&
-            await workEntryRepository.FindAsync(resource.EventId.Value, token).ConfigureAwait(false) is ComplianceEvent
+            await entryRepository.FindAsync(resource.EventId.Value, token).ConfigureAwait(false) is ComplianceEvent
                 complianceEvent)
         {
             caseFile.ComplianceEvents.Add(complianceEvent);
@@ -119,6 +122,50 @@ public class EnforcementService(
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementUpdated, caseFile.ResponsibleStaff, token, id)
             .ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<WorkEntrySearchResultDto>> GetLinkedEventsAsync(int id,
+        CancellationToken token = default) =>
+        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
+            .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
+                                   ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
+                SortBy.IdDesc.GetDescription(), token).ConfigureAwait(false));
+
+    public async Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
+        IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default) =>
+        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
+            .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
+                SortBy.IdDesc.GetDescription(), token)
+            .ConfigureAwait(false)).Except(linkedEvents);
+
+    public async Task<bool> LinkComplianceEvent(int id, int entryId, CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        if (await entryRepository.GetAsync(entryId, token).ConfigureAwait(false) is not ComplianceEvent entry)
+            return false;
+        if (entry.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(entry))
+            return false;
+
+        caseFile.ComplianceEvents.Add(entry);
+        entry.CaseFiles.Add(caseFile);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(entry, token: token).ConfigureAwait(false);
+        return true;
+    }
+
+    public async Task<bool> UnLinkComplianceEvent(int id, int entryId, CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        if (await entryRepository.GetAsync(entryId, token).ConfigureAwait(false) is not ComplianceEvent entry)
+            return false;
+        if (!caseFile.ComplianceEvents.Contains(entry))
+            return false;
+
+        caseFile.ComplianceEvents.Remove(entry);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
+        entry.CaseFiles.Remove(caseFile);
+        await entryRepository.UpdateAsync(entry, token: token).ConfigureAwait(false);
+        return true;
     }
 
     public async Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default)
