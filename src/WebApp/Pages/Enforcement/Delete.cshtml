@@ -1,11 +1,12 @@
 ﻿@page "{id:int?}"
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DeleteModel
 
 @{
-    ViewData["Title"] = $"Delete {Model.ItemSummary.ItemName} #{Model.Id}";
+    ViewData["Title"] = $"Delete Enforcement Case #{Model.Id}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -14,19 +15,27 @@
 </h1>
 
 <div class="p-3 border rounded-3 bg-secondary-subtle text-dark-emphasis">
-    <p class="lead text-danger-emphasis font-weight-medium">Are you sure you want to delete this @Model.ItemSummary.ItemName?</p>
-    <p>
-        Deleted compliance work entries are not removed from the database, but they are hidden from most search results
-        and views and are not publicly available.
+    <p class="lead text-danger-emphasis font-weight-medium">Are you sure you want to delete this Enforcement Case?</p>
+    <p class="callout callout-danger">
+        Deleted Enforcement Cases are not removed from the database, but they are hidden from most search results and
+        views and are not publicly available.
     </p>
-
     <dl class="row">
         <dt class="col-sm-4 col-lg-3">Facility</dt>
         <dd class="col-sm-8 col-lg-9">
             <span class="text-body-secondary">@Model.ItemSummary.FacilityId –</span> @Model.ItemSummary.FacilityName
         </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.CaseFileStatus)</dt>
+        <dd class="col-sm-8 col-lg-9">@Model.ItemSummary.CaseFileStatus.GetDescription()</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ResponsibleStaff)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DiscoveryDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        @if (Model.ItemSummary.IsDeleted)
+        {
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ClosedBy)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ClosedBy, DisplayTemplate.NameOrPlaceholder) on @Html.DisplayFor(m => m.ItemSummary.ClosedDate, DisplayTemplate.ShortDateOnly)</dd>
+        }
     </dl>
 
     <form method="post">

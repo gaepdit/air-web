@@ -1,10 +1,11 @@
 ﻿@page "{id:int?}"
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using GaEpd.AppLibrary.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model RestoreModel
 
 @{
-    ViewData["Title"] = $"Restore {Model.ItemSummary.ItemName} #{Model.Id}";
+    ViewData["Title"] = $"Restore Enforcement Case #{Model.Id}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -13,18 +14,28 @@
 </h1>
 
 <div class="p-3 border rounded-3 bg-secondary-subtle text-dark-emphasis">
-    <p class="lead text-warning-emphasis font-weight-medium">Are you sure you want to restore this deleted FCE?</p>
+    <p class="lead text-warning-emphasis font-weight-medium">Are you sure you want to restore this deleted Enforcement
+        Case?</p>
 
     <dl class="row">
         <dt class="col-sm-4 col-lg-3">Facility</dt>
         <dd class="col-sm-8 col-lg-9">
             <span class="text-body-secondary">@Model.ItemSummary.FacilityId –</span> @Model.ItemSummary.FacilityName
         </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.CaseFileStatus)</dt>
+        <dd class="col-sm-8 col-lg-9">@Model.ItemSummary.CaseFileStatus.GetDescription()</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ResponsibleStaff)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DiscoveryDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        @if (Model.ItemSummary.IsDeleted)
+        {
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.ClosedBy)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ClosedBy, DisplayTemplate.NameOrPlaceholder) on @Html.DisplayFor(m => m.ItemSummary.ClosedDate, DisplayTemplate.ShortDateOnly)</dd>
+        }
     </dl>
     <div class="callout callout-warning">
-        <p>If this work entry is restored, the following deletion details will be removed.</p>
+        <p>If this Enforcement Case is restored, the following deletion details will be removed.</p>
         <dl class="row">
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedBy)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedBy, DisplayTemplate.NameOrPlaceholder)</dd>

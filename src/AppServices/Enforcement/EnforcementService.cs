@@ -147,6 +147,31 @@ public class EnforcementService(
             .ConfigureAwait(false);
     }
 
+    public async Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+        CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        caseFileManager.DeleteCaseFile(caseFile, resource.Comment, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default)
+    {
+        var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        caseFileManager.RestoreCaseFile(workEntry);
+        await caseFileRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .ConfigureAwait(false);
+    }
+
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {

@@ -24,6 +24,11 @@ public interface IEnforcementService
     Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default);
     Task<AppNotificationResult> ReopenCaseFileAsync(int id, CancellationToken token = default);
 
+    Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+        CancellationToken token = default);
+
+    Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default);
+
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);
     Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
