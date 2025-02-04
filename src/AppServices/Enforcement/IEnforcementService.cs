@@ -15,11 +15,19 @@ public interface IEnforcementService
     Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default);
     Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default);
 
-    // Command
+    // Case File commands
     Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource, CancellationToken token = default);
 
     Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default);
+
+    Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default);
+    Task<AppNotificationResult> ReopenCaseFileAsync(int id, CancellationToken token = default);
+
+    Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+        CancellationToken token = default);
+
+    Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default);
 
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);

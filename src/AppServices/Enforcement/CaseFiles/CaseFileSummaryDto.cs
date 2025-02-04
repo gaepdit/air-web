@@ -4,11 +4,9 @@ using AirWeb.Domain.EnforcementEntities.Cases;
 
 namespace AirWeb.AppServices.Enforcement.CaseFiles;
 
-public record CaseFileSummaryDto : IIsClosedAndIsDeleted
+public record CaseFileSummaryDto : IIsClosedAndIsDeleted, IDeletable
 {
     public int Id { get; init; }
-    public bool IsClosed { get; init; }
-    public bool IsDeleted { get; init; }
 
     public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
@@ -23,4 +21,25 @@ public record CaseFileSummaryDto : IIsClosedAndIsDeleted
     public DateOnly? DiscoveryDate { get; init; }
 
     public string Notes { get; init; } = null!;
+
+    // Properties: Closure
+    public bool IsClosed { get; init; }
+
+    [Display(Name = "Closed By")]
+    public StaffViewDto? ClosedBy { get; init; }
+
+    [Display(Name = "Date Closed")]
+    public DateOnly? ClosedDate { get; init; }
+
+    // Properties: Deletion
+    public bool IsDeleted { get; init; }
+
+    [Display(Name = "Deleted By")]
+    public StaffViewDto? DeletedBy { get; init; }
+
+    [Display(Name = "Date Deleted")]
+    public DateTimeOffset? DeletedAt { get; init; }
+
+    [Display(Name = "Deletion Comments")]
+    public string? DeleteComments { get; init; }
 }

@@ -25,7 +25,7 @@ public class EnforcementService(
     : IEnforcementService
 {
     public async Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default) =>
-        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync(token)
+        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync("Id", token)
             .ConfigureAwait(false)).ToList();
 
     public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
@@ -118,6 +118,57 @@ public class EnforcementService(
 
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementUpdated, caseFile.ResponsibleStaff, token, id)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        caseFileManager.CloseCaseFile(caseFile, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementClosed, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<AppNotificationResult> ReopenCaseFileAsync(int id, CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        caseFileManager.ReopenCaseFile(caseFile, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementReopened, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+        CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        caseFileManager.DeleteCaseFile(caseFile, resource.Comment, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default)
+    {
+        var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        caseFileManager.RestoreCaseFile(workEntry);
+        await caseFileRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+
+        return await appNotificationService
+            .SendNotificationAsync(Template.EnforcementRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
     }
 
