@@ -3,6 +3,7 @@ using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 using IaipDataService.TestData;
 
 namespace AirWeb.TestData.Enforcement;
@@ -130,7 +131,12 @@ internal static class CaseFileData
 
                 if (caseFile is not { Id: > 302 }) continue;
 
-                caseFile.ComplianceEvents.Add(WorkEntryData.GetRandomComplianceEvent());
+                var randomComplianceEvent = WorkEntryData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
+                if (randomComplianceEvent != null)
+                {
+                    caseFile.ComplianceEvents.Add(randomComplianceEvent);
+                    randomComplianceEvent.CaseFiles.Add(caseFile);
+                }
 
                 var facility = FacilityData.GetFacility(caseFile.FacilityId);
                 if (facility.RegulatoryData is null) continue;

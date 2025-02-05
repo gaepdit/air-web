@@ -73,7 +73,7 @@ These pages are only available to logged-in staff.
 
 * `/Enforcement/Edit/{enforcementId}` Edit details.
 * `/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen a case file.
-* `/Enforcement/Link/{enforcementId}` Link a case file to a compliance event.
+* `/Enforcement/LinkedEvents/{enforcementId}` Link a case file to a compliance event.
 * `/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore a case file.
 
 #### Enforcement Action Workflow

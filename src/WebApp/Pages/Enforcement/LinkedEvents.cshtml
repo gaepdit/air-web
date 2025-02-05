@@ -1,0 +1,139 @@
+﻿@page "{id:int?}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model LinkedEventsModel
+
+@{
+    ViewData["Title"] = $"Compliance Event Linking: Enforcement Case #{Model.Id}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<p class="d-print-none">
+    <a asp-page="Details" asp-route-id="@Model.Id" class="lead icon-link">
+        <svg class="bi">
+            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
+        </svg>
+        Back to Enforcement Case #@Model.Id
+    </a>
+</p>
+
+<h1>Compliance Event Linking</h1>
+
+<section class="mt-4">
+    <h2 class="h4">Linked Discovery Events</h2>
+    @if (!Model.LinkedComplianceEvents.Any())
+    {
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="table-responsive-md mb-3">
+            <form method="post" asp-page-handler="UnlinkEvent">
+                <table class="table table-hover mb-0" aria-label="Compliance Events linked to the Enforcement Case">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-nowrap">Tracking #</th>
+                        <th scope="col" class="text-nowrap">Work Type</th>
+                        <th scope="col" class="text-nowrap">Event Date</th>
+                        <th scope="col" class="text-nowrap">Status</th>
+                        <th scope="col"><span class="visually-hidden">Actions</span></th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="align-middle">
+                    @foreach (var item in Model.LinkedComplianceEvents)
+                    {
+                        <tr>
+                            <th scope="row">
+                                <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
+                                   class="btn btn-sm btn-outline-primary" target="_blank">
+                                    @item.Id.ToString()
+                                </a>
+                            </th>
+                            <td>@item.WorkEntryType.GetDescription()</td>
+                            <td>
+                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
+                                @item.EventDateName
+                            </td>
+                            <td class="text-nowrap">
+                                @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                                @if (item.IsClosed)
+                                {
+                                    <br />
+                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                                }
+                            </td>
+                            <td class="text-end">
+                                <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
+                                        title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink Event
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    }
+</section>
+
+<section class="mt-4">
+    <h2 class="h4">Available Compliance Events</h2>
+    @if (!Model.AvailableComplianceEvents.Any())
+    {
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="table-responsive-md mb-3">
+            <form method="post" asp-page-handler="LinkEvent">
+                <table class="table table-hover mb-0" aria-label="Compliance Events available to link">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-nowrap">Tracking #</th>
+                        <th scope="col" class="text-nowrap">Work Type</th>
+                        <th scope="col" class="text-nowrap">Event Date</th>
+                        <th scope="col" class="text-nowrap">Status</th>
+                        <th scope="col"><span class="visually-hidden">Actions</span></th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="align-middle">
+                    @foreach (var item in Model.AvailableComplianceEvents)
+                    {
+                        <tr>
+                            <th scope="row">
+                                <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
+                                   class="btn btn-sm btn-outline-primary" target="_blank">
+                                    @item.Id.ToString()
+                                </a>
+                            </th>
+                            <td>@item.WorkEntryType.GetDescription()</td>
+                            <td>
+                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
+                                @item.EventDateName
+                            </td>
+                            <td class="text-nowrap">
+                                @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                                @if (item.IsClosed)
+                                {
+                                    <br />
+                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                                }
+                            </td>
+                            <td class="text-end">
+                                <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
+                                        title="Link Event to Enforcement Case">🡱&nbsp;Link Event
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    }
+</section>

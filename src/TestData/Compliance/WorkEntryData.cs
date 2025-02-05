@@ -1,6 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 using static AirWeb.TestData.Compliance.WorkEntries;
 
 namespace AirWeb.TestData.Compliance;
@@ -25,9 +26,10 @@ internal static class WorkEntryData
 
     private static IEnumerable<WorkEntry>? _workEntries;
 
-    public static ComplianceEvent GetRandomComplianceEvent() =>
-        (ComplianceEvent)GetData.Where(entry => entry is ComplianceEvent && !entry.IsDeleted)
-            .OrderBy(_ => Guid.NewGuid()).First();
+    public static ComplianceEvent? GetRandomComplianceEvent(FacilityId facilityId) =>
+        (ComplianceEvent?)GetData
+            .Where(entry => entry is ComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId)
+            .OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
 
     public static IEnumerable<WorkEntry> GetData
     {
