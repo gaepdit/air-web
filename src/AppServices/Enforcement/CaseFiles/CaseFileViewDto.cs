@@ -6,6 +6,7 @@ using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.Cases;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFiles;
@@ -49,6 +50,9 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
 
     [Display(Name = "Air Programs")]
     public IList<AirProgram> AirPrograms { get; } = [];
+
+    public IEnumerable<string> AirProgramsAsStrings =>
+        AirPrograms.Select(program => program.GetDescription());
 
     public IList<WorkEntrySearchResultDto> ComplianceEvents { get; } = [];
 
