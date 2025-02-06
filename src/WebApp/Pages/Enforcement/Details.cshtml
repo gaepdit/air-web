@@ -39,13 +39,13 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center">
+<div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1>Enforcement Case</h1>
+        <h1 class="mb-0">Enforcement Case</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[EnforcementOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>

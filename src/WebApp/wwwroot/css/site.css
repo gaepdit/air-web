@@ -157,6 +157,10 @@ html:not([data-bs-theme="dark"]) .text-warning {
     color: hsl(45, 100%, 29%) !important;
 }
 
+html:not([data-bs-theme="dark"]) .text-danger-emphasis {
+    color: hsl(355, 65%, 40%) !important;
+}
+
 html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     color: hsl(355, 98%, 24%) !important;
 }

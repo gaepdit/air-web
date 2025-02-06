@@ -7,6 +7,7 @@ using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
@@ -19,6 +20,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     public IWorkEntryViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
+    [Display(Name = "Linked Enforcement Cases")]
+    public IEnumerable<int> CaseFileIds { get; private set; } = [];
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -37,6 +41,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
             return RedirectToPage("../SourceTest/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
+
+        if (Item.IsComplianceEvent)
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
 
         CommentSection = new CommentsSectionModel
         {

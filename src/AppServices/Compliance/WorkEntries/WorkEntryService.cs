@@ -100,6 +100,12 @@ public sealed partial class WorkEntryService(
         return summary;
     }
 
+    // Enforcement Cases
+    public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
+        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token)
+            .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
+
+    // Source test-specific
     public async Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         await entryRepository.ExistsAsync(referenceNumber, token).ConfigureAwait(false);
 
@@ -185,6 +191,7 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false);
     }
 
+    // Comments
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {

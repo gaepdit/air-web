@@ -12,7 +12,7 @@
     var report = Model.Item!;
     var workEntryType = report.WorkEntryType;
     var workEntryName = workEntryType.GetDescription();
-    ViewData["Title"] = $"Facility {report.FacilityId} – {workEntryName} ({Model.Id})";
+    ViewData["Title"] = $"{workEntryName} #{Model.Id} (Facility {report.FacilityId})";
 }
 
 @if (report.IsDeleted)
@@ -44,11 +44,11 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-0">@workEntryName</h1>
+        <h1 class="mb-0">Compliance Monitoring: @workEntryName</h1>
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[ComplianceOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
@@ -91,7 +91,7 @@
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
                 </svg>
-                Enforcement
+                Enforcement Case
             </a>
         </div>
     }
@@ -119,6 +119,20 @@
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+    @if (Model.CaseFileIds.Any())
+    {
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.CaseFileIds)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            <ul class="mb-0 p-0 ps-1">
+                @foreach (var id in Model.CaseFileIds)
+                {
+                    <li class="float-start me-4 ms-2">
+                        <a asp-page="/Enforcement/Details" asp-route-id="@id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">@id</a>
+                    </li>
+                }
+            </ul>
+        </dd>
+    }
 </dl>
 
 <h2>Details</h2>
