@@ -8,19 +8,19 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
 
-public interface IEnforcementService
+public interface ICaseFileService
 {
     // FUTURE: Replace with search.
     Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default);
 
     // Query
-    Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default);
-    Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default);
+    Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default);
+    Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
 
     // Case File commands
-    Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource, CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);
 
-    Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
+    Task<AppNotificationResult> UpdateAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default);
 
     // Case File Compliance Event linkages
@@ -33,13 +33,13 @@ public interface IEnforcementService
     Task<bool> UnLinkComplianceEvent(int id, int entryId, CancellationToken token = default);
 
     // Case File workflow
-    Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default);
-    Task<AppNotificationResult> ReopenCaseFileAsync(int id, CancellationToken token = default);
+    Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default);
+    Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default);
 
-    Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+    Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
         CancellationToken token = default);
 
-    Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default);
+    Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default);
 
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);

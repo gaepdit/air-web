@@ -8,7 +8,7 @@ using AirWeb.WebApp.Platform.PageModelHelpers;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class RestoreModel(IEnforcementService service) : PageModel
+public class RestoreModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -19,7 +19,7 @@ public class RestoreModel(IEnforcementService service) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (!User.CanRestore(item)) return Forbid();
 
@@ -31,11 +31,11 @@ public class RestoreModel(IEnforcementService service) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || !User.CanRestore(item))
             return BadRequest();
 
-        var notificationResult = await service.RestoreCaseFileAsync(Id, token);
+        var notificationResult = await service.RestoreAsync(Id, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
             $"Enforcement Case successfully restored.", notificationResult.FailureMessage);

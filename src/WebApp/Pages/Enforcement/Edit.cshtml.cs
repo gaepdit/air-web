@@ -13,7 +13,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class EditModel(
-    IEnforcementService enforcementService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<CaseFileUpdateDto> validator) : PageModel
 {
@@ -30,7 +30,7 @@ public class EditModel(
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var itemView = await enforcementService.FindCaseFileSummaryAsync(Id, token);
+        var itemView = await caseFileService.FindSummaryAsync(Id, token);
         if (itemView is null) return NotFound();
         if (!User.CanEdit(itemView)) return Forbid();
 
@@ -43,7 +43,7 @@ public class EditModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        var itemView = await enforcementService.FindCaseFileSummaryAsync(Id, token);
+        var itemView = await caseFileService.FindSummaryAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(Item, ModelState);
 
@@ -54,7 +54,7 @@ public class EditModel(
             return Page();
         }
 
-        await enforcementService.UpdateCaseFileAsync(Id, Item, token);
+        await caseFileService.UpdateAsync(Id, Item, token);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
         return RedirectToPage("Details", new { Id });
     }

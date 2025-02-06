@@ -5,7 +5,7 @@ using AirWeb.AppServices.Permissions;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class IndexModel(IEnforcementService service) : PageModel
+public class IndexModel(ICaseFileService service) : PageModel
 {
     public IReadOnlyCollection<CaseFileSummaryDto> CaseFiles { get; private set; } = null!;
 

@@ -17,7 +17,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class AddModel(
     IFacilityService facilityService,
     IWorkEntryService entryService,
-    IEnforcementService enforcementService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<CaseFileCreateDto> validator) : PageModel
 {
@@ -83,7 +83,7 @@ public class AddModel(
             return Page();
         }
 
-        var createResult = await enforcementService.CreateCaseFileAsync(NewCaseFile, token);
+        var createResult = await caseFileService.CreateAsync(NewCaseFile, token);
 
         const string message = "Case File successfully created.";
         if (createResult.HasAppNotificationFailure)

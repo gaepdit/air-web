@@ -16,7 +16,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
 
-public class EnforcementService(
+public class CaseFileService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
@@ -25,13 +25,13 @@ public class EnforcementService(
     IFacilityService facilityService,
     IUserService userService,
     IAppNotificationService appNotificationService)
-    : IEnforcementService
+    : ICaseFileService
 {
     public async Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default) =>
         mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync("Id", token)
             .ConfigureAwait(false)).ToList();
 
-    public async Task<CaseFileViewDto?> FindDetailedCaseFileAsync(int id, CancellationToken token = default)
+    public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository
             .FindAsync(id, includeProperties: ICaseFileRepository.IncludeDetails, token).ConfigureAwait(false);
@@ -67,7 +67,7 @@ public class EnforcementService(
         return caseFileDto;
     }
 
-    public async Task<CaseFileSummaryDto?> FindCaseFileSummaryAsync(int id, CancellationToken token = default)
+    public async Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
         var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository.FindAsync(id, token)
             .ConfigureAwait(false));
@@ -81,7 +81,7 @@ public class EnforcementService(
         return caseFile;
     }
 
-    public async Task<CreateResult<int>> CreateCaseFileAsync(CaseFileCreateDto resource,
+    public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -106,7 +106,7 @@ public class EnforcementService(
             .ConfigureAwait(false));
     }
 
-    public async Task<AppNotificationResult> UpdateCaseFileAsync(int id, CaseFileUpdateDto resource,
+    public async Task<AppNotificationResult> UpdateAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -168,7 +168,7 @@ public class EnforcementService(
         return true;
     }
 
-    public async Task<AppNotificationResult> CloseCaseFileAsync(int id, CancellationToken token = default)
+    public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -181,7 +181,7 @@ public class EnforcementService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> ReopenCaseFileAsync(int id, CancellationToken token = default)
+    public async Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -194,7 +194,7 @@ public class EnforcementService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteCaseFileAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -208,7 +208,7 @@ public class EnforcementService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> RestoreCaseFileAsync(int id, CancellationToken token = default)
+    public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         caseFileManager.RestoreCaseFile(workEntry);

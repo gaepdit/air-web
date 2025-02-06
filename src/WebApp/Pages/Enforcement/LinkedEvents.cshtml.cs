@@ -9,7 +9,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class LinkedEventsModel(IEnforcementService service) : PageModel
+public class LinkedEventsModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -21,7 +21,7 @@ public class LinkedEventsModel(IEnforcementService service) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
         if (!User.CanEdit(item)) return Forbid();
@@ -35,7 +35,7 @@ public class LinkedEventsModel(IEnforcementService service) : PageModel
     public async Task<IActionResult> OnPostLinkEventAsync(int entryId, CancellationToken token)
     {
         if (Id == 0 || entryId == 0) return BadRequest();
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || item.IsClosed) return BadRequest();
         if (!User.CanEdit(item)) return Forbid();
 
@@ -58,7 +58,7 @@ public class LinkedEventsModel(IEnforcementService service) : PageModel
     public async Task<IActionResult> OnPostUnlinkEventAsync(int entryId, CancellationToken token)
     {
         if (Id == 0 || entryId == 0) return BadRequest();
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || item.IsClosed) return BadRequest();
         if (!User.CanEdit(item)) return Forbid();
 

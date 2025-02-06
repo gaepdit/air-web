@@ -37,7 +37,7 @@ public static class AppServices
         .AddScoped<INotificationTypeService, NotificationTypeService>()
 
         // Enforcement
-        .AddScoped<IEnforcementService, EnforcementService>()
+        .AddScoped<ICaseFileService, CaseFileService>()
         .AddScoped<ICaseFileManager, CaseFileManager>()
 
         // Email

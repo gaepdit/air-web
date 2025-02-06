@@ -9,7 +9,7 @@ using AirWeb.WebApp.Models;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IEnforcementService enforcementService, IAuthorizationService authorization) : PageModel
+public class DetailsModel(ICaseFileService caseFileService, IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -27,7 +27,7 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id);
+        Item = await caseFileService.FindDetailedAsync(Id);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
@@ -43,13 +43,14 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
             CanAddComment = UserCan[EnforcementOperation.AddComment],
             CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
         };
+
         return Page();
     }
 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
+        Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
@@ -64,10 +65,11 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
                 CanAddComment = UserCan[EnforcementOperation.AddComment],
                 CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
             };
+
             return Page();
         }
 
-        var addCommentResult = await enforcementService.AddCommentAsync(Id, newComment, token);
+        var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
@@ -76,13 +78,13 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
+        Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
 
-        await enforcementService.DeleteCommentAsync(commentId, token);
+        await caseFileService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
     }
 
