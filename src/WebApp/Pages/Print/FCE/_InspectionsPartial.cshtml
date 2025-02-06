@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model (IEnumerable<AirWeb.AppServices.Compliance.WorkEntries.Inspections.InspectionViewDto> Inspections, bool IsRmp)
+@model (IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.InspectionSummaryDto> Inspections, bool IsRmp)
 @{
     var labelId = Model.IsRmp ? "rmp-inspections" : "inspections";
     var labelText = Model.IsRmp ? "RMP Inspections" : "Inspections";

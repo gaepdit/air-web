@@ -70,36 +70,6 @@ public sealed partial class WorkEntryService(
             ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
-    public async Task<WorkEntryDataSummary> GetDataSummaryAsync(FacilityId facilityId,
-        CancellationToken token = default)
-    {
-        var summary = new WorkEntryDataSummary
-        {
-            Accs = mapper.Map<IEnumerable<AccViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Inspections = mapper.Map<IEnumerable<InspectionViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Notifications = mapper.Map<IEnumerable<NotificationViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Reports = mapper.Map<IEnumerable<ReportViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            RmpInspections = mapper.Map<IEnumerable<InspectionViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-        };
-
-        // TODO: Implement remaining data summaries.
-        //  * EnforcementHistory
-        //  * FeesHistory
-        //  * SourceTests
-
-        return summary;
-    }
-
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
         (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token)

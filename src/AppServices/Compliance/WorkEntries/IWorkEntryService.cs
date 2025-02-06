@@ -5,7 +5,6 @@ using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
@@ -15,7 +14,6 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
-    Task<WorkEntryDataSummary> GetDataSummaryAsync(FacilityId facilityId, CancellationToken token = default);
 
     // Enforcement Cases
     Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default);

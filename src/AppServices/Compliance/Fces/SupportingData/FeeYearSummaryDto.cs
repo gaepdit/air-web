@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query.SupportingData;
+﻿namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
 public record FeeYearSummaryDto
 {

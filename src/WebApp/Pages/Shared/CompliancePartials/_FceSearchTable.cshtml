@@ -32,7 +32,7 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <th scope="row">
+                <th scope="row" class="align-middle">
                     <a asp-page="/Compliance/FCE/Details" asp-route-id="@item.Id.ToString()"
                        class="btn btn-sm @(item.IsDeleted ? "btn-outline-danger" : "btn-outline-primary")">
                         @item.Id.ToString()

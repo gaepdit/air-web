@@ -84,6 +84,8 @@ public class CaseFile : ClosableEntity<int>
     // Required for new cases but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
 
+    // Computed dates
+
     private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
 
     public DateOnly? DayZero
@@ -93,10 +95,34 @@ public class CaseFile : ClosableEntity<int>
             if (!IsDataFlowEnabled) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsDataFlowEnabled)
-                .Select(action => action.IssueDate) // List the dates each enforcement action was issued.
+                .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
                 .Append(MaxDayZero); // Add the max Day Zero.
             var dates = actionDates.Where(date => date.HasValue).ToArray();
             return dates.Length == 0 ? null : dates.Min(); // Day Zero is the earliest of the above list of dates.
+        }
+
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty.
+            // This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
+    }
+
+    public DateOnly? EnforcementDate
+    {
+        get
+        {
+            var actionDates = EnforcementActions
+                .Where(action => !action.IsDeleted)
+                .Where(action => action.IsIssued)
+                .Select(action => action.IssueDate); // List the dates each enforcement action was issued.
+            var dates = actionDates.Where(date => date.HasValue).ToArray();
+            return
+                dates.Length == 0 ? null : dates.Min(); // Enforcement Date is the earliest of the above list of dates.
         }
 
         [UsedImplicitly]

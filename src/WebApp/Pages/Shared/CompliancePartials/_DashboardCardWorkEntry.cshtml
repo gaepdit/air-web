@@ -28,7 +28,7 @@
                     @foreach (var entry in Model.WorkEntries)
                     {
                         <tr>
-                            <th scope="row">
+                            <th scope="row" class="align-middle">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@entry.Id.ToString()"
                                    class="btn btn-outline-primary btn-sm">
                                     @entry.Id.ToString()

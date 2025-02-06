@@ -1,6 +1,7 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
@@ -80,6 +81,14 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<Fce, FceViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
+        // Supporting data
+        CreateMap<AnnualComplianceCertification, AccSummaryDto>();
+        CreateMap<Inspection, InspectionSummaryDto>();
+        CreateMap<Notification, NotificationSummaryDto>();
+        CreateMap<Report, ReportSummaryDto>();
+        CreateMap<RmpInspection, InspectionSummaryDto>();
+        CreateMap<CaseFile, EnforcementCaseSummaryDto>();
     }
 
     private void Accs()

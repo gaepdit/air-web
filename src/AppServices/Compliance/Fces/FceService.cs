@@ -1,8 +1,10 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -12,6 +14,7 @@ public sealed class FceService(
     IMapper mapper,
     IFceRepository fceRepository,
     IFceManager fceManager,
+    IWorkEntryRepository entryRepository,
     IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
@@ -32,6 +35,36 @@ public sealed class FceService(
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
+    }
+
+    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId,
+        CancellationToken token = default)
+    {
+        var summary = new SupportingDataSummary
+        {
+            Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Notification &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Report &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+        };
+
+        // TODO: Implement remaining data summaries.
+        //  * EnforcementHistory
+        //  * FeesHistory
+        //  * SourceTests
+
+        return summary;
     }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)

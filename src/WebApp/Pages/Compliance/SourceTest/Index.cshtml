@@ -20,7 +20,7 @@
         {
             <a asp-page="/Print/SourceTest/Index" target="_blank" rel="noopener"
                asp-route-referenceNumber="@summary.ReferenceNumber.ToString()"
-               class="btn btn-outline-secondary icon-link no-external-link">
+               class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
                 <svg class="bi">
                     <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
                 </svg>
@@ -157,9 +157,9 @@ else
         </div>
         @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
         {
-            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group btn-group-sm d-print-none">
-                <a asp-page="/Enforcement/Add" asp-route-eventId="@review.Id.ToString()"
-                   class="btn btn-outline-warning icon-link">
+            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
+                <a asp-page="/Enforcement/Add" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
+                   class="btn btn-sm btn-outline-warning icon-link justify-content-center">
                     <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
                     </svg>
