@@ -3,7 +3,7 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Print.Fce;
+namespace AirWeb.WebApp.Pages.Print.FCE;
 
 public class IndexModel : PageModel
 {

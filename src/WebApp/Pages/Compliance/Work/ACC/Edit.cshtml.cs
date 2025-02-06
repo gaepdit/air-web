@@ -5,7 +5,7 @@ using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using AutoMapper;
 using FluentValidation;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.Acc;
+namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
 
 public class EditModel(
     IWorkEntryService entryService,

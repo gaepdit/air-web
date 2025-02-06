@@ -3,7 +3,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.WebApp.Platform.PrintoutModels;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Print.Acc;
+namespace AirWeb.WebApp.Pages.Print.ACC;
 
 public class IndexModel : PageModel
 {

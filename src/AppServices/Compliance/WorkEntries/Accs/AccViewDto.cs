@@ -44,5 +44,5 @@ public record AccViewDto : WorkEntryViewDto
     public bool EnforcementNeeded { get; init; }
 
     public override bool HasPrintout => IsClosed;
-    public override string PrintoutPath => "/Print/Acc/Index";
+    public override string PrintoutPath => "/Print/ACC/Index";
 }

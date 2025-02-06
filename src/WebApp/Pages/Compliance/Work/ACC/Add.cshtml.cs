@@ -6,7 +6,7 @@ using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.Acc;
+namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
 
 public class AddModel(
     IWorkEntryService entryService,

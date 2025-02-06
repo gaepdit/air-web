@@ -15,7 +15,7 @@ public class EditRedirectModel(IWorkEntryService entryService) : PageModel
         if (entryType is null) return NotFound();
         return RedirectToPage(entryType switch
         {
-            WorkEntryType.AnnualComplianceCertification => "Acc/Edit",
+            WorkEntryType.AnnualComplianceCertification => "ACC/Edit",
             WorkEntryType.Inspection => "Inspection/Edit",
             WorkEntryType.Notification => "Notification/Edit",
             WorkEntryType.PermitRevocation => "PermitRevocation/Edit",
