@@ -26,10 +26,10 @@ public static class EnforcementActionData
         // 303 (2)
         new LetterOfNoncompliance(Guid.NewGuid(), CaseFileData.GetData.ElementAt(3), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-10).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-10).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
-            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-5).Date),
+            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
         },
 
         // 304 (3, 4)
@@ -54,9 +54,9 @@ public static class EnforcementActionData
         // 306 (6)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(6), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-15).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-85).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
+            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-75).Date),
         },
 
         // 307 (7)
@@ -72,13 +72,13 @@ public static class EnforcementActionData
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-15).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
+            ResponseReceived = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(5).Date),
         },
 
         // 309 (9)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(9), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(50).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
@@ -92,14 +92,14 @@ public static class EnforcementActionData
         // 311 (11)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(11), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-45).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(145).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
         // 312 (12)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(12), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-5).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-195).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
@@ -115,8 +115,8 @@ public static class EnforcementActionData
         new AdministrativeOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(14), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-220).Date),
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-218).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-300).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-288).Date),
             ResolvedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-200).Date),
         },
     ];
@@ -126,7 +126,7 @@ public static class EnforcementActionData
         // 306 (0) [15]
         new NoFurtherActionLetter(Guid.NewGuid(), (NoticeOfViolation)parentActions[6], null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-15).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-74).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
@@ -140,7 +140,7 @@ public static class EnforcementActionData
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[10], null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
+            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(20).Date),
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -149,10 +149,10 @@ public static class EnforcementActionData
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[11], null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
-            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
-            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
+            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(148).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(160).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(161).Date),
+            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-169).Date),
             OrderId = 1552,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -161,11 +161,11 @@ public static class EnforcementActionData
         // 312 (4) [19]
         new ConsentOrder(Guid.NewGuid(), (ProposedConsentOrder)parentActions[12], null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-18).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-180).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-30).Date),
-            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-20).Date),
-            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-19).Date),
+            ReceivedFromFacility = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-183).Date),
+            ExecutedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-180).Date),
+            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-180).Date),
             OrderId = 1663,
             PenaltyAmount = 10_000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -191,7 +191,7 @@ public static class EnforcementActionData
         // 312 (1) [22]
         new OrderResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(3).Date),
+            IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(23).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
     ];
