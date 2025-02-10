@@ -50,6 +50,12 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
+    internal static ModelBuilder ConfigureIdentityTables(this ModelBuilder builder)
+    {
+        builder.Entity<ApplicationUser>().HasIndex(user => user.ObjectIdentifier).IsUnique();
+        return builder;
+    }
+
     internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.

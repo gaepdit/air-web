@@ -73,6 +73,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
+            .ConfigureIdentityTables()
             .ConfigureWorkEntryMapping()
             .ConfigureEnforcementActionMapping()
             .ConfigureCommentsMappingStrategy()
