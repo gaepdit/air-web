@@ -4,7 +4,6 @@ using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
@@ -68,13 +67,11 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
-[SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum EnforcementActionType
 {
     [Description("Administrative Order")] AdministrativeOrder,
-    [Description("Administrative Order Resolved")] AoResolvedLetter,
     [Description("Consent Order")] ConsentOrder,
-    [Description("Consent Order Resolved")] CoResolvedLetter,
+    [Description("Order Resolved")] OrderResolvedLetter,
     [Description("Letter")] InformationalLetter,
     [Description("Letter of Noncompliance")] LetterOfNoncompliance,
     [Description("No Further Action Letter")] NoFurtherAction,

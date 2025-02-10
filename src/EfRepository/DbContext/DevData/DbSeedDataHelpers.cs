@@ -54,20 +54,15 @@ public static class DbSeedDataHelpers
                 .Where(action => action is AdministrativeOrder)
                 .Cast<AdministrativeOrder>());
 
-        if (!context.AoResolvedLetters.Any())
-            context.AoResolvedLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is AoResolvedLetter)
-                .Cast<AoResolvedLetter>());
-
         if (!context.ConsentOrders.Any())
             context.ConsentOrders.AddRange(EnforcementActionData.GetData
                 .Where(action => action is ConsentOrder)
                 .Cast<ConsentOrder>());
 
-        if (!context.CoResolvedLetters.Any())
-            context.CoResolvedLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is CoResolvedLetter)
-                .Cast<CoResolvedLetter>());
+        if (!context.OrderResolvedLetters.Any())
+            context.OrderResolvedLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is OrderResolvedLetter)
+                .Cast<OrderResolvedLetter>());
 
         if (!context.InformationalLetters.Any())
             context.InformationalLetters.AddRange(EnforcementActionData.GetData

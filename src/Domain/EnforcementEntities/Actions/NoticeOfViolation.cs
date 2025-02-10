@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class NoticeOfViolation : EnforcementAction
+public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -15,8 +15,13 @@ public class NoticeOfViolation : EnforcementAction
         ActionType = EnforcementActionType.NoticeOfViolation;
     }
 
-    public bool ResponseRequested { get; set; } = true;
+    public bool ResponseRequested => true;
     public DateOnly? ResponseReceived { get; set; }
 
+    [StringLength(7000)]
+    public string? ResponseComment { get; set; }
+
+    public ICollection<ProposedConsentOrder> ProposedConsentOrders { get; } = [];
+    public IFormalEnforcementAction? Order { get; set; }
     public NoFurtherActionLetter? NoFurtherActionLetter { get; set; }
 }

@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ConsentOrder : EnforcementAction, IExecutable
+public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -16,7 +16,12 @@ public class ConsentOrder : EnforcementAction, IExecutable
         : base(id, proposedConsentOrder.CaseFile, user)
     {
         ActionType = EnforcementActionType.ConsentOrder;
-        ProposedConsentOrder = proposedConsentOrder;
+        foreach (var action in proposedConsentOrder.ActionsToBeAddressed)
+        {
+            ActionsAddressed.Add(action);
+        }
+
+        ActionsAddressed.Add(proposedConsentOrder);
     }
 
     internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
@@ -25,8 +30,8 @@ public class ConsentOrder : EnforcementAction, IExecutable
         ActionType = EnforcementActionType.ConsentOrder;
     }
 
-    public ProposedConsentOrder? ProposedConsentOrder { get; set; }
-    public CoResolvedLetter? ResolvedLetter { get; set; }
+    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; } = [];
+    public OrderResolvedLetter? ResolvedLetter { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? ExecutedDate { get; set; }

@@ -139,9 +139,8 @@ internal static class AppDbContextConfiguration
             .ToTable("EnforcementActions")
             .HasDiscriminator(action => action.ActionType)
             .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
-            .HasValue<AoResolvedLetter>(EnforcementActionType.AoResolvedLetter)
             .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
-            .HasValue<CoResolvedLetter>(EnforcementActionType.CoResolvedLetter)
+            .HasValue<OrderResolvedLetter>(EnforcementActionType.OrderResolvedLetter)
             .HasValue<InformationalLetter>(EnforcementActionType.InformationalLetter)
             .HasValue<LetterOfNoncompliance>(EnforcementActionType.LetterOfNoncompliance)
             .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherAction)
@@ -156,31 +155,6 @@ internal static class AppDbContextConfiguration
             .WithMany(complianceEvent => complianceEvent.CaseFiles)
             .UsingEntity("CaseFileComplianceEvents");
 
-        // Self-referencing relationships.
-        builder.Entity<AdministrativeOrder>()
-            .HasOne(order => order.ResolvedLetter)
-            .WithOne(letter => letter.AdministrativeOrder)
-            .HasForeignKey<AoResolvedLetter>("AdministrativeOrderId")
-            .OnDelete(DeleteBehavior.ClientCascade);
-
-        builder.Entity<ConsentOrder>()
-            .HasOne(order => order.ResolvedLetter)
-            .WithOne(letter => letter.ConsentOrder)
-            .HasForeignKey<CoResolvedLetter>("ConsentOrderId")
-            .OnDelete(DeleteBehavior.ClientCascade);
-
-        builder.Entity<NoticeOfViolation>()
-            .HasOne(noticeOfViolation => noticeOfViolation.NoFurtherActionLetter)
-            .WithOne(letter => letter.NoticeOfViolation)
-            .HasForeignKey<NoFurtherActionLetter>("NoticeOfViolationId_for_Nfa")
-            .OnDelete(DeleteBehavior.ClientCascade);
-
-        builder.Entity<ProposedConsentOrder>()
-            .HasOne(letter => letter.NoticeOfViolation)
-            .WithMany()
-            .HasForeignKey("NoticeOfViolationId_for_ProposedCo")
-            .OnDelete(DeleteBehavior.ClientCascade);
-
         return builder.ConfigureEnforcementActionColumnSharing();
     }
 
@@ -190,9 +164,9 @@ internal static class AppDbContextConfiguration
 
         var aorEntity = builder.Entity<AdministrativeOrder>();
         var corEntity = builder.Entity<ConsentOrder>();
-        var nelEntity = builder.Entity<InformationalLetter>();
+        var infEntity = builder.Entity<InformationalLetter>();
         var lonEntity = builder.Entity<LetterOfNoncompliance>();
-        var nnlEntity = builder.Entity<NovNfaLetter>();
+        var nnfEntity = builder.Entity<NovNfaLetter>();
         var novEntity = builder.Entity<NoticeOfViolation>();
         var pcoEntity = builder.Entity<ProposedConsentOrder>();
 
@@ -205,17 +179,25 @@ internal static class AppDbContextConfiguration
         corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
 
         // Response requested
-        nelEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
+        infEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
         lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
-        nnlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
+        nnfEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
         novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
+        pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
 
         // Response received
-        nelEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
+        infEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
         lonEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(LetterOfNoncompliance.ResponseReceived));
-        nnlEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
+        nnfEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
         novEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
         pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
+
+        // Response received comment
+        infEntity.Property(e => e.ResponseComment).HasColumnName(nameof(InformationalLetter.ResponseComment));
+        lonEntity.Property(e => e.ResponseComment).HasColumnName(nameof(LetterOfNoncompliance.ResponseComment));
+        nnfEntity.Property(e => e.ResponseComment).HasColumnName(nameof(NovNfaLetter.ResponseComment));
+        novEntity.Property(e => e.ResponseComment).HasColumnName(nameof(NovNfaLetter.ResponseComment));
+        pcoEntity.Property(e => e.ResponseComment).HasColumnName(nameof(ProposedConsentOrder.ResponseComment));
 
         return builder;
     }

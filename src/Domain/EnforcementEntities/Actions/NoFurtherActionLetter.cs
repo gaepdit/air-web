@@ -8,12 +8,12 @@ public class NoFurtherActionLetter : EnforcementAction
     [UsedImplicitly] // Used by ORM.
     private NoFurtherActionLetter() { }
 
-    internal NoFurtherActionLetter(Guid id, NoticeOfViolation noticeOfViolation, ApplicationUser? user)
-        : base(id, noticeOfViolation.CaseFile, user)
+    internal NoFurtherActionLetter(Guid id, IInformalEnforcementAction informalEnforcementAction, ApplicationUser? user)
+        : base(id, informalEnforcementAction.CaseFile, user)
     {
         ActionType = EnforcementActionType.NoFurtherAction;
-        NoticeOfViolation = noticeOfViolation;
+        ActionsAddressed.Add(informalEnforcementAction);
     }
 
-    public NoticeOfViolation NoticeOfViolation { get; set; } = null!;
+    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; init; } = [];
 }

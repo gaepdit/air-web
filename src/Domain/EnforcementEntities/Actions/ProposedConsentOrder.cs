@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class ProposedConsentOrder : EnforcementAction
+public class ProposedConsentOrder : EnforcementAction, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -13,7 +13,7 @@ public class ProposedConsentOrder : EnforcementAction
         : base(id, noticeOfViolation.CaseFile, user)
     {
         ActionType = EnforcementActionType.ProposedConsentOrder;
-        NoticeOfViolation = noticeOfViolation;
+        ActionsToBeAddressed.Add(noticeOfViolation);
     }
 
     internal ProposedConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
@@ -22,7 +22,13 @@ public class ProposedConsentOrder : EnforcementAction
         ActionType = EnforcementActionType.ProposedConsentOrder;
     }
 
-    public NoticeOfViolation? NoticeOfViolation { get; set; }
-
+    public ICollection<IInformalEnforcementAction> ActionsToBeAddressed { get; init; } = [];
+    public bool ResponseRequested => true;
     public DateOnly? ResponseReceived { get; set; }
+
+    [StringLength(7000)]
+    public string? ResponseComment { get; set; }
+
+    public IFormalEnforcementAction? Order { get; set; }
+    public NoFurtherActionLetter? NoFurtherActionLetter { get; set; }
 }

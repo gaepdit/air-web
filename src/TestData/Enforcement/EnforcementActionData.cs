@@ -174,7 +174,7 @@ public static class EnforcementActionData
         },
 
         // 314 (5) [20]
-        new AoResolvedLetter(Guid.NewGuid(), (AdministrativeOrder)parentActions[14], null)
+        new OrderResolvedLetter(Guid.NewGuid(), (AdministrativeOrder)parentActions[14], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-200).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -184,12 +184,12 @@ public static class EnforcementActionData
     private static IEnumerable<EnforcementAction> DoubleNestedSeedItems(List<EnforcementAction> parentActions) =>
     [
         // 312 (0) [21]
-        new CoResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
+        new OrderResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
             Notes = "Deleted CO resolved letter",
         },
         // 312 (1) [22]
-        new CoResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
+        new OrderResolvedLetter(Guid.NewGuid(), (ConsentOrder)parentActions[4], null)
         {
             IssueDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(3).Date),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),

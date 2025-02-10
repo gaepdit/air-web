@@ -58,7 +58,7 @@ public class CaseFile : ClosableEntity<int>
 
             if (EnforcementActions.Exists(action =>
                     action.ActionType is EnforcementActionType.ConsentOrder
-                        or EnforcementActionType.AdministrativeOrder && ((IExecutable)action).IsExecuted))
+                        or EnforcementActionType.AdministrativeOrder && ((IFormalEnforcementAction)action).IsExecuted))
             {
                 return CaseFileStatus.SubjectToComplianceSchedule;
             }

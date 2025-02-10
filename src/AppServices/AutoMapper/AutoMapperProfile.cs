@@ -170,8 +170,7 @@ public class AutoMapperProfile : Profile
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
-        CreateMap<AoResolvedLetter, ActionViewDto>();
-        CreateMap<CoResolvedLetter, ActionViewDto>();
+        CreateMap<OrderResolvedLetter, ActionViewDto>();
         CreateMap<ConsentOrder, CoViewDto>();
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, IActionViewDto>();
