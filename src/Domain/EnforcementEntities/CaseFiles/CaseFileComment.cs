@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Comments;
 
-namespace AirWeb.Domain.EnforcementEntities.Cases;
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public record CaseFileComment : Comment
 {

@@ -21,6 +21,8 @@ public record ActionViewDto : IActionViewDto
         _ => null,
     };
 
+    public bool IsReportable { get; init; }
+
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
     public DateOnly? ReviewRequestedDate { get; init; }

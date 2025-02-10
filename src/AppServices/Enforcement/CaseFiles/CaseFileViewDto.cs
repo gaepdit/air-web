@@ -3,8 +3,7 @@ using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.EnforcementActions;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
@@ -41,9 +40,7 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
     [Display(Name = "Day Zero")]
     public DateOnly? DayZero { get; init; }
 
-    public bool HasFormalEnforcement => EnforcementActions.Exists(action =>
-        action is { IsDeleted: false, Status: EnforcementActionStatus.Issued } &&
-        EnforcementAction.IsFormalEnforcementAction(action.ActionType));
+    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
 
     public string Notes { get; init; } = null!;
     public IList<Pollutant> Pollutants { get; } = [];

@@ -12,6 +12,8 @@ public interface IActionViewDto
     // Status
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
+    public bool IsReportable { get; }
+
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; }

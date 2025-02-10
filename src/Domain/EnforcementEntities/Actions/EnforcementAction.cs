@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -51,22 +51,21 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DateOnly? ClosedAsUnsentDate { get; internal set; }
     internal bool IsClosedAsUnsent => ClosedAsUnsentDate.HasValue;
 
-    // Data flow properties
-    public bool IsDataFlowEnabled =>
-        !IsDeleted && IsFormalEnforcementAction(ActionType);
+    // Data exchange properties
+    public bool IsReportable =>
+        !IsDeleted &&
+        IsIssued &&
+        ActionType is EnforcementActionType.AdministrativeOrder
+            or EnforcementActionType.ConsentOrder
+            or EnforcementActionType.NoticeOfViolation
+            or EnforcementActionType.NovNfaLetter
+            or EnforcementActionType.ProposedConsentOrder;
 
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
-
-    public static bool IsFormalEnforcementAction(EnforcementActionType type) =>
-        type is EnforcementActionType.AdministrativeOrder
-            or EnforcementActionType.ConsentOrder
-            or EnforcementActionType.NoticeOfViolation
-            or EnforcementActionType.NovNfaLetter
-            or EnforcementActionType.ProposedConsentOrder;
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]

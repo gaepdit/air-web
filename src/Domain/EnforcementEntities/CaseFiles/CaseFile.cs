@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.EnforcementEntities.Cases;
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public class CaseFile : ClosableEntity<int>
 {
@@ -36,7 +36,7 @@ public class CaseFile : ClosableEntity<int>
     [StringLength(7000)]
     public string? Notes { get; set; }
 
-    // Required if the data flow is enabled.
+    // Required if the data exchange is enabled.
     [BackingField(nameof(_violationTypeCode))]
     public ViolationType? ViolationType
     {
@@ -86,17 +86,16 @@ public class CaseFile : ClosableEntity<int>
 
     // Computed dates
 
-    private DateOnly? MaxDayZero => DiscoveryDate?.AddDays(90);
-
+    // Required if the data exchange is enabled.
     public DateOnly? DayZero
     {
         get
         {
-            if (!IsDataFlowEnabled) return null;
+            if (!IsReportable) return null;
             var actionDates = EnforcementActions
-                .Where(action => action.IsDataFlowEnabled)
+                .Where(action => action.IsReportable)
                 .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
-                .Append(MaxDayZero); // Add the max Day Zero.
+                .Append(DiscoveryDate?.AddDays(90)); // Add the max Day Zero.
             var dates = actionDates.Where(date => date.HasValue).ToArray();
             return dates.Length == 0 ? null : dates.Min(); // Day Zero is the earliest of the above list of dates.
         }
@@ -137,11 +136,11 @@ public class CaseFile : ClosableEntity<int>
     }
 
     // Programs & pollutants
+    // Required if the data exchange is enabled.
     public ICollection<Pollutant> GetPollutants() => CommonData.AllPollutants
         .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
 
     public List<string> PollutantIds { get; } = [];
-
     public List<AirProgram> AirPrograms { get; } = [];
 
     // Comments
@@ -151,15 +150,15 @@ public class CaseFile : ClosableEntity<int>
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
     public List<EnforcementAction> EnforcementActions { get; } = [];
 
-    // Data flow properties
+    // Data exchange properties
 
-    // Data flow is not used for LONs, Cases with no linked compliance event,
+    // Data exchange is not used for LONs, Cases with no linked compliance event,
     // or Cases where the only linked compliance event is an RMP inspection.
-    public bool IsDataFlowEnabled =>
-        ComplianceEvents.Any(complianceEvent => complianceEvent.IsDataFlowEnabled) &&
-        EnforcementActions.Exists(action => action.IsDataFlowEnabled);
+    public bool IsReportable =>
+        ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
+        EnforcementActions.Exists(action => action.IsReportable);
 
-    // Required if the data flow is enabled.
+    // Required if the data exchange is enabled.
     public short? ActionNumber { get; set; }
 
     [JsonIgnore]

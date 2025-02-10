@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
@@ -20,7 +20,7 @@ public abstract class ComplianceEvent : WorkEntry
     public ICollection<CaseFile> CaseFiles { get; } = [];
 
     // Data exchange properties
-    public bool IsDataFlowEnabled => IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
+    public bool IsReportable => IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 
     [JsonIgnore]
     [StringLength(1)]
