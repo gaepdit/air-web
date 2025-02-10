@@ -76,7 +76,7 @@ public enum EnforcementActionType
     [Description("Administrative Order Resolved")] AoResolvedLetter,
     [Description("Consent Order")] ConsentOrder,
     [Description("Consent Order Resolved")] CoResolvedLetter,
-    [Description("Letter")] EnforcementLetter,
+    [Description("Letter")] InformationalLetter,
     [Description("Letter of Noncompliance")] LetterOfNoncompliance,
     [Description("No Further Action Letter")] NoFurtherAction,
     [Description("Notice of Violation")] NoticeOfViolation,

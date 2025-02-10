@@ -142,7 +142,7 @@ internal static class AppDbContextConfiguration
             .HasValue<AoResolvedLetter>(EnforcementActionType.AoResolvedLetter)
             .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
             .HasValue<CoResolvedLetter>(EnforcementActionType.CoResolvedLetter)
-            .HasValue<EnforcementLetter>(EnforcementActionType.EnforcementLetter)
+            .HasValue<InformationalLetter>(EnforcementActionType.InformationalLetter)
             .HasValue<LetterOfNoncompliance>(EnforcementActionType.LetterOfNoncompliance)
             .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherAction)
             .HasValue<NoticeOfViolation>(EnforcementActionType.NoticeOfViolation)
@@ -190,7 +190,7 @@ internal static class AppDbContextConfiguration
 
         var aorEntity = builder.Entity<AdministrativeOrder>();
         var corEntity = builder.Entity<ConsentOrder>();
-        var enlEntity = builder.Entity<EnforcementLetter>();
+        var nelEntity = builder.Entity<InformationalLetter>();
         var lonEntity = builder.Entity<LetterOfNoncompliance>();
         var nnlEntity = builder.Entity<NovNfaLetter>();
         var novEntity = builder.Entity<NoticeOfViolation>();
@@ -205,13 +205,13 @@ internal static class AppDbContextConfiguration
         corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
 
         // Response requested
-        enlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(EnforcementLetter.ResponseRequested));
+        nelEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
         lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
         nnlEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
         novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
 
         // Response received
-        enlEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(EnforcementLetter.ResponseReceived));
+        nelEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
         lonEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(LetterOfNoncompliance.ResponseReceived));
         nnlEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
         novEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));

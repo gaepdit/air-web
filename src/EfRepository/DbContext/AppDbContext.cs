@@ -47,7 +47,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<AoResolvedLetter> AoResolvedLetters => Set<AoResolvedLetter>();
     public DbSet<ConsentOrder> ConsentOrders => Set<ConsentOrder>();
     public DbSet<CoResolvedLetter> CoResolvedLetters => Set<CoResolvedLetter>();
-    public DbSet<EnforcementLetter> EnforcementLetters => Set<EnforcementLetter>();
+    public DbSet<InformationalLetter> InformationalLetters => Set<InformationalLetter>();
     public DbSet<LetterOfNoncompliance> LettersOfNoncompliance => Set<LetterOfNoncompliance>();
     public DbSet<NoFurtherActionLetter> NoFurtherActionLetters => Set<NoFurtherActionLetter>();
     public DbSet<NoticeOfViolation> NoticesOfViolation => Set<NoticeOfViolation>();

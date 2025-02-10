@@ -3,16 +3,16 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.Actions;
 
-public class EnforcementLetter : EnforcementAction
+public class InformationalLetter : EnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private EnforcementLetter() { }
+    private InformationalLetter() { }
 
-    internal EnforcementLetter(Guid id, CaseFile caseFile, ApplicationUser? user)
+    internal InformationalLetter(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
-        ActionType = EnforcementActionType.EnforcementLetter;
+        ActionType = EnforcementActionType.InformationalLetter;
     }
 
     public bool ResponseRequested { get; set; }

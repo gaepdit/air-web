@@ -69,10 +69,10 @@ public static class DbSeedDataHelpers
                 .Where(action => action is CoResolvedLetter)
                 .Cast<CoResolvedLetter>());
 
-        if (!context.EnforcementLetters.Any())
-            context.EnforcementLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is EnforcementLetter)
-                .Cast<EnforcementLetter>());
+        if (!context.InformationalLetters.Any())
+            context.InformationalLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is InformationalLetter)
+                .Cast<InformationalLetter>());
 
         if (!context.LettersOfNoncompliance.Any())
             context.LettersOfNoncompliance.AddRange(EnforcementActionData.GetData

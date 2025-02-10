@@ -54,7 +54,7 @@ public class CaseFileService(
                 AoResolvedLetter a => mapper.Map<ActionViewDto>(a),
                 CoResolvedLetter a => mapper.Map<ActionViewDto>(a),
                 ConsentOrder a => mapper.Map<CoViewDto>(a),
-                EnforcementLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+                InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
                 LetterOfNoncompliance a => mapper.Map<ResponseRequestedViewDto>(a),
                 NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
                 NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
