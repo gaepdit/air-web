@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 // Informal Enforcement Actions include:
 // * Notices of Violation

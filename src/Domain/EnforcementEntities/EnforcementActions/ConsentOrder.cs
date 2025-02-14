@@ -4,7 +4,7 @@ using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
 {

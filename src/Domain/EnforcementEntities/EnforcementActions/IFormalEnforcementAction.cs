@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 // Formal Enforcement Actions include:
 // * Consent Orders

@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Actions;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 

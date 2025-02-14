@@ -6,7 +6,7 @@ using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public abstract class EnforcementAction : DeletableEntity<Guid>
 {

@@ -1,8 +1,8 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
-using AirWeb.Domain.EnforcementEntities.Actions;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;

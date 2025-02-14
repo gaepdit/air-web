@@ -2,7 +2,7 @@ using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -9,7 +9,7 @@ using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities;
-using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AutoMapper;
 using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;

@@ -1,18 +1,18 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class LetterOfNoncompliance : EnforcementAction, IResponseRequested
+public class InformationalLetter : EnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private LetterOfNoncompliance() { }
+    private InformationalLetter() { }
 
-    internal LetterOfNoncompliance(Guid id, CaseFile caseFile, ApplicationUser? user)
+    internal InformationalLetter(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
-        ActionType = EnforcementActionType.LetterOfNoncompliance;
+        ActionType = EnforcementActionType.InformationalLetter;
     }
 
     public void RequestResponse() => ResponseRequested = true;

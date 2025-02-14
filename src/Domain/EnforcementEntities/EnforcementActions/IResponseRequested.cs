@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.Actions;
+﻿namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IResponseRequested
 {

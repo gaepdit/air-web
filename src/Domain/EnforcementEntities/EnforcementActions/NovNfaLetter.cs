@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities.Actions;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResponseRequested
 {
