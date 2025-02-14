@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Enforcement.CaseFiles;
+﻿using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Enforcement.Permissions;

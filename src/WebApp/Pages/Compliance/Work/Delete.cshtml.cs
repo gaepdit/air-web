@@ -15,7 +15,7 @@ public class DeleteModel(IWorkEntryService entryService) : PageModel
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto StatusComment { get; set; } = null!;
+    public CommentDto Comment { get; set; } = null!;
 
     public WorkEntrySummaryDto ItemSummary { get; private set; } = null!;
 
@@ -39,7 +39,7 @@ public class DeleteModel(IWorkEntryService entryService) : PageModel
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var notificationResult = await entryService.DeleteAsync(Id, StatusComment, token);
+        var notificationResult = await entryService.DeleteAsync(Id, Comment, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
             $"{item.ItemName} successfully deleted.", notificationResult.FailureMessage);

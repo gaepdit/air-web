@@ -1,0 +1,111 @@
+@page "~/print/fce/{id:int}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
+@model IndexModel
+@{
+    Layout = "_ReportLayout";
+    ViewBag.BodyCssClass = "fce sans-serif";
+
+    var report = Model.FceView!;
+    var facility = Model.Facility!;
+    var regulatoryData = Model.Facility!.RegulatoryData!;
+
+    ViewData["Title"] = $"Facility {facility.Id} - FCE Report: {report.Year.ToString()}";
+}
+
+<div class="page-wrapper" aria-label="Document">
+    <partial name="_EpdBannerPartial" model="AppSettings.OrganizationInfo" />
+
+    <header>
+        <h1>Full Compliance Evaluation Report</h1>
+
+        <div class="title split-lr">
+            <div aria-label="Facility name and city">@facility.Name, @facility.FacilityAddress?.City</div>
+            <div aria-label="Facility ID">@facility.Id</div>
+        </div>
+    </header>
+
+    <div class="fce-content">
+        <dl class="dl-inline">
+            <dt>@Html.DisplayNameFor(_ => facility.Description)</dt>
+            <dd>@facility.Description</dd>
+        </dl>
+
+        <div class="grid-half">
+            <div aria-label="Facility location">
+                @Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)
+                <br />
+                <div>
+                    @facility.County County<br />
+                    @Html.DisplayFor(_ => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
+                </div>
+            </div>
+            <div>
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
+                    <dd>@regulatoryData.OperatingStatus</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
+                    <dd>@regulatoryData.Classification</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
+                    <dd>@regulatoryData.CmsClassification</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Sic)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.Sic, DisplayTemplate.TextOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
+                    <dt>@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <h2>Full Compliance Evaluation</h2>
+
+    <div class="fce-content">
+        <div class="grid-half">
+            <div>
+                <dl class="dl-inline">
+                    <dt>
+                        <strong>@Html.DisplayNameFor(_ => report.Year)</strong>
+                    </dt>
+                    <dd>
+                        <strong>@report.Year.ToString()</strong>
+                    </dd>
+                    <dt>@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
+                    <dd>@report.ReviewedBy?.SortableFullName</dd>
+                    <dt>@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
+                    <dd>@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+                </dl>
+            </div>
+            <div>
+                <dl class="dl-inline">
+                    <dt>@Html.DisplayNameFor(_ => report.Id)</dt>
+                    <dd>@report.Id</dd>
+                    <dt>@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
+                    <dd>@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.LongDateOnly)</dd>
+                </dl>
+            </div>
+        </div>
+        <dl class="dl-inline">
+            <dt>@Html.DisplayNameFor(_ => report.Notes)</dt>
+            <dd>@report.Notes</dd>
+        </dl>
+    </div>
+
+    <h1>Supporting compliance data for
+        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through " })</h1>
+
+    <partial name="_InspectionsPartial" model="(Model.SupportingData.Inspections, false)" />
+    <partial name="_InspectionsPartial" model="(Model.SupportingData.RmpInspections, true)" />
+    <partial name="_AccsPartial" model="Model.SupportingData.Accs" />
+    <partial name="_ReportsPartial" model="Model.SupportingData.Reports" />
+    <partial name="_NotificationsPartial" model="Model.SupportingData.Notifications" />
+
+    @* TODO: The following are not yet implemented. *@
+
+    <partial name="_SourceTestsPartial" model="Model.SupportingData.SourceTests" />
+    <partial name="_FeesDataPartial" model="Model.SupportingData.Fees" />
+    <partial name="_CaseFilePartial" model="Model.SupportingData.EnforcementCases" />
+</div>

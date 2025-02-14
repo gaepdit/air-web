@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Enforcement.Command;
+﻿using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Enforcement.Validators;

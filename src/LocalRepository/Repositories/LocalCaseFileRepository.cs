@@ -1,6 +1,6 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.EnforcementEntities;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.TestData.Enforcement;
 
 namespace AirWeb.LocalRepository.Repositories;

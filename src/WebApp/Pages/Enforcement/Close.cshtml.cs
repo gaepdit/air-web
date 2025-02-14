@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -8,7 +8,7 @@ using AirWeb.WebApp.Platform.PageModelHelpers;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class CloseModel(IEnforcementService service) : PageModel
+public class CloseModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -19,7 +19,7 @@ public class CloseModel(IEnforcementService service) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
         if (!User.CanClose(item)) return Forbid();
@@ -32,11 +32,11 @@ public class CloseModel(IEnforcementService service) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || !User.CanClose(item))
             return BadRequest();
 
-        var notificationResult = await service.CloseCaseFileAsync(Id, token);
+        var notificationResult = await service.CloseAsync(Id, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
             $"The Enforcement Case has been closed.", notificationResult.FailureMessage);

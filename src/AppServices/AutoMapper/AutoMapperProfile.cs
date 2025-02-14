@@ -1,6 +1,7 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
@@ -9,8 +10,8 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.AppServices.Enforcement.CaseFiles;
-using AirWeb.AppServices.Enforcement.EnforcementActions;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
@@ -18,8 +19,8 @@ using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
-using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -80,6 +81,14 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<Fce, FceViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
+        // Supporting data
+        CreateMap<AnnualComplianceCertification, AccSummaryDto>();
+        CreateMap<Inspection, InspectionSummaryDto>();
+        CreateMap<Notification, NotificationSummaryDto>();
+        CreateMap<Report, ReportSummaryDto>();
+        CreateMap<RmpInspection, InspectionSummaryDto>();
+        CreateMap<CaseFile, EnforcementCaseSummaryDto>();
     }
 
     private void Accs()
@@ -152,7 +161,8 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<CaseFile, CaseFileViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
-            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore());
+            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
+            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
         CreateMap<CaseFile, CaseFileSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
@@ -160,10 +170,9 @@ public class AutoMapperProfile : Profile
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
-        CreateMap<AoResolvedLetter, ActionViewDto>();
-        CreateMap<CoResolvedLetter, ActionViewDto>();
+        CreateMap<OrderResolvedLetter, ActionViewDto>();
         CreateMap<ConsentOrder, CoViewDto>();
-        CreateMap<EnforcementLetter, ResponseRequestedViewDto>();
+        CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, IActionViewDto>();
         CreateMap<LetterOfNoncompliance, ResponseRequestedViewDto>();
         CreateMap<NoFurtherActionLetter, ActionViewDto>();

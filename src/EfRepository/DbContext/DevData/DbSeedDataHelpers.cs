@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.EnforcementEntities.Actions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
@@ -54,25 +54,20 @@ public static class DbSeedDataHelpers
                 .Where(action => action is AdministrativeOrder)
                 .Cast<AdministrativeOrder>());
 
-        if (!context.AoResolvedLetters.Any())
-            context.AoResolvedLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is AoResolvedLetter)
-                .Cast<AoResolvedLetter>());
-
         if (!context.ConsentOrders.Any())
             context.ConsentOrders.AddRange(EnforcementActionData.GetData
                 .Where(action => action is ConsentOrder)
                 .Cast<ConsentOrder>());
 
-        if (!context.CoResolvedLetters.Any())
-            context.CoResolvedLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is CoResolvedLetter)
-                .Cast<CoResolvedLetter>());
+        if (!context.OrderResolvedLetters.Any())
+            context.OrderResolvedLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is OrderResolvedLetter)
+                .Cast<OrderResolvedLetter>());
 
-        if (!context.EnforcementLetters.Any())
-            context.EnforcementLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is EnforcementLetter)
-                .Cast<EnforcementLetter>());
+        if (!context.InformationalLetters.Any())
+            context.InformationalLetters.AddRange(EnforcementActionData.GetData
+                .Where(action => action is InformationalLetter)
+                .Cast<InformationalLetter>());
 
         if (!context.LettersOfNoncompliance.Any())
             context.LettersOfNoncompliance.AddRange(EnforcementActionData.GetData

@@ -1,8 +1,10 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -12,6 +14,7 @@ public sealed class FceService(
     IMapper mapper,
     IFceRepository fceRepository,
     IFceManager fceManager,
+    IWorkEntryRepository entryRepository,
     IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
@@ -34,7 +37,38 @@ public sealed class FceService(
         return fce;
     }
 
-    public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
+    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId,
+        CancellationToken token = default)
+    {
+        var summary = new SupportingDataSummary
+        {
+            Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Notification &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.Report &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+        };
+
+        // TODO: Implement remaining data summaries.
+        //  * EnforcementHistory
+        //  * FeesHistory
+        //  * SourceTests
+
+        return summary;
+    }
+
+    public async Task<NotificationResultWithId<int>> CreateAsync(FceCreateDto resource,
+        CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser, token)
@@ -46,7 +80,7 @@ public sealed class FceService(
 
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(fce.Id, await appNotificationService
+        return new NotificationResultWithId<int>(fce.Id, await appNotificationService
             .SendNotificationAsync(Template.FceCreated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false));
     }
 
@@ -67,7 +101,7 @@ public sealed class FceService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -93,7 +127,7 @@ public sealed class FceService(
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
-    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    public async Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
         var result = await commentService.AddCommentAsync(fceRepository, itemId, resource, token)
@@ -101,7 +135,7 @@ public sealed class FceService(
 
         var fce = await fceRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
 
-        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+        return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.FceCommentAdded, fce.ReviewedBy, token, itemId,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }

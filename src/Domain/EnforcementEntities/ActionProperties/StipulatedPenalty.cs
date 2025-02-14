@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Actions;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 

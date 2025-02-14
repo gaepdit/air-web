@@ -7,6 +7,7 @@ namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceViewDto : IFceBasicViewDto
 {
+    [Display(Name = "FCE tracking number")]
     public int Id { get; init; }
 
     public string FacilityId { get; init; } = null!;

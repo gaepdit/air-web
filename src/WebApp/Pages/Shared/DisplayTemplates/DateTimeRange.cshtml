@@ -5,27 +5,33 @@
 {
     @DefaultText.NotAvailable
 }
-else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
-{
-    @Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat)
-}
 else
 {
-    var start = Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat);
-    var end = Model.EndDate.ToString(DateTimeFormatConstants.LongDateFormat);
+    var endDate = Model.EndDate.HasValue ? DateOnly.FromDateTime(Model.EndDate.Value) : (DateOnly?)null;
+    var startDate = DateOnly.FromDateTime(Model.StartDate);
 
-    @if (Model.StartDate.Year == Model.EndDate.Value.Year)
+    if (endDate is null || endDate == startDate)
     {
-        if (Model.StartDate.Month == Model.EndDate.Value.Month)
-        {
-            start = Model.StartDate.ToString("MMMM\u00a0d");
-            end = Model.EndDate.ToString("d, yyyy");
-        }
-        else
-        {
-            start = Model.StartDate.ToString("MMMM\u00a0d");
-        }
+        @startDate.ToString(DateTimeFormatConstants.LongDateFormat)
     }
+    else
+    {
+        var start = startDate.ToString(DateTimeFormatConstants.LongDateFormat);
+        var end = endDate.ToString(DateTimeFormatConstants.LongDateFormat);
 
-    @string.Join($"{ViewData["Connector"] ?? " to "}", start, end)
+        @if (startDate.Year == endDate.Value.Year)
+        {
+            if (startDate.Month == endDate.Value.Month)
+            {
+                start = startDate.ToString("MMMM\u00a0d");
+                end = endDate.ToString("d, yyyy");
+            }
+            else
+            {
+                start = startDate.ToString("MMMM\u00a0d");
+            }
+        }
+
+        @string.Join($"{ViewData["Connector"] ?? " to "}", start, end)
+    }
 }

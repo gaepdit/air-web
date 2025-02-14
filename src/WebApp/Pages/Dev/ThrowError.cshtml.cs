@@ -25,10 +25,12 @@ public class ThrowErrorModel(IErrorLogger errorLogger) : PageModel
         }
     }
 
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static 
     public void OnGetUnhandled()
     {
         throw new TestException("Test unhandled exception");
     }
+#pragma warning restore S2325
 
 
     public class TestException(string message) : Exception(message);

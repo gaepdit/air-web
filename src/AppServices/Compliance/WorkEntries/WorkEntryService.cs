@@ -70,36 +70,12 @@ public sealed partial class WorkEntryService(
             ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
-    public async Task<WorkEntryDataSummary> GetDataSummaryAsync(FacilityId facilityId,
-        CancellationToken token = default)
-    {
-        var summary = new WorkEntryDataSummary
-        {
-            Accs = mapper.Map<IEnumerable<AccViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Inspections = mapper.Map<IEnumerable<InspectionViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Notifications = mapper.Map<IEnumerable<NotificationViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            Reports = mapper.Map<IEnumerable<ReportViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-            RmpInspections = mapper.Map<IEnumerable<InspectionViewDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
-        };
+    // Enforcement Cases
+    public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
+        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token)
+            .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
 
-        // TODO: Implement remaining data summaries.
-        //  * EnforcementHistory
-        //  * FeesHistory
-        //  * SourceTests
-
-        return summary;
-    }
-
+    // Source test-specific
     public async Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         await entryRepository.ExistsAsync(referenceNumber, token).ConfigureAwait(false);
 
@@ -109,13 +85,14 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false));
 
     // Command
-    public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
+    public async Task<NotificationResultWithId<int>> CreateAsync(IWorkEntryCreateDto resource,
+        CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await entryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(workEntry.Id, await appNotificationService
+        return new NotificationResultWithId<int>(workEntry.Id, await appNotificationService
             .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false));
     }
@@ -160,7 +137,7 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
         var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -185,7 +162,8 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false);
     }
 
-    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    // Comments
+    public async Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
         var result = await commentService.AddCommentAsync(entryRepository, itemId, resource, token)
@@ -193,7 +171,7 @@ public sealed partial class WorkEntryService(
 
         var workEntry = await entryRepository.GetAsync(itemId, token).ConfigureAwait(false);
 
-        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+        return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }

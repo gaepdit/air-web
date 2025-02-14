@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.Domain.EnforcementEntities;
 

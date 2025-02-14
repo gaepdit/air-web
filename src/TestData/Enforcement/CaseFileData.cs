@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.Cases;
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
@@ -28,13 +28,13 @@ internal static class CaseFileData
         new(302, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "LON - open",
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-2).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-20).Date),
         },
         new(303, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "LON - closed",
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
-            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-3).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-20).Date),
+            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-3).Date),
             ClosedBy = UserData.GetRandomUser(),
         },
         new(304, DomainData.GetRandomFacility().Id, null)
@@ -47,7 +47,7 @@ internal static class CaseFileData
         {
             Notes = "NOV - no response",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-9).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-19).Date),
         },
         new(306, DomainData.GetRandomFacility().Id, null)
         {
@@ -67,38 +67,38 @@ internal static class CaseFileData
         {
             Notes = "NOV + Proposed Consent Order - draft",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(41).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-41).Date),
         },
         new(309, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "Straight to Proposed CO - no response received",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(41).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(41).Date),
         },
         new(310, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "Proposed CO + signed Consent Order received",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(41).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-12).Date),
         },
         new(311, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "Consent Order - executed",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(41).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(141).Date),
         },
         new(312, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "Consent Order + Stipulated Penalties - closed",
             ViolationType = GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-210).Date),
-            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddMonths(-6).Date),
+            ClosedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddMonths(1).Date),
         },
         new(313, DomainData.GetRandomFacility().Id, null)
         {
             Notes = "Administrative Order - executed",
             ViolationType = GetRandomViolationType(),
-            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-320).Date),
+            DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-200).Date),
         },
         new(314, DomainData.GetRandomFacility().Id, null)
         {

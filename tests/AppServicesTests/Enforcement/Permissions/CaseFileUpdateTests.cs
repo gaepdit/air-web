@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Enforcement.CaseFiles;
+﻿using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions.AppClaims;
 using AirWeb.Domain.Identity;

@@ -41,11 +41,11 @@
                     </tr>
                     </thead>
 
-                    <tbody class="align-middle">
+                    <tbody>
                     @foreach (var item in Model.LinkedComplianceEvents)
                     {
                         <tr>
-                            <th scope="row">
+                            <th scope="row" class="align-middle">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-sm btn-outline-primary" target="_blank">
                                     @item.Id.ToString()
@@ -64,7 +64,7 @@
                                     @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>
-                            <td class="text-end">
+                            <td class="text-end align-middle">
                                 <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
                                         title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink Event
                                 </button>
@@ -101,11 +101,11 @@
                     </tr>
                     </thead>
 
-                    <tbody class="align-middle">
+                    <tbody>
                     @foreach (var item in Model.AvailableComplianceEvents)
                     {
                         <tr>
-                            <th scope="row">
+                            <th scope="row" class="align-middle">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-sm btn-outline-primary" target="_blank">
                                     @item.Id.ToString()
@@ -124,7 +124,7 @@
                                     @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>
-                            <td class="text-end">
+                            <td class="text-end align-middle">
                                 <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
                                         title="Link Event to Enforcement Case">🡱&nbsp;Link Event
                                 </button>

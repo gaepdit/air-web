@@ -1,0 +1,24 @@
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Identity;
+
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
+
+public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, IResponseRequested
+{
+    // Constructors
+    [UsedImplicitly] // Used by ORM.
+    private NoticeOfViolation() { }
+
+    internal NoticeOfViolation(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
+    {
+        ActionType = EnforcementActionType.NoticeOfViolation;
+    }
+
+    public void RequestResponse() { }
+    public bool ResponseRequested => true;
+    public DateOnly? ResponseReceived { get; set; }
+
+    [StringLength(7000)]
+    public string? ResponseComment { get; set; }
+}

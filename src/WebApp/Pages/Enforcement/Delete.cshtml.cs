@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -9,13 +9,13 @@ using AirWeb.WebApp.Platform.PageModelHelpers;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class DeleteModel(IEnforcementService service) : PageModel
+public class DeleteModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto StatusComment { get; set; } = null!;
+    public CommentDto Comment { get; set; } = null!;
 
     public CaseFileSummaryDto ItemSummary { get; private set; } = null!;
 
@@ -23,7 +23,7 @@ public class DeleteModel(IEnforcementService service) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (!User.CanDelete(item)) return Forbid();
 
@@ -35,11 +35,11 @@ public class DeleteModel(IEnforcementService service) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await service.FindCaseFileSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var notificationResult = await service.DeleteCaseFileAsync(Id, StatusComment, token);
+        var notificationResult = await service.DeleteAsync(Id, Comment, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
             $"Enforcement Case successfully deleted.", notificationResult.FailureMessage);

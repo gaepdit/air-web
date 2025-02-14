@@ -7,6 +7,7 @@ using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
@@ -19,6 +20,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     public IWorkEntryViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
+    [Display(Name = "Linked Enforcement Cases")]
+    public IEnumerable<int> CaseFileIds { get; private set; } = [];
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -37,6 +41,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
             return RedirectToPage("../SourceTest/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
+
+        if (Item.IsComplianceEvent)
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
 
         CommentSection = new CommentsSectionModel
         {
@@ -75,7 +82,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
@@ -87,7 +94,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await entryService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
+        return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
 
     private async Task SetPermissionsAsync() =>

@@ -1,9 +1,10 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.AppServices.Enforcement.EnforcementActions
+@using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
-@using AirWeb.Domain.EnforcementEntities.Actions
+@using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.Constants
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
@@ -39,13 +40,13 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center">
+<div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1>Enforcement Case</h1>
+        <h1 class="mb-0">Enforcement Case</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
+        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
             @if (Model.UserCan[EnforcementOperation.Close])
             {
                 <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
@@ -91,7 +92,7 @@
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-        @if (caseFile.HasFormalEnforcement)
+        @if (caseFile.HasReportableEnforcement)
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable)</dd>
@@ -105,48 +106,133 @@
     </dl>
 </section>
 
-<section class="mt-3">
-    <div class="row justify-content-between align-items-end g-0">
-        <h3 class="h4 col-md">Linked Discovery Events</h3>
-        @if (Model.UserCan[EnforcementOperation.Edit])
-        {
-            <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
-                <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">Edit Linked Events</a>
+<details class="border rounded-1">
+    <summary class="bg-body-secondary px-2 py-1">
+        Related Details
+    </summary>
+    <div class="container mt-2">
+        <section class="mt-3">
+            <div class="row justify-content-between align-items-end g-0">
+                <h3 class="h5 col-md">Linked Discovery Events</h3>
+                @if (Model.UserCan[EnforcementOperation.Edit])
+                {
+                    <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                        <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                            Edit Linked Events
+                        </a>
+                    </div>
+                }
             </div>
+            @if (!caseFile.ComplianceEvents.Any())
+            {
+                <p>
+                    <em>None.</em>
+                </p>
+            }
+            else
+            {
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                         model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
+            }
+        </section>
+
+        @if (caseFile.HasReportableEnforcement)
+        {
+            <section class="mt-3">
+                <h3 class="h5">Associated Pollutants & Programs</h3>
+                <dl class="row">
+                    <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
+                    <dd class="col-sm-9 col-lg-10 mt-2">
+                        <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
+                    </dd>
+                    <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
+                    <dd class="col-sm-9 col-lg-10 mt-2">
+                        @Html.DisplayFor(_ => caseFile.AirProgramsAsStrings, DisplayTemplate.StringsAsInlineList)
+                    </dd>
+                </dl>
+            </section>
         }
     </div>
-    @if (!caseFile.ComplianceEvents.Any())
-    {
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                 model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
-    }
-</section>
-
-@if (caseFile.HasFormalEnforcement)
-{
-    <section class="mt-3">
-        <h3 class="h4">Associated Pollutants & Programs</h3>
-        <dl class="row">
-            <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
-            <dd class="col-sm-9 col-lg-10 mt-2">
-                <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
-            </dd>
-            <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
-            <dd class="col-sm-9 col-lg-10 mt-2">
-                <partial name="Facility/_Partials/_AirPrograms" model="caseFile.AirPrograms" />
-            </dd>
-        </dl>
-    </section>
-}
+</details>
 
 <section class="mt-3">
-    <h2 class="h3">Enforcement Actions</h2>
+    <div class="row justify-content-between align-items-start mb-2">
+        <div class="col-md">
+            <h2 class="h3 mb-0">Enforcement Actions</h2>
+        </div>
+
+        @if (Model.UserCan[EnforcementOperation.Edit])
+        {
+            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg class="bi">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
+                    </svg>
+                    Enforcement Action
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach (var actionType in Enum.GetValues(typeof(EnforcementActionType)).Cast<EnforcementActionType>())
+                    {
+                        <li>
+                            <button class="dropdown-item" type="button" name="newEnforcementAction" value="@actionType.ToString()">@actionType.GetDescription()</button>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            // Modal form for creating a new enforcement action. 
+            <div class="modal fade" id="addEnforcementModal" tabindex="-1" aria-labelledby="addEnforcementModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addEnforcementModalLabel">Add Enforcement Action:
+                                <span id="addEnforcementLabel"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="AddEnforcementAction" id="AddEnforcementActionForm">
+                            <div class="modal-body">
+                                @Html.EditorFor(m => m.CreateEnforcementAction.Comment, EditorTemplate.Textarea, new { Rows = 4 })
+                                <div class="mt-2">
+                                    @Html.EditorFor(m => m.CreateEnforcementAction.ResponseRequested, EditorTemplate.Checkbox)
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="addEnforcementActionType" name="actionType" value="" />
+                                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="newEnforcementAction"]');
+                    const addEnforcementLabel = document.getElementById('addEnforcementLabel');
+                    const addEnforcementActionType = document.getElementById('addEnforcementActionType');
+                    const responseRequestedCheckbox = document.getElementById('CreateEnforcementAction_ResponseRequested').closest('.form-check');
+                    const addEnforcementModal = new bootstrap.Modal(document.getElementById('addEnforcementModal'));
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            const actionType = this.value;
+                            addEnforcementLabel.textContent = this.textContent.trim();
+                            addEnforcementActionType.value = actionType;
+                            
+                            if (['LetterOfNoncompliance', 'InformationalLetter', 'NovNfaLetter'].includes(actionType)) {
+                                responseRequestedCheckbox.style.display = 'block';
+                            } else {
+                                responseRequestedCheckbox.style.display = 'none';
+                            }
+                            
+                            addEnforcementModal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+    </div>
 
     @if (!caseFile.EnforcementActions.Any())
     {
@@ -158,8 +244,9 @@
     {
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
-            <div id="@action.Id.ToString()" class="card mb-4 @(action.IsDeleted ? "border-danger-subtle" : "")">
-                <div class="card-header ">
+            var eaBorder = action.Id == Model.NewEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
+            <div id="@action.Id.ToString()" class="card mb-4 border-2 @eaBorder">
+                <div class="card-header">
                     <div class="container-full">
                         <div class="row justify-content-between align-items-start g-0 my-1">
                             <div class="col">

@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
@@ -9,14 +10,23 @@ using AirWeb.WebApp.Models;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IEnforcementService enforcementService, IAuthorizationService authorization) : PageModel
+public class DetailsModel(
+    ICaseFileService caseFileService,
+    IEnforcementActionService enforcementActionService,
+    IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
+    [BindProperty]
+    public CreateEnforcementAction CreateEnforcementAction { get; set; } = null!;
+
     public CaseFileViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
+    [TempData]
+    public Guid? NewEnforcementId { get; set; }
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -27,7 +37,7 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id);
+        Item = await caseFileService.FindDetailedAsync(Id);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
@@ -43,13 +53,25 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
             CanAddComment = UserCan[EnforcementOperation.AddComment],
             CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
         };
+        CreateEnforcementAction = new();
         return Page();
     }
+
+    public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
+    {
+        var caseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
+
+        NewEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
+        return RedirectToPage("Details", pageHandler: null, fragment: NewEnforcementId.ToString());
+    }
+
+    #region Comments
 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
+        Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
@@ -64,27 +86,30 @@ public class DetailsModel(IEnforcementService enforcementService, IAuthorization
                 CanAddComment = UserCan[EnforcementOperation.AddComment],
                 CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
             };
+            CreateEnforcementAction = new();
             return Page();
         }
 
-        var addCommentResult = await enforcementService.AddCommentAsync(Id, newComment, token);
+        var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await enforcementService.FindDetailedCaseFileAsync(Id, token);
+        Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
 
-        await enforcementService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
+        await caseFileService.DeleteCommentAsync(commentId, token);
+        return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
+
+    #endregion
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, Item);

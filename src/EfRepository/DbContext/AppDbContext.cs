@@ -1,8 +1,8 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
-using AirWeb.Domain.EnforcementEntities.Actions;
-using AirWeb.Domain.EnforcementEntities.Cases;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -30,7 +30,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     //   available as DbSets for querying.
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
-    // Work entries
+    // Work entries (mapped to a single table)
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
     public DbSet<Notification> Notifications => Set<Notification>();
@@ -39,15 +39,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
     public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
 
-    // Enforcement - Cases
+    // Enforcement - Case Files
     public DbSet<CaseFile> CaseFiles => Set<CaseFile>();
 
-    // Enforcement - Actions
+    // Enforcement - Actions (mapped to a single table)
     public DbSet<AdministrativeOrder> AdministrativeOrders => Set<AdministrativeOrder>();
-    public DbSet<AoResolvedLetter> AoResolvedLetters => Set<AoResolvedLetter>();
     public DbSet<ConsentOrder> ConsentOrders => Set<ConsentOrder>();
-    public DbSet<CoResolvedLetter> CoResolvedLetters => Set<CoResolvedLetter>();
-    public DbSet<EnforcementLetter> EnforcementLetters => Set<EnforcementLetter>();
+    public DbSet<OrderResolvedLetter> OrderResolvedLetters => Set<OrderResolvedLetter>();
+    public DbSet<InformationalLetter> InformationalLetters => Set<InformationalLetter>();
     public DbSet<LetterOfNoncompliance> LettersOfNoncompliance => Set<LetterOfNoncompliance>();
     public DbSet<NoFurtherActionLetter> NoFurtherActionLetters => Set<NoFurtherActionLetter>();
     public DbSet<NoticeOfViolation> NoticesOfViolation => Set<NoticeOfViolation>();
@@ -58,7 +57,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<EnforcementActionReview> EnforcementActionReviews => Set<EnforcementActionReview>();
     public DbSet<StipulatedPenalty> StipulatedPenalties => Set<StipulatedPenalty>();
 
-    // Comments
+    // Comments (mapped to a single table)
     public DbSet<FceComment> FceComments => Set<FceComment>();
     public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
     public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();

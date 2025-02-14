@@ -6,25 +6,25 @@
     <table class="table table-hover mb-0" aria-label="Source Tests for this facility">
         <thead>
         <tr>
-            <th>Reference Number</th>
-            <th>Report Type</th>
-            <th>Source Tested</th>
-            <th>Pollutant</th>
-            <th>Test Dates</th>
-            <th>Open/Closed</th>
+            <th scope="col">Reference Number</th>
+            <th scope="col">Report Type</th>
+            <th scope="col">Source Tested</th>
+            <th scope="col">Pollutant</th>
+            <th scope="col">Test Dates</th>
+            <th scope="col">Open/Closed</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var summary in Model)
         {
             <tr>
-                <td>
+                <th scope="row" class="align-middle">
                     <a asp-page="/Compliance/SourceTest/Index"
                        asp-route-referenceNumber="@summary.ReferenceNumber"
                        class="btn btn-sm btn-outline-primary">
                         @summary.ReferenceNumber.ToString()
                     </a>
-                </td>
+                </th>
                 <td>@summary.TestType</td>
                 <td>@summary.Source</td>
                 <td>@summary.Pollutant</td>
