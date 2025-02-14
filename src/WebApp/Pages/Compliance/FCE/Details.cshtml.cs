@@ -79,7 +79,7 @@ public class DetailsModel(
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
@@ -91,7 +91,7 @@ public class DetailsModel(
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await fceService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
+        return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
 
     private async Task LoadSupportingData(CancellationToken token)

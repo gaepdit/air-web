@@ -1,4 +1,4 @@
-@page "{facilityId?}"
+﻿@page "{facilityId?}"
 @using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.WebApp.Platform.Constants
@@ -66,8 +66,8 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li>
-                    <a class="dropdown-item" asp-page="/Enforcement/Add" asp-route-facilityId="@Model.FacilityId">
-                        Begin Enforcement
+                    <a class="dropdown-item" asp-page="/Enforcement/Begin" asp-route-facilityId="@Model.FacilityId">
+                        Begin Enforcement Case
                     </a>
                 </li>
             </ul>

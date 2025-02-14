@@ -1,14 +1,14 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.Enforcement.EnforcementActions;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 
-namespace AirWeb.AppServices.Enforcement.CaseFiles;
+namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
 public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable
 {

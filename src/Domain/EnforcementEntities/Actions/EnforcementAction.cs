@@ -67,17 +67,18 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
+// The order of these enum values is used by the UI.
 public enum EnforcementActionType
 {
-    [Description("Administrative Order")] AdministrativeOrder,
-    [Description("Consent Order")] ConsentOrder,
-    [Description("Order Resolved")] OrderResolvedLetter,
-    [Description("Letter")] InformationalLetter,
     [Description("Letter of Noncompliance")] LetterOfNoncompliance,
-    [Description("No Further Action Letter")] NoFurtherAction,
     [Description("Notice of Violation")] NoticeOfViolation,
+    [Description("No Further Action Letter")] NoFurtherActionLetter,
     [Description("Combined NOV/NFA Letter")] NovNfaLetter,
     [Description("Proposed Consent Order")] ProposedConsentOrder,
+    [Description("Consent Order")] ConsentOrder,
+    [Description("Order Resolved Letter")] OrderResolvedLetter,
+    [Description("Administrative Order")] AdministrativeOrder,
+    [Description("Informational Letter")] InformationalLetter,
 }
 
 public enum EnforcementActionStatus

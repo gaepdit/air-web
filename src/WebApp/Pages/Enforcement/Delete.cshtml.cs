@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -15,7 +15,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
     public int Id { get; set; }
 
     [BindProperty]
-    public StatusCommentDto StatusComment { get; set; } = null!;
+    public CommentDto Comment { get; set; } = null!;
 
     public CaseFileSummaryDto ItemSummary { get; private set; } = null!;
 
@@ -39,7 +39,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var notificationResult = await service.DeleteAsync(Id, StatusComment, token);
+        var notificationResult = await service.DeleteAsync(Id, Comment, token);
         TempData.SetDisplayMessage(
             notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
             $"Enforcement Case successfully deleted.", notificationResult.FailureMessage);

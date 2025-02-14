@@ -3,9 +3,9 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.Enforcement.CaseFiles;
-using AirWeb.AppServices.Enforcement.Command;
-using AirWeb.AppServices.Enforcement.EnforcementActions;
+using AirWeb.AppServices.Enforcement.CaseFileCommand;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities;
@@ -80,7 +80,7 @@ public class CaseFileService(
         return caseFile;
     }
 
-    public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
+    public async Task<NotificationResultWithId<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -100,7 +100,7 @@ public class CaseFileService(
 
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(caseFile.Id, await appNotificationService
+        return new NotificationResultWithId<int>(caseFile.Id, await appNotificationService
             .SendNotificationAsync(Template.EnforcementCreated, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false));
     }
@@ -193,7 +193,7 @@ public class CaseFileService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -218,7 +218,7 @@ public class CaseFileService(
             .ConfigureAwait(false);
     }
 
-    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    public async Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
         var result = await commentService.AddCommentAsync(caseFileRepository, itemId, resource, token)
@@ -226,7 +226,7 @@ public class CaseFileService(
 
         var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
 
-        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+        return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }

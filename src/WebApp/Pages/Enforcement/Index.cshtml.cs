@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFiles;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.Enforcement;

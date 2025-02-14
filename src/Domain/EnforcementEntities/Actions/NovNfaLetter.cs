@@ -15,6 +15,7 @@ public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResp
         ActionType = EnforcementActionType.NovNfaLetter;
     }
 
+    public void RequestResponse() => ResponseRequested = true;
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 

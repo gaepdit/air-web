@@ -23,6 +23,7 @@ public class ProposedConsentOrder : EnforcementAction, IInformalEnforcementActio
     }
 
     public ICollection<IInformalEnforcementAction> ActionsToBeAddressed { get; init; } = [];
+    public void RequestResponse() { }
     public bool ResponseRequested => true;
     public DateOnly? ResponseReceived { get; set; }
 

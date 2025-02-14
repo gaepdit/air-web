@@ -82,7 +82,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: NewCommentId.ToString());
+        return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
@@ -94,7 +94,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await entryService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { Id }, fragment: "comments");
+        return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
 
     private async Task SetPermissionsAsync() =>

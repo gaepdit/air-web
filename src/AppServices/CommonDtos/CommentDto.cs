@@ -1,7 +1,7 @@
 ﻿namespace AirWeb.AppServices.CommonDtos;
 
-// Used for closing, reopening, deleting, and restoring Entities.
-public record StatusCommentDto
+// Used for adding a note or comment for various actions, such as creating, closing, or deleting Entities.
+public record CommentDto
 {
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]

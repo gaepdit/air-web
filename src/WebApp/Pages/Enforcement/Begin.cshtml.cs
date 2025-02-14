@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.Command;
+using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
@@ -14,7 +14,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Enforcement;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class AddModel(
+public class BeginModel(
     IFacilityService facilityService,
     IWorkEntryService entryService,
     ICaseFileService caseFileService,

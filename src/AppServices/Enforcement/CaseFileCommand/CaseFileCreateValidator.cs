@@ -1,7 +1,7 @@
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using FluentValidation;
 
-namespace AirWeb.AppServices.Enforcement.Command;
+namespace AirWeb.AppServices.Enforcement.CaseFileCommand;
 
 public class CaseFileCreateValidator : AbstractValidator<CaseFileCreateDto>
 {

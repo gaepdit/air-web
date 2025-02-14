@@ -67,7 +67,8 @@ public sealed class FceService(
         return summary;
     }
 
-    public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default)
+    public async Task<NotificationResultWithId<int>> CreateAsync(FceCreateDto resource,
+        CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser, token)
@@ -79,7 +80,7 @@ public sealed class FceService(
 
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(fce.Id, await appNotificationService
+        return new NotificationResultWithId<int>(fce.Id, await appNotificationService
             .SendNotificationAsync(Template.FceCreated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false));
     }
 
@@ -100,7 +101,7 @@ public sealed class FceService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -126,7 +127,7 @@ public sealed class FceService(
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
-    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    public async Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
         var result = await commentService.AddCommentAsync(fceRepository, itemId, resource, token)
@@ -134,7 +135,7 @@ public sealed class FceService(
 
         var fce = await fceRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
 
-        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+        return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.FceCommentAdded, fce.ReviewedBy, token, itemId,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }

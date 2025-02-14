@@ -2,8 +2,8 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.Enforcement.CaseFiles;
-using AirWeb.AppServices.Enforcement.Command;
+using AirWeb.AppServices.Enforcement.CaseFileCommand;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
@@ -18,7 +18,7 @@ public interface ICaseFileService
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
 
     // Case File commands
-    Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);
+    Task<NotificationResultWithId<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);
 
     Task<AppNotificationResult> UpdateAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default);
@@ -36,12 +36,14 @@ public interface ICaseFileService
     Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default);
     Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default);
 
-    Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default);
 
     Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default);
 
     // Comments
-    Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);
+    Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+        CancellationToken token = default);
+
     Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
 }

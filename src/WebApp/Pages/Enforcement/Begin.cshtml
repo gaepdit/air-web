@@ -2,7 +2,7 @@
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model AddModel
+@model BeginModel
 @{
     ViewData["Title"] = $" for {Model.Facility!.FacilityId}";
     ViewData["NoAnchors"] = "True";
@@ -16,7 +16,7 @@
 
 @if (Model.ComplianceEvent != null)
 {
-    <dl>
+    <dl class="border p-3 pb-2 rounded-3">
         <dt>Compliance Discovery Event</dt>
         <dd>@Model.ComplianceEvent.ItemName #@Model.EventId</dd>
         <dt>@Model.ComplianceEvent.EventDateName</dt>

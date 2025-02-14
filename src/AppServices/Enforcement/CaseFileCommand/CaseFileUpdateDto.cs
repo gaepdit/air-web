@@ -1,13 +1,19 @@
-namespace AirWeb.AppServices.Enforcement.Command;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileCreateDto
+namespace AirWeb.AppServices.Enforcement.CaseFileCommand;
+
+public record CaseFileUpdateDto
 {
-    [Required]
-    [Display(Name = "Facility")]
-    public string? FacilityId { get; init; }
+    public CaseFileUpdateDto() { }
 
-    public int? EventId { get; init; }
+    public CaseFileUpdateDto(CaseFileSummaryDto caseFile)
+    {
+        ResponsibleStaffId = caseFile.ResponsibleStaff?.Id;
+        DiscoveryDate = caseFile.DiscoveryDate ?? DateOnly.FromDateTime(DateTime.Today);
+        Notes = caseFile.Notes;
+    }
 
+    // Data properties
     [Required]
     [Display(Name = "Staff responsible")]
     public string? ResponsibleStaffId { get; init; }

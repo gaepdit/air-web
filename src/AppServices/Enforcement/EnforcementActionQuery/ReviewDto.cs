@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
 
-namespace AirWeb.AppServices.Enforcement.EnforcementActions;
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public record ReviewDto
 {

@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.Actions;
 
-namespace AirWeb.AppServices.Enforcement.EnforcementActions;
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public record ActionViewDto : IActionViewDto
 {
@@ -18,10 +18,12 @@ public record ActionViewDto : IActionViewDto
         EnforcementActionStatus.Approved => ApprovedDate,
         EnforcementActionStatus.Issued => IssueDate,
         EnforcementActionStatus.ClosedAsUnsent => ClosedAsUnsentDate,
+        EnforcementActionStatus.Draft => DateOnly.FromDateTime(CreatedAt.DateTime),
         _ => null,
     };
 
     public bool IsReportable { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }

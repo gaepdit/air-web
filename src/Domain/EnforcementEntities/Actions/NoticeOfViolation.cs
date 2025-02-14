@@ -15,6 +15,7 @@ public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, 
         ActionType = EnforcementActionType.NoticeOfViolation;
     }
 
+    public void RequestResponse() { }
     public bool ResponseRequested => true;
     public DateOnly? ResponseReceived { get; set; }
 

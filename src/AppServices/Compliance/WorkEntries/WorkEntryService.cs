@@ -85,13 +85,14 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false));
 
     // Command
-    public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default)
+    public async Task<NotificationResultWithId<int>> CreateAsync(IWorkEntryCreateDto resource,
+        CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await entryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
-        return new CreateResult<int>(workEntry.Id, await appNotificationService
+        return new NotificationResultWithId<int>(workEntry.Id, await appNotificationService
             .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false));
     }
@@ -136,7 +137,7 @@ public sealed partial class WorkEntryService(
             .ConfigureAwait(false);
     }
 
-    public async Task<AppNotificationResult> DeleteAsync(int id, StatusCommentDto resource,
+    public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
         var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -162,7 +163,7 @@ public sealed partial class WorkEntryService(
     }
 
     // Comments
-    public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    public async Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
         var result = await commentService.AddCommentAsync(entryRepository, itemId, resource, token)
@@ -170,7 +171,7 @@ public sealed partial class WorkEntryService(
 
         var workEntry = await entryRepository.GetAsync(itemId, token).ConfigureAwait(false);
 
-        return new CreateResult<Guid>(result.CommentId, await appNotificationService
+        return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false));
     }

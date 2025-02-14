@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.Actions;
 
-namespace AirWeb.AppServices.Enforcement.EnforcementActions;
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public interface IActionViewDto
 {
@@ -13,7 +13,7 @@ public interface IActionViewDto
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
     public bool IsReportable { get; }
-
+    public DateTimeOffset CreatedAt { get; }
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; }

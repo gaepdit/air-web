@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Enforcement.EnforcementActions;
+﻿namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public record AoViewDto : ActionViewDto
 {

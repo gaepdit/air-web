@@ -143,7 +143,7 @@ internal static class AppDbContextConfiguration
             .HasValue<OrderResolvedLetter>(EnforcementActionType.OrderResolvedLetter)
             .HasValue<InformationalLetter>(EnforcementActionType.InformationalLetter)
             .HasValue<LetterOfNoncompliance>(EnforcementActionType.LetterOfNoncompliance)
-            .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherAction)
+            .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherActionLetter)
             .HasValue<NoticeOfViolation>(EnforcementActionType.NoticeOfViolation)
             .HasValue<NovNfaLetter>(EnforcementActionType.NovNfaLetter)
             .HasValue<ProposedConsentOrder>(EnforcementActionType.ProposedConsentOrder);
