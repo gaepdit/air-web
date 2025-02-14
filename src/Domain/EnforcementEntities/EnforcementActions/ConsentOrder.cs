@@ -12,26 +12,11 @@ public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
     [UsedImplicitly] // Used by ORM.
     private ConsentOrder() { }
 
-    internal ConsentOrder(Guid id, ProposedConsentOrder proposedConsentOrder, ApplicationUser? user)
-        : base(id, proposedConsentOrder.CaseFile, user)
-    {
-        ActionType = EnforcementActionType.ConsentOrder;
-        foreach (var action in proposedConsentOrder.ActionsToBeAddressed)
-        {
-            ActionsAddressed.Add(action);
-        }
-
-        ActionsAddressed.Add(proposedConsentOrder);
-    }
-
     internal ConsentOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
         ActionType = EnforcementActionType.ConsentOrder;
     }
-
-    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; } = [];
-    public OrderResolvedLetter? ResolvedLetter { get; set; }
 
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? ExecutedDate { get; set; }

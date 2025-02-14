@@ -14,13 +14,4 @@ public class OrderResolvedLetter : EnforcementAction
     {
         ActionType = EnforcementActionType.OrderResolvedLetter;
     }
-
-    internal OrderResolvedLetter(Guid id, IFormalEnforcementAction formalEnforcementAction, ApplicationUser? user)
-        : base(id, formalEnforcementAction.CaseFile, user)
-    {
-        ActionType = EnforcementActionType.OrderResolvedLetter;
-        FormalEnforcementActions.Add(formalEnforcementAction);
-    }
-
-    public ICollection<IFormalEnforcementAction> FormalEnforcementActions { get; init; } = [];
 }

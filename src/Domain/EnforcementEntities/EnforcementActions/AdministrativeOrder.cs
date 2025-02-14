@@ -15,11 +15,9 @@ public class AdministrativeOrder : EnforcementAction, IFormalEnforcementAction
         ActionType = EnforcementActionType.AdministrativeOrder;
     }
 
-    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; init; } = [];
     public DateOnly? ExecutedDate { get; set; }
     public bool IsExecuted => ExecutedDate.HasValue;
     public DateOnly? AppealedDate { get; set; }
     public DateOnly? ResolvedDate { get; set; }
     public bool IsResolved => ResolvedDate.HasValue;
-    public OrderResolvedLetter? ResolvedLetter { get; set; }
 }

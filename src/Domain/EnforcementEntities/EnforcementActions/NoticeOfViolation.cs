@@ -21,8 +21,4 @@ public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, 
 
     [StringLength(7000)]
     public string? ResponseComment { get; set; }
-
-    public ICollection<ProposedConsentOrder> ProposedConsentOrders { get; } = [];
-    public IFormalEnforcementAction? Order { get; set; }
-    public NoFurtherActionLetter? NoFurtherActionLetter { get; set; }
 }

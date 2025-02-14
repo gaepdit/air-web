@@ -14,13 +14,4 @@ public class NoFurtherActionLetter : EnforcementAction
     {
         ActionType = EnforcementActionType.NoFurtherActionLetter;
     }
-
-    internal NoFurtherActionLetter(Guid id, IInformalEnforcementAction informalEnforcementAction, ApplicationUser? user)
-        : base(id, informalEnforcementAction.CaseFile, user)
-    {
-        ActionType = EnforcementActionType.NoFurtherActionLetter;
-        ActionsAddressed.Add(informalEnforcementAction);
-    }
-
-    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; init; } = [];
 }

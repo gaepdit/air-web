@@ -1,13 +1,8 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-
-namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 // Informal Enforcement Actions include:
 // * Notices of Violation
 // * Combined NOV/NFAs
 // * Proposed Consent Orders
 
-public interface IInformalEnforcementAction
-{
-    public CaseFile CaseFile { get; }
-}
+public interface IInformalEnforcementAction;

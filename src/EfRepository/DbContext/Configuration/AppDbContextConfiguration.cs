@@ -182,21 +182,20 @@ internal static class AppDbContextConfiguration
         infEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
         lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
         nnfEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
-        novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
         pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
 
         // Response received
         infEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
         lonEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(LetterOfNoncompliance.ResponseReceived));
         nnfEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
-        novEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NovNfaLetter.ResponseReceived));
+        novEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(NoticeOfViolation.ResponseReceived));
         pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
 
         // Response received comment
         infEntity.Property(e => e.ResponseComment).HasColumnName(nameof(InformationalLetter.ResponseComment));
         lonEntity.Property(e => e.ResponseComment).HasColumnName(nameof(LetterOfNoncompliance.ResponseComment));
         nnfEntity.Property(e => e.ResponseComment).HasColumnName(nameof(NovNfaLetter.ResponseComment));
-        novEntity.Property(e => e.ResponseComment).HasColumnName(nameof(NovNfaLetter.ResponseComment));
+        novEntity.Property(e => e.ResponseComment).HasColumnName(nameof(NoticeOfViolation.ResponseComment));
         pcoEntity.Property(e => e.ResponseComment).HasColumnName(nameof(ProposedConsentOrder.ResponseComment));
 
         return builder;

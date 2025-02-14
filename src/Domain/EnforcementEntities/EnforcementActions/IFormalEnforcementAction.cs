@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-
-namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 // Formal Enforcement Actions include:
 // * Consent Orders
@@ -8,11 +6,8 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IFormalEnforcementAction
 {
-    public CaseFile CaseFile { get; }
-    public ICollection<IInformalEnforcementAction> ActionsAddressed { get; }
     public bool IsExecuted { get; }
     public DateOnly? ExecutedDate { get; }
     public bool IsResolved { get; }
     public DateOnly? ResolvedDate { get; }
-    public OrderResolvedLetter? ResolvedLetter { get; }
 }
