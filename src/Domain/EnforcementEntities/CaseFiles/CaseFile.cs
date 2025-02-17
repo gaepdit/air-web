@@ -70,6 +70,7 @@ public class CaseFile : ClosableEntity<int>
 
             return CaseFileStatus.Draft;
         }
+
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]

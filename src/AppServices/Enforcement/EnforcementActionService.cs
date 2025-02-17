@@ -15,9 +15,8 @@ public class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
-        var enforcementAction =
-            enforcementActionManager.CreateEnforcementAction(caseFile, resource.ActionType, resource.ResponseRequested,
-                resource.Comment, currentUser);
+        var enforcementAction = enforcementActionManager.CreateEnforcementAction(caseFile, resource.ActionType,
+            resource.ResponseRequested, resource.Comment, currentUser);
         await enforcementActionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
         return enforcementAction.Id;
     }
