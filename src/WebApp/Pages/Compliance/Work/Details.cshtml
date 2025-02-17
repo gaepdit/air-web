@@ -44,37 +44,35 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-0">Compliance Monitoring: @workEntryName</h1>
+        <h1 class="mb-md-0">Compliance Monitoring: @workEntryName</h1>
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceOperation.Close])
-            {
-                <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Reopen])
-            {
-                <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Edit])
-            {
-                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Delete])
-            {
-                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
-            }
-            @if (report.HasPrintout)
-            {
-                <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
-                   class="btn btn-outline-secondary icon-link no-external-link">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                    </svg>
-                    Print
-                </a>
-            }
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group">
+                @if (Model.UserCan[ComplianceOperation.Close])
+                {
+                    <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Reopen])
+                {
+                    <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Edit])
+                {
+                    <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                }
+                @if (report.HasPrintout)
+                {
+                    <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
+                       class="btn btn-outline-secondary icon-link no-external-link">
+                        <svg class="bi">
+                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                        </svg>
+                        Print
+                    </a>
+                }
+            </div>
         </div>
     }
 </div>
@@ -165,6 +163,15 @@
 </dl>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+
+@if (Model.UserCan[ComplianceOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link link-danger link-offset-2">
+            Delete Entry
+        </a>
+    </div>
+}
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />

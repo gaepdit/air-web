@@ -1,4 +1,4 @@
-@page "{id:int?}"
+﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
@@ -42,27 +42,25 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-0">Enforcement Case</h1>
+        <h1 class="mb-md-0">Enforcement Case</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
-        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[EnforcementOperation.Close])
-            {
-                <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
-            }
-            @if (Model.UserCan[EnforcementOperation.Reopen])
-            {
-                <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
-            }
-            @if (Model.UserCan[EnforcementOperation.Edit])
-            {
-                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-            }
-            @if (Model.UserCan[EnforcementOperation.Delete])
-            {
-                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
-            }
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group">
+                @if (Model.UserCan[EnforcementOperation.Close])
+                {
+                    <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
+                }
+                @if (Model.UserCan[EnforcementOperation.Reopen])
+                {
+                    <a asp-page="Reopen" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Reopen</a>
+                }
+                @if (Model.UserCan[EnforcementOperation.Edit])
+                {
+                    <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                }
+            </div>
         </div>
     }
 </div>
@@ -112,7 +110,7 @@
     </summary>
     <div class="container mt-2">
         <section class="mt-3">
-            <div class="row justify-content-between align-items-end g-0">
+            <div class="row justify-content-between align-items-baseline g-0">
                 <h3 class="h5 col-md">Linked Discovery Events</h3>
                 @if (Model.UserCan[EnforcementOperation.Edit])
                 {
@@ -156,14 +154,14 @@
 </details>
 
 <section class="mt-3">
-    <div class="row justify-content-between align-items-start mb-2">
+    <div class="row justify-content-between align-items-start mb-3">
         <div class="col-md">
-            <h2 class="h3 mb-0">Enforcement Actions</h2>
+            <h2 class="h3 mb-md-0">Enforcement Actions</h2>
         </div>
 
         @if (Model.UserCan[EnforcementOperation.Edit])
         {
-            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
+            <div class="col-md-auto ms-md-3 d-print-none">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
@@ -219,13 +217,13 @@
                             const actionType = this.value;
                             addEnforcementLabel.textContent = this.textContent.trim();
                             addEnforcementActionType.value = actionType;
-                            
+
                             if (['LetterOfNoncompliance', 'InformationalLetter', 'NovNfaLetter'].includes(actionType)) {
                                 responseRequestedCheckbox.style.display = 'block';
                             } else {
                                 responseRequestedCheckbox.style.display = 'none';
                             }
-                            
+
                             addEnforcementModal.show();
                         });
                     });
@@ -329,6 +327,15 @@
 </section>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+
+@if (Model.UserCan[EnforcementOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link link-danger link-offset-2">
+            Delete Enforcement Case
+        </a>
+    </div>
+}
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
