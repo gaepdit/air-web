@@ -58,7 +58,6 @@ flowchart
     CTE{{Enforcement Comment}}
     ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}
-    CTA{{Action Comment}}
     STP{{Stipulated Penalty}}
     link([Link Event])
     add([Enter new Case File])
@@ -68,8 +67,6 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     editAction([Edit Action])
-    commentAction([Add Comment])
-    editCommentAction([Edit Comment])
     review([Submit for Review])
     respond([Approve/Return])
     issue([Issue])
@@ -83,11 +80,9 @@ flowchart
     ENF -..-> comment
     ENF -.-> addAction
     CTE -.-> editComment
-    ACT -..-> commentAction
     ACT -.-> editAction
     ACT -.-> review
     ACT -.-> issue
-    CTA -.-> editCommentAction
     REV -.-> respond
     ACT -.-> IfCO -.-> penalty
     close -->|"`Disables/*enables*`"| addAction
@@ -100,10 +95,8 @@ flowchart
     close -->|"`Closes/*reopens*`"| ENF
     close -->|Disables| penalty
     comment -->|Adds| CTE
-    commentAction -->|Adds| CTA
     editAction -->|Updates| ACT
     editComment -->|Updates| CTE
-    editCommentAction -->|Updates| CTA
     editEnf -->|Updates| ENF
     issue -->|Updates status| ENF
     link -->|Links to| EVT
