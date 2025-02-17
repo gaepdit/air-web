@@ -19,7 +19,8 @@ public class DetailsModel(
     public int Id { get; set; }
 
     [BindProperty]
-    public CreateEnforcementAction CreateEnforcementAction { get; set; } = null!;
+    // FYI, this name is reference in the page JavaScript.
+    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
 
     public CaseFileViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
