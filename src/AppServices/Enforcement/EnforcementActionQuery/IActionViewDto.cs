@@ -23,12 +23,15 @@ public interface IActionViewDto
     // -- Approved
     public DateOnly? ApprovedDate { get; }
     public StaffViewDto? ApprovedBy { get; }
+    public bool IsApproved { get; }
 
     // -- Issued
     public DateOnly? IssueDate { get; }
+    public bool IsIssued { get; }
 
     // -- Closed as Unsent
     public DateOnly? ClosedAsUnsentDate { get; }
+    public bool IsClosedAsUnsent { get; }
 
     // -- Deleted
     public bool IsDeleted { get; }

@@ -54,9 +54,9 @@
                 <partial name="Facility/_Partials/_Pollutants" model="regulatoryData.Pollutants" />
             </dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringsAsInlineList)</dd>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringsAsInlineList)</dd>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
             <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
             <dd class="col-sm-8 col-lg-9">
                 <dl class="row">

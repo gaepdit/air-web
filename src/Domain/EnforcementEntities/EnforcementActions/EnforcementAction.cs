@@ -83,7 +83,7 @@ public enum EnforcementActionType
 
 public enum EnforcementActionStatus
 {
-    [Description("Draft")] Draft,
+    [Description("Draft Started")] Draft,
     [Description("Review Requested")] ReviewRequested,
     [Description("Approved")] Approved,
     [Description("Issued")] Issued,

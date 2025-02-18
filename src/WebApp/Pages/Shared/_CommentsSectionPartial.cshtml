@@ -41,22 +41,22 @@
                         <div class="text-break text-pre-line">@comment.Text</div>
                     </div>
                     <div class="card-footer">
-                        <div class="container-full">
-                            <div class="row justify-content-between align-items-center g-0 my-1">
-                                <small class="col text-body-secondary">
-                                    Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
-                                    on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
-                                </small>
-                                @if (Model.CanDeleteComment)
-                                {
-                                    <div class="col-auto d-print-none ms-2">
-                                        <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
-                                            <button type="submit" class="btn btn-sm btn-link link-danger link-offset-2">Delete</button>
-                                            <input name="commentId" type="hidden" value="@comment.Id.ToString()" />
-                                        </form>
-                                    </div>
-                                }
-                            </div>
+                        <div class="row justify-content-between align-items-center g-0 my-1">
+                            <small class="col text-body-secondary">
+                                Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
+                                on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
+                            </small>
+                            @if (Model.CanDeleteComment)
+                            {
+                                <div class="col-auto d-print-none ms-2">
+                                    <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
+                                        <button type="submit" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+                                            Delete Comment
+                                        </button>
+                                        <input name="commentId" type="hidden" value="@comment.Id.ToString()" />
+                                    </form>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

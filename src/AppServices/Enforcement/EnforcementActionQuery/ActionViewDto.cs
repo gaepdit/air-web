@@ -33,12 +33,15 @@ public record ActionViewDto : IActionViewDto
     // -- Approved
     public DateOnly? ApprovedDate { get; init; }
     public StaffViewDto? ApprovedBy { get; init; }
+    public bool IsApproved => ApprovedDate.HasValue;
 
     // -- Issued
     public DateOnly? IssueDate { get; init; }
+    public bool IsIssued => IssueDate.HasValue;
 
     // -- Closed as Unsent
     public DateOnly? ClosedAsUnsentDate { get; init; }
+    public bool IsClosedAsUnsent => ClosedAsUnsentDate.HasValue;
 
     // -- Deleted
     public bool IsDeleted { get; init; }

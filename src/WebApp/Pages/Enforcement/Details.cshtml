@@ -69,7 +69,7 @@
 
 <section class="mt-3">
     <h2 class="visually-hidden">Details</h2>
-    <dl class="row">
+    <dl class="row mb-2">
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
             <div class="rounded-1 py-1 px-2 ms-n2 @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDescription()</div>
@@ -102,58 +102,58 @@
             <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[None]" })</div>
         </dd>
     </dl>
+
+    <details class="border rounded-1">
+        <summary class="bg-body-secondary px-2 py-1">
+            Related Details
+        </summary>
+        <div class="container mt-2">
+            <section class="mt-3">
+                <div class="row justify-content-between align-items-baseline g-0">
+                    <h3 class="h5 col-md">Linked Discovery Events</h3>
+                    @if (Model.UserCan[EnforcementOperation.Edit])
+                    {
+                        <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                            <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                                Edit Linked Events
+                            </a>
+                        </div>
+                    }
+                </div>
+                @if (!caseFile.ComplianceEvents.Any())
+                {
+                    <p>
+                        <em>None.</em>
+                    </p>
+                }
+                else
+                {
+                    <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                             model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
+                }
+            </section>
+
+            @if (caseFile.HasReportableEnforcement)
+            {
+                <section class="mt-3">
+                    <h3 class="h5">Associated Pollutants & Programs</h3>
+                    <dl>
+                        <dt>@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
+                        <dd>
+                            <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
+                        </dd>
+                        <dt>@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
+                        <dd>
+                            @Html.DisplayFor(_ => caseFile.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)
+                        </dd>
+                    </dl>
+                </section>
+            }
+        </div>
+    </details>
 </section>
 
-<details class="border rounded-1">
-    <summary class="bg-body-secondary px-2 py-1">
-        Related Details
-    </summary>
-    <div class="container mt-2">
-        <section class="mt-3">
-            <div class="row justify-content-between align-items-baseline g-0">
-                <h3 class="h5 col-md">Linked Discovery Events</h3>
-                @if (Model.UserCan[EnforcementOperation.Edit])
-                {
-                    <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
-                        <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
-                            Edit Linked Events
-                        </a>
-                    </div>
-                }
-            </div>
-            @if (!caseFile.ComplianceEvents.Any())
-            {
-                <p>
-                    <em>None.</em>
-                </p>
-            }
-            else
-            {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                         model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
-            }
-        </section>
-
-        @if (caseFile.HasReportableEnforcement)
-        {
-            <section class="mt-3">
-                <h3 class="h5">Associated Pollutants & Programs</h3>
-                <dl class="row">
-                    <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
-                    <dd class="col-sm-9 col-lg-10 mt-2">
-                        <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
-                    </dd>
-                    <dt class="col-sm-3 col-lg-2 mt-2">@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
-                    <dd class="col-sm-9 col-lg-10 mt-2">
-                        @Html.DisplayFor(_ => caseFile.AirProgramsAsStrings, DisplayTemplate.StringsAsInlineList)
-                    </dd>
-                </dl>
-            </section>
-        }
-    </div>
-</details>
-
-<section class="mt-3">
+<section class="mt-4">
     <div class="row justify-content-between align-items-start mb-3">
         <div class="col-md">
             <h2 class="h3 mb-md-0">Enforcement Actions</h2>
@@ -243,37 +243,53 @@
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
             var eaBorder = action.Id == Model.NewEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
-            <div id="@action.Id.ToString()" class="card mb-4 border-2 @eaBorder">
+            <div id="@action.Id.ToString()" class="card mb-3 border-2 @eaBorder">
                 <div class="card-header">
-                    <div class="container-full">
-                        <div class="row justify-content-between align-items-start g-0 my-1">
-                            <div class="col">
-                                <h3 class="h5 card-title">
-                                    @if (action.IsDeleted)
-                                    {
-                                        <em class="text-danger-emphasis">Deleted</em>
-                                    }
-                                    @action.ActionType.GetDescription()
-                                </h3>
-                                <h4 class="h5 card-subtitle text-body-secondary">
-                                    @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
-                                </h4>
-                            </div>
-                            @if (Model.UserCan[EnforcementOperation.Edit])
-                            {
-                                <div class="col-auto d-print-none ms-2">
-                                    <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
-                                </div>
-                            }
+                    <div class="row justify-content-between align-items-center g-2">
+                        <div class="col">
+                            <h3 class="h5 card-title">
+                                @if (action.IsDeleted)
+                                {
+                                    <em class="text-danger-emphasis">Deleted</em>
+                                }
+                                @action.ActionType.GetDescription()
+                            </h3>
+                            <h4 class="col-auto h5 card-subtitle text-body-secondary">
+                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
+                            </h4>
                         </div>
+                        @if (action is { IsDeleted: false, Status: EnforcementActionStatus.Draft or EnforcementActionStatus.Approved })
+                        {
+                            <div class="col-auto d-print-none">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @if (action.Status == EnforcementActionStatus.Draft)
+                                        {
+                                            <li><a class="dropdown-item">Submit for review</a></li>
+                                        }
+                                        <li><a class="dropdown-item">Issue</a></li>
+                                        <li><a class="dropdown-item">Close as unsent</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="card-body">
-                    <dl>
-                        <dt class="mb-2">@Html.DisplayNameFor(_ => action.Notes)</dt>
-                        <dd class="text-break text-pre-line">@Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
-                    </dl>
-
+                    <div class="row justify-content-between align-items-baseline g-0 mb-3">
+                        <div class="col">
+                            @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
+                        </div>
+                        @if (Model.UserCan[EnforcementOperation.Edit])
+                        {
+                            <div class="col-auto d-print-none ms-3">
+                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </div>
+                        }
+                    </div>
                     @switch (action)
                     {
                         case AoViewDto model:
@@ -290,10 +306,9 @@
                             break;
                     }
                 </div>
-                @if (action.Status is EnforcementActionStatus.Approved or EnforcementActionStatus.ReviewRequested || action.IsDeleted)
-                {
-                    <div class="card-footer">
-                        <small class="text-body-secondary">
+                <div class="card-footer">
+                    <div class="row justify-content-between align-items-center g-0 my-1">
+                        <small class="col text-body-secondary">
                             @if (action.IsDeleted)
                             {
                                 <div>
@@ -302,7 +317,14 @@
                                     on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
                                 </div>
                             }
-                            @if (action.Status == EnforcementActionStatus.ReviewRequested)
+                            @if (action.Status == EnforcementActionStatus.Draft)
+                            {
+                                <div>
+                                    Draft started
+                                    on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
+                                </div>
+                            }
+                            else if (action.Status == EnforcementActionStatus.ReviewRequested)
                             {
                                 <div>
                                     Awaiting review
@@ -318,9 +340,31 @@
                                     on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
                                 </div>
                             }
+                            else if (action.Status == EnforcementActionStatus.Issued)
+                            {
+                                <div>
+                                    Issued
+                                    on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                                </div>
+                            }
+                            else if (action.Status == EnforcementActionStatus.ClosedAsUnsent)
+                            {
+                                <div>
+                                    Closed as unsent
+                                    on @Html.DisplayFor(_ => action.ClosedAsUnsentDate, DisplayTemplate.ShortDateOnlyNullable)
+                                </div>
+                            }
                         </small>
+                        @if (Model.UserCan[EnforcementOperation.Delete])
+                        {
+                            <div class="col-auto d-print-none ms-2">
+                                <button type="submit" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+                                    Delete Action
+                                </button>
+                            </div>
+                        }
                     </div>
-                }
+                </div>
             </div>
         }
     }
@@ -331,7 +375,7 @@
 @if (Model.UserCan[EnforcementOperation.Delete])
 {
     <div class="mt-4 text-end d-print-none">
-        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link link-danger link-offset-2">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
             Delete Enforcement Case
         </a>
     </div>

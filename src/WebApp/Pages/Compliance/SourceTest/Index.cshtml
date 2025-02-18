@@ -209,7 +209,7 @@ else
 @if (Model.ComplianceReview is not null && Model.UserCan[ComplianceOperation.Delete])
 {
     <div class="mt-4 text-end d-print-none">
-        <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-sm btn-link link-danger link-offset-2">
+        <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
             Delete Compliance Review
         </a>
     </div>

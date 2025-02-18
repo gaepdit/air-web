@@ -15,26 +15,33 @@ public class DetailsModel(
     IEnforcementActionService enforcementActionService,
     IAuthorizationService authorization) : PageModel
 {
+    // Case File
     [FromRoute]
     public int Id { get; set; }
 
-    [BindProperty]
-    // FYI, this name is reference in the page JavaScript.
-    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
-
     public CaseFileViewDto? Item { get; private set; }
-    public CommentsSectionModel CommentSection { get; set; } = null!;
+
+    // Permissions, etc.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
-
-    [TempData]
-    public Guid? NewEnforcementId { get; set; }
-
-    [TempData]
-    public Guid NewCommentId { get; set; }
 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
+    // Comments
+    public CommentsSectionModel CommentSection { get; set; } = null!;
+
+    [TempData]
+    public Guid NewCommentId { get; set; }
+
+    // Enforcement
+    [BindProperty]
+    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } =
+        null!; // FYI, this name is reference in the page JavaScript.
+
+    [TempData]
+    public Guid? NewEnforcementId { get; set; }
+
+    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
