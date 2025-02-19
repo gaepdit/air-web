@@ -195,7 +195,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="hidden" id="addEnforcementActionType" name="actionType" value="" />
+                                <input type="hidden" asp-for="CreateEnforcementAction.ActionType" />
                                 <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             </div>
@@ -208,7 +208,7 @@
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="newEnforcementAction"]');
                     const addEnforcementLabel = document.getElementById('addEnforcementLabel');
-                    const addEnforcementActionType = document.getElementById('addEnforcementActionType');
+                    const addEnforcementActionType = document.getElementById('CreateEnforcementAction_ActionType');
                     const responseRequestedCheckbox = document.getElementById('CreateEnforcementAction_ResponseRequested').closest('.form-check');
                     const addEnforcementModal = new bootstrap.Modal(document.getElementById('addEnforcementModal'));
 
