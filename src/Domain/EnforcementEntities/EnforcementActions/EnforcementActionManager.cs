@@ -1,9 +1,8 @@
 ﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager : IEnforcementActionManager
 {

@@ -4,7 +4,7 @@ using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.EnforcementEntities;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 using AutoMapper;

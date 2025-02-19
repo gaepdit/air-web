@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-
-namespace AirWeb.Domain.EnforcementEntities;
+﻿namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public interface ICaseFileRepository : IRepository<CaseFile, int>, ICommentRepository<int>
 {

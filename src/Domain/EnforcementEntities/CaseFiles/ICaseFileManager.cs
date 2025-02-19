@@ -1,7 +1,6 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities;
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public interface ICaseFileManager
 {
