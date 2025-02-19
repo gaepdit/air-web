@@ -6,12 +6,16 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IEnforcementActionManager
 {
-    public EnforcementAction CreateEnforcementAction(CaseFile caseFile, EnforcementActionType action,
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
         bool responseRequested, string? notes, ApplicationUser? user);
 
-    public void IssueEnforcementAction(EnforcementAction enforcementAction);
+    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user);
+    public void CloseAsUnsent(EnforcementAction enforcementAction, DateOnly closeDate, ApplicationUser? user);
+    public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user);
+    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user);
 
-    public void ExecuteOrder(ConsentOrder consentOrder);
+    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
+        ApplicationUser? user);
 
-    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty);
+    public void Delete(EnforcementAction enforcementAction, string? comment, ApplicationUser? user);
 }

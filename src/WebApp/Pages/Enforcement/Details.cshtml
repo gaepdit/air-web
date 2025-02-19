@@ -168,7 +168,7 @@
                     </svg>
                     Enforcement Action
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end">
                     @foreach (var actionType in Enum.GetValues(typeof(EnforcementActionType)).Cast<EnforcementActionType>())
                     {
                         <li>
@@ -183,7 +183,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addEnforcementModalLabel">Add Enforcement Action:
+                            <h5 class="modal-title" id="addEnforcementModalLabel">Add 
                                 <span id="addEnforcementLabel"></span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -232,6 +232,12 @@
         }
     </div>
 
+    <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi me-2" role="img" aria-label="Danger:">
+            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+        </svg>
+    </div>
+
     @if (!caseFile.EnforcementActions.Any())
     {
         <p>
@@ -265,12 +271,17 @@
                                     <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
                                         Actions
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu dropdown-menu-end">
                                         @if (action.Status == EnforcementActionStatus.Draft)
                                         {
                                             <li><a class="dropdown-item">Submit for review</a></li>
                                         }
-                                        <li><a class="dropdown-item">Issue</a></li>
+                                        <li>
+                                            <button class="dropdown-item" type="button" name="issueEnforcementAction"
+                                                    data-eatype="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                Issue
+                                            </button>
+                                        </li>
                                         <li><a class="dropdown-item">Close as unsent</a></li>
                                     </ul>
                                 </div>
@@ -367,6 +378,54 @@
                 </div>
             </div>
         }
+
+        // Modal form for issuing an enforcement action. 
+        <div class="modal fade" id="issueEnforcementModal" tabindex="-1" aria-labelledby="issueEnforcementModalLabel" aria-modal="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="issueEnforcementModalLabel">Issue
+                            <span id="issueEnforcementLabel"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" asp-page-handler="IssueEnforcementAction" asp-fragment="enforcement-actions" id="IssueEnforcementActionForm">
+                        <div class="modal-body">
+                            <div class="form-floating">
+                                <input asp-for="IssueEnforcementActionDate.Date" class="form-control" />
+                                <label for="IssueEnforcementActionDate_Date" class="form-label">Date Issued</label>
+                                <span asp-validation-for="IssueEnforcementActionDate.Date" class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="issueEnforcementActionId" name="enforcementActionId" value="" />
+                            <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const actionButtons = document.querySelectorAll('button[name="issueEnforcementAction"]');
+                const issueEnforcementLabel = document.getElementById('issueEnforcementLabel');
+                const issueEnforcementActionId = document.getElementById('issueEnforcementActionId');
+                const issueEnforcementModal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
+                const issueEnforcementActionDateInput = document.getElementById('IssueEnforcementActionDate_Date');
+                issueEnforcementActionDateInput.max = new Date().toLocaleDateString('fr-ca');
+                issueEnforcementActionDateInput.value = new Date().getTime() > new Date(issueEnforcementActionDateInput.value).getTime() ? issueEnforcementActionDateInput.value : new Date().toLocaleDateString('fr-ca');
+
+
+                actionButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        issueEnforcementActionId.value = this.value;
+                        issueEnforcementLabel.textContent = this.getAttribute('data-eatype').trim();
+                        issueEnforcementModal.show();
+                    });
+                });
+            });
+        </script>
     }
 </section>
 

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
@@ -6,6 +7,8 @@ using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.PageModelHelpers;
+using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
@@ -13,7 +16,8 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class DetailsModel(
     ICaseFileService caseFileService,
     IEnforcementActionService enforcementActionService,
-    IAuthorizationService authorization) : PageModel
+    IAuthorizationService authorization,
+    IValidator<MaxCurrentDateOnlyDto> validator) : PageModel
 {
     // Case File
     [FromRoute]
@@ -35,8 +39,12 @@ public class DetailsModel(
 
     // Enforcement
     [BindProperty]
-    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } =
-        null!; // FYI, this name is reference in the page JavaScript.
+    // Note: This name is reference in the page JavaScript.
+    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
+
+    [BindProperty]
+    // Note: This name is reference in the page JavaScript.
+    public MaxCurrentDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
 
     [TempData]
     public Guid? NewEnforcementId { get; set; }
@@ -52,16 +60,7 @@ public class DetailsModel(
         if (Item.IsDeleted && !UserCan[EnforcementOperation.ViewDeleted]) return NotFound();
         if (!Item.IsClosed && !UserCan[EnforcementOperation.View]) return NotFound();
 
-        CommentSection = new CommentsSectionModel
-        {
-            Comments = Item.Comments,
-            NewComment = new CommentAddDto(Id),
-            NewCommentId = NewCommentId,
-            NotificationFailureMessage = NotificationFailureMessage,
-            CanAddComment = UserCan[EnforcementOperation.AddComment],
-            CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
-        };
-        CreateEnforcementAction = new();
+        InitializeDtos(Item);
         return Page();
     }
 
@@ -72,6 +71,27 @@ public class DetailsModel(
 
         NewEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
         return RedirectToPage("Details", pageHandler: null, fragment: NewEnforcementId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
+        CancellationToken token)
+    {
+        Item = await caseFileService.FindDetailedAsync(Id, token);
+        if (Item is null || !User.CanEdit(Item)) return BadRequest();
+
+        await SetPermissionsAsync();
+        if (!UserCan[EnforcementOperation.Edit]) return BadRequest();
+
+        await validator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            InitializeDtos(Item);
+            return Page();
+        }
+
+        await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
+        return RedirectToPage("Details", pageHandler: null, fragment: enforcementActionId.ToString());
     }
 
     #region Comments
@@ -87,14 +107,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            CommentSection = new CommentsSectionModel
-            {
-                Comments = Item.Comments,
-                NewComment = newComment,
-                CanAddComment = UserCan[EnforcementOperation.AddComment],
-                CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
-            };
-            CreateEnforcementAction = new();
+            InitializeDtos(Item, newComment);
             return Page();
         }
 
@@ -121,4 +134,20 @@ public class DetailsModel(
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, Item);
+
+    private void InitializeDtos(CaseFileViewDto item, CommentAddDto? newComment = null)
+    {
+        CommentSection = new CommentsSectionModel
+        {
+            Comments = item.Comments,
+            NewComment = newComment ?? new CommentAddDto(Id),
+            NewCommentId = NewCommentId,
+            NotificationFailureMessage = NotificationFailureMessage,
+            CanAddComment = UserCan[EnforcementOperation.AddComment],
+            CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
+        };
+
+        CreateEnforcementAction = new CreateEnforcementActionDto();
+        IssueEnforcementActionDate = new MaxCurrentDateOnlyDto();
+    }
 }

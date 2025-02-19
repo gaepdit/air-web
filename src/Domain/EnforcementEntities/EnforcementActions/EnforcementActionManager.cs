@@ -6,7 +6,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager : IEnforcementActionManager
 {
-    public EnforcementAction CreateEnforcementAction(CaseFile caseFile, EnforcementActionType action,
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
         bool responseRequested, string? notes, ApplicationUser? user)
     {
         EnforcementAction enforcementAction = action switch
@@ -29,18 +29,57 @@ public class EnforcementActionManager : IEnforcementActionManager
         return enforcementAction;
     }
 
-    public void IssueEnforcementAction(EnforcementAction enforcementAction)
+    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
     {
-        throw new NotImplementedException();
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.IssueDate = issueDate;
+        enforcementAction.Status = EnforcementActionStatus.Issued;
     }
 
-    public void ExecuteOrder(ConsentOrder consentOrder)
+    public void CloseAsUnsent(EnforcementAction enforcementAction, DateOnly closeDate, ApplicationUser? user)
     {
-        throw new NotImplementedException();
+        if (enforcementAction.IsIssued)
+            throw new InvalidOperationException("Enforcement Action has already been issued.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.ClosedAsUnsentDate = closeDate;
+        enforcementAction.Status = EnforcementActionStatus.ClosedAsUnsent;
     }
 
-    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty)
+    public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user)
+    {
+        if (!enforcementAction.IsClosedAsUnsent)
+            throw new InvalidOperationException("Enforcement Action is not closed.");
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.ClosedAsUnsentDate = null;
+
+        if (enforcementAction.ApprovedDate is not null)
+        {
+            enforcementAction.Status = EnforcementActionStatus.Approved;
+        }
+        else if (enforcementAction.CurrentReviewer is not null)
+        {
+            enforcementAction.Status = EnforcementActionStatus.ReviewRequested;
+        }
+        else
+        {
+            enforcementAction.Status = EnforcementActionStatus.Draft;
+        }
+    }
+
+    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user)
     {
         throw new NotImplementedException();
+        consentOrder.SetUpdater(user?.Id);
     }
+
+    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
+        ApplicationUser? user)
+    {
+        throw new NotImplementedException();
+        consentOrder.SetUpdater(user?.Id);
+    }
+
+    public void Delete(EnforcementAction enforcementAction, string? comment, ApplicationUser? user) =>
+        enforcementAction.Delete(comment, user);
 }
