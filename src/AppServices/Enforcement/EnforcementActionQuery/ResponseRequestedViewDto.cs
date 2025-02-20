@@ -7,4 +7,7 @@ public record ResponseRequestedViewDto : ActionViewDto
 
     [Display(Name = "Response received")]
     public DateOnly? ResponseReceived { get; init; }
+
+    [Display(Name = "Response received")]
+    public string? ResponseComment { get; init; }
 }

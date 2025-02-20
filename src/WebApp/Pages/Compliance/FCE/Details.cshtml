@@ -37,28 +37,26 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center">
+<div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1>Full Compliance Evaluation</h1>
+        <h1 class="mb-md-0">Full Compliance Evaluation</h1>
     </div>
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceOperation.Edit])
-            {
-                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Delete])
-            {
-                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-danger">Delete</a>
-            }
-            <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id" target="_blank" rel="noopener"
-               class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                </svg>
-                Print
-            </a>
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group">
+                @if (Model.UserCan[ComplianceOperation.Edit])
+                {
+                    <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                }
+                <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id" target="_blank" rel="noopener"
+                   class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
+                    <svg class="bi">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                    </svg>
+                    Print
+                </a>
+            </div>
         </div>
     }
 </div>
@@ -90,13 +88,15 @@
     </dl>
 </section>
 
-<section class="mt-4">
-    <div class="row justify-content-between align-items-center mb-1">
+<section class="my-4">
+    <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
-            <h2 class="h4">Supporting data for
-                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormatConstants.ShortDateFormat })</h2>
+            <h2 class="h4 mb-md-0">
+                Supporting data for
+                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormatConstants.ShortDateFormat })
+            </h2>
         </div>
-        <div class="col-auto ms-md-3 d-print-none">
+        <div class="col-auto ms-3 d-print-none">
             <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
                asp-route-EventDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
                asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
@@ -122,6 +122,15 @@
 </section>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+
+@if (Model.UserCan[ComplianceOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+            Delete FCE
+        </a>
+    </div>
+}
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />

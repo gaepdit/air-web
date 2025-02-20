@@ -1,11 +1,10 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 
-namespace AirWeb.Domain.EnforcementEntities;
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public class CaseFileManager(ICaseFileRepository repository, IFacilityService facilityService) : ICaseFileManager
 {
-    public async Task<CaseFile> CreateCaseFileAsync(FacilityId facilityId, ApplicationUser? user,
+    public async Task<CaseFile> Create(FacilityId facilityId, ApplicationUser? user,
         CancellationToken token = default)
     {
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
@@ -14,20 +13,20 @@ public class CaseFileManager(ICaseFileRepository repository, IFacilityService fa
         return new CaseFile(repository.GetNextId(), facilityId, user);
     }
 
-    public void CloseCaseFile(CaseFile caseFile, ApplicationUser? user)
+    public void Close(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.SetUpdater(user?.Id);
         caseFile.Close(user);
     }
 
-    public void ReopenCaseFile(CaseFile caseFile, ApplicationUser? user)
+    public void Reopen(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.SetUpdater(user?.Id);
         caseFile.Reopen();
     }
 
-    public void DeleteCaseFile(CaseFile caseFile, string? comment, ApplicationUser? user) =>
+    public void Delete(CaseFile caseFile, string? comment, ApplicationUser? user) =>
         caseFile.Delete(comment, user);
 
-    public void RestoreCaseFile(CaseFile caseFile) => caseFile.Undelete();
+    public void Restore(CaseFile caseFile) => caseFile.Undelete();
 }

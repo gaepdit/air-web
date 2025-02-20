@@ -14,13 +14,13 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = "Open ACC",
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
             AccReportingYear = 2000,
-            PostmarkDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-21).Date),
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-21)),
             PostmarkedOnTime = true,
             SignedByRo = true,
             OnCorrectForms = true,
@@ -37,15 +37,15 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.AnnualComplianceCertification,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
             Notes = "Closed ACC",
             ClosedBy = UserData.GetRandomUser(),
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             AccReportingYear = 2002,
-            PostmarkDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
             PostmarkedOnTime = false,
             SignedByRo = false,
             OnCorrectForms = false,
@@ -65,10 +65,10 @@ internal static partial class WorkEntries
             Notes = "Deleted ACC",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             AccReportingYear = 2002,
-            PostmarkDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
         },
     ];
 }

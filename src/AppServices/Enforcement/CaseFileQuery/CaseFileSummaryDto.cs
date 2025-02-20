@@ -4,7 +4,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileSummaryDto : IIsClosedAndIsDeleted, IDeletable
+public record CaseFileSummaryDto : IIsClosedAndIsDeleted, IDeletable, IDeleteComments
 {
     public int Id { get; init; }
 

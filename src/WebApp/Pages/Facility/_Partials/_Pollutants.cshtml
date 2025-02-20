@@ -6,12 +6,10 @@
 }
 else
 {
-    <ul class="mb-0 p-0 ps-1">
+    <ul>
         @foreach (var pollutant in Model)
         {
-            <li class="float-start me-4 ms-2">
-                @pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span>
-            </li>
+            <li>@pollutant.Description <span class="text-body-tertiary">(@pollutant.Code)</span></li>
         }
     </ul>
 }

@@ -14,14 +14,14 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.Inspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = "In compliance",
             ClosedBy = UserData.GetRandomUser(),
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
             InspectionReason = InspectionReason.PlannedUnannounced,
             InspectionStarted = DateTime.Now.AddYears(-5).AddDays(-10),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-5).AddDays(-10)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-5).AddDays(-10)),
             InspectionEnded = DateTime.Now.AddYears(-5).AddDays(-10).AddHours(3),
             WeatherConditions = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             InspectionGuide = SampleText.GetRandomText(SampleText.TextLength.Word),
@@ -34,14 +34,14 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.Inspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
             Notes = "Not in compliance",
             ClosedBy = UserData.GetRandomUser(),
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
             InspectionReason = InspectionReason.Complaint,
             InspectionStarted = DateTime.Now.AddYears(-3).AddDays(-1),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-1)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             InspectionEnded = DateTime.Now.AddYears(-3).AddDays(-1).AddHours(3),
             WeatherConditions = string.Empty,
             InspectionGuide = string.Empty,
@@ -58,7 +58,7 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             InspectionStarted = DateTime.Now.AddYears(-3).AddDays(-1),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-1)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             InspectionEnded = DateTime.Now.AddYears(-3).AddDays(-1).AddHours(3),
         },
     ];

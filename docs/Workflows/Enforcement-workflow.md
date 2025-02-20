@@ -15,11 +15,15 @@
 
 * An Enforcement Action can be added to an open Case File.
 * An Enforcement Action can be edited while the Case File is open.
-* An Enforcement Action can be closed as unsent.
-* Issuing an Enforcement Action closes it and disables all editing (including deleting).
+* An Enforcement Action can be submitted for review.
+* An Enforcement Action can be issued (closed as sent) or canceled (closed as unsent), disabling the review process.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown)*.
 * An Enforcement Action can be deleted *(not shown)*.
+
+### Consent Order
+
+* If the Enforcement Action is a Consent Order, Stipulated Penalties can be added.
 
 ## Enforcement Action Review
 
@@ -52,13 +56,12 @@
 
 ```mermaid
 flowchart
-    EVT{{Compliance Event}}
     FAC{{Facility}}
+    EVT{{Compliance Event}}
     ENF{{"`**Case File**`"}}
     CTE{{Enforcement Comment}}
     ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}
-    CTA{{Action Comment}}
     STP{{Stipulated Penalty}}
     link([Link Event])
     add([Enter new Case File])
@@ -68,11 +71,9 @@ flowchart
     close(["`Close/*Reopen*`"])
     editComment([Edit Comment])
     editAction([Edit Action])
-    commentAction([Add Comment])
-    editCommentAction([Edit Comment])
     review([Submit for Review])
-    respond([Approve/Return])
-    issue([Issue])
+    respond([Respond])
+    issue([Issue or Cancel])
     penalty([Add Penalty])
     IfCO>If Consent Order]
     FAC -.-> add
@@ -83,31 +84,48 @@ flowchart
     ENF -..-> comment
     ENF -.-> addAction
     CTE -.-> editComment
-    ACT -..-> commentAction
     ACT -.-> editAction
     ACT -.-> review
     ACT -.-> issue
-    CTA -.-> editCommentAction
     REV -.-> respond
     ACT -.-> IfCO -.-> penalty
     close -->|"`Disables/*enables*`"| addAction
     close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| link
-    issue -->|Disables| editAction
+    close -->|"`Disables/*enables*`"| editAction
     issue -->|Disables| review
     add -->|Creates| ENF
     addAction -->|Adds| ACT
     close -->|"`Closes/*reopens*`"| ENF
     close -->|Disables| penalty
     comment -->|Adds| CTE
-    commentAction -->|Adds| CTA
     editAction -->|Updates| ACT
     editComment -->|Updates| CTE
-    editCommentAction -->|Updates| CTA
     editEnf -->|Updates| ENF
     issue -->|Updates status| ENF
     link -->|Links to| EVT
     penalty -->|Adds| STP
+    respond -->|Updates| ACT
+    review -->|Starts| REV
+
+```
+
+## Review Process Flow Chart
+
+```mermaid
+flowchart
+    ACT{{"`**Enforcement Action**`"}}
+    REV{{"Enforcement Action Review"}}
+    editAction([Edit Action])
+    review([Submit for Review])
+    respond([Respond])
+    issue([Issue or Cancel])
+    ACT -.-> editAction
+    ACT -.-> review
+    ACT -.-> issue
+    REV -.-> respond
+    issue -->|Disables| review
+    editAction -->|Updates| ACT
     respond -->|Updates| ACT
     review -->|Starts| REV
 

@@ -15,14 +15,14 @@ internal static partial class WorkEntries
             NotificationType = DomainData.GetRandomNotificationType(),
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-15)),
-            DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-12)),
-            SentDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-4).AddDays(-20)),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-15)),
+            DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-12)),
+            SentDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
         },
         new(7002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
@@ -31,12 +31,12 @@ internal static partial class WorkEntries
             NotificationType = DomainData.GetRandomNotificationType(),
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
             Notes = string.Empty,
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
             DueDate = null,
             SentDate = null,
             FollowupTaken = false,
@@ -50,8 +50,8 @@ internal static partial class WorkEntries
             Notes = "Deleted Inspection",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-15)),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
         },
     ];
 }

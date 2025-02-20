@@ -1,30 +1,14 @@
-﻿using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
-using AirWeb.AppServices.Users;
-using AirWeb.Domain.EnforcementEntities;
+﻿using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
 namespace AirWeb.AppServices.Enforcement;
 
 public interface IEnforcementActionService
 {
-    Task<Guid> CreateAsync(int caseFileId, CreateEnforcementAction resource,
+    Task<Guid> CreateAsync(int caseFileId, CreateEnforcementActionDto resource,
         CancellationToken token = default);
-}
 
-public class EnforcementActionService(
-    IEnforcementActionManager enforcementActionManager,
-    IEnforcementActionRepository enforcementActionRepository,
-    ICaseFileRepository caseFileRepository,
-    IUserService userService) : IEnforcementActionService
-{
-    public async Task<Guid> CreateAsync(int caseFileId, CreateEnforcementAction resource,
-        CancellationToken token = default)
-    {
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
-        var enforcementAction =
-            enforcementActionManager.CreateEnforcementAction(caseFile, resource.ActionType, resource.ResponseRequested,
-                resource.Comment, currentUser);
-        await enforcementActionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
-        return enforcementAction.Id;
-    }
+    Task IssueAsync(Guid id, MaxCurrentDateOnlyDto dateDto, CancellationToken token = default);
+    Task CancelAsync(Guid id, CancellationToken token);
+    Task DeleteAsync(Guid id, CancellationToken token);
 }

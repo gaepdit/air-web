@@ -11,9 +11,9 @@
     ViewData["Title"] = $"Facility {summary.Facility?.Id} – Source Test Reference Number {summary.ReferenceNumber}";
 }
 
-<div class="row justify-content-between align-items-center">
+<div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1>Source Test Summary</h1>
+        <h1 class="mb-md-0">Source Test Summary</h1>
     </div>
     <div class="col-md-auto ms-md-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
@@ -121,43 +121,40 @@ else
 {
     <div class="row justify-content-between align-items-center mb-2">
         <div class="col-md">
-            <h2 id="compliance-review" class="mb-0">Compliance Review</h2>
+            <h2 id="compliance-review" class="mb-md-0">Compliance Review</h2>
         </div>
-        <div class="col-md-auto ms-md-3 btn-group d-print-none">
-            @if (Model.UserCan[ComplianceOperation.Close])
-            {
-                <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                   class="btn btn-outline-primary">Close</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Reopen])
-            {
-                <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                   class="btn btn-outline-primary">
-                    Reopen
-                </a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Edit])
-            {
-                <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                   class="btn btn-outline-primary">Edit</a>
-            }
-            @if (Model.UserCan[ComplianceOperation.Delete])
-            {
-                <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                   class="btn btn-outline-danger">Delete</a>
-            }
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group">
+                @if (Model.UserCan[ComplianceOperation.Close])
+                {
+                    <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">Close</a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Reopen])
+                {
+                    <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">
+                        Reopen
+                    </a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Edit])
+                {
+                    <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">Edit</a>
+                }
+            </div>
         </div>
     </div>
 
     var review = Model.ComplianceReview!;
 
-    <div class="row justify-content-between align-items-center">
+    <div class="row justify-content-between align-items-center mb-2">
         <div class="col-md">
-            <div class="lead">Compliance Tracking #@review.Id.ToString()</div>
+            <div class="lead mb-md-0">Compliance Tracking #@review.Id.ToString()</div>
         </div>
         @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
         {
-            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
+            <div class="col-md-auto ms-md-3 d-print-none">
                 <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
                    class="btn btn-sm btn-outline-warning icon-link justify-content-center">
                     <svg class="bi">
@@ -209,6 +206,15 @@ else
     }
 }
 
+@if (Model.ComplianceReview is not null && Model.UserCan[ComplianceOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+            Delete Compliance Review
+        </a>
+    </div>
+}
+
 @section Footer {
     @if (!AppSettings.DevSettings.UseDevSettings || !AppSettings.DevSettings.UseInMemoryIaipData)
     {
@@ -227,7 +233,7 @@ else
                             <svg class="bi">
                                 <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
                             </svg>
-                            Refresh Page
+                            Refresh IAIP Data
                         </a>
                     </div>
                 </div>

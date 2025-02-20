@@ -6,5 +6,4 @@ public interface IDeletable : IIsDeleted
 {
     public StaffViewDto? DeletedBy { get; }
     public DateTimeOffset? DeletedAt { get; }
-    public string? DeleteComments { get; }
 }

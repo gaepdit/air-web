@@ -15,13 +15,13 @@ internal static partial class WorkEntries
             ReferenceNumber = SourceTestData.GetData[0].ReferenceNumber,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
             Notes = "In compliance",
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
-            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-20)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-20)),
-            DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddMonths(-2)),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-20)),
+            DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddMonths(-2)),
             FollowupTaken = false,
         },
         new(11002, SourceTestData.GetData[0].Facility!.Id, UserData.GetRandomUser())
@@ -30,13 +30,13 @@ internal static partial class WorkEntries
             ReferenceNumber = SourceTestData.GetData[1].ReferenceNumber,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
             Notes = "Not in compliance",
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
-            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
-            DueDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddMonths(-2)),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
+            DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
         new(11003, SourceTestData.GetData[0].Facility!.Id)
@@ -48,8 +48,8 @@ internal static partial class WorkEntries
             Notes = "Deleted Source Test Review",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
-            EventDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2).AddDays(-20)),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
         },
     ];
 }

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.Identity.Web;
 using System.Security.Claims;
@@ -8,30 +9,34 @@ namespace AirWeb.AppServices.Enforcement.Permissions;
 public static class EnforcementPermissions
 {
     public static bool CanAddComment(this ClaimsPrincipal user, IIsDeleted item) =>
-        user.IsComplianceStaff() && !item.IsDeleted;
+        !item.IsDeleted && user.IsComplianceStaff();
+
+    public static bool CanFinalizeAction(this ClaimsPrincipal user, IActionViewDto item) =>
+        item is { IsIssued: false, IsCanceled: false } && CanFinalize(user, item);
 
     public static bool CanClose(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        CanCloseOrReopen(user, item) && !item.IsClosed;
+        !item.IsClosed && CanFinalize(user, item);
 
-    private static bool CanCloseOrReopen(this ClaimsPrincipal user, IIsDeleted item) =>
-        user.IsComplianceStaff() && !item.IsDeleted;
+    private static bool CanFinalize(this ClaimsPrincipal user, IIsDeleted item) =>
+        !item.IsDeleted && user.IsComplianceStaff();
 
     public static bool CanDelete(this ClaimsPrincipal user, IDeletable item) =>
-        CanManageDeletions(user) && !item.IsDeleted;
+        !item.IsDeleted && CanManageDeletions(user);
 
     public static bool CanDeleteComment(this ClaimsPrincipal user, IHasOwnerAndDeletable item) =>
-        (CanManageDeletions(user) || IsOwner(user, item)) && !item.IsDeleted;
+        !item.IsDeleted && (CanManageDeletions(user) || IsOwner(user, item));
 
     public static bool CanEdit(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        user.IsComplianceStaff() && item is { IsClosed: false, IsDeleted: false };
+        item is { IsClosed: false, IsDeleted: false } && user.IsComplianceStaff();
 
-    public static bool CanManageDeletions(this ClaimsPrincipal user) => user.IsComplianceManager();
+    public static bool CanManageDeletions(this ClaimsPrincipal user) =>
+        user.IsComplianceManager();
 
     public static bool CanReopen(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        CanCloseOrReopen(user, item) && item.IsClosed;
+        item.IsClosed && CanFinalize(user, item);
 
     public static bool CanRestore(this ClaimsPrincipal user, IDeletable item) =>
-        CanManageDeletions(user) && item.IsDeleted;
+        item.IsDeleted && CanManageDeletions(user);
 
     public static bool CanView(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
         CanManageDeletions(user) ||

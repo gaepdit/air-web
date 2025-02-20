@@ -12,7 +12,7 @@ public abstract class ClosableEntity<TKey> : DeletableEntity<TKey>
 
     internal void Close(ApplicationUser? user)
     {
-        ClosedDate = DateOnly.FromDateTime(DateTime.Now);
+        ClosedDate = DateOnly.FromDateTime(DateTime.Today);
         ClosedBy = user;
     }
 

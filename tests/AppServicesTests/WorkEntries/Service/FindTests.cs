@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.SampleData;
@@ -36,7 +37,9 @@ public class FindTests
         var result = await appService.FindAsync(item.Id, includeComments: false);
 
         // Assert
+        using var scope = new AssertionScope();
         result.Should().BeEquivalentTo(item);
+        result.Should().BeOfType<PermitRevocationViewDto>();
     }
 
 

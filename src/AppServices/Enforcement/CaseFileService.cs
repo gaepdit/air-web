@@ -8,7 +8,7 @@ using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.EnforcementEntities;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AutoMapper;
 using GaEpd.AppLibrary.Extensions;
@@ -85,7 +85,7 @@ public class CaseFileService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileManager
-            .CreateCaseFileAsync((FacilityId)resource.FacilityId!, currentUser, token).ConfigureAwait(false);
+            .Create((FacilityId)resource.FacilityId!, currentUser, token).ConfigureAwait(false);
 
         caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
@@ -172,7 +172,7 @@ public class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.CloseCaseFile(caseFile, currentUser);
+        caseFileManager.Close(caseFile, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
 
         return await appNotificationService
@@ -185,7 +185,7 @@ public class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.ReopenCaseFile(caseFile, currentUser);
+        caseFileManager.Reopen(caseFile, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
 
         return await appNotificationService
@@ -199,7 +199,7 @@ public class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.DeleteCaseFile(caseFile, resource.Comment, currentUser);
+        caseFileManager.Delete(caseFile, resource.Comment, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
 
         return await appNotificationService
@@ -210,7 +210,7 @@ public class CaseFileService(
     public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
-        caseFileManager.RestoreCaseFile(workEntry);
+        caseFileManager.Restore(workEntry);
         await caseFileRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
 
         return await appNotificationService
