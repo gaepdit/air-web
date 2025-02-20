@@ -37,7 +37,7 @@ public static class EnforcementActionData
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
-            ClosedAsUnsentDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-5).Date),
+            CanceledDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-5).Date),
         },
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(4), null)
         {
@@ -219,9 +219,9 @@ public static class EnforcementActionData
                     action.ApprovedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddDays(-5).Date);
                     GenerateEnforcementActionReviews(action);
                 }
-                else if (action.IsClosedAsUnsent)
+                else if (action.IsCanceled)
                 {
-                    action.Status = EnforcementActionStatus.ClosedAsUnsent;
+                    action.Status = EnforcementActionStatus.Canceled;
                     GenerateEnforcementActionReviews(action);
                 }
                 else if (Random.Shared.NextBoolean())

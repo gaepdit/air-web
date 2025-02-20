@@ -31,6 +31,14 @@ public class EnforcementActionService(
         await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
+    public async Task CancelAsync(Guid id, CancellationToken token)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
+        enforcementActionManager.Cancel(enforcementAction, currentUser);
+        await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+    }
+
     public async Task DeleteAsync(Guid id, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

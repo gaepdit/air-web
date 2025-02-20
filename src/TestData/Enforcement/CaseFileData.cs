@@ -39,7 +39,7 @@ internal static class CaseFileData
         },
         new(304, DomainData.GetRandomFacility().Id, null)
         {
-            Notes = "Unsent LON + NOV - draft",
+            Notes = "Canceled LON + NOV - draft",
             ViolationType = GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-1).AddDays(-9).Date),
         },

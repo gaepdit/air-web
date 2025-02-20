@@ -39,15 +39,15 @@ public class DetailsModel(
 
     // Enforcement
     [BindProperty]
-    // Note: This name is reference in the page JavaScript.
+    // Note: This name is referenced in the page JavaScript.
     public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    // Note: This name is reference in the page JavaScript.
+    // Note: This name is referenced in the page JavaScript.
     public MaxCurrentDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
 
     [TempData]
-    public Guid? NewEnforcementId { get; set; }
+    public Guid? HighlightEnforcementId { get; set; }
 
     // Methods
     public async Task<IActionResult> OnGetAsync()
@@ -67,8 +67,8 @@ public class DetailsModel(
         var caseFile = await caseFileService.FindDetailedAsync(Id, token);
         if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
 
-        NewEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
-        return RedirectToFragment(NewEnforcementId.ToString()!);
+        HighlightEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
+        return RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
@@ -77,7 +77,7 @@ public class DetailsModel(
         Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || !User.CanEdit(Item)) return BadRequest();
         var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
-        if (action is null || !User.CanEdit(action)) return BadRequest();
+        if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
         await validator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
 
@@ -88,6 +88,20 @@ public class DetailsModel(
         }
 
         await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
+        CancellationToken token)
+    {
+        Item = await caseFileService.FindDetailedAsync(Id, token);
+        if (Item is null || !User.CanEdit(Item)) return BadRequest();
+        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
+
+        await enforcementActionService.CancelAsync(enforcementActionId, token);
+        HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
 

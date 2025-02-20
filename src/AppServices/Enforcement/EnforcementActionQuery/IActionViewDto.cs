@@ -30,7 +30,7 @@ public interface IActionViewDto : IDeletable
     public DateOnly? IssueDate { get; }
     public bool IsIssued { get; }
 
-    // -- Closed as Unsent
-    public DateOnly? ClosedAsUnsentDate { get; }
-    public bool IsClosedAsUnsent { get; }
+    // -- Canceled (closed as unsent)
+    public DateOnly? CanceledDate { get; }
+    public bool IsCanceled { get; }
 }

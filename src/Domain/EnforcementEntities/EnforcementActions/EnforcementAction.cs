@@ -46,9 +46,9 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public DateOnly? IssueDate { get; internal set; }
     internal bool IsIssued => IssueDate.HasValue;
 
-    // Status: Closed as unsent
-    public DateOnly? ClosedAsUnsentDate { get; internal set; }
-    internal bool IsClosedAsUnsent => ClosedAsUnsentDate.HasValue;
+    // Status: Canceled (closed as unsent)
+    public DateOnly? CanceledDate { get; internal set; }
+    internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
     public bool IsReportable =>
@@ -87,5 +87,5 @@ public enum EnforcementActionStatus
     [Description("Review Requested")] ReviewRequested,
     [Description("Approved")] Approved,
     [Description("Issued")] Issued,
-    [Description("Closed As Unsent")] ClosedAsUnsent,
+    [Description("Canceled (Not Sent)")] Canceled,
 }

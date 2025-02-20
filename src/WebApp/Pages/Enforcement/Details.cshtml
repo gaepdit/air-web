@@ -249,7 +249,7 @@
         var includeDeleteActionModal = false;
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
-            var eaBorder = action.Id == Model.NewEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
+            var eaBorder = action.Id == Model.HighlightEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
             <div id="@action.Id.ToString()" class="card mb-3 border-2 @eaBorder">
                 <div class="card-header">
                     <div class="row justify-content-between align-items-center g-2">
@@ -265,7 +265,7 @@
                                 @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
                             </h4>
                         </div>
-                        @if (action is { IsDeleted: false, Status: EnforcementActionStatus.Draft or EnforcementActionStatus.Approved })
+                        @if (User.CanFinalizeAction(action))
                         {
                             <div class="col-auto d-print-none">
                                 <div class="dropdown">
@@ -280,10 +280,15 @@
                                         <li>
                                             <button class="dropdown-item" type="button" name="issueEnforcementAction"
                                                     data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                                Issue
+                                                Issue (sent to facility)
                                             </button>
                                         </li>
-                                        <li><a class="dropdown-item">Close as unsent</a></li>
+                                        <li>
+                                            <button class="dropdown-item" type="button" name="cancelEnforcementAction"
+                                                    data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                Cancel (close as unsent)
+                                            </button>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -359,11 +364,11 @@
                                     on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
                                 </div>
                             }
-                            else if (action.Status == EnforcementActionStatus.ClosedAsUnsent)
+                            else if (action.Status == EnforcementActionStatus.Canceled)
                             {
                                 <div>
-                                    Closed as unsent
-                                    on @Html.DisplayFor(_ => action.ClosedAsUnsentDate, DisplayTemplate.ShortDateOnlyNullable)
+                                    Canceled
+                                    on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
                                 </div>
                             }
                         </small>
@@ -394,6 +399,7 @@
                     </div>
                     <form method="post" asp-page-handler="IssueEnforcementAction" asp-fragment="enforcement-actions" id="IssueEnforcementActionForm">
                         <div class="modal-body">
+                            <p>The enforcement action will be marked as having been issued to the facility.</p>
                             <div class="form-floating">
                                 <input asp-for="IssueEnforcementActionDate.Date" class="form-control" />
                                 <label for="IssueEnforcementActionDate_Date" class="form-label">Date Issued</label>
@@ -419,6 +425,49 @@
                 const issueEnforcementActionDateInput = document.getElementById('IssueEnforcementActionDate_Date');
                 issueEnforcementActionDateInput.max = new Date().toLocaleDateString('fr-ca');
                 issueEnforcementActionDateInput.value = new Date().getTime() > new Date(issueEnforcementActionDateInput.value).getTime() ? issueEnforcementActionDateInput.value : new Date().toLocaleDateString('fr-ca');
+
+                actionButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        actionIdHidden.value = this.value;
+                        label.textContent = this.getAttribute('data-eaType').trim();
+                        modal.show();
+                    });
+                });
+            });
+        </script>
+
+        // Modal form for canceling an enforcement action.
+        <div class="modal fade" id="cancelEnforcementModal" tabindex="-1" aria-labelledby="cancelEnforcementModalLabel" aria-modal="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <h5 id="cancelEnforcementModalLabel">Cancel the <span id="cancelEnforcementLabel"></span>
+                            </h5>
+                            <h6>(Close as unsent)</h6>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" asp-page-handler="CancelEnforcementAction" asp-fragment="enforcement-actions" id="cancelEnforcementActionForm">
+                        <div class="modal-body">
+                            <p>The enforcement action will be canceled and closed as unsent.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="cancelEnforcementActionId" name="enforcementActionId" value="" />
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const actionButtons = document.querySelectorAll('button[name="cancelEnforcementAction"]');
+                const label = document.getElementById('cancelEnforcementLabel');
+                const actionIdHidden = document.getElementById('cancelEnforcementActionId');
+                const modal = new bootstrap.Modal(document.getElementById('cancelEnforcementModal'));
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {

@@ -31,27 +31,31 @@ public class EnforcementActionManager : IEnforcementActionManager
 
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
     {
+        if (enforcementAction.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has already been canceled.");
+
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
         enforcementAction.Status = EnforcementActionStatus.Issued;
     }
 
-    public void CloseAsUnsent(EnforcementAction enforcementAction, DateOnly closeDate, ApplicationUser? user)
+    public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)
     {
         if (enforcementAction.IsIssued)
             throw new InvalidOperationException("Enforcement Action has already been issued.");
 
         enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.ClosedAsUnsentDate = closeDate;
-        enforcementAction.Status = EnforcementActionStatus.ClosedAsUnsent;
+        enforcementAction.CanceledDate = DateOnly.FromDateTime(DateTime.Today);
+        enforcementAction.Status = EnforcementActionStatus.Canceled;
     }
 
     public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user)
     {
-        if (!enforcementAction.IsClosedAsUnsent)
-            throw new InvalidOperationException("Enforcement Action is not closed.");
+        if (!enforcementAction.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has not been canceled.");
+
         enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.ClosedAsUnsentDate = null;
+        enforcementAction.CanceledDate = null;
 
         if (enforcementAction.ApprovedDate is not null)
         {

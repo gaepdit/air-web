@@ -10,7 +10,7 @@ public interface IEnforcementActionManager
         bool responseRequested, string? notes, ApplicationUser? user);
 
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user);
-    public void CloseAsUnsent(EnforcementAction enforcementAction, DateOnly closeDate, ApplicationUser? user);
+    public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user);
     public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user);
     public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user);
 

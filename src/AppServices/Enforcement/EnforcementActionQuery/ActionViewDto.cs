@@ -17,7 +17,7 @@ public record ActionViewDto : IActionViewDto
         EnforcementActionStatus.ReviewRequested => ReviewRequestedDate,
         EnforcementActionStatus.Approved => ApprovedDate,
         EnforcementActionStatus.Issued => IssueDate,
-        EnforcementActionStatus.ClosedAsUnsent => ClosedAsUnsentDate,
+        EnforcementActionStatus.Canceled => CanceledDate,
         EnforcementActionStatus.Draft => DateOnly.FromDateTime(CreatedAt.DateTime),
         _ => null,
     };
@@ -39,9 +39,9 @@ public record ActionViewDto : IActionViewDto
     public DateOnly? IssueDate { get; init; }
     public bool IsIssued => IssueDate.HasValue;
 
-    // -- Closed as Unsent
-    public DateOnly? ClosedAsUnsentDate { get; init; }
-    public bool IsClosedAsUnsent => ClosedAsUnsentDate.HasValue;
+    // -- Canceled (closed as unsent)
+    public DateOnly? CanceledDate { get; init; }
+    public bool IsCanceled => CanceledDate.HasValue;
 
     // -- Deleted
     public bool IsDeleted { get; init; }

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.Identity.Web;
 using System.Security.Claims;
@@ -10,10 +11,13 @@ public static class EnforcementPermissions
     public static bool CanAddComment(this ClaimsPrincipal user, IIsDeleted item) =>
         !item.IsDeleted && user.IsComplianceStaff();
 
-    public static bool CanClose(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        !item.IsClosed && CanCloseOrReopen(user, item);
+    public static bool CanFinalizeAction(this ClaimsPrincipal user, IActionViewDto item) =>
+        item is { IsIssued: false, IsCanceled: false } && CanFinalize(user, item);
 
-    private static bool CanCloseOrReopen(this ClaimsPrincipal user, IIsDeleted item) =>
+    public static bool CanClose(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
+        !item.IsClosed && CanFinalize(user, item);
+
+    private static bool CanFinalize(this ClaimsPrincipal user, IIsDeleted item) =>
         !item.IsDeleted && user.IsComplianceStaff();
 
     public static bool CanDelete(this ClaimsPrincipal user, IDeletable item) =>
@@ -25,14 +29,11 @@ public static class EnforcementPermissions
     public static bool CanEdit(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
         item is { IsClosed: false, IsDeleted: false } && user.IsComplianceStaff();
 
-    public static bool CanEdit(this ClaimsPrincipal user, IIsDeleted item) =>
-        !item.IsDeleted && user.IsComplianceStaff();
-
     public static bool CanManageDeletions(this ClaimsPrincipal user) =>
         user.IsComplianceManager();
 
     public static bool CanReopen(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
-        item.IsClosed && CanCloseOrReopen(user, item);
+        item.IsClosed && CanFinalize(user, item);
 
     public static bool CanRestore(this ClaimsPrincipal user, IDeletable item) =>
         item.IsDeleted && CanManageDeletions(user);
