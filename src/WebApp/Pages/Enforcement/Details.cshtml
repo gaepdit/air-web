@@ -183,7 +183,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addEnforcementModalLabel">Add 
+                            <h5 class="modal-title" id="addEnforcementModalLabel">Add
                                 <span id="addEnforcementLabel"></span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -196,7 +196,7 @@
                             </div>
                             <div class="modal-footer">
                                 <input type="hidden" asp-for="CreateEnforcementAction.ActionType" />
-                                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </form>
@@ -207,16 +207,16 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="newEnforcementAction"]');
-                    const addEnforcementLabel = document.getElementById('addEnforcementLabel');
-                    const addEnforcementActionType = document.getElementById('CreateEnforcementAction_ActionType');
+                    const label = document.getElementById('addEnforcementLabel');
+                    const actionTypeHidden = document.getElementById('CreateEnforcementAction_ActionType');
                     const responseRequestedCheckbox = document.getElementById('CreateEnforcementAction_ResponseRequested').closest('.form-check');
-                    const addEnforcementModal = new bootstrap.Modal(document.getElementById('addEnforcementModal'));
+                    const modal = new bootstrap.Modal(document.getElementById('addEnforcementModal'));
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
                             const actionType = this.value;
-                            addEnforcementLabel.textContent = this.textContent.trim();
-                            addEnforcementActionType.value = actionType;
+                            label.textContent = this.textContent.trim();
+                            actionTypeHidden.value = actionType;
 
                             if (['LetterOfNoncompliance', 'InformationalLetter', 'NovNfaLetter'].includes(actionType)) {
                                 responseRequestedCheckbox.style.display = 'block';
@@ -224,7 +224,7 @@
                                 responseRequestedCheckbox.style.display = 'none';
                             }
 
-                            addEnforcementModal.show();
+                            modal.show();
                         });
                     });
                 });
@@ -246,6 +246,7 @@
     }
     else
     {
+        var includeDeleteActionModal = false;
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
             var eaBorder = action.Id == Model.NewEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
@@ -278,7 +279,7 @@
                                         }
                                         <li>
                                             <button class="dropdown-item" type="button" name="issueEnforcementAction"
-                                                    data-eatype="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                    data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
                                                 Issue
                                             </button>
                                         </li>
@@ -366,10 +367,13 @@
                                 </div>
                             }
                         </small>
-                        @if (Model.UserCan[EnforcementOperation.Delete])
+                        @if (Model.UserCan[EnforcementOperation.Delete] // Refers to case file. 
+                             && User.CanDelete(action)) // Refers to enforcement action.
                         {
+                            includeDeleteActionModal = true;
                             <div class="col-auto d-print-none ms-2">
-                                <button type="submit" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+                                <button type="button" name="deleteEnforcementAction" class="btn btn-sm btn-link px-0 link-danger link-offset-2"
+                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
                                     Delete Action
                                 </button>
                             </div>
@@ -379,7 +383,7 @@
             </div>
         }
 
-        // Modal form for issuing an enforcement action. 
+        // Modal form for issuing an enforcement action.
         <div class="modal fade" id="issueEnforcementModal" tabindex="-1" aria-labelledby="issueEnforcementModalLabel" aria-modal="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -398,7 +402,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" id="issueEnforcementActionId" name="enforcementActionId" value="" />
-                            <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form>
@@ -409,23 +413,70 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const actionButtons = document.querySelectorAll('button[name="issueEnforcementAction"]');
-                const issueEnforcementLabel = document.getElementById('issueEnforcementLabel');
-                const issueEnforcementActionId = document.getElementById('issueEnforcementActionId');
-                const issueEnforcementModal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
+                const label = document.getElementById('issueEnforcementLabel');
+                const actionIdHidden = document.getElementById('issueEnforcementActionId');
+                const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
                 const issueEnforcementActionDateInput = document.getElementById('IssueEnforcementActionDate_Date');
                 issueEnforcementActionDateInput.max = new Date().toLocaleDateString('fr-ca');
                 issueEnforcementActionDateInput.value = new Date().getTime() > new Date(issueEnforcementActionDateInput.value).getTime() ? issueEnforcementActionDateInput.value : new Date().toLocaleDateString('fr-ca');
 
-
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
-                        issueEnforcementActionId.value = this.value;
-                        issueEnforcementLabel.textContent = this.getAttribute('data-eatype').trim();
-                        issueEnforcementModal.show();
+                        actionIdHidden.value = this.value;
+                        label.textContent = this.getAttribute('data-eaType').trim();
+                        modal.show();
                     });
                 });
             });
         </script>
+
+        @if (includeDeleteActionModal)
+        {
+            // Modal form for deleting an enforcement action.
+            <div class="modal fade" id="deleteEnforcementModal" tabindex="-1" aria-labelledby="deleteEnforcementModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger-emphasis" id="deleteEnforcementModalLabel">Delete
+                                <span id="deleteEnforcementLabel"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="DeleteEnforcementAction" id="DeleteEnforcementActionForm" asp-fragment="enforcement-actions">
+                            <div class="modal-body">
+                                Are you sure you want to delete this enforcement action?<br>
+                                <strong>This cannot be undone!</strong>
+                                <p class="callout callout-danger">
+                                    Deleted Enforcement Actions are not removed from the database, but they are hidden
+                                    from most search results and views and are not publicly available.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="deleteEnforcementActionId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-danger">Delete Enforcement Action</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="deleteEnforcementAction"]');
+                    const label = document.getElementById('deleteEnforcementLabel');
+                    const actionIdHidden = document.getElementById('deleteEnforcementActionId');
+                    const modal = new bootstrap.Modal(document.getElementById('deleteEnforcementModal'));
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            label.textContent = this.getAttribute('data-eaType').trim();
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
     }
 </section>
 

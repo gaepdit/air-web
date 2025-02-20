@@ -30,4 +30,12 @@ public class EnforcementActionService(
         enforcementActionManager.SetIssueDate(enforcementAction, dateDto.Date, currentUser);
         await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
+
+    public async Task DeleteAsync(Guid id, CancellationToken token)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
+        enforcementActionManager.Delete(enforcementAction, currentUser);
+        await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+    }
 }

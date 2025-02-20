@@ -57,11 +57,9 @@ public class DetailsModel(
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (Item.IsDeleted && !UserCan[EnforcementOperation.ViewDeleted]) return NotFound();
-        if (!Item.IsClosed && !UserCan[EnforcementOperation.View]) return NotFound();
+        if (!UserCan[EnforcementOperation.View]) return NotFound();
 
-        InitializeDtos(Item);
-        return Page();
+        return InitializePage(Item);
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
@@ -70,7 +68,7 @@ public class DetailsModel(
         if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
 
         NewEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
-        return RedirectToPage("Details", pageHandler: null, fragment: NewEnforcementId.ToString());
+        return RedirectToFragment(NewEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
@@ -78,20 +76,31 @@ public class DetailsModel(
     {
         Item = await caseFileService.FindDetailedAsync(Id, token);
         if (Item is null || !User.CanEdit(Item)) return BadRequest();
-
-        await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.Edit]) return BadRequest();
+        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        if (action is null || !User.CanEdit(action)) return BadRequest();
 
         await validator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
 
         if (!ModelState.IsValid)
         {
-            InitializeDtos(Item);
-            return Page();
+            await SetPermissionsAsync();
+            return InitializePage(Item);
         }
 
         await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
-        return RedirectToPage("Details", pageHandler: null, fragment: enforcementActionId.ToString());
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
+        CancellationToken token)
+    {
+        Item = await caseFileService.FindDetailedAsync(Id, token);
+        if (Item is null || !User.CanDelete(Item)) return BadRequest();
+        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        if (action is null || User.CanDelete(action)) return BadRequest();
+
+        await enforcementActionService.DeleteAsync(enforcementActionId, token);
+        return RedirectToPage();
     }
 
     #region Comments
@@ -107,15 +116,14 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            InitializeDtos(Item, newComment);
-            return Page();
+            return InitializePage(Item);
         }
 
         var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.Id;
         if (addCommentResult.AppNotificationResult is { Success: false })
             NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-        return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
+        return RedirectToFragment(NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
@@ -127,7 +135,7 @@ public class DetailsModel(
         if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
 
         await caseFileService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, fragment: "comments");
+        return RedirectToFragment("comments");
     }
 
     #endregion
@@ -135,7 +143,7 @@ public class DetailsModel(
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, Item);
 
-    private void InitializeDtos(CaseFileViewDto item, CommentAddDto? newComment = null)
+    private PageResult InitializePage(CaseFileViewDto item, CommentAddDto? newComment = null)
     {
         CommentSection = new CommentsSectionModel
         {
@@ -149,5 +157,10 @@ public class DetailsModel(
 
         CreateEnforcementAction = new CreateEnforcementActionDto();
         IssueEnforcementActionDate = new MaxCurrentDateOnlyDto();
+
+        return Page();
     }
+
+    private RedirectToPageResult RedirectToFragment(string fragment) =>
+        RedirectToPage("Details", pageHandler: null, fragment: fragment);
 }

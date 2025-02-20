@@ -1,9 +1,10 @@
-﻿using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public interface IActionViewDto
+public interface IActionViewDto : IDeletable
 {
     public Guid Id { get; }
     public EnforcementActionType ActionType { get; }
@@ -32,9 +33,4 @@ public interface IActionViewDto
     // -- Closed as Unsent
     public DateOnly? ClosedAsUnsentDate { get; }
     public bool IsClosedAsUnsent { get; }
-
-    // -- Deleted
-    public bool IsDeleted { get; }
-    public StaffViewDto? DeletedBy { get; }
-    public DateTimeOffset? DeletedAt { get; }
 }

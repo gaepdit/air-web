@@ -17,5 +17,5 @@ public interface IEnforcementActionManager
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
         ApplicationUser? user);
 
-    public void Delete(EnforcementAction enforcementAction, string? comment, ApplicationUser? user);
+    public void Delete(EnforcementAction enforcementAction, ApplicationUser? user);
 }

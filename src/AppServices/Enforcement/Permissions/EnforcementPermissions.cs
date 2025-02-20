@@ -25,6 +25,9 @@ public static class EnforcementPermissions
     public static bool CanEdit(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
         item is { IsClosed: false, IsDeleted: false } && user.IsComplianceStaff();
 
+    public static bool CanEdit(this ClaimsPrincipal user, IIsDeleted item) =>
+        !item.IsDeleted && user.IsComplianceStaff();
+
     public static bool CanManageDeletions(this ClaimsPrincipal user) =>
         user.IsComplianceManager();
 

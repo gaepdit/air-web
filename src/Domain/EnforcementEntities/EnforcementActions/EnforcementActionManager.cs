@@ -80,6 +80,6 @@ public class EnforcementActionManager : IEnforcementActionManager
         consentOrder.SetUpdater(user?.Id);
     }
 
-    public void Delete(EnforcementAction enforcementAction, string? comment, ApplicationUser? user) =>
-        enforcementAction.Delete(comment, user);
+    public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>
+        enforcementAction.Delete(comment: null, user);
 }

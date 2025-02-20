@@ -9,4 +9,5 @@ public interface IEnforcementActionService
         CancellationToken token = default);
 
     Task IssueAsync(Guid id, MaxCurrentDateOnlyDto dateDto, CancellationToken token = default);
+    Task DeleteAsync(Guid id, CancellationToken token);
 }
