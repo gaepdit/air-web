@@ -7,7 +7,7 @@ public class MaxCurrentDateOnlyValidator : AbstractValidator<MaxCurrentDateOnlyD
     public MaxCurrentDateOnlyValidator()
     {
         RuleFor(dto => dto.Date)
-            .Must(only => only <= DateOnly.FromDateTime(DateTime.Now))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
             .WithMessage("The date cannot be in the future.");
     }
 }

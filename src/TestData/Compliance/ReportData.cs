@@ -14,12 +14,12 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.Report,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = "In compliance",
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Annual,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),
@@ -30,20 +30,20 @@ internal static partial class WorkEntries
             ReportsDeviations = false,
             EnforcementNeeded = false,
         },
-        new(9002, DomainData.GetRandomFacility().Id,UserData.GetRandomUser())
+        new(9002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.Report,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
             Notes = "Not in compliance",
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-2)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Other,
-            ReportingPeriodStart = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
-            ReportingPeriodEnd = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-21).Date),
+            ReportingPeriodStart = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
+            ReportingPeriodEnd = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
             ReportingPeriodComment = SampleText.GetRandomText(SampleText.TextLength.Word),
             DueDate = null,
             SentDate = null,
@@ -59,8 +59,8 @@ internal static partial class WorkEntries
             Notes = "Deleted Report",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),

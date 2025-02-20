@@ -12,26 +12,26 @@ internal static class FceData
         new(401, (FacilityId)"00100001", 2020)
         {
             ReviewedBy = UserData.GetRandomUser(),
-            CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+            CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
         },
         new(402, DomainData.GetRandomFacility().Id, 2021)
         {
             ReviewedBy = UserData.GetUsers.ElementAt(2),
-            CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-12).Date),
+            CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-12)),
             OnsiteInspection = false,
             Notes = string.Empty,
         },
         new(403, DomainData.GetRandomFacility().Id, 2022)
         {
-            CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-2).AddDays(-14).Date),
+            CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-14)),
             Notes = "Deleted FCE",
         },
         new(404, DomainData.GetRandomFacility().Id, 2023)
         {
             ReviewedBy = UserData.GetRandomUser(),
-            CompletedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-50).Date),
+            CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-50)),
             OnsiteInspection = true,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Word),
         },

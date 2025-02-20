@@ -14,13 +14,13 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.PermitRevocation,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-11).Date),
-            PermitRevocationDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-1).Date),
-            PhysicalShutdownDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-4).AddDays(-21).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-1)),
+            PhysicalShutdownDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-21)),
             FollowupTaken = false,
         },
         new(8002, DomainData.GetRandomFacility().Id)
@@ -28,14 +28,14 @@ internal static partial class WorkEntries
             WorkEntryType = WorkEntryType.PermitRevocation,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
-                DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-10).Date),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
             Notes = string.Empty,
             ClosedBy = UserData.GetRandomUser(),
-            ClosedDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-3).AddDays(-10)),
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            PermitRevocationDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-1).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             PhysicalShutdownDate = null,
             FollowupTaken = true,
         },
@@ -47,9 +47,9 @@ internal static partial class WorkEntries
             Notes = "Deleted permit revocation",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
-            ReceivedDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            EventDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-11).Date),
-            PermitRevocationDate = DateOnly.FromDateTime(DateTimeOffset.Now.AddYears(-3).AddDays(-1).Date),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
         },
     ];
 }
