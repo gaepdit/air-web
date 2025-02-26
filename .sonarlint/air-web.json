@@ -1,4 +1,5 @@
 {
     "sonarCloudOrganization": "gaepdit",
-    "projectKey": "gaepdit_air-web"
+    "projectKey": "gaepdit_air-web",
+    "region": "EU"
 }
