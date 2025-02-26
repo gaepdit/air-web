@@ -1,9 +1,6 @@
 ﻿using AirWeb.AppServices.AutoMapper;
-using AirWeb.Domain.Identity;
 using AutoMapper;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
-using Microsoft.AspNetCore.Identity;
 
 namespace AppServicesTests;
 
@@ -11,16 +8,15 @@ namespace AppServicesTests;
 public class AppServicesTestsSetup
 {
     internal static IMapper? Mapper;
-    internal static MapperConfiguration? MapperConfig;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
         // AutoMapper profiles are added here.
-        MapperConfig = new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()));
-        Mapper = MapperConfig.CreateMapper();
+        Mapper = new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()))
+            .CreateMapper();
 
-        AssertionOptions.AssertEquivalencyUsing(opts => opts
+        AssertionConfiguration.Current.Equivalency.Modify(options => options
             // Setting this option globally since our DTOs generally exclude properties, e.g., audit properties.
             // See: https://fluentassertions.com/objectgraphs/#matching-members
             .ExcludingMissingMembers()
@@ -29,22 +25,6 @@ public class AppServicesTestsSetup
             .Using<DateTimeOffset>(
                 context => context.Subject.Should().BeCloseTo(context.Expectation, 10.Milliseconds()))
             .WhenTypeIs<DateTimeOffset>()
-
-            // Exclude some concurrency properties automatically added by ASP.NET Identity.
-            // See: https://stackoverflow.com/a/57406982/212978
-            .Using(new IdentityUserSelectionRule())
         );
-    }
-
-    private class IdentityUserSelectionRule : IMemberSelectionRule
-    {
-        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
-            MemberSelectionContext context) =>
-            selectedMembers.Where(member =>
-                !(member.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
-                  member.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
-
-        public bool IncludesMembers => false;
-        public override string ToString() => "Exclude SecurityStamp and ConcurrencyStamp from IdentityUser";
     }
 }
