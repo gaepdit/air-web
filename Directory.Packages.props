@@ -4,10 +4,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
+    <PackageVersion Include="AwesomeAssertions" Version="8.0.1" />
+    <PackageVersion Include="AwesomeAssertions.Analyzers" Version="0.34.2" />
     <PackageVersion Include="ClosedXML" Version="0.104.2" />
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="EfCore.TestSupport" Version="9.0.0" />
-    <PackageVersion Include="FluentAssertions" Version="[7.0.0,8.0)" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageVersion Include="GaEpd.AppLibrary" Version="5.5.0" />
     <PackageVersion Include="GaEpd.EmailService" Version="1.1.0" />
