@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   dotnet-test:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
