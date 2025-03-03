@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
@@ -26,12 +27,12 @@ public record FceSearchDto : IComplianceSearchDto
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? DateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? DateTo { get; init; }
 
     [Display(Name = "On-site inspection conducted")]

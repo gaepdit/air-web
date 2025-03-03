@@ -1,4 +1,6 @@
-﻿namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+﻿using AirWeb.AppServices.Utilities;
+
+namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 
 public record WorkEntryCommandDto : IWorkEntryCommandDto
 {
@@ -8,7 +10,7 @@ public record WorkEntryCommandDto : IWorkEntryCommandDto
     public string? ResponsibleStaffId { get; init; }
 
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date acknowledgment letter sent")]
     public DateOnly? AcknowledgmentLetterDate { get; init; }
 

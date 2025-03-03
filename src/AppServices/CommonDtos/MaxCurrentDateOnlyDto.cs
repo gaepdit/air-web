@@ -1,11 +1,12 @@
-﻿using FluentValidation;
+﻿using AirWeb.AppServices.Utilities;
+using FluentValidation;
 
 namespace AirWeb.AppServices.CommonDtos;
 
 public record MaxCurrentDateOnlyDto
 {
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 }
 

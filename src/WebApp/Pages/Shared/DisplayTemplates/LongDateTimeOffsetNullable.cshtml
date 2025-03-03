@@ -1,4 +1,4 @@
-﻿@using AirWeb.WebApp.Platform.Constants
+﻿@using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @model DateTimeOffset?
 @if (Model is null)
@@ -7,5 +7,5 @@
 }
 else
 {
-    @Model.Value.ToString(DateTimeFormatConstants.LongDateTimeFormat)
+    @Model.Value.ToString(DateTimeFormats.LongDateTime)
 }

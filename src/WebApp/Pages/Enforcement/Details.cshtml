@@ -2,10 +2,10 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.AppServices.Utilities
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@using AirWeb.WebApp.Platform.Constants
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
@@ -264,7 +264,7 @@
                                 @action.ActionType.GetDescription()
                             </h3>
                             <h4 class="col-auto h5 card-subtitle text-body-secondary">
-                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
+                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
                         @if (User.CanFinalizeAction(action))

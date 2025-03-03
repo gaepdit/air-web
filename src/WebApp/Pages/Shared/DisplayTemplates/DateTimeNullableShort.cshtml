@@ -1,4 +1,4 @@
-﻿@using AirWeb.WebApp.Platform.Constants
+﻿@using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @model DateTime?
 @if (Model == null)
@@ -7,5 +7,5 @@
 }
 else
 {
-    @Model.ToString(DateTimeFormatConstants.ShortDateFormat)
+    @Model.ToString(DateTimeFormats.ShortDate)
 }

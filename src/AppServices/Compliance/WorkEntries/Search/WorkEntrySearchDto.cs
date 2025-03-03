@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
@@ -38,22 +39,22 @@ public record WorkEntrySearchDto : IComplianceSearchDto
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? EventDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? EventDateTo { get; init; }
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ClosedDateTo { get; init; }
 
     // == Text ==

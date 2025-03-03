@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 
@@ -8,12 +9,12 @@ public abstract record SourceTestReviewCommandDto : WorkEntryCommandDto, ISource
     public int ReferenceNumber { get; init; }
 
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received By Compliance")]
     public DateOnly ReceivedByComplianceDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Test Due Date")]
     public DateOnly? DueDate { get; init; }
 

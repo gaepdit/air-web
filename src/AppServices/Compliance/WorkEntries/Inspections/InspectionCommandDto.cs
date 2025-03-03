@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+using AirWeb.AppServices.Utilities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
@@ -6,7 +7,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 public abstract record InspectionCommandDto : WorkEntryCommandDto, IInspectionCommandDto
 {
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Start Date")]
     public DateOnly InspectionStartedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
@@ -15,7 +16,7 @@ public abstract record InspectionCommandDto : WorkEntryCommandDto, IInspectionCo
     public TimeOnly InspectionStartedTime { get; init; } = new(8, 0);
 
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "End Date")]
     public DateOnly InspectionEndedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 

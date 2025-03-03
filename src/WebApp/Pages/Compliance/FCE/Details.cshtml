@@ -1,8 +1,8 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.Constants
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
@@ -93,7 +93,7 @@
         <div class="col">
             <h2 class="h4 mb-md-0">
                 Supporting data for
-                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormatConstants.ShortDateFormat })
+                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
             </h2>
         </div>
         <div class="col-auto ms-3 d-print-none">
