@@ -29,6 +29,15 @@ public class EnforcementActionManager : IEnforcementActionManager
         return enforcementAction;
     }
 
+    public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
+        ApplicationUser? user)
+    {
+        if (enforcementAction is not IResponseRequested responseRequested) throw new InvalidOperationException();
+        enforcementAction.SetUpdater(user?.Id);
+        responseRequested.ResponseReceived = responseDate;
+        responseRequested.ResponseComment = comment;
+    }
+
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)

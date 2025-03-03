@@ -2,10 +2,10 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.AppServices.Utilities
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@using AirWeb.WebApp.Platform.Constants
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
@@ -247,6 +247,8 @@
     else
     {
         var includeDeleteActionModal = false;
+        var includeResponseRequestedModal = false;
+
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
             var eaBorder = action.Id == Model.HighlightEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
@@ -262,7 +264,7 @@
                                 @action.ActionType.GetDescription()
                             </h3>
                             <h4 class="col-auto h5 card-subtitle text-body-secondary">
-                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormatConstants.ShortDateFormat)
+                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
                         @if (User.CanFinalizeAction(action))
@@ -319,7 +321,8 @@
                             <partial name="_Partials/_ProposedCoDetails" model="model" />
                             break;
                         case ResponseRequestedViewDto model:
-                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
+                            <partial name="_Partials/_ResponseRequestedDetails" model="(model, Model.UserCan[EnforcementOperation.Edit])" />
+                            includeResponseRequestedModal = true;
                             break;
                     }
                 </div>
@@ -402,7 +405,8 @@
                             <p>The enforcement action will be marked as having been issued to the facility.</p>
                             <div class="form-floating">
                                 <input asp-for="IssueEnforcementActionDate.Date" class="form-control" />
-                                <label for="IssueEnforcementActionDate_Date" class="form-label">Date Issued</label>
+                                <label for="@nameof(Model.IssueEnforcementActionDate)_@nameof(Model.IssueEnforcementActionDate.Date)" class="form-label">Date
+                                    Issued</label>
                                 <span asp-validation-for="IssueEnforcementActionDate.Date" class="invalid-feedback"></span>
                             </div>
                         </div>
@@ -422,9 +426,10 @@
                 const label = document.getElementById('issueEnforcementLabel');
                 const actionIdHidden = document.getElementById('issueEnforcementActionId');
                 const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
-                const issueEnforcementActionDateInput = document.getElementById('IssueEnforcementActionDate_Date');
-                issueEnforcementActionDateInput.max = new Date().toLocaleDateString('fr-ca');
-                issueEnforcementActionDateInput.value = new Date().getTime() > new Date(issueEnforcementActionDateInput.value).getTime() ? issueEnforcementActionDateInput.value : new Date().toLocaleDateString('fr-ca');
+
+                const actionDate = document.getElementById('IssueEnforcementActionDate_Date');
+                actionDate.max = new Date().toLocaleDateString('fr-ca');
+                actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
@@ -520,6 +525,56 @@
                         button.addEventListener('click', function () {
                             actionIdHidden.value = this.value;
                             label.textContent = this.getAttribute('data-eaType').trim();
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+
+        @if (includeResponseRequestedModal)
+        {
+            // Modal form for adding a response to an enforcement action.
+            <div class="modal fade" id="addResponseModal" tabindex="-1" aria-labelledby="addResponseModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addResponseModalLabel">Add Response</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="AddEnforcementActionResponse" id="AddResponseActionForm">
+                            <div class="modal-body">
+                                @Html.EditorFor(m => m.AddEnforcementActionResponse.Comment, EditorTemplate.Textarea, new { Rows = 4 })
+                                <div class="form-floating mt-2">
+                                    <input asp-for="AddEnforcementActionResponse.Date" class="form-control" />
+                                    <label for="@nameof(Model.AddEnforcementActionResponse)_@nameof(Model.AddEnforcementActionResponse.Date)" class="form-label">Date
+                                        Received</label>
+                                    <span asp-validation-for="AddEnforcementActionResponse.Date" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="addResponseActionId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="addActionResponse"]');
+                    const actionIdHidden = document.getElementById('addResponseActionId');
+                    const modal = new bootstrap.Modal(document.getElementById('addResponseModal'));
+
+                    const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
+                    actionDate.max = new Date().toLocaleDateString('fr-ca');
+                    actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
                             modal.show();
                         });
                     });

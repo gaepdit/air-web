@@ -1,6 +1,6 @@
 ﻿@page "~/print/source-test/{referenceNumber:int}"
+@using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.Constants
 @using IaipDataService.SourceTests.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
@@ -113,7 +113,7 @@
                         </div>
                         <div>
                             <div>Reference Number: @report.ReferenceNumber.ToString()</div>
-                            <div>Printed: @DateTime.Today.ToString(DateTimeFormatConstants.ShortDateFormat)</div>
+                            <div>Printed: @DateTime.Today.ToString(DateTimeFormats.ShortDate)</div>
                         </div>
                     </footer>
                 </td>

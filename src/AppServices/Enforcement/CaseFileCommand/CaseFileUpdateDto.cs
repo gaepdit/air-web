@@ -1,4 +1,5 @@
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileCommand;
 
@@ -20,7 +21,7 @@ public record CaseFileUpdateDto
 
     [Required]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Discovery date")]
     public DateOnly DiscoveryDate { get; init; }
 

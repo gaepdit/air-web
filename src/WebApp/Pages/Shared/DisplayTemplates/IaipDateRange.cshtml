@@ -1,4 +1,4 @@
-﻿@using AirWeb.WebApp.Platform.Constants
+﻿@using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @model IaipDataService.Structs.DateRange
 @if (Model.EndDate is null && Model.StartDate == default)
@@ -7,12 +7,12 @@
 }
 else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
 {
-    @Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat)
+    @Model.StartDate.ToString(DateTimeFormats.LongDate)
 }
 else
 {
-    var start = Model.StartDate.ToString(DateTimeFormatConstants.LongDateFormat);
-    var end = Model.EndDate.ToString(DateTimeFormatConstants.LongDateFormat);
+    var start = Model.StartDate.ToString(DateTimeFormats.LongDate);
+    var end = Model.EndDate.ToString(DateTimeFormats.LongDate);
 
     @if (Model.StartDate.Year == Model.EndDate.Value.Year)
     {

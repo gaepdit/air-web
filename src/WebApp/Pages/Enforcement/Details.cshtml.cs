@@ -17,7 +17,8 @@ public class DetailsModel(
     ICaseFileService caseFileService,
     IEnforcementActionService enforcementActionService,
     IAuthorizationService authorization,
-    IValidator<MaxCurrentDateOnlyDto> validator) : PageModel
+    IValidator<MaxCurrentDateOnlyDto> issueActionValidator,
+    IValidator<CommentAndMaxDateDto> addResponseValidator) : PageModel
 {
     // Case File
     [FromRoute]
@@ -37,19 +38,22 @@ public class DetailsModel(
     [TempData]
     public Guid NewCommentId { get; set; }
 
-    // Enforcement
+    // Enforcement modal forms
+    // Note: DTO names are referenced in the page JavaScript.
+
     [BindProperty]
-    // Note: This name is referenced in the page JavaScript.
     public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    // Note: This name is referenced in the page JavaScript.
     public MaxCurrentDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
 
+    [BindProperty]
+    public CommentAndMaxDateDto AddEnforcementActionResponse { get; set; } = null!;
+
+    // Methods
     [TempData]
     public Guid? HighlightEnforcementId { get; set; }
 
-    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
@@ -71,6 +75,25 @@ public class DetailsModel(
         return RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
+    public async Task<IActionResult> OnPostAddEnforcementActionResponseAsync(Guid enforcementActionId,
+        CancellationToken token)
+    {
+        Item = await caseFileService.FindDetailedAsync(Id, token);
+        if (Item is null || !User.CanEdit(Item)) return BadRequest();
+
+        await addResponseValidator.ApplyValidationAsync(AddEnforcementActionResponse, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage(Item);
+        }
+
+        await enforcementActionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
     public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
@@ -79,7 +102,7 @@ public class DetailsModel(
         var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await validator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
+        await issueActionValidator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -171,6 +194,7 @@ public class DetailsModel(
 
         CreateEnforcementAction = new CreateEnforcementActionDto();
         IssueEnforcementActionDate = new MaxCurrentDateOnlyDto();
+        AddEnforcementActionResponse = new CommentAndMaxDateDto();
 
         return Page();
     }

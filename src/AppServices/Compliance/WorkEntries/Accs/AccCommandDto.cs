@@ -1,11 +1,12 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
 public abstract record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
 {
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date received")]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
@@ -13,7 +14,7 @@ public abstract record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
     public int AccReportingYear { get; init; } = DateTime.Today.Year - 1;
 
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date postmarked")]
     public DateOnly PostmarkDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
