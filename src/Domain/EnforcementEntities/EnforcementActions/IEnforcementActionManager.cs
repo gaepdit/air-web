@@ -9,6 +9,9 @@ public interface IEnforcementActionManager
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
         bool responseRequested, string? notes, ApplicationUser? user);
 
+    public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
+        ApplicationUser? user);
+
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user);
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user);
     public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user);

@@ -1,26 +1,36 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model AirWeb.AppServices.Enforcement.EnforcementActionQuery.ResponseRequestedViewDto
+@model (AirWeb.AppServices.Enforcement.EnforcementActionQuery.ResponseRequestedViewDto dto, bool userCanEdit)
 
-@if (Model.ResponseRequested)
+@if (Model.dto.ResponseRequested)
 {
-    @if (Model.ResponseReceived == null)
+    @if (Model.dto.ResponseReceived == null)
     {
-        <div>
-            <strong>Response requested.</strong>
-            <a class="link-primary link-offset-2"><small>Add response</small></a>
-        </div>
+        <div><strong>Response requested.</strong></div>
+        @if (Model.userCanEdit)
+        {
+            <button type="button" name="addActionResponse" value="@Model.dto.Id.ToString()" class="btn btn-sm btn-outline-primary mt-2">
+                Add response
+            </button>
+        }
     }
     else
     {
-        <div><strong>Response received
-                @Html.DisplayFor(dto => dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).</strong></div>
-        @if (Model.ResponseComment != null)
+        @if (Model.dto.ResponseComment != null)
         {
-            <div>@Model.ResponseComment</div>
+            <div><em>Response
+                    received @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):</em>
+            </div>
+            <div>@Model.dto.ResponseComment</div>
+        }
+        else
+        {
+            <div><em>Response
+                    received @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).</em>
+            </div>
         }
     }
 }
 else
 {
-    <div><strong>No response requested.</strong></div>
+    <div><em>No response requested.</em></div>
 }

@@ -23,6 +23,14 @@ public class EnforcementActionService(
         return enforcementAction.Id;
     }
 
+    public async Task AddResponse(Guid id, CommentAndMaxDateDto responseDto, CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
+        enforcementActionManager.AddResponse(enforcementAction, responseDto.Date, responseDto.Comment, currentUser);
+        await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+    }
+
     public async Task IssueAsync(Guid id, MaxCurrentDateOnlyDto dateDto, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
