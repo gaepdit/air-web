@@ -167,24 +167,25 @@ public class CaseFileService(
         return true;
     }
 
-    public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default)
-    {
-        return Task.FromResult<IEnumerable<Pollutant>>([
-            new Pollutant("10193", "Carbon Monoxide"),
-            new Pollutant("300000005", "Nitrogen Dioxide"),
-        ]);
-    }
+    public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
+        caseFileRepository.GetPollutantsAsync(id, token);
 
-    public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default)
-    {
-        return Task.FromResult<IEnumerable<AirProgram>>([AirProgram.SIP, AirProgram.NSPS]);
-    }
+    public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
+        caseFileRepository.GetAirProgramsAsync(id, token);
 
-    public Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants,
-        IEnumerable<AirProgram> airPrograms,
-        CancellationToken token = default)
+    public async Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants,
+        IEnumerable<AirProgram> airPrograms, CancellationToken token = default)
     {
-        return Task.CompletedTask;
+        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        caseFile.PollutantIds.Clear();
+        caseFile.PollutantIds.AddRange(pollutants);
+        caseFile.AirPrograms.Clear();
+        caseFile.AirPrograms.AddRange(airPrograms);
+        caseFile.SetUpdater(currentUser?.Id);
+
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
     }
 
     public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
@@ -193,7 +194,7 @@ public class CaseFileService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Close(caseFile, currentUser);
-        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementClosed, caseFile.ResponsibleStaff, token, caseFile.Id)
@@ -206,7 +207,7 @@ public class CaseFileService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Reopen(caseFile, currentUser);
-        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementReopened, caseFile.ResponsibleStaff, token, caseFile.Id)
@@ -220,7 +221,7 @@ public class CaseFileService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Delete(caseFile, resource.Comment, currentUser);
-        await caseFileRepository.UpdateAsync(caseFile, autoSave: true, token: token).ConfigureAwait(false);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
@@ -231,7 +232,7 @@ public class CaseFileService(
     {
         var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
         caseFileManager.Restore(workEntry);
-        await caseFileRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await caseFileRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EnforcementRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
