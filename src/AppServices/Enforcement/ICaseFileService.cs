@@ -32,6 +32,13 @@ public interface ICaseFileService
     Task<bool> LinkComplianceEvent(int id, int entryId, CancellationToken token = default);
     Task<bool> UnLinkComplianceEvent(int id, int entryId, CancellationToken token = default);
 
+    // Pollutants & Air Programs
+    Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
+    Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
+
+    Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants, IEnumerable<AirProgram> airPrograms,
+        CancellationToken token = default);
+
     // Case File workflow
     Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default);
     Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default);

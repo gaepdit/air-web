@@ -167,6 +167,26 @@ public class CaseFileService(
         return true;
     }
 
+    public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default)
+    {
+        return Task.FromResult<IEnumerable<Pollutant>>([
+            new Pollutant("10193", "Carbon Monoxide"),
+            new Pollutant("300000005", "Nitrogen Dioxide"),
+        ]);
+    }
+
+    public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default)
+    {
+        return Task.FromResult<IEnumerable<AirProgram>>([AirProgram.SIP, AirProgram.NSPS]);
+    }
+
+    public Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants,
+        IEnumerable<AirProgram> airPrograms,
+        CancellationToken token = default)
+    {
+        return Task.CompletedTask;
+    }
+
     public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
