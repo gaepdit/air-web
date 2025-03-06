@@ -9,7 +9,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
-    var caseFile = Model.Item!;
+    var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Enforcement #{Model.Id} – Facility {caseFile.FacilityId}";
 }
 
@@ -67,6 +67,28 @@
 
 <div class=" lead">Enforcement Tracking #@Model.Id.ToString()</div>
 
+@if (caseFile.AttentionNeeded)
+{
+    <div class="callout callout-warning p-3">
+        <p><strong>Attention needed:</strong>
+            This enforcement case requires
+            @if (caseFile.LacksLinkedCompliance)
+            {
+                @:a linked <a href="#discovery-events">discovery event</a>
+            }
+            @if (caseFile is { LacksLinkedCompliance: true, LacksPollutantsOrPrograms: true })
+            {
+                @:and
+            }
+            @if (caseFile.LacksPollutantsOrPrograms)
+            {
+                @:associated <a href="#pollutants-programs">pollutants and programs</a>
+            }
+            .
+        </p>
+    </div>
+}
+
 <section class="mt-3">
     <h2 class="visually-hidden">Details</h2>
     <dl class="row mb-2">
@@ -103,14 +125,14 @@
         </dd>
     </dl>
 
-    <details class="border rounded-1">
+    <details class="border rounded-1" open="@(caseFile.OpenDetailsSection)">
         <summary class="bg-body-secondary px-2 py-1">
             Related Details
         </summary>
         <div class="container mt-2">
             <section class="mt-3">
                 <div class="row justify-content-between align-items-baseline g-0">
-                    <h3 class="h5 col-md">Linked Discovery Events</h3>
+                    <h3 class="h5 col-md" id="discovery-events">Linked Discovery Events</h3>
                     @if (Model.UserCan[EnforcementOperation.Edit])
                     {
                         <div class="col-md-auto d-print-none ms-md-3 mb-1 ">

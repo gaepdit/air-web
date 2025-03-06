@@ -40,8 +40,6 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable, ID
     [Display(Name = "Day Zero")]
     public DateOnly? DayZero { get; init; }
 
-    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
-
     public string Notes { get; init; } = null!;
     public IList<Pollutant> Pollutants { get; } = [];
 
@@ -57,6 +55,19 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable, ID
     public List<CommentViewDto> Comments { get; } = [];
 
     public List<IActionViewDto> EnforcementActions { get; } = [];
+
+    // Attention needed
+    public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms;
+
+    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
+
+    public bool LacksLinkedCompliance =>
+        !IsClosed && HasReportableEnforcement && !ComplianceEvents.Any(dto => dto.IsReportable);
+
+    public bool LacksPollutantsOrPrograms =>
+        !IsClosed && HasReportableEnforcement && (Pollutants.Count == 0 || AirPrograms.Count == 0);
+
+    public bool OpenDetailsSection => LacksLinkedCompliance || LacksPollutantsOrPrograms;
 
     // Properties: Closure
     [Display(Name = "Completed By")]
