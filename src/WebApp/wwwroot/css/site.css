@@ -2,7 +2,8 @@
 -------------------------------------------------- */
 
 /* Change the base-hue variable to set all branding colors. */
-:root, [data-bs-theme="light"] {
+:root,
+[data-bs-theme="light"] {
     --callout-link: 10, 88, 202;
     --base-hue: 200deg;
 }
@@ -10,10 +11,7 @@
 /* Light mode theme colors */
 .navbar {
     background-color: hsl(var(--base-hue), 75%, 91%);
-    --bs-gradient: linear-gradient(180deg,
-    hsl(200, 93%, 73%) 0%,
-    hsl(247, 55%, 80%) 70%,
-    hsl(295, 42%, 78%) 100%);
+    --bs-gradient: linear-gradient(180deg, hsl(200, 93%, 73%) 0%, hsl(247, 55%, 80%) 70%, hsl(295, 42%, 78%) 100%);
 }
 
 .navbar a {
@@ -42,7 +40,7 @@
 .navbar .dropdown-item.active,
 .navbar .dropdown-item:active {
     color: hsl(var(--base-hue), 0%, 0%);
-    background-color: hsl(var(--base-hue), 75%, 70%)
+    background-color: hsl(var(--base-hue), 75%, 70%);
 }
 
 .navbar .nav-link,
@@ -55,7 +53,7 @@
 
 .navbar .navbar-brand:focus-visible,
 .navbar .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 10%, 0%, .57);
+    box-shadow: 0 0 0 0.25rem hsla(var(--base-hue), 10%, 0%, 0.57);
 }
 
 /* Dark mode theme colors */
@@ -68,10 +66,12 @@
 [data-bs-theme="dark"] .navbar {
     background-color: hsl(var(--base-hue), 75%, 13%);
     color: hsl(var(--base-hue), 0%, 100%);
-    --bs-gradient: linear-gradient(180deg,
-    hsl(212, 72%, 30%) 0%,
-    hsl(234, 22%, 41%) 50%,
-    hsl(355.3, 30.9%, 51.2%) 100%);
+    --bs-gradient: linear-gradient(
+        180deg,
+        hsl(212, 72%, 30%) 0%,
+        hsl(234, 22%, 41%) 50%,
+        hsl(355.3, 30.9%, 51.2%) 100%
+    );
 }
 
 [data-bs-theme="dark"] .navbar a {
@@ -100,7 +100,7 @@
 [data-bs-theme="dark"] .navbar .dropdown-item.active,
 [data-bs-theme="dark"] .navbar .dropdown-item:active {
     color: hsl(var(--base-hue), 0%, 100%);
-    background-color: hsl(var(--base-hue), 65%, 29%)
+    background-color: hsl(var(--base-hue), 65%, 29%);
 }
 
 [data-bs-theme="dark"] .navbar .nav-link {
@@ -114,7 +114,7 @@
 
 [data-bs-theme="dark"] .navbar .navbar-brand:focus-visible,
 [data-bs-theme="dark"] .navbar .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 10%, 100%, .57);
+    box-shadow: 0 0 0 0.25rem hsla(var(--base-hue), 10%, 100%, 0.57);
 }
 
 /* Dark mode fix for table rows with "secondary" background color */
@@ -174,7 +174,7 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 /* Skip to content link
 -------------------------------------------------- */
 .skip-nav {
-    left: .2rem;
+    left: 0.2rem;
     padding: 1rem 1.5rem;
     position: absolute;
     top: -4.2rem;
@@ -184,7 +184,7 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 
 .skip-nav:focus {
     outline: 0;
-    top: .2rem;
+    top: 0.2rem;
 }
 
 /* Button with image 
@@ -214,7 +214,8 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     text-decoration: none !important;
 }
 
-.text-decoration-hover:hover, .text-decoration-hover:focus {
+.text-decoration-hover:hover,
+.text-decoration-hover:focus {
     text-decoration: underline !important;
 }
 
@@ -236,11 +237,12 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 -------------------------------------------------- */
 a[target]::after {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
-    margin-left: .2em;
+    margin-left: 0.2em;
 }
 
 /* Optionally suppress external link icon */
-footer a[target]::after, a[target].no-external-link::after {
+footer a[target]::after,
+a[target].no-external-link::after {
     content: none;
 }
 
@@ -252,7 +254,8 @@ footer a[target]::after, a[target].no-external-link::after {
 
 /* Table hover background
 -------------------------------------------------- */
-.table-hover.table-borderless th:first-child, .table-hover td:first-child {
+.table-hover.table-borderless th:first-child,
+.table-hover td:first-child {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
@@ -285,7 +288,7 @@ footer a[target]::after, a[target].no-external-link::after {
 }
 
 .callout + .callout {
-    margin-top: -.25rem;
+    margin-top: -0.25rem;
 }
 
 .callout .highlight {
@@ -325,7 +328,13 @@ footer a[target]::after, a[target].no-external-link::after {
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 0 4px hsl(var(--base-hue), 0%, 100%);
-    background: repeating-linear-gradient(135deg, hsl(50, 90%, 64%), hsl(50, 90%, 64%) 10px, hsl(50, 100%, 75%) 10px, hsl(50, 100%, 75%) 20px);
+    background: repeating-linear-gradient(
+        135deg,
+        hsl(50, 90%, 64%),
+        hsl(50, 90%, 64%) 10px,
+        hsl(50, 100%, 75%) 10px,
+        hsl(50, 100%, 75%) 20px
+    );
     box-shadow: inset 0 -3px 7px hsla(47, 79%, 28%, 0.37);
     padding: 1px 0;
 }
@@ -337,7 +346,13 @@ footer a[target]::after, a[target].no-external-link::after {
 [data-bs-theme="dark"] .banner-test-site {
     color: hsl(var(--base-hue), 0%, 100%);
     text-shadow: 0 0 6px hsl(var(--base-hue), 0%, 0%);
-    background: repeating-linear-gradient(135deg, hsl(50, 90%, 36%), hsl(50, 90%, 36%) 10px, hsl(50, 40%, 25%) 10px, hsl(50, 40%, 25%) 20px);
+    background: repeating-linear-gradient(
+        135deg,
+        hsl(50, 90%, 36%),
+        hsl(50, 90%, 36%) 10px,
+        hsl(50, 40%, 25%) 10px,
+        hsl(50, 40%, 25%) 20px
+    );
 }
 
 /* Prevent banner from covering up link target elements. 
@@ -358,7 +373,7 @@ details.card:not([open]) summary.card-header {
     width: 1em;
     height: 1em;
     fill: currentColor;
-    vertical-align: -.125em;
+    vertical-align: -0.125em;
     overflow: visible !important;
 }
 
@@ -374,14 +389,16 @@ details.card:not([open]) summary.card-header {
 
 /* Checkbox cursors and disabled labels
 -------------------------------------------------- */
-[type="checkbox"], label:has([type="checkbox"]) {
+[type="checkbox"],
+label:has([type="checkbox"]) {
     cursor: pointer;
 }
 
 /* Use disabled attribute in addition to :disabled pseudo-class. See https://github.com/twbs/bootstrap/issues/28247 */
-label:has([disabled]), label:has(:disabled) {
+label:has([disabled]),
+label:has(:disabled) {
     cursor: default;
-    opacity: .7;
+    opacity: 0.7;
 }
 
 /* Validation summary
@@ -398,7 +415,7 @@ label:has([disabled]), label:has(:disabled) {
 -------------------------------------------------- */
 .footer-link {
     text-decoration: none;
-    padding: .25rem;
+    padding: 0.25rem;
     border-radius: 8px;
 }
 
@@ -467,7 +484,8 @@ svg:not(:root) {
         column-count: 3;
     }
 
-    .columns-md-2 label, .columns-md-3 label {
+    .columns-md-2 label,
+    .columns-md-3 label {
         display: inline;
     }
 }
@@ -480,5 +498,72 @@ svg:not(:root) {
 
     .columns-lg-3 {
         column-count: 3;
+    }
+}
+
+/*Collapsible tables
+-------------------------------------------------- */
+@media screen and (max-width: 768px) {
+    .table-collapsible {
+        border: 0;
+    }
+
+    .table-collapsible thead th {
+        display: none;
+    }
+
+    .table-collapsible thead tr::before {
+        content: "Sort by:";
+        display: inline-block;
+        padding: 0.5rem 0.5rem;
+        font-weight: 700;
+    }
+
+    .table-collapsible thead th.table-collapsible-sortable {
+        display: inline-block;
+        border-bottom: none;
+    }
+
+    .table-collapsible tr {
+        display: block;
+    }
+
+    .table-collapsible tfoot tr,
+    .table-collapsible tbody tr {
+        margin-bottom: 1rem;
+        border-top: 2px solid #5b616b;
+    }
+
+    .table-collapsible tbody th {
+        background: #f1f1f1;
+    }
+
+    .table-collapsible th,
+    .table-collapsible td {
+        display: block;
+        text-align: left;
+        border-bottom: 1px solid #aeb0b5;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .table-collapsible th::after,
+    .table-collapsible td::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+    .table-collapsible th:last-child,
+    .table-collapsible td:last-child {
+        border-bottom: none;
+    }
+
+    .table-collapsible tbody th:before,
+    .table-collapsible td:before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
     }
 }
