@@ -75,8 +75,9 @@ public class BeginModel(
             if (EventId != null)
             {
                 ComplianceEvent = await entryService.FindAsync(EventId!.Value, includeComments: false, token);
-                if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId) return BadRequest();
-                if (!User.CanBeginEnforcement(ComplianceEvent)) return Forbid();
+                if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
+                    !User.CanBeginEnforcement(ComplianceEvent))
+                    return BadRequest();
             }
 
             await PopulateSelectListsAsync();

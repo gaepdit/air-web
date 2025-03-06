@@ -46,11 +46,8 @@
                                 <input class="form-check-input m-2" asp-for="@Model.RoleSettings[index].IsSelected"
                                        aria-describedby="role-help-block-@index.ToString()" />
                                 <p class="d-inline-block w-75">
-                                    @Model.RoleSettings[index].DisplayName<br />
-                                    <small id="role-help-block-@index.ToString()"
-                                           class="card-text">
-                                        @Model.RoleSettings[index].Description
-                                    </small>
+                                    @role.DisplayName<br />
+                                    <small id="role-help-block-@index.ToString()" class="card-text">@role.Description</small>
                                     <input type="hidden" asp-for="@Model.RoleSettings[index].Name" />
                                 </p>
                             </label>

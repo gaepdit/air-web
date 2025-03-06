@@ -3,6 +3,10 @@
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model (IList<AirWeb.AppServices.Compliance.WorkEntries.Search.WorkEntrySearchResultDto> Items, AirWeb.AppServices.Compliance.WorkEntries.Search.WorkEntrySearchDto? Spec)
+@{
+    var rowCss = Model.Spec is null ? "" : "align-middle";
+    var linkCss = Model.Spec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+}
 
 <div class="table-responsive-md mb-3">
     <table class="table table-hover mb-0" aria-label="Compliance Work Entry results table">
@@ -34,9 +38,9 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <th scope="row" class="align-middle">
+                <th scope="row" class="@rowCss">
                     <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
-                       class="btn btn-sm @(item.IsDeleted ? "btn-outline-danger" : "btn-outline-primary")">
+                       class="@(item.IsDeleted ? "btn btn-sm btn-outline-danger" : linkCss)">
                         @item.Id.ToString()
                     </a>
                     @if (item.IsDeleted)

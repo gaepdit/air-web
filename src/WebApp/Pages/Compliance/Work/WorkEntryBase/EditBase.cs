@@ -48,7 +48,7 @@ public abstract class EditBase(
         where TDto : IWorkEntryCommandDto
     {
         var itemView = await EntryService.FindSummaryAsync(Id, token);
-        if (itemView is null) return BadRequest();
+        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
         if (!ModelState.IsValid)
