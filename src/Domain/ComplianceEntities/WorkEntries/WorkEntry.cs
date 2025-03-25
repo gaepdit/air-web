@@ -54,7 +54,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     public bool IsComplianceEvent { get; internal init; }
 
     // Data exchange properties
-    public new bool IsReportable =>
+    public bool IsReportable =>
         IsComplianceEvent && IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 }
 
