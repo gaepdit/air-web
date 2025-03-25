@@ -299,18 +299,18 @@
                                 @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
-                        @if (User.CanFinalizeAction(action))
-                        {
-                            <div class="col-auto d-print-none">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                        Actions
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        @if (action.Status == EnforcementActionStatus.Draft)
-                                        {
-                                            <li><a class="dropdown-item">Submit for review</a></li>
-                                        }
+                        <div class="col-auto d-print-none">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if (User.CanSubmitForReview(action))
+                                    {
+                                        <li><a class="dropdown-item">Submit for review</a></li>
+                                    }
+                                    @if (User.CanFinalizeAction(action))
+                                    {
                                         <li>
                                             <button class="dropdown-item" type="button" name="issueEnforcementAction"
                                                     data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
@@ -323,24 +323,40 @@
                                                 Cancel (closed as unsent)
                                             </button>
                                         </li>
-                                    </ul>
-                                </div>
+                                    }
+                                    @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
+                                    {
+                                        <li>
+                                            <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">Edit
+                                                Details</a>
+                                        </li>
+                                    }
+                                    @if (Model.UserCan[EnforcementOperation.Edit] && action.CanAddResponse())
+                                    {
+                                        includeResponseRequestedModal = true;
+                                        <li>
+                                            <button type="button" name="addActionResponse" value="@action.Id.ToString()" class="dropdown-item">
+                                                Add response received
+                                            </button>
+                                        </li>
+                                    }
+                                    @if (Model.UserCan[EnforcementOperation.Delete] && User.CanDelete(action))
+                                    {
+                                        includeDeleteActionModal = true;
+                                        <li>
+                                            <button type="button" name="deleteEnforcementAction" class="dropdown-item link-danger"
+                                                    data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                Delete Action
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-baseline g-0 mb-3">
-                        <div class="col">
-                            @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
-                        </div>
-                        @if (Model.UserCan[EnforcementOperation.Edit])
-                        {
-                            <div class="col-auto d-print-none ms-3">
-                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
-                            </div>
-                        }
-                    </div>
+                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
                         case AoViewDto model:
@@ -353,72 +369,58 @@
                             <partial name="_Partials/_ProposedCoDetails" model="model" />
                             break;
                         case ResponseRequestedViewDto model:
-                            <partial name="_Partials/_ResponseRequestedDetails" model="(model, Model.UserCan[EnforcementOperation.Edit])" />
-                            includeResponseRequestedModal = true;
+                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
                             break;
                     }
                 </div>
                 <div class="card-footer">
-                    <div class="row justify-content-between align-items-center g-0 my-1">
-                        <small class="col text-body-secondary">
-                            @if (action.IsDeleted)
-                            {
-                                <div>
-                                    Deleted
-                                    by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
-                                </div>
-                            }
-                            @if (action.Status == EnforcementActionStatus.Draft)
-                            {
-                                <div>
-                                    Draft started
-                                    on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.ReviewRequested)
-                            {
-                                <div>
-                                    Awaiting review
-                                    by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Approved)
-                            {
-                                <div>
-                                    Approved
-                                    by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Issued)
-                            {
-                                <div>
-                                    Issued
-                                    on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Canceled)
-                            {
-                                <div>
-                                    Canceled
-                                    on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                        </small>
-                        @if (Model.UserCan[EnforcementOperation.Delete] // Refers to case file. 
-                             && User.CanDelete(action)) // Refers to enforcement action.
+                    <small class="text-body-secondary">
+                        @if (action.IsDeleted)
                         {
-                            includeDeleteActionModal = true;
-                            <div class="col-auto d-print-none ms-2">
-                                <button type="button" name="deleteEnforcementAction" class="btn btn-sm btn-link px-0 link-danger link-offset-2"
-                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                    Delete Action
-                                </button>
+                            <div>
+                                Deleted
+                                by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
                             </div>
                         }
-                    </div>
+                        @if (action.Status == EnforcementActionStatus.Draft)
+                        {
+                            <div>
+                                Draft started
+                                on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.ReviewRequested)
+                        {
+                            <div>
+                                Awaiting review
+                                by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Approved)
+                        {
+                            <div>
+                                Approved
+                                by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Issued)
+                        {
+                            <div>
+                                Issued
+                                on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Canceled)
+                        {
+                            <div>
+                                Canceled
+                                on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                    </small>
                 </div>
             </div>
         }
