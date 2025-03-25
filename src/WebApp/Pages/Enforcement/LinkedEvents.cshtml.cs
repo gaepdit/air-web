@@ -12,7 +12,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class LinkedEventsModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     public IEnumerable<WorkEntrySearchResultDto> LinkedComplianceEvents { get; private set; } = [];
     public IEnumerable<WorkEntrySearchResultDto> AvailableComplianceEvents { get; private set; } = [];

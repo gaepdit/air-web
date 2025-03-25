@@ -9,7 +9,7 @@
         @if (Model.userCanEdit)
         {
             <button type="button" name="addActionResponse" value="@Model.dto.Id.ToString()" class="btn btn-sm btn-outline-primary mt-2">
-                Add response
+                Response received
             </button>
         }
     }
@@ -17,15 +17,15 @@
     {
         @if (Model.dto.ResponseComment != null)
         {
-            <div><em>Response
-                    received @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):</em>
+            <div><em>Response received
+                    @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):</em>
             </div>
             <div>@Model.dto.ResponseComment</div>
         }
         else
         {
-            <div><em>Response
-                    received @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).</em>
+            <div><em>Response received
+                    @Html.DisplayFor(_ => Model.dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).</em>
             </div>
         }
     }

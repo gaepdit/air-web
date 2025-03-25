@@ -22,7 +22,7 @@ public class DetailsModel(
 {
     // Case File
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     public CaseFileViewDto? CaseFile { get; private set; }
 
@@ -72,7 +72,10 @@ public class DetailsModel(
         if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
 
         HighlightEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
-        return RedirectToFragment(HighlightEnforcementId.ToString()!);
+
+        return caseFile.MissingPollutantsOrPrograms && CreateEnforcementAction.WouldBeReportable
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionResponseAsync(Guid enforcementActionId,
@@ -99,8 +102,7 @@ public class DetailsModel(
     {
         CaseFile = await caseFileService.FindDetailedAsync(Id, token);
         if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
-        var action =
-            CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
         await issueActionValidator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
@@ -113,7 +115,10 @@ public class DetailsModel(
 
         await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
         HighlightEnforcementId = enforcementActionId;
-        return RedirectToFragment(enforcementActionId.ToString());
+
+        return CaseFile.WillRequirePollutantsOrPrograms
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
@@ -137,7 +142,7 @@ public class DetailsModel(
         if (CaseFile is null || !User.CanDelete(CaseFile)) return BadRequest();
         var action =
             CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
-        if (action is null || User.CanDelete(action)) return BadRequest();
+        if (action is null || !User.CanDelete(action)) return BadRequest();
 
         await enforcementActionService.DeleteAsync(enforcementActionId, token);
         return RedirectToPage();

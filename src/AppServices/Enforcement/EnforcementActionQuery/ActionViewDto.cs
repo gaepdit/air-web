@@ -23,6 +23,7 @@ public record ActionViewDto : IActionViewDto
     };
 
     public bool IsReportable { get; init; }
+    public bool WillBeReportable { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
 
     // -- Under Review

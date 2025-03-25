@@ -11,7 +11,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacilityService facilityService) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     [BindProperty]
     public List<PollutantSetting> PollutantSettings { get; set; } = [];

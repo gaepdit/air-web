@@ -11,7 +11,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class CloseModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     public CaseFileSummaryDto ItemSummary { get; private set; } = null!;
 

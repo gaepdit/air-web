@@ -60,12 +60,14 @@ public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable, ID
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms;
 
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
+    public bool WillHaveReportableEnforcement => EnforcementActions.Exists(action => action.WillBeReportable);
 
     public bool LacksLinkedCompliance =>
         !IsClosed && HasReportableEnforcement && !ComplianceEvents.Any(dto => dto.IsReportable);
 
-    public bool LacksPollutantsOrPrograms =>
-        !IsClosed && HasReportableEnforcement && (Pollutants.Count == 0 || AirPrograms.Count == 0);
+    public bool MissingPollutantsOrPrograms => !IsClosed && (Pollutants.Count == 0 || AirPrograms.Count == 0);
+    public bool LacksPollutantsOrPrograms => HasReportableEnforcement && MissingPollutantsOrPrograms;
+    public bool WillRequirePollutantsOrPrograms => WillHaveReportableEnforcement && MissingPollutantsOrPrograms;
 
     public bool OpenDetailsSection => LacksLinkedCompliance || LacksPollutantsOrPrograms;
 
