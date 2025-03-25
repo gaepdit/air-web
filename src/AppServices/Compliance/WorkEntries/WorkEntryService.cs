@@ -90,7 +90,7 @@ public sealed partial class WorkEntryService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
-        await entryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<int>(workEntry.Id, await appNotificationService
             .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -117,7 +117,7 @@ public sealed partial class WorkEntryService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Close(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryClosed, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -130,7 +130,7 @@ public sealed partial class WorkEntryService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Reopen(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryReopened, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -144,7 +144,7 @@ public sealed partial class WorkEntryService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Delete(workEntry, resource.Comment, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryDeleted, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -155,7 +155,7 @@ public sealed partial class WorkEntryService(
     {
         var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
         entryManager.Restore(workEntry);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryRestored, workEntry.ResponsibleStaff, token, workEntry.Id)

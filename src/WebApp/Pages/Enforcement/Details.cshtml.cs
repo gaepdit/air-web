@@ -22,9 +22,9 @@ public class DetailsModel(
 {
     // Case File
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
-    public CaseFileViewDto? Item { get; private set; }
+    public CaseFileViewDto? CaseFile { get; private set; }
 
     // Permissions, etc.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
@@ -57,13 +57,13 @@ public class DetailsModel(
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await caseFileService.FindDetailedAsync(Id);
-        if (Item is null) return NotFound();
+        CaseFile = await caseFileService.FindDetailedAsync(Id);
+        if (CaseFile is null) return NotFound();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.View]) return NotFound();
 
-        return InitializePage(Item);
+        return InitializePage(CaseFile);
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
@@ -72,21 +72,24 @@ public class DetailsModel(
         if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
 
         HighlightEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
-        return RedirectToFragment(HighlightEnforcementId.ToString()!);
+
+        return caseFile.MissingPollutantsOrPrograms && CreateEnforcementAction.WouldBeReportable
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionResponseAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
 
         await addResponseValidator.ApplyValidationAsync(AddEnforcementActionResponse, ModelState);
 
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            return InitializePage(Item);
+            return InitializePage(CaseFile);
         }
 
         await enforcementActionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
@@ -97,9 +100,9 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
+        var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
         await issueActionValidator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
@@ -107,20 +110,24 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            return InitializePage(Item);
+            return InitializePage(CaseFile);
         }
 
         await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
         HighlightEnforcementId = enforcementActionId;
-        return RedirectToFragment(enforcementActionId.ToString());
+
+        return CaseFile.WillRequirePollutantsOrPrograms
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
+        var action =
+            CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
         await enforcementActionService.CancelAsync(enforcementActionId, token);
@@ -131,10 +138,11 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanDelete(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
-        if (action is null || User.CanDelete(action)) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanDelete(CaseFile)) return BadRequest();
+        var action =
+            CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        if (action is null || !User.CanDelete(action)) return BadRequest();
 
         await enforcementActionService.DeleteAsync(enforcementActionId, token);
         return RedirectToPage();
@@ -145,15 +153,15 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
-            return InitializePage(Item);
+            return InitializePage(CaseFile);
         }
 
         var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
@@ -165,8 +173,8 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
@@ -178,7 +186,7 @@ public class DetailsModel(
     #endregion
 
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, Item);
+        UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, CaseFile);
 
     private PageResult InitializePage(CaseFileViewDto item, CommentAddDto? newComment = null)
     {

@@ -18,7 +18,7 @@ public class EditModel(
     IValidator<CaseFileUpdateDto> validator) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     [BindProperty]
     public CaseFileUpdateDto Item { get; set; } = null!;

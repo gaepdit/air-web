@@ -12,7 +12,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class LinkedEventsModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     public IEnumerable<WorkEntrySearchResultDto> LinkedComplianceEvents { get; private set; } = [];
     public IEnumerable<WorkEntrySearchResultDto> AvailableComplianceEvents { get; private set; } = [];
@@ -36,8 +36,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (item is null || item.IsClosed || !User.CanEdit(item)) return BadRequest();
 
         var result = await service.LinkComplianceEvent(Id, entryId, token);
 
@@ -59,8 +58,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (item is null || item.IsClosed || !User.CanEdit(item)) return BadRequest();
 
         var result = await service.UnLinkComplianceEvent(Id, entryId, token);
 

@@ -12,7 +12,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class DeleteModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     [BindProperty]
     public CommentDto Comment { get; set; } = null!;

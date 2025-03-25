@@ -12,4 +12,5 @@ public record CreateEnforcementActionDto
     public bool ResponseRequested { get; init; } = true;
 
     public EnforcementActionType ActionType { get; init; }
+    public bool WouldBeReportable => EnforcementAction.ActionTypeIsReportable(ActionType);
 }

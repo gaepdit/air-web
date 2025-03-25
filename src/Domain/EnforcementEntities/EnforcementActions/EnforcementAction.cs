@@ -51,14 +51,15 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
-    public bool IsReportable =>
-        !IsDeleted &&
-        IsIssued &&
-        ActionType is EnforcementActionType.AdministrativeOrder
-            or EnforcementActionType.ConsentOrder
-            or EnforcementActionType.NoticeOfViolation
-            or EnforcementActionType.NovNfaLetter
-            or EnforcementActionType.ProposedConsentOrder;
+    public bool IsReportable => WillBeReportable && IsIssued;
+    public bool WillBeReportable => !IsDeleted && ActionTypeIsReportable(ActionType);
+
+    public static bool ActionTypeIsReportable(EnforcementActionType type) => type
+        is EnforcementActionType.AdministrativeOrder
+        or EnforcementActionType.ConsentOrder
+        or EnforcementActionType.NoticeOfViolation
+        or EnforcementActionType.NovNfaLetter
+        or EnforcementActionType.ProposedConsentOrder;
 
     public short? ActionNumber { get; set; }
 
