@@ -18,6 +18,7 @@ public class AdministrativeOrder : EnforcementAction, IFormalEnforcementAction
     public DateOnly? ExecutedDate { get; set; }
     public bool IsExecuted => ExecutedDate.HasValue;
     public DateOnly? AppealedDate { get; set; }
-    public DateOnly? ResolvedDate { get; set; }
+    public DateOnly? ResolvedDate { get;internal set; }
     public bool IsResolved => ResolvedDate.HasValue;
+    public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 }

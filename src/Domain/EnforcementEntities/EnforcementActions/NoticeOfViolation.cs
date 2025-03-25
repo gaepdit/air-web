@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, IResponseRequested
+public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, IResponseRequested, IResolvable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -21,4 +21,8 @@ public class NoticeOfViolation : EnforcementAction, IInformalEnforcementAction, 
 
     [StringLength(7000)]
     public string? ResponseComment { get; set; }
+
+    public DateOnly? ResolvedDate { get; internal set; }
+    public bool IsResolved => ResolvedDate.HasValue;
+    public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 }

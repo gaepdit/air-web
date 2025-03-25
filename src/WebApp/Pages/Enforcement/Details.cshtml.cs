@@ -17,8 +17,9 @@ public class DetailsModel(
     ICaseFileService caseFileService,
     IEnforcementActionService enforcementActionService,
     IAuthorizationService authorization,
-    IValidator<MaxCurrentDateOnlyDto> issueActionValidator,
-    IValidator<CommentAndMaxDateDto> addResponseValidator) : PageModel
+    IValidator<MaxDateOnlyDto> issueActionValidator,
+    IValidator<MaxDateAndCommentDto> addResponseValidator,
+    IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
 {
     // Case File
     [FromRoute]
@@ -45,10 +46,13 @@ public class DetailsModel(
     public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    public MaxCurrentDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
+    public MaxDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
 
     [BindProperty]
-    public CommentAndMaxDateDto AddEnforcementActionResponse { get; set; } = null!;
+    public MaxDateAndCommentDto AddEnforcementActionResponse { get; set; } = null!;
+
+    [BindProperty]
+    public MaxDateAndBooleanDto ResolveEnforcementAction { get; set; } = null!;
 
     // Methods
     [TempData]
@@ -63,7 +67,7 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.View]) return NotFound();
 
-        return InitializePage(CaseFile);
+        return InitializePage();
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
@@ -89,7 +93,7 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            return InitializePage(CaseFile);
+            return InitializePage();
         }
 
         await enforcementActionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
@@ -110,7 +114,7 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            return InitializePage(CaseFile);
+            return InitializePage();
         }
 
         await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
@@ -118,16 +122,13 @@ public class DetailsModel(
 
         return CaseFile.WillRequirePollutantsOrPrograms
             ? RedirectToPage("PollutantsPrograms", new { Id })
-            : RedirectToFragment(HighlightEnforcementId.ToString()!);
+            : RedirectToFragment(enforcementActionId.ToString());
     }
 
     public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
-        if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
-        var action =
-            CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
         await enforcementActionService.CancelAsync(enforcementActionId, token);
@@ -135,13 +136,33 @@ public class DetailsModel(
         return RedirectToFragment(enforcementActionId.ToString());
     }
 
+    public async Task<IActionResult> OnPostResolveActionAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEdit(CaseFile)) return BadRequest();
+        var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
+        if (action is null || !User.CanResolve(action)) return BadRequest();
+
+        await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage();
+        }
+
+        await enforcementActionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
+        HighlightEnforcementId = enforcementActionId;
+
+        return ResolveEnforcementAction.Option
+            ? RedirectToPage()
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
+    }
+
     public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
-        if (CaseFile is null || !User.CanDelete(CaseFile)) return BadRequest();
-        var action =
-            CaseFile.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanDelete(action)) return BadRequest();
 
         await enforcementActionService.DeleteAsync(enforcementActionId, token);
@@ -150,8 +171,7 @@ public class DetailsModel(
 
     #region Comments
 
-    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
-        CancellationToken token)
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment, CancellationToken token)
     {
         CaseFile = await caseFileService.FindDetailedAsync(Id, token);
         if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
@@ -159,10 +179,7 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.AddComment]) return BadRequest();
 
-        if (!ModelState.IsValid)
-        {
-            return InitializePage(CaseFile);
-        }
+        if (!ModelState.IsValid) return InitializePage();
 
         var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.Id;
@@ -173,8 +190,8 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
-        if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
+        var caseFile = await caseFileService.FindSummaryAsync(Id, token);
+        if (caseFile is null || caseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
@@ -188,11 +205,11 @@ public class DetailsModel(
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, CaseFile);
 
-    private PageResult InitializePage(CaseFileViewDto item, CommentAddDto? newComment = null)
+    private PageResult InitializePage(CommentAddDto? newComment = null)
     {
         CommentSection = new CommentsSectionModel
         {
-            Comments = item.Comments,
+            Comments = CaseFile!.Comments,
             NewComment = newComment ?? new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
@@ -201,8 +218,9 @@ public class DetailsModel(
         };
 
         CreateEnforcementAction = new CreateEnforcementActionDto();
-        IssueEnforcementActionDate = new MaxCurrentDateOnlyDto();
-        AddEnforcementActionResponse = new CommentAndMaxDateDto();
+        IssueEnforcementActionDate = new MaxDateOnlyDto();
+        AddEnforcementActionResponse = new MaxDateAndCommentDto();
+        ResolveEnforcementAction = new MaxDateAndBooleanDto { Option = true };
 
         return Page();
     }

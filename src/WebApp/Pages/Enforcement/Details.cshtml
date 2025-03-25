@@ -278,8 +278,9 @@
     }
     else
     {
-        var includeDeleteActionModal = false;
         var includeResponseRequestedModal = false;
+        var includeResolveActionModal = false;
+        var includeDeleteActionModal = false;
 
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
@@ -327,8 +328,9 @@
                                     @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
                                     {
                                         <li>
-                                            <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">Edit
-                                                Details</a>
+                                            <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                Edit Details
+                                            </a>
                                         </li>
                                     }
                                     @if (Model.UserCan[EnforcementOperation.Edit] && action.CanAddResponse())
@@ -340,13 +342,22 @@
                                             </button>
                                         </li>
                                     }
+                                    @if (Model.UserCan[EnforcementOperation.Edit] && User.CanResolve(action))
+                                    {
+                                        includeResolveActionModal = true;
+                                        <li>
+                                            <button type="button" name="resolveAction" value="@action.Id.ToString()" class="dropdown-item">
+                                                Resolve action
+                                            </button>
+                                        </li>
+                                    }
                                     @if (Model.UserCan[EnforcementOperation.Delete] && User.CanDelete(action))
                                     {
                                         includeDeleteActionModal = true;
                                         <li>
                                             <button type="button" name="deleteEnforcementAction" class="dropdown-item link-danger"
                                                     data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                                Delete Action
+                                                Delete action
                                             </button>
                                         </li>
                                     }
@@ -418,6 +429,13 @@
                             <div>
                                 Canceled
                                 on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        @if (action is IIsResolved { IsResolved: true } resolvable)
+                        {
+                            <div>
+                                Resolved
+                                on @Html.DisplayFor(_ => resolvable.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
                             </div>
                         }
                     </small>
@@ -603,6 +621,59 @@
                     const modal = new bootstrap.Modal(document.getElementById('addResponseModal'));
 
                     const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
+                    actionDate.max = new Date().toLocaleDateString('fr-ca');
+                    actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+
+        @if (includeResolveActionModal)
+        {
+            // Modal form for resolving an enforcement action.
+            <div class="modal fade" id="resolveActionModal" tabindex="-1" aria-labelledby="resolveActionModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="resolveActionModal">Resolve Enforcement Action</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="ResolveAction" id="ResolveActionForm">
+                            <div class="modal-body">
+                                <div class="form-floating mt-2">
+                                    <input asp-for="ResolveEnforcementAction.Date" class="form-control" />
+                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Date)" class="form-label">Date
+                                        Resolved</label>
+                                    <span asp-validation-for="ResolveEnforcementAction.Date" class="invalid-feedback"></span>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input asp-for="ResolveEnforcementAction.Option" class="form-check-input" />
+                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">Close the Enforcement Case as well.</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="resolveActionId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="resolveAction"]');
+                    const actionIdHidden = document.getElementById('resolveActionId');
+                    const modal = new bootstrap.Modal(document.getElementById('resolveActionModal'));
+
+                    const actionDate = document.getElementById('ResolveEnforcementAction_Date');
                     actionDate.max = new Date().toLocaleDateString('fr-ca');
                     actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
 

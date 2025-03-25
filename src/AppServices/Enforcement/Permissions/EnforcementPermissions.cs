@@ -42,6 +42,10 @@ public static class EnforcementPermissions
     public static bool CanReopen(this ClaimsPrincipal user, IIsClosedAndIsDeleted item) =>
         item.IsClosed && CanFinalize(user, item);
 
+    public static bool CanResolve(this ClaimsPrincipal user, IActionViewDto item) =>
+        user.CanEdit(item) && item.Status == EnforcementActionStatus.Issued &&
+        item is IIsResolved { IsResolved: false };
+
     public static bool CanRestore(this ClaimsPrincipal user, IDeletable item) =>
         item.IsDeleted && CanManageDeletions(user);
 

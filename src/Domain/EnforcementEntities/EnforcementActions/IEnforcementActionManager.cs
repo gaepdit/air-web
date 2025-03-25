@@ -20,5 +20,6 @@ public interface IEnforcementActionManager
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
         ApplicationUser? user);
 
+    public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user);
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user);
 }

@@ -93,6 +93,18 @@ public class EnforcementActionManager : IEnforcementActionManager
         consentOrder.SetUpdater(user?.Id);
     }
 
+    public void Resolve(EnforcementAction enforcementAction,DateOnly resolvedDate, ApplicationUser? user)
+    {
+        if(enforcementAction is not IResolvable resolvableAction) 
+            throw new InvalidOperationException("Enforcement action is not resolvable");
+
+        if (resolvableAction.IsResolved)
+            throw new InvalidOperationException("Enforcement Action has already been resolved.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        resolvableAction.Resolve(resolvedDate);
+    }
+
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>
         enforcementAction.Delete(comment: null, user);
 }

@@ -9,7 +9,7 @@ using IaipDataService.Facilities;
 
 namespace AppServicesTests.Enforcement.EnforcementActions;
 
-public class CreateTests
+public class CreateEnforcementActionTests
 {
     [Test]
     public async Task OnSuccessfulCreate_InsertGetsCalled()
@@ -30,7 +30,8 @@ public class CreateTests
         var enforcementActionRepositoryMock = Substitute.For<IEnforcementActionRepository>();
 
         var enforcementActionService = new EnforcementActionService(new EnforcementActionManager(),
-            enforcementActionRepositoryMock, caseFileRepositoryMock, userServiceMock);
+            enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
+            AppServicesTestsSetup.Mapper!, userServiceMock);
         var item = new CreateEnforcementActionDto { ActionType = EnforcementActionType.LetterOfNoncompliance };
 
         // Act
