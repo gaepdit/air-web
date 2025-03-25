@@ -52,6 +52,10 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     public const int EarliestWorkEntryYear = 2000;
 
     public bool IsComplianceEvent { get; internal init; }
+
+    // Data exchange properties
+    public new bool IsReportable =>
+        IsComplianceEvent && IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 }
 
 // Enums
