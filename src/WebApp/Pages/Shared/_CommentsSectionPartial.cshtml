@@ -3,9 +3,12 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model AirWeb.WebApp.Models.CommentsSectionModel
+@{
+    string commentsTitle = (string?)ViewData["CommentsTitle"] ?? "Comments";
+}
 
 <section>
-    <h2 class="h4">Comments</h2>
+    <h2 class="h4">@commentsTitle</h2>
     <div class="border rounded-2 p-3 bg-secondary-subtle">
         <div class="modal fade" id="deleteCommentModal" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-modal="true">
             <div class="modal-dialog">
