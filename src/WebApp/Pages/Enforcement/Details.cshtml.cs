@@ -5,6 +5,7 @@ using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;

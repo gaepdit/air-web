@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;

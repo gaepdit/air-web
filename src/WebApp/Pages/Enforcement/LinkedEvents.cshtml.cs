@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Permissions;
+using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using IaipDataService.Facilities;
