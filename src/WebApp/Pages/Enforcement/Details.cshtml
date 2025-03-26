@@ -482,7 +482,8 @@
 
                 const actionDate = document.getElementById('IssueEnforcementActionDate_Date');
                 actionDate.max = new Date().toLocaleDateString('fr-ca');
-                actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+                if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                    actionDate.value = new Date().toLocaleDateString('fr-ca');
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
@@ -623,7 +624,8 @@
 
                     const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
                     actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -676,8 +678,9 @@
 
                     const actionDate = document.getElementById('ResolveEnforcementAction_Date');
                     actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
-
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
                             actionIdHidden.value = this.value;
