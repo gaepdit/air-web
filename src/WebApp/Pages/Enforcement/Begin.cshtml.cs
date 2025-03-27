@@ -86,7 +86,7 @@ public class BeginModel(
 
         var createResult = await caseFileService.CreateAsync(NewCaseFile, token);
 
-        const string message = "Case File successfully created.";
+        const string message = "Enforcement Case File successfully created.";
         if (createResult.HasAppNotificationFailure)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,

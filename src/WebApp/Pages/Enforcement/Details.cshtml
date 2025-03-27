@@ -11,7 +11,7 @@
 @model DetailsModel
 @{
     var caseFile = Model.CaseFile!;
-    ViewData["Title"] = $"Enforcement #{Model.Id} – Facility {caseFile.FacilityId}";
+    ViewData["Title"] = $"Enforcement Case #{Model.Id} – Facility {caseFile.FacilityId}";
 }
 
 @if (caseFile.IsDeleted)
@@ -43,7 +43,7 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-md-0">Enforcement Case</h1>
+        <h1 class="mb-md-0">Enforcement Case File</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
@@ -126,7 +126,7 @@
         </dd>
     </dl>
 
-    <details class="border rounded-1" open="@(caseFile.OpenDetailsSection)">
+    <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
         <summary class="bg-body-secondary px-2 py-1">
             Related Details
         </summary>
@@ -330,7 +330,7 @@
                                     {
                                         <li>
                                             <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">
-                                                Edit Details
+                                                Edit details
                                             </a>
                                         </li>
                                     }
@@ -457,10 +457,16 @@
                         <div class="modal-body">
                             <p>The enforcement action will be marked as having been issued to the facility.</p>
                             <div class="form-floating">
-                                <input asp-for="IssueEnforcementActionDate.Date" class="form-control" />
-                                <label for="@nameof(Model.IssueEnforcementActionDate)_@nameof(Model.IssueEnforcementActionDate.Date)" class="form-label">Date
+                                <input asp-for="IssueEnforcementAction.Date" class="form-control" />
+                                <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Date)" class="form-label">Date
                                     Issued</label>
-                                <span asp-validation-for="IssueEnforcementActionDate.Date" class="invalid-feedback"></span>
+                                <span asp-validation-for="IssueEnforcementAction.Date" class="invalid-feedback"></span>
+                            </div>
+                            <div class="form-check mt-2" id="issueEnforcementCloseOption">
+                                <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
+                                <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Option)" class="form-check-label">
+                                    Close the Enforcement Case as well.
+                                </label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -478,9 +484,10 @@
                 const actionButtons = document.querySelectorAll('button[name="issueEnforcementAction"]');
                 const label = document.getElementById('issueEnforcementLabel');
                 const actionIdHidden = document.getElementById('issueEnforcementActionId');
+                const actionCloseOption = document.getElementById('issueEnforcementCloseOption');
                 const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
 
-                const actionDate = document.getElementById('IssueEnforcementActionDate_Date');
+                const actionDate = document.getElementById('IssueEnforcementAction_Date');
                 actionDate.max = new Date().toLocaleDateString('fr-ca');
                 if (new Date().getTime() < actionDate.valueAsDate.getTime())
                     actionDate.value = new Date().toLocaleDateString('fr-ca');
@@ -488,7 +495,10 @@
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
                         actionIdHidden.value = this.value;
-                        label.textContent = this.getAttribute('data-eaType').trim();
+                        const eaType = this.getAttribute('data-eaType').trim();
+                        label.textContent = eaType;
+                        if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter")
+                            actionCloseOption.remove();
                         modal.show();
                     });
                 });
@@ -657,7 +667,9 @@
                                 </div>
                                 <div class="form-check mt-2">
                                     <input asp-for="ResolveEnforcementAction.Option" class="form-check-input" />
-                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">Close the Enforcement Case as well.</label>
+                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">
+                                        Close the Enforcement Case as well.
+                                    </label>
                                 </div>
                             </div>
                             <div class="modal-footer">

@@ -47,20 +47,40 @@ public class EnforcementActionService(
             };
     }
 
-    public async Task AddResponse(Guid id, MaxDateAndCommentDto responseDto, CancellationToken token = default)
+    public async Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
-        enforcementActionManager.AddResponse(enforcementAction, responseDto.Date, responseDto.Comment, currentUser);
+        enforcementActionManager.AddResponse(enforcementAction, resource.Date, resource.Comment, currentUser);
         await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task IssueAsync(Guid id, MaxDateOnlyDto dateDto, CancellationToken token = default)
+    public async Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
-        enforcementActionManager.SetIssueDate(enforcementAction, dateDto.Date, currentUser);
-        await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+        enforcementActionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
+        await enforcementActionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
+            .ConfigureAwait(false);
+
+        bool caseFileClosed = false;
+        if (resource.Option &&
+            enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
+                or EnforcementActionType.NoFurtherActionLetter)
+        {
+            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token)
+                .ConfigureAwait(false);
+            if (!caseFile.MissingPollutantsOrPrograms)
+            {
+                caseFileManager.Close(caseFile, currentUser);
+                await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);
+                caseFileClosed = true;
+            }
+        }
+
+        // TODO: Does this also save the case file when using Entity Framework?
+        await enforcementActionRepository.SaveChangesAsync(token).ConfigureAwait(false);
+        return caseFileClosed;
     }
 
     public async Task CancelAsync(Guid id, CancellationToken token)
@@ -71,7 +91,7 @@ public class EnforcementActionService(
         await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
+    public async Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
@@ -79,16 +99,23 @@ public class EnforcementActionService(
         await enforcementActionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
             .ConfigureAwait(false);
 
+        bool caseFileClosed = false;
         if (resource.Option)
         {
             var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token)
                 .ConfigureAwait(false);
-            caseFileManager.Close(caseFile, currentUser);
-            await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);
+            if (!caseFile.IsClosed)
+            {
+                caseFileManager.Close(caseFile, currentUser);
+                await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);
+                caseFileClosed = true;
+            }
         }
 
         // TODO: Does this also save the case file when using Entity Framework?
         await enforcementActionRepository.SaveChangesAsync(token).ConfigureAwait(false);
+
+        return caseFileClosed;
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken token)

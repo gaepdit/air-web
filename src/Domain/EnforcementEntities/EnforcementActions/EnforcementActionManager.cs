@@ -41,7 +41,7 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has already been canceled.");
+            throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
@@ -93,9 +93,9 @@ public class EnforcementActionManager : IEnforcementActionManager
         consentOrder.SetUpdater(user?.Id);
     }
 
-    public void Resolve(EnforcementAction enforcementAction,DateOnly resolvedDate, ApplicationUser? user)
+    public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
     {
-        if(enforcementAction is not IResolvable resolvableAction) 
+        if (enforcementAction is not IResolvable resolvableAction)
             throw new InvalidOperationException("Enforcement action is not resolvable");
 
         if (resolvableAction.IsResolved)

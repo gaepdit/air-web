@@ -11,9 +11,9 @@ public interface IEnforcementActionService
 
     Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default);
 
-    Task AddResponse(Guid id, MaxDateAndCommentDto responseDto, CancellationToken token = default);
-    Task IssueAsync(Guid id, MaxDateOnlyDto dateDto, CancellationToken token = default);
+    Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default);
+    Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default);
     Task CancelAsync(Guid id, CancellationToken token);
-    Task ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token);
+    Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token);
     Task DeleteAsync(Guid id, CancellationToken token);
 }

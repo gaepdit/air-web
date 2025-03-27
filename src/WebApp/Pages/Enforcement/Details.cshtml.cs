@@ -47,7 +47,7 @@ public class DetailsModel(
     public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    public MaxDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
+    public MaxDateAndBooleanDto IssueEnforcementAction { get; set; } = null!;
 
     [BindProperty]
     public MaxDateAndCommentDto AddEnforcementActionResponse { get; set; } = null!;
@@ -110,7 +110,7 @@ public class DetailsModel(
         var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await issueActionValidator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
+        await issueActionValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -118,7 +118,17 @@ public class DetailsModel(
             return InitializePage();
         }
 
-        await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
+        bool caseFileClosed =
+            await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementAction, token);
+
+        if (caseFileClosed) return RedirectToFragment(null);
+
+        if (IssueEnforcementAction.Option)
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+                "The Enforcement Case could not be closed.");
+        }
+
         HighlightEnforcementId = enforcementActionId;
 
         return CaseFile.WillRequirePollutantsOrPrograms
@@ -152,12 +162,19 @@ public class DetailsModel(
             return InitializePage();
         }
 
-        await enforcementActionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
-        HighlightEnforcementId = enforcementActionId;
+        bool caseFileClosed =
+            await enforcementActionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
 
-        return ResolveEnforcementAction.Option
-            ? RedirectToPage()
-            : RedirectToFragment(HighlightEnforcementId.ToString()!);
+        if (caseFileClosed) return RedirectToFragment(null);
+
+        if (IssueEnforcementAction.Option)
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+                "The Enforcement Case could not be closed.");
+        }
+
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
@@ -219,13 +236,13 @@ public class DetailsModel(
         };
 
         CreateEnforcementAction = new CreateEnforcementActionDto();
-        IssueEnforcementActionDate = new MaxDateOnlyDto();
+        IssueEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.MissingData };
         AddEnforcementActionResponse = new MaxDateAndCommentDto();
-        ResolveEnforcementAction = new MaxDateAndBooleanDto { Option = true };
+        ResolveEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.AttentionNeeded };
 
         return Page();
     }
 
-    private RedirectToPageResult RedirectToFragment(string fragment) =>
+    private RedirectToPageResult RedirectToFragment(string? fragment) =>
         RedirectToPage("Details", pageHandler: null, fragment: fragment);
 }
