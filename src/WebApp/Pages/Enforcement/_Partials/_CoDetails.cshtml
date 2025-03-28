@@ -3,20 +3,20 @@
 @model AirWeb.AppServices.Enforcement.EnforcementActionQuery.CoViewDto
 
 <dl class="row mt-3 mb-0">
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ReceivedFromFacility)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ReceivedFromFacility, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ExecutedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ReceivedFromDirectorsOffice)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ReceivedFromDirectorsOffice, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ResolvedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.OrderNumber)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.OrderNumber, DisplayTemplate.TextOrPlaceholder)</dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.PenaltyAmount)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.PenaltyAmount, DisplayTemplate.Currency)</dd>
-    <dt class="col-sm-4 col-lg-3 mb-2">@Html.DisplayNameFor(dto => dto.PenaltyComment)</dt>
-    <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(dto => dto.PenaltyComment, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.ReceivedFromFacility)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.ReceivedFromFacility, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.ExecutedDate)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.ReceivedFromDirectorsOffice)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.ReceivedFromDirectorsOffice, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.ResolvedDate)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.OrderNumber)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.OrderNumber, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.PenaltyAmount)</dt>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.PenaltyAmount, DisplayTemplate.Currency)</dd>
+    <dt class="col-sm-4 mb-2">@Html.DisplayNameFor(dto => dto.PenaltyComment)</dt>
+    <dd class="col-sm-8 text-break text-pre-line">@Html.DisplayFor(dto => dto.PenaltyComment, DisplayTemplate.TextOrPlaceholder)</dd>
 </dl>
 @if (Model.StipulatedPenaltiesDefined)
 {

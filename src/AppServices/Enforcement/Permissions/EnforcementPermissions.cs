@@ -12,11 +12,16 @@ public static class EnforcementPermissions
         item is { IsDeleted: false, Status: EnforcementActionStatus.Issued } and
             ResponseRequestedViewDto { IsResponseReceived: false };
 
+    public static bool CanBeExecuted(this IActionViewDto item) =>
+        item is { IsCanceled: false, IsDeleted: false } and IIsExecuted { IsExecuted: false };
+
     public static bool CanEdit(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } && user.IsComplianceStaff();
 
     public static bool CanFinalizeAction(this ClaimsPrincipal user, IActionViewDto item) =>
-        item is { IsDeleted: false, IsIssued: false, IsCanceled: false } && user.CanFinalize(item);
+        item is { IsIssued: false, IsCanceled: false } &&
+        (item is not IIsExecuted executed || executed.IsExecuted) &&
+        user.CanFinalize(item);
 
     public static bool CanResolve(this ClaimsPrincipal user, IActionViewDto item) =>
         user.CanEdit(item) && item.Status == EnforcementActionStatus.Issued &&

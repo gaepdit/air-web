@@ -90,6 +90,14 @@ public class EnforcementActionService(
         await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
+    public async Task ExecuteOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var enforcementAction = await enforcementActionRepository.GetAsync(id, token).ConfigureAwait(false);
+        enforcementActionManager.ExecuteOrder(enforcementAction, resource.Date, currentUser);
+        await enforcementActionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+    }
+
     public async Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

@@ -79,10 +79,13 @@ public class EnforcementActionManager : IEnforcementActionManager
         }
     }
 
-    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user)
+    public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
     {
-        throw new NotImplementedException();
-        consentOrder.SetUpdater(user?.Id);
+        if (enforcementAction is not IFormalEnforcementAction formalEnforcementAction)
+            throw new InvalidOperationException("Enforcement action is not executable");
+
+        enforcementAction.SetUpdater(user?.Id);
+        formalEnforcementAction.Execute(executedDate);
     }
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,

@@ -21,6 +21,8 @@ public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
     public DateOnly? ReceivedFromFacility { get; set; }
     public DateOnly? ExecutedDate { get; set; }
     public bool IsExecuted => ExecutedDate.HasValue;
+    public void Execute(DateOnly executedDate) => ExecutedDate = executedDate;
+
     public DateOnly? ReceivedFromDirectorsOffice { get; set; }
     public DateOnly? ResolvedDate { get; set; }
     public bool IsResolved => ResolvedDate.HasValue;

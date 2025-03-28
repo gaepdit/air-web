@@ -2,10 +2,12 @@
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public record AoViewDto : ActionViewDto, IIsResolved
+public record AoViewDto : ActionViewDto, IIsResolved, IIsExecuted
 {
     [Display(Name = "Executed")]
     public DateOnly? ExecutedDate { get; init; }
+
+    public bool IsExecuted => ExecutedDate.HasValue;
 
     [Display(Name = "Appealed")]
     public DateOnly? AppealedDate { get; init; }

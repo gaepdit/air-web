@@ -35,8 +35,8 @@ internal class WorkEntryRequirementsHandler(IWorkEntryService service) :
         if (success) context.Succeed(requirement);
     }
 
-    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IWorkEntrySummaryDto resource) =>
-        user.CanRestore(resource) &&
-        (resource is not SourceTestReviewViewDto dto ||
+    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IWorkEntrySummaryDto item) =>
+        user.CanRestore(item) &&
+        (item is not SourceTestReviewViewDto dto ||
          !await service.SourceTestReviewExistsAsync(dto.ReferenceNumber).ConfigureAwait(false));
 }

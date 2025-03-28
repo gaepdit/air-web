@@ -20,6 +20,7 @@ public class DetailsModel(
     IAuthorizationService authorization,
     IValidator<MaxDateOnlyDto> issueActionValidator,
     IValidator<MaxDateAndCommentDto> addResponseValidator,
+    IValidator<MaxDateOnlyDto> executeActionValidator,
     IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
 {
     // Case File
@@ -51,6 +52,9 @@ public class DetailsModel(
 
     [BindProperty]
     public MaxDateAndCommentDto AddEnforcementActionResponse { get; set; } = null!;
+
+    [BindProperty]
+    public MaxDateOnlyDto ExecuteOrder { get; set; } = null!;
 
     [BindProperty]
     public MaxDateAndBooleanDto ResolveEnforcementAction { get; set; } = null!;
@@ -147,6 +151,24 @@ public class DetailsModel(
         return RedirectToFragment(enforcementActionId.ToString());
     }
 
+    public async Task<IActionResult> OnPostExecuteOrderAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        if (action is null || !action.CanBeExecuted()) return BadRequest();
+
+        await executeActionValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage();
+        }
+
+        await enforcementActionService.ExecuteOrderAsync(enforcementActionId, ExecuteOrder, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
     public async Task<IActionResult> OnPostResolveActionAsync(Guid enforcementActionId, CancellationToken token)
     {
         CaseFile = await caseFileService.FindDetailedAsync(Id, token);
@@ -238,6 +260,7 @@ public class DetailsModel(
         CreateEnforcementAction = new CreateEnforcementActionDto();
         IssueEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.MissingData };
         AddEnforcementActionResponse = new MaxDateAndCommentDto();
+        ExecuteOrder = new MaxDateOnlyDto();
         ResolveEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.AttentionNeeded };
 
         return Page();
