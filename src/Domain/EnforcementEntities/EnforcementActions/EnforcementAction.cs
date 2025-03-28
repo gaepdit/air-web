@@ -77,7 +77,6 @@ public enum EnforcementActionType
     [Description("Combined NOV/NFA Letter")] NovNfaLetter,
     [Description("Proposed Consent Order")] ProposedConsentOrder,
     [Description("Consent Order")] ConsentOrder,
-    [Description("Order Resolved Letter")] OrderResolvedLetter,
     [Description("Administrative Order")] AdministrativeOrder,
     [Description("Informational Letter")] InformationalLetter,
 }

@@ -59,11 +59,6 @@ public static class DbSeedDataHelpers
                 .Where(action => action is ConsentOrder)
                 .Cast<ConsentOrder>());
 
-        if (!context.OrderResolvedLetters.Any())
-            context.OrderResolvedLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is OrderResolvedLetter)
-                .Cast<OrderResolvedLetter>());
-
         if (!context.InformationalLetters.Any())
             context.InformationalLetters.AddRange(EnforcementActionData.GetData
                 .Where(action => action is InformationalLetter)

@@ -146,7 +146,6 @@ internal static class AppDbContextConfiguration
             .HasDiscriminator(action => action.ActionType)
             .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
             .HasValue<ConsentOrder>(EnforcementActionType.ConsentOrder)
-            .HasValue<OrderResolvedLetter>(EnforcementActionType.OrderResolvedLetter)
             .HasValue<InformationalLetter>(EnforcementActionType.InformationalLetter)
             .HasValue<LetterOfNoncompliance>(EnforcementActionType.LetterOfNoncompliance)
             .HasValue<NoFurtherActionLetter>(EnforcementActionType.NoFurtherActionLetter)

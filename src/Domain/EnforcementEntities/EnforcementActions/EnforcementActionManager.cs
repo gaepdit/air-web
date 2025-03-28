@@ -18,7 +18,6 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.NoFurtherActionLetter => new NoFurtherActionLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NovNfaLetter => new NovNfaLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.OrderResolvedLetter => new OrderResolvedLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };

@@ -51,7 +51,6 @@ public class CaseFileService(
             caseFileDto.EnforcementActions.Add(action switch
             {
                 AdministrativeOrder a => mapper.Map<AoViewDto>(a),
-                OrderResolvedLetter a => mapper.Map<ActionViewDto>(a),
                 ConsentOrder a => mapper.Map<CoViewDto>(a),
                 InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
                 LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
