@@ -1,18 +1,24 @@
-﻿namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public record CoViewDto : ActionViewDto
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+
+public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
 {
-    [Display(Name = "Received from facility")]
+    [Display(Name = "Received from facility with signature")]
     public DateOnly? ReceivedFromFacility { get; init; }
 
     [Display(Name = "Executed")]
     public DateOnly? ExecutedDate { get; init; }
+
+    public bool IsExecuted => ExecutedDate.HasValue;
 
     [Display(Name = "Received from Director's Office")]
     public DateOnly? ReceivedFromDirectorsOffice { get; init; }
 
     [Display(Name = "Resolved")]
     public DateOnly? ResolvedDate { get; init; }
+
+    public bool IsResolved => ResolvedDate.HasValue;
 
     [Display(Name = "Order number")]
     public string? OrderNumber { get; init; }

@@ -2,6 +2,7 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.AppServices.Permissions.ComplianceStaff
 @using AirWeb.AppServices.Utilities
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
@@ -10,7 +11,7 @@
 @model DetailsModel
 @{
     var caseFile = Model.CaseFile!;
-    ViewData["Title"] = $"Enforcement #{Model.Id} – Facility {caseFile.FacilityId}";
+    ViewData["Title"] = $"Enforcement Case #{Model.Id} – Facility {caseFile.FacilityId}";
 }
 
 @if (caseFile.IsDeleted)
@@ -42,7 +43,7 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-md-0">Enforcement Case</h1>
+        <h1 class="mb-md-0">Enforcement Case File</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
@@ -125,7 +126,7 @@
         </dd>
     </dl>
 
-    <details class="border rounded-1" open="@(caseFile.OpenDetailsSection)">
+    <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
         <summary class="bg-body-secondary px-2 py-1">
             Related Details
         </summary>
@@ -278,8 +279,10 @@
     }
     else
     {
-        var includeDeleteActionModal = false;
         var includeResponseRequestedModal = false;
+        var includeResolveActionModal = false;
+        var includeExecuteOrderModal = false;
+        var includeDeleteActionModal = false;
 
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
@@ -299,7 +302,7 @@
                                 @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
-                        @if (User.CanFinalizeAction(action))
+                        @if (!action.IsDeleted)
                         {
                             <div class="col-auto d-print-none">
                                 <div class="dropdown">
@@ -307,22 +310,70 @@
                                         Actions
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        @if (action.Status == EnforcementActionStatus.Draft)
+                                        @if (User.CanSubmitForReview(action))
                                         {
                                             <li><a class="dropdown-item">Submit for review</a></li>
                                         }
-                                        <li>
-                                            <button class="dropdown-item" type="button" name="issueEnforcementAction"
-                                                    data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                                Issue (sent to facility)
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="dropdown-item" type="button" name="cancelEnforcementAction"
-                                                    data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                                Cancel (closed as unsent)
-                                            </button>
-                                        </li>
+                                        @if (User.CanFinalizeAction(action))
+                                        {
+                                            <li>
+                                                <button class="dropdown-item" type="button" name="issueEnforcementAction"
+                                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                    Issue (sent to facility)
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="dropdown-item" type="button" name="cancelEnforcementAction"
+                                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                    Cancel (closed as unsent)
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
+                                        {
+                                            <li>
+                                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Edit details
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && action.CanAddResponse())
+                                        {
+                                            includeResponseRequestedModal = true;
+                                            <li>
+                                                <button type="button" name="addActionResponse" value="@action.Id.ToString()" class="dropdown-item">
+                                                    Add response received
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanResolve(action))
+                                        {
+                                            includeResolveActionModal = true;
+                                            <li>
+                                                <button type="button" name="resolveAction" value="@action.Id.ToString()" class="dropdown-item">
+                                                    Resolve action
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && action.CanBeExecuted())
+                                        {
+                                            includeExecuteOrderModal = true;
+                                            <li>
+                                                <button type="button" name="executeOrder" value="@action.Id.ToString()" class="dropdown-item">
+                                                    Execute Order
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Delete] && User.CanDelete(action))
+                                        {
+                                            includeDeleteActionModal = true;
+                                            <li>
+                                                <button type="button" name="deleteEnforcementAction" class="dropdown-item link-danger"
+                                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
+                                                    Delete action
+                                                </button>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -330,17 +381,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-baseline g-0 mb-3">
-                        <div class="col">
-                            @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
-                        </div>
-                        @if (Model.UserCan[EnforcementOperation.Edit])
-                        {
-                            <div class="col-auto d-print-none ms-3">
-                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
-                            </div>
-                        }
-                    </div>
+                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
                         case AoViewDto model:
@@ -353,72 +394,72 @@
                             <partial name="_Partials/_ProposedCoDetails" model="model" />
                             break;
                         case ResponseRequestedViewDto model:
-                            <partial name="_Partials/_ResponseRequestedDetails" model="(model, Model.UserCan[EnforcementOperation.Edit])" />
-                            includeResponseRequestedModal = true;
+                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
                             break;
                     }
                 </div>
                 <div class="card-footer">
-                    <div class="row justify-content-between align-items-center g-0 my-1">
-                        <small class="col text-body-secondary">
-                            @if (action.IsDeleted)
-                            {
-                                <div>
-                                    Deleted
-                                    by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
-                                </div>
-                            }
-                            @if (action.Status == EnforcementActionStatus.Draft)
-                            {
-                                <div>
-                                    Draft started
-                                    on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.ReviewRequested)
-                            {
-                                <div>
-                                    Awaiting review
-                                    by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Approved)
-                            {
-                                <div>
-                                    Approved
-                                    by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
-                                    on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Issued)
-                            {
-                                <div>
-                                    Issued
-                                    on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                            else if (action.Status == EnforcementActionStatus.Canceled)
-                            {
-                                <div>
-                                    Canceled
-                                    on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
-                                </div>
-                            }
-                        </small>
-                        @if (Model.UserCan[EnforcementOperation.Delete] // Refers to case file. 
-                             && User.CanDelete(action)) // Refers to enforcement action.
+                    <small class="text-body-secondary">
+                        @if (action is IIsExecuted { IsExecuted: true } executed)
                         {
-                            includeDeleteActionModal = true;
-                            <div class="col-auto d-print-none ms-2">
-                                <button type="button" name="deleteEnforcementAction" class="btn btn-sm btn-link px-0 link-danger link-offset-2"
-                                        data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
-                                    Delete Action
-                                </button>
+                            <div>
+                                Executed
+                                on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
                             </div>
                         }
-                    </div>
+                        @if (action.Status == EnforcementActionStatus.Draft)
+                        {
+                            <div>
+                                Draft started
+                                on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.ReviewRequested)
+                        {
+                            <div>
+                                Awaiting review
+                                by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Approved)
+                        {
+                            <div>
+                                Approved
+                                by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Issued)
+                        {
+                            <div>
+                                Issued
+                                on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        else if (action.Status == EnforcementActionStatus.Canceled)
+                        {
+                            <div>
+                                Canceled
+                                on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        @if (action is IIsResolved { IsResolved: true } resolved)
+                        {
+                            <div>
+                                Resolved
+                                on @Html.DisplayFor(_ => resolved.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            </div>
+                        }
+                        @if (action.IsDeleted)
+                        {
+                            <div>
+                                <span class="text-danger-emphasis">Deleted</span>
+                                by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+                                on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
+                            </div>
+                        }
+                    </small>
                 </div>
             </div>
         }
@@ -436,10 +477,16 @@
                         <div class="modal-body">
                             <p>The enforcement action will be marked as having been issued to the facility.</p>
                             <div class="form-floating">
-                                <input asp-for="IssueEnforcementActionDate.Date" class="form-control" />
-                                <label for="@nameof(Model.IssueEnforcementActionDate)_@nameof(Model.IssueEnforcementActionDate.Date)" class="form-label">Date
+                                <input asp-for="IssueEnforcementAction.Date" class="form-control" />
+                                <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Date)" class="form-label">Date
                                     Issued</label>
-                                <span asp-validation-for="IssueEnforcementActionDate.Date" class="invalid-feedback"></span>
+                                <span asp-validation-for="IssueEnforcementAction.Date" class="invalid-feedback"></span>
+                            </div>
+                            <div class="form-check mt-2" id="issueEnforcementCloseOption">
+                                <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
+                                <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Option)" class="form-check-label">
+                                    Close the Enforcement Case as well.
+                                </label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -457,16 +504,21 @@
                 const actionButtons = document.querySelectorAll('button[name="issueEnforcementAction"]');
                 const label = document.getElementById('issueEnforcementLabel');
                 const actionIdHidden = document.getElementById('issueEnforcementActionId');
+                const actionCloseOption = document.getElementById('issueEnforcementCloseOption');
                 const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
 
-                const actionDate = document.getElementById('IssueEnforcementActionDate_Date');
+                const actionDate = document.getElementById('IssueEnforcementAction_Date');
                 actionDate.max = new Date().toLocaleDateString('fr-ca');
-                actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+                if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                    actionDate.value = new Date().toLocaleDateString('fr-ca');
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
                         actionIdHidden.value = this.value;
-                        label.textContent = this.getAttribute('data-eaType').trim();
+                        const eaType = this.getAttribute('data-eaType').trim();
+                        label.textContent = eaType;
+                        if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter")
+                            actionCloseOption.remove();
                         modal.show();
                     });
                 });
@@ -602,8 +654,115 @@
 
                     const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
                     actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    actionDate.value = new Date().getTime() > new Date(actionDate.value).getTime() ? actionDate.value : new Date().toLocaleDateString('fr-ca');
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
 
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+
+        @if (includeExecuteOrderModal)
+        {
+            // Modal form for executing a formal enforcement action.
+            <div class="modal fade" id="executeOrderModal" tabindex="-1" aria-labelledby="executeOrderModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="executeOrderModalLabel">Execute Order</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="ExecuteOrder" id="ExecuteOrderForm">
+                            <div class="modal-body">
+                                <div class="form-floating mt-2">
+                                    <input asp-for="ExecuteOrder.Date" class="form-control" />
+                                    <label for="@nameof(Model.ExecuteOrder)_@nameof(Model.ExecuteOrder.Date)" class="form-label">Date
+                                        Executed</label>
+                                    <span asp-validation-for="ExecuteOrder.Date" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="executeOrderId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="executeOrder"]');
+                    const actionIdHidden = document.getElementById('executeOrderId');
+                    const modal = new bootstrap.Modal(document.getElementById('executeOrderModal'));
+
+                    const actionDate = document.getElementById('ExecuteOrder_Date');
+                    actionDate.max = new Date().toLocaleDateString('fr-ca');
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+
+        @if (includeResolveActionModal)
+        {
+            // Modal form for resolving an enforcement action.
+            <div class="modal fade" id="resolveActionModal" tabindex="-1" aria-labelledby="resolveActionModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="resolveActionModalLabel">Resolve Enforcement Action</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="ResolveAction" id="ResolveActionForm">
+                            <div class="modal-body">
+                                <div class="form-floating mt-2">
+                                    <input asp-for="ResolveEnforcementAction.Date" class="form-control" />
+                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Date)" class="form-label">Date
+                                        Resolved</label>
+                                    <span asp-validation-for="ResolveEnforcementAction.Date" class="invalid-feedback"></span>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input asp-for="ResolveEnforcementAction.Option" class="form-check-input" />
+                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">
+                                        Close the Enforcement Case as well.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="resolveActionId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="resolveAction"]');
+                    const actionIdHidden = document.getElementById('resolveActionId');
+                    const modal = new bootstrap.Modal(document.getElementById('resolveActionModal'));
+
+                    const actionDate = document.getElementById('ResolveEnforcementAction_Date');
+                    actionDate.max = new Date().toLocaleDateString('fr-ca');
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
                             actionIdHidden.value = this.value;
@@ -616,7 +775,10 @@
     }
 </section>
 
-<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+@{
+    ViewData["CommentsTitle"] = "Case File Comments";
+}
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" view-data="ViewData" />
 
 @if (Model.UserCan[EnforcementOperation.Delete])
 {

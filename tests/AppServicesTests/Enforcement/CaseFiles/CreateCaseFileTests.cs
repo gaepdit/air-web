@@ -12,7 +12,7 @@ using IaipDataService.Facilities;
 
 namespace AppServicesTests.Enforcement.CaseFiles;
 
-public class CreateTests
+public class CreateCaseFileTests
 {
     [Test]
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()

@@ -8,6 +8,8 @@ public record ResponseRequestedViewDto : ActionViewDto
     [Display(Name = "Response received")]
     public DateOnly? ResponseReceived { get; init; }
 
+    public bool IsResponseReceived => ResponseReceived != null;
+
     [Display(Name = "Response received")]
     public string? ResponseComment { get; init; }
 }

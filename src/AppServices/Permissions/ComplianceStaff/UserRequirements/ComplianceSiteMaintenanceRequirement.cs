@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Permissions.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Permissions.UserRequirements.Compliance;
+namespace AirWeb.AppServices.Permissions.ComplianceStaff.UserRequirements;
 
 internal class ComplianceSiteMaintenanceRequirement :
     AuthorizationHandler<ComplianceSiteMaintenanceRequirement>, IAuthorizationRequirement

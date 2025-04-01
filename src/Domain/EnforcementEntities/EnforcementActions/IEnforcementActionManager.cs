@@ -15,10 +15,11 @@ public interface IEnforcementActionManager
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user);
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user);
     public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user);
-    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user);
+    public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user);
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
         ApplicationUser? user);
 
+    public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user);
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user);
 }

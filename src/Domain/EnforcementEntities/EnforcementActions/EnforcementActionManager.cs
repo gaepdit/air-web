@@ -18,7 +18,6 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.NoFurtherActionLetter => new NoFurtherActionLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NovNfaLetter => new NovNfaLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.OrderResolvedLetter => new OrderResolvedLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };
@@ -41,7 +40,7 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has already been canceled.");
+            throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
@@ -80,10 +79,13 @@ public class EnforcementActionManager : IEnforcementActionManager
         }
     }
 
-    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user)
+    public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
     {
-        throw new NotImplementedException();
-        consentOrder.SetUpdater(user?.Id);
+        if (enforcementAction is not IFormalEnforcementAction formalEnforcementAction)
+            throw new InvalidOperationException("Enforcement action is not executable");
+
+        enforcementAction.SetUpdater(user?.Id);
+        formalEnforcementAction.Execute(executedDate);
     }
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
@@ -91,6 +93,18 @@ public class EnforcementActionManager : IEnforcementActionManager
     {
         throw new NotImplementedException();
         consentOrder.SetUpdater(user?.Id);
+    }
+
+    public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
+    {
+        if (enforcementAction is not IResolvable resolvableAction)
+            throw new InvalidOperationException("Enforcement action is not resolvable");
+
+        if (resolvableAction.IsResolved)
+            throw new InvalidOperationException("Enforcement Action has already been resolved.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        resolvableAction.Resolve(resolvedDate);
     }
 
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>

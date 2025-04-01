@@ -4,10 +4,13 @@
 // * Consent Orders
 // * Administrative Orders
 
-public interface IFormalEnforcementAction
+public interface IFormalEnforcementAction : IResolvable, IIsExecuted
 {
-    public bool IsExecuted { get; }
+    internal void Execute(DateOnly executedDate);
+}
+
+public interface IIsExecuted
+{
     public DateOnly? ExecutedDate { get; }
-    public bool IsResolved { get; }
-    public DateOnly? ResolvedDate { get; }
+    public bool IsExecuted { get; }
 }

@@ -45,7 +45,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // Enforcement - Actions (mapped to a single table)
     public DbSet<AdministrativeOrder> AdministrativeOrders => Set<AdministrativeOrder>();
     public DbSet<ConsentOrder> ConsentOrders => Set<ConsentOrder>();
-    public DbSet<OrderResolvedLetter> OrderResolvedLetters => Set<OrderResolvedLetter>();
     public DbSet<InformationalLetter> InformationalLetters => Set<InformationalLetter>();
     public DbSet<LetterOfNoncompliance> LettersOfNoncompliance => Set<LetterOfNoncompliance>();
     public DbSet<NoFurtherActionLetter> NoFurtherActionLetters => Set<NoFurtherActionLetter>();

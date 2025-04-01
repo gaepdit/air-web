@@ -143,6 +143,7 @@ public class CaseFile : ClosableEntity<int>
 
     public List<string> PollutantIds { get; } = [];
     public List<AirProgram> AirPrograms { get; } = [];
+    public bool MissingPollutantsOrPrograms => !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];
