@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 public class EditRedirectModel(IWorkEntryService entryService) : PageModel
 {
@@ -15,13 +15,13 @@ public class EditRedirectModel(IWorkEntryService entryService) : PageModel
         if (entryType is null) return NotFound();
         return RedirectToPage(entryType switch
         {
-            WorkEntryType.AnnualComplianceCertification => "ACC/Edit",
-            WorkEntryType.Inspection => "Inspection/Edit",
-            WorkEntryType.Notification => "Notification/Edit",
-            WorkEntryType.PermitRevocation => "PermitRevocation/Edit",
-            WorkEntryType.Report => "Report/Edit",
-            WorkEntryType.RmpInspection => "Inspection/Edit",
-            WorkEntryType.SourceTestReview => "SourceTestReview/Edit",
+            WorkEntryType.AnnualComplianceCertification => "ACC",
+            WorkEntryType.Inspection => "Inspection",
+            WorkEntryType.Notification => "Notification",
+            WorkEntryType.PermitRevocation => "PermitRevocation",
+            WorkEntryType.Report => "Report",
+            WorkEntryType.RmpInspection => "Inspection",
+            WorkEntryType.SourceTestReview => "SourceTestReview",
             _ => "Index",
         }, new { Id });
     }

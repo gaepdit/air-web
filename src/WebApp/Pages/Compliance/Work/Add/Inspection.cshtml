@@ -1,0 +1,95 @@
+@page "{facilityId?}"
+@using AirWeb.Domain.ComplianceEntities.WorkEntries
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model InspectionAddModel
+@{
+    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p class="lead">
+    For Facility:
+    <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
+</p>
+
+<div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi me-2" role="img" aria-label="Danger:">
+                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+            </svg>
+        </div>
+
+        <div class="mb-3">
+            @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
+                additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+        </div>
+
+        <div class="container">
+            <fieldset class="row mb-3 border rounded-3 py-2">
+                <div class="col">
+                    <legend class="h6">Inspection Date</legend>
+                    <div class="row">
+                        <div class="col-md input-group mb-3">
+                            @Html.EditorFor(m => m.Item.InspectionStartedDate, EditorTemplate.InputDateOnly)
+                            @Html.EditorFor(m => m.Item.InspectionStartedTime, EditorTemplate.InputTimeOnly)
+                        </div>
+                        <div class="col-md input-group mb-1">
+                            @Html.EditorFor(m => m.Item.InspectionEndedDate, EditorTemplate.InputDateOnly)
+                            @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg mb-3">
+                @Html.EditorFor(m => m.Item.InspectionReason, EditorTemplate.SelectNoPlaceholder,
+                    additionalViewData: new { Items = EnumHelper.GetEnumSelectListWithDescription<InspectionReason>().ToArray() })
+            </div>
+
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.WeatherConditions, EditorTemplate.InputNullable)
+            </div>
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.InspectionGuide, EditorTemplate.InputNullable)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg mb-3">
+                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
+            </div>
+            <div class="col-lg mb-3">
+                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3">
+                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.FollowupTaken, EditorTemplate.Checkbox)
+            </div>
+        </div>
+
+        <partial name="Compliance/Work/_Partials/_AddCancelButtons" />
+        <input asp-for="Item.FacilityId" type="hidden" />
+        <input asp-for="Item.IsRmpInspection" type="hidden" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="Shared/_ValidationScriptsPartial" />
+}

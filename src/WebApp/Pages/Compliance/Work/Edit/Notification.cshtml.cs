@@ -3,15 +3,14 @@ using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using AutoMapper;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.Notification;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class EditModel(
+public class NotificationEditModel(
     IWorkEntryService entryService,
     INotificationTypeService notificationTypeService,
     IStaffService staffService,

@@ -2,16 +2,15 @@
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using AutoMapper;
 using FluentValidation;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.SourceTestReview;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class EditModel(
+public class SourceTestReviewEditModel(
     IWorkEntryService entryService,
     ISourceTestService sourceTestService,
     IStaffService staffService,

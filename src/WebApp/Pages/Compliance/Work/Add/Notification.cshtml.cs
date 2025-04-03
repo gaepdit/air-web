@@ -3,14 +3,13 @@ using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.Notification;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
-public class AddModel(
+public class NotificationAddModel(
     IWorkEntryService entryService,
     IFacilityService facilityService,
     INotificationTypeService notificationTypeService,

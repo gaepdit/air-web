@@ -11,7 +11,7 @@ using FluentValidation;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public abstract class EditBase(

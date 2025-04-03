@@ -1,27 +1,26 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Staff;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using AutoMapper;
 using FluentValidation;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.PermitRevocation;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
-public class EditModel(
+public class ReportEditModel(
     IWorkEntryService entryService,
     IStaffService staffService,
     IMapper mapper,
-    IValidator<PermitRevocationUpdateDto> validator)
+    IValidator<ReportUpdateDto> validator)
     : EditBase(entryService, staffService, mapper)
 {
     [BindProperty]
-    public PermitRevocationUpdateDto Item { get; set; } = null!;
+    public ReportUpdateDto Item { get; set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
         var result = await DoGetAsync(token);
         if (result is not PageResult) return result;
-        Item = Mapper.Map<PermitRevocationUpdateDto>(ItemView);
+        Item = Mapper.Map<ReportUpdateDto>(ItemView);
         return result;
     }
 

@@ -10,7 +10,7 @@ using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public abstract class AddBase(IFacilityService facilityService, IStaffService staffService) : PageModel

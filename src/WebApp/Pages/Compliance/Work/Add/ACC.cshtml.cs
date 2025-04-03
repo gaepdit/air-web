@@ -2,13 +2,12 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using FluentValidation;
 using IaipDataService.Facilities;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
-public class AddModel(
+public class AccAddModel(
     IWorkEntryService entryService,
     IFacilityService facilityService,
     IStaffService staffService,

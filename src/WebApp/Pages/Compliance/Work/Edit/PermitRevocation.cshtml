@@ -1,9 +1,9 @@
 ﻿@page "{id:int?}"
-@using AirWeb.Domain.ComplianceEntities.WorkEntries
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model EditModel
+@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
+@model PermitRevocationEditModel
 @{
     ViewData["Title"] = $"Edit {Model.ItemView.ItemName} #{Model.Id.ToString()}";
     ViewData["NoAnchors"] = "True";
@@ -29,8 +29,7 @@
 
         <div class="row">
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.InspectionReason, EditorTemplate.SelectNoPlaceholder,
-                    additionalViewData: new { Items = EnumHelper.GetEnumSelectListWithDescription<InspectionReason>().ToArray() })
+                @Html.EditorFor(m => m.Item.ReceivedDate, EditorTemplate.InputDateOnly)
             </div>
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.Select,
@@ -38,40 +37,23 @@
             </div>
         </div>
 
-        <div class="container">
-            <fieldset class="row mb-3 border rounded-3 py-2">
-                <div class="col">
-                    <legend class="h6">Inspection Date</legend>
-                    <div class="row">
-                        <div class="col-md input-group mb-3">
-                            @Html.EditorFor(m => m.Item.InspectionStartedDate, EditorTemplate.InputDateOnly)
-                            @Html.EditorFor(m => m.Item.InspectionStartedTime, EditorTemplate.InputTimeOnly)
-                        </div>
-                        <div class="col-md input-group mb-1">
-                            @Html.EditorFor(m => m.Item.InspectionEndedDate, EditorTemplate.InputDateOnly)
-                            @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-md">
+                @Html.EditorFor(m => m.Item.PermitRevocationDate, EditorTemplate.InputDateOnly)
+            </div>
+            <div class="col-md mt-3 mt-md-0">
+                <div class="form-floating">
+                    <input asp-for="Item.PhysicalShutdownDate" class="form-control" />
+                    <label asp-for="Item.PhysicalShutdownDate" class="form-label"></label>
+                    <span asp-validation-for="Item.PhysicalShutdownDate" class="invalid-feedback"></span>
                 </div>
-            </fieldset>
-        </div>
-
-        <div class="row">
-            <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.WeatherConditions, EditorTemplate.InputNullable)
             </div>
-            <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.InspectionGuide, EditorTemplate.InputNullable)
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
-            </div>
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
-            </div>
+            <small id="PhysicalShutdownDateHelpText"
+                   class="col-12 form-text text-body-secondary d-inline-block mt-2 mb-3">
+                (Note: Physical shutdown date is optional. Setting a permit revocation or physical shutdown date will
+                <strong>not</strong> change the facility operating status or CMS status. A manager will need to make
+                those changes.)
+            </small>
         </div>
 
         <div class="row">
@@ -85,7 +67,11 @@
                 @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.Item.FollowupTaken, EditorTemplate.Checkbox)
+                <input asp-for="Item.FollowupTaken" class="form-check-input" aria-describedby="FollowupTakenHelpText" />
+                <label asp-for="Item.FollowupTaken" class="form-check-label"></label>
+                <small id="FollowupTakenHelpText" class="form-text text-body-secondary d-inline-block px-2">
+                    (Note: A permit revocation cannot be the discovery event for an enforcement action.)
+                </small>
             </div>
         </div>
 

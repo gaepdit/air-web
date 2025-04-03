@@ -1,13 +1,12 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Staff;
-using AirWeb.WebApp.Pages.Compliance.Work.WorkEntryBase;
 using AutoMapper;
 using FluentValidation;
 
-namespace AirWeb.WebApp.Pages.Compliance.Work.ACC;
+namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
-public class EditModel(
+public class AccEditModel(
     IWorkEntryService entryService,
     IStaffService staffService,
     IMapper mapper,

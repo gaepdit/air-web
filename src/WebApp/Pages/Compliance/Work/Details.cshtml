@@ -60,7 +60,7 @@
                 }
                 @if (Model.UserCan[ComplianceOperation.Edit])
                 {
-                    <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+                    <a asp-page="Edit/Index" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
                 }
                 @if (report.HasPrintout)
                 {
