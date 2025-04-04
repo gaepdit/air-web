@@ -59,10 +59,10 @@ public class DetailsModel(
     [BindProperty]
     public MaxDateAndBooleanDto ResolveEnforcementAction { get; set; } = null!;
 
-    // Methods
     [TempData]
     public Guid? HighlightEnforcementId { get; set; }
 
+    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");

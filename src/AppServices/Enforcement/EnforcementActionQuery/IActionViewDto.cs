@@ -7,6 +7,7 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 public interface IActionViewDto : IDeletable
 {
     public Guid Id { get; }
+    public int CaseFileId { get; }
     public EnforcementActionType ActionType { get; }
     public string Notes { get; }
 

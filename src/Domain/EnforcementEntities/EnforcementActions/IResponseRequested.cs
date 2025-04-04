@@ -7,3 +7,8 @@ public interface IResponseRequested
     public DateOnly? ResponseReceived { get; set; }
     public string? ResponseComment { get; set; }
 }
+
+public interface IResponseRequestedSetter
+{
+    public bool ResponseRequested { get; set; }
+}

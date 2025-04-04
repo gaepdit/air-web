@@ -1,4 +1,5 @@
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
@@ -159,25 +160,38 @@ public class AutoMapperProfile : Profile
 
     private void Enforcement()
     {
-        CreateMap<CaseFile, CaseFileViewDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
-            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
-            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
-        CreateMap<CaseFile, CaseFileSummaryDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CaseFiles();
 
         CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
         CreateMap<ConsentOrder, CoViewDto>();
-        CreateMap<InformationalLetter, ResponseRequestedViewDto>();
-        CreateMap<LetterOfNoncompliance, LonViewDto>();
+        Letters();
         CreateMap<NoFurtherActionLetter, ActionViewDto>();
         CreateMap<NoticeOfViolation, ResponseRequestedViewDto>();
         CreateMap<NovNfaLetter, ResponseRequestedViewDto>();
         CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
 
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
+    }
+
+    private void CaseFiles()
+    {
+        CreateMap<CaseFile, CaseFileViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
+            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
+            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
+        CreateMap<CaseFile, CaseFileSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+    }
+
+    private void Letters()
+    {
+        CreateMap<InformationalLetter, ResponseRequestedViewDto>();
+        CreateMap<LetterOfNoncompliance, LonViewDto>();
+        CreateMap<ResponseRequestedViewDto, CommentAndBooleanDto>()
+            .ForMember(dto => dto.Comment, expression => expression.MapFrom(lon => lon.Notes))
+            .ForMember(dto => dto.Option, expression => expression.MapFrom(lon => lon.ResponseRequested));
     }
 }

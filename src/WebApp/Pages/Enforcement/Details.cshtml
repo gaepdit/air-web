@@ -308,6 +308,14 @@
                                         Actions
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
+                                        {
+                                            <li>
+                                                <a asp-page="Edit/Index" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Edit details
+                                                </a>
+                                            </li>
+                                        }
                                         @if (User.CanSubmitForReview(action))
                                         {
                                             <li><a class="dropdown-item">Submit for review</a></li>
@@ -325,14 +333,6 @@
                                                         data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
                                                     Cancel (closed as unsent)
                                                 </button>
-                                            </li>
-                                        }
-                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
-                                        {
-                                            <li>
-                                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">
-                                                    Edit details
-                                                </a>
                                             </li>
                                         }
                                         @if (Model.UserCan[EnforcementOperation.Edit] && action.CanAddResponse())

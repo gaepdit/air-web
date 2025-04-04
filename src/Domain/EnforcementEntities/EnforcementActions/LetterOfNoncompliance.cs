@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class LetterOfNoncompliance : EnforcementAction, IResponseRequested, IResolvable
+public class LetterOfNoncompliance : EnforcementAction, IResponseRequested, IResponseRequestedSetter, IResolvable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
