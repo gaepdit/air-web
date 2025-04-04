@@ -31,9 +31,7 @@
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedAt)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedAt, DisplayTemplate.ShortDateTimeOffset)</dd>
             <dt class="mb-2">@Html.DisplayNameFor(m => m.ItemSummary.DeleteComments)</dt>
-            <dd>
-                <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(m => m.ItemSummary.DeleteComments, DisplayTemplate.TextOrPlaceholder)</div>
-            </dd>
+            <dd class="border rounded p-3">@Html.DisplayFor(m => m.ItemSummary.DeleteComments, DisplayTemplate.TextWithLinebreaks)</dd>
         </dl>
     </div>
 

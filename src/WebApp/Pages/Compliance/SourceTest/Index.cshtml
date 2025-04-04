@@ -197,7 +197,7 @@ else
 
     <dl>
         <dt class="mb-2">@Html.DisplayNameFor(_ => review.Notes)</dt>
-        <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+        <dd class="border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
     </dl>
 
     if (Model.CommentSection != null)

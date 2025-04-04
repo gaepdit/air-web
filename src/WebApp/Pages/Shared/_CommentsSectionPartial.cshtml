@@ -40,9 +40,7 @@
             @foreach (var comment in Model.Comments)
             {
                 <div id="@comment.Id.ToString()" class="card mb-3 @(comment.Id == Model.NewCommentId ? "border-success" : "")">
-                    <div class="card-body">
-                        <div class="text-break text-pre-line">@comment.Text</div>
-                    </div>
+                    <div class="card-body">@Html.DisplayFor(_ => comment.Text, DisplayTemplate.TextWithLinebreaks)</div>
                     <div class="card-footer">
                         <div class="row justify-content-between align-items-center g-0 my-1">
                             <small class="col text-body-secondary">

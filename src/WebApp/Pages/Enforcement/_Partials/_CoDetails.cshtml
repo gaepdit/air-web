@@ -16,7 +16,7 @@
     <dt class="col-sm-4">@Html.DisplayNameFor(dto => dto.PenaltyAmount)</dt>
     <dd class="col-sm-8">@Html.DisplayFor(dto => dto.PenaltyAmount, DisplayTemplate.Currency)</dd>
     <dt class="col-sm-4 mb-2">@Html.DisplayNameFor(dto => dto.PenaltyComment)</dt>
-    <dd class="col-sm-8 text-break text-pre-line">@Html.DisplayFor(dto => dto.PenaltyComment, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dd class="col-sm-8">@Html.DisplayFor(dto => dto.PenaltyComment, DisplayTemplate.TextWithLinebreaks)</dd>
 </dl>
 @if (Model.StipulatedPenaltiesDefined)
 {
@@ -35,7 +35,7 @@
                     received @Html.DisplayFor(_ => penalty.ReceivedDate, DisplayTemplate.ShortDateOnlyNullable)
                     @if (!string.IsNullOrWhiteSpace(penalty.Notes))
                     {
-                        <div class="mt-2 text-break text-pre-line">@Html.DisplayFor(dto => penalty.Notes, DisplayTemplate.TextOrPlaceholder)</div>
+                        <div class="mt-2">@Html.DisplayFor(dto => penalty.Notes, DisplayTemplate.TextWithLinebreaks)</div>
                     }
                 </li>
             }

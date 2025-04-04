@@ -37,7 +37,7 @@
             on @Html.DisplayFor(_ => caseFile.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
         </p>
         <h3 class="h5">Comments</h3>
-        <p class="text-break text-pre-line">@Html.DisplayFor(_ => caseFile.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+        @Html.DisplayFor(_ => caseFile.DeleteComments, DisplayTemplate.TextWithLinebreaks)
     </div>
 }
 
@@ -121,9 +121,7 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd>
-            <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[None]" })</div>
-        </dd>
+        <dd class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</dd>
     </dl>
 
     <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
@@ -381,7 +379,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
+                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
                         case AoViewDto model:
