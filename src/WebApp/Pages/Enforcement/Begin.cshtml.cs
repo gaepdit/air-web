@@ -19,7 +19,7 @@ public class BeginModel(
     IWorkEntryService entryService,
     ICaseFileService caseFileService,
     IStaffService staffService,
-    IValidator<CaseFileCreateDto> validator) : PageModel
+    IValidator<CaseFileCreateDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public string? FacilityId { get; set; }
@@ -34,6 +34,12 @@ public class BeginModel(
     public IWorkEntrySummaryDto? ComplianceEvent { get; private set; }
     public SelectList StaffSelectList { get; private set; } = null!;
     private const string FacilityIdNotFound = "Facility not found.";
+
+    // Form buttons
+    // Cancel redirects either to Event ID if set or Facility ID
+    public string SubmitText => "Begin Enforcement Case";
+    public string CancelRoute => ComplianceEvent == null ? "/Facility/Details" : "/Compliance/Work/Details";
+    public string RouteId => (ComplianceEvent == null ? FacilityId : EventId.ToString()) ?? string.Empty;
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {

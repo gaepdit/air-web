@@ -13,7 +13,8 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public abstract class AddBase(IFacilityService facilityService, IStaffService staffService) : PageModel
+public abstract class AddBase(IFacilityService facilityService, IStaffService staffService)
+    : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public string? FacilityId { get; set; }
@@ -21,6 +22,11 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     public WorkEntryType EntryType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = null!;
+
+    // Form buttons
+    public string SubmitText => $"Add {EntryType.GetDescription()}";
+    public string CancelRoute => "/Facility/Details";
+    public string RouteId => FacilityId ?? string.Empty;
 
     protected async Task<IActionResult> DoGetAsync()
     {

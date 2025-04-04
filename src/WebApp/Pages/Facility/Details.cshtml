@@ -1,4 +1,4 @@
-﻿@page "{facilityId?}"
+﻿@page "{id?}"
 @using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.WebApp.Platform.Constants
@@ -30,37 +30,37 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/ACC" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/ACC" asp-route-facilityId="@Model.Id">
                             New ACC
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.Id">
                             New FCE
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-facilityId="@Model.Id">
                             New Inspection
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-facilityId="@Model.FacilityId" asp-route-isRmp="true">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-facilityId="@Model.Id" asp-route-isRmp="true">
                             New RMP Inspection
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Report" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Report" asp-route-facilityId="@Model.Id">
                             New Report
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Notification" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Notification" asp-route-facilityId="@Model.Id">
                             New Notification
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/PermitRevocation" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/PermitRevocation" asp-route-facilityId="@Model.Id">
                             New Permit Revocation
                         </a>
                     </li>
@@ -68,7 +68,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Enforcement/Begin" asp-route-facilityId="@Model.FacilityId">
+                        <a class="dropdown-item" asp-page="/Enforcement/Begin" asp-route-facilityId="@Model.Id">
                             Begin Enforcement Case
                         </a>
                     </li>
@@ -102,7 +102,7 @@
                 <h2 class="mb-0">Recent Compliance Work</h2>
             </div>
             <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.FacilityId"
+                <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Id"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
@@ -140,7 +140,7 @@
                 <h2 class="mb-0">Recent FCEs</h2>
             </div>
             <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.FacilityId"
+                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.Id"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
@@ -177,7 +177,7 @@
                 <h2 class="mb-0">Recent Source Tests</h2>
             </div>
             <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Facility/SourceTests" asp-route-FacilityId="@Model.FacilityId"
+                <a asp-page="/Facility/SourceTests" asp-route-FacilityId="@Model.Id"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     View All
                 </a>
@@ -211,7 +211,7 @@
                         </small>
                     </div>
                     <div class="col-auto my-0 ms-3">
-                        <a asp-route-facilityId="@Model.FacilityId" asp-route-refresh="true"
+                        <a asp-route-facilityId="@Model.Id" asp-route-refresh="true"
                            class="btn btn-sm btn-outline-info icon-link">
                             <svg class="bi">
                                 <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>

@@ -14,10 +14,8 @@ using GaEpd.AppLibrary.ListItems;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public abstract class EditBase(
-    IWorkEntryService entryService,
-    IStaffService staffService,
-    IMapper mapper) : PageModel
+public abstract class EditBase(IWorkEntryService entryService, IStaffService staffService, IMapper mapper)
+    : PageModel, ISubmitCancelButtons
 {
     protected readonly IWorkEntryService EntryService = entryService;
     protected readonly IStaffService StaffService = staffService;
@@ -28,6 +26,11 @@ public abstract class EditBase(
 
     public IWorkEntrySummaryDto ItemView { get; protected set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
+
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "../Details";
+    public string RouteId => Id.ToString();
 
     protected async Task<IActionResult> DoGetAsync(CancellationToken token)
     {

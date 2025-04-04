@@ -30,10 +30,7 @@
                 @Html.EditorFor(m => m.UpdateStaff.OfficeId, EditorTemplate.Select, new { Items = Model.OfficeSelectList })
             </div>
         </div>
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary col-sm-3 me-2">Update Info</button>
-            <a asp-page="Index" class="btn btn-outline-secondary col-md-2">Cancel</a>
-        </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+
+        <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>
