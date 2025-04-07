@@ -166,6 +166,9 @@ public class AutoMapperProfile : Profile
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
+        CreateMap<AoViewDto, AdministrativeOrderCommandDto>()
+            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+
         CreateMap<ConsentOrder, CoViewDto>();
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, LonViewDto>();

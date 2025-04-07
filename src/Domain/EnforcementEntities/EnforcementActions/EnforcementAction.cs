@@ -43,7 +43,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public ApplicationUser? ApprovedBy { get; set; }
 
     // Status: Issued
-    public DateOnly? IssueDate { get; internal set; }
+    public DateOnly? IssueDate { get; set; }
     internal bool IsIssued => IssueDate.HasValue;
 
     // Status: Canceled (closed as unsent)

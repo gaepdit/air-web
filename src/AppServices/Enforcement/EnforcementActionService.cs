@@ -65,6 +65,7 @@ public class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
             .ConfigureAwait(false);
 
+        // TODO: Move business logic to Enforcement Action Manager.
         bool caseFileClosed = false;
         if (resource.Option &&
             enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
@@ -152,5 +153,19 @@ public class EnforcementActionService(
         enforcementAction.Notes = resource.Comment;
         ((IResponseRequestedSetter)enforcementAction).ResponseRequested = resource.ResponseRequested;
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+    }
+
+    public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
+    {
+        var administrativeOrder = (AdministrativeOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        administrativeOrder.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+
+        administrativeOrder.Notes = resource.Comment;
+        administrativeOrder.ExecutedDate = resource.ExecutedDate;
+        administrativeOrder.IssueDate = resource.IssueDate;
+        administrativeOrder.AppealedDate = resource.AppealedDate;
+        administrativeOrder.ResolvedDate = resource.ResolvedDate;
+
+        await actionRepository.UpdateAsync(administrativeOrder, token: token).ConfigureAwait(false);
     }
 }

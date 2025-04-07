@@ -22,4 +22,5 @@ public interface IEnforcementActionService
     Task DeleteAsync(Guid id, CancellationToken token);
 
     Task UpdateAsync(Guid id, EnforcementActionCommandDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 }
