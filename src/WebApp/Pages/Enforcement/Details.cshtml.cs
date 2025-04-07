@@ -45,7 +45,7 @@ public class DetailsModel(
     // Note: DTO names are referenced in the page JavaScript.
 
     [BindProperty]
-    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
+    public EnforcementActionCommandDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
     public MaxDateAndBooleanDto IssueEnforcementAction { get; set; } = null!;
@@ -257,7 +257,7 @@ public class DetailsModel(
             CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
         };
 
-        CreateEnforcementAction = new CreateEnforcementActionDto();
+        CreateEnforcementAction = new EnforcementActionCommandDto();
         IssueEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.MissingData };
         AddEnforcementActionResponse = new MaxDateAndCommentDto();
         ExecuteOrder = new MaxDateOnlyDto();

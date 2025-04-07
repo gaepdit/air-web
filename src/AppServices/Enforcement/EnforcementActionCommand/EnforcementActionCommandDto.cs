@@ -1,13 +1,10 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.AppServices.CommonDtos;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
-public record CreateEnforcementActionDto
+public record EnforcementActionCommandDto : CommentDto
 {
-    [DataType(DataType.MultilineText)]
-    [StringLength(7000)]
-    public string? Comment { get; init; }
-
     [Display(Name = "Response requested")]
     public bool ResponseRequested { get; init; } = true;
 

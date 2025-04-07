@@ -36,11 +36,7 @@
         </div>
 
         <div class="mb-3">
-            <div class="form-check">
-                <input asp-for="Item.Option" class="form-check-input" />
-                <label for="@nameof(Model.Item)_@nameof(Model.Item.Option)" class="form-label">Response
-                    requested</label>
-            </div>
+            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />

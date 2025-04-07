@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Enforcement;
+﻿using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -20,7 +20,7 @@ public class LetterOfNoncomplianceEditModel(
     public string ItemName { get; private set; } = null!;
 
     [BindProperty]
-    public CommentAndBooleanDto Item { get; set; } = null!;
+    public EnforcementActionCommandDto Item { get; set; } = null!;
 
     public CaseFileSummaryDto? CaseFile { get; set; }
 
@@ -41,7 +41,7 @@ public class LetterOfNoncomplianceEditModel(
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
 
-        Item = mapper.Map<CommentAndBooleanDto>(itemView);
+        Item = mapper.Map<EnforcementActionCommandDto>(itemView);
         ItemName = itemView.ActionType.GetDescription();
         return Page();
     }

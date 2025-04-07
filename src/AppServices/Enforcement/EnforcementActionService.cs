@@ -16,7 +16,7 @@ public class EnforcementActionService(
     IMapper mapper,
     IUserService userService) : IEnforcementActionService
 {
-    public async Task<Guid> CreateAsync(int caseFileId, CreateEnforcementActionDto resource,
+    public async Task<Guid> CreateAsync(int caseFileId, EnforcementActionCommandDto resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -136,13 +136,13 @@ public class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task UpdateAsync(Guid id, CommentAndBooleanDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, EnforcementActionCommandDto resource, CancellationToken token = default)
     {
         var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
         enforcementAction.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         enforcementAction.Notes = resource.Comment;
-        ((IResponseRequestedSetter)enforcementAction).ResponseRequested = resource.Option;
+        ((IResponseRequestedSetter)enforcementAction).ResponseRequested = resource.ResponseRequested;
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 }
