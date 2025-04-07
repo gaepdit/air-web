@@ -52,8 +52,8 @@ public class AdministrativeOrderCommandValidator : AbstractValidator<Administrat
             .WithMessage("The order cannot be issued before it is executed.")
             .Must(dto => dto.AppealedDate == null || dto.AppealedDate >= dto.IssueDate)
             .WithMessage("The order cannot be appealed before it is issued.")
-            .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.ExecutedDate)
-            .WithMessage("The order cannot be resolved before it is executed.")
+            .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.IssueDate)
+            .WithMessage("The order cannot be resolved before it is issued.")
             .Must(dto => dto.ResolvedDate == null || dto.AppealedDate == null || dto.ResolvedDate >= dto.AppealedDate)
             .WithMessage("The order cannot be appealed after it is resolved.");
     }

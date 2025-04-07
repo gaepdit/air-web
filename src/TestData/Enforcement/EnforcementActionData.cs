@@ -151,7 +151,7 @@ public static class EnforcementActionData
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(148)),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(160)),
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(161)),
-            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-169)),
+            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(169)),
             OrderId = 1552,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),

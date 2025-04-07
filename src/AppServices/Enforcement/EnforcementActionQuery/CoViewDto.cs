@@ -4,7 +4,7 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
 {
-    [Display(Name = "Received from facility with signature")]
+    [Display(Name = "Signed copy received from facility")]
     public DateOnly? ReceivedFromFacility { get; init; }
 
     [Display(Name = "Executed")]
@@ -21,7 +21,9 @@ public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
     public bool IsResolved => ResolvedDate.HasValue;
 
     [Display(Name = "Order number")]
-    public string? OrderNumber { get; init; }
+    public string? OrderNumber => OrderId == 0 ? null : $"{ConsentOrder.OrderNumberPrefix}{OrderId}";
+
+    public short OrderId { get; init; }
 
     [Display(Name = "Penalty assessed")]
     public decimal? PenaltyAmount { get; init; }

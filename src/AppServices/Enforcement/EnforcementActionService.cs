@@ -159,15 +159,27 @@ public class EnforcementActionService(
 
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
     {
-        var administrativeOrder = (AdministrativeOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
-        administrativeOrder.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        entity.SetUpdater(currentUser?.Id);
+        mapper.Map(resource, entity);
 
-        administrativeOrder.Notes = resource.Comment;
-        administrativeOrder.ExecutedDate = resource.ExecutedDate;
-        administrativeOrder.IssueDate = resource.IssueDate;
-        administrativeOrder.AppealedDate = resource.AppealedDate;
-        administrativeOrder.ResolvedDate = resource.ResolvedDate;
+        if (resource.IssueDate.HasValue)
+            actionManager.SetIssueDate(entity, resource.IssueDate.Value, currentUser);
 
-        await actionRepository.UpdateAsync(administrativeOrder, token: token).ConfigureAwait(false);
+        await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
+    }
+
+    public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
+    {
+        var entity = (ConsentOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        entity.SetUpdater(currentUser?.Id);
+        mapper.Map(resource, entity);
+
+        if (resource.IssueDate.HasValue)
+            actionManager.SetIssueDate(entity, resource.IssueDate.Value, currentUser);
+
+        await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 }

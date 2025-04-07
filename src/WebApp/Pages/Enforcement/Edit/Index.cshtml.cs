@@ -23,7 +23,7 @@ public class EditEnforcementActionRedirectModel : PageModel
                 or EnforcementActionType.NovNfaLetter => "Letter",
             EnforcementActionType.NoticeOfViolation => "NoticeOfViolation",
             EnforcementActionType.ProposedConsentOrder => "ProposedConsentOrder",
-            _ => "Index",
-        }, new { Id });
+            _ => "../Index",
+        }, routeValues: new { Id });
     }
 }

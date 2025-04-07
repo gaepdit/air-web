@@ -23,4 +23,5 @@ public interface IEnforcementActionService
 
     Task UpdateAsync(Guid id, string notes, bool responseRequested, CancellationToken token = default);
     Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default);
 }

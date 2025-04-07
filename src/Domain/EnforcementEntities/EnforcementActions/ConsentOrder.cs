@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
+﻿using AirWeb.Domain.DataAttributes;
+using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +29,15 @@ public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
     public bool IsResolved => ResolvedDate.HasValue;
     public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 
-    public short? OrderId { get; set; }
+    [PositiveShort(ErrorMessage = "The Order ID must be a positive number.")]
+    public short OrderId { get; set; }
+
+    public const string? OrderNumberPrefix = "EPD-AQC-";
 
     [StringLength(13)]
     public string? OrderNumber
     {
-        get => OrderId is null ? null : string.Concat("EPD-AQC-", OrderId.ToString());
+        get => OrderId == 0 ? null : $"{OrderNumberPrefix}{OrderId}";
 
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
@@ -47,6 +51,7 @@ public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
     }
 
     [Precision(12, 2)]
+    [PositiveDecimal(ErrorMessage = "The penalty amount cannot be negative.")]
     public decimal? PenaltyAmount { get; set; }
 
     [StringLength(7000)]

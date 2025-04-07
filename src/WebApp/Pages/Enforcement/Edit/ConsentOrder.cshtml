@@ -1,7 +1,8 @@
 ﻿@page "{id:Guid?}"
+@using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@model AdministrativeOrderEditModel
+@model ConsentOrderEditModel
 @{
     var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Edit {Model.ItemName}";
@@ -35,16 +36,32 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 mb-3">
+            <div class="col-sm-6 mb-3">
+                @Html.EditorFor(model => model.Item.OrderId, EditorTemplate.InputShortWithAddon,
+                    additionalViewData: new { Min = 0, Addon = ConsentOrder.OrderNumberPrefix })
+            </div>
+            <div class="col-sm-6 mb-3">
+                @Html.EditorFor(model => model.Item.PenaltyAmount, EditorTemplate.InputCurrency, new { Min = 0 })
+            </div>
+            <div class="mb-3">
+                @Html.EditorFor(model => model.Item.PenaltyComment, EditorTemplate.Textarea, new { Rows = 3 })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 mb-3">
+                @Html.EditorFor(model => model.Item.ReceivedFromFacility, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-sm-6 mb-3">
                 @Html.EditorFor(model => model.Item.ExecutedDate, EditorTemplate.InputDateOnlyNullable)
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-sm-6 mb-3">
+                @Html.EditorFor(model => model.Item.ReceivedFromDirectorsOffice, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-sm-6 mb-3">
                 @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
             </div>
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.AppealedDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-sm-6 mb-3">
                 @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
             </div>
         </div>
