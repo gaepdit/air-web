@@ -82,10 +82,19 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
     {
         if (enforcementAction is not IFormalEnforcementAction formalEnforcementAction)
-            throw new InvalidOperationException("Enforcement action is not executable");
+            throw new InvalidOperationException("Enforcement action is not executable.");
 
         enforcementAction.SetUpdater(user?.Id);
         formalEnforcementAction.Execute(executedDate);
+    }
+
+    public void AppealOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        if (enforcementAction is not AdministrativeOrder administrativeOrder)
+            throw new InvalidOperationException("Enforcement action is not appealable.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        administrativeOrder.Appeal(executedDate);
     }
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
@@ -98,7 +107,7 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
     {
         if (enforcementAction is not IResolvable resolvableAction)
-            throw new InvalidOperationException("Enforcement action is not resolvable");
+            throw new InvalidOperationException("Enforcement action is not resolvable.");
 
         if (resolvableAction.IsResolved)
             throw new InvalidOperationException("Enforcement Action has already been resolved.");

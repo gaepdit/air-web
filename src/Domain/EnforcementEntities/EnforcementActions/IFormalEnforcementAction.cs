@@ -14,3 +14,9 @@ public interface IIsExecuted
     public DateOnly? ExecutedDate { get; }
     public bool IsExecuted { get; }
 }
+
+public interface IIsAppealed
+{
+    public DateOnly? AppealedDate { get; }
+    public bool IsAppealed { get; }
+}

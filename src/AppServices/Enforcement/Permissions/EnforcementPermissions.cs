@@ -9,11 +9,16 @@ namespace AirWeb.AppServices.Enforcement.Permissions;
 public static class EnforcementPermissions
 {
     public static bool CanAddResponse(this IActionViewDto item) =>
-        item is { IsDeleted: false, Status: EnforcementActionStatus.Issued } and
-            ResponseRequestedViewDto { IsResponseReceived: false };
+        item is { IsDeleted: false, Status: EnforcementActionStatus.Issued }
+            and ResponseRequestedViewDto { IsResponseReceived: false };
 
     public static bool CanBeExecuted(this IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } and IIsExecuted { IsExecuted: false };
+
+    public static bool CanBeAppealed(this IActionViewDto item) =>
+        item is { IsIssued: true, IsCanceled: false, IsDeleted: false }
+            and IIsExecuted { IsExecuted: true }
+            and IIsAppealed { IsAppealed: false };
 
     public static bool CanEdit(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } && user.IsComplianceStaff();

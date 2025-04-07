@@ -16,6 +16,7 @@ public interface IEnforcementActionManager
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user);
     public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user);
     public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user);
+    public void AppealOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user);
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
         ApplicationUser? user);

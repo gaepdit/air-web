@@ -121,7 +121,7 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</dd>
+        <dd><div class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div></dd>
     </dl>
 
     <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
@@ -280,16 +280,17 @@
         var includeResponseRequestedModal = false;
         var includeResolveActionModal = false;
         var includeExecuteOrderModal = false;
+        var includeAppealedOrderModal = false;
         var includeDeleteActionModal = false;
 
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
             var eaBorder = action.Id == Model.HighlightEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
-            <div id="@action.Id.ToString()" class="card mb-3 border-2 @eaBorder">
+            <div class="card mb-3 border-2 @eaBorder">
                 <div class="card-header">
                     <div class="row justify-content-between align-items-center g-2">
                         <div class="col">
-                            <h3 class="h5 card-title">
+                            <h3 id="@action.Id.ToString()" class="h5 card-title">
                                 @if (action.IsDeleted)
                                 {
                                     <em class="text-danger-emphasis">Deleted</em>
@@ -359,6 +360,15 @@
                                             <li>
                                                 <button type="button" name="executeOrder" value="@action.Id.ToString()" class="dropdown-item">
                                                     Execute Order
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && action.CanBeAppealed())
+                                        {
+                                            includeAppealedOrderModal = true;
+                                            <li>
+                                                <button type="button" name="appealOrder" value="@action.Id.ToString()" class="dropdown-item">
+                                                    Order appealed
                                                 </button>
                                             </li>
                                         }
@@ -701,6 +711,55 @@
                     const modal = new bootstrap.Modal(document.getElementById('executeOrderModal'));
 
                     const actionDate = document.getElementById('ExecuteOrder_Date');
+                    actionDate.max = new Date().toLocaleDateString('fr-ca');
+                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+        @if (includeAppealedOrderModal)
+        {
+            // Modal form for appealing an administrative order.
+            <div class="modal fade" id="appealOrderModal" tabindex="-1" aria-labelledby="appealOrderModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="appealOrderModalLabel">Administrative Order Appealed</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="AppealOrder" id="AppealOrderForm">
+                            <div class="modal-body">
+                                <div class="form-floating mt-2">
+                                    <input asp-for="AppealOrder.Date" class="form-control" />
+                                    <label for="@nameof(Model.AppealOrder)_@nameof(Model.AppealOrder.Date)" class="form-label">Date
+                                        Appealed</label>
+                                    <span asp-validation-for="AppealOrder.Date" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="appealOrderId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="appealOrder"]');
+                    const actionIdHidden = document.getElementById('appealOrderId');
+                    const modal = new bootstrap.Modal(document.getElementById('appealOrderModal'));
+
+                    const actionDate = document.getElementById('AppealOrder_Date');
                     actionDate.max = new Date().toLocaleDateString('fr-ca');
                     if (new Date().getTime() < actionDate.valueAsDate.getTime())
                         actionDate.value = new Date().toLocaleDateString('fr-ca');
