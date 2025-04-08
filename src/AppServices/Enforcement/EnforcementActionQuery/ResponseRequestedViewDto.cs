@@ -1,6 +1,8 @@
-﻿namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+﻿using AirWeb.AppServices.CommonInterfaces;
 
-public record ResponseRequestedViewDto : ActionViewDto
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+
+public record ResponseRequestedViewDto : ActionViewDto, IResponseRequested
 {
     [Display(Name = "Response requested")]
     public bool ResponseRequested { get; init; }

@@ -145,13 +145,15 @@ public class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task UpdateAsync(Guid id, EnforcementActionCommandDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, string notes, bool responseRequested, CancellationToken token = default)
     {
         var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
         enforcementAction.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
-        enforcementAction.Notes = resource.Comment;
-        ((IResponseRequestedSetter)enforcementAction).ResponseRequested = resource.ResponseRequested;
+        enforcementAction.Notes = notes;
+        if (enforcementAction is IResponseRequested responseRequestedAction)
+            responseRequestedAction.ResponseRequested = responseRequested;
+
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 

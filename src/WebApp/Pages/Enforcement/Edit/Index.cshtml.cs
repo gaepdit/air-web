@@ -17,10 +17,11 @@ public class EditEnforcementActionRedirectModel : PageModel
         {
             EnforcementActionType.AdministrativeOrder => "AdministrativeOrder",
             EnforcementActionType.ConsentOrder => "ConsentOrder",
-            EnforcementActionType.InformationalLetter or EnforcementActionType.LetterOfNoncompliance => "Letter",
-            EnforcementActionType.NoFurtherActionLetter => "NoFurtherActionLetter",
+            EnforcementActionType.InformationalLetter
+                or EnforcementActionType.LetterOfNoncompliance
+                or EnforcementActionType.NoFurtherActionLetter
+                or EnforcementActionType.NovNfaLetter => "Letter",
             EnforcementActionType.NoticeOfViolation => "NoticeOfViolation",
-            EnforcementActionType.NovNfaLetter => "NovNfaLetter",
             EnforcementActionType.ProposedConsentOrder => "ProposedConsentOrder",
             _ => "Index",
         }, new { Id });

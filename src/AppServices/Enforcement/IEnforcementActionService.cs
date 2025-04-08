@@ -21,6 +21,6 @@ public interface IEnforcementActionService
     Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token);
     Task DeleteAsync(Guid id, CancellationToken token);
 
-    Task UpdateAsync(Guid id, EnforcementActionCommandDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, string notes, bool responseRequested, CancellationToken token = default);
     Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 }

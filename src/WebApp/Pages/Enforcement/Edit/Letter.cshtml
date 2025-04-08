@@ -2,7 +2,7 @@
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model LetterOfNoncomplianceEditModel
+@model LetterEditModel
 @{
     var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Edit {Model.ItemName}";
@@ -32,13 +32,15 @@
         <h2 class="h4">Update Details</h2>
 
         <div class="mb-3">
-            @Html.EditorFor(m => m.Item.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+            @Html.EditorFor(m => m.Comment, EditorTemplate.Textarea, new { Rows = 5 })
         </div>
-
-        <div class="mb-3">
-            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
-        </div>
-
+        @if (Model.ShowResponseRequested)
+        {
+            <div class="mb-3">
+                @Html.EditorFor(m => m.ResponseRequested, EditorTemplate.Checkbox)
+            </div>
+        }
+        
         <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>

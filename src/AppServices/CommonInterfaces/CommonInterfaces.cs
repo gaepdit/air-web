@@ -31,3 +31,8 @@ public interface IIsDeleted
 {
     public bool IsDeleted { get; }
 }
+
+public interface IResponseRequested
+{
+    public bool ResponseRequested { get; init; }
+}

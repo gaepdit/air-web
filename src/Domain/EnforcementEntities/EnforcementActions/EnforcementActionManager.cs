@@ -21,9 +21,11 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };
+
         enforcementAction.Notes = notes;
-        if (enforcementAction is IResponseRequested responseRequestedAction && responseRequested)
-            responseRequestedAction.RequestResponse();
+        if (enforcementAction is IResponseRequested responseRequestedAction)
+            responseRequestedAction.ResponseRequested = responseRequested;
+
         caseFile.EnforcementActions.Add(enforcementAction);
         return enforcementAction;
     }

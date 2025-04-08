@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResponseRequested, IResponseRequestedSetter
+public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -15,7 +15,6 @@ public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResp
         ActionType = EnforcementActionType.NovNfaLetter;
     }
 
-    public void RequestResponse() => ResponseRequested = true;
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 

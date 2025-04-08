@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class InformationalLetter : EnforcementAction, IResponseRequested, IResponseRequestedSetter
+public class InformationalLetter : EnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -15,7 +15,6 @@ public class InformationalLetter : EnforcementAction, IResponseRequested, IRespo
         ActionType = EnforcementActionType.InformationalLetter;
     }
 
-    public void RequestResponse() => ResponseRequested = true;
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 
