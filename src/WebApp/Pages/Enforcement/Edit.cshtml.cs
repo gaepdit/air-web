@@ -15,7 +15,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class EditModel(
     ICaseFileService caseFileService,
     IStaffService staffService,
-    IValidator<CaseFileUpdateDto> validator) : PageModel
+    IValidator<CaseFileUpdateDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public int Id { get; set; } // Case File ID
@@ -25,6 +25,11 @@ public class EditModel(
 
     public CaseFileSummaryDto ItemView { get; private set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
+
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "Details";
+    public string RouteId => Id.ToString();
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {

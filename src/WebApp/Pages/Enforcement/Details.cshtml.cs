@@ -18,9 +18,8 @@ public class DetailsModel(
     ICaseFileService caseFileService,
     IEnforcementActionService enforcementActionService,
     IAuthorizationService authorization,
-    IValidator<MaxDateOnlyDto> issueActionValidator,
+    IValidator<MaxDateOnlyDto> maxDateValidator,
     IValidator<MaxDateAndCommentDto> addResponseValidator,
-    IValidator<MaxDateOnlyDto> executeActionValidator,
     IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
 {
     // Case File
@@ -45,7 +44,7 @@ public class DetailsModel(
     // Note: DTO names are referenced in the page JavaScript.
 
     [BindProperty]
-    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
+    public EnforcementActionCreateDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
     public MaxDateAndBooleanDto IssueEnforcementAction { get; set; } = null!;
@@ -57,12 +56,15 @@ public class DetailsModel(
     public MaxDateOnlyDto ExecuteOrder { get; set; } = null!;
 
     [BindProperty]
+    public MaxDateOnlyDto AppealOrder { get; set; } = null!;
+
+    [BindProperty]
     public MaxDateAndBooleanDto ResolveEnforcementAction { get; set; } = null!;
 
-    // Methods
     [TempData]
     public Guid? HighlightEnforcementId { get; set; }
 
+    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
@@ -114,7 +116,7 @@ public class DetailsModel(
         var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await issueActionValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
+        await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -156,7 +158,7 @@ public class DetailsModel(
         var action = await enforcementActionService.FindAsync(enforcementActionId, token);
         if (action is null || !action.CanBeExecuted()) return BadRequest();
 
-        await executeActionValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
+        await maxDateValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -165,6 +167,24 @@ public class DetailsModel(
         }
 
         await enforcementActionService.ExecuteOrderAsync(enforcementActionId, ExecuteOrder, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostAppealOrderAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        if (action is null || !action.CanBeAppealed()) return BadRequest();
+
+        await maxDateValidator.ApplyValidationAsync(AppealOrder, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage();
+        }
+
+        await enforcementActionService.AppealOrderAsync(enforcementActionId, AppealOrder, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
@@ -257,10 +277,11 @@ public class DetailsModel(
             CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
         };
 
-        CreateEnforcementAction = new CreateEnforcementActionDto();
+        CreateEnforcementAction = new EnforcementActionCreateDto();
         IssueEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.MissingData };
         AddEnforcementActionResponse = new MaxDateAndCommentDto();
         ExecuteOrder = new MaxDateOnlyDto();
+        AppealOrder = new MaxDateOnlyDto();
         ResolveEnforcementAction = new MaxDateAndBooleanDto { Option = !CaseFile.AttentionNeeded };
 
         return Page();

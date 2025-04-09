@@ -21,9 +21,11 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };
+
         enforcementAction.Notes = notes;
-        if (enforcementAction is IResponseRequested responseRequestedAction && responseRequested)
-            responseRequestedAction.RequestResponse();
+        if (enforcementAction is IResponseRequested responseRequestedAction)
+            responseRequestedAction.ResponseRequested = responseRequested;
+
         caseFile.EnforcementActions.Add(enforcementAction);
         return enforcementAction;
     }
@@ -37,14 +39,14 @@ public class EnforcementActionManager : IEnforcementActionManager
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
+    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly? issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
-        enforcementAction.Status = EnforcementActionStatus.Issued;
+        enforcementAction.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
     }
 
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)
@@ -82,10 +84,19 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
     {
         if (enforcementAction is not IFormalEnforcementAction formalEnforcementAction)
-            throw new InvalidOperationException("Enforcement action is not executable");
+            throw new InvalidOperationException("Enforcement action is not executable.");
 
         enforcementAction.SetUpdater(user?.Id);
         formalEnforcementAction.Execute(executedDate);
+    }
+
+    public void AppealOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        if (enforcementAction is not AdministrativeOrder administrativeOrder)
+            throw new InvalidOperationException("Enforcement action is not appealable.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        administrativeOrder.Appeal(executedDate);
     }
 
     public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
@@ -98,7 +109,7 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
     {
         if (enforcementAction is not IResolvable resolvableAction)
-            throw new InvalidOperationException("Enforcement action is not resolvable");
+            throw new InvalidOperationException("Enforcement action is not resolvable.");
 
         if (resolvableAction.IsResolved)
             throw new InvalidOperationException("Enforcement Action has already been resolved.");

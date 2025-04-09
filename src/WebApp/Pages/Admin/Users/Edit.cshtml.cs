@@ -11,7 +11,7 @@ namespace AirWeb.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditModel(IStaffService staffService, IOfficeService officeService, IValidator<StaffUpdateDto> validator)
-    : PageModel
+    : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public Guid Id { get; set; }
@@ -22,6 +22,11 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
     public StaffViewDto DisplayStaff { get; private set; } = null!;
 
     public SelectList OfficesSelectList { get; private set; } = null!;
+
+    // Form buttons
+    public string SubmitText => "Update Info";
+    public string CancelRoute => "Details";
+    public string RouteId => Id.ToString();
 
     public async Task<IActionResult> OnGetAsync(string? id)
     {

@@ -11,6 +11,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
@@ -102,13 +103,13 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<InspectionViewDto, InspectionUpdateDto>()
             .ForMember(dto => dto.InspectionStartedDate, expression =>
-                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionStarted.Date)))
+                expression.MapFrom(dto => DateOnly.FromDateTime(dto.InspectionStarted.Date)))
             .ForMember(dto => dto.InspectionStartedTime, expression =>
-                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionStarted.TimeOfDay)))
+                expression.MapFrom(dto => TimeOnly.FromTimeSpan(dto.InspectionStarted.TimeOfDay)))
             .ForMember(dto => dto.InspectionEndedDate, expression =>
-                expression.MapFrom(inspection => DateOnly.FromDateTime(inspection.InspectionEnded.Date)))
+                expression.MapFrom(dto => DateOnly.FromDateTime(dto.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
-                expression.MapFrom(inspection => TimeOnly.FromTimeSpan(inspection.InspectionEnded.TimeOfDay)));
+                expression.MapFrom(dto => TimeOnly.FromTimeSpan(dto.InspectionEnded.TimeOfDay)));
         CreateMap<Inspection, InspectionViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
@@ -159,25 +160,44 @@ public class AutoMapperProfile : Profile
 
     private void Enforcement()
     {
-        CreateMap<CaseFile, CaseFileViewDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
-            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
-            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
-        CreateMap<CaseFile, CaseFileSummaryDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CaseFiles();
 
         CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
+        CreateMap<AoViewDto, AdministrativeOrderCommandDto>()
+            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+        CreateMap<AdministrativeOrderCommandDto, AdministrativeOrder>(MemberList.Source)
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Comment));
+
         CreateMap<ConsentOrder, CoViewDto>();
+        CreateMap<CoViewDto, ConsentOrderCommandDto>()
+            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+        CreateMap<ConsentOrderCommandDto, ConsentOrder>(MemberList.Source)
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Comment));
+
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, LonViewDto>();
+
         CreateMap<NoFurtherActionLetter, ActionViewDto>();
         CreateMap<NoticeOfViolation, ResponseRequestedViewDto>();
         CreateMap<NovNfaLetter, ResponseRequestedViewDto>();
         CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
 
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
+
+        CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
+            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+    }
+
+    private void CaseFiles()
+    {
+        CreateMap<CaseFile, CaseFileViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
+            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
+            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
+        CreateMap<CaseFile, CaseFileSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }

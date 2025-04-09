@@ -2,33 +2,33 @@
 @model AirWeb.AppServices.Enforcement.EnforcementActionQuery.ResponseRequestedViewDto
 
 <div class="mt-2">
-    @if (Model.ResponseRequested)
+    @if (Model.IsResponseReceived)
     {
-        @if (Model.IsResponseReceived)
+        if (Model.ResponseComment != null)
         {
-            if (Model.ResponseComment != null)
-            {
-                <em>
-                    Response received
-                    @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):
-                </em>
-                <div>@Model.ResponseComment</div>
-            }
-            else
-            {
-                <em>
-                    Response received
-                    @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).
-                </em>
-            }
+            <em>
+                Response received
+                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):
+            </em>
+            <div>@Model.ResponseComment</div>
         }
         else
         {
-            <strong>Response requested.</strong>
+            <em>
+                Response received
+                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).
+            </em>
         }
     }
     else
     {
-        <em>No response requested.</em>
+        @if (Model.ResponseRequested)
+        {
+            <strong>Response requested.</strong>
+        }
+        else
+        {
+            <em>No response requested.</em>
+        }
     }
 </div>

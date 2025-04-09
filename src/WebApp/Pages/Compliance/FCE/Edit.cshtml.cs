@@ -9,7 +9,7 @@ using GaEpd.AppLibrary.ListItems;
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class EditModel(IFceService fceService, IStaffService staffService) : PageModel
+public class EditModel(IFceService fceService, IStaffService staffService) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public int Id { get; set; }
@@ -19,6 +19,11 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
 
     public FceSummaryDto ItemView { get; private set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
+
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "Details";
+    public string RouteId => Id.ToString();
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {

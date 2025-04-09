@@ -13,7 +13,10 @@
     var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Enforcement Case #{Model.Id} – Facility {caseFile.FacilityId}";
 }
-
+<script>
+    let today = new Date();
+    let todayHtmlString = [today.getFullYear(), ('0' + (today.getMonth() + 1)).slice(-2), ('0' + today.getDate()).slice(-2)].join('-');
+</script>
 @if (caseFile.IsDeleted)
 {
     <div class="callout callout-danger mb-3">
@@ -37,7 +40,7 @@
             on @Html.DisplayFor(_ => caseFile.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
         </p>
         <h3 class="h5">Comments</h3>
-        <p class="text-break text-pre-line">@Html.DisplayFor(_ => caseFile.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+        @Html.DisplayFor(_ => caseFile.DeleteComments, DisplayTemplate.TextWithLinebreaks)
     </div>
 }
 
@@ -122,7 +125,7 @@
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
         <dd>
-            <div class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[None]" })</div>
+            <div class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
         </dd>
     </dl>
 
@@ -282,16 +285,17 @@
         var includeResponseRequestedModal = false;
         var includeResolveActionModal = false;
         var includeExecuteOrderModal = false;
+        var includeAppealedOrderModal = false;
         var includeDeleteActionModal = false;
 
         @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
         {
             var eaBorder = action.Id == Model.HighlightEnforcementId ? "border-success-subtle" : (action.IsDeleted ? "border-danger-subtle" : "");
-            <div id="@action.Id.ToString()" class="card mb-3 border-2 @eaBorder">
+            <div class="card mb-3 border-2 @eaBorder">
                 <div class="card-header">
                     <div class="row justify-content-between align-items-center g-2">
                         <div class="col">
-                            <h3 class="h5 card-title">
+                            <h3 id="@action.Id.ToString()" class="h5 card-title">
                                 @if (action.IsDeleted)
                                 {
                                     <em class="text-danger-emphasis">Deleted</em>
@@ -310,6 +314,14 @@
                                         Actions
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
+                                        {
+                                            <li>
+                                                <a asp-page="Edit/Index" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Edit details
+                                                </a>
+                                            </li>
+                                        }
                                         @if (User.CanSubmitForReview(action))
                                         {
                                             <li><a class="dropdown-item">Submit for review</a></li>
@@ -327,14 +339,6 @@
                                                         data-eaType="@action.ActionType.GetDescription()" value="@action.Id.ToString()">
                                                     Cancel (closed as unsent)
                                                 </button>
-                                            </li>
-                                        }
-                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanEdit(action))
-                                        {
-                                            <li>
-                                                <a asp-page="Edit" asp-route-id="@action.Id.ToString()" class="dropdown-item">
-                                                    Edit details
-                                                </a>
                                             </li>
                                         }
                                         @if (Model.UserCan[EnforcementOperation.Edit] && action.CanAddResponse())
@@ -364,6 +368,15 @@
                                                 </button>
                                             </li>
                                         }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && action.CanBeAppealed())
+                                        {
+                                            includeAppealedOrderModal = true;
+                                            <li>
+                                                <button type="button" name="appealOrder" value="@action.Id.ToString()" class="dropdown-item">
+                                                    Order appealed
+                                                </button>
+                                            </li>
+                                        }
                                         @if (Model.UserCan[EnforcementOperation.Delete] && User.CanDelete(action))
                                         {
                                             includeDeleteActionModal = true;
@@ -381,7 +394,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "[No notes entered]" })
+                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
                         case AoViewDto model:
@@ -508,9 +521,8 @@
                 const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
 
                 const actionDate = document.getElementById('IssueEnforcementAction_Date');
-                actionDate.max = new Date().toLocaleDateString('fr-ca');
-                if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                    actionDate.value = new Date().toLocaleDateString('fr-ca');
+                actionDate.max = todayHtmlString;
+                if (today.getTime() < actionDate.valueAsDate.getTime()) actionDate.value = todayHtmlString;
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
@@ -653,9 +665,9 @@
                     const modal = new bootstrap.Modal(document.getElementById('addResponseModal'));
 
                     const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -703,9 +715,59 @@
                     const modal = new bootstrap.Modal(document.getElementById('executeOrderModal'));
 
                     const actionDate = document.getElementById('ExecuteOrder_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
+
+                    actionButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            actionIdHidden.value = this.value;
+                            modal.show();
+                        });
+                    });
+                });
+            </script>
+        }
+
+        @if (includeAppealedOrderModal)
+        {
+            // Modal form for appealing an administrative order.
+            <div class="modal fade" id="appealOrderModal" tabindex="-1" aria-labelledby="appealOrderModalLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="appealOrderModalLabel">Administrative Order Appealed</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="AppealOrder" id="AppealOrderForm">
+                            <div class="modal-body">
+                                <div class="form-floating mt-2">
+                                    <input asp-for="AppealOrder.Date" class="form-control" />
+                                    <label for="@nameof(Model.AppealOrder)_@nameof(Model.AppealOrder.Date)" class="form-label">Date
+                                        Appealed</label>
+                                    <span asp-validation-for="AppealOrder.Date" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="appealOrderId" name="enforcementActionId" value="" />
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const actionButtons = document.querySelectorAll('button[name="appealOrder"]');
+                    const actionIdHidden = document.getElementById('appealOrderId');
+                    const modal = new bootstrap.Modal(document.getElementById('appealOrderModal'));
+
+                    const actionDate = document.getElementById('AppealOrder_Date');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -759,10 +821,10 @@
                     const modal = new bootstrap.Modal(document.getElementById('resolveActionModal'));
 
                     const actionDate = document.getElementById('ResolveEnforcementAction_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
-                    
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
+
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
                             actionIdHidden.value = this.value;

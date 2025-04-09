@@ -43,19 +43,7 @@
 
         @Html.EditorFor(m => m.NewCaseFile.Notes, EditorTemplate.Textarea, new { Rows = 5 })
 
-        <div class="mt-3 mb-1">
-            <button type="submit" class="btn btn-primary me-2">Begin Enforcement Case</button>
-            @* Cancel redirects either to Event ID if set or Facility ID *@
-            @if (Model.ComplianceEvent == null)
-            {
-                <a asp-page="/Facility/Details" asp-route-facilityId="@Model.FacilityId" class="btn btn-outline-secondary">Cancel</a>
-            }
-            else
-            {
-                <a asp-page="/Compliance/Work/Details" asp-route-id="@Model.EventId" class="btn btn-outline-secondary">Cancel</a>
-            }
-        </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+        <partial name="Shared/_SubmitCancelButtons" />
         <input asp-for="NewCaseFile.FacilityId" type="hidden" />
         <input asp-for="NewCaseFile.EventId" type="hidden" />
     </form>

@@ -2,8 +2,7 @@
 
 public interface IResponseRequested
 {
-    public void RequestResponse();
-    public bool ResponseRequested { get; }
+    public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
     public string? ResponseComment { get; set; }
 }

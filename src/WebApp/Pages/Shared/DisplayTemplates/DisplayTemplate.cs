@@ -40,6 +40,7 @@ public static class DisplayTemplate
     public const string ShortDateTimeOffset = nameof(ShortDateTimeOffset);
     public const string StringListOrPlaceholder = nameof(StringListOrPlaceholder);
     public const string TextOrPlaceholder = nameof(TextOrPlaceholder);
+    public const string TextWithLinebreaks = nameof(TextWithLinebreaks);
     public const string TruncateText = nameof(TruncateText);
     public const string ValidationSummaryConditional = nameof(ValidationSummaryConditional);
     public const string ValueWithUnits = nameof(ValueWithUnits);
