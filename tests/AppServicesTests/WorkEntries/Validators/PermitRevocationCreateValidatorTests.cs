@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -54,7 +54,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -112,7 +112,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PermitRevocationDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            PermitRevocationDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -170,7 +170,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PhysicalShutdownDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            PhysicalShutdownDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act

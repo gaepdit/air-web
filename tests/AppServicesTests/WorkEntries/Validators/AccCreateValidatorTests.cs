@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Accs;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -34,7 +34,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            AccReportingYear = WorkEntry.EarliestWorkEntryYear - 1,
+            AccReportingYear = ComplianceConstants.EarliestWorkEntryYear - 1,
         };
 
         // Act
@@ -94,7 +94,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -155,7 +155,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PostmarkDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            PostmarkDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act

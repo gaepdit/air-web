@@ -49,8 +49,6 @@ public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
     };
 
     // Business logic
-    public const int EarliestWorkEntryYear = 2000;
-
     public bool IsComplianceEvent { get; internal init; }
 
     // Data exchange properties

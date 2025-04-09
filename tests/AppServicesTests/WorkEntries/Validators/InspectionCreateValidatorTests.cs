@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -54,7 +54,7 @@ public class InspectionCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            InspectionStartedDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            InspectionStartedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -94,7 +94,7 @@ public class InspectionCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            InspectionEndedDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            InspectionEndedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
