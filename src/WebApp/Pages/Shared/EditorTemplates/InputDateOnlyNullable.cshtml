@@ -1,7 +1,13 @@
-﻿@model DateOnly?
-
+﻿@using AirWeb.AppServices.Utilities
+@using AirWeb.Domain
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DateOnly?
+@{
+    var min = ViewData.ContainsKey("Min") ? ViewData["Min"]!.ToString() : ComplianceConstants.EarliestComplianceDateHtmlString;
+    var max = ViewData.ContainsKey("Max") ? ViewData["Max"]!.ToString() : DateTime.Today.ToString(DateTimeFormats.HtmlInputDate);
+}
 <div class="form-floating">
-    <input asp-for="@__model" class="form-control" />
+    <input asp-for="@__model" class="form-control" min="@min" max="@max" />
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>

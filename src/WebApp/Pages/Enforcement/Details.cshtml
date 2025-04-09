@@ -13,7 +13,10 @@
     var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Enforcement Case #{Model.Id} – Facility {caseFile.FacilityId}";
 }
-
+<script>
+    let today = new Date();
+    let todayHtmlString = [today.getFullYear(), ('0' + (today.getMonth() + 1)).slice(-2), ('0' + today.getDate()).slice(-2)].join('-');
+</script>
 @if (caseFile.IsDeleted)
 {
     <div class="callout callout-danger mb-3">
@@ -121,7 +124,9 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd><div class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div></dd>
+        <dd>
+            <div class="border rounded p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
+        </dd>
     </dl>
 
     <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
@@ -516,9 +521,8 @@
                 const modal = new bootstrap.Modal(document.getElementById('issueEnforcementModal'));
 
                 const actionDate = document.getElementById('IssueEnforcementAction_Date');
-                actionDate.max = new Date().toLocaleDateString('fr-ca');
-                if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                    actionDate.value = new Date().toLocaleDateString('fr-ca');
+                actionDate.max = todayHtmlString;
+                if (today.getTime() < actionDate.valueAsDate.getTime()) actionDate.value = todayHtmlString;
 
                 actionButtons.forEach(button => {
                     button.addEventListener('click', function () {
@@ -661,9 +665,9 @@
                     const modal = new bootstrap.Modal(document.getElementById('addResponseModal'));
 
                     const actionDate = document.getElementById('AddEnforcementActionResponse_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -711,9 +715,9 @@
                     const modal = new bootstrap.Modal(document.getElementById('executeOrderModal'));
 
                     const actionDate = document.getElementById('ExecuteOrder_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -724,6 +728,7 @@
                 });
             </script>
         }
+
         @if (includeAppealedOrderModal)
         {
             // Modal form for appealing an administrative order.
@@ -760,9 +765,9 @@
                     const modal = new bootstrap.Modal(document.getElementById('appealOrderModal'));
 
                     const actionDate = document.getElementById('AppealOrder_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
 
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
@@ -816,10 +821,10 @@
                     const modal = new bootstrap.Modal(document.getElementById('resolveActionModal'));
 
                     const actionDate = document.getElementById('ResolveEnforcementAction_Date');
-                    actionDate.max = new Date().toLocaleDateString('fr-ca');
-                    if (new Date().getTime() < actionDate.valueAsDate.getTime())
-                        actionDate.value = new Date().toLocaleDateString('fr-ca');
-                    
+                    actionDate.max = todayHtmlString;
+                    if (today.getTime() < actionDate.valueAsDate.getTime())
+                        actionDate.value = todayHtmlString;
+
                     actionButtons.forEach(button => {
                         button.addEventListener('click', function () {
                             actionIdHidden.value = this.value;
