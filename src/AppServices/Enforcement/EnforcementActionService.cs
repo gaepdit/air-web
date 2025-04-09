@@ -16,7 +16,7 @@ public class EnforcementActionService(
     IMapper mapper,
     IUserService userService) : IEnforcementActionService
 {
-    public async Task<Guid> CreateAsync(int caseFileId, EnforcementActionCommandDto resource,
+    public async Task<Guid> CreateAsync(int caseFileId, EnforcementActionCreateDto resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -145,41 +145,33 @@ public class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task UpdateAsync(Guid id, string notes, bool responseRequested, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
-        enforcementAction.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-
-        enforcementAction.Notes = notes;
-        if (enforcementAction is IResponseRequested responseRequestedAction)
-            responseRequestedAction.ResponseRequested = responseRequested;
-
-        await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
+        var entity = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        entity.Notes = resource.Comment;
+        if (entity is IResponseRequested responseRequested)
+            responseRequested.ResponseRequested = resource.ResponseRequested;
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        entity.SetUpdater(currentUser?.Id);
         mapper.Map(resource, entity);
-
-        if (resource.IssueDate.HasValue)
-            actionManager.SetIssueDate(entity, resource.IssueDate.Value, currentUser);
-
-        await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (ConsentOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        entity.SetUpdater(currentUser?.Id);
         mapper.Map(resource, entity);
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+    }
 
-        if (resource.IssueDate.HasValue)
-            actionManager.SetIssueDate(entity, resource.IssueDate.Value, currentUser);
-
+    private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
+    {
+        actionManager.SetIssueDate(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
+        entity.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 }

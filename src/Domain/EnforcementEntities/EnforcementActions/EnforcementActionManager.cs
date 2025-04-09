@@ -39,14 +39,14 @@ public class EnforcementActionManager : IEnforcementActionManager
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
+    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly? issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
-        enforcementAction.Status = EnforcementActionStatus.Issued;
+        enforcementAction.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
     }
 
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)

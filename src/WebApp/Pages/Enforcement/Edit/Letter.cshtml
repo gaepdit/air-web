@@ -31,15 +31,20 @@
         <h2 class="h4">Update Details</h2>
 
         <div class="mb-3">
-            @Html.EditorFor(m => m.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+            @Html.EditorFor(m => m.Item.Comment, EditorTemplate.Textarea, new { Rows = 5 })
         </div>
+
         @if (Model.ShowResponseRequested)
         {
             <div class="mb-3">
-                @Html.EditorFor(m => m.ResponseRequested, EditorTemplate.Checkbox)
+                @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
             </div>
         }
-        
+
+        <div class="mb-3">
+            @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+        </div>
+
         <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>

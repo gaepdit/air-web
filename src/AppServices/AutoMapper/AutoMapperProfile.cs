@@ -187,7 +187,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
 
-        CreateMap<ResponseRequestedViewDto, EnforcementActionCommandDto>()
+        CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
             .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
     }
 

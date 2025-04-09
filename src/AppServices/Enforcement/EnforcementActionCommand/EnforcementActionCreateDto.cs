@@ -3,7 +3,7 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
-public record EnforcementActionCommandDto : CommentDto
+public record EnforcementActionCreateDto : CommentDto
 {
     [Display(Name = "Response requested")]
     public bool ResponseRequested { get; init; } = true;

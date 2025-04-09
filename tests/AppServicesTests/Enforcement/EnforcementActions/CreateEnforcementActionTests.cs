@@ -32,7 +32,7 @@ public class CreateEnforcementActionTests
         var enforcementActionService = new EnforcementActionService(new EnforcementActionManager(),
             enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
             AppServicesTestsSetup.Mapper!, userServiceMock);
-        var item = new EnforcementActionCommandDto { ActionType = EnforcementActionType.LetterOfNoncompliance };
+        var item = new EnforcementActionCreateDto { ActionType = EnforcementActionType.LetterOfNoncompliance };
 
         // Act
         await enforcementActionService.CreateAsync(id, item, CancellationToken.None);

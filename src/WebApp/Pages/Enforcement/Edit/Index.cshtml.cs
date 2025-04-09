@@ -20,9 +20,9 @@ public class EditEnforcementActionRedirectModel : PageModel
             EnforcementActionType.InformationalLetter
                 or EnforcementActionType.LetterOfNoncompliance
                 or EnforcementActionType.NoFurtherActionLetter
-                or EnforcementActionType.NovNfaLetter => "Letter",
-            EnforcementActionType.NoticeOfViolation => "NoticeOfViolation",
-            EnforcementActionType.ProposedConsentOrder => "ProposedConsentOrder",
+                or EnforcementActionType.NovNfaLetter
+                or EnforcementActionType.NoticeOfViolation
+                or EnforcementActionType.ProposedConsentOrder => "Letter",
             _ => "../Index",
         }, routeValues: new { Id });
     }
