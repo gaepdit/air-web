@@ -57,13 +57,12 @@ public class ConsentOrderEditModel(
             itemView.ActionType != EnforcementActionType.ConsentOrder)
             return BadRequest();
 
-        await validator.ApplyValidationAsync(Item, ModelState);
+        await validator.ApplyValidationAsync(Item, ModelState, Id);
 
         if (!ModelState.IsValid)
         {
             CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
-            if (CaseFile is null) return NotFound();
-            return Page();
+            return CaseFile is null ? BadRequest() : Page();
         }
 
         await actionService.UpdateAsync(Id, Item, token);

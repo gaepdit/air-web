@@ -160,7 +160,13 @@ public class AutoMapperProfile : Profile
 
     private void Enforcement()
     {
-        CaseFiles();
+        CreateMap<CaseFile, CaseFileViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
+            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
+            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
+        CreateMap<CaseFile, CaseFileSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<CaseFileViewDto, CaseFileSummaryDto>();
 
         CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
@@ -189,15 +195,5 @@ public class AutoMapperProfile : Profile
 
         CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
             .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
-    }
-
-    private void CaseFiles()
-    {
-        CreateMap<CaseFile, CaseFileViewDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
-            .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
-            .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
-        CreateMap<CaseFile, CaseFileSummaryDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 }

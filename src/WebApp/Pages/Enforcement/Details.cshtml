@@ -205,12 +205,30 @@
                     Enforcement Action
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    @foreach (var actionType in Enum.GetValues(typeof(EnforcementActionType)).Cast<EnforcementActionType>())
-                    {
-                        <li>
-                            <button class="dropdown-item" type="button" name="newEnforcementAction" value="@actionType.ToString()">@actionType.GetDescription()</button>
-                        </li>
-                    }
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="LetterOfNoncompliance">Letter of Noncompliance</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoticeOfViolation">Notice of Violation</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoFurtherActionLetter">No Further Action Letter</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NovNfaLetter">Combined NOV/NFA Letter</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="ProposedConsentOrder">Proposed Consent Order</button>
+                    </li>
+                    <li>
+                        <a asp-page="Add/ConsentOrder" asp-route-id="@Model.Id" class="dropdown-item">Consent Order</a>
+                    </li>
+                    <li>
+                        <a asp-page="Add/AdministrativeOrder" asp-route-id="@Model.Id" class="dropdown-item">Administrative Order</a>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="InformationalLetter">Informational Letter</button>
+                    </li>
                 </ul>
             </div>
 

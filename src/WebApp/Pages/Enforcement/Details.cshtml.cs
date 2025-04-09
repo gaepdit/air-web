@@ -16,7 +16,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     ICaseFileService caseFileService,
-    IEnforcementActionService enforcementActionService,
+    IEnforcementActionService actionService,
     IAuthorizationService authorization,
     IValidator<MaxDateOnlyDto> maxDateValidator,
     IValidator<MaxDateAndCommentDto> addResponseValidator,
@@ -82,7 +82,7 @@ public class DetailsModel(
         var caseFile = await caseFileService.FindDetailedAsync(Id, token);
         if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
 
-        HighlightEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
+        HighlightEnforcementId = await actionService.CreateAsync(Id, CreateEnforcementAction, token);
 
         return caseFile.MissingPollutantsOrPrograms && CreateEnforcementAction.WouldBeReportable
             ? RedirectToPage("PollutantsPrograms", new { Id })
@@ -103,7 +103,7 @@ public class DetailsModel(
             return InitializePage();
         }
 
-        await enforcementActionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
+        await actionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
@@ -125,7 +125,7 @@ public class DetailsModel(
         }
 
         bool caseFileClosed =
-            await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementAction, token);
+            await actionService.IssueAsync(enforcementActionId, IssueEnforcementAction, token);
 
         if (caseFileClosed) return RedirectToFragment(null);
 
@@ -145,17 +145,17 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await enforcementActionService.CancelAsync(enforcementActionId, token);
+        await actionService.CancelAsync(enforcementActionId, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
 
     public async Task<IActionResult> OnPostExecuteOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
-        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !action.CanBeExecuted()) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
@@ -166,14 +166,14 @@ public class DetailsModel(
             return InitializePage();
         }
 
-        await enforcementActionService.ExecuteOrderAsync(enforcementActionId, ExecuteOrder, token);
+        await actionService.ExecuteOrderAsync(enforcementActionId, ExecuteOrder, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
 
     public async Task<IActionResult> OnPostAppealOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
-        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !action.CanBeAppealed()) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(AppealOrder, ModelState);
@@ -184,7 +184,7 @@ public class DetailsModel(
             return InitializePage();
         }
 
-        await enforcementActionService.AppealOrderAsync(enforcementActionId, AppealOrder, token);
+        await actionService.AppealOrderAsync(enforcementActionId, AppealOrder, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
@@ -205,7 +205,7 @@ public class DetailsModel(
         }
 
         bool caseFileClosed =
-            await enforcementActionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
+            await actionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
 
         if (caseFileClosed) return RedirectToFragment(null);
 
@@ -222,10 +222,10 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        var action = await enforcementActionService.FindAsync(enforcementActionId, token);
+        var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanDelete(action)) return BadRequest();
 
-        await enforcementActionService.DeleteAsync(enforcementActionId, token);
+        await actionService.DeleteAsync(enforcementActionId, token);
         return RedirectToPage();
     }
 

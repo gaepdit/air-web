@@ -7,7 +7,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 public interface IEnforcementActionManager
 {
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
-        bool responseRequested, string? notes, ApplicationUser? user);
+        ApplicationUser? user);
 
     public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
         ApplicationUser? user);
