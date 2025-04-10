@@ -38,6 +38,7 @@ public static class DisplayTemplate
     public const string ShortDateTime = nameof(ShortDateTime);
     public const string ShortDateTimeNullable = nameof(ShortDateTimeNullable);
     public const string ShortDateTimeOffset = nameof(ShortDateTimeOffset);
+    public const string StringConcatOrPlaceholder = nameof(StringConcatOrPlaceholder);
     public const string StringListOrPlaceholder = nameof(StringListOrPlaceholder);
     public const string TextOrPlaceholder = nameof(TextOrPlaceholder);
     public const string TextWithLinebreaks = nameof(TextWithLinebreaks);

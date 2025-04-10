@@ -149,7 +149,7 @@
                 @if (!caseFile.ComplianceEvents.Any())
                 {
                     <p>
-                        <em>None.</em>
+                        <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
                     </p>
                 }
                 else
@@ -173,7 +173,7 @@
                             </div>
                         }
                     </div>
-                    <dl>
+                    <dl class="ps-2">
                         <dt>@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
                         <dd>
                             <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
