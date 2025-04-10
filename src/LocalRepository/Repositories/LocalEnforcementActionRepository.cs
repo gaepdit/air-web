@@ -8,4 +8,10 @@ public class LocalEnforcementActionRepository()
 {
     public Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
         Task.FromResult(Items.SingleOrDefault(action => action.Id.Equals(id))?.ActionType);
+
+    public Task<bool> OrderIdExists(short orderId, Guid? ignoreActionId, CancellationToken token = default) =>
+        Task.FromResult(Items.Any(action =>
+            action.ActionType == EnforcementActionType.ConsentOrder &&
+            action.Id != ignoreActionId && !action.IsDeleted &&
+            ((ConsentOrder)action).OrderId.Equals(orderId)));
 }

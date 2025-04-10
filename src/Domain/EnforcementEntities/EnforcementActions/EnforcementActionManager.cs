@@ -6,8 +6,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager : IEnforcementActionManager
 {
-    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
-        bool responseRequested, string? notes, ApplicationUser? user)
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user)
     {
         EnforcementAction enforcementAction = action switch
         {
@@ -21,10 +20,6 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };
-
-        enforcementAction.Notes = notes;
-        if (enforcementAction is IResponseRequested responseRequestedAction)
-            responseRequestedAction.ResponseRequested = responseRequested;
 
         caseFile.EnforcementActions.Add(enforcementAction);
         return enforcementAction;

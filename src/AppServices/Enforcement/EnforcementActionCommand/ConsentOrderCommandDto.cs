@@ -1,16 +1,18 @@
 ﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Utilities;
 using AirWeb.Domain.DataAttributes;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
 public record ConsentOrderCommandDto : CommentDto
 {
+    [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Signed copy received from facility")]
-    public DateOnly? ReceivedFromFacility { get; init; }
+    public DateOnly? ReceivedFromFacility { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
@@ -34,7 +36,7 @@ public record ConsentOrderCommandDto : CommentDto
 
     [PositiveShort(ErrorMessage = "The Order ID must be a positive number.")]
     [Display(Name = "Order number")]
-    public short OrderId { get; init; }
+    public short OrderId { get; init; } = 1;
 
     [PositiveDecimal(ErrorMessage = "The penalty amount must be a positive number.")]
     [Display(Name = "Penalty assessed")]
@@ -48,8 +50,12 @@ public record ConsentOrderCommandDto : CommentDto
 
 public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderCommandDto>
 {
-    public ConsentOrderCommandValidator()
+    private readonly IEnforcementActionRepository _repository;
+
+    public ConsentOrderCommandValidator(IEnforcementActionRepository repository)
     {
+        _repository = repository;
+
         RuleFor(dto => dto.ReceivedFromFacility)
             .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
             .WithMessage("The date received from the facility cannot be in the future.");
@@ -85,7 +91,23 @@ public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderComman
             .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.IssueDate)
             .WithMessage("The order cannot be resolved before it is issued.");
 
-        RuleFor(dto => dto.OrderId).GreaterThan((short)0);
         RuleFor(dto => dto.PenaltyAmount).GreaterThanOrEqualTo(0);
+
+        RuleFor(dto => dto.OrderId)
+            .GreaterThan((short)0)
+            .WithMessage("The order ID must be greater than zero.")
+            .MustAsync(async (_, orderId, context, token) =>
+                await UniqueOrderId(orderId, context, token).ConfigureAwait(false))
+            .WithMessage("The Order ID entered already exists.");
+    }
+
+    private async Task<bool> UniqueOrderId(short orderId, ValidationContext<ConsentOrderCommandDto> context,
+        CancellationToken token)
+    {
+        var actionId = context.RootContextData.TryGetValue("Id", out var value)
+            ? (Guid?)value
+            : null;
+
+        return !await _repository.OrderIdExists(orderId, actionId, token).ConfigureAwait(false);
     }
 }

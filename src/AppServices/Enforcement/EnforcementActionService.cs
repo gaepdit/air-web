@@ -21,8 +21,38 @@ public class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
-        var enforcementAction = actionManager.Create(caseFile, resource.ActionType,
-            resource.ResponseRequested, resource.Comment, currentUser);
+        var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
+
+        enforcementAction.Notes = resource.Comment;
+        if (enforcementAction is IResponseRequested responseRequestedAction)
+            responseRequestedAction.ResponseRequested = resource.ResponseRequested;
+
+        await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
+        return enforcementAction.Id;
+    }
+
+    public async Task<Guid> CreateAsync(int caseFileId, ConsentOrderCommandDto resource,
+        CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
+        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.ConsentOrder, currentUser);
+
+        mapper.Map(resource, enforcementAction);
+
+        await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
+        return enforcementAction.Id;
+    }
+
+    public async Task<Guid> CreateAsync(int caseFileId, AdministrativeOrderCommandDto resource,
+        CancellationToken token = default)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
+        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.AdministrativeOrder, currentUser);
+
+        mapper.Map(resource, enforcementAction);
+
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
         return enforcementAction.Id;
     }

@@ -32,6 +32,14 @@ public static class EnforcementPermissions
         user.CanEdit(item) && item.Status == EnforcementActionStatus.Issued &&
         item is IIsResolved { IsResolved: false };
 
+    public static bool CanResolveWithNfa(this ClaimsPrincipal user, IActionViewDto item) =>
+        user.CanEdit(item) &&
+        item is { Status: EnforcementActionStatus.Issued, ActionType: EnforcementActionType.NoticeOfViolation };
+
+    public static bool CanProceedToCo(this ClaimsPrincipal user, IActionViewDto item) =>
+        user.CanEdit(item) &&
+        item is { Status: EnforcementActionStatus.Issued, ActionType: EnforcementActionType.ProposedConsentOrder };
+
     public static bool CanSubmitForReview(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsDeleted: false, IsCanceled: false, Status: EnforcementActionStatus.Draft } &&
         user.IsComplianceStaff();

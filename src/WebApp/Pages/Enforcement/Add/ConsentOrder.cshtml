@@ -1,11 +1,11 @@
-﻿@page "{id:Guid?}"
+﻿@page "{id:int}"
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@model ConsentOrderEditModel
+@model ConsentOrderAddModel
 @{
     var caseFile = Model.CaseFile!;
-    ViewData["Title"] = $"Edit {Model.ItemName}";
+    ViewData["Title"] = $"Add {Model.ItemName}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -29,7 +29,7 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
         </dl>
 
-        <h2 class="h4">Update Details</h2>
+        <h2 class="h4">Details</h2>
 
         <div class="mb-3">
             @Html.EditorFor(model => model.Item.Comment, EditorTemplate.Textarea, new { Rows = 5 })
@@ -57,12 +57,6 @@
             </div>
             <div class="col-sm-6 mb-3">
                 @Html.EditorFor(model => model.Item.ReceivedFromDirectorsOffice, EditorTemplate.InputDateOnlyNullable)
-            </div>
-            <div class="col-sm-6 mb-3">
-                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
-            <div class="col-sm-6 mb-3">
-                @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
             </div>
         </div>
 

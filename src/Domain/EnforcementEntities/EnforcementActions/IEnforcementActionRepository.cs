@@ -9,4 +9,6 @@ public interface IEnforcementActionRepository : IRepository<EnforcementAction>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>The <see cref="EnforcementActionType"/> of the enforcement action.</returns>
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
+
+    Task<bool> OrderIdExists(short orderId, Guid? ignoreActionId, CancellationToken token = default);
 }

@@ -7,8 +7,9 @@ namespace AirWeb.AppServices.Enforcement;
 
 public interface IEnforcementActionService
 {
-    Task<Guid> CreateAsync(int caseFileId, EnforcementActionCreateDto resource,
-        CancellationToken token = default);
+    Task<Guid> CreateAsync(int caseFileId, EnforcementActionCreateDto resource, CancellationToken token = default);
+    Task<Guid> CreateAsync(int caseFileId, ConsentOrderCommandDto resource, CancellationToken token = default);
+    Task<Guid> CreateAsync(int caseFileId, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 
     Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
