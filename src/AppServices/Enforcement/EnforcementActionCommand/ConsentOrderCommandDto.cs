@@ -8,10 +8,11 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
 public record ConsentOrderCommandDto : CommentDto
 {
+    [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Signed copy received from facility")]
-    public DateOnly? ReceivedFromFacility { get; init; }
+    public DateOnly? ReceivedFromFacility { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

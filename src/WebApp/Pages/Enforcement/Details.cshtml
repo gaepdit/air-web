@@ -7,6 +7,7 @@
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
@@ -205,29 +206,41 @@
                     Enforcement Action
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
+                    @if (!caseFile.HasReportableEnforcement)
+                    {
+                        <li>
+                            <button class="dropdown-item" type="button" name="newEnforcementAction" value="LetterOfNoncompliance">
+                                Letter of Noncompliance
+                            </button>
+                        </li>
+                    }
                     <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="LetterOfNoncompliance">Letter of Noncompliance</button>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoticeOfViolation">
+                            Notice of Violation
+                        </button>
+                    </li>
+                    @if (!caseFile.HasReportableEnforcement)
+                    {
+                        <li>
+                            <button class="dropdown-item" type="button" name="newEnforcementAction" value="NovNfaLetter">
+                                Combined NOV/NFA Letter
+                            </button>
+                        </li>
+                    }
+                    <li>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="ProposedConsentOrder">
+                            Proposed Consent Order
+                        </button>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoticeOfViolation">Notice of Violation</button>
+                        <a asp-page="Add/AdministrativeOrder" asp-route-id="@Model.Id" class="dropdown-item">
+                            Administrative Order
+                        </a>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoFurtherActionLetter">No Further Action Letter</button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NovNfaLetter">Combined NOV/NFA Letter</button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="ProposedConsentOrder">Proposed Consent Order</button>
-                    </li>
-                    <li>
-                        <a asp-page="Add/ConsentOrder" asp-route-id="@Model.Id" class="dropdown-item">Consent Order</a>
-                    </li>
-                    <li>
-                        <a asp-page="Add/AdministrativeOrder" asp-route-id="@Model.Id" class="dropdown-item">Administrative Order</a>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="InformationalLetter">Informational Letter</button>
+                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="InformationalLetter">
+                            Informational Letter
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -321,7 +334,7 @@
                                 @action.ActionType.GetDescription()
                             </h3>
                             <h4 class="col-auto h5 card-subtitle text-body-secondary">
-                                @action.Status.GetDescription() @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
+                                <span class="text-info-emphasis">@action.Status.GetDescription()</span> @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
                         @if (!action.IsDeleted)
@@ -368,6 +381,14 @@
                                                 </button>
                                             </li>
                                         }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanResolveWithNfa(action))
+                                        {
+                                            <li>
+                                                <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoFurtherActionLetter">
+                                                    Resolve with No Further Action
+                                                </button>
+                                            </li>
+                                        }
                                         @if (Model.UserCan[EnforcementOperation.Edit] && User.CanResolve(action))
                                         {
                                             includeResolveActionModal = true;
@@ -375,6 +396,14 @@
                                                 <button type="button" name="resolveAction" value="@action.Id.ToString()" class="dropdown-item">
                                                     Resolve action
                                                 </button>
+                                            </li>
+                                        }
+                                        @if (Model.UserCan[EnforcementOperation.Edit] && User.CanProceedToCo(action))
+                                        {
+                                            <li>
+                                                <a asp-page="Add/ConsentOrder" asp-route-id="@Model.Id" class="dropdown-item">
+                                                    Signed Order received
+                                                </a>
                                             </li>
                                         }
                                         @if (Model.UserCan[EnforcementOperation.Edit] && action.CanBeExecuted())
