@@ -14,7 +14,7 @@
     var caseFile = Model.CaseFile!;
     ViewData["Title"] = $"Enforcement Case #{Model.Id} – Facility {caseFile.FacilityId}";
 }
-<script>
+<script asp-add-nonce>
     let today = new Date();
     let todayHtmlString = [today.getFullYear(), ('0' + (today.getMonth() + 1)).slice(-2), ('0' + today.getDate()).slice(-2)].join('-');
 </script>
@@ -271,7 +271,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="newEnforcementAction"]');
                     const label = document.getElementById('addEnforcementLabel');
@@ -559,7 +559,7 @@
             </div>
         </div>
 
-        <script>
+        <script asp-add-content-to-csp>
             document.addEventListener('DOMContentLoaded', function () {
                 const actionButtons = document.querySelectorAll('button[name="issueEnforcementAction"]');
                 const label = document.getElementById('issueEnforcementLabel');
@@ -610,7 +610,7 @@
             </div>
         </div>
 
-        <script>
+        <script asp-add-content-to-csp>
             document.addEventListener('DOMContentLoaded', function () {
                 const actionButtons = document.querySelectorAll('button[name="cancelEnforcementAction"]');
                 const label = document.getElementById('cancelEnforcementLabel');
@@ -657,7 +657,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="deleteEnforcementAction"]');
                     const label = document.getElementById('deleteEnforcementLabel');
@@ -705,7 +705,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="addActionResponse"]');
                     const actionIdHidden = document.getElementById('addResponseActionId');
@@ -755,7 +755,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="executeOrder"]');
                     const actionIdHidden = document.getElementById('executeOrderId');
@@ -805,7 +805,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="appealOrder"]');
                     const actionIdHidden = document.getElementById('appealOrderId');
@@ -861,7 +861,7 @@
                 </div>
             </div>
 
-            <script>
+            <script asp-add-content-to-csp>
                 document.addEventListener('DOMContentLoaded', function () {
                     const actionButtons = document.querySelectorAll('button[name="resolveAction"]');
                     const actionIdHidden = document.getElementById('resolveActionId');
