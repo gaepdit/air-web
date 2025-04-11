@@ -20,7 +20,7 @@ public class EnforcementActionService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
         var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
 
         enforcementAction.Notes = resource.Comment;
@@ -35,7 +35,7 @@ public class EnforcementActionService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
         var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.ConsentOrder, currentUser);
 
         mapper.Map(resource, enforcementAction);
@@ -48,7 +48,7 @@ public class EnforcementActionService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
         var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.AdministrativeOrder, currentUser);
 
         mapper.Map(resource, enforcementAction);
@@ -59,7 +59,7 @@ public class EnforcementActionService(
 
     public async Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var action = await actionRepository.FindAsync(id, token).ConfigureAwait(false);
+        var action = await actionRepository.FindAsync(id, token: token).ConfigureAwait(false);
         return action is null
             ? null
             : action switch
@@ -82,7 +82,7 @@ public class EnforcementActionService(
     public async Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.AddResponse(enforcementAction, resource.Date, resource.Comment, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -90,7 +90,7 @@ public class EnforcementActionService(
     public async Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
             .ConfigureAwait(false);
@@ -101,7 +101,7 @@ public class EnforcementActionService(
             enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
                 or EnforcementActionType.NoFurtherActionLetter)
         {
-            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token)
+            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token: token)
                 .ConfigureAwait(false);
             if (!caseFile.MissingPollutantsOrPrograms)
             {
@@ -119,7 +119,7 @@ public class EnforcementActionService(
     public async Task CancelAsync(Guid id, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.Cancel(enforcementAction, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -127,7 +127,7 @@ public class EnforcementActionService(
     public async Task ExecuteOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.ExecuteOrder(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -135,7 +135,7 @@ public class EnforcementActionService(
     public async Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.AppealOrder(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -143,7 +143,7 @@ public class EnforcementActionService(
     public async Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.Resolve(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
             .ConfigureAwait(false);
@@ -151,7 +151,7 @@ public class EnforcementActionService(
         bool caseFileClosed = false;
         if (resource.Option)
         {
-            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token)
+            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token: token)
                 .ConfigureAwait(false);
             if (!caseFile.IsClosed)
             {
@@ -170,14 +170,14 @@ public class EnforcementActionService(
     public async Task DeleteAsync(Guid id, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.Delete(enforcementAction, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {
-        var entity = await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var entity = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         entity.Notes = resource.Comment;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
@@ -186,14 +186,14 @@ public class EnforcementActionService(
 
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
     {
-        var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
     {
-        var entity = (ConsentOrder)await actionRepository.GetAsync(id, token).ConfigureAwait(false);
+        var entity = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }

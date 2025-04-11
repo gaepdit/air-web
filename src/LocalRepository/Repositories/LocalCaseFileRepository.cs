@@ -20,7 +20,7 @@ public sealed class LocalCaseFileRepository : BaseRepository<CaseFile, int>, ICa
         Task.FromResult<IEnumerable<AirProgram>>(Items.Single(caseFile => caseFile.Id.Equals(id)).AirPrograms);
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
-        (await GetAsync(itemId, token).ConfigureAwait(false)).Comments.Add(new CaseFileComment(comment, itemId));
+        (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(new CaseFileComment(comment, itemId));
 
     public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {

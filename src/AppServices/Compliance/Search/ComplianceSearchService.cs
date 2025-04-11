@@ -37,7 +37,7 @@ public abstract class ComplianceSearchService<TEntity>(
 
         var list = count > 0
             ? mapper.Map<IReadOnlyCollection<TResultDto>>(
-                await repository.GetPagedListAsync(expression, paging, token).ConfigureAwait(false))
+                await repository.GetPagedListAsync(expression, paging, token: token).ConfigureAwait(false))
             : [];
 
         if (!loadFacilities) return new PaginatedResult<TResultDto>(list, count, paging);
@@ -52,7 +52,8 @@ public abstract class ComplianceSearchService<TEntity>(
         Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
         where TResultDto : class, IStandardSearchResult
     {
-        var list = mapper.Map<IReadOnlyCollection<TResultDto>>(await repository.GetListAsync(expression, sorting, token)
+        var list = mapper.Map<IReadOnlyCollection<TResultDto>>(await repository
+            .GetListAsync(expression, sorting, token: token)
             .ConfigureAwait(false));
 
         foreach (var result in list)

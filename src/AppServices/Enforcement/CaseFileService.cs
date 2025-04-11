@@ -28,7 +28,7 @@ public class CaseFileService(
     : ICaseFileService
 {
     public async Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default) =>
-        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync("Id", token)
+        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync(ordering: "Id", token: token)
             .ConfigureAwait(false)).ToList();
 
     public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
@@ -67,7 +67,7 @@ public class CaseFileService(
 
     public async Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository.FindAsync(id, token)
+        var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository.FindAsync(id, token: token)
             .ConfigureAwait(false));
 
         if (caseFile != null)
@@ -91,7 +91,8 @@ public class CaseFileService(
         caseFile.Notes = resource.Notes ?? string.Empty;
 
         if (resource.EventId != null &&
-            await entryRepository.FindAsync(resource.EventId.Value, token).ConfigureAwait(false) is ComplianceEvent
+            await entryRepository.FindAsync(resource.EventId.Value, token: token).ConfigureAwait(false) is
+                ComplianceEvent
                 complianceEvent)
         {
             caseFile.ComplianceEvents.Add(complianceEvent);
@@ -107,7 +108,7 @@ public class CaseFileService(
     public async Task<AppNotificationResult> UpdateAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         caseFile.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         // Update the case file properties
@@ -127,19 +128,19 @@ public class CaseFileService(
         mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
                                    ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
-                SortBy.IdDesc.GetDescription(), token).ConfigureAwait(false));
+                SortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
     public async Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default) =>
         mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
-                SortBy.IdDesc.GetDescription(), token)
+                SortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
 
     public async Task<bool> LinkComplianceEvent(int id, int entryId, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
-        if (await entryRepository.GetAsync(entryId, token).ConfigureAwait(false) is not ComplianceEvent entry)
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        if (await entryRepository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
             return false;
         if (entry.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(entry))
             return false;
@@ -153,8 +154,8 @@ public class CaseFileService(
 
     public async Task<bool> UnLinkComplianceEvent(int id, int entryId, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
-        if (await entryRepository.GetAsync(entryId, token).ConfigureAwait(false) is not ComplianceEvent entry)
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        if (await entryRepository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
             return false;
         if (!caseFile.ComplianceEvents.Contains(entry))
             return false;
@@ -175,7 +176,7 @@ public class CaseFileService(
     public async Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants,
         IEnumerable<AirProgram> airPrograms, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFile.PollutantIds.Clear();
@@ -189,7 +190,7 @@ public class CaseFileService(
 
     public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Close(caseFile, currentUser);
@@ -202,7 +203,7 @@ public class CaseFileService(
 
     public async Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Reopen(caseFile, currentUser);
@@ -216,7 +217,7 @@ public class CaseFileService(
     public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Delete(caseFile, resource.Comment, currentUser);
@@ -229,7 +230,7 @@ public class CaseFileService(
 
     public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await caseFileRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         caseFileManager.Restore(workEntry);
         await caseFileRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
@@ -244,7 +245,7 @@ public class CaseFileService(
         var result = await commentService.AddCommentAsync(caseFileRepository, itemId, resource, token)
             .ConfigureAwait(false);
 
-        var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId,
