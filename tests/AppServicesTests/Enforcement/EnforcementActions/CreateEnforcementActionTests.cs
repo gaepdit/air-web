@@ -24,7 +24,7 @@ public class CreateEnforcementActionTests
 
         var caseFile = new CaseFile(id, facilityId, user);
         var caseFileRepositoryMock = Substitute.For<ICaseFileRepository>();
-        caseFileRepositoryMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        caseFileRepositoryMock.GetAsync(Arg.Any<int>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
             .Returns(caseFile);
 
         var enforcementActionRepositoryMock = Substitute.For<IEnforcementActionRepository>();
