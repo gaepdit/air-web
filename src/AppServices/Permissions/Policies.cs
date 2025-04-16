@@ -21,7 +21,7 @@ namespace AirWeb.AppServices.Permissions;
 //        var isStaff = (await authorization.AuthorizeAsync(User, Policies.StaffUser)).Succeeded;
 //
 //        // or, with `using AuthorizationServiceExtensions;`:
-//        var isStaff =  await authorization.Succeeded(User, Policies.StaffUser);
+//        var isStaff = await authorization.Succeeded(User, Policies.StaffUser);
 //    }
 //
 #pragma warning restore S125
@@ -38,9 +38,10 @@ public static class Policies
             .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
             .AddPolicy(nameof(Staff), Staff)
             .AddPolicy(nameof(UserAdministrator), UserAdministrator)
+            .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
             .AddPolicy(nameof(ComplianceManager), ComplianceManager)
-            .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
-            .AddPolicy(nameof(ComplianceStaff), ComplianceStaff);
+            .AddPolicy(nameof(EnforcementManager), EnforcementManager)
+            .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer);
     }
 
     // Default policy builder
@@ -67,9 +68,12 @@ public static class Policies
     public static AuthorizationPolicy ComplianceStaff { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new ComplianceStaffRequirement()).Build();
 
-    public static AuthorizationPolicy ComplianceSiteMaintainer { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceSiteMaintenanceRequirement()).Build();
-
     public static AuthorizationPolicy ComplianceManager { get; } =
         ActiveUserPolicyBuilder.AddRequirements(new ComplianceManagerRequirement()).Build();
+
+    public static AuthorizationPolicy EnforcementManager { get; } =
+        ActiveUserPolicyBuilder.AddRequirements(new EnforcementManagerRequirement()).Build();
+
+    public static AuthorizationPolicy ComplianceSiteMaintainer { get; } =
+        ActiveUserPolicyBuilder.AddRequirements(new ComplianceSiteMaintenanceRequirement()).Build();
 }

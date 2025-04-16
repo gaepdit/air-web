@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.Permissions.ComplianceStaff.UserRequirements;
 using AirWeb.AppServices.Permissions.Helpers;
 using System.Security.Claims;
 

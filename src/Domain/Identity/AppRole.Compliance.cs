@@ -7,6 +7,7 @@ public static partial class RoleName
     // Compliance program
     public const string ComplianceStaff = nameof(ComplianceStaff);
     public const string ComplianceManager = nameof(ComplianceManager);
+    public const string EnforcementManager = nameof(EnforcementManager);
     public const string ComplianceSiteMaintenance = nameof(ComplianceSiteMaintenance);
 }
 
@@ -17,13 +18,19 @@ public partial class AppRole
     [UsedImplicitly]
     public static AppRole ComplianceStaffRole { get; } = new(
         RoleName.ComplianceStaff, RoleCategory.Compliance, "Compliance Staff",
-        "Can do compliance staff work."
+        "Can do compliance and enforcement staff work."
     );
 
     [UsedImplicitly]
     public static AppRole ComplianceManagerRole { get; } = new(
         RoleName.ComplianceManager, RoleCategory.Compliance, "Compliance Manager",
         "Can manage compliance work."
+    );
+
+    [UsedImplicitly]
+    public static AppRole EnforcementManagerRole { get; } = new(
+        RoleName.EnforcementManager, RoleCategory.Compliance, "Enforcement Manager",
+        "Can manage reportable enforcement."
     );
 
     [UsedImplicitly]
