@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Permissions.ComplianceStaff;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,12 +19,12 @@ internal class CaseFileRequirementsHandler :
         var success = requirement.Name switch
         {
             nameof(CaseFileOperation.AddComment) => user.CanAddComment(resource),
-            nameof(CaseFileOperation.CloseCaseFile) => user.CanClose(resource),
-            nameof(CaseFileOperation.DeleteCaseFile) => user.CanDelete(resource),
+            nameof(CaseFileOperation.CloseCaseFile) => user.CanCloseCaseFile(resource),
+            nameof(CaseFileOperation.DeleteCaseFile) => user.CanDeleteCaseFile(resource),
             nameof(CaseFileOperation.DeleteComment) => user.CanDeleteComment(resource),
-            nameof(CaseFileOperation.EditCaseFile) => user.CanEdit(resource),
-            nameof(CaseFileOperation.ReopenCaseFile) => user.CanReopen(resource),
-            nameof(CaseFileOperation.RestoreCaseFile) => user.CanRestore(resource),
+            nameof(CaseFileOperation.EditCaseFile) => user.CanEditCaseFile(resource),
+            nameof(CaseFileOperation.ReopenCaseFile) => user.CanReopenCaseFile(resource),
+            nameof(CaseFileOperation.RestoreCaseFile) => user.CanRestoreCaseFile(resource),
             nameof(CaseFileOperation.View) => user.CanView(resource),
             nameof(CaseFileOperation.ViewDeleted) => user.CanManageDeletions(),
             _ => false,

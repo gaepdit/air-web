@@ -45,6 +45,7 @@ public class AdministrativeOrderEditModel(
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
+        if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
         Item = mapper.Map<AdministrativeOrderCommandDto>(itemView);
         return Page();
@@ -57,14 +58,13 @@ public class AdministrativeOrderEditModel(
             itemView.ActionType != EnforcementActionType.AdministrativeOrder)
             return BadRequest();
 
+        CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
-        {
-            CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
-            if (CaseFile is null) return NotFound();
             return Page();
-        }
 
         await actionService.UpdateAsync(Id, Item, token);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,

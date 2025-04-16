@@ -10,7 +10,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileViewDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable, IDeleteComments
+public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments
 {
     public int Id { get; init; }
     public bool IsClosed { get; init; }

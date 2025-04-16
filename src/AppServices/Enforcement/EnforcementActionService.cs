@@ -96,7 +96,7 @@ public class EnforcementActionService(
             .ConfigureAwait(false);
 
         // TODO: Move business logic to Enforcement Action Manager.
-        bool caseFileClosed = false;
+        var caseFileClosed = false;
         if (resource.Option &&
             enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
                 or EnforcementActionType.NoFurtherActionLetter)

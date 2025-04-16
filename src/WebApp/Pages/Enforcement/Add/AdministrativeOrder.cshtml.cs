@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using AutoMapper;
 using FluentValidation;
@@ -36,7 +36,7 @@ public class AdministrativeOrderAddModel(
     {
         CaseFile = await caseFileService.FindSummaryAsync(Id, token);
         if (CaseFile is null) return NotFound();
-        if (!User.CanEdit(CaseFile)) return Forbid();
+        if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
         Item = new AdministrativeOrderCommandDto();
         return Page();
@@ -45,7 +45,7 @@ public class AdministrativeOrderAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var caseFile = await caseFileService.FindDetailedAsync(Id, token);
-        if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
+        if (caseFile is null || !User.CanEditCaseFile(caseFile)) return BadRequest();
 
         await validator.ApplyValidationAsync(Item, ModelState);
 

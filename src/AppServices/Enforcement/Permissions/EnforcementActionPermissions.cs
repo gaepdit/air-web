@@ -19,6 +19,9 @@ public static class EnforcementActionPermissions
     public static bool CanBeExecuted(this IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } and IIsExecuted { IsExecuted: false };
 
+    public static bool CanDeleteAction(this ClaimsPrincipal user, IActionViewDto item) =>
+        !item.IsDeleted && user.IsEnforcementManager();
+
     public static bool CanEdit(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } && user.IsComplianceStaff();
 

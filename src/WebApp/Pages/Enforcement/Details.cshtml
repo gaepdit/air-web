@@ -1,14 +1,12 @@
-﻿@page "{id:int?}"
+@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
-@using AirWeb.AppServices.Permissions.ComplianceStaff
 @using AirWeb.AppServices.Utilities
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     var caseFile = Model.CaseFile!;
@@ -30,7 +28,7 @@
                 {
                     <div class="col-auto d-print-none ms-2">
                         <a asp-page="Restore" asp-route-id="@Model.Id" class="btn btn-outline-warning">
-                            Restore deleted enforcement
+                            Restore deleted enforcement case
                         </a>
                     </div>
                 }
@@ -72,7 +70,7 @@
 
 <div class=" lead">Enforcement Tracking #@Model.Id.ToString()</div>
 
-@if (caseFile.AttentionNeeded)
+@if (caseFile.AttentionNeeded && Model.UserCan[CaseFileOperation.EditCaseFile])
 {
     <div class="callout callout-warning p-3">
         <p><strong>Attention needed:</strong>
@@ -337,7 +335,7 @@
                                 <span class="text-info-emphasis">@action.Status.GetDescription()</span> @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
                             </h4>
                         </div>
-                        @if (!action.IsDeleted)
+                        @if (!action.IsDeleted && Model.UserCan[CaseFileOperation.EditCaseFile])
                         {
                             <div class="col-auto d-print-none">
                                 <div class="dropdown">
@@ -345,7 +343,7 @@
                                         Actions
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && User.CanEdit(action))
+                                        @if (User.CanEdit(action))
                                         {
                                             <li>
                                                 <a asp-page="Edit/Index" asp-route-id="@action.Id.ToString()" class="dropdown-item">
@@ -372,7 +370,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && action.CanAddResponse())
+                                        @if (action.CanAddResponse())
                                         {
                                             includeResponseRequestedModal = true;
                                             <li>
@@ -381,7 +379,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && User.CanResolveWithNfa(action))
+                                        @if (User.CanResolveWithNfa(action))
                                         {
                                             <li>
                                                 <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoFurtherActionLetter">
@@ -389,7 +387,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && User.CanResolve(action))
+                                        @if (User.CanResolve(action))
                                         {
                                             includeResolveActionModal = true;
                                             <li>
@@ -398,7 +396,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && User.CanProceedToCo(action))
+                                        @if (User.CanProceedToCo(action))
                                         {
                                             <li>
                                                 <a asp-page="Add/ConsentOrder" asp-route-id="@Model.Id" class="dropdown-item">
@@ -406,7 +404,7 @@
                                                 </a>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && action.CanBeExecuted())
+                                        @if (action.CanBeExecuted())
                                         {
                                             includeExecuteOrderModal = true;
                                             <li>
@@ -415,7 +413,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.EditCaseFile] && action.CanBeAppealed())
+                                        @if (action.CanBeAppealed())
                                         {
                                             includeAppealedOrderModal = true;
                                             <li>
@@ -424,7 +422,7 @@
                                                 </button>
                                             </li>
                                         }
-                                        @if (Model.UserCan[CaseFileOperation.DeleteCaseFile] && User.CanDelete(action))
+                                        @if (User.CanDeleteAction(action))
                                         {
                                             includeDeleteActionModal = true;
                                             <li>
@@ -542,12 +540,15 @@
                                     Issued</label>
                                 <span asp-validation-for="IssueEnforcementAction.Date" class="invalid-feedback"></span>
                             </div>
-                            <div class="form-check mt-2" id="issueEnforcementCloseOption">
-                                <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
-                                <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Option)" class="form-check-label">
-                                    Close the Enforcement Case as well.
-                                </label>
-                            </div>
+                            @if (Model.UserCan[CaseFileOperation.CloseCaseFile])
+                            {
+                                <div class="form-check mt-2" id="issueEnforcementCloseOption">
+                                    <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
+                                    <label for="@nameof(Model.IssueEnforcementAction)_@nameof(Model.IssueEnforcementAction.Option)" class="form-check-label">
+                                        Close the Enforcement Case as well.
+                                    </label>
+                                </div>
+                            }
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" id="issueEnforcementActionId" name="enforcementActionId" value="" />
@@ -844,12 +845,15 @@
                                         Resolved</label>
                                     <span asp-validation-for="ResolveEnforcementAction.Date" class="invalid-feedback"></span>
                                 </div>
-                                <div class="form-check mt-2">
-                                    <input asp-for="ResolveEnforcementAction.Option" class="form-check-input" />
-                                    <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">
-                                        Close the Enforcement Case as well.
-                                    </label>
-                                </div>
+                                @if (Model.UserCan[CaseFileOperation.CloseCaseFile])
+                                {
+                                    <div class="form-check mt-2">
+                                        <input asp-for="ResolveEnforcementAction.Option" class="form-check-input" />
+                                        <label for="@nameof(Model.ResolveEnforcementAction)_@nameof(Model.ResolveEnforcementAction.Option)" class="form-check-label">
+                                            Close the Enforcement Case as well.
+                                        </label>
+                                    </div>
+                                }
                             </div>
                             <div class="modal-footer">
                                 <input type="hidden" id="resolveActionId" name="enforcementActionId" value="" />

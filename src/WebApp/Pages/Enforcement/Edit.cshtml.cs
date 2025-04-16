@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -37,7 +37,7 @@ public class EditModel(
 
         var itemView = await caseFileService.FindSummaryAsync(Id, token);
         if (itemView is null) return NotFound();
-        if (!User.CanEdit(itemView)) return Forbid();
+        if (!User.CanEditCaseFile(itemView)) return Forbid();
 
         ItemView = itemView;
         Item = new CaseFileUpdateDto(ItemView);
@@ -49,7 +49,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var itemView = await caseFileService.FindSummaryAsync(Id, token);
-        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
+        if (itemView is null || !User.CanEditCaseFile(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)

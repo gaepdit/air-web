@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using IaipDataService.Facilities;
@@ -25,7 +25,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         var caseFile = await caseFileService.FindSummaryAsync(Id, token);
         if (caseFile is null) return NotFound();
         if (caseFile.IsClosed) return BadRequest();
-        if (!User.CanEdit(caseFile)) return Forbid();
+        if (!User.CanEditCaseFile(caseFile)) return Forbid();
 
         var facilityData = (await facilityService.FindFacilityDetailsAsync((FacilityId?)caseFile.FacilityId))
             ?.RegulatoryData;
@@ -53,7 +53,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
     {
         if (Id == 0) return BadRequest();
         var caseFile = await caseFileService.FindSummaryAsync(Id, token);
-        if (caseFile is null || caseFile.IsClosed || !User.CanEdit(caseFile)) return BadRequest();
+        if (caseFile is null || caseFile.IsClosed || !User.CanEditCaseFile(caseFile)) return BadRequest();
 
         await caseFileService.SavePollutantsAndProgramsAsync(Id,
             pollutants: PollutantSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),

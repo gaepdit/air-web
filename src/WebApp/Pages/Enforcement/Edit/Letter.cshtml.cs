@@ -40,6 +40,7 @@ public class LetterEditModel(
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
+        if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
         Item = new EnforcementActionEditDto
         {
@@ -61,6 +62,9 @@ public class LetterEditModel(
     {
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
+
+        CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
         await actionService.UpdateAsync(Id, Item, token);
 

@@ -7,5 +7,5 @@ namespace AirWeb.AppServices.Compliance.Permissions;
 public static class CompliancePermissions
 {
     public static bool CanBeginEnforcement(this ClaimsPrincipal user, IWorkEntrySummaryDto item) =>
-        item is { IsComplianceEvent: true, IsDeleted: false } && user.IsOwnerOrComplianceManager(item);
+        item is { IsComplianceEvent: true, IsDeleted: false } && user.IsComplianceStaff();
 }
