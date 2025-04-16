@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using IaipDataService.Facilities;
@@ -24,7 +24,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (!User.CanEditCaseFile(item)) return Forbid();
 
         LinkedComplianceEvents = await service.GetLinkedEventsAsync(Id, token);
         AvailableComplianceEvents = await service.GetAvailableEventsAsync((FacilityId)item.FacilityId,
@@ -36,7 +36,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed || !User.CanEdit(item)) return BadRequest();
+        if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
         var result = await service.LinkComplianceEvent(Id, entryId, token);
 
@@ -58,7 +58,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed || !User.CanEdit(item)) return BadRequest();
+        if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
         var result = await service.UnLinkComplianceEvent(Id, entryId, token);
 

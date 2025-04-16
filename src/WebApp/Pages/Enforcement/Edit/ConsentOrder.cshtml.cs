@@ -45,6 +45,7 @@ public class ConsentOrderEditModel(
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
+        if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
         Item = mapper.Map<ConsentOrderCommandDto>(itemView);
         return Page();
@@ -57,13 +58,13 @@ public class ConsentOrderEditModel(
             itemView.ActionType != EnforcementActionType.ConsentOrder)
             return BadRequest();
 
+        CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+
         await validator.ApplyValidationAsync(Item, ModelState, Id);
 
         if (!ModelState.IsValid)
-        {
-            CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
-            return CaseFile is null ? BadRequest() : Page();
-        }
+            return Page();
 
         await actionService.UpdateAsync(Id, Item, token);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,

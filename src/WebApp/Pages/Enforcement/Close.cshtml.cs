@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 
@@ -22,7 +22,7 @@ public class CloseModel(ICaseFileService service) : PageModel
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
-        if (!User.CanClose(item)) return Forbid();
+        if (!User.CanCloseCaseFile(item)) return Forbid();
 
         ItemSummary = item;
         return Page();
@@ -33,7 +33,7 @@ public class CloseModel(ICaseFileService service) : PageModel
         if (!ModelState.IsValid) return BadRequest();
 
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || !User.CanClose(item))
+        if (item is null || !User.CanCloseCaseFile(item))
             return BadRequest();
 
         var notificationResult = await service.CloseAsync(Id, token);
