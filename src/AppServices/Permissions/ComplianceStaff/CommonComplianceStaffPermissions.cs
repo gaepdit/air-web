@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace AirWeb.AppServices.Permissions.ComplianceStaff;
 
-public static class CommonCompliancePermissions
+public static class CommonComplianceStaffPermissions
 {
     public static bool CanAddComment(this ClaimsPrincipal user, IIsDeleted item) =>
         !item.IsDeleted && user.IsComplianceStaff();

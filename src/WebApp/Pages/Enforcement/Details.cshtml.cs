@@ -72,7 +72,7 @@ public class DetailsModel(
         if (CaseFile is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.View]) return NotFound();
+        if (!UserCan[CaseFileOperation.View]) return NotFound();
 
         return InitializePage();
     }
@@ -237,7 +237,7 @@ public class DetailsModel(
         if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.AddComment]) return BadRequest();
+        if (!UserCan[CaseFileOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid) return InitializePage();
 
@@ -254,7 +254,7 @@ public class DetailsModel(
         if (caseFile is null || caseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
+        if (!UserCan[CaseFileOperation.DeleteComment]) return BadRequest();
 
         await caseFileService.DeleteCommentAsync(commentId, token);
         return RedirectToFragment("comments");
@@ -263,7 +263,7 @@ public class DetailsModel(
     #endregion
 
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, CaseFile);
+        UserCan = await authorization.SetPermissions(CaseFileOperation.AllOperations, User, CaseFile);
 
     private PageResult InitializePage(CommentAddDto? newComment = null)
     {
@@ -273,8 +273,8 @@ public class DetailsModel(
             NewComment = newComment ?? new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
-            CanAddComment = UserCan[EnforcementOperation.AddComment],
-            CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
+            CanAddComment = UserCan[CaseFileOperation.AddComment],
+            CanDeleteComment = UserCan[CaseFileOperation.DeleteComment],
         };
 
         CreateEnforcementAction = new EnforcementActionCreateDto();
