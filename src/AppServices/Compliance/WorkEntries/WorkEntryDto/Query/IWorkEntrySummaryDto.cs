@@ -4,7 +4,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
-public interface IWorkEntrySummaryDto : IIsClosedAndIsDeleted, IHasOwnerAndDeletable, IDeleteComments
+public interface IWorkEntrySummaryDto : IIsClosed, IHasOwner, IDeleteComments, IDeletable
 {
     public string ItemName { get; }
     public string FacilityId { get; }

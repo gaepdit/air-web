@@ -18,14 +18,10 @@ public interface IHasOwner
     public string OwnerId { get; }
 }
 
-public interface IHasOwnerAndDeletable : IHasOwner, IDeletable;
-
 public interface IIsClosed
 {
     public bool IsClosed { get; }
 }
-
-public interface IIsClosedAndIsDeleted : IIsDeleted, IIsClosed;
 
 public interface IIsDeleted
 {
