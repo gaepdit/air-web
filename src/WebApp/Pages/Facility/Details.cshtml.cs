@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Enforcement.Search;
+using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Permissions;
@@ -26,6 +27,8 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
+    public IList<EnforcementSearchResultDto> EnforcementWork { get; private set; } = [];
+    public int EnforcementCount { get; private set; }
     public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
     public int ComplianceWorkCount { get; private set; }
     public IList<FceSearchResultDto> Fces { get; private set; } = [];
@@ -66,6 +69,8 @@ public class DetailsModel(
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
+        EnforcementWork = new List<EnforcementSearchResultDto> { new EnforcementSearchResultDto { FacilityId = "00100010", DiscoveryDate = new DateOnly(2025,4,22), CaseFileStatus = Domain.EnforcementEntities.CaseFiles.CaseFileStatus.Open } };
+        EnforcementCount = 1;
         ComplianceWork = searchWorkEntries.Items.ToList();
         ComplianceWorkCount = searchWorkEntries.TotalCount;
 
