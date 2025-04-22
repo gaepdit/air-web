@@ -48,6 +48,10 @@
             </div>
         </div>
 
+        <div class="mb-3">
+            @Html.EditorFor(model => model.Item.StipulatedPenaltiesDefined, EditorTemplate.Checkbox)
+        </div>
+
         <div class="row">
             <div class="col-sm-6 mb-3">
                 @Html.EditorFor(model => model.Item.ReceivedFromFacility, EditorTemplate.InputDateOnlyNullable)
