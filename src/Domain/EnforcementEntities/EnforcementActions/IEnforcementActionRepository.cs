@@ -11,4 +11,5 @@ public interface IEnforcementActionRepository : IRepository<EnforcementAction>
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
 
     Task<bool> OrderIdExists(short orderId, Guid? ignoreActionId, CancellationToken token = default);
+    Task<ConsentOrder> GetConsentOrder(Guid id, CancellationToken token = default);
 }

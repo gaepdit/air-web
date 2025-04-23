@@ -1,0 +1,137 @@
+﻿@page "{id:Guid?}"
+@using AirWeb.AppServices.Utilities
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model StipulatedPenaltiesEditModel
+@{
+    var caseFile = Model.CaseFile!;
+    var stipulatedPenalties = Model.ConsentOrder.StipulatedPenalties;
+    ViewData["Title"] = "Edit Consent Order Stipulated Penalties";
+    ViewData["NoAnchors"] = "True";
+}
+
+<p class="d-print-none">
+    <a asp-page="Details" asp-route-id="@caseFile.Id" class="lead icon-link">
+        <svg class="bi">
+            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
+        </svg>
+        Back to Enforcement Case #@caseFile.Id
+    </a>
+</p>
+
+<h1>@ViewData["Title"]</h1>
+
+<dl class="row">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <span class="text-body-secondary">@caseFile.FacilityId –</span> @caseFile.FacilityName
+    </dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ConsentOrder.OrderNumber)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(model => model.ConsentOrder.OrderNumber)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.ConsentOrder.ExecutedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(model => model.ConsentOrder.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+</dl>
+
+@if (stipulatedPenalties.Any())
+{
+    <h2 class="h4">Existing Stipulated Penalties</h2>
+
+    <table class="table table-hover" aria-label="Existing Stipulated Penalties">
+        <thead>
+        <tr>
+            <th scope="col">Date Received</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Comment</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var penalty in stipulatedPenalties)
+        {
+            <tr>
+                <td>@penalty.ReceivedDate.ToString(DateTimeFormats.ShortDate)</td>
+                <td>@penalty.Amount.ToString("C")</td>
+                <td>@Html.DisplayFor(_ => penalty.Notes, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                <td class="text-center">
+                    <form class="delete-penalty" asp-page-handler="DeletePenalty" asp-route-penaltyId="@penalty.Id" method="post">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <svg class="bi" role="img" aria-label="Delete">
+                                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-trash3"></use>
+                            </svg>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<div class="mt-4 p-3 border border-primary-subtle rounded-2 bg-light-subtle">
+    <h2 class="h4">Add a stipulated penalty</h2>
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi me-2" role="img" aria-label="Danger:">
+                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+            </svg>
+        </div>
+        <div class="row">
+            <div class="col-sm mb-3">
+                <label asp-for="NewPenalty.ReceivedDate" class="form-label"></label>
+                <input asp-for="NewPenalty.ReceivedDate" class="form-control"
+                       min="@Model.ConsentOrder.ExecutedDate.ToString(DateTimeFormats.HtmlInputDate)"
+                       max="@DateTime.Today.ToString(DateTimeFormats.HtmlInputDate)" />
+                <span asp-validation-for="NewPenalty.ReceivedDate" class="invalid-feedback"></span>
+            </div>
+            <div class="col-sm mb-3">
+                @Html.EditorFor(model => model.NewPenalty.Amount, EditorTemplate.InputCurrency, new { Min = 0.01m })
+            </div>
+        </div>
+        <div class="mb-3">
+            @Html.EditorFor(model => model.NewPenalty.Notes, EditorTemplate.Textarea, new { Rows = 2 })
+        </div>
+        <button type="submit" class="btn btn-primary mb-1">Add New</button>
+    </form>
+</div>
+
+<div class="modal fade" id="deletePenaltyModal" tabindex="-1" aria-labelledby="deletePenaltyModalLabel" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger-emphasis" id="deletePenaltyModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this stipulated penalty?<br>
+                <strong>This cannot be undone!</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete Penalty</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script asp-add-content-to-csp>
+    document.addEventListener('DOMContentLoaded', () => {
+        const forms = document.querySelectorAll('form[class="delete-penalty"]');
+        let formToSubmit;
+
+        forms.forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent the default form submission.
+                formToSubmit = form; // Store the form to be submitted.
+                new bootstrap.Modal(document.getElementById('deletePenaltyModal')).show();
+            });
+        });
+
+        document.getElementById('confirmDeleteButton').addEventListener('click', () => {
+            if (formToSubmit) formToSubmit.submit(); // Submit the form if the user confirms.
+        });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

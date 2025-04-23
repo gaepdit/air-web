@@ -14,4 +14,11 @@ public class LocalEnforcementActionRepository()
             action.ActionType == EnforcementActionType.ConsentOrder &&
             action.Id != ignoreActionId && !action.IsDeleted &&
             ((ConsentOrder)action).OrderId.Equals(orderId)));
+
+    public async Task<ConsentOrder> GetConsentOrder(Guid id, CancellationToken token = default)
+    {
+        var consentOrder = (ConsentOrder)await GetAsync(id, token: token).ConfigureAwait(false);
+        consentOrder.StipulatedPenalties.RemoveAll(p => p.IsDeleted);
+        return consentOrder;
+    }
 }

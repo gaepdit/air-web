@@ -20,8 +20,6 @@ public class AdministrativeOrderEditModel(
     [FromRoute]
     public Guid Id { get; set; }
 
-    public string ItemName { get; } = "Administrative Order";
-
     [BindProperty]
     public AdministrativeOrderCommandDto Item { get; set; } = null!;
 

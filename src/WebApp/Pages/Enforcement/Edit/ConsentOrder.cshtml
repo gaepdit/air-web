@@ -5,7 +5,7 @@
 @model ConsentOrderEditModel
 @{
     var caseFile = Model.CaseFile!;
-    ViewData["Title"] = $"Edit {Model.ItemName}";
+    ViewData["Title"] = "Edit Consent Order";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -41,7 +41,7 @@
                     additionalViewData: new { Min = 1, Addon = ConsentOrder.OrderNumberPrefix })
             </div>
             <div class="col-sm-6 mb-3">
-                @Html.EditorFor(model => model.Item.PenaltyAmount, EditorTemplate.InputCurrency, new { Min = 0 })
+                @Html.EditorFor(model => model.Item.PenaltyAmount, EditorTemplate.InputCurrency, new { Min = 0m })
             </div>
             <div class="mb-3">
                 @Html.EditorFor(model => model.Item.PenaltyComment, EditorTemplate.Textarea, new { Rows = 3 })

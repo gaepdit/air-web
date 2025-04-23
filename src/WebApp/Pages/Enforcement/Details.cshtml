@@ -351,6 +351,14 @@
                                                 </a>
                                             </li>
                                         }
+                                        @if (User.CanEditStipulatedPenalties(action))
+                                        {
+                                            <li>
+                                                <a asp-page="StipulatedPenalties" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Edit stipulated penalties
+                                                </a>
+                                            </li>
+                                        }
                                         @if (User.CanSubmitForReview(action))
                                         {
                                             <li><a class="dropdown-item">Submit for review</a></li>
