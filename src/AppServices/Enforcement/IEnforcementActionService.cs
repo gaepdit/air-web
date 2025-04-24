@@ -13,6 +13,11 @@ public interface IEnforcementActionService
 
     Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
+    Task<CoViewDto> GetConsentOrderAsync(Guid id, CancellationToken token = default);
+
+    Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 
     Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default);
     Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default);
@@ -21,8 +26,6 @@ public interface IEnforcementActionService
     Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token);
     Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token);
     Task DeleteAsync(Guid id, CancellationToken token);
-
-    Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default);
-    Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
-    Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default);
+    Task AddStipulatedPenalty(Guid id, StipulatedPenaltyAddDto resource, CancellationToken token);
+    Task DeletedStipulatedPenalty(Guid id, Guid stipulatedPenaltyId, CancellationToken token);
 }

@@ -148,7 +148,6 @@ public class CaseFileService(
         caseFile.ComplianceEvents.Add(entry);
         entry.CaseFiles.Add(caseFile);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
-        await entryRepository.UpdateAsync(entry, token: token).ConfigureAwait(false);
         return true;
     }
 

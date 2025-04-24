@@ -4,9 +4,11 @@
 @{
     var min = ViewData.ContainsKey("Min") ? ViewData["Min"]!.ToString() : ComplianceConstants.EarliestComplianceDateHtmlString;
     var max = ViewData.ContainsKey("Max") ? ViewData["Max"]!.ToString() : DateTime.Today.ToString(DateTimeFormats.HtmlInputDate);
+    var describedById = ViewData.ContainsKey("DescribedById") ? (string)ViewData["DescribedById"]! : null;
 }
 <div class="form-floating">
-    <input asp-for="@__model" class="form-control" min="@min" max="@max" />
+    <input asp-for="@__model" class="form-control" min="@min" max="@max"
+           aria-describedby="@describedById" />
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>

@@ -1,8 +1,6 @@
 ﻿@page "{id:int?}"
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model NotificationEditModel
 @{
     ViewData["Title"] = $"Edit {Model.ItemView.ItemName} #{Model.Id.ToString()}";

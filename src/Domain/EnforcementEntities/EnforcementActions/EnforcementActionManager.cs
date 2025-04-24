@@ -25,6 +25,7 @@ public class EnforcementActionManager : IEnforcementActionManager
         return enforcementAction;
     }
 
+    // Common update methods
     public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
         ApplicationUser? user)
     {
@@ -54,65 +55,39 @@ public class EnforcementActionManager : IEnforcementActionManager
         enforcementAction.Status = EnforcementActionStatus.Canceled;
     }
 
-    public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user)
-    {
-        if (!enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has not been canceled.");
-
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.CanceledDate = null;
-
-        if (enforcementAction.ApprovedDate is not null)
-        {
-            enforcementAction.Status = EnforcementActionStatus.Approved;
-        }
-        else if (enforcementAction.CurrentReviewer is not null)
-        {
-            enforcementAction.Status = EnforcementActionStatus.ReviewRequested;
-        }
-        else
-        {
-            enforcementAction.Status = EnforcementActionStatus.Draft;
-        }
-    }
-
-    public void ExecuteOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
-    {
-        if (enforcementAction is not IFormalEnforcementAction formalEnforcementAction)
-            throw new InvalidOperationException("Enforcement action is not executable.");
-
-        enforcementAction.SetUpdater(user?.Id);
-        formalEnforcementAction.Execute(executedDate);
-    }
-
-    public void AppealOrder(EnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
-    {
-        if (enforcementAction is not AdministrativeOrder administrativeOrder)
-            throw new InvalidOperationException("Enforcement action is not appealable.");
-
-        enforcementAction.SetUpdater(user?.Id);
-        administrativeOrder.Appeal(executedDate);
-    }
-
-    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
-        ApplicationUser? user)
-    {
-        throw new NotImplementedException();
-        consentOrder.SetUpdater(user?.Id);
-    }
-
-    public void Resolve(EnforcementAction enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
-    {
-        if (enforcementAction is not IResolvable resolvableAction)
-            throw new InvalidOperationException("Enforcement action is not resolvable.");
-
-        if (resolvableAction.IsResolved)
-            throw new InvalidOperationException("Enforcement Action has already been resolved.");
-
-        enforcementAction.SetUpdater(user?.Id);
-        resolvableAction.Resolve(resolvedDate);
-    }
-
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>
         enforcementAction.Delete(comment: null, user);
+
+    // Type-specific update methods
+    public void Resolve(IResolvable enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
+    {
+        if (enforcementAction.IsResolved)
+            throw new InvalidOperationException("Enforcement Action has already been resolved.");
+
+        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
+        enforcementAction.Resolve(resolvedDate);
+    }
+
+    public void ExecuteOrder(IFormalEnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
+        enforcementAction.Execute(executedDate);
+    }
+
+    public void AppealOrder(AdministrativeOrder enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.Appeal(executedDate);
+    }
+
+    public StipulatedPenalty AddStipulatedPenalty(ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
+        ApplicationUser? user)
+    {
+        var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder, amount, receivedDate, user);
+        consentOrder.StipulatedPenalties.Add(penalty);
+        return penalty;
+    }
+
+    public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
+        stipulatedPenalty.SetDeleted(user?.Id);
 }

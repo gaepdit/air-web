@@ -156,6 +156,7 @@ public static class EnforcementActionData
             OrderId = 311,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            StipulatedPenaltiesDefined = true,
         },
 
         // 312 (19)
@@ -170,7 +171,6 @@ public static class EnforcementActionData
             PenaltyAmount = 10_000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResolvedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3)),
-            StipulatedPenaltiesDefined = true,
         },
 
         // 302 (20)
@@ -229,7 +229,7 @@ public static class EnforcementActionData
                     .EnforcementActions.Add(action);
             }
 
-            GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[19]);
+            GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[18]);
 
             // Set as deleted
             _enforcementActions[20].SetDeleted(UserData.AdminUserId);
@@ -242,12 +242,13 @@ public static class EnforcementActionData
     {
         for (var i = 0; i < 3; i++)
         {
-            var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder, UserData.GetRandomUser())
+            var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder,
+                Random.Shared.Next(1000, 5000),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(i + 1)),
+                UserData.GetRandomUser())
             {
                 ConsentOrder = consentOrder,
-                Amount = Random.Shared.Next(1000, 5000),
                 Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-                ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(i + 1)),
             };
             consentOrder.StipulatedPenalties.Add(penalty);
         }

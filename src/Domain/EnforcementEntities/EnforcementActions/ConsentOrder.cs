@@ -50,13 +50,13 @@ public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
         }
     }
 
-    [Precision(12, 2)]
+    [Precision(precision: 12, scale: 2)]
     [PositiveDecimal(ErrorMessage = "The penalty amount cannot be negative.")]
-    public decimal? PenaltyAmount { get; set; }
+    public decimal? PenaltyAmount { get; init; }
 
     [StringLength(7000)]
-    public string? PenaltyComment { get; set; }
+    public string? PenaltyComment { get; init; }
 
-    public bool StipulatedPenaltiesDefined { get; set; }
-    public ICollection<StipulatedPenalty> StipulatedPenalties { get; } = [];
+    public bool StipulatedPenaltiesDefined { get; init; }
+    public List<StipulatedPenalty> StipulatedPenalties { get; } = [];
 }

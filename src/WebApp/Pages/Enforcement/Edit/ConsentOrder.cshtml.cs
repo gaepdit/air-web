@@ -20,8 +20,6 @@ public class ConsentOrderEditModel(
     [FromRoute]
     public Guid Id { get; set; }
 
-    public string ItemName { get; } = "Consent Order";
-
     [BindProperty]
     public ConsentOrderCommandDto Item { get; set; } = null!;
 

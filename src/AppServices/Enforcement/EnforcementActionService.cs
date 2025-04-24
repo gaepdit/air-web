@@ -5,6 +5,7 @@ using AirWeb.AppServices.Users;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AutoMapper;
+using GaEpd.GuardClauses;
 
 namespace AirWeb.AppServices.Enforcement;
 
@@ -79,6 +80,39 @@ public class EnforcementActionService(
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
         await actionRepository.GetEnforcementActionType(id, token).ConfigureAwait(false);
 
+    public async Task<CoViewDto> GetConsentOrderAsync(Guid id, CancellationToken token = default) =>
+        mapper.Map<CoViewDto>(await actionRepository.GetConsentOrder(id, token: token).ConfigureAwait(false));
+
+    public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
+    {
+        var entity = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        entity.Notes = resource.Comment;
+        if (entity is IResponseRequested responseRequested)
+            responseRequested.ResponseRequested = resource.ResponseRequested;
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+    }
+
+    public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
+    {
+        var entity = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        mapper.Map(resource, entity);
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+    }
+
+    public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
+    {
+        var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        mapper.Map(resource, entity);
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+    }
+
+    private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
+    {
+        actionManager.SetIssueDate(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
+        entity.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
+    }
+
     public async Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
@@ -128,15 +162,16 @@ public class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        actionManager.ExecuteOrder(enforcementAction, resource.Date, currentUser);
+        actionManager.ExecuteOrder((IFormalEnforcementAction)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
     public async Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        actionManager.AppealOrder(enforcementAction, resource.Date, currentUser);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token)
+            .ConfigureAwait(false);
+        actionManager.AppealOrder((AdministrativeOrder)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
@@ -144,11 +179,11 @@ public class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        actionManager.Resolve(enforcementAction, resource.Date, currentUser);
+        actionManager.Resolve((IResolvable)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
             .ConfigureAwait(false);
 
-        bool caseFileClosed = false;
+        var caseFileClosed = false;
         if (resource.Option)
         {
             var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token: token)
@@ -175,33 +210,24 @@ public class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
-    public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
+    public async Task AddStipulatedPenalty(Guid id, StipulatedPenaltyAddDto resource, CancellationToken token)
     {
-        var entity = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        entity.Notes = resource.Comment;
-        if (entity is IResponseRequested responseRequested)
-            responseRequested.ResponseRequested = resource.ResponseRequested;
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        Guard.NotNull(resource.ReceivedDate);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var consentOrder = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var penalty = actionManager.AddStipulatedPenalty(consentOrder, resource.Amount,
+            resource.ReceivedDate!.Value, currentUser);
+        penalty.Notes = resource.Notes;
+        await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
     }
 
-    public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
+    public async Task DeletedStipulatedPenalty(Guid id, Guid stipulatedPenaltyId, CancellationToken token)
     {
-        var entity = (AdministrativeOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
-    }
-
-    public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
-    {
-        var entity = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
-    }
-
-    private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
-    {
-        actionManager.SetIssueDate(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
-        entity.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
-        await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var consentOrder = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var penalty = consentOrder.StipulatedPenalties.SingleOrDefault(penalty => penalty.Id == stipulatedPenaltyId);
+        if (penalty == null) return;
+        actionManager.DeleteStipulatedPenalty(penalty, currentUser);
+        await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
     }
 }

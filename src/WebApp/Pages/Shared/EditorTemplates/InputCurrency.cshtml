@@ -1,7 +1,7 @@
 ﻿@model decimal
 @{
-    var min = ViewData.ContainsKey("Min") ? (int)ViewData["Min"]! : (int?)null;
-    var max = ViewData.ContainsKey("Max") ? (int)ViewData["Max"]! : (int?)null;
+    var min = ViewData.ContainsKey("Min") ? (decimal)ViewData["Min"]! : (decimal?)null;
+    var max = ViewData.ContainsKey("Max") ? (decimal)ViewData["Max"]! : (decimal?)null;
     var addonId = $"addon-{Guid.NewGuid()}";
 }
 <label asp-for="@__model" class="form-label"></label>

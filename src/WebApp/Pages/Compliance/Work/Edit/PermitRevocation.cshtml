@@ -1,10 +1,7 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Utilities
-@using AirWeb.Domain
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using LabelTagHelper = Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper
 @model PermitRevocationEditModel
 @{
     ViewData["Title"] = $"Edit {Model.ItemView.ItemName} #{Model.Id.ToString()}";
@@ -45,14 +42,8 @@
                     additionalViewData: new { Max = DateTime.Today.AddYears(1).ToString(DateTimeFormats.HtmlInputDate) })
             </div>
             <div class="col-md mt-3 mt-md-0">
-                <div class="form-floating">
-                    <input asp-for="Item.PhysicalShutdownDate" class="form-control"
-                           aria-describedby="PhysicalShutdownDateHelpText"
-                           min="@ComplianceConstants.EarliestComplianceDateHtmlString"
-                           max="@DateTime.Today.ToString(DateTimeFormats.HtmlInputDate)" />
-                    <label asp-for="Item.PhysicalShutdownDate" class="form-label"></label>
-                    <span asp-validation-for="Item.PhysicalShutdownDate" class="invalid-feedback"></span>
-                </div>
+                @Html.EditorFor(m => m.Item.PhysicalShutdownDate, EditorTemplate.InputDateOnlyNullable,
+                        additionalViewData: new { DescribedById = "PhysicalShutdownDateHelpText" })
             </div>
             <small id="PhysicalShutdownDateHelpText"
                    class="col-12 form-text text-body-secondary d-inline-block mt-2 mb-3">

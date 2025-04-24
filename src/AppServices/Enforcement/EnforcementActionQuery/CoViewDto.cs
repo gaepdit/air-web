@@ -31,8 +31,9 @@ public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
     [Display(Name = "Penalty comment")]
     public string? PenaltyComment { get; init; }
 
+    [Display(Name = "Defines stipulated penalties")]
     public bool StipulatedPenaltiesDefined { get; init; }
 
-    [Display(Name = "Stipulated penalties")]
+    [Display(Name = "Stipulated penalties received")]
     public ICollection<StipulatedPenaltyViewDto> StipulatedPenalties { get; } = [];
 }

@@ -46,6 +46,9 @@ public record ConsentOrderCommandDto : CommentDto
     [StringLength(7000)]
     [Display(Name = "Penalty comment")]
     public string? PenaltyComment { get; init; }
+
+    [Display(Name = "Defines stipulated penalties")]
+    public bool StipulatedPenaltiesDefined { get; init; }
 }
 
 public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderCommandDto>

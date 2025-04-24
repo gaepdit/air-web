@@ -25,6 +25,10 @@ public static class EnforcementActionPermissions
     public static bool CanEdit(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } && user.IsComplianceStaff();
 
+    public static bool CanEditStipulatedPenalties(this ClaimsPrincipal user, IActionViewDto item) =>
+        user.CanEdit(item) &&
+        item is { ActionType: EnforcementActionType.ConsentOrder } and IIsExecuted { IsExecuted: true };
+
     public static bool CanFinalizeAction(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsIssued: false, IsCanceled: false } &&
         (item is not IIsExecuted executed || executed.IsExecuted) &&
