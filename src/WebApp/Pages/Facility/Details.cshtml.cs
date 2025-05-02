@@ -16,6 +16,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class DetailsModel(
     IFacilityService facilityService,
     IFceSearchService fceSearchService,
+    IEnforcementSearchService enforcementService,
     IWorkEntrySearchService entrySearchService,
     ISourceTestService sourceTestService,
     IAuthorizationService authorization) : PageModel
@@ -69,13 +70,22 @@ public class DetailsModel(
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
-        EnforcementWork = new List<EnforcementSearchResultDto> { new EnforcementSearchResultDto { FacilityId = "00100010", DiscoveryDate = new DateOnly(2025,4,22), CaseFileStatus = Domain.EnforcementEntities.CaseFiles.CaseFileStatus.Open } };
-        EnforcementCount = 1;
+        var searchEnforcement = await enforcementService.SearchAsync(
+            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = FacilityId },
+            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            loadFacilities: false, token: token);
+            
+
+        /*EnforcementWork = new List<EnforcementSearchResultDto> { new EnforcementSearchResultDto { FacilityId = "00100010", DiscoveryDate = new DateOnly(2025,4,22), CaseFileStatus = Domain.EnforcementEntities.CaseFiles.CaseFileStatus.Open } };
+        EnforcementCount = 1;*/
         ComplianceWork = searchWorkEntries.Items.ToList();
         ComplianceWorkCount = searchWorkEntries.TotalCount;
 
         Fces = searchFces.Items.ToList();
         FceCount = searchFces.TotalCount;
+
+        EnforcementWork = searchEnforcement.Items.ToList();
+        EnforcementCount = searchEnforcement.TotalCount;
 
         var sourceTestsForFacility = await sourceTestsForFacilityTask;
         SourceTests = sourceTestsForFacility.Take(GlobalConstants.SummaryTableSize).ToList();

@@ -140,7 +140,7 @@
 				<h2 class="mb-0">Recent Enforcement Work</h2>
 			</div>
 			<div class="col-auto ms-md-3 d-print-none">
-				<a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.FacilityId"
+				<a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.FacilityId"
 				   asp-page-handler="Search" asp-fragment="search-results"
 				   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
 					View All
@@ -158,7 +158,7 @@
 				@Model.EnforcementCount.ToString() total
 			</summary>
 			<partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-					 model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+					 model="(Model.EnforcementWork, (WorkEntrySearchDto?)null)" />
 		</details>
 	}
 </section>

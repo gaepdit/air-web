@@ -17,12 +17,12 @@ public record EnforcementSearchDto
 
     public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDate;
 
-    // == Text == 
+    /*// == Text == 
     [Display(Name = "Notes")]
     public string? Notes { get; init; }
     // == Dates ==
     [Display(Name = "Discovery Date")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DiscoveryDate { get; init; }
+    public DateOnly? DiscoveryDate { get; init; }*/
 }
