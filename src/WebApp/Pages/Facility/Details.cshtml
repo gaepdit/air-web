@@ -1,6 +1,7 @@
 ﻿@page "{facilityId?}"
 @using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.AppServices.Enforcement.Search
 @using AirWeb.WebApp.Platform.Constants
 @using AirWeb.WebApp.Platform.Settings
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -157,8 +158,8 @@
 				}
 				@Model.EnforcementCount.ToString() total
 			</summary>
-			<partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-					 model="(Model.EnforcementWork, (WorkEntrySearchDto?)null)" />
+			<partial name="Shared/CompliancePartials/_EnforcementSearchTable"
+					 model="(Model.EnforcementWork, (EnforcementSearchDto?)null)" />
 		</details>
 	}
 </section>
