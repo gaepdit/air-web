@@ -25,4 +25,8 @@ public record EnforcementSearchDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? DiscoveryDate { get; init; }*/
+    public EnforcementSearchDto TrimAll() => this with
+    {
+        PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
+    };
 }

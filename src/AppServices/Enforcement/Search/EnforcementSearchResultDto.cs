@@ -6,9 +6,10 @@ namespace AirWeb.AppServices.Enforcement.Search
 {
     public record EnforcementSearchResultDto
     {
+        public int Id { get; init; }
         public required string FacilityId { get; init; }
+        public string? FacilityName { get; set; }
         public CaseFileStatus CaseFileStatus { get; init; }
         public DateOnly DiscoveryDate { get; init; }
-
     }
 }
