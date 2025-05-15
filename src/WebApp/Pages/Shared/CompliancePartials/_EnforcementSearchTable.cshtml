@@ -11,8 +11,8 @@
 				@if (Model.Spec is null)
 				{
 					<th scope="col" class="text-nowrap">Tracking #</th>
-					<th scope="col" class="text-nowrap">Work Type</th>
-					<th scope="col" class="text-nowrap">Event Date</th>
+					<th scope="col" class="text-nowrap">Discovery Date</th>
+					<th scope="col" class="text-nowrap">Case File Status</th>
 				}
 				@* else
 				{
@@ -33,9 +33,9 @@
 			{
 				<tr>
 					<th scope="row" class="align-middle">
-						<a asp-page="/Enforcement" asp-route-id="@item.FacilityId.ToString()"
+						<a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
 						   class="btn btn-sm ">
-							@item.FacilityId.ToString()
+							@item.Id.ToString()
 						</a>
 					</th>
 					<td>
