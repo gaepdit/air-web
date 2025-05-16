@@ -12,7 +12,10 @@
 				{
 					<th scope="col" class="text-nowrap">Tracking #</th>
 					<th scope="col" class="text-nowrap">Discovery Date</th>
+					<th scope="col" class="text-nowrap">Day Zero</th>
 					<th scope="col" class="text-nowrap">Case File Status</th>
+					<th scope="col" class="text-nowrap">Responsible Staff</th>
+
 				}
 				@* else
 				{
@@ -33,15 +36,26 @@
 			{
 				<tr>
 					<th scope="row" class="align-middle">
+						@{
+							var status = item.CaseFileStatus.GetDescription() switch
+							{
+								"Closed" => "btn-outline-danger", "Open" => "btn-outline-primary", _ => "btn-outline-warning"
+							};
+						}
 						<a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
-						   class="btn btn-sm @(item.CaseFileStatus.GetDescription() == "Closed" ? "btn-outline-danger" : "btn-outline-primary")">
+							class="btn btn-sm @status">
 							@item.Id.ToString()
 						</a>
 					</th>
 					<td>
+						<span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnly)</span><br />
+					</td>
+					<td>
 						<span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnly)</span><br />
 					</td>
 					<td>@item.CaseFileStatus.GetDescription()</td>
+					<td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+
 				</tr>
 			}
 		</tbody>
