@@ -34,7 +34,7 @@
 				<tr>
 					<th scope="row" class="align-middle">
 						<a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
-						   class="btn btn-sm ">
+						   class="btn btn-sm @(item.CaseFileStatus.GetDescription() == "Closed" ? "btn-outline-danger" : "btn-outline-primary")">
 							@item.Id.ToString()
 						</a>
 					</th>
