@@ -36,14 +36,8 @@
 			{
 				<tr>
 					<th scope="row" class="align-middle">
-						@{
-							var status = item.CaseFileStatus.GetDescription() switch
-							{
-								"Closed" => "btn-outline-danger", "Open" => "btn-outline-primary", _ => "btn-outline-warning"
-							};
-						}
 						<a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
-							class="btn btn-sm @status">
+						   class="btn btn-sm @(item.CaseFileStatus.GetDescription() == "Closed" ? "btn-outline-danger" : "btn-outline-primary")">
 							@item.Id.ToString()
 						</a>
 					</th>
