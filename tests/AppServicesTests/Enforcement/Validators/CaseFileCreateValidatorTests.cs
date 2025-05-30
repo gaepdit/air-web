@@ -51,7 +51,7 @@ public class CaseFileCreateValidatorTests
         var report = new Report(1, (FacilityId)"00100001") { EventDate = date };
 
         var entryRepoMock = Substitute.For<IWorkEntryRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
         var validator = new CaseFileCreateValidator(entryRepoMock);
@@ -81,7 +81,7 @@ public class CaseFileCreateValidatorTests
         };
 
         var entryRepoMock = Substitute.For<IWorkEntryRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
         var validator = new CaseFileCreateValidator(entryRepoMock);

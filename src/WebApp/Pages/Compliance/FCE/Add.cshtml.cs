@@ -15,8 +15,12 @@ public class AddModel(
     IFceService fceService,
     IFacilityService facilityService,
     IStaffService staffService,
-    IValidator<FceCreateDto> validator) : PageModel
+    IValidator<FceCreateDto> validator)
+    : PageModel, ISubmitCancelButtons
 {
+    [FromRoute]
+    public string? FacilityId { get; set; }
+
     [BindProperty]
     public FceCreateDto Item { get; set; } = null!;
 
@@ -25,17 +29,22 @@ public class AddModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     private const string FacilityIdNotFound = "Facility ID not found.";
 
-    public async Task<IActionResult> OnGetAsync(string? facilityId)
+    // Form buttons
+    public string SubmitText => "Add New FCE";
+    public string CancelRoute => "/Facility/Details";
+    public string RouteId => FacilityId ?? string.Empty;
+
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (facilityId is null) return NotFound(FacilityIdNotFound);
-        Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)facilityId);
+        if (FacilityId is null) return NotFound(FacilityIdNotFound);
+        Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)FacilityId);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound(FacilityIdNotFound);
 
         await PopulateSelectListsAsync();
         var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
-        Item = new FceCreateDto((FacilityId)facilityId, currentUserId);
+        Item = new FceCreateDto((FacilityId)FacilityId, currentUserId);
         return Page();
     }
 

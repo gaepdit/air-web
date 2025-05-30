@@ -21,7 +21,21 @@
 * A Comment can be deleted *(not shown)*.
 * An Enforcement Action can be deleted *(not shown)*.
 
-### Consent Order
+### Enforcement Action Types
+
+| Enforcement action type  | Reportable | Informal | Formal |
+|--------------------------|:----------:|:--------:|:------:|
+| Letter of Noncompliance  |            |          |        |
+| Notice of Violation      |     ✓      |    ✓     |        |
+| No Further Action Letter |            |          |        |
+| Combined NOV/NFA Letter  |     ✓      |    ✓     |        |
+| Proposed Consent Order   |     ✓      |    ✓     |        |
+| Consent Order            |     ✓      |          |   ✓    |
+| Order Resolved           |            |          |        |
+| Administrative Order     |     ✓      |          |   ✓    |
+| Informational Letter     |            |          |        |
+
+#### Consent Order
 
 * If the Enforcement Action is a Consent Order, Stipulated Penalties can be added.
 

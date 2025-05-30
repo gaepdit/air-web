@@ -22,6 +22,6 @@ public class CaseFileCreateValidator : AbstractValidator<CaseFileCreateDto>
 
     private async Task<bool> MustNotPrecedeDiscoveryEvent(CaseFileCreateDto dto, CancellationToken token) =>
         dto.EventId is null ||
-        (await _entryRepository.GetAsync(dto.EventId.Value, token).ConfigureAwait(false))
+        (await _entryRepository.GetAsync(dto.EventId.Value, token: token).ConfigureAwait(false))
         .EventDate <= dto.DiscoveryDate;
 }

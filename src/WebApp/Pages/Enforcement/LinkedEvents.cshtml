@@ -22,7 +22,7 @@
     <h2 class="h4">Linked Discovery Events</h2>
     @if (!Model.LinkedComplianceEvents.Any())
     {
-        <p class="border rounded-1 p-3 mt-3">
+        <p class="border rounded-3 p-3 mt-3">
             <em>None.</em>
         </p>
     }
@@ -36,8 +36,8 @@
                         <th scope="col" class="text-nowrap">Tracking #</th>
                         <th scope="col" class="text-nowrap">Work Type</th>
                         <th scope="col" class="text-nowrap">Event Date</th>
-                        <th scope="col" class="text-nowrap">Status</th>
-                        <th scope="col"><span class="visually-hidden">Actions</span></th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                     </thead>
 
@@ -64,7 +64,7 @@
                                     @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>
-                            <td class="text-end align-middle">
+                            <td class="text-center align-middle">
                                 <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
                                         title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink Event
                                 </button>
@@ -96,8 +96,8 @@
                         <th scope="col" class="text-nowrap">Tracking #</th>
                         <th scope="col" class="text-nowrap">Work Type</th>
                         <th scope="col" class="text-nowrap">Event Date</th>
-                        <th scope="col" class="text-nowrap">Status</th>
-                        <th scope="col"><span class="visually-hidden">Actions</span></th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                     </thead>
 
@@ -124,7 +124,7 @@
                                     @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
                                 }
                             </td>
-                            <td class="text-end align-middle">
+                            <td class="text-center align-middle">
                                 <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
                                         title="Link Event to Enforcement Case">🡱&nbsp;Link Event
                                 </button>

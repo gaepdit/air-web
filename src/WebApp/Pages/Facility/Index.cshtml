@@ -1,6 +1,5 @@
 ﻿@page
 @using AirWeb.WebApp.Platform.Settings
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
     ViewData["Title"] = "Facilities";
@@ -43,7 +42,7 @@ else
     @foreach (var (facilityId, facilityName) in Model.Facilities)
     {
         <li>
-            <a asp-page="/Facility/Details" asp-route-facilityId="@facilityId"
+            <a asp-page="/Facility/Details" asp-route-id="@facilityId"
                class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
                 @facilityId <span class="link-body-emphasis">–</span> @facilityName
             </a>
@@ -80,7 +79,7 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
+    <script asp-add-content-to-csp>
         document.addEventListener('DOMContentLoaded', () => {
             const filterInput = document.getElementById('facility-list-filter');
             const countOutput = document.getElementById('filtered-facility-list-count');

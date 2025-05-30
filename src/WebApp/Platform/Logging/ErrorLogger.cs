@@ -2,11 +2,10 @@
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.FileService;
 using Mindscape.Raygun4Net.AspNetCore;
-using System.Collections;
 
 namespace AirWeb.WebApp.Platform.Logging;
 
-public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvider) : IErrorLogger
+public class ErrorLogger(RaygunClient raygunClient, IFileService fileService) : IErrorLogger
 {
     public Task<string> LogErrorAsync(Exception exception, string context = "")
     {
@@ -22,7 +21,7 @@ public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvi
 
         if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey))
         {
-            await LogRaygunErrorAsync(exception, customData);
+            await raygunClient.SendInBackground(exception, userCustomData: customData);
             return shortId;
         }
 
@@ -49,7 +48,4 @@ public class ErrorLogger(IFileService fileService, IServiceProvider serviceProvi
         await fileService.SaveFileAsync(ms, $"{shortId}.txt", "Errors");
         return shortId;
     }
-
-    private Task LogRaygunErrorAsync(Exception exception, IDictionary customData) =>
-        serviceProvider.GetService<RaygunClient>()!.SendInBackground(exception, null, customData);
 }

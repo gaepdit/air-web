@@ -7,6 +7,7 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 public interface IActionViewDto : IDeletable
 {
     public Guid Id { get; }
+    public int CaseFileId { get; }
     public EnforcementActionType ActionType { get; }
     public string Notes { get; }
 
@@ -14,6 +15,7 @@ public interface IActionViewDto : IDeletable
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
     public bool IsReportable { get; }
+    public bool WillBeReportable { get; }
     public DateTimeOffset CreatedAt { get; }
 
     // -- Under Review

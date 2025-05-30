@@ -4,7 +4,6 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @using AirWeb.WebApp.Platform.Settings
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
     var summary = Model.TestSummary!;
@@ -148,15 +147,15 @@ else
 
     var review = Model.ComplianceReview!;
 
-    <div class="row justify-content-between align-items-center mb-2">
+    <div class="row justify-content-between align-items-center">
         <div class="col-md">
-            <div class="lead mb-md-0">Compliance Tracking #@review.Id.ToString()</div>
+            <div class="lead">Compliance Tracking #@review.Id.ToString()</div>
         </div>
         @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
         {
-            <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
                 <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
-                   class="btn btn-sm btn-outline-warning icon-link justify-content-center">
+                   class="btn btn-sm btn-outline-primary icon-link">
                     <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
                     </svg>
@@ -197,7 +196,7 @@ else
 
     <dl>
         <dt class="mb-2">@Html.DisplayNameFor(_ => review.Notes)</dt>
-        <dd class="text-break text-pre-line border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextOrPlaceholder)</dd>
+        <dd class="border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
     </dl>
 
     if (Model.CommentSection != null)

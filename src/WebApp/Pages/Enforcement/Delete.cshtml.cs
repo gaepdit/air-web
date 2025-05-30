@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -12,7 +12,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class DeleteModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     [BindProperty]
     public CommentDto Comment { get; set; } = null!;
@@ -25,7 +25,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
 
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
-        if (!User.CanDelete(item)) return Forbid();
+        if (!User.CanDeleteCaseFile(item)) return Forbid();
 
         ItemSummary = item;
         return Page();
@@ -36,7 +36,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
         if (!ModelState.IsValid) return BadRequest();
 
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || !User.CanDelete(item))
+        if (item is null || !User.CanDeleteCaseFile(item))
             return BadRequest();
 
         var notificationResult = await service.DeleteAsync(Id, Comment, token);

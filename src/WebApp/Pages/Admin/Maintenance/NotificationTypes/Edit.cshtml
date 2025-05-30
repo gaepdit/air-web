@@ -37,12 +37,8 @@
         <div class="mb-3">
             @Html.EditorFor(m => m.Item.Active, EditorTemplate.Checkbox)
         </div>
-        <div class="mt-3 mb-1">
-            <input asp-for="OriginalName" type="hidden" />
-            <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-            <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
-        </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+        <partial name="Shared/_SubmitCancelButtons" />
+        <input asp-for="OriginalName" type="hidden" />
     </form>
 </div>
 

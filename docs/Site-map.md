@@ -59,34 +59,32 @@ These pages are only available to logged-in staff.
 * `/Compliance/TestReport/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
   Review.
 
-### Enforcement
+### Enforcement Case File
 
 * `/Enforcement` Enforcement search form.
-* `/Enforcement/Details/{enforcementId}` Case File details.
-
-#### Case File Initiation
-
-* `/Enforcement/Add?{facilityId}` Start new case file for the specified facility.
-* `/Enforcement/Add?{entryId}` Start new case file for the specified compliance entry.
+* `/Enforcement/Details/{caseFileId}` Enforcement Case File details.
 
 #### Case File Workflow
 
-* `/Enforcement/Edit/{enforcementId}` Edit details.
-* `/Enforcement/[Close|Reopen]/{enforcementId}` Close/reopen a case file.
-* `/Enforcement/LinkedEvents/{enforcementId}` Link a case file to a compliance event.
-* `/Enforcement/[Delete|Restore]/{enforcementId}` Delete/restore a case file.
+* `/Enforcement/Begin/{facilityId}/{eventId?}` Start a new case file for the specified facility and, if included, the
+  specified compliance event.
+* `/Enforcement/Edit/{caseFileId}` Edit details.
+* `/Enforcement/[Close|Reopen]/{caseFileId}` Close/reopen a case file.
+* `/Enforcement/LinkedEvents/{caseFileId}` Link a case file to a compliance event.
+* `/Enforcement/PollutantsPrograms/{caseFileId}` Link a case file to facility pollutants and air programs.
+* `/Enforcement/[Delete|Restore]/{caseFileId}` Delete/restore a case file.
 
 #### Enforcement Action Workflow
 
-* `/Enforcement/Details/{enforcementId}/Action/{actionId}` View enforcement action details.
-* `/Enforcement/Details/{enforcementId}/Action/Add` Add an enforcement action to a case file.
-* `/Enforcement/Details/{enforcementId}/Action/Add/{actionId}` Add an enforcement action linked from another
-  enforcement action.
-* `/Enforcement/Details/{enforcementId}/Action/Edit/{actionId}` Edit an enforcement action details.
-* `/Enforcement/Details/{enforcementId}/Action/RequestReview/{actionId}` Request review for an enforcement action.
-* `/Enforcement/Details/{enforcementId}/Action/[Approve/Return]/{actionId}` Approve or return an enforcement
+* `/Enforcement/Details/{caseFileId}#enforcement-actions` Enforcement action details.
+* `/Enforcement/Details/{caseFileId}` `[modal dialog]` Add a simple enforcement action to a case file.
+* `/Enforcement/Details/{caseFileId}/Add/{action-type}` Add a complex enforcement action to a case file.
+* `/Enforcement/Details/{caseFileId}/Edit/{actionId}` Edit enforcement action details.
+* `/Enforcement/Details/{caseFileId}/RequestReview/{actionId}` Request review for an enforcement action.
+* `/Enforcement/Details/{caseFileId}/[Approve/Return]/{actionId}` Approve or return an enforcement
   action review.
-* `/Enforcement/Details/{enforcementId}/Action/Issue/{actionId}` Issue (and close) an enforcement action.
+* `/Enforcement/Details/{caseFileId}` `[modal dialog]` Issue/cancel/add response/resolve/execute/delete an enforcement
+  action.
 
 ## User Account
 

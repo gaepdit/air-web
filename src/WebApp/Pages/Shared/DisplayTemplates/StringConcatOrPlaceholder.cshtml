@@ -1,0 +1,10 @@
+﻿@using AirWeb.WebApp.Platform.PageModelHelpers
+@model IEnumerable<string>
+@if (Model.Any())
+{
+    @string.Join(", ", Model)
+}
+else
+{
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+}

@@ -30,10 +30,10 @@ public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntitySer
     }
 
     public async Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<TViewDto>(await _repository.FindAsync(id, token).ConfigureAwait(false));
+        _mapper.Map<TViewDto>(await _repository.FindAsync(id, token: token).ConfigureAwait(false));
 
     public async Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<TUpdateDto>(await _repository.FindAsync(id, token).ConfigureAwait(false));
+        _mapper.Map<TUpdateDto>(await _repository.FindAsync(id, token: token).ConfigureAwait(false));
 
     public async Task<IReadOnlyList<TViewDto>> GetListAsync(CancellationToken token = default) =>
         _mapper.Map<IReadOnlyList<TViewDto>>(await _repository.GetOrderedListAsync(token).ConfigureAwait(false));
@@ -55,7 +55,7 @@ public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntitySer
 
     public async Task UpdateAsync(Guid id, TUpdateDto resource, CancellationToken token = default)
     {
-        var entity = await _repository.GetAsync(id, token).ConfigureAwait(false);
+        var entity = await _repository.GetAsync(id, token: token).ConfigureAwait(false);
         if (entity.Name != resource.Name.Trim())
             await _manager.ChangeNameAsync(entity, resource.Name, token).ConfigureAwait(false);
         entity.Active = resource.Active;

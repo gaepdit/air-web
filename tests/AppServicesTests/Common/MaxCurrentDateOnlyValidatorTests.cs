@@ -3,14 +3,14 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Common;
 
-public class MaxCurrentDateOnlyValidatorTests
+public class MaxDateOnlyValidatorTests
 {
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var model = new MaxCurrentDateOnlyDto { Date = DateOnly.FromDateTime(DateTime.Today) };
-        var validator = new MaxCurrentDateOnlyValidator();
+        var model = new MaxDateOnlyDto { Date = DateOnly.FromDateTime(DateTime.Today) };
+        var validator = new MaxDateOnlyValidator();
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -23,8 +23,8 @@ public class MaxCurrentDateOnlyValidatorTests
     public async Task DateInFuture_ReturnsAsInvalid()
     {
         // Arrange
-        var model = new MaxCurrentDateOnlyDto { Date = DateOnly.FromDateTime(DateTime.Today).AddDays(1) };
-        var validator = new MaxCurrentDateOnlyValidator();
+        var model = new MaxDateOnlyDto { Date = DateOnly.FromDateTime(DateTime.Today).AddDays(1) };
+        var validator = new MaxDateOnlyValidator();
 
         // Act
         var result = await validator.TestValidateAsync(model);

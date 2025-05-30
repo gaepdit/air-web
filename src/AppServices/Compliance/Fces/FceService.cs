@@ -31,7 +31,7 @@ public sealed class FceService(
 
     public async Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var fce = mapper.Map<FceSummaryDto?>(await fceRepository.FindAsync(id, token).ConfigureAwait(false));
+        var fce = mapper.Map<FceSummaryDto?>(await fceRepository.FindAsync(id, token: token).ConfigureAwait(false));
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
@@ -44,19 +44,19 @@ public sealed class FceService(
         {
             Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
             Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
             Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
             Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
             RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
         };
 
         // TODO: Implement remaining data summaries.
@@ -87,7 +87,7 @@ public sealed class FceService(
     public async Task<AppNotificationResult> UpdateAsync(int id, FceUpdateDto resource,
         CancellationToken token = default)
     {
-        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
+        var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
         fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
@@ -104,7 +104,7 @@ public sealed class FceService(
     public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
-        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
+        var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         fceManager.Delete(fce, resource.Comment, currentUser);
@@ -116,7 +116,7 @@ public sealed class FceService(
 
     public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var fce = await fceRepository.GetAsync(id, token).ConfigureAwait(false);
+        var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
         fceManager.Restore(fce);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
@@ -133,7 +133,7 @@ public sealed class FceService(
         var result = await commentService.AddCommentAsync(fceRepository, itemId, resource, token)
             .ConfigureAwait(false);
 
-        var fce = await fceRepository.GetAsync(resource.ItemId, token).ConfigureAwait(false);
+        var fce = await fceRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.FceCommentAdded, fce.ReviewedBy, token, itemId,

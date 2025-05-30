@@ -10,18 +10,22 @@ public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
     [UsedImplicitly] // Used by ORM.
     private StipulatedPenalty() { }
 
-    internal StipulatedPenalty(Guid id, ConsentOrder consentOrder, ApplicationUser? user)
+    internal StipulatedPenalty(Guid id, ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
+        ApplicationUser? user)
     {
+        Id = id;
         ConsentOrder = consentOrder;
+        Amount = amount;
+        ReceivedDate = receivedDate;
         SetCreator(user?.Id);
     }
 
-    public ConsentOrder ConsentOrder { get; set; } = null!;
+    public ConsentOrder ConsentOrder { get; init; } = null!;
 
-    [Precision(12, 2)]
-    public decimal Amount { get; set; }
+    [Precision(precision: 12, scale: 2)]
+    public decimal Amount { get; private init; }
 
-    public DateOnly ReceivedDate { get; set; }
+    public DateOnly ReceivedDate { get; private init; }
 
     [StringLength(7000)]
     public string? Notes { get; set; }

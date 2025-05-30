@@ -23,7 +23,7 @@ public class DetailsModel(
 {
     // Facility
     [FromRoute]
-    public string? FacilityId { get; set; }
+    public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
@@ -51,22 +51,22 @@ public class DetailsModel(
             return RedirectToPage();
         }
 
-        if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId, RefreshIaipData);
+        if (Id is null) return NotFound("Facility ID not found.");
+        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)Id, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search service.
         var sourceTestsForFacilityTask =
-            sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData);
+            sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)Id, RefreshIaipData);
 
         // Search service cannot be run in parallel with itself when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(
-            new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
+            new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
         var searchFces = await fceSearchService.SearchAsync(
-            new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = FacilityId },
+            new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 

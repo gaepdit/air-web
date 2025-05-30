@@ -53,9 +53,9 @@
                     <dt>@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
                     <dd>@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
                     <dt>@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
-                    <dd>@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
                     <dt>@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
-                    <dd>@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringListOrPlaceholder)</dd>
+                    <dd>@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
                 </dl>
             </div>
         </div>

@@ -43,7 +43,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public ApplicationUser? ApprovedBy { get; set; }
 
     // Status: Issued
-    public DateOnly? IssueDate { get; internal set; }
+    public DateOnly? IssueDate { get; set; }
     internal bool IsIssued => IssueDate.HasValue;
 
     // Status: Canceled (closed as unsent)
@@ -51,14 +51,15 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
-    public bool IsReportable =>
-        !IsDeleted &&
-        IsIssued &&
-        ActionType is EnforcementActionType.AdministrativeOrder
-            or EnforcementActionType.ConsentOrder
-            or EnforcementActionType.NoticeOfViolation
-            or EnforcementActionType.NovNfaLetter
-            or EnforcementActionType.ProposedConsentOrder;
+    public bool IsReportable => WillBeReportable && IsIssued;
+    public bool WillBeReportable => !IsDeleted && ActionTypeIsReportable(ActionType);
+
+    public static bool ActionTypeIsReportable(EnforcementActionType type) => type
+        is EnforcementActionType.AdministrativeOrder
+        or EnforcementActionType.ConsentOrder
+        or EnforcementActionType.NoticeOfViolation
+        or EnforcementActionType.NovNfaLetter
+        or EnforcementActionType.ProposedConsentOrder;
 
     public short? ActionNumber { get; set; }
 
@@ -76,7 +77,6 @@ public enum EnforcementActionType
     [Description("Combined NOV/NFA Letter")] NovNfaLetter,
     [Description("Proposed Consent Order")] ProposedConsentOrder,
     [Description("Consent Order")] ConsentOrder,
-    [Description("Order Resolved Letter")] OrderResolvedLetter,
     [Description("Administrative Order")] AdministrativeOrder,
     [Description("Informational Letter")] InformationalLetter,
 }

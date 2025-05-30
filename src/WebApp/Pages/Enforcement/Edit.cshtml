@@ -1,6 +1,5 @@
 ﻿@page "{id:int?}"
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model EditModel
 @{
     ViewData["Title"] = $"Edit Enforcement Case #{Model.Id.ToString()}";
@@ -40,11 +39,7 @@
 
         @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
 
-        <div class="mt-3 mb-1">
-            <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-            <a asp-page="Details" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-secondary">Cancel</a>
-        </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+        <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>
 

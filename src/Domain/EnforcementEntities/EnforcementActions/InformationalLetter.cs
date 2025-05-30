@@ -15,7 +15,6 @@ public class InformationalLetter : EnforcementAction, IResponseRequested
         ActionType = EnforcementActionType.InformationalLetter;
     }
 
-    public void RequestResponse() => ResponseRequested = true;
     public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 
