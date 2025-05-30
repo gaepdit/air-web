@@ -39,7 +39,7 @@ namespace AirWeb.AppServices.Enforcement.Search
 
             var list = count > 0
                 ? mapper.Map<IReadOnlyCollection<EnforcementSearchResultDto>>(
-                    await repository.GetPagedListAsync(expression, paging, token).ConfigureAwait(false))
+                    await repository.GetPagedListAsync(expression, paging, token: token).ConfigureAwait(false))
                 : [];
 
             if (!loadFacilities) return new PaginatedResult<EnforcementSearchResultDto>(list, count, paging);

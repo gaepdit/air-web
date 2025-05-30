@@ -196,8 +196,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CaseFile, EnforcementSearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
         CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
             .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
-
     }
 }

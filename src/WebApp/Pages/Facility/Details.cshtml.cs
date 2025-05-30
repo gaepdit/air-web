@@ -71,7 +71,7 @@ public class DetailsModel(
             loadFacilities: false, token: token);
 
         var searchEnforcement = await enforcementService.SearchAsync(
-            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = FacilityId },
+            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
             
