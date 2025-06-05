@@ -89,7 +89,7 @@ public class StipulatedPenaltyAddValidatorTests
     {
         // Arrange
         var repoMock = Substitute.For<IEnforcementActionRepository>();
-        repoMock.GetAsync(Arg.Any<Guid>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+        repoMock.GetAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
             .Returns(_consentOrder);
 
         var validator = new StipulatedPenaltyAddValidator(repoMock);
@@ -116,7 +116,7 @@ public class StipulatedPenaltyAddValidatorTests
         ConsentOrder consentOrder = new(Guid.Empty, new CaseFile(1, (FacilityId)"00100001", null), null);
 
         var repoMock = Substitute.For<IEnforcementActionRepository>();
-        repoMock.GetAsync(Arg.Any<Guid>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+        repoMock.GetAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
             .Returns(consentOrder);
 
         var validator = new StipulatedPenaltyAddValidator(repoMock);

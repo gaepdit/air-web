@@ -4,7 +4,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GaEpd.EmailService"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

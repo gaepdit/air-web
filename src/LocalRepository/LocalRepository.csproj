@@ -4,10 +4,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GaEpd.EmailService"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
         <ProjectReference Include="..\TestData\TestData.csproj" />
     </ItemGroup>

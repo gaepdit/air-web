@@ -1,5 +1,6 @@
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
@@ -8,7 +9,6 @@ using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.WebApp.Platform.Settings;
-using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

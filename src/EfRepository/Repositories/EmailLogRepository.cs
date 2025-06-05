@@ -1,19 +1,12 @@
-﻿using AirWeb.EfRepository.DbContext;
-using GaEpd.EmailService;
-using GaEpd.EmailService.EmailLogRepository;
-using Microsoft.Extensions.Configuration;
+﻿using AirWeb.Domain.EmailLog;
+using AirWeb.EfRepository.DbContext;
 
 namespace AirWeb.EfRepository.Repositories;
 
-public sealed class EmailLogRepository(AppDbContext context, IConfiguration configuration) : IEmailLogRepository
+public sealed class EmailLogRepository(AppDbContext context) : IEmailLogRepository
 {
-    public async Task InsertAsync(Message message, CancellationToken token = default)
+    public async Task InsertAsync(EmailLog emailLog, CancellationToken token = default)
     {
-        var settings = new EmailServiceSettings();
-        configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);
-        if (!settings.EnableEmailLog) return;
-
-        var emailLog = EmailLog.Create(message);
         await context.EmailLogs.AddAsync(emailLog, token).ConfigureAwait(false);
         await context.SaveChangesAsync(token).ConfigureAwait(false);
     }
