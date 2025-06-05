@@ -1,4 +1,4 @@
-using AirWeb.Domain.BaseEntities;
+﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;

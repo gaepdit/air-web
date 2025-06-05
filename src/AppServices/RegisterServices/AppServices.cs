@@ -5,6 +5,7 @@ using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -38,6 +39,7 @@ public static class AppServices
         .AddScoped<INotificationTypeService, NotificationTypeService>()
 
         // Enforcement
+        .AddScoped<IEnforcementSearchService, EnforcementSearchService>()
         .AddScoped<ICaseFileService, CaseFileService>()
         .AddScoped<ICaseFileManager, CaseFileManager>()
         .AddScoped<IEnforcementActionService, EnforcementActionService>()

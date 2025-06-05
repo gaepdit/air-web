@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
@@ -13,6 +13,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
@@ -192,6 +193,9 @@ public class AutoMapperProfile : Profile
         CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
 
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
+
+        CreateMap<CaseFile, EnforcementSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
             .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
