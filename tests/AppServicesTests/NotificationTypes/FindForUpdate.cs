@@ -13,7 +13,7 @@ public class FindForUpdate
     {
         var item = new NotificationType(Guid.Empty, SampleText.ValidName);
         var repoMock = Substitute.For<INotificationTypeRepository>();
-        repoMock.FindAsync(item.Id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+        repoMock.FindAsync(item.Id, Arg.Any<CancellationToken>())
             .Returns(item);
         var managerMock = Substitute.For<INotificationTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
@@ -30,7 +30,7 @@ public class FindForUpdate
     {
         var id = Guid.Empty;
         var repoMock = Substitute.For<INotificationTypeRepository>();
-        repoMock.FindAsync(id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+        repoMock.FindAsync(id, Arg.Any<CancellationToken>())
             .Returns((NotificationType?)null);
         var managerMock = Substitute.For<INotificationTypeManager>();
         var mapperMock = Substitute.For<IMapper>();
