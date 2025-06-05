@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.ErrorLogging;
+using AirWeb.Domain.EmailLog;
+using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
-using GaEpd.EmailService.EmailLogRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -46,7 +47,7 @@ public class AppNotificationService(
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
-        await emailLogRepository.InsertAsync(message, token).ConfigureAwait(false);
+        await emailLogRepository.InsertAsync(Create(message), token).ConfigureAwait(false);
 
         if (settings is { EnableEmail: false, EnableEmailAuditing: false })
         {
@@ -65,4 +66,17 @@ public class AppNotificationService(
 
         return AppNotificationResult.SuccessResult();
     }
+
+    private static EmailLog Create(Message message) => new()
+    {
+        Id = Guid.NewGuid(),
+        Sender = StringExtensions.ConcatWithSeparator([message.SenderName, $"<{message.SenderEmail}>"])
+            .Truncate(300),
+        Subject = message.Subject.Truncate(200),
+        Recipients = message.Recipients.ConcatWithSeparator(",").Truncate(2000),
+        CopyRecipients = message.CopyRecipients.ConcatWithSeparator(",").Truncate(2000),
+        TextBody = message.TextBody.Truncate(15_000),
+        HtmlBody = message.HtmlBody.Truncate(20_000),
+        CreatedAt = DateTimeOffset.Now,
+    };
 }
