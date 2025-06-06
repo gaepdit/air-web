@@ -6,7 +6,6 @@ using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using IaipDataService;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
@@ -21,15 +20,14 @@ AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMill
 // Bind application settings.
 BindingsConfiguration.BindSettings(builder);
 
+// Persist data protection keys.
+builder.Services.AddDataProtection();
+
 // Configure Identity.
 builder.Services.AddIdentityStores();
 
 // Configure Authentication.
 builder.Services.AddAuthenticationServices(builder.Configuration);
-
-// Persist data protection keys.
-var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
-builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
 
 // Configure authorization policies and handlers.
 builder.Services.AddAuthorizationHandlers();
