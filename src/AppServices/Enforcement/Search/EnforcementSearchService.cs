@@ -1,30 +1,22 @@
-﻿using System.Linq.Expressions;
-using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Users;
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
-using GaEpd.AppLibrary.Domain.Repositories;
-using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Enforcement.Search
 {
     public class EnforcementSearchService(
         ICaseFileRepository repository,
         IFacilityService facilityService,
-        IMapper mapper,
-        IUserService userService,
-        IAuthorizationService authorization) : IEnforcementSearchService
+        IMapper mapper) : IEnforcementSearchService
     {
         public async Task<int> CountAsync(EnforcementSearchDto spec, CancellationToken token)
         {
             return 1;
         }
 
-        public async Task<IPaginatedResult<EnforcementSearchResultDto>> SearchAsync(EnforcementSearchDto spec, PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
+        public async Task<IPaginatedResult<EnforcementSearchResultDto>> SearchAsync(EnforcementSearchDto spec,
+            PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
         {
             var expression = EnforcementFilters.SearchPredicate(spec.TrimAll());
             var count = await repository.CountAsync(expression, token).ConfigureAwait(false);

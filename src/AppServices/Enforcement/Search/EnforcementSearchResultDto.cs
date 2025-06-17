@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.Search
@@ -13,6 +12,5 @@ namespace AirWeb.AppServices.Enforcement.Search
         public DateOnly? DiscoveryDate { get; init; }
         public DateOnly? DayZero { get; init; }
         public StaffViewDto? ResponsibleStaff { get; init; }
-
     }
 }

@@ -1,14 +1,14 @@
-﻿using System.ComponentModel;
-using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Utilities;
+﻿using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
+using System.ComponentModel;
 
 namespace AirWeb.AppServices.Enforcement.Search;
 
 public enum SortByEnforcement
 {
-    [Description("DiscoveryDate, Id")] DiscoveryDate
+    [Description("DiscoveryDate, Id")] DiscoveryDate,
 }
+
 public record EnforcementSearchDto
 {
     public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDate;
