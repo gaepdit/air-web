@@ -126,6 +126,43 @@
 </section>
 
 <section class="mt-4">
+    @if (!Model.Fces.Any())
+    {
+        <h2>Recent FCEs</h2>
+        <p>
+            <em>None.</em>
+        </p>
+    }
+    else
+    {
+        <div class="row justify-content-between align-items-baseline mb-2">
+            <div class="col">
+                <h2 class="mb-0">Recent FCEs</h2>
+            </div>
+            <div class="col-auto ms-md-3 d-print-none">
+                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.Id"
+                   asp-page-handler="Search" asp-fragment="search-results"
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    View All
+                </a>
+            </div>
+        </div>
+        @* <details open="@(Model.Fces.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
+        <details class="border rounded-1 border-bottom-0">
+            <summary class="bg-body-secondary px-2 py-1 border-bottom">
+                @if (Model.FceCount > GlobalConstants.SummaryTableSize)
+                {
+                    @GlobalConstants.SummaryTableSize.ToString()
+                    @:most recent /
+                }
+                @Model.FceCount.ToString() total
+            </summary>
+            <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
+        </details>
+    }
+</section>
+
+<section class="mt-4">
 	@if (!Model.EnforcementWork.Any())
 	{
 		<h2>Recent Enforcement Work</h2>
@@ -161,43 +198,6 @@
 					 model="(Model.EnforcementWork, (EnforcementSearchDto?)null)" />
 		</details>
 	}
-</section>
-
-<section class="mt-4">
-    @if (!Model.Fces.Any())
-    {
-        <h2>Recent FCEs</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent FCEs</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.Id"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
-        </div>
-        @* <details open="@(Model.Fces.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
-        <details class="border rounded-1 border-bottom-0">
-            <summary class="bg-body-secondary px-2 py-1 border-bottom">
-                @if (Model.FceCount > GlobalConstants.SummaryTableSize)
-                {
-                    @GlobalConstants.SummaryTableSize.ToString()
-                    @:most recent /
-                }
-                @Model.FceCount.ToString() total
-            </summary>
-            <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
-        </details>
-    }
 </section>
 
 <section class="mt-4">
