@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.TestData.Compliance;
 
-namespace AppServicesTests.ComplianceSearch;
+namespace AppServicesTests.Fces.Search;
 
 public class FceFilterTests
 {

@@ -3,7 +3,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Compliance;
 
-namespace AppServicesTests.ComplianceSearch;
+namespace AppServicesTests.WorkEntries.Search;
 
 public class WorkEntryFilterTests
 {
