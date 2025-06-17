@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Platform.Constants;
@@ -15,6 +16,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class DetailsModel(
     IFacilityService facilityService,
     IFceSearchService fceSearchService,
+    IEnforcementSearchService enforcementService,
     IWorkEntrySearchService entrySearchService,
     ISourceTestService sourceTestService,
     IAuthorizationService authorization) : PageModel
@@ -26,6 +28,8 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
+    public IList<EnforcementSearchResultDto> EnforcementWork { get; private set; } = [];
+    public int EnforcementCount { get; private set; }
     public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
     public int ComplianceWorkCount { get; private set; }
     public IList<FceSearchResultDto> Fces { get; private set; } = [];
@@ -51,11 +55,11 @@ public class DetailsModel(
         Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)Id, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        // Source Test service can be run in parallel with the search service.
+        // Source Test service can be run in parallel with the search services.
         var sourceTestsForFacilityTask =
             sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)Id, RefreshIaipData);
 
-        // Search service cannot be run in parallel with itself when using Entity Framework.
+        // Search services cannot be run in parallel with each other when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(
             new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
@@ -66,11 +70,19 @@ public class DetailsModel(
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
+        var searchEnforcement = await enforcementService.SearchAsync(
+            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = Id },
+            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            loadFacilities: false, token: token);
+
         ComplianceWork = searchWorkEntries.Items.ToList();
         ComplianceWorkCount = searchWorkEntries.TotalCount;
 
         Fces = searchFces.Items.ToList();
         FceCount = searchFces.TotalCount;
+
+        EnforcementWork = searchEnforcement.Items.ToList();
+        EnforcementCount = searchEnforcement.TotalCount;
 
         var sourceTestsForFacility = await sourceTestsForFacilityTask;
         SourceTests = sourceTestsForFacility.Take(GlobalConstants.SummaryTableSize).ToList();
