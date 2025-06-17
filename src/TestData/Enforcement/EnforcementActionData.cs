@@ -32,13 +32,15 @@ public static class EnforcementActionData
             ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-5)),
         },
 
-        // 304 (3, 4)
+        // 304 (3)
         new LetterOfNoncompliance(Guid.NewGuid(), CaseFileData.GetData.ElementAt(4), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
             CanceledDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-5)),
         },
+
+        // 304 (4)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(4), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
@@ -119,80 +121,63 @@ public static class EnforcementActionData
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-288)),
             ResolvedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-200)),
         },
-    ];
 
-    private static List<EnforcementAction> NestedSeedItems(List<EnforcementAction> parentActions) =>
-    [
-        // 306 (0) [15]
-        new NoFurtherActionLetter(Guid.NewGuid(), parentActions[6].CaseFile, null)
+        // 306 (15)
+        new NoFurtherActionLetter(Guid.NewGuid(), CaseFileData.GetData.ElementAt(6), null)
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-74)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 308 (1) [16]
-        new ProposedConsentOrder(Guid.NewGuid(), parentActions[8].CaseFile, null)
+        // 308 (16)
+        new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(8), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 310 (2) [17]
-        new ConsentOrder(Guid.NewGuid(), parentActions[10].CaseFile, null)
+        // 310 (17)
+        new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(10), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(20)),
+            OrderId = 310,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
-        // 311 (3) [18]
-        new ConsentOrder(Guid.NewGuid(), parentActions[11].CaseFile, null)
+        // 311 (18)
+        new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(11), null)
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(148)),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(160)),
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(161)),
-            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-169)),
-            OrderId = 1552,
+            ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(169)),
+            OrderId = 311,
             PenaltyAmount = 1000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            StipulatedPenaltiesDefined = true,
         },
 
-        // 312 (4) [19]
-        new ConsentOrder(Guid.NewGuid(), parentActions[12].CaseFile, null)
+        // 312 (19)
+        new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(12), null)
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-180)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-183)),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-180)),
             ReceivedFromDirectorsOffice = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-180)),
-            OrderId = 1663,
+            OrderId = 312,
             PenaltyAmount = 10_000,
             PenaltyComment = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResolvedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3)),
-            StipulatedPenaltiesDefined = true,
         },
 
-        // 314 (5) [20]
-        new OrderResolvedLetter(Guid.NewGuid(), parentActions[14].CaseFile, null)
+        // 302 (20)
+        new LetterOfNoncompliance(Guid.NewGuid(), CaseFileData.GetData.ElementAt(2), null)
         {
-            IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-200)),
-            Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-        },
-    ];
-
-    private static IEnumerable<EnforcementAction> DoubleNestedSeedItems(List<EnforcementAction> parentActions) =>
-    [
-        // 312 (0) [21]
-        new OrderResolvedLetter(Guid.NewGuid(), parentActions[4].CaseFile, null)
-        {
-            Notes = "Deleted CO resolved letter",
-        },
-        // 312 (1) [22]
-        new OrderResolvedLetter(Guid.NewGuid(), parentActions[4].CaseFile, null)
-        {
-            IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(23)),
-            Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
+            Notes = "Deleted LON",
+            ResponseRequested = true,
         },
     ];
 
@@ -205,10 +190,6 @@ public static class EnforcementActionData
             if (_enforcementActions is not null) return _enforcementActions;
 
             _enforcementActions = EnforcementActionSeedItems.ToList();
-            var nestedSeedItems = NestedSeedItems(_enforcementActions);
-            _enforcementActions.AddRange(nestedSeedItems);
-            var doubleNestedItems = DoubleNestedSeedItems(nestedSeedItems);
-            _enforcementActions.AddRange(doubleNestedItems);
 
             foreach (var action in _enforcementActions)
             {
@@ -231,7 +212,7 @@ public static class EnforcementActionData
                     action.ApprovedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5));
                     GenerateEnforcementActionReviews(action);
                 }
-#pragma warning disable S1862
+#pragma warning disable S1862 // Related "if/else if" statements should not have the same condition
                 else if (Random.Shared.NextBoolean())
 #pragma warning restore S1862
                 {
@@ -248,10 +229,10 @@ public static class EnforcementActionData
                     .EnforcementActions.Add(action);
             }
 
-            GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[19]);
+            GenerateStipulatedPenalties((ConsentOrder)_enforcementActions[18]);
 
             // Set as deleted
-            _enforcementActions[21].SetDeleted(UserData.AdminUserId);
+            _enforcementActions[20].SetDeleted(UserData.AdminUserId);
 
             return _enforcementActions;
         }
@@ -261,12 +242,13 @@ public static class EnforcementActionData
     {
         for (var i = 0; i < 3; i++)
         {
-            var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder, UserData.GetRandomUser())
+            var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder,
+                Random.Shared.Next(1000, 5000),
+                DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(i + 1)),
+                UserData.GetRandomUser())
             {
                 ConsentOrder = consentOrder,
-                Amount = Random.Shared.Next(1000, 5000),
                 Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
-                ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(i + 1)),
             };
             consentOrder.StipulatedPenalties.Add(penalty);
         }

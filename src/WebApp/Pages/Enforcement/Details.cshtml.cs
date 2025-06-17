@@ -15,16 +15,17 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     ICaseFileService caseFileService,
-    IEnforcementActionService enforcementActionService,
+    IEnforcementActionService actionService,
     IAuthorizationService authorization,
-    IValidator<MaxCurrentDateOnlyDto> issueActionValidator,
-    IValidator<CommentAndMaxDateDto> addResponseValidator) : PageModel
+    IValidator<MaxDateOnlyDto> maxDateValidator,
+    IValidator<MaxDateAndCommentDto> addResponseValidator,
+    IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
 {
     // Case File
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
-    public CaseFileViewDto? Item { get; private set; }
+    public CaseFileViewDto? CaseFile { get; private set; }
 
     // Permissions, etc.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
@@ -42,54 +43,66 @@ public class DetailsModel(
     // Note: DTO names are referenced in the page JavaScript.
 
     [BindProperty]
-    public CreateEnforcementActionDto CreateEnforcementAction { get; set; } = null!;
+    public EnforcementActionCreateDto CreateEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    public MaxCurrentDateOnlyDto IssueEnforcementActionDate { get; set; } = null!;
+    public MaxDateAndBooleanDto IssueEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    public CommentAndMaxDateDto AddEnforcementActionResponse { get; set; } = null!;
+    public MaxDateAndCommentDto AddEnforcementActionResponse { get; set; } = null!;
 
-    // Methods
+    [BindProperty]
+    public MaxDateOnlyDto ExecuteOrder { get; set; } = null!;
+
+    [BindProperty]
+    public MaxDateOnlyDto AppealOrder { get; set; } = null!;
+
+    [BindProperty]
+    public MaxDateAndBooleanDto ResolveEnforcementAction { get; set; } = null!;
+
     [TempData]
     public Guid? HighlightEnforcementId { get; set; }
 
+    // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await caseFileService.FindDetailedAsync(Id);
-        if (Item is null) return NotFound();
+        CaseFile = await caseFileService.FindDetailedAsync(Id);
+        if (CaseFile is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.View]) return NotFound();
+        if (!UserCan[CaseFileOperation.View]) return NotFound();
 
-        return InitializePage(Item);
+        return InitializePage();
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
     {
         var caseFile = await caseFileService.FindDetailedAsync(Id, token);
-        if (caseFile is null || !User.CanEdit(caseFile)) return BadRequest();
+        if (caseFile is null || !User.CanEditCaseFile(caseFile)) return BadRequest();
 
-        HighlightEnforcementId = await enforcementActionService.CreateAsync(Id, CreateEnforcementAction, token);
-        return RedirectToFragment(HighlightEnforcementId.ToString()!);
+        HighlightEnforcementId = await actionService.CreateAsync(Id, CreateEnforcementAction, token);
+
+        return caseFile.MissingPollutantsOrPrograms && CreateEnforcementAction.WouldBeReportable
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
 
     public async Task<IActionResult> OnPostAddEnforcementActionResponseAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
         await addResponseValidator.ApplyValidationAsync(AddEnforcementActionResponse, ModelState);
 
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            return InitializePage(Item);
+            return InitializePage();
         }
 
-        await enforcementActionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
+        await actionService.AddResponse(enforcementActionId, AddEnforcementActionResponse, token);
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
@@ -97,33 +110,104 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostIssueEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+        var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await issueActionValidator.ApplyValidationAsync(IssueEnforcementActionDate, ModelState);
+        await SetPermissionsAsync();
 
-        if (!ModelState.IsValid)
+        await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
+        if (!ModelState.IsValid) return InitializePage();
+
+        var closeCaseFileWasSet = IssueEnforcementAction.Option;
+        IssueEnforcementAction.Option = IssueEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
+        var caseFileClosed = await actionService.IssueAsync(enforcementActionId, IssueEnforcementAction, token);
+        if (caseFileClosed) return RedirectToFragment(null);
+
+        if (closeCaseFileWasSet)
         {
-            await SetPermissionsAsync();
-            return InitializePage(Item);
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+                "The Enforcement Case could not be closed.");
         }
 
-        await enforcementActionService.IssueAsync(enforcementActionId, IssueEnforcementActionDate, token);
         HighlightEnforcementId = enforcementActionId;
-        return RedirectToFragment(enforcementActionId.ToString());
+
+        return CaseFile.WillRequirePollutantsOrPrograms
+            ? RedirectToPage("PollutantsPrograms", new { Id })
+            : RedirectToFragment(enforcementActionId.ToString());
     }
 
     public async Task<IActionResult> OnPostCancelEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanEdit(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
+        var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanFinalizeAction(action)) return BadRequest();
 
-        await enforcementActionService.CancelAsync(enforcementActionId, token);
+        await actionService.CancelAsync(enforcementActionId, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostExecuteOrderAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        var action = await actionService.FindAsync(enforcementActionId, token);
+        if (action is null || !action.CanBeExecuted()) return BadRequest();
+
+        await maxDateValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage();
+        }
+
+        await actionService.ExecuteOrderAsync(enforcementActionId, ExecuteOrder, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostAppealOrderAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        var action = await actionService.FindAsync(enforcementActionId, token);
+        if (action is null || !action.CanBeAppealed()) return BadRequest();
+
+        await maxDateValidator.ApplyValidationAsync(AppealOrder, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            await SetPermissionsAsync();
+            return InitializePage();
+        }
+
+        await actionService.AppealOrderAsync(enforcementActionId, AppealOrder, token);
+        HighlightEnforcementId = enforcementActionId;
+        return RedirectToFragment(enforcementActionId.ToString());
+    }
+
+    public async Task<IActionResult> OnPostResolveActionAsync(Guid enforcementActionId, CancellationToken token)
+    {
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+        var action = CaseFile.EnforcementActions.SingleOrDefault(dto => dto.Id == enforcementActionId);
+        if (action is null || !User.CanResolve(action)) return BadRequest();
+
+        await SetPermissionsAsync();
+
+        await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
+        if (!ModelState.IsValid) return InitializePage();
+
+        var closeCaseFileWasSet = ResolveEnforcementAction.Option;
+        ResolveEnforcementAction.Option = ResolveEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
+        var caseFileClosed = await actionService.ResolveAsync(enforcementActionId, ResolveEnforcementAction, token);
+        if (caseFileClosed) return RedirectToFragment(null);
+
+        if (closeCaseFileWasSet)
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+                "The Enforcement Case could not be closed.");
+        }
+
         HighlightEnforcementId = enforcementActionId;
         return RedirectToFragment(enforcementActionId.ToString());
     }
@@ -131,30 +215,24 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostDeleteEnforcementActionAsync(Guid enforcementActionId,
         CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || !User.CanDelete(Item)) return BadRequest();
-        var action = Item.EnforcementActions.SingleOrDefault(actionViewDto => actionViewDto.Id == enforcementActionId);
-        if (action is null || User.CanDelete(action)) return BadRequest();
+        var action = await actionService.FindAsync(enforcementActionId, token);
+        if (action is null || !User.CanDeleteAction(action)) return BadRequest();
 
-        await enforcementActionService.DeleteAsync(enforcementActionId, token);
+        await actionService.DeleteAsync(enforcementActionId, token);
         return RedirectToPage();
     }
 
     #region Comments
 
-    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
-        CancellationToken token)
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment, CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        CaseFile = await caseFileService.FindDetailedAsync(Id, token);
+        if (CaseFile is null || CaseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.AddComment]) return BadRequest();
+        if (!UserCan[CaseFileOperation.AddComment]) return BadRequest();
 
-        if (!ModelState.IsValid)
-        {
-            return InitializePage(Item);
-        }
+        if (!ModelState.IsValid) return InitializePage();
 
         var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = addCommentResult.Id;
@@ -165,11 +243,11 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await caseFileService.FindDetailedAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        var caseFile = await caseFileService.FindSummaryAsync(Id, token);
+        if (caseFile is null || caseFile.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
-        if (!UserCan[EnforcementOperation.DeleteComment]) return BadRequest();
+        if (!UserCan[CaseFileOperation.DeleteComment]) return BadRequest();
 
         await caseFileService.DeleteCommentAsync(commentId, token);
         return RedirectToFragment("comments");
@@ -178,27 +256,32 @@ public class DetailsModel(
     #endregion
 
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(EnforcementOperation.AllOperations, User, Item);
+        UserCan = await authorization.SetPermissions(CaseFileOperation.AllOperations, User, CaseFile);
 
-    private PageResult InitializePage(CaseFileViewDto item, CommentAddDto? newComment = null)
+    private PageResult InitializePage(CommentAddDto? newComment = null)
     {
         CommentSection = new CommentsSectionModel
         {
-            Comments = item.Comments,
+            Comments = CaseFile!.Comments,
             NewComment = newComment ?? new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
-            CanAddComment = UserCan[EnforcementOperation.AddComment],
-            CanDeleteComment = UserCan[EnforcementOperation.DeleteComment],
+            CanAddComment = UserCan[CaseFileOperation.AddComment],
+            CanDeleteComment = UserCan[CaseFileOperation.DeleteComment],
         };
 
-        CreateEnforcementAction = new CreateEnforcementActionDto();
-        IssueEnforcementActionDate = new MaxCurrentDateOnlyDto();
-        AddEnforcementActionResponse = new CommentAndMaxDateDto();
+        CreateEnforcementAction = new EnforcementActionCreateDto();
+        IssueEnforcementAction = new MaxDateAndBooleanDto
+            { Option = UserCan[CaseFileOperation.CloseCaseFile] && !CaseFile.MissingData };
+        AddEnforcementActionResponse = new MaxDateAndCommentDto();
+        ExecuteOrder = new MaxDateOnlyDto();
+        AppealOrder = new MaxDateOnlyDto();
+        ResolveEnforcementAction = new MaxDateAndBooleanDto
+            { Option = UserCan[CaseFileOperation.CloseCaseFile] && !CaseFile.AttentionNeeded };
 
         return Page();
     }
 
-    private RedirectToPageResult RedirectToFragment(string fragment) =>
+    private RedirectToPageResult RedirectToFragment(string? fragment) =>
         RedirectToPage("Details", pageHandler: null, fragment: fragment);
 }

@@ -1,0 +1,58 @@
+﻿@page "{id:Guid?}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model AdministrativeOrderEditModel
+@{
+    var caseFile = Model.CaseFile!;
+    ViewData["Title"] = "Edit Administrative Order";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle mb-3">
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi me-2" role="img" aria-label="Danger:">
+                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+            </svg>
+        </div>
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">Enforcement Case #</dt>
+            <dd class="col-sm-8 col-lg-9">@caseFile.Id</dd>
+            <dt class="col-sm-4 col-lg-3">Facility</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <span class="text-body-secondary">@caseFile.FacilityId –</span> @caseFile.FacilityName
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        </dl>
+
+        <h2 class="h4">Update Details</h2>
+
+        <div class="mb-3">
+            @Html.EditorFor(model => model.Item.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.ExecutedDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.AppealedDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+        </div>
+
+        <partial name="Shared/_SubmitCancelButtons" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

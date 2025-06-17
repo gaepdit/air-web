@@ -19,7 +19,7 @@
         - REP: Report
     - NOT: Notification
     - REV: Permit revocation (previously a type of Notification)
-- ENF: Enforcement
+- ENF: Enforcement Case File
 
 ## ERD
 
@@ -54,11 +54,11 @@ erDiagram
     
     REV["Permit Revocation"]
 
-    ENF["Enforcement ⚓"] {
+    ENF["Enforcement Case File ⚓"] {
     int Id PK
 }
 
-    CEL["Compliance Event-Enforcement 🔗"] {
+    CEL["Compliance Event-Case File 🔗"] {
     int EnforcementId FK
     int WorkEntryId FK
 }
@@ -84,3 +84,8 @@ CEL }o--|| ENF : "addresses"
 CEL }o--|| CME : "is linked to"
 
 ```
+
+Key:<br>
+🔗 - Many-to-many linkage table<br>
+⚓ - Primary entities<br>
+🛩️ - External data (from the IAIP service)

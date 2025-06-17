@@ -18,9 +18,7 @@ public static class ValidationHelper
     /// <param name="parameterName">The name of the item parameter.</param>
     /// <typeparam name="T">The type of the item to be validated.</typeparam>
     public static async Task ApplyValidationAsync<T>(this IValidator<T> validator,
-        T item,
-        ModelStateDictionary modelState,
-        object? dataValue = null,
+        T item, ModelStateDictionary modelState, object? dataValue = null,
         [CallerArgumentExpression(nameof(dataValue))] string? dataKey = null,
         [CallerArgumentExpression(nameof(item))] string? parameterName = null)
     {

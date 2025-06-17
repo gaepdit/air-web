@@ -1,0 +1,60 @@
+﻿@page "{id:int?}"
+@model PollutantsProgramsModel
+
+@{
+    ViewData["Title"] = $"Pollutants and Air Programs: Enforcement Case #{Model.Id}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<p class="d-print-none">
+    <a asp-page="Details" asp-route-id="@Model.Id" class="lead icon-link">
+        <svg class="bi">
+            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
+        </svg>
+        Back to Enforcement Case #@Model.Id
+    </a>
+</p>
+
+<h1>Edit Pollutants and Air Programs</h1>
+
+<div class="callout callout-warning p-3">
+    The available pollutants and air programs are based on facility information from the IAIP and can be edited there.
+</div>
+
+<form method="post">
+    <div class="mt-4">
+        <h2 class="h4">Available Pollutants</h2>
+        @foreach (var pollutant in Model.PollutantSettings)
+        {
+            var index = Model.PollutantSettings.IndexOf(pollutant);
+            <div class="form-check">
+                <label class="form-check-label" asp-for="@Model.PollutantSettings[index].IsSelected">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.PollutantSettings[index].IsSelected">
+                    @pollutant.Description
+                    <span class="text-body-tertiary">(@pollutant.Code)</span>
+                    <input type="hidden" asp-for="@Model.PollutantSettings[index].Code" />
+                </label>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4">
+        <h2 class="h4">Available Air Programs</h2>
+        @foreach (var program in Model.AirProgramSettings)
+        {
+            var index = Model.AirProgramSettings.IndexOf(program);
+            <div class="form-check">
+                <label class="form-check-label" asp-for="@Model.AirProgramSettings[index].IsSelected">
+                    <input class="form-check-input" type="checkbox" asp-for="@Model.AirProgramSettings[index].IsSelected">
+                    @program.AirProgram.GetDescription()
+                    <input type="hidden" asp-for="@Model.AirProgramSettings[index].AirProgram" />
+                </label>
+            </div>
+        }
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary me-2">Save Selection</button>
+        <a asp-page="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>

@@ -58,7 +58,7 @@ public sealed partial class WorkEntryService(
 
     public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token)
+        var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token: token)
             .ConfigureAwait(false));
         if (entry is null) return entry;
         entry.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
@@ -72,7 +72,7 @@ public sealed partial class WorkEntryService(
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
-        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token)
+        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token: token)
             .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
 
     // Source test-specific
@@ -90,7 +90,7 @@ public sealed partial class WorkEntryService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
-        await entryRepository.InsertAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<int>(workEntry.Id, await appNotificationService
             .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -100,7 +100,7 @@ public sealed partial class WorkEntryService(
     public async Task<AppNotificationResult> UpdateAsync(int id, IWorkEntryCommandDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
@@ -113,11 +113,11 @@ public sealed partial class WorkEntryService(
 
     public async Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Close(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryClosed, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -126,11 +126,11 @@ public sealed partial class WorkEntryService(
 
     public async Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Reopen(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryReopened, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -140,11 +140,11 @@ public sealed partial class WorkEntryService(
     public async Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         entryManager.Delete(workEntry, resource.Comment, currentUser);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryDeleted, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -153,9 +153,9 @@ public sealed partial class WorkEntryService(
 
     public async Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         entryManager.Restore(workEntry);
-        await entryRepository.UpdateAsync(workEntry, autoSave: true, token: token).ConfigureAwait(false);
+        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         return await appNotificationService
             .SendNotificationAsync(Template.EntryRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -169,7 +169,7 @@ public sealed partial class WorkEntryService(
         var result = await commentService.AddCommentAsync(entryRepository, itemId, resource, token)
             .ConfigureAwait(false);
 
-        var workEntry = await entryRepository.GetAsync(itemId, token).ConfigureAwait(false);
+        var workEntry = await entryRepository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
             .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,

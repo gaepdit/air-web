@@ -1,13 +1,15 @@
 ﻿@using AirWeb.WebApp.Platform.PageModelHelpers
 @model IEnumerable<string>
-@{
-    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered;
-}
 @if (Model.Any())
 {
-    @string.Join(", ", Model)
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item</li>
+        }
+    </ul>
 }
 else
 {
-    <span class="text-body-secondary fw-lighter">@placeholder</span>
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
 }

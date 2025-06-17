@@ -45,8 +45,7 @@ namespace DomainTests.EnforcementActionManagerTests
 
         private class MockResponseRequestedAction : EnforcementAction, IResponseRequested
         {
-            public void RequestResponse() => throw new NotImplementedException();
-            public bool ResponseRequested { get; init; }
+            public bool ResponseRequested { get; set; }
             public DateOnly? ResponseReceived { get; set; }
             public string? ResponseComment { get; set; }
         }

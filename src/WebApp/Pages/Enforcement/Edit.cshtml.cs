@@ -15,10 +15,10 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class EditModel(
     ICaseFileService caseFileService,
     IStaffService staffService,
-    IValidator<CaseFileUpdateDto> validator) : PageModel
+    IValidator<CaseFileUpdateDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     [BindProperty]
     public CaseFileUpdateDto Item { get; set; } = null!;
@@ -26,13 +26,18 @@ public class EditModel(
     public CaseFileSummaryDto ItemView { get; private set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
 
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "Details";
+    public string RouteId => Id.ToString();
+
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
         if (Id == 0) return RedirectToPage("Index");
 
         var itemView = await caseFileService.FindSummaryAsync(Id, token);
         if (itemView is null) return NotFound();
-        if (!User.CanEdit(itemView)) return Forbid();
+        if (!User.CanEditCaseFile(itemView)) return Forbid();
 
         ItemView = itemView;
         Item = new CaseFileUpdateDto(ItemView);
@@ -44,7 +49,7 @@ public class EditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var itemView = await caseFileService.FindSummaryAsync(Id, token);
-        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
+        if (itemView is null || !User.CanEditCaseFile(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)

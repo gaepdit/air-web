@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.PageModelHelpers;
@@ -12,7 +12,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class LinkedEventsModel(ICaseFileService service) : PageModel
 {
     [FromRoute]
-    public int Id { get; set; }
+    public int Id { get; set; } // Case File ID
 
     public IEnumerable<WorkEntrySearchResultDto> LinkedComplianceEvents { get; private set; } = [];
     public IEnumerable<WorkEntrySearchResultDto> AvailableComplianceEvents { get; private set; } = [];
@@ -24,7 +24,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (!User.CanEditCaseFile(item)) return Forbid();
 
         LinkedComplianceEvents = await service.GetLinkedEventsAsync(Id, token);
         AvailableComplianceEvents = await service.GetAvailableEventsAsync((FacilityId)item.FacilityId,
@@ -36,8 +36,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
         var result = await service.LinkComplianceEvent(Id, entryId, token);
 
@@ -59,8 +58,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || entryId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed) return BadRequest();
-        if (!User.CanEdit(item)) return Forbid();
+        if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
         var result = await service.UnLinkComplianceEvent(Id, entryId, token);
 

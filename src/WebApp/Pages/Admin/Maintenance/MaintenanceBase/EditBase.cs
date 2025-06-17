@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
-public abstract class EditBase : PageModel
+public abstract class EditBase : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public Guid? Id { get; set; }
@@ -17,6 +17,11 @@ public abstract class EditBase : PageModel
 
     [TempData]
     public Guid HighlightId { get; set; }
+
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "Index";
+    public string RouteId => string.Empty;
 
     protected async Task<IActionResult> DoPostAsync<TViewDto, TUpdateDto>(
         INamedEntityService<TViewDto, TUpdateDto> service,

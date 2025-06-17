@@ -20,7 +20,6 @@ public abstract class ComplianceEvent : WorkEntry
     public ICollection<CaseFile> CaseFiles { get; } = [];
 
     // Data exchange properties
-    public bool IsReportable => IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 
     [JsonIgnore]
     [StringLength(1)]

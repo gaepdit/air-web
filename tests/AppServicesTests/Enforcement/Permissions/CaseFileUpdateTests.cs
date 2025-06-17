@@ -13,7 +13,7 @@ public class CaseFileUpdateTests
     public async Task ComplianceStaff_CanEdit()
     {
         // Arrange
-        var requirements = new[] { EnforcementOperation.Edit };
+        var requirements = new[] { CaseFileOperation.EditCaseFile };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -22,7 +22,7 @@ public class CaseFileUpdateTests
 
         var resource = new CaseFileViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new EnforcementRequirementsHandler();
+        var handler = new CaseFileRequirementsHandler();
 
         // Act
         await handler.HandleAsync(context);
@@ -35,13 +35,13 @@ public class CaseFileUpdateTests
     public async Task GivenNotComplianceStaff_CannotEdit()
     {
         // Arrange
-        var requirements = new[] { EnforcementOperation.Edit };
+        var requirements = new[] { CaseFileOperation.EditCaseFile };
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(AppClaimTypes.ActiveUser, true.ToString())],
             "Basic"));
 
         var resource = new CaseFileViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new EnforcementRequirementsHandler();
+        var handler = new CaseFileRequirementsHandler();
 
         // Act
         await handler.HandleAsync(context);
@@ -54,7 +54,7 @@ public class CaseFileUpdateTests
     public async Task GivenADeletedCaseFile_CannotEdit()
     {
         // Arrange
-        var requirements = new[] { EnforcementOperation.Edit };
+        var requirements = new[] { CaseFileOperation.EditCaseFile };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -63,7 +63,7 @@ public class CaseFileUpdateTests
 
         var resource = new CaseFileViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new EnforcementRequirementsHandler();
+        var handler = new CaseFileRequirementsHandler();
 
         // Act
         await handler.HandleAsync(context);
@@ -76,7 +76,7 @@ public class CaseFileUpdateTests
     public async Task GivenAClosedCaseFile_CannotEdit()
     {
         // Arrange
-        var requirements = new[] { EnforcementOperation.Edit };
+        var requirements = new[] { CaseFileOperation.EditCaseFile };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
@@ -85,7 +85,7 @@ public class CaseFileUpdateTests
 
         var resource = new CaseFileViewDto { IsClosed = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new EnforcementRequirementsHandler();
+        var handler = new CaseFileRequirementsHandler();
 
         // Act
         await handler.HandleAsync(context);

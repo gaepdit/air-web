@@ -1,0 +1,12 @@
+﻿@model decimal
+@{
+    var min = ViewData.ContainsKey("Min") ? (decimal)ViewData["Min"]! : (decimal?)null;
+    var max = ViewData.ContainsKey("Max") ? (decimal)ViewData["Max"]! : (decimal?)null;
+    var addonId = $"addon-{Guid.NewGuid()}";
+}
+<label asp-for="@__model" class="form-label"></label>
+<div class="input-group">
+    <span class="input-group-text" id="@addonId">$</span>
+    <input asp-for="@__model" type="number" class="form-control" aria-describedby="@addonId" min="@min" max="@max" step="0.01" />
+</div>
+<span asp-validation-for="@__model" class="invalid-feedback"></span>

@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -76,7 +76,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            ReceivedDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -140,7 +140,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            SentDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            SentDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act
@@ -182,7 +182,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            DueDate = new DateOnly(WorkEntry.EarliestWorkEntryYear - 1, 1, 1),
+            DueDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
         };
 
         // Act

@@ -3,7 +3,6 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     var report = Model.Item!;
@@ -33,7 +32,7 @@
             on @Html.DisplayFor(_ => report.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
         </p>
         <h5>Comments</h5>
-        <p class="text-break text-pre-line">@Html.DisplayFor(_ => report.DeleteComments, DisplayTemplate.TextOrPlaceholder)</p>
+        @Html.DisplayFor(_ => report.DeleteComments, DisplayTemplate.TextWithLinebreaks)
     </div>
 }
 
@@ -80,11 +79,7 @@
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
         <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-        <dd>
-            <div class="border rounded p-3 text-break">
-                <div class="text-pre-line">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextOrPlaceholder)</div>
-            </div>
-        </dd>
+        <dd class="border rounded p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
     </dl>
 </section>
 

@@ -15,7 +15,7 @@ public sealed class LocalWorkEntryRepository()
     public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments,
         CancellationToken token = default)
         where TEntry : WorkEntry =>
-        (TEntry?)await FindAsync(id, token).ConfigureAwait(false);
+        (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
@@ -32,7 +32,8 @@ public sealed class LocalWorkEntryRepository()
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
-        (await GetAsync(itemId, token).ConfigureAwait(false)).Comments.Add(new WorkEntryComment(comment, itemId));
+        (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(
+            new WorkEntryComment(comment, itemId));
 
     public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {

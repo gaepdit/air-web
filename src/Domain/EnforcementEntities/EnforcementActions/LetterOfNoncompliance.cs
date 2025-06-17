@@ -15,10 +15,13 @@ public class LetterOfNoncompliance : EnforcementAction, IResponseRequested
         ActionType = EnforcementActionType.LetterOfNoncompliance;
     }
 
-    public void RequestResponse() => ResponseRequested = true;
-    public bool ResponseRequested { get; set; }
+    public bool ResponseRequested { get; set; } = true;
     public DateOnly? ResponseReceived { get; set; }
 
     [StringLength(7000)]
     public string? ResponseComment { get; set; }
+
+    public DateOnly? ResolvedDate { get; internal set; }
+    public bool IsResolved => ResolvedDate.HasValue;
+    public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 }

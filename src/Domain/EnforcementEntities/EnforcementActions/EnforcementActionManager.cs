@@ -6,8 +6,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager : IEnforcementActionManager
 {
-    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action,
-        bool responseRequested, string? notes, ApplicationUser? user)
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user)
     {
         EnforcementAction enforcementAction = action switch
         {
@@ -18,17 +17,15 @@ public class EnforcementActionManager : IEnforcementActionManager
             EnforcementActionType.NoFurtherActionLetter => new NoFurtherActionLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.NovNfaLetter => new NovNfaLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.OrderResolvedLetter => new OrderResolvedLetter(Guid.NewGuid(), caseFile, user),
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
         };
-        enforcementAction.Notes = notes;
-        if (enforcementAction is IResponseRequested responseRequestedAction && responseRequested)
-            responseRequestedAction.RequestResponse();
+
         caseFile.EnforcementActions.Add(enforcementAction);
         return enforcementAction;
     }
 
+    // Common update methods
     public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
         ApplicationUser? user)
     {
@@ -38,14 +35,14 @@ public class EnforcementActionManager : IEnforcementActionManager
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly issueDate, ApplicationUser? user)
+    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly? issueDate, ApplicationUser? user)
     {
         if (enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has already been canceled.");
+            throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
-        enforcementAction.Status = EnforcementActionStatus.Issued;
+        enforcementAction.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
     }
 
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)
@@ -58,41 +55,39 @@ public class EnforcementActionManager : IEnforcementActionManager
         enforcementAction.Status = EnforcementActionStatus.Canceled;
     }
 
-    public void Reopen(EnforcementAction enforcementAction, ApplicationUser? user)
-    {
-        if (!enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has not been canceled.");
-
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.CanceledDate = null;
-
-        if (enforcementAction.ApprovedDate is not null)
-        {
-            enforcementAction.Status = EnforcementActionStatus.Approved;
-        }
-        else if (enforcementAction.CurrentReviewer is not null)
-        {
-            enforcementAction.Status = EnforcementActionStatus.ReviewRequested;
-        }
-        else
-        {
-            enforcementAction.Status = EnforcementActionStatus.Draft;
-        }
-    }
-
-    public void ExecuteOrder(ConsentOrder consentOrder, ApplicationUser? user)
-    {
-        throw new NotImplementedException();
-        consentOrder.SetUpdater(user?.Id);
-    }
-
-    public void AddStipulatedPenalty(ConsentOrder consentOrder, StipulatedPenalty stipulatedPenalty,
-        ApplicationUser? user)
-    {
-        throw new NotImplementedException();
-        consentOrder.SetUpdater(user?.Id);
-    }
-
     public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>
         enforcementAction.Delete(comment: null, user);
+
+    // Type-specific update methods
+    public void Resolve(IResolvable enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
+    {
+        if (enforcementAction.IsResolved)
+            throw new InvalidOperationException("Enforcement Action has already been resolved.");
+
+        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
+        enforcementAction.Resolve(resolvedDate);
+    }
+
+    public void ExecuteOrder(IFormalEnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
+        enforcementAction.Execute(executedDate);
+    }
+
+    public void AppealOrder(AdministrativeOrder enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    {
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.Appeal(executedDate);
+    }
+
+    public StipulatedPenalty AddStipulatedPenalty(ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
+        ApplicationUser? user)
+    {
+        var penalty = new StipulatedPenalty(Guid.NewGuid(), consentOrder, amount, receivedDate, user);
+        consentOrder.StipulatedPenalties.Add(penalty);
+        return penalty;
+    }
+
+    public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
+        stipulatedPenalty.SetDeleted(user?.Id);
 }

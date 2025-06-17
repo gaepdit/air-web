@@ -52,42 +52,22 @@ erDiagram
 † See next diagram for Enforcement Actions.<br>
 ‡ Pollutants & Air Programs are combined on the graph but are tracked separately.
 
-### Enforcement Action Relationships
+### Enforcement Action Types
 
-```mermaid
-erDiagram
-    ACT["Enforcement Actions"]
-    LTR["Letter"]
-    LON["Letter Of Noncompliance"]
-    NFA["No Further Action letter"]
-    NOV["Notice of Violation"]
-    PCO["Proposed CO"]
-    ORV["CO Resolved letter"]
-    ORD["Consent Order"]
-    AOR["Administrative Order"]
-    ARV["AO Resolved letter"]
-    STP["Stipulated Penalty"]
-    LTR ||..|| ACT: "non-reporting"
-    LON ||..|| ACT: "non-reporting"
-    NFA ||..|| ACT: "non-reporting"
-    NOV ||..|| ACT: "informal"
-    PCO ||..|| ACT: "informal"
-    ORD ||..|| ACT: "formal"
-    ORV ||..|| ACT: "pathway"
-    AOR ||..|| ACT: "formal"
-    ARV ||..|| ACT: "pathway"
-    NFA |o--|| NOV: "resolves"
-    PCO |o--o| NOV: "may result from"
-    ORD |o--|| PCO: "may execute"
-    STP }o--|| ORD: "may be required by"
-    ORV |o--|| ORD: "resolves"
-    ARV |o--|| AOR: "resolves"
-```
+| Enforcement Action       | ICIS-Air type |
+|--------------------------|---------------|
+| Informational Letter     | Non-reporting |
+| Letter of Noncompliance  | Non-reporting |
+| No Further Action Letter | Non-reporting |
+| Notice of Violation      | Informal      |
+| Combined NOV/NFA Letter  | Informal      |
+| Proposed Consent Order   | Informal      |
+| Consent Order            | Formal        |
+| Administrative Order     | Formal        |
 
 * "Non-reporting" actions are not reported to ICIS-Air.
 * "Informal" actions are reported to ICIS-Air as "Informal Enforcement Actions."
 * "Formal" actions are reported to ICIS-Air as "Formal Enforcement Actions."
-* "Pathway" actions are reported to ICIS-Air as "Case File Pathway Activities."
 
 ## IAIP table column mapping
 

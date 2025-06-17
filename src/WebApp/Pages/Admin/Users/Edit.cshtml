@@ -33,11 +33,7 @@
         <div class="mb-3">
             @Html.EditorFor(m => m.Item.Active, EditorTemplate.Checkbox)
         </div>
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary col-sm-3 me-2">Update Info</button>
-            <a asp-page="Details" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-secondary col-md-2">Cancel</a>
-        </div>
-        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+        <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>
 

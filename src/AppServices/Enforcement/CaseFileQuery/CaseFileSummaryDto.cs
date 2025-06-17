@@ -4,7 +4,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileSummaryDto : IIsClosedAndIsDeleted, IDeletable, IDeleteComments
+public record CaseFileSummaryDto : IIsClosed, IDeletable, IDeleteComments, IHasOwner
 {
     public int Id { get; init; }
 
@@ -42,4 +42,7 @@ public record CaseFileSummaryDto : IIsClosedAndIsDeleted, IDeletable, IDeleteCom
 
     [Display(Name = "Deletion Comments")]
     public string? DeleteComments { get; init; }
+
+    // Calculated properties
+    public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
 }

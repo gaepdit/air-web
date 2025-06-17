@@ -25,7 +25,7 @@ public class WorkEntrySearchTests
         searchRepoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
         searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
-                Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
+                Arg.Any<PaginatedRequest>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
         var authMock = Substitute.For<IAuthorizationService>();
@@ -56,7 +56,7 @@ public class WorkEntrySearchTests
         searchRepoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
         searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
-                Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
+                Arg.Any<PaginatedRequest>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
             .Returns([]);
 
         var authMock = Substitute.For<IAuthorizationService>();

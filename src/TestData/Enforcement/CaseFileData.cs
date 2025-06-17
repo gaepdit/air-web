@@ -83,13 +83,13 @@ internal static class CaseFileData
         },
         new(311, DomainData.GetRandomFacility().Id, null)
         {
-            Notes = "Consent Order - executed",
+            Notes = "Consent Order + Stipulated Penalties - executed",
             ViolationType = GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(141)),
         },
         new(312, DomainData.GetRandomFacility().Id, null)
         {
-            Notes = "Consent Order + Stipulated Penalties - closed",
+            Notes = "Consent Order - closed",
             ViolationType = GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-210)),
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddMonths(1)),
