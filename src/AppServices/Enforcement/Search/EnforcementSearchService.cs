@@ -19,14 +19,6 @@ namespace AirWeb.AppServices.Enforcement.Search
         IUserService userService,
         IAuthorizationService authorization) : IEnforcementSearchService
     {
-        
-        
-        //public async Task<IPaginatedResult<EnforcementSearchResultDto>> SearchAsync(EnforcementSearchDto spec,
-        //    PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
-        //{
-        //    List<EnforcementSearchResultDto> mockData = [new EnforcementSearchResultDto { FacilityId = "00100010", DiscoveryDate = new DateOnly(2025, 4, 22), CaseFileStatus = Domain.EnforcementEntities.CaseFiles.CaseFileStatus.Open }];
-        //    return new PaginatedResult<EnforcementSearchResultDto>(mockData , 1, new PaginatedRequest(1, 1) );
-        //}
         public async Task<int> CountAsync(EnforcementSearchDto spec, CancellationToken token)
         {
             return 1;
@@ -48,7 +40,6 @@ namespace AirWeb.AppServices.Enforcement.Search
                 result.FacilityName ??= await facilityService.GetNameAsync(result.FacilityId).ConfigureAwait(false);
 
             return new PaginatedResult<EnforcementSearchResultDto>(list, count, paging);
-            throw new NotImplementedException();
         }
     }
 }

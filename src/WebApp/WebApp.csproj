@@ -52,4 +52,8 @@
             <AbsolutePath>web.config</AbsolutePath>
         </MsDeploySkipRules>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages\Enforcement\Work\" />
+    </ItemGroup>
 </Project>
