@@ -37,16 +37,17 @@
 				<tr>
 					<th scope="row" class="align-middle">
 						<a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
-						   class="btn btn-sm @(item.CaseFileStatus.GetDescription() == "Closed" ? "btn-outline-danger" : "btn-outline-primary")">
+						   class="btn btn-sm btn-outline-primary">
 							@item.Id.ToString()
 						</a>
 					</th>
 					<td>
-						<span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnly)</span><br />
-					</td>
-					<td>
 						<span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnly)</span><br />
 					</td>
+					<td>
+						<span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnly)</span><br />
+					</td>
+					
 					<td>@item.CaseFileStatus.GetDescription()</td>
 					<td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
 
