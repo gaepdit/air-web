@@ -1,4 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.PageModelHelpers
 @model (IList<AirWeb.AppServices.Enforcement.Search.EnforcementSearchResultDto> Items, AirWeb.AppServices.Enforcement.Search.EnforcementSearchDto? Spec)
 
 <div class="table-responsive-md mb-3">
@@ -39,10 +40,10 @@
                     </a>
                 </th>
                 <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnly)</span><br />
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</span><br />
                 </td>
                 <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnly)</span><br />
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span><br />
                 </td>
                 <td>@item.CaseFileStatus.GetDescription()</td>
                 <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>

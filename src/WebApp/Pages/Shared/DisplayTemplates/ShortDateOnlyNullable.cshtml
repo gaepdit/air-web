@@ -1,9 +1,12 @@
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Platform.PageModelHelpers
 @model DateOnly?
+@{
+    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered;
+}
 @if (Model is null)
 {
-    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNotEntered</span>
+    <span class="text-body-secondary fw-lighter">@placeholder</span>
 }
 else
 {
