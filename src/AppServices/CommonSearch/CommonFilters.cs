@@ -1,15 +1,16 @@
-using AirWeb.Domain.ComplianceEntities;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using GaEpd.AppLibrary.Domain.Predicates;
 using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.CommonSearch;
 
 internal static class CommonFilters
 {
     public static Expression<Func<TEntity, bool>> ByDeletedStatus<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
-        DeleteStatus? input) where TEntity : IComplianceEntity =>
+        DeleteStatus? input) where TEntity : IIsDeleted =>
         input switch
         {
             DeleteStatus.All => predicate,
@@ -19,7 +20,7 @@ internal static class CommonFilters
 
     public static Expression<Func<TEntity, bool>> ByFacilityId<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
-        string? input) where TEntity : IComplianceEntity
+        string? input) where TEntity : IFacilityId
     {
         var cleanInput = FacilityId.CleanFacilityId(input);
         return string.IsNullOrWhiteSpace(cleanInput)
@@ -29,7 +30,7 @@ internal static class CommonFilters
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
-        string? input) where TEntity : IComplianceEntity =>
+        string? input) where TEntity : INotes =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
             : predicate.And(entry => entry.Notes != null && entry.Notes.Contains(input));

@@ -1,8 +1,9 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.BaseEntities;
 
-public abstract class DeletableEntity<TKey> : AuditableSoftDeleteEntity<TKey>
+public abstract class DeletableEntity<TKey> : AuditableSoftDeleteEntity<TKey>, IIsDeleted
     where TKey : IEquatable<TKey>
 {
     // Deletion properties

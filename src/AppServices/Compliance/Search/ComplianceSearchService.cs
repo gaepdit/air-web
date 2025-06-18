@@ -1,3 +1,4 @@
+using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Users;
@@ -18,11 +19,11 @@ public abstract class ComplianceSearchService<TEntity>(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    where TEntity : class, IEntity<int>, IComplianceEntity
+    where TEntity : class, IEntity<int>
 {
     // Common
     protected async Task CheckDeleteStatusAuth<TSearchDto>(TSearchDto spec)
-        where TSearchDto : IComplianceSearchDto
+        where TSearchDto : ISearchDto
     {
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.ComplianceManager).ConfigureAwait(false))
@@ -31,7 +32,7 @@ public abstract class ComplianceSearchService<TEntity>(
 
     protected async Task<IPaginatedResult<TResultDto>> GetSearchResultsAsync<TResultDto>(PaginatedRequest paging,
         Expression<Func<TEntity, bool>> expression, bool loadFacilities, CancellationToken token = default)
-        where TResultDto : class, IStandardSearchResult
+        where TResultDto : class, ISearchResult
     {
         var count = await repository.CountAsync(expression, token).ConfigureAwait(false);
 
@@ -50,7 +51,7 @@ public abstract class ComplianceSearchService<TEntity>(
 
     protected async Task<IEnumerable<TResultDto>> GetExportResultsAsync<TResultDto>(
         Expression<Func<TEntity, bool>> expression, string sorting, CancellationToken token = default)
-        where TResultDto : class, IStandardSearchResult
+        where TResultDto : class, ISearchResult
     {
         var list = mapper.Map<IReadOnlyCollection<TResultDto>>(await repository
             .GetListAsync(expression, sorting, token: token)

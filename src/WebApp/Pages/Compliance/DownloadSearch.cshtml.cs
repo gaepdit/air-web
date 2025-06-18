@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.DataExport;
@@ -10,7 +11,7 @@ namespace AirWeb.WebApp.Pages.Compliance;
 public class DownloadSearchModel(IFceSearchService fceSearchService, IWorkEntrySearchService entrySearchService)
     : PageModel
 {
-    public IComplianceSearchDto Spec { get; private set; } = null!;
+    public ISearchDto Spec { get; private set; } = null!;
     public string Source { get; private set; } = string.Empty;
     public int ResultsCount { get; private set; }
     private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -49,7 +50,7 @@ public class DownloadSearchModel(IFceSearchService fceSearchService, IWorkEntryS
     }
 
     // Common
-    private FileStreamResult Export(string name, IEnumerable<IStandardSearchResult> exportList, bool removeLastColumn)
+    private FileStreamResult Export(string name, IEnumerable<ISearchResult> exportList, bool removeLastColumn)
     {
         var excel = exportList.ToExcel(sheetName: $"{name} Search Results", removeLastColumn);
         var fileDownloadName = $"{name}_search_{DateTime.Now:yyyy-MM-dd--HH-mm-ss}.xlsx";

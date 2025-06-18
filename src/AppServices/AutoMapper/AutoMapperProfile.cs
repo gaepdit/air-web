@@ -39,7 +39,6 @@ public class AutoMapperProfile : Profile
         Comments();
         Fces();
         WorkEntries();
-        SearchResults();
         Enforcement();
     }
 
@@ -47,6 +46,9 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<WorkEntry, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
         Accs();
         Inspections();
         Notifications();
@@ -82,6 +84,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Fce, FceSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<Fce, FceViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceSearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         // Supporting data
@@ -148,14 +152,6 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-    }
-
-    private void SearchResults()
-    {
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<Fce, FceSearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 

@@ -1,10 +1,11 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
-public record WorkEntrySearchDto : IComplianceSearchDto
+public record WorkEntrySearchDto : ISearchDto
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
 

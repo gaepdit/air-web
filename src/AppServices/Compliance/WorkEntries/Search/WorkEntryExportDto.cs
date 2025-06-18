@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
@@ -6,7 +7,7 @@ using GaEpd.AppLibrary.Extensions;
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record WorkEntryExportDto : IStandardSearchResult
+public record WorkEntryExportDto : ISearchResult
 {
     public WorkEntryExportDto(WorkEntry workEntry)
     {

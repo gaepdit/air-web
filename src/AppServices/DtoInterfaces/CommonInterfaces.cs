@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.BaseEntities.Interfaces;
 
-namespace AirWeb.AppServices.CommonInterfaces;
+namespace AirWeb.AppServices.DtoInterfaces;
 
 public interface IDeletable : IIsDeleted
 {
@@ -21,11 +22,6 @@ public interface IHasOwner
 public interface IIsClosed
 {
     public bool IsClosed { get; }
-}
-
-public interface IIsDeleted
-{
-    public bool IsDeleted { get; }
 }
 
 public interface IResponseRequested

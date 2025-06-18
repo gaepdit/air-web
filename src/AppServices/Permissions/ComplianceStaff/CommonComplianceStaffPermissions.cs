@@ -1,5 +1,6 @@
-﻿using AirWeb.AppServices.CommonInterfaces;
+﻿using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Permissions.Helpers;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.Permissions.ComplianceStaff;

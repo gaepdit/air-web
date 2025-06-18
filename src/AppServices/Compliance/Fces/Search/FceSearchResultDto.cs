@@ -1,9 +1,10 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Staff.Dto;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
 
-public record FceSearchResultDto : IStandardSearchResult
+public record FceSearchResultDto : ISearchResult
 {
     public int Id { get; init; }
     public required string FacilityId { get; init; }

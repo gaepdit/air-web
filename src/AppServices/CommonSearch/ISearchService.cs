@@ -1,10 +1,10 @@
 using GaEpd.AppLibrary.Pagination;
 
-namespace AirWeb.AppServices.Compliance.Search;
+namespace AirWeb.AppServices.CommonSearch;
 
 // FUTURE: Is this reusable for Enforcement search?
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
-public interface IComplianceSearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
+public interface ISearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
     where TSearchResultDto : class
 #pragma warning restore S2436
 {

@@ -1,11 +1,12 @@
 using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Identity;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public abstract class WorkEntry : ClosableEntity<int>, IComplianceEntity
+public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
