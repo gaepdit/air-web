@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.AppServices.CommonSearch;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Staff.Dto;
@@ -7,13 +8,13 @@ public record StaffSearchDto(
     // Sorting
     SortBy Sort,
 
-    // Fields
+    // Search fields
     string? Name,
     [EmailAddress] string? Email,
     string? Role,
     Guid? Office,
     SearchStaffStatus? Status
-)
+) : ISearchDto
 {
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
@@ -31,6 +32,8 @@ public record StaffSearchDto(
         Name = Name?.Trim(),
         Email = Email?.Trim(),
     };
+
+    public string SortByName => Sort.ToString();
 }
 
 // Search enums

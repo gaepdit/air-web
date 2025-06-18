@@ -2,11 +2,10 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.CommonSearch;
 
-// FUTURE: Is this reusable for Enforcement search?
-#pragma warning disable S2436 // Types and methods should not have too many generic parameters
 public interface ISearchService<in TSearchDto, TSearchResultDto, TExportDto> : IDisposable, IAsyncDisposable
-    where TSearchResultDto : class
-#pragma warning restore S2436
+    where TSearchDto : ISearchDto
+    where TSearchResultDto : class, ISearchResult
+    where TExportDto : ISearchResult
 {
     Task<IPaginatedResult<TSearchResultDto>> SearchAsync(TSearchDto spec, PaginatedRequest paging,
         bool loadFacilities = true, CancellationToken token = default);

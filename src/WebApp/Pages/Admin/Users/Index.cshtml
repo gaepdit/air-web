@@ -80,10 +80,10 @@
             <thead>
             <tr>
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Name", SortBy.NameAsc, SortBy.NameDesc, Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Name", StaffSortBy.NameAsc.GetDescription(), StaffSortBy.NameDesc.GetDescription(), Model.Spec)' />
                 <th scope="col">@Html.DisplayNameFor(m => m.Spec.Email)</th>
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Office", SortBy.OfficeAsc, SortBy.OfficeDesc, Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Office", StaffSortBy.OfficeAsc.GetDescription(), StaffSortBy.OfficeDesc.GetDescription(), Model.Spec)' />
                 <th scope="col">Status</th>
                 <th scope="col">
                     <span class="visually-hidden">Actions</span>

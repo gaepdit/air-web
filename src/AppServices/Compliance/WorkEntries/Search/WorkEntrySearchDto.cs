@@ -5,9 +5,10 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
-public record WorkEntrySearchDto : ISearchDto
+public record WorkEntrySearchDto : ISearchDto, IDeleteStatus
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
+    public string SortByName => Sort.ToString();
 
     // == Statuses ==
 

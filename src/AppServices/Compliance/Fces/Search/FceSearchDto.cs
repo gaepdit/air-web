@@ -5,9 +5,10 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
 
-public record FceSearchDto : ISearchDto
+public record FceSearchDto : ISearchDto, IDeleteStatus
 {
     public SortBy Sort { get; init; } = SortBy.IdAsc;
+    public string SortByName => Sort.ToString();
 
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }

@@ -2,9 +2,19 @@
 
 namespace AirWeb.AppServices.CommonSearch;
 
-public interface ISearchDto
+public interface ISearchDto : ISortByName, IRouteValues;
+
+public interface ISortByName
 {
-    SortBy Sort { get; }
-    DeleteStatus? DeleteStatus { get; set; }
+    public string SortByName { get; }
+}
+
+public interface IRouteValues
+{
     IDictionary<string, string?> AsRouteValues();
+}
+
+public interface IDeleteStatus
+{
+    DeleteStatus? DeleteStatus { get; set; }
 }

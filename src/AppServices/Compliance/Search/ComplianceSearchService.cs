@@ -2,7 +2,6 @@ using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Users;
-using AirWeb.Domain.ComplianceEntities;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
@@ -23,7 +22,7 @@ public abstract class ComplianceSearchService<TEntity>(
 {
     // Common
     protected async Task CheckDeleteStatusAuth<TSearchDto>(TSearchDto spec)
-        where TSearchDto : ISearchDto
+        where TSearchDto : ISearchDto, IDeleteStatus
     {
         var principal = userService.GetCurrentPrincipal();
         if (!await authorization.Succeeded(principal!, Policies.ComplianceManager).ConfigureAwait(false))

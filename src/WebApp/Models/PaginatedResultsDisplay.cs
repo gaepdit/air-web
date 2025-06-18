@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Staff.Dto;
 using GaEpd.AppLibrary.Pagination;
 
@@ -9,7 +8,7 @@ public record PaginatedResultsDisplay
 {
     public PaginatedResultsDisplay(ISearchDto spec, IPaginatedResult searchResults)
     {
-        SortByName = spec.Sort.ToString();
+        SortByName = spec.SortByName;
         SearchResults = searchResults;
         RouteValues = spec.AsRouteValues();
     }
