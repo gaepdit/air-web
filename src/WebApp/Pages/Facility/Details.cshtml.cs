@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Permissions;
@@ -61,12 +60,12 @@ public class DetailsModel(
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(
-            new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
+            new WorkEntrySearchDto { Sort = WorkEntrySortBy.EventDateDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
         var searchFces = await fceSearchService.SearchAsync(
-            new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
+            new FceSearchDto { Sort = FceSortBy.YearDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 

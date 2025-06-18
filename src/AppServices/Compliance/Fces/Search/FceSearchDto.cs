@@ -2,12 +2,14 @@
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 public record FceSearchDto : ISearchDto, IDeleteStatus
 {
-    public SortBy Sort { get; init; } = SortBy.IdAsc;
+    public FceSortBy Sort { get; init; } = FceSortBy.IdAsc;
     public string SortByName => Sort.ToString();
 
     [Display(Name = "Deletion Status")]
@@ -63,4 +65,15 @@ public record FceSearchDto : ISearchDto, IDeleteStatus
         PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum FceSortBy
+{
+    [Description("Id")] IdAsc,
+    [Description("Id desc")] IdDesc,
+    [Description("FacilityId, Id")] FacilityIdAsc,
+    [Description("FacilityId desc, Id")] FacilityIdDesc,
+    [Description("Year, Id")] YearAsc,
+    [Description("Year desc, Id")] YearDesc,
 }

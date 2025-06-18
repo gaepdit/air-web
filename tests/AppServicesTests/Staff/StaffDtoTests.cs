@@ -9,7 +9,7 @@ public class StaffDtoTests
     [Test]
     public void DisplayName_TrimAll_TrimsItems()
     {
-        var staffSearchDto = new StaffSearchDto(SortBy.NameAsc, " abc ", " def ", null, null, null);
+        var staffSearchDto = new StaffSearchDto(StaffSortBy.NameAsc, " abc ", " def ", null, null, null);
 
         var result = staffSearchDto.TrimAll();
 

@@ -6,7 +6,7 @@ namespace AirWeb.AppServices.Staff.Dto;
 
 public record StaffSearchDto(
     // Sorting
-    SortBy Sort,
+    StaffSortBy Sort,
 
     // Search fields
     string? Name,
@@ -46,7 +46,7 @@ public enum SearchStaffStatus
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SortBy
+public enum StaffSortBy
 {
     [Description("FamilyName, GivenName")] NameAsc,
 

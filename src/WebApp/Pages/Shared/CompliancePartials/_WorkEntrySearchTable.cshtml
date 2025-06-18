@@ -1,4 +1,4 @@
-﻿@using AirWeb.AppServices.Compliance.Search
+﻿@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model (IList<AirWeb.AppServices.Compliance.WorkEntries.Search.WorkEntrySearchResultDto> Items, AirWeb.AppServices.Compliance.WorkEntries.Search.WorkEntrySearchDto? Spec)
@@ -20,13 +20,13 @@
             else
             {
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Tracking #", SortBy.IdAsc.GetDescription(), SortBy.IdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Tracking #", WorkEntrySortBy.IdAsc.GetDescription(), WorkEntrySortBy.IdDesc.GetDescription(), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Work Type", SortBy.WorkTypeAsc.GetDescription(), SortBy.WorkTypeDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Work Type", WorkEntrySortBy.WorkTypeAsc.GetDescription(), WorkEntrySortBy.WorkTypeDesc.GetDescription(), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Facility", SortBy.FacilityIdAsc.GetDescription(), SortBy.FacilityIdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Facility", WorkEntrySortBy.FacilityIdAsc.GetDescription(), WorkEntrySortBy.FacilityIdDesc.GetDescription(), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Event Date", SortBy.EventDateAsc.GetDescription(), SortBy.EventDateDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Event Date", WorkEntrySortBy.EventDateAsc.GetDescription(), WorkEntrySortBy.EventDateDesc.GetDescription(), Model.Spec)' />
             }
             <th scope="col" class="text-nowrap">Staff</th>
             <th scope="col" class="text-nowrap">Status</th>

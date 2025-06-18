@@ -30,7 +30,7 @@ public class DashboardIndexModel(
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
         var spec = new WorkEntrySearchDto
             { Closed = ClosedOpenAny.Open, ResponsibleStaff = currentUser.Id };
-        var paging = new PaginatedRequest(1, 15, SortBy.EventDateDesc.GetDescription());
+        var paging = new PaginatedRequest(1, 15, WorkEntrySortBy.EventDateDesc.GetDescription());
         DashboardCards.Add(new DashboardCard("Open Compliance Work")
             { WorkEntries = (await entrySearchService.SearchAsync(spec, paging, token: token)).Items.ToList() });
 

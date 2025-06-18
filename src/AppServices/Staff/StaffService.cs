@@ -58,7 +58,7 @@ public sealed class StaffService(
     public Task<IReadOnlyList<ListItem<string>>> GetAsListItemsAsync(bool includeInactive = false)
     {
         var status = includeInactive ? SearchStaffStatus.All : SearchStaffStatus.Active;
-        var spec = new StaffSearchDto(SortBy.NameAsc, null, null, null, null, status);
+        var spec = new StaffSearchDto(StaffSortBy.NameAsc, null, null, null, null, status);
         var users = userManager.Users.ApplyFilter(spec);
         return Task.FromResult<IReadOnlyList<ListItem<string>>>(mapper.Map<IReadOnlyList<StaffViewDto>>(users)
             .Select(e => new ListItem<string>(e.Id, e.SortableNameWithOffice))
@@ -68,7 +68,7 @@ public sealed class StaffService(
     public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsListItemsAsync(AppRole role, Guid officeId) =>
         (await userManager.GetUsersInRoleAsync(role.Name).ConfigureAwait(false))
         .AsQueryable()
-        .ApplyFilter(new StaffSearchDto(SortBy.NameAsc, null, null, role.Name, officeId, SearchStaffStatus.Active))
+        .ApplyFilter(new StaffSearchDto(StaffSortBy.NameAsc, null, null, role.Name, officeId, SearchStaffStatus.Active))
         .Select(user => new ListItem<string>(user.Id, user.SortableFullName))
         .ToList();
 

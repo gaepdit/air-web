@@ -2,12 +2,14 @@
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Utilities;
 using IaipDataService.Facilities;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
 public record WorkEntrySearchDto : ISearchDto, IDeleteStatus
 {
-    public SortBy Sort { get; init; } = SortBy.IdAsc;
+    public WorkEntrySortBy Sort { get; init; } = WorkEntrySortBy.IdAsc;
     public string SortByName => Sort.ToString();
 
     // == Statuses ==
@@ -96,4 +98,29 @@ public record WorkEntrySearchDto : ISearchDto, IDeleteStatus
         PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum WorkTypeSearch
+{
+    [Description("Annual Compliance Certifications")] Acc,
+    [Description("Inspections")] Inspection,
+    [Description("RMP Inspections")] Rmp,
+    [Description("Reports")] Report,
+    [Description("Source Test Compliance Reviews")] Str,
+    [Description("Notifications")] Notification,
+    [Description("Permit Revocations")] PermitRevocation,
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum WorkEntrySortBy
+{
+    [Description("Id")] IdAsc,
+    [Description("Id desc")] IdDesc,
+    [Description("FacilityId, Id")] FacilityIdAsc,
+    [Description("FacilityId desc, Id")] FacilityIdDesc,
+    [Description("WorkEntryType, Id")] WorkTypeAsc,
+    [Description("WorkEntryType desc, Id")] WorkTypeDesc,
+    [Description("EventDate, Id")] EventDateAsc,
+    [Description("EventDate desc, Id")] EventDateDesc,
 }
