@@ -16,7 +16,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class DetailsModel(
     IFacilityService facilityService,
     IFceSearchService fceSearchService,
-    IEnforcementSearchService enforcementService,
+    ICaseFileSearchService caseFileService,
     IWorkEntrySearchService entrySearchService,
     ISourceTestService sourceTestService,
     IAuthorizationService authorization) : PageModel
@@ -28,7 +28,7 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
-    public IList<EnforcementSearchResultDto> EnforcementWork { get; private set; } = [];
+    public IList<CaseFileSearchResultDto> EnforcementWork { get; private set; } = [];
     public int EnforcementCount { get; private set; }
     public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
     public int ComplianceWorkCount { get; private set; }
@@ -70,8 +70,8 @@ public class DetailsModel(
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
-        var searchEnforcement = await enforcementService.SearchAsync(
-            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = Id },
+        var searchEnforcement = await caseFileService.SearchAsync(
+            new CaseFileSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 

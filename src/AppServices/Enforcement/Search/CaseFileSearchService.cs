@@ -5,33 +5,33 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.Search
 {
-    public class EnforcementSearchService(
+    public class CaseFileSearchService(
         ICaseFileRepository repository,
         IFacilityService facilityService,
-        IMapper mapper) : IEnforcementSearchService
+        IMapper mapper) : ICaseFileSearchService
     {
-        public async Task<int> CountAsync(EnforcementSearchDto spec, CancellationToken token)
+        public async Task<int> CountAsync(CaseFileSearchDto spec, CancellationToken token)
         {
             return 1;
         }
 
-        public async Task<IPaginatedResult<EnforcementSearchResultDto>> SearchAsync(EnforcementSearchDto spec,
+        public async Task<IPaginatedResult<CaseFileSearchResultDto>> SearchAsync(CaseFileSearchDto spec,
             PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
         {
-            var expression = EnforcementFilters.SearchPredicate(spec.TrimAll());
+            var expression = CaseFileFilters.SearchPredicate(spec.TrimAll());
             var count = await repository.CountAsync(expression, token).ConfigureAwait(false);
 
             var list = count > 0
-                ? mapper.Map<IReadOnlyCollection<EnforcementSearchResultDto>>(
+                ? mapper.Map<IReadOnlyCollection<CaseFileSearchResultDto>>(
                     await repository.GetPagedListAsync(expression, paging, token: token).ConfigureAwait(false))
                 : [];
 
-            if (!loadFacilities) return new PaginatedResult<EnforcementSearchResultDto>(list, count, paging);
+            if (!loadFacilities) return new PaginatedResult<CaseFileSearchResultDto>(list, count, paging);
 
             foreach (var result in list)
                 result.FacilityName ??= await facilityService.GetNameAsync(result.FacilityId).ConfigureAwait(false);
 
-            return new PaginatedResult<EnforcementSearchResultDto>(list, count, paging);
+            return new PaginatedResult<CaseFileSearchResultDto>(list, count, paging);
         }
     }
 }

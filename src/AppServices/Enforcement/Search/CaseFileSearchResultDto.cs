@@ -3,7 +3,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.Search
 {
-    public record EnforcementSearchResultDto
+    public record CaseFileSearchResultDto
     {
         public int Id { get; init; }
         public required string FacilityId { get; init; }

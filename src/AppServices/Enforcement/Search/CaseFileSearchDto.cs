@@ -9,7 +9,7 @@ public enum SortByEnforcement
     [Description("DiscoveryDate, Id")] DiscoveryDate,
 }
 
-public record EnforcementSearchDto
+public record CaseFileSearchDto
 {
     public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDate;
 
@@ -38,7 +38,7 @@ public record EnforcementSearchDto
     public DateOnly? DayZero { get; init; }
 
 
-    public EnforcementSearchDto TrimAll() => this with
+    public CaseFileSearchDto TrimAll() => this with
     {
         PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
     };

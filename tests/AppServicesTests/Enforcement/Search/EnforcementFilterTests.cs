@@ -10,8 +10,8 @@ public class EnforcementFilterTests
     {
         // Arrange
         var facilityId = CaseFileData.GetData.First().FacilityId;
-        var spec = new EnforcementSearchDto { PartialFacilityId = facilityId };
-        var expression = EnforcementFilters.SearchPredicate(spec);
+        var spec = new CaseFileSearchDto { PartialFacilityId = facilityId };
+        var expression = CaseFileFilters.SearchPredicate(spec);
 
         var expected = CaseFileData.GetData.Where(fce => fce.FacilityId == facilityId);
 
@@ -27,8 +27,8 @@ public class EnforcementFilterTests
     {
         // Arrange
         var facilityId = CaseFileData.GetData.First().FacilityId[..5];
-        var spec = new EnforcementSearchDto { PartialFacilityId = facilityId };
-        var expression = EnforcementFilters.SearchPredicate(spec);
+        var spec = new CaseFileSearchDto { PartialFacilityId = facilityId };
+        var expression = CaseFileFilters.SearchPredicate(spec);
 
         var expected = CaseFileData.GetData.Where(fce => fce.FacilityId.Contains(facilityId));
 
@@ -44,8 +44,8 @@ public class EnforcementFilterTests
     {
         // Arrange
         var facilityId = CaseFileData.GetData.First().FacilityId;
-        var spec = new EnforcementSearchDto { PartialFacilityId = facilityId.Trim('-') };
-        var expression = EnforcementFilters.SearchPredicate(spec);
+        var spec = new CaseFileSearchDto { PartialFacilityId = facilityId.Trim('-') };
+        var expression = CaseFileFilters.SearchPredicate(spec);
 
         var expected = CaseFileData.GetData.Where(fce => fce.FacilityId == facilityId);
 
@@ -61,8 +61,8 @@ public class EnforcementFilterTests
     {
         // Arrange
         var facilityId = CaseFileData.GetData.First().FacilityId[..5];
-        var spec = new EnforcementSearchDto { PartialFacilityId = facilityId.Trim('-') };
-        var expression = EnforcementFilters.SearchPredicate(spec);
+        var spec = new CaseFileSearchDto { PartialFacilityId = facilityId.Trim('-') };
+        var expression = CaseFileFilters.SearchPredicate(spec);
 
         var expected = CaseFileData.GetData.Where(fce => fce.FacilityId.Contains(facilityId));
 
@@ -77,8 +77,8 @@ public class EnforcementFilterTests
     public void FacilityId_NoMatch()
     {
         // Arrange
-        var spec = new EnforcementSearchDto { PartialFacilityId = "99999" };
-        var expression = EnforcementFilters.SearchPredicate(spec);
+        var spec = new CaseFileSearchDto { PartialFacilityId = "99999" };
+        var expression = CaseFileFilters.SearchPredicate(spec);
 
         // Act
         var result = CaseFileData.GetData.Where(expression.Compile());
