@@ -15,11 +15,11 @@
             else
             {
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Tracking #", FceSortBy.IdAsc.GetDescription(), FceSortBy.IdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Tracking #", nameof(FceSortBy.IdAsc), nameof(FceSortBy.IdDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("FCE Year", FceSortBy.YearAsc.GetDescription(), FceSortBy.YearDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("FCE Year", nameof(FceSortBy.YearAsc), nameof(FceSortBy.YearDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Facility", FceSortBy.FacilityIdAsc.GetDescription(), FceSortBy.FacilityIdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Facility", nameof(FceSortBy.FacilityIdAsc), nameof(FceSortBy.FacilityIdDesc), Model.Spec)' />
             }
             <th scope="col" class="text-nowrap">FCE Date</th>
             <th scope="col" class="text-nowrap">Staff</th>
@@ -33,7 +33,7 @@
             <tr>
                 <th scope="row" class="align-middle">
                     <a asp-page="/Compliance/FCE/Details" asp-route-id="@item.Id.ToString()"
-                       class="btn btn-sm @(item.IsDeleted ? "btn-outline-danger" : "btn-outline-primary")">
+                       class="btn btn-sm btn-outline-primary">
                         @item.Id.ToString()
                     </a>
                     @if (item.IsDeleted)

@@ -20,13 +20,13 @@
             else
             {
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Tracking #", WorkEntrySortBy.IdAsc.GetDescription(), WorkEntrySortBy.IdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Tracking #", nameof(WorkEntrySortBy.IdAsc), nameof(WorkEntrySortBy.IdDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Work Type", WorkEntrySortBy.WorkTypeAsc.GetDescription(), WorkEntrySortBy.WorkTypeDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Work Type", nameof(WorkEntrySortBy.WorkTypeAsc), nameof(WorkEntrySortBy.WorkTypeDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Facility", WorkEntrySortBy.FacilityIdAsc.GetDescription(), WorkEntrySortBy.FacilityIdDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Facility", nameof(WorkEntrySortBy.FacilityIdAsc), nameof(WorkEntrySortBy.FacilityIdDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Event Date", WorkEntrySortBy.EventDateAsc.GetDescription(), WorkEntrySortBy.EventDateDesc.GetDescription(), Model.Spec)' />
+                         model='new SearchResultsColumnDisplay("Event Date", nameof(WorkEntrySortBy.EventDateAsc), nameof(WorkEntrySortBy.EventDateDesc), Model.Spec)' />
             }
             <th scope="col" class="text-nowrap">Staff</th>
             <th scope="col" class="text-nowrap">Status</th>
@@ -39,7 +39,7 @@
             <tr>
                 <th scope="row" class="@rowCss">
                     <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
-                       class="@(item.IsDeleted ? "btn btn-sm btn-outline-danger" : linkCss)">
+                       class="@linkCss">
                         @item.Id.ToString()
                     </a>
                     @if (item.IsDeleted)
