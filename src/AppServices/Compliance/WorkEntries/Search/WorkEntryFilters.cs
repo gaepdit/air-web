@@ -21,15 +21,6 @@ internal static class WorkEntryFilters
             .ToClosedDate(spec.ClosedDateTo)
             .ByNotesText(spec.Notes);
 
-    private static Expression<Func<WorkEntry, bool>> ByClosedStatus(
-        this Expression<Func<WorkEntry, bool>> predicate,
-        ClosedOpenAny? input) => input switch
-    {
-        ClosedOpenAny.Closed => predicate.And(entry => entry.IsClosed),
-        ClosedOpenAny.Open => predicate.And(entry => !entry.IsClosed),
-        _ => predicate,
-    };
-
     private static Expression<Func<WorkEntry, bool>> ByWorkType(
         this Expression<Func<WorkEntry, bool>> predicate,
         List<WorkTypeSearch> input)

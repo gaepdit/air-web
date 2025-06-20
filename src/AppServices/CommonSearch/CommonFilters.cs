@@ -1,3 +1,4 @@
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using GaEpd.AppLibrary.Domain.Predicates;
 using IaipDataService.Facilities;
@@ -15,6 +16,16 @@ internal static class CommonFilters
             DeleteStatus.All => predicate,
             DeleteStatus.Deleted => predicate.And(entry => entry.IsDeleted),
             _ => predicate.And(entry => !entry.IsDeleted),
+        };
+
+    public static Expression<Func<TEntity, bool>> ByClosedStatus<TEntity>(
+        this Expression<Func<TEntity, bool>> predicate,
+        ClosedOpenAny? input) where TEntity : IIsClosed =>
+        input switch
+        {
+            ClosedOpenAny.Closed => predicate.And(entry => entry.IsClosed),
+            ClosedOpenAny.Open => predicate.And(entry => !entry.IsClosed),
+            _ => predicate,
         };
 
     public static Expression<Func<TEntity, bool>> ByFacilityId<TEntity>(

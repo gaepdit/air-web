@@ -2,7 +2,12 @@
 
 namespace AirWeb.Domain.BaseEntities;
 
-public abstract class ClosableEntity<TKey> : DeletableEntity<TKey>
+public interface IIsClosed
+{
+    public bool IsClosed { get; }
+}
+
+public abstract class ClosableEntity<TKey> : DeletableEntity<TKey>, IIsClosed
     where TKey : IEquatable<TKey>
 {
     // Closure properties

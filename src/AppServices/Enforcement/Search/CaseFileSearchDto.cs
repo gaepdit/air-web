@@ -1,21 +1,28 @@
-﻿using AirWeb.AppServices.Utilities;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Utilities;
+using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 using System.ComponentModel;
 
 namespace AirWeb.AppServices.Enforcement.Search;
 
-public enum SortByEnforcement
+public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDeleteStatus, IClosedStatus
 {
-    [Description("DiscoveryDate, Id")] DiscoveryDate,
-}
+    public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDateAsc;
+    public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
 
-public record CaseFileSearchDto
-{
-    public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDate;
+    // == Statuses ==
+
+    [Display(Name = "Open/Closed")]
+    public ClosedOpenAny? Closed { get; init; }
+
+    [Display(Name = "Deletion Status")]
+    public DeleteStatus? DeleteStatus { get; set; }
 
     // == Facility ==
 
-    [Display(Name = "Facility AIRS Number")]
+    [Display(Name = "AIRS Number")]
     [StringLength(9)]
     public string? PartialFacilityId { get; init; }
 
@@ -25,21 +32,51 @@ public record CaseFileSearchDto
     // Guid as string
     public string? ResponsibleStaff { get; init; }
 
+    [Display(Name = "Office")]
+    public Guid? Office { get; init; }
+
     // == Dates ==
 
-    [Display(Name = "Discovery Date")]
+    [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DiscoveryDate { get; init; }
+    public DateOnly? DiscoveryDateFrom { get; init; }
 
-    [Display(Name = "DayZero")]
+    [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DayZero { get; init; }
+    public DateOnly? DiscoveryDateTo { get; init; }
 
+    // == Text ==
+
+    [Display(Name = "Notes")]
+    public string? Notes { get; init; }
+
+    // UI Routing
+    public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
+    {
+        { nameof(Sort), Sort.ToString() },
+        { nameof(Closed), Closed?.ToString() },
+        { nameof(DeleteStatus), DeleteStatus?.ToString() },
+        { nameof(PartialFacilityId), PartialFacilityId },
+        { nameof(ResponsibleStaff), ResponsibleStaff },
+        { nameof(Office), Office.ToString() },
+        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString("d") },
+        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString("d") },
+        { nameof(Notes), Notes },
+    };
 
     public CaseFileSearchDto TrimAll() => this with
     {
         PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
+        Notes = Notes?.Trim(),
     };
+}
+
+public enum SortByEnforcement
+{
+    [Description("DiscoveryDate, Id")] DiscoveryDateAsc,
+    [Description("DiscoveryDate desc, Id")] DiscoveryDateDesc,
+    [Description("FacilityId, Id")] FacilityIdAsc,
+    [Description("FacilityId desc, Id")] FacilityIdDesc,
 }

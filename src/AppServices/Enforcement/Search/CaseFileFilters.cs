@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using GaEpd.AppLibrary.Domain.Predicates;
-using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Enforcement.Search
@@ -9,16 +9,14 @@ namespace AirWeb.AppServices.Enforcement.Search
     {
         public static Expression<Func<CaseFile, bool>> SearchPredicate(CaseFileSearchDto spec) =>
             PredicateBuilder.True<CaseFile>()
-                .ByFacilityId(spec.PartialFacilityId);
+                .ByDeletedStatus(spec.DeleteStatus)
+                .ByClosedStatus(spec.Closed)
+                .ByFacilityId(spec.PartialFacilityId)
 
-        private static Expression<Func<CaseFile, bool>> ByFacilityId(
-            this Expression<Func<CaseFile, bool>> predicate,
-            string? input)
-        {
-            var cleanInput = FacilityId.CleanFacilityId(input);
-            return string.IsNullOrWhiteSpace(cleanInput)
-                ? predicate
-                : predicate.And(entry => entry.FacilityId.Contains(cleanInput));
-        }
+                // .ByReviewer(spec.ReviewedBy)
+                // .ByOffice(spec.Office)
+                // .FromDate(spec.DateFrom)
+                // .ToDate(spec.DateTo)
+                .ByNotesText(spec.Notes);
     }
 }

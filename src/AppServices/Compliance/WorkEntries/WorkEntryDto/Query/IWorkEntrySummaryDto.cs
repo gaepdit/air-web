@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;

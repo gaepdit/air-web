@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
-public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, IDeleteStatus
+public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, IDeleteStatus, IClosedStatus
 {
     public WorkEntrySortBy Sort { get; init; } = WorkEntrySortBy.IdAsc;
     public string SortByName => Sort.ToString();
