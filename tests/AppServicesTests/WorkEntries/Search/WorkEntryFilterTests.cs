@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Compliance;

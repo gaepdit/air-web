@@ -1,5 +1,4 @@
 using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using GaEpd.AppLibrary.Domain.Predicates;
 using System.Linq.Expressions;

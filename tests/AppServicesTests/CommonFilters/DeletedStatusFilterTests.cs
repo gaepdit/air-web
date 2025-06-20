@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Search;
 using GaEpd.AppLibrary.Domain.Predicates;
 using static AppServicesTests.CommonFilters.CommonFilterTestsHelper;
 

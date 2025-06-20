@@ -1,16 +1,17 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Utilities;
+using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
-public record WorkEntrySearchDto : ISearchDto, IDeleteStatus
+public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, IDeleteStatus
 {
     public WorkEntrySortBy Sort { get; init; } = WorkEntrySortBy.IdAsc;
     public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
 
     // == Statuses ==
 

@@ -1,16 +1,17 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Utilities;
+using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
 
-public record FceSearchDto : ISearchDto, IDeleteStatus
+public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
 {
     public FceSortBy Sort { get; init; } = FceSortBy.IdAsc;
     public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
 
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }

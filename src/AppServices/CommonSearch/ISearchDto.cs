@@ -1,12 +1,18 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿namespace AirWeb.AppServices.CommonSearch;
 
-namespace AirWeb.AppServices.CommonSearch;
+public interface ISearchDto<out TSelf> : ISorting, IRouteValues
+    where TSelf : ISearchDto<TSelf>
 
-public interface ISearchDto : ISortByName, IRouteValues;
+{
+    public TSelf TrimAll();
+}
 
-public interface ISortByName
+public interface ISearchDto : ISorting, IRouteValues;
+
+public interface ISorting
 {
     public string SortByName { get; }
+    public string Sorting { get; }
 }
 
 public interface IRouteValues

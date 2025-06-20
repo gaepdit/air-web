@@ -6,7 +6,7 @@ namespace AppServicesTests.Staff;
 
 public class StaffFilters
 {
-    private static StaffSearchDto DefaultStaffSearch => new(StaffSortBy.NameAsc, null, null, null, null, null);
+    private static StaffSearchDto DefaultStaffSearch => new();
 
     [Test]
     public void DefaultFilter_ReturnsAllActive()

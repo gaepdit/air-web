@@ -1,13 +1,14 @@
-using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AutoMapper;
-using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
+
+public interface IFceSearchService : ISearchService<FceSearchDto, FceSearchResultDto, FceExportDto>;
 
 public sealed class FceSearchService(
     IFceRepository repository,
@@ -15,32 +16,19 @@ public sealed class FceSearchService(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    : ComplianceSearchService<Fce>(repository, facilityService, mapper, userService, authorization),
+    : BaseSearchService<Fce, FceSearchDto, FceSearchResultDto, FceExportDto>
+        (repository, facilityService, mapper, userService, authorization),
         IFceSearchService
 {
-    public async Task<IPaginatedResult<FceSearchResultDto>> SearchAsync(FceSearchDto spec,
-        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default)
-    {
-        await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
-        var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await GetSearchResultsAsync<FceSearchResultDto>(paging, expression, loadFacilities, token)
-            .ConfigureAwait(false);
-    }
+    public Task<IPaginatedResult<FceSearchResultDto>> SearchAsync(FceSearchDto spec,
+        PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
+        SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, token);
 
-    public async Task<int> CountAsync(FceSearchDto spec, CancellationToken token)
-    {
-        await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
-        var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await repository.CountAsync(expression, token).ConfigureAwait(false);
-    }
+    public Task<int> CountAsync(FceSearchDto spec, CancellationToken token = default) =>
+        CountAsync(spec, FceFilters.SearchPredicate, token);
 
-    public async Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token)
-    {
-        await CheckDeleteStatusAuth(spec).ConfigureAwait(false);
-        var expression = FceFilters.SearchPredicate(spec.TrimAll());
-        return await GetExportResultsAsync<FceExportDto>(expression, spec.Sort.GetDescription(), token)
-            .ConfigureAwait(false);
-    }
+    public Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token = default)
+        => ExportAsync(spec, FceFilters.SearchPredicate, token);
 
     #region IDisposable,  IAsyncDisposable
 

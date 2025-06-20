@@ -1,21 +1,22 @@
 ﻿using AirWeb.AppServices.CommonSearch;
+using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Staff.Dto;
 
-public record StaffSearchDto(
-    // Sorting
-    StaffSortBy Sort,
-
-    // Search fields
-    string? Name,
-    [EmailAddress] string? Email,
-    string? Role,
-    Guid? Office,
-    SearchStaffStatus? Status
-) : ISearchDto
+public record StaffSearchDto : ISearchDto<StaffSearchDto>, ISearchDto
 {
+    public StaffSortBy Sort { get; init; } = StaffSortBy.NameAsc;
+    public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
+
+    public string? Name { get; init; }
+    public string? Email { get; init; }
+    public string? Role { get; init; }
+    public Guid? Office { get; init; }
+    public SearchStaffStatus? Status { get; init; }
+
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
@@ -32,8 +33,6 @@ public record StaffSearchDto(
         Name = Name?.Trim(),
         Email = Email?.Trim(),
     };
-
-    public string SortByName => Sort.ToString();
 }
 
 // Search enums
