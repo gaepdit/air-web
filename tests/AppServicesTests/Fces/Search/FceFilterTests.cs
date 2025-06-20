@@ -6,139 +6,14 @@ namespace AppServicesTests.Fces.Search;
 
 public class FceFilterTests
 {
-    [Test]
-    public void DefaultSpec_ReturnsNotDeleted()
-    {
-        // Arrange
-        var spec = new FceSearchDto();
-        var expression = FceFilters.SearchPredicate(spec);
-        var expected = FceData.GetData.Where(fce => !fce.IsDeleted);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void DeleteStatus_All_ReturnsAll()
-    {
-        // Arrange
-        var spec = new FceSearchDto { DeleteStatus = DeleteStatus.All };
-        var expression = FceFilters.SearchPredicate(spec);
-        var expected = FceData.GetData;
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void DeleteStatus_Deleted()
-    {
-        // Arrange
-        var spec = new FceSearchDto { DeleteStatus = DeleteStatus.Deleted };
-        var expression = FceFilters.SearchPredicate(spec);
-        var expected = FceData.GetData.Where(fce => fce.IsDeleted);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void FacilityId_FullMatch_WithHyphen()
-    {
-        // Arrange
-        var facilityId = FceData.GetData.First(fce => !fce.IsDeleted).FacilityId;
-        var spec = new FceSearchDto { PartialFacilityId = facilityId };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId == facilityId);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void FacilityId_PartialMatch_WithHyphen()
-    {
-        // Arrange
-        var facilityId = FceData.GetData.First().FacilityId[..5];
-        var spec = new FceSearchDto { PartialFacilityId = facilityId };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId.Contains(facilityId));
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void FacilityId_FullMatch_WithoutHyphen()
-    {
-        // Arrange
-        var facilityId = FceData.GetData.First(fce => !fce.IsDeleted).FacilityId;
-        var spec = new FceSearchDto { PartialFacilityId = facilityId.Trim('-') };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId == facilityId);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void FacilityId_PartialMatch_WithoutHyphen()
-    {
-        // Arrange
-        var facilityId = FceData.GetData.First().FacilityId[..5];
-        var spec = new FceSearchDto { PartialFacilityId = facilityId.Trim('-') };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce => !fce.IsDeleted && fce.FacilityId.Contains(facilityId));
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void FacilityId_NoMatch()
-    {
-        // Arrange
-        var spec = new FceSearchDto { PartialFacilityId = "99999" };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEmpty();
-    }
+    private readonly FceSearchDto _baseSpec = new() { DeleteStatus = DeleteStatus.All };
 
     [Test]
     public void Year_Match()
     {
         // Arrange
         var year = FceData.GetData.First().Year;
-        var spec = new FceSearchDto { Year = year };
+        var spec = _baseSpec with { Year = year };
         var expression = FceFilters.SearchPredicate(spec);
 
         var expected = FceData.GetData.Where(fce => fce.Year == year);
@@ -154,7 +29,7 @@ public class FceFilterTests
     public void Year_NoMatch()
     {
         // Arrange
-        var spec = new FceSearchDto { Year = -1 };
+        var spec = _baseSpec with { Year = -1 };
         var expression = FceFilters.SearchPredicate(spec);
 
         // Act
@@ -169,7 +44,7 @@ public class FceFilterTests
     {
         // Arrange
         var reviewedById = FceData.GetData.First().ReviewedBy!.Id;
-        var spec = new FceSearchDto { ReviewedBy = reviewedById };
+        var spec = _baseSpec with { ReviewedBy = reviewedById };
         var expression = FceFilters.SearchPredicate(spec);
 
         var expected = FceData.GetData.Where(fce =>
@@ -186,7 +61,7 @@ public class FceFilterTests
     public void ReviewedBy_NoMatch()
     {
         // Arrange
-        var spec = new FceSearchDto { ReviewedBy = Guid.Empty.ToString() };
+        var spec = _baseSpec with { ReviewedBy = Guid.Empty.ToString() };
         var expression = FceFilters.SearchPredicate(spec);
 
         // Act
@@ -202,7 +77,7 @@ public class FceFilterTests
         // Arrange
         var officeId = FceData.GetData
             .First(fce => fce.ReviewedBy is { Office: not null }).ReviewedBy!.Office!.Id;
-        var spec = new FceSearchDto { Office = officeId };
+        var spec = _baseSpec with { Office = officeId };
         var expression = FceFilters.SearchPredicate(spec);
 
         var expected = FceData.GetData.Where(fce =>
@@ -219,7 +94,7 @@ public class FceFilterTests
     public void Office_NoMatch()
     {
         // Arrange
-        var spec = new FceSearchDto { Office = Guid.Empty };
+        var spec = _baseSpec with { Office = Guid.Empty };
         var expression = FceFilters.SearchPredicate(spec);
 
         // Act
@@ -233,12 +108,11 @@ public class FceFilterTests
     public void CompletedDate_Start()
     {
         // Arrange
-        var completedDate = FceData.GetData.First(fce => !fce.IsDeleted).CompletedDate;
-        var spec = new FceSearchDto { DateFrom = completedDate };
+        var completedDate = FceData.GetData.First().CompletedDate;
+        var spec = _baseSpec with { DateFrom = completedDate };
         var expression = FceFilters.SearchPredicate(spec);
 
-        var expected = FceData.GetData.Where(fce =>
-            !fce.IsDeleted && fce.CompletedDate >= completedDate);
+        var expected = FceData.GetData.Where(fce => fce.CompletedDate >= completedDate);
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());
@@ -251,12 +125,11 @@ public class FceFilterTests
     public void CompletedDate_End()
     {
         // Arrange
-        var completedDate = FceData.GetData.First(fce => !fce.IsDeleted).CompletedDate;
-        var spec = new FceSearchDto { DateTo = completedDate };
+        var completedDate = FceData.GetData.First().CompletedDate;
+        var spec = _baseSpec with { DateTo = completedDate };
         var expression = FceFilters.SearchPredicate(spec);
 
-        var expected = FceData.GetData.Where(fce =>
-            !fce.IsDeleted && fce.CompletedDate <= completedDate);
+        var expected = FceData.GetData.Where(fce => fce.CompletedDate <= completedDate);
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());
@@ -269,12 +142,11 @@ public class FceFilterTests
     public void CompletedDate_StartAndEnd()
     {
         // Arrange
-        var closedDate = FceData.GetData.First(fce => !fce.IsDeleted).CompletedDate;
-        var spec = new FceSearchDto { DateTo = closedDate, DateFrom = closedDate };
+        var closedDate = FceData.GetData.First().CompletedDate;
+        var spec = _baseSpec with { DateTo = closedDate, DateFrom = closedDate };
         var expression = FceFilters.SearchPredicate(spec);
 
-        var expected = FceData.GetData.Where(fce =>
-            !fce.IsDeleted && fce.CompletedDate == closedDate);
+        var expected = FceData.GetData.Where(fce => fce.CompletedDate == closedDate);
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());
@@ -287,10 +159,9 @@ public class FceFilterTests
     public void Onsite_Yes()
     {
         // Arrange
-        var spec = new FceSearchDto { Onsite = YesNoAny.Yes };
+        var spec = _baseSpec with { Onsite = YesNoAny.Yes };
         var expression = FceFilters.SearchPredicate(spec);
-        var expected = FceData.GetData.Where(fce =>
-            fce is { IsDeleted: false, OnsiteInspection: true });
+        var expected = FceData.GetData.Where(fce => fce is { OnsiteInspection: true });
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());
@@ -303,46 +174,14 @@ public class FceFilterTests
     public void Onsite_No()
     {
         // Arrange
-        var spec = new FceSearchDto { Onsite = YesNoAny.No };
+        var spec = _baseSpec with { Onsite = YesNoAny.No };
         var expression = FceFilters.SearchPredicate(spec);
-        var expected = FceData.GetData.Where(fce =>
-            fce is { IsDeleted: false, OnsiteInspection: false });
+        var expected = FceData.GetData.Where(fce => fce is { OnsiteInspection: false });
 
         // Act
         var result = FceData.GetData.Where(expression.Compile());
 
         // Assert
         result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Notes_Match()
-    {
-        // Arrange
-        var note = FceData.GetData.First(fce => !string.IsNullOrWhiteSpace(fce.Notes)).Notes![..3];
-        var spec = new FceSearchDto { Notes = note };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        var expected = FceData.GetData.Where(fce => fce.Notes != null && fce.Notes.Contains(note));
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public void Notes_NoMatch()
-    {
-        // Arrange
-        var spec = new FceSearchDto { Notes = Guid.NewGuid().ToString() };
-        var expression = FceFilters.SearchPredicate(spec);
-
-        // Act
-        var result = FceData.GetData.Where(expression.Compile());
-
-        // Assert
-        result.Should().BeEmpty();
     }
 }

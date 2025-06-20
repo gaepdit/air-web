@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.CommonDtos;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.Common;
+namespace AppServicesTests.CommonDtos;
 
 public class MaxDateOnlyValidatorTests
 {
