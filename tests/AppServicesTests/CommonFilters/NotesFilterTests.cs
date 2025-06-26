@@ -1,25 +1,19 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.CommonFilters.CommonFilterTestsHelper;
+using static AppServicesTests.CommonFilters.CommonFilterTestsData;
 
 namespace AppServicesTests.CommonFilters;
 
 public class NotesFilterTests
 {
-    private record SearchDto
-    {
-        public string? Notes { get; init; }
-    }
-
-    private static Func<SearchEntity, bool> GetExpression(SearchDto spec) =>
-        PredicateBuilder.True<SearchEntity>().ByNotesText(spec.Notes).Compile();
+    private static Func<SearchEntity, bool> GetExpression(string? spec) =>
+        PredicateBuilder.True<SearchEntity>().ByNotesText(spec).Compile();
 
     [Test]
-    public void Notes_NullSearch_ReturnsAll()
+    public void NullSearch_ReturnsAll()
     {
         // Arrange
-        const string? searchTerm = null;
-        var spec = new SearchDto { Notes = searchTerm };
+        const string? spec = null;
         var expected = SearchData;
 
         // Act
@@ -30,11 +24,10 @@ public class NotesFilterTests
     }
 
     [Test]
-    public void Notes_EmptySearch_ReturnsAll()
+    public void EmptySearch_ReturnsAll()
     {
         // Arrange
-        const string? searchTerm = "";
-        var spec = new SearchDto { Notes = searchTerm };
+        const string? spec = "";
         var expected = SearchData;
 
         // Act
@@ -45,12 +38,11 @@ public class NotesFilterTests
     }
 
     [Test]
-    public void Notes_Match()
+    public void Match()
     {
         // Arrange
-        const string? searchTerm = "abc";
-        var spec = new SearchDto { Notes = searchTerm };
-        var expected = SearchData.Where(entity => entity.Notes != null && entity.Notes.Contains(searchTerm));
+        const string? spec = "abc";
+        var expected = SearchData.Where(entity => entity.Notes != null && entity.Notes.Contains(spec));
 
         // Act
         var result = SearchData.Where(GetExpression(spec));
@@ -60,11 +52,10 @@ public class NotesFilterTests
     }
 
     [Test]
-    public void Notes_NoMatch()
+    public void NoMatch()
     {
         // Arrange
-        const string? searchTerm = "999";
-        var spec = new SearchDto { Notes = searchTerm };
+        const string? spec = "999";
 
         // Act
         var result = SearchData.Where(GetExpression(spec));

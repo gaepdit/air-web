@@ -1,25 +1,19 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.CommonFilters.CommonFilterTestsHelper;
+using static AppServicesTests.CommonFilters.CommonFilterTestsData;
 
 namespace AppServicesTests.CommonFilters;
 
 public class FacilityIdFilterTests
 {
-    private record SearchDto
-    {
-        public string? PartialFacilityId { get; init; }
-    }
-
-    private static Func<SearchEntity, bool> GetExpression(SearchDto spec) =>
-        PredicateBuilder.True<SearchEntity>().ByFacilityId(spec.PartialFacilityId).Compile();
+    private static Func<SearchEntity, bool> GetExpression(string? spec) =>
+        PredicateBuilder.True<SearchEntity>().ByFacilityId(spec).Compile();
 
     [Test]
-    public void FacilityId_NullSearch_ReturnsAll()
+    public void NullSearch_ReturnsAll()
     {
         // Arrange
-        const string? searchTerm = null;
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
+        const string? spec = null;
         var expected = SearchData;
 
         // Act
@@ -30,11 +24,10 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_EmptySearch_ReturnsAll()
+    public void EmptySearch_ReturnsAll()
     {
         // Arrange
-        const string? searchTerm = "";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
+        const string? spec = "";
         var expected = SearchData;
 
         // Act
@@ -45,12 +38,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_FullMatch_WithHyphen()
+    public void FullMatch_WithHyphen()
     {
         // Arrange
-        const string? searchTerm = "001-00001";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
-        var expected = SearchData.Where(entity => entity.FacilityId == searchTerm);
+        const string? spec = "001-00001";
+        var expected = SearchData.Where(entity => entity.FacilityId == spec);
 
         // Act
         var result = SearchData.Where(GetExpression(spec));
@@ -60,12 +52,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_PartialMatch_WithHyphen()
+    public void PartialMatch_WithHyphen()
     {
         // Arrange
-        const string? searchTerm = "001-0";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(searchTerm));
+        const string? spec = "001-0";
+        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
 
         // Act
         var result = SearchData.Where(GetExpression(spec));
@@ -75,12 +66,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_FullMatch_WithoutHyphen()
+    public void FullMatch_WithoutHyphen()
     {
         // Arrange
-        const string? searchTerm = "00100001";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
-        var expected = SearchData.Where(entity => entity.FacilityId.Replace("-", "") == searchTerm);
+        const string? spec = "00100001";
+        var expected = SearchData.Where(entity => entity.FacilityId.Replace("-", "") == spec);
 
         // Act
         var result = SearchData.Where(GetExpression(spec));
@@ -90,12 +80,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_PartialMatch_WithoutHyphen()
+    public void PartialMatch_WithoutHyphen()
     {
         // Arrange
-        const string? searchTerm = "003";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(searchTerm));
+        const string? spec = "003";
+        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
 
         // Act
         var result = SearchData.Where(GetExpression(spec));
@@ -105,11 +94,10 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FacilityId_NoMatch()
+    public void NoMatch()
     {
         // Arrange
-        const string? searchTerm = "999";
-        var spec = new SearchDto { PartialFacilityId = searchTerm };
+        const string? spec = "999";
 
         // Act
         var result = SearchData.Where(GetExpression(spec));

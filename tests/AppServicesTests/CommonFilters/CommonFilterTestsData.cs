@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace AppServicesTests.CommonFilters;
 
-internal static class CommonFilterTestsHelper
+internal static class CommonFilterTestsData
 {
     public record SearchEntity : IFacilityId, IIsDeleted, IIsClosed, INotes
     {

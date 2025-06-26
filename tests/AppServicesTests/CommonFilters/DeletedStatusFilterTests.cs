@@ -1,56 +1,48 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.CommonFilters.CommonFilterTestsHelper;
+using static AppServicesTests.CommonFilters.CommonFilterTestsData;
 
 namespace AppServicesTests.CommonFilters;
 
 public class DeletedStatusFilterTests
 {
-    private record SearchDto : IDeleteStatus
-    {
-        public DeleteStatus? DeleteStatus { get; set; }
-    }
-
-    private static Func<SearchEntity, bool> GetExpression(SearchDto spec) =>
-        PredicateBuilder.True<SearchEntity>().ByDeletedStatus(spec.DeleteStatus).Compile();
+    private static Func<SearchEntity, bool> GetExpression(DeleteStatus? spec) =>
+        PredicateBuilder.True<SearchEntity>().ByDeletedStatus(spec).Compile();
 
     [Test]
-    public void DefaultSpec_ReturnsNotDeleted()
+    public void NullSpec_ReturnsNotDeleted()
     {
         // Arrange
-        var spec = new SearchDto();
         var expected = SearchData.Where(entity => !entity.IsDeleted);
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetExpression(null));
 
         // Assert
         result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
-    public void DeleteStatus_All_ReturnsAll()
+    public void All_ReturnsAll()
     {
         // Arrange
-        var spec = new SearchDto { DeleteStatus = DeleteStatus.All };
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetExpression(DeleteStatus.All));
 
         // Assert
         result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
-    public void DeleteStatus_Deleted()
+    public void Deleted_ReturnsDeleted()
     {
         // Arrange
-        var spec = new SearchDto { DeleteStatus = DeleteStatus.Deleted };
         var expected = SearchData.Where(entity => entity.IsDeleted);
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetExpression(DeleteStatus.Deleted));
 
         // Assert
         result.Should().BeEquivalentTo(expected);
