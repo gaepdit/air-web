@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.WorkEntries.Search;
 
-public class WorkEntrySearchTests
+public class WorkEntrySearchServiceTests
 {
     private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100);
 

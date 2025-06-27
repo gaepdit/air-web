@@ -15,13 +15,13 @@ internal static class WorkEntryFilters
             .ByFacilityId(spec.PartialFacilityId)
             .ByOffice(spec.Office)
             .ByStaff(spec.ResponsibleStaff)
-            .FromEventDate(spec.EventDateFrom)
-            .ToEventDate(spec.EventDateTo)
-            .FromClosedDate(spec.ClosedDateFrom)
-            .ToClosedDate(spec.ClosedDateTo)
+            .MinEventDate(spec.EventDateFrom)
+            .MaxEventDate(spec.EventDateTo)
+            .MinClosedDate(spec.ClosedDateFrom)
+            .MaxClosedDate(spec.ClosedDateTo)
             .ByNotesText(spec.Notes);
 
-    private static Expression<Func<WorkEntry, bool>> ByWorkType(
+    public static Expression<Func<WorkEntry, bool>> ByWorkType(
         this Expression<Func<WorkEntry, bool>> predicate,
         List<WorkTypeSearch> input)
     {
@@ -60,14 +60,14 @@ internal static class WorkEntryFilters
         return predicate.And(includePredicate);
     }
 
-    private static Expression<Func<WorkEntry, bool>> ByStaff(
+    public static Expression<Func<WorkEntry, bool>> ByStaff(
         this Expression<Func<WorkEntry, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
             : predicate.And(entry => entry.ResponsibleStaff != null && entry.ResponsibleStaff.Id == input);
 
-    private static Expression<Func<WorkEntry, bool>> ByOffice(
+    public static Expression<Func<WorkEntry, bool>> ByOffice(
         this Expression<Func<WorkEntry, bool>> predicate,
         Guid? input) =>
         input is null
@@ -77,28 +77,28 @@ internal static class WorkEntryFilters
                 entry.ResponsibleStaff.Office != null &&
                 entry.ResponsibleStaff.Office.Id == input);
 
-    private static Expression<Func<WorkEntry, bool>> FromEventDate(
+    public static Expression<Func<WorkEntry, bool>> MinEventDate(
         this Expression<Func<WorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.EventDate >= input);
 
-    private static Expression<Func<WorkEntry, bool>> ToEventDate(
+    public static Expression<Func<WorkEntry, bool>> MaxEventDate(
         this Expression<Func<WorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.EventDate <= input);
 
-    private static Expression<Func<WorkEntry, bool>> FromClosedDate(
+    public static Expression<Func<WorkEntry, bool>> MinClosedDate(
         this Expression<Func<WorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(entry => entry.ClosedDate >= input);
 
-    private static Expression<Func<WorkEntry, bool>> ToClosedDate(
+    public static Expression<Func<WorkEntry, bool>> MaxClosedDate(
         this Expression<Func<WorkEntry, bool>> predicate,
         DateOnly? input) =>
         input is null

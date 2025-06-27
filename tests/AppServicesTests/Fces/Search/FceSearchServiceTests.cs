@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.Fces.Search;
 
-public class FceSearchTests
+public class FceSearchServiceTests
 {
     private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100);
 

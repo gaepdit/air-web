@@ -10,7 +10,6 @@ public class OfficeFilterTests
     private static Func<Fce, bool> GetPredicate(Guid? spec) =>
         PredicateBuilder.True<Fce>().ByOffice(spec).Compile();
 
-
     [Test]
     public void NullSpec_ReturnsAll()
     {

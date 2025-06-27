@@ -30,7 +30,7 @@ public class MaxCompletedDateFilterTests
     public void RangeMatch()
     {
         // Arrange
-        var spec = FceData.GetData.First().CompletedDate.AddDays(-1);
+        var spec = FceData.GetData.First().CompletedDate.AddDays(1);
         var expected = FceData.GetData.Where(e => e.CompletedDate <= spec);
 
         // Act
