@@ -1,4 +1,5 @@
 using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AutoMapper;
@@ -23,14 +24,14 @@ public sealed class WorkEntrySearchService(
 {
     public Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, WorkEntryFilters.SearchPredicate, token);
+        SearchAsync(spec, paging, loadFacilities, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     public Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, WorkEntryFilters.SearchPredicate, token);
+        CountAsync(spec, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     public Task<IEnumerable<WorkEntryExportDto>> ExportAsync(WorkEntrySearchDto spec,
         CancellationToken token = default) =>
-        ExportAsync(spec, WorkEntryFilters.SearchPredicate, token);
+        ExportAsync(spec, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

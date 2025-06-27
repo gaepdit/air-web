@@ -15,16 +15,16 @@ public class FceSearchServiceTests
     private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100);
 
     [Test]
-    public async Task WhenFceItemsExist_ReturnsPagedList()
+    public async Task WhenItemsExist_ReturnsPagedList()
     {
         // Arrange
         var searchDto = new FceSearchDto();
         var entries = FceData.GetData.Where(fce => !fce.IsDeleted).ToList();
 
-        var searchRepoMock = Substitute.For<IFceRepository>();
-        searchRepoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
+        var repoMock = Substitute.For<IFceRepository>();
+        repoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<PaginatedRequest>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<PaginatedRequest>(),
                 Arg.Any<CancellationToken>())
             .Returns(entries);
 
@@ -33,9 +33,8 @@ public class FceSearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new FceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+        var service = new FceSearchService(repoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);
@@ -47,15 +46,15 @@ public class FceSearchServiceTests
     }
 
     [Test]
-    public async Task WhenNoFceItemsExist_ReturnsEmptyPagedList()
+    public async Task WhenNoItemsExist_ReturnsEmptyPagedList()
     {
         // Arrange
         var searchDto = new FceSearchDto();
 
-        var searchRepoMock = Substitute.For<IFceRepository>();
-        searchRepoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
+        var repoMock = Substitute.For<IFceRepository>();
+        repoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
-        searchRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns([]);
 
@@ -64,9 +63,8 @@ public class FceSearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new FceSearchService(searchRepoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+        var service = new FceSearchService(repoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

@@ -1,16 +1,16 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
+﻿using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Users;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.TestData.Compliance;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
-namespace AppServicesTests.WorkEntries.Search;
+namespace AppServicesTests.Enforcement.Search;
 
-public class WorkEntrySearchServiceTests
+public class CaseFileSearchServiceTests
 {
     private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100);
 
@@ -18,14 +18,14 @@ public class WorkEntrySearchServiceTests
     public async Task WhenItemsExist_ReturnsPagedList()
     {
         // Arrange
-        var searchDto = new WorkEntrySearchDto();
-        var entries = WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList();
+        var searchDto = new CaseFileSearchDto();
+        var entries = CaseFileData.GetData.ToList();
 
-        var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        var repoMock = Substitute.For<ICaseFileRepository>();
+        repoMock.CountAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
-                Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(), Arg.Any<PaginatedRequest>(),
+                Arg.Any<CancellationToken>())
             .Returns(entries);
 
         var authMock = Substitute.For<IAuthorizationService>();
@@ -33,9 +33,8 @@ public class WorkEntrySearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new WorkEntrySearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+        var service = new CaseFileSearchService(repoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);
@@ -50,12 +49,12 @@ public class WorkEntrySearchServiceTests
     public async Task WhenNoItemsExist_ReturnsEmptyPagedList()
     {
         // Arrange
-        var searchDto = new WorkEntrySearchDto();
+        var searchDto = new CaseFileSearchDto();
 
-        var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        var repoMock = Substitute.For<ICaseFileRepository>();
+        repoMock.CountAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns([]);
 
@@ -64,9 +63,8 @@ public class WorkEntrySearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new WorkEntrySearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+        var service = new CaseFileSearchService(repoMock, Substitute.For<IFacilityService>(),
+            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

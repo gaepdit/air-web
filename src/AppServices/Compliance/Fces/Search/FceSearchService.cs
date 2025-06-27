@@ -1,4 +1,5 @@
 using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AutoMapper;
@@ -22,13 +23,13 @@ public sealed class FceSearchService(
 {
     public Task<IPaginatedResult<FceSearchResultDto>> SearchAsync(FceSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, token);
+        SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     public Task<int> CountAsync(FceSearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, FceFilters.SearchPredicate, token);
+        CountAsync(spec, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
 
-    public Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token = default)
-        => ExportAsync(spec, FceFilters.SearchPredicate, token);
+    public Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token = default) =>
+        ExportAsync(spec, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     #region IDisposable,  IAsyncDisposable
 
