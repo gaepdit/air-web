@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
@@ -12,7 +13,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFile : ClosableEntity<int>
+public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -52,6 +53,7 @@ public class CaseFile : ClosableEntity<int>
     [StringLength(27)]
     public CaseFileStatus CaseFileStatus
     {
+        // ReSharper disable once ConvertIfStatementToReturnStatement
         get
         {
             if (IsClosed) return CaseFileStatus.Closed;

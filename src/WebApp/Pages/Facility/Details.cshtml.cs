@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Permissions;
@@ -16,7 +15,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class DetailsModel(
     IFacilityService facilityService,
     IFceSearchService fceSearchService,
-    IEnforcementSearchService enforcementService,
+    ICaseFileSearchService caseFileService,
     IWorkEntrySearchService entrySearchService,
     ISourceTestService sourceTestService,
     IAuthorizationService authorization) : PageModel
@@ -28,7 +27,7 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
-    public IList<EnforcementSearchResultDto> EnforcementWork { get; private set; } = [];
+    public IList<CaseFileSearchResultDto> EnforcementWork { get; private set; } = [];
     public int EnforcementCount { get; private set; }
     public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
     public int ComplianceWorkCount { get; private set; }
@@ -61,17 +60,17 @@ public class DetailsModel(
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(
-            new WorkEntrySearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
+            new WorkEntrySearchDto { Sort = WorkEntrySortBy.EventDateDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
         var searchFces = await fceSearchService.SearchAsync(
-            new FceSearchDto { Sort = SortBy.EventDateDesc, PartialFacilityId = Id },
+            new FceSearchDto { Sort = FceSortBy.YearDesc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 
-        var searchEnforcement = await enforcementService.SearchAsync(
-            new EnforcementSearchDto { Sort = SortByEnforcement.DiscoveryDate, PartialFacilityId = Id },
+        var searchEnforcement = await caseFileService.SearchAsync(
+            new CaseFileSearchDto { Sort = SortByEnforcement.DiscoveryDateAsc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 

@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonInterfaces;
+﻿using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;

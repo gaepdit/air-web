@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.Compliance.Search;
+﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 
-public record WorkEntrySearchResultDto : IStandardSearchResult
+public record WorkEntrySearchResultDto : ISearchResult
 {
     public int Id { get; init; }
     public WorkEntryType WorkEntryType { get; [UsedImplicitly] init; }

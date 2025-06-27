@@ -1,5 +1,6 @@
-using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;

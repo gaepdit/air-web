@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
@@ -128,13 +127,13 @@ public class CaseFileService(
         mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
                                    ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
-                SortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
+                WorkEntrySortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
     public async Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default) =>
         mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
-                SortBy.IdDesc.GetDescription(), token: token)
+                WorkEntrySortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
 
     public async Task<bool> LinkComplianceEvent(int id, int entryId, CancellationToken token = default)

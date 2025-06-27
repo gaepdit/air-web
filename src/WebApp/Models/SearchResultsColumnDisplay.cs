@@ -1,28 +1,16 @@
-﻿using AirWeb.AppServices.Compliance.Search;
-using AirWeb.AppServices.Staff.Dto;
-using ComplianceSortBy = AirWeb.AppServices.Compliance.Search.SortBy;
-using UserSortBy = AirWeb.AppServices.Staff.Dto.SortBy;
+﻿using AirWeb.AppServices.CommonSearch;
 
 namespace AirWeb.WebApp.Models;
 
 public record SearchResultsColumnDisplay
 {
-    public SearchResultsColumnDisplay(string heading, ComplianceSortBy ascender, ComplianceSortBy descender,
-        IComplianceSearchDto spec)
+    public SearchResultsColumnDisplay(string heading, string ascender, string descender,
+        ISearchDto spec)
     {
         Heading = heading;
-        Up = ascender.ToString();
-        Down = descender.ToString();
-        SortByName = spec.Sort.ToString();
-        RouteValues = spec.AsRouteValues();
-    }
-
-    public SearchResultsColumnDisplay(string heading, UserSortBy ascender, UserSortBy descender, StaffSearchDto spec)
-    {
-        Heading = heading;
-        Up = ascender.ToString();
-        Down = descender.ToString();
-        SortByName = spec.Sort.ToString();
+        Up = ascender;
+        Down = descender;
+        SortByName = spec.SortByName;
         RouteValues = spec.AsRouteValues();
     }
 

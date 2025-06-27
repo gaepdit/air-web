@@ -8,6 +8,7 @@ public class Insert
     private readonly FacilityId _facilityId = (FacilityId)"001-00001";
 
     [Test]
+    [Platform("Win")]
     public async Task InsertItem_InSqlServer_IncreasesCount()
     {
         // Arrange
