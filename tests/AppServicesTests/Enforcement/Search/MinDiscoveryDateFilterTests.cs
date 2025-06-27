@@ -5,10 +5,10 @@ using GaEpd.AppLibrary.Domain.Predicates;
 
 namespace AppServicesTests.Enforcement.Search;
 
-public class DiscoveryDateToFilterTests
+public class MinDiscoveryDateFilterTests
 {
     private static Func<CaseFile, bool> GetPredicate(DateOnly? spec) =>
-        PredicateBuilder.True<CaseFile>().ToDiscoveryDate(spec).Compile();
+        PredicateBuilder.True<CaseFile>().MinDiscoveryDate(spec).Compile();
 
     [Test]
     public void NullSpec_ReturnsAll()
@@ -30,10 +30,10 @@ public class DiscoveryDateToFilterTests
     public void RangeMatch()
     {
         // Arrange
-        var spec = CaseFileData.GetData.First(e => e.DiscoveryDate != null).DiscoveryDate!.Value.AddDays(1);
+        var spec = CaseFileData.GetData.First(e => e.DiscoveryDate != null).DiscoveryDate!.Value.AddDays(-1);
 
         var expected = CaseFileData.GetData.Where(e =>
-            e.DiscoveryDate != null && e.DiscoveryDate <= spec);
+            e.DiscoveryDate != null && e.DiscoveryDate >= spec);
 
         // Act
         var result = CaseFileData.GetData.Where(GetPredicate(spec)).ToList();
@@ -51,7 +51,7 @@ public class DiscoveryDateToFilterTests
         var spec = CaseFileData.GetData.First(e => e.DiscoveryDate != null).DiscoveryDate!.Value;
 
         var expected = CaseFileData.GetData.Where(e =>
-            e.DiscoveryDate != null && e.DiscoveryDate <= spec);
+            e.DiscoveryDate != null && e.DiscoveryDate >= spec);
 
         // Act
         var result = CaseFileData.GetData.Where(GetPredicate(spec)).ToList();
@@ -66,7 +66,7 @@ public class DiscoveryDateToFilterTests
     public void NoMatch()
     {
         // Act
-        var result = CaseFileData.GetData.Where(GetPredicate(DateOnly.MinValue));
+        var result = CaseFileData.GetData.Where(GetPredicate(DateOnly.MaxValue));
 
         // Assert
         result.Should().BeEmpty();

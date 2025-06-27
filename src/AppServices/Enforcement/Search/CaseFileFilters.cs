@@ -15,8 +15,8 @@ namespace AirWeb.AppServices.Enforcement.Search
                 .ByStaff(spec.Staff)
                 .ByOffice(spec.Office)
                 .ByNotesText(spec.Notes)
-                .FromDiscoveryDate(spec.DateFrom)
-                .ToDiscoveryDate(spec.DateTo)
+                .MinDiscoveryDate(spec.DateFrom)
+                .MaxDiscoveryDate(spec.DateTo)
                 .ByViolationType(spec.ViolationType);
 
         public static Expression<Func<CaseFile, bool>> ByStaff(
@@ -36,14 +36,14 @@ namespace AirWeb.AppServices.Enforcement.Search
                     caseFile.ResponsibleStaff.Office != null &&
                     caseFile.ResponsibleStaff.Office.Id == input);
 
-        public static Expression<Func<CaseFile, bool>> FromDiscoveryDate(
+        public static Expression<Func<CaseFile, bool>> MinDiscoveryDate(
             this Expression<Func<CaseFile, bool>> predicate,
             DateOnly? input) =>
             input is null
                 ? predicate
                 : predicate.And(caseFile => caseFile.DiscoveryDate >= input);
 
-        public static Expression<Func<CaseFile, bool>> ToDiscoveryDate(
+        public static Expression<Func<CaseFile, bool>> MaxDiscoveryDate(
             this Expression<Func<CaseFile, bool>> predicate,
             DateOnly? input) =>
             input is null
