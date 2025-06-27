@@ -6,7 +6,7 @@ namespace AppServicesTests.CommonFilters;
 
 public class NotesFilterTests
 {
-    private static Func<SearchEntity, bool> GetExpression(string? spec) =>
+    private static Func<SearchEntity, bool> GetPredicate(string? spec) =>
         PredicateBuilder.True<SearchEntity>().ByNotesText(spec).Compile();
 
     [Test]
@@ -17,9 +17,11 @@ public class NotesFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -31,9 +33,11 @@ public class NotesFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -45,9 +49,11 @@ public class NotesFilterTests
         var expected = SearchData.Where(entity => entity.Notes != null && entity.Notes.Contains(spec));
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -55,10 +61,10 @@ public class NotesFilterTests
     public void NoMatch()
     {
         // Arrange
-        const string? spec = "999";
+        const string? spec = "xxx";
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec));
 
         // Assert
         result.Should().BeEmpty();

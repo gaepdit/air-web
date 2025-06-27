@@ -6,7 +6,7 @@ namespace AppServicesTests.CommonFilters;
 
 public class DeletedStatusFilterTests
 {
-    private static Func<SearchEntity, bool> GetExpression(DeleteStatus? spec) =>
+    private static Func<SearchEntity, bool> GetPredicate(DeleteStatus? spec) =>
         PredicateBuilder.True<SearchEntity>().ByDeletedStatus(spec).Compile();
 
     [Test]
@@ -16,9 +16,11 @@ public class DeletedStatusFilterTests
         var expected = SearchData.Where(entity => !entity.IsDeleted);
 
         // Act
-        var result = SearchData.Where(GetExpression(null));
+        var result = SearchData.Where(GetPredicate(null)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -29,9 +31,11 @@ public class DeletedStatusFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(DeleteStatus.All));
+        var result = SearchData.Where(GetPredicate(DeleteStatus.All)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -42,9 +46,11 @@ public class DeletedStatusFilterTests
         var expected = SearchData.Where(entity => entity.IsDeleted);
 
         // Act
-        var result = SearchData.Where(GetExpression(DeleteStatus.Deleted));
+        var result = SearchData.Where(GetPredicate(DeleteStatus.Deleted)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 }

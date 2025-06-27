@@ -6,7 +6,7 @@ namespace AppServicesTests.CommonFilters;
 
 public class FacilityIdFilterTests
 {
-    private static Func<SearchEntity, bool> GetExpression(string? spec) =>
+    private static Func<SearchEntity, bool> GetPredicate(string? spec) =>
         PredicateBuilder.True<SearchEntity>().ByFacilityId(spec).Compile();
 
     [Test]
@@ -17,9 +17,11 @@ public class FacilityIdFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -31,9 +33,11 @@ public class FacilityIdFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -45,9 +49,11 @@ public class FacilityIdFilterTests
         var expected = SearchData.Where(entity => entity.FacilityId == spec);
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -59,9 +65,11 @@ public class FacilityIdFilterTests
         var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -73,9 +81,11 @@ public class FacilityIdFilterTests
         var expected = SearchData.Where(entity => entity.FacilityId.Replace("-", "") == spec);
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -87,9 +97,11 @@ public class FacilityIdFilterTests
         var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -100,7 +112,7 @@ public class FacilityIdFilterTests
         const string? spec = "999";
 
         // Act
-        var result = SearchData.Where(GetExpression(spec));
+        var result = SearchData.Where(GetPredicate(spec));
 
         // Assert
         result.Should().BeEmpty();

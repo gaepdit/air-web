@@ -1,6 +1,7 @@
 ﻿namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
-// Source of data from IAIP airbranch DB:
+// ReSharper disable StringLiteralTypo
+// Source of data from IAIP DB:
 //
 // ```sql
 // select AIRVIOLATIONTYPECODE as Code,
@@ -16,6 +17,7 @@ public static class ViolationTypeData
 {
     public static ViolationType? GetViolationType(string? code) => ViolationTypes.Find(type => type.Code == code);
 
+    // ReSharper disable StringLiteralTypo
     internal static List<ViolationType> ViolationTypes { get; } =
     [
         new()

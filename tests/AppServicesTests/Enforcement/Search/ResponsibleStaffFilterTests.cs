@@ -5,9 +5,9 @@ using GaEpd.AppLibrary.Domain.Predicates;
 
 namespace AppServicesTests.Enforcement.Search;
 
-public class StaffFilterTests
+public class ResponsibleStaffFilterTests
 {
-    private static Func<CaseFile, bool> GetExpression(string? spec) =>
+    private static Func<CaseFile, bool> GetPredicate(string? spec) =>
         PredicateBuilder.True<CaseFile>().ByStaff(spec).Compile();
 
     [Test]
@@ -18,9 +18,11 @@ public class StaffFilterTests
         var expected = CaseFileData.GetData;
 
         // Act
-        var result = CaseFileData.GetData.Where(GetExpression(spec));
+        var result = CaseFileData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -32,9 +34,11 @@ public class StaffFilterTests
         var expected = CaseFileData.GetData;
 
         // Act
-        var result = CaseFileData.GetData.Where(GetExpression(spec));
+        var result = CaseFileData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -48,9 +52,11 @@ public class StaffFilterTests
             e.ResponsibleStaff != null && e.ResponsibleStaff.Id == spec);
 
         // Act
-        var result = CaseFileData.GetData.Where(GetExpression(spec));
+        var result = CaseFileData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -58,7 +64,7 @@ public class StaffFilterTests
     public void NoMatch()
     {
         // Act
-        var result = CaseFileData.GetData.Where(GetExpression(Guid.Empty.ToString()));
+        var result = CaseFileData.GetData.Where(GetPredicate(Guid.Empty.ToString()));
 
         // Assert
         result.Should().BeEmpty();

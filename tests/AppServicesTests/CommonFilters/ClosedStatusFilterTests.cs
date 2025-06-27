@@ -6,7 +6,7 @@ namespace AppServicesTests.CommonFilters;
 
 public class ClosedStatusFilterTests
 {
-    private static Func<SearchEntity, bool> GetExpression(ClosedOpenAny? spec) =>
+    private static Func<SearchEntity, bool> GetPredicate(ClosedOpenAny? spec) =>
         PredicateBuilder.True<SearchEntity>().ByClosedStatus(spec).Compile();
 
     [Test]
@@ -16,9 +16,11 @@ public class ClosedStatusFilterTests
         var expected = SearchData;
 
         // Act
-        var result = SearchData.Where(GetExpression(null));
+        var result = SearchData.Where(GetPredicate(null)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -29,9 +31,11 @@ public class ClosedStatusFilterTests
         var expected = SearchData.Where(entity => entity.IsClosed);
 
         // Act
-        var result = SearchData.Where(GetExpression(ClosedOpenAny.Closed));
+        var result = SearchData.Where(GetPredicate(ClosedOpenAny.Closed)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -42,9 +46,11 @@ public class ClosedStatusFilterTests
         var expected = SearchData.Where(entity => !entity.IsClosed);
 
         // Act
-        var result = SearchData.Where(GetExpression(ClosedOpenAny.Open));
+        var result = SearchData.Where(GetPredicate(ClosedOpenAny.Open)).ToList();
 
         // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
 }
