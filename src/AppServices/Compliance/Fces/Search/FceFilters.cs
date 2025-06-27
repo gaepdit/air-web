@@ -12,10 +12,10 @@ internal static class FceFilters
             .ByDeletedStatus(spec.DeleteStatus)
             .ByFacilityId(spec.PartialFacilityId)
             .ByYear(spec.Year)
-            .ByReviewer(spec.ReviewedBy)
+            .ByStaff(spec.ReviewedBy)
             .ByOffice(spec.Office)
-            .FromDate(spec.DateFrom)
-            .ToDate(spec.DateTo)
+            .FromCompletedDate(spec.DateFrom)
+            .ToCompletedDate(spec.DateTo)
             .ByOnsiteStatus(spec.Onsite)
             .ByNotesText(spec.Notes);
 
@@ -24,7 +24,7 @@ internal static class FceFilters
         int? input) =>
         input is null ? predicate : predicate.And(fce => fce.Year.Equals(input));
 
-    private static Expression<Func<Fce, bool>> ByReviewer(
+    private static Expression<Func<Fce, bool>> ByStaff(
         this Expression<Func<Fce, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input)
@@ -41,14 +41,14 @@ internal static class FceFilters
                 fce.ReviewedBy.Office != null &&
                 fce.ReviewedBy.Office.Id == input);
 
-    private static Expression<Func<Fce, bool>> FromDate(
+    private static Expression<Func<Fce, bool>> FromCompletedDate(
         this Expression<Func<Fce, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
             : predicate.And(fce => fce.CompletedDate >= input);
 
-    private static Expression<Func<Fce, bool>> ToDate(
+    private static Expression<Func<Fce, bool>> ToCompletedDate(
         this Expression<Func<Fce, bool>> predicate,
         DateOnly? input) =>
         input is null

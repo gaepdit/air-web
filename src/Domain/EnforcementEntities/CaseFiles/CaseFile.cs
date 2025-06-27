@@ -53,6 +53,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     [StringLength(27)]
     public CaseFileStatus CaseFileStatus
     {
+        // ReSharper disable once ConvertIfStatementToReturnStatement
         get
         {
             if (IsClosed) return CaseFileStatus.Closed;

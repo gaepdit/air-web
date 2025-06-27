@@ -14,7 +14,7 @@ internal static class WorkEntryFilters
             .ByWorkType(spec.Include)
             .ByFacilityId(spec.PartialFacilityId)
             .ByOffice(spec.Office)
-            .ByResponsibleStaff(spec.ResponsibleStaff)
+            .ByStaff(spec.ResponsibleStaff)
             .FromEventDate(spec.EventDateFrom)
             .ToEventDate(spec.EventDateTo)
             .FromClosedDate(spec.ClosedDateFrom)
@@ -60,7 +60,7 @@ internal static class WorkEntryFilters
         return predicate.And(includePredicate);
     }
 
-    private static Expression<Func<WorkEntry, bool>> ByResponsibleStaff(
+    private static Expression<Func<WorkEntry, bool>> ByStaff(
         this Expression<Func<WorkEntry, bool>> predicate,
         string? input) =>
         string.IsNullOrWhiteSpace(input)

@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Utilities;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 using System.ComponentModel;
@@ -20,6 +21,9 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }
 
+    [Display(Name = "Enforcement Case Status")]
+    public CaseFileStatus? CaseFileStatus { get; init; }
+
     // == Facility ==
 
     [Display(Name = "AIRS Number")]
@@ -28,29 +32,33 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Staff ==
 
-    [Display(Name = "Staff Responsible")]
+    [Display(Name = "Staff")]
     // Guid as string
-    public string? ResponsibleStaff { get; init; }
+    public string? Staff { get; init; }
 
     [Display(Name = "Office")]
     public Guid? Office { get; init; }
+
+    // == Text ==
+
+    [Display(Name = "Notes")]
+    public string? Notes { get; init; }
+
+    // == Violation data ==
+
+    public string? ViolationType { get; init; }
 
     // == Dates ==
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DiscoveryDateFrom { get; init; }
+    public DateOnly? DateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DiscoveryDateTo { get; init; }
-
-    // == Text ==
-
-    [Display(Name = "Notes")]
-    public string? Notes { get; init; }
+    public DateOnly? DateTo { get; init; }
 
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
@@ -58,12 +66,14 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
         { nameof(Sort), Sort.ToString() },
         { nameof(Closed), Closed?.ToString() },
         { nameof(DeleteStatus), DeleteStatus?.ToString() },
+        { nameof(CaseFileStatus), CaseFileStatus?.ToString() },
         { nameof(PartialFacilityId), PartialFacilityId },
-        { nameof(ResponsibleStaff), ResponsibleStaff },
+        { nameof(Staff), Staff },
         { nameof(Office), Office.ToString() },
-        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString("d") },
-        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString("d") },
         { nameof(Notes), Notes },
+        { nameof(ViolationType), ViolationType },
+        { nameof(DateFrom), DateFrom?.ToString("d") },
+        { nameof(DateTo), DateTo?.ToString("d") },
     };
 
     public CaseFileSearchDto TrimAll() => this with

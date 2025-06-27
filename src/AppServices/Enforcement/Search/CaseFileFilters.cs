@@ -12,11 +12,51 @@ namespace AirWeb.AppServices.Enforcement.Search
                 .ByDeletedStatus(spec.DeleteStatus)
                 .ByClosedStatus(spec.Closed)
                 .ByFacilityId(spec.PartialFacilityId)
+                .ByStaff(spec.Staff)
+                .ByOffice(spec.Office)
+                .ByNotesText(spec.Notes)
+                .FromDiscoveryDate(spec.DateFrom)
+                .ToDiscoveryDate(spec.DateTo)
+                .ByViolationType(spec.ViolationType);
 
-                // .ByReviewer(spec.ReviewedBy)
-                // .ByOffice(spec.Office)
-                // .FromDate(spec.DateFrom)
-                // .ToDate(spec.DateTo)
-                .ByNotesText(spec.Notes);
+        public static Expression<Func<CaseFile, bool>> ByStaff(
+            this Expression<Func<CaseFile, bool>> predicate,
+            string? input) =>
+            string.IsNullOrWhiteSpace(input)
+                ? predicate
+                : predicate.And(caseFile => caseFile.ResponsibleStaff != null && caseFile.ResponsibleStaff.Id == input);
+
+        public static Expression<Func<CaseFile, bool>> ByOffice(
+            this Expression<Func<CaseFile, bool>> predicate,
+            Guid? input) =>
+            input is null
+                ? predicate
+                : predicate.And(caseFile =>
+                    caseFile.ResponsibleStaff != null &&
+                    caseFile.ResponsibleStaff.Office != null &&
+                    caseFile.ResponsibleStaff.Office.Id == input);
+
+        public static Expression<Func<CaseFile, bool>> FromDiscoveryDate(
+            this Expression<Func<CaseFile, bool>> predicate,
+            DateOnly? input) =>
+            input is null
+                ? predicate
+                : predicate.And(caseFile => caseFile.DiscoveryDate >= input);
+
+        public static Expression<Func<CaseFile, bool>> ToDiscoveryDate(
+            this Expression<Func<CaseFile, bool>> predicate,
+            DateOnly? input) =>
+            input is null
+                ? predicate
+                : predicate.And(caseFile => caseFile.DiscoveryDate <= input);
+
+        public static Expression<Func<CaseFile, bool>> ByViolationType(
+            this Expression<Func<CaseFile, bool>> predicate,
+            string? input) =>
+            input is null
+                ? predicate
+                : predicate.And(caseFile =>
+                    caseFile.ViolationType != null &&
+                    caseFile.ViolationType.Code == input);
     }
 }
