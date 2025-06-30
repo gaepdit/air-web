@@ -6,6 +6,7 @@ namespace EfRepositoryTests.Offices;
 public class Insert
 {
     [Test]
+    [Platform("Win")]
     public async Task InsertItem_InSqlServer_IncreasesCount()
     {
         // Arrange

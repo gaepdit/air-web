@@ -1,4 +1,4 @@
-using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Permissions.AppClaims;
 using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.Domain.Identity;

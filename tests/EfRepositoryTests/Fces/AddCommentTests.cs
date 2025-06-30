@@ -8,6 +8,7 @@ namespace EfRepositoryTests.Fces;
 public class AddCommentTests
 {
     [Test]
+    [Platform("Win")]
     public async Task AddComment_InSqlServer_AddsComment()
     {
         // Arrange

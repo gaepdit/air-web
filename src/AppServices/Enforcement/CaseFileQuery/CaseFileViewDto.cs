@@ -1,8 +1,10 @@
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.CommonInterfaces;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using GaEpd.AppLibrary.Extensions;

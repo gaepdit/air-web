@@ -39,7 +39,6 @@ public class AutoMapperProfile : Profile
         Comments();
         Fces();
         WorkEntries();
-        SearchResults();
         Enforcement();
     }
 
@@ -47,6 +46,9 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<WorkEntry, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
         Accs();
         Inspections();
         Notifications();
@@ -82,6 +84,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Fce, FceSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<Fce, FceViewDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<Fce, FceSearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         // Supporting data
@@ -151,14 +155,6 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }
 
-    private void SearchResults()
-    {
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<Fce, FceSearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-    }
-
     private void Enforcement()
     {
         CreateMap<CaseFile, CaseFileViewDto>()
@@ -167,6 +163,9 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.AirProgramsAsStrings, expression => expression.Ignore());
         CreateMap<CaseFile, CaseFileSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<CaseFile, CaseFileSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
         CreateMap<CaseFileViewDto, CaseFileSummaryDto>();
 
         CreateMap<EnforcementAction, ActionViewDto>();
@@ -193,9 +192,6 @@ public class AutoMapperProfile : Profile
         CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
 
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
-
-        CreateMap<CaseFile, EnforcementSearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
             .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));

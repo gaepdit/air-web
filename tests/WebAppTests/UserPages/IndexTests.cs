@@ -8,7 +8,7 @@ namespace WebAppTests.UserPages;
 
 public class IndexTests
 {
-    private static StaffSearchDto DefaultStaffSearch => new(SortBy.NameAsc, null, null, null, null, null);
+    private static StaffSearchDto DefaultStaffSearch => new();
 
     [Test]
     public async Task OnSearch_IfValidModel_ReturnsPage()

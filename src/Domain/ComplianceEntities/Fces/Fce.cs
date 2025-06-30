@@ -1,9 +1,10 @@
 using AirWeb.Domain.BaseEntities;
+using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : DeletableEntity<int>, IComplianceEntity
+public class Fce : DeletableEntity<int>, IFacilityId, INotes
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

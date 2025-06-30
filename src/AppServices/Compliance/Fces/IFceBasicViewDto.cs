@@ -1,4 +1,5 @@
-using AirWeb.AppServices.CommonInterfaces;
+using AirWeb.AppServices.DtoInterfaces;
+using AirWeb.Domain.BaseEntities.Interfaces;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 

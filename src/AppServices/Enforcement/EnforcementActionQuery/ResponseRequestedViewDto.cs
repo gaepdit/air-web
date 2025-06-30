@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonInterfaces;
+﻿using AirWeb.AppServices.DtoInterfaces;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
