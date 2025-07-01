@@ -11,13 +11,21 @@ internal static class CaseFileFilters
         PredicateBuilder.True<CaseFile>()
             .ByDeletedStatus(spec.DeleteStatus)
             .ByClosedStatus(spec.Closed)
+            .ByCaseFileStatus(spec.CaseFileStatus)
             .ByFacilityId(spec.PartialFacilityId)
             .ByStaff(spec.Staff)
             .ByOffice(spec.Office)
             .ByNotesText(spec.Notes)
+            .ByViolationType(spec.ViolationType)
             .MinDiscoveryDate(spec.DateFrom)
-            .MaxDiscoveryDate(spec.DateTo)
-            .ByViolationType(spec.ViolationType);
+            .MaxDiscoveryDate(spec.DateTo);
+
+    public static Expression<Func<CaseFile, bool>> ByCaseFileStatus(
+        this Expression<Func<CaseFile, bool>> predicate,
+        CaseFileStatus? input) =>
+        input is null
+            ? predicate
+            : predicate.And(caseFile => caseFile.CaseFileStatus == input);
 
     public static Expression<Func<CaseFile, bool>> ByStaff(
         this Expression<Func<CaseFile, bool>> predicate,
