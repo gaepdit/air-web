@@ -23,14 +23,18 @@
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
     </dl>
     <div class="callout callout-warning">
-        <p>If this work entry is restored, the following deletion details will be removed.</p>
+        <p>
+            <em class="text-warning-emphasis">
+                If this work entry is restored, the following deletion details will be removed.
+            </em>
+        </p>
         <dl class="row">
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedBy)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedBy, DisplayTemplate.NameOrPlaceholder)</dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.DeletedAt)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ItemSummary.DeletedAt, DisplayTemplate.ShortDateTimeOffset)</dd>
             <dt class="mb-2">@Html.DisplayNameFor(m => m.ItemSummary.DeleteComments)</dt>
-            <dd class="border rounded p-3">@Html.DisplayFor(m => m.ItemSummary.DeleteComments, DisplayTemplate.TextWithLinebreaks)</dd>
+            <dd class="border border-warning-subtle rounded-1 py-3">@Html.DisplayFor(m => m.ItemSummary.DeleteComments, DisplayTemplate.TextWithLinebreaks)</dd>
         </dl>
     </div>
 

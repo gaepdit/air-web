@@ -39,6 +39,8 @@
         <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
                  model="(summary.Facility!.FacilityId,summary.Facility.Name)" />
     </dd>
+</dl>
+<dl class="row mt-3 bg-body-tertiary py-2 border rounded-1">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestType)</dt>
@@ -168,7 +170,7 @@ else
     <dl class="row mt-3">
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ResponsibleStaff)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
-        <dt class="col-sm-4 col-lg-3">Status</dt>
+        <dt class="col-sm-4 col-lg-3">Compliance Review Status</dt>
         <dd class="col-sm-8 col-lg-9">
             @if (Model.ComplianceReview.IsClosed)
             {
@@ -196,7 +198,7 @@ else
 
     <dl>
         <dt class="mb-2">@Html.DisplayNameFor(_ => review.Notes)</dt>
-        <dd class="border rounded p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
+        <dd class="border rounded-1 py-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
     </dl>
 
     if (Model.CommentSection != null)

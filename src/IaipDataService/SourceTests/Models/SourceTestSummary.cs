@@ -47,7 +47,7 @@ public record SourceTestSummary
     [Display(Name = "Applicable Requirement")]
     public string ApplicableRequirement { get; init; } = null!;
 
-    [Display(Name = "Status")]
+    [Display(Name = "Test Report Status")]
     public bool ReportClosed { get; init; }
 
     // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
