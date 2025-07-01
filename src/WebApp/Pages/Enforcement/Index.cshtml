@@ -1,20 +1,174 @@
-﻿@page
-@model IndexModel
+﻿@page "{handler?}"
+@using AirWeb.AppServices.CommonSearch
+@using AirWeb.Domain.EnforcementEntities.CaseFiles
+@model EnforcementIndexModel
 @{
-    ViewData["Title"] = "Enforcement Cases";
+    ViewData["Title"] = "Enforcement Case Search";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<p>Here is a list of Enforcement Cases for testing purposes.</p>
+<div class="container">
+    <div class="row">
+        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
+            <div class="text-body-secondary pb-2">
+                <em>All fields are optional.</em>
+            </div>
+            <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
+                <h2 class="h5">Status</h2>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Closed" name="@nameof(Model.Spec.Closed)"
+                                    asp-items="Html.GetEnumSelectList<ClosedOpenAny>()" class="form-select">
+                                <option value="">@DefaultText.SelectOptionAny</option>
+                            </select>
+                            <label asp-for="Spec.Closed" class="form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.CaseFileStatus" name="@nameof(Model.Spec.CaseFileStatus)"
+                                    asp-items="Html.GetEnumSelectList<CaseFileStatus>()" class="form-select">
+                                <option value="">@DefaultText.SelectOptionAny</option>
+                            </select>
+                            <label asp-for="Spec.CaseFileStatus" class="form-label"></label>
+                        </div>
+                    </div>
+                    @if (Model.UserCanViewDeletedRecords)
+                    {
+                        <div class="col-md mb-3">
+                            <div class="form-floating">
+                                <select asp-for="Spec.DeleteStatus" name="@nameof(Model.Spec.DeleteStatus)"
+                                        asp-items="Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
+                                    <option value="">@DefaultText.SelectOptionNotDeleted</option>
+                                </select>
+                                <label asp-for="Spec.DeleteStatus" class="form-label"></label>
+                            </div>
+                        </div>
+                    }
+                </div>
 
-<ul>
-    @foreach (var caseFile in Model.CaseFiles)
-    {
-        <li>
-            <a asp-page="Details" asp-route-id="@caseFile.Id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">
-                @caseFile.Id - @caseFile.CaseFileStatus.GetDescription()
-            </a>
-        </li>
-    }
-</ul>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.ViolationType" name="@nameof(Model.Spec.ViolationType)"
+                                    asp-items="Model.ViolationTypeSelectList" class="form-select">
+                                <option value="">@DefaultText.SelectOptionAny</option>
+                            </select>
+                            <label asp-for="Spec.ViolationType" class="form-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <label asp-for="Spec.DateFrom" class="form-label px-2 mb-0">Discovery Date</label>
+                        <div class="input-group">
+                            <div class="form-floating">
+                                <input asp-for="Spec.DateFrom" name="@nameof(Model.Spec.DateFrom)"
+                                       class="form-control" />
+                                <label asp-for="Spec.DateFrom" class="form-label"></label>
+                            </div>
+                            <div class="form-floating">
+                                <input asp-for="Spec.DateTo" name="@nameof(Model.Spec.DateTo)"
+                                       class="form-control" />
+                                <label asp-for="Spec.DateTo" class="form-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Spec.PartialFacilityId" name="@nameof(Model.Spec.PartialFacilityId)"
+                                   class="form-control" aria-describedby="FacilityIdHelpBlock" />
+                            <label asp-for="Spec.PartialFacilityId" class="form-label"></label>
+                        </div>
+                        <small id="FacilityIdHelpBlock" class="form-text text-body-secondary d-block px-2">
+                            (This can be a complete or partial AIRS number.)
+                        </small>
+                    </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
+                                   aria-describedby="NotesHelpBlock" />
+                            <label asp-for="Spec.Notes" class="form-label"></label>
+                        </div>
+                        <small id="NotesHelpBlock" class="form-text text-body-secondary d-block px-2">
+                            (A word or phrase to search for within the Notes field.)
+                        </small>
+                    </div>
+                </div>
+
+                <h2 class="h5">Assignment</h2>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
+                                    asp-items="Model.OfficesSelectList" class="form-select">
+                                <option value="">@DefaultText.SelectOptionAny</option>
+                            </select>
+                            <label asp-for="Spec.Office" class="form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <select asp-for="Spec.Staff" name="@nameof(Model.Spec.Staff)"
+                                    asp-items="Model.StaffSelectList" class="form-select">
+                                <option value="">@DefaultText.SelectOptionAny</option>
+                            </select>
+                            <label asp-for="Spec.Staff" class="form-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
+                    <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3">Clear Form</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (Model.ShowResults)
+{
+    <div id="SearchResults" class="mt-4">
+        <div class="container-full">
+            <div class="row col-lg-9 justify-content-between align-items-start g-0 my-1">
+                <div class="col">
+                    <h3>Search Results</h3>
+                </div>
+                @if (Model.SearchResults.TotalCount > 0)
+                {
+                    <div class="col-auto d-print-none ms-2">
+                        <a asp-page="../DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()"
+                           asp-page-handler="WorkEntries" class="btn btn-sm btn-outline-secondary icon-link">
+                            <svg class="bi">
+                                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>
+                            </svg>
+                            Download search results
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model.SearchResults.TotalCount == 0)
+        {
+            <p class="lead text-info">No matching results found.</p>
+        }
+        else
+        {
+            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
+            <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.SearchResults.Items, Model.Spec)" />
+            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
+        }
+    </div>
+}
+
+@section Scripts {
+    <script src="~/js/formSearch.js"></script>
+}

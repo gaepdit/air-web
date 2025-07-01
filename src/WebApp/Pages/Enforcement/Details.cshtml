@@ -122,9 +122,7 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd>
-            <div class="border rounded-1 py-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
-        </dd>
+        <dd class="border rounded-1 py-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</dd>
     </dl>
 
     <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">

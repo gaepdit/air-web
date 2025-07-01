@@ -16,8 +16,7 @@ public class FceIndexModel(
     IFceSearchService searchService,
     IStaffService staff,
     IOfficeService offices,
-    IAuthorizationService authorization)
-    : PageModel
+    IAuthorizationService authorization) : PageModel
 {
     public FceSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }

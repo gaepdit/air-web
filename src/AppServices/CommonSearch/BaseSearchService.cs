@@ -32,7 +32,7 @@ public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExport
         CancellationToken token)
     {
         await CheckDeleteStatusAuth(spec, policy).ConfigureAwait(false);
-        var expression = filterDelegate(spec.TrimAll());
+        var expression = filterDelegate(spec);
 
         var count = await repository.CountAsync(expression, token).ConfigureAwait(false);
 

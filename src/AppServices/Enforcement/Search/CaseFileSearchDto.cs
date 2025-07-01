@@ -9,17 +9,17 @@ namespace AirWeb.AppServices.Enforcement.Search;
 
 public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDeleteStatus, IClosedStatus
 {
-    public SortByEnforcement Sort { get; init; } = SortByEnforcement.DiscoveryDateAsc;
+    public CaseFileSortBy Sort { get; init; } = CaseFileSortBy.IdAsc;
     public string SortByName => Sort.ToString();
     public string Sorting => Sort.GetDescription();
 
     // == Statuses ==
 
-    [Display(Name = "Open/Closed")]
-    public ClosedOpenAny? Closed { get; init; }
-
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }
+
+    [Display(Name = "Open/Closed")]
+    public ClosedOpenAny? Closed { get; init; }
 
     [Display(Name = "Enforcement Case Status")]
     public CaseFileStatus? CaseFileStatus { get; init; }
@@ -46,9 +46,10 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Violation data ==
 
+    [Display(Name = "Violation Type")]
     public string? ViolationType { get; init; }
 
-    // == Dates ==
+    // == Discovery date ==
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
@@ -83,10 +84,14 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     };
 }
 
-public enum SortByEnforcement
+public enum CaseFileSortBy
 {
-    [Description("DiscoveryDate, Id")] DiscoveryDateAsc,
-    [Description("DiscoveryDate desc, Id")] DiscoveryDateDesc,
+    [Description("Id")] IdAsc,
+    [Description("Id desc")] IdDesc,
     [Description("FacilityId, Id")] FacilityIdAsc,
     [Description("FacilityId desc, Id")] FacilityIdDesc,
+    [Description("DiscoveryDate, Id")] DiscoveryDateAsc,
+    [Description("DiscoveryDate desc, Id")] DiscoveryDateDesc,
+    [Description("CaseFileStatus, Id")] CaseFileStatusAsc,
+    [Description("CaseFileStatus desc, Id")] CaseFileStatusDesc,
 }
