@@ -22,13 +22,9 @@
 <div class="callout callout-info">
     <small>
         The Air Web application was developed by Georgia EPD-IT.<br />
-        @if (!string.IsNullOrEmpty(AppSettings.SupportSettings.InformationalVersion))
+        @if (!string.IsNullOrEmpty(AppSettings.Version))
         {
-            @:Current version: @AppSettings.SupportSettings.InformationalVersion
-            @if (!string.IsNullOrEmpty(AppSettings.SupportSettings.InformationalBuild))
-            {
-                @:(@AppSettings.SupportSettings.InformationalBuild)
-            }
+            @:Current version: <em>@AppSettings.Version</em>
         }
         <br />
         View the
