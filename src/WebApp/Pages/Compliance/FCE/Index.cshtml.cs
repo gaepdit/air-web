@@ -6,7 +6,6 @@ using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Constants;
-using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 
@@ -17,8 +16,7 @@ public class FceIndexModel(
     IFceSearchService searchService,
     IStaffService staff,
     IOfficeService offices,
-    IAuthorizationService authorization)
-    : PageModel
+    IAuthorizationService authorization) : PageModel
 {
     public FceSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }

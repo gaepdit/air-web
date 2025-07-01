@@ -104,13 +104,13 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkTypeSearch
 {
-    [Description("Annual Compliance Certifications")] Acc,
-    [Description("Inspections")] Inspection,
-    [Description("RMP Inspections")] Rmp,
-    [Description("Reports")] Report,
-    [Description("Source Test Compliance Reviews")] Str,
-    [Description("Notifications")] Notification,
-    [Description("Permit Revocations")] PermitRevocation,
+    [Display(Name = "Annual Compliance Certifications")] Acc,
+    [Display(Name = "Inspections")] Inspection,
+    [Display(Name = "RMP Inspections")] Rmp,
+    [Display(Name = "Reports")] Report,
+    [Display(Name = "Source Test Compliance Reviews")] Str,
+    [Display(Name = "Notifications")] Notification,
+    [Display(Name = "Permit Revocations")] PermitRevocation,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

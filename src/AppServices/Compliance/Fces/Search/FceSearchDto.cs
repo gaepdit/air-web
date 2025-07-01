@@ -40,7 +40,7 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? DateTo { get; init; }
 
-    [Display(Name = "On-site inspection conducted")]
+    [Display(Name = "On-Site Inspection Conducted")]
     public YesNoAny? Onsite { get; init; }
 
     [Display(Name = "Notes")]

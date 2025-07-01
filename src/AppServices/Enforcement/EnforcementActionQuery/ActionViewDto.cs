@@ -48,9 +48,9 @@ public record ActionViewDto : IActionViewDto
     // -- Deleted
     public bool IsDeleted { get; init; }
 
-    [Display(Name = "Deleted by")]
+    [Display(Name = "Deleted By")]
     public StaffViewDto? DeletedBy { get; init; }
 
-    [Display(Name = "Date deleted")]
+    [Display(Name = "Date Deleted")]
     public DateTimeOffset? DeletedAt { get; init; }
 }

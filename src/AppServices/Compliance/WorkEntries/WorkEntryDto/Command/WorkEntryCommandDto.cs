@@ -6,12 +6,12 @@ public record WorkEntryCommandDto : IWorkEntryCommandDto
 {
     // Data
     [Required]
-    [Display(Name = "Staff responsible")]
+    [Display(Name = "Staff Responsible")]
     public string? ResponsibleStaffId { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Date acknowledgment letter sent")]
+    [Display(Name = "Date Acknowledgment Letter Sent")]
     public DateOnly? AcknowledgmentLetterDate { get; init; }
 
     [DataType(DataType.MultilineText)]

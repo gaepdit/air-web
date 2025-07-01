@@ -4,10 +4,8 @@ using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.PageModelHelpers;
 using AutoMapper;
 using FluentValidation;
-using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
@@ -66,7 +64,7 @@ public class ConsentOrderEditModel(
 
         await actionService.UpdateAsync(Id, Item, token);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{itemView.ActionType.GetDescription()} successfully updated.");
+            $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
             fragment: Id.ToString());

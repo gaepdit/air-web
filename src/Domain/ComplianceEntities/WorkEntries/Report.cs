@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Identity;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -43,14 +42,14 @@ public class Report : ComplianceEvent
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ReportingPeriodType
 {
-    [Description("First Quarter")] FirstQuarter,
-    [Description("Second Quarter")] SecondQuarter,
-    [Description("Third Quarter")] ThirdQuarter,
-    [Description("Fourth Quarter")] FourthQuarter,
-    [Description("First Semiannual")] FirstSemiannual,
-    [Description("Second Semiannual")] SecondSemiannual,
-    [Description("Annual")] Annual,
-    [Description("Other")] Other,
-    [Description("Monthly")] Monthly,
-    [Description("Malfunction/Deviation")] MalfunctionDeviation,
+    [Display(Name = "First Quarter")] FirstQuarter,
+    [Display(Name = "Second Quarter")] SecondQuarter,
+    [Display(Name = "Third Quarter")] ThirdQuarter,
+    [Display(Name = "Fourth Quarter")] FourthQuarter,
+    [Display(Name = "First Semiannual")] FirstSemiannual,
+    [Display(Name = "Second Semiannual")] SecondSemiannual,
+    [Display(Name = "Annual")] Annual,
+    [Display(Name = "Other")] Other,
+    [Display(Name = "Monthly")] Monthly,
+    [Display(Name = "Malfunction/Deviation")] MalfunctionDeviation,
 }

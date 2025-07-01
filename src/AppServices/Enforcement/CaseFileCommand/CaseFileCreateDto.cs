@@ -11,13 +11,13 @@ public record CaseFileCreateDto
     public int? EventId { get; init; }
 
     [Required]
-    [Display(Name = "Staff responsible")]
+    [Display(Name = "Staff Responsible")]
     public string? ResponsibleStaffId { get; init; }
 
     [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Discovery date")]
+    [Display(Name = "Discovery Date")]
     public DateOnly DiscoveryDate { get; init; }
 
     [DataType(DataType.MultilineText)]

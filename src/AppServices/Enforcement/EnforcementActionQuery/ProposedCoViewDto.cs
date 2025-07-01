@@ -2,6 +2,6 @@
 
 public record ProposedCoViewDto : ActionViewDto
 {
-    [Display(Name = "Response received")]
+    [Display(Name = "Response Received")]
     public DateOnly? ResponseReceived { get; init; }
 }

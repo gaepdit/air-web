@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
-using System.ComponentModel;
 
 namespace AirWeb.Domain.EnforcementEntities.ActionProperties;
 
@@ -37,14 +36,14 @@ public class EnforcementActionReview : AuditableEntity
 public enum ReviewResult
 {
     // Returned to staff with changes requested.
-    [Description("Changes requested")] Returned,
+    [Display(Name = "Changes requested")] Returned,
 
-    // Forwarded to next level of management for approval.
-    [Description("Forwarded for additional review")] Forwarded,
+    // Forwarded to the next level of management for approval.
+    [Display(Name = "Forwarded for additional review")] Forwarded,
 
     // Approved with no further review required.
-    [Description("Approved")] Approved,
+    [Display(Name = "Approved")] Approved,
 
     // Disapproved.
-    [Description("Disapproved")] Disapproved,
+    [Display(Name = "Disapproved")] Disapproved,
 }

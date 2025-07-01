@@ -7,7 +7,7 @@ public record EnforcementCaseSummaryDto
     [Display(Name = "Tracking #")]
     public int Id { get; init; }
 
-    [Display(Name = "Staff responsible")]
+    [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
     [Display(Name = "Date")]

@@ -13,4 +13,5 @@ public record CaseFileSearchResultDto : ISearchResult
     public DateOnly? DiscoveryDate { get; init; }
     public DateOnly? DayZero { get; init; }
     public StaffViewDto? ResponsibleStaff { get; init; }
+    public bool IsDeleted { get; init; }
 }

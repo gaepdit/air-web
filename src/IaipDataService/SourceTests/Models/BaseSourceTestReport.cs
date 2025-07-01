@@ -17,7 +17,7 @@ public abstract record BaseSourceTestReport
     public DocumentType DocumentType { get; init; } = DocumentType.Unassigned;
 
     [Display(Name = "Document type")]
-    public string DocumentTypeName => DocumentType.GetDescription();
+    public string DocumentTypeName => DocumentType.GetDisplayName();
 
     public FacilitySummary? Facility { get; set; }
 
@@ -31,7 +31,7 @@ public abstract record BaseSourceTestReport
     public ReportType ReportType { get; init; }
 
     [Display(Name = "Report type")]
-    public string ReportTypeName => ReportType.GetDescription();
+    public string ReportTypeName => ReportType.GetDisplayName();
 
     [JsonIgnore]
     public string ReportTypeSubject => ReportType switch

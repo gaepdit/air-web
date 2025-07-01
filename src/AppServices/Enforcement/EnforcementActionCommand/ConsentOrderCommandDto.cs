@@ -11,7 +11,7 @@ public record ConsentOrderCommandDto : CommentDto
     [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Signed copy received from facility")]
+    [Display(Name = "Signed Copy Received From Facility")]
     public DateOnly? ReceivedFromFacility { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
@@ -21,7 +21,7 @@ public record ConsentOrderCommandDto : CommentDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Received from Director's Office")]
+    [Display(Name = "Received From Director's Office")]
     public DateOnly? ReceivedFromDirectorsOffice { get; init; }
 
     [DataType(DataType.Date)]
@@ -35,19 +35,19 @@ public record ConsentOrderCommandDto : CommentDto
     public DateOnly? ResolvedDate { get; init; }
 
     [PositiveShort(ErrorMessage = "The Order ID must be a positive number.")]
-    [Display(Name = "Order number")]
+    [Display(Name = "Order Number")]
     public short OrderId { get; init; } = 1;
 
     [PositiveDecimal(ErrorMessage = "The penalty amount must be a positive number.")]
-    [Display(Name = "Penalty assessed")]
+    [Display(Name = "Penalty Assessed")]
     public decimal PenaltyAmount { get; init; }
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    [Display(Name = "Penalty comment")]
+    [Display(Name = "Penalty Comment")]
     public string? PenaltyComment { get; init; }
 
-    [Display(Name = "Defines stipulated penalties")]
+    [Display(Name = "Defines Stipulated Penalties")]
     public bool StipulatedPenaltiesDefined { get; init; }
 }
 

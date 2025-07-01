@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using GaEpd.AppLibrary.ListItems;
+
+namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 // ReSharper disable StringLiteralTypo
 // Source of data from IAIP DB:
@@ -16,6 +18,12 @@
 public static class ViolationTypeData
 {
     public static ViolationType? GetViolationType(string? code) => ViolationTypes.Find(type => type.Code == code);
+
+    public static IReadOnlyList<ListItem<string>> AsListItems() =>
+        ViolationTypes.Select(v => new ListItem<string>(v.Code, v.Display)).ToList();
+
+    public static IReadOnlyList<ListItem<string>> CurrentAsListItems() =>
+        ViolationTypes.Where(v => !v.Deprecated).Select(v => new ListItem<string>(v.Code, v.Display)).ToList();
 
     // ReSharper disable StringLiteralTypo
     internal static List<ViolationType> ViolationTypes { get; } =

@@ -34,15 +34,15 @@ public abstract record ReportCommandDto : WorkEntryCommandDto, IReportCommandDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Sent by Facility")]
+    [Display(Name = "Date Sent By Facility")]
     public DateOnly? SentDate { get; init; }
 
-    [Display(Name = "Report is complete")]
+    [Display(Name = "Report Is Complete")]
     public bool ReportComplete { get; init; }
 
-    [Display(Name = "Deviations reported")]
+    [Display(Name = "Deviations Reported")]
     public bool ReportsDeviations { get; init; }
 
-    [Display(Name = "Enforcement needed")]
+    [Display(Name = "Enforcement Needed")]
     public bool EnforcementNeeded { get; init; }
 }

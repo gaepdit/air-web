@@ -14,4 +14,6 @@ public record ViolationType
     public required string SeverityCode { get; init; }
 
     public bool Deprecated { get; init; }
+
+    public string Display => $"{SeverityCode}: {Description} ({Code})";
 }

@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Identity;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -45,11 +44,11 @@ public abstract class BaseInspection : ComplianceEvent
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum InspectionReason
 {
-    [Description("Planned Unannounced")] PlannedUnannounced,
-    [Description("Planned Announced")] PlannedAnnounced,
-    [Description("Unplanned")] Unplanned,
-    [Description("Complaint Investigation")] Complaint,
-    [Description("Joint EPD/EPA")] JointEpdEpa,
-    [Description("Multimedia")] Multimedia,
-    [Description("Follow-Up")] FollowUp,
+    [Display(Name = "Planned Unannounced")] PlannedUnannounced,
+    [Display(Name = "Planned Announced")] PlannedAnnounced,
+    [Display(Name = "Unplanned")] Unplanned,
+    [Display(Name = "Complaint Investigation")] Complaint,
+    [Display(Name = "Joint EPD/EPA")] JointEpdEpa,
+    [Display(Name = "Multimedia")] Multimedia,
+    [Display(Name = "Follow-Up")] FollowUp,
 }

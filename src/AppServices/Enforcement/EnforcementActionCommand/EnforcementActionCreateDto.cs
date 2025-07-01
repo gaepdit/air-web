@@ -5,7 +5,7 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
 public record EnforcementActionCreateDto : CommentDto
 {
-    [Display(Name = "Response requested")]
+    [Display(Name = "Response Requested")]
     public bool ResponseRequested { get; init; } = true;
 
     public EnforcementActionType ActionType { get; init; }

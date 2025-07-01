@@ -17,13 +17,13 @@ public abstract record NotificationCommandDto : WorkEntryCommandDto, INotificati
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Date Sent by Facility")]
+    [Display(Name = "Date Sent By Facility")]
     public DateOnly? SentDate { get; [UsedImplicitly] init; }
 
     [Required]
     [Display(Name = "Notification Type")]
     public Guid? NotificationTypeId { get; [UsedImplicitly] init; }
 
-    [Display(Name = "Follow-up Action Taken")]
+    [Display(Name = "Follow-Up Action Taken")]
     public bool FollowupTaken { get; [UsedImplicitly] init; }
 }

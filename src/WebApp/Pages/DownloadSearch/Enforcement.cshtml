@@ -1,0 +1,36 @@
+@page "{handler?}"
+@model EnforcementDownload
+@{
+    ViewData["Title"] = "Downloading Enforcement Search Results";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.ResultsCount == 0)
+{
+    <p>No search results found.</p>
+}
+else
+{
+    <p>Your download should start automatically. Depending on the number of search results, it may take some time to
+        generate.</p>
+    <p>
+        If the download fails,
+        <a id="download-link" asp-page-handler="Download" asp-all-route-data="Model.Spec.AsRouteValues()">click here to
+            try again.</a>
+    </p>
+
+    @section Scripts {
+        <script asp-add-content-to-csp>window.location = document.getElementById("download-link").href;</script>
+    }
+}
+
+<p class="d-print-none">
+    <a asp-page="../Enforcement/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
+       class="lead icon-link">
+        <svg class="bi">
+            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
+        </svg>
+        Return to search
+    </a>
+</p>

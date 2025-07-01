@@ -13,14 +13,14 @@ public record RegulatoryData
     [JsonIgnore]
     public FacilityOperatingStatus OperatingStatusCode { get; init; }
 
-    [Display(Name = "Operating status")]
-    public string OperatingStatus => OperatingStatusCode.GetDescription();
+    [Display(Name = "Operating Status")]
+    public string OperatingStatus => OperatingStatusCode.GetDisplayName();
 
 
-    [Display(Name = "Startup date")]
+    [Display(Name = "Startup Date")]
     public DateTime? StartupDate { get; init; }
 
-    [Display(Name = "Permit revocation date")]
+    [Display(Name = "Permit Revocation Date")]
     public DateTime? PermitRevocationDate { get; init; }
 
     // Classifications
@@ -29,13 +29,13 @@ public record RegulatoryData
     public FacilityClassification ClassificationCode { get; init; }
 
     [Display(Name = "Classification")]
-    public string Classification => ClassificationCode.GetDescription();
+    public string Classification => ClassificationCode.GetDisplayName();
 
     [JsonIgnore]
     public FacilityCmsClassification CmsClassificationCode { get; init; }
 
-    [Display(Name = "CMS classification")]
-    public string CmsClassification => CmsClassificationCode.GetDescription();
+    [Display(Name = "CMS Classification")]
+    public string CmsClassification => CmsClassificationCode.GetDisplayName();
 
     // Industry
 
@@ -47,7 +47,7 @@ public record RegulatoryData
     /// OwnershipTypeCode "FDF" and description "Federal Facility (U.S. Government)".
     /// Otherwise, the property is null.
     /// </remarks>
-    [Display(Name = "Ownership type")]
+    [Display(Name = "Ownership Type")]
     public string? OwnershipType { get; init; }
 
     [Display(Name = "SIC")]
@@ -64,10 +64,10 @@ public record RegulatoryData
 
     // Nonattainment areas
 
-    [Display(Name = "1-hr ozone")]
+    [Display(Name = "1-hr Ozone")]
     public OneHourOzoneNonattainmentStatus OneHourOzoneNonattainment { get; init; }
 
-    [Display(Name = "8-hr ozone")]
+    [Display(Name = "8-hr Ozone")]
     public EightHourOzoneNonattainmentStatus EightHourOzoneNonattainment { get; init; }
 
     [Display(Name = "PM 2.5")]
@@ -75,7 +75,7 @@ public record RegulatoryData
 
     // Regulations
 
-    [Display(Name = "NSPS fee exempt")]
+    [Display(Name = "NSPS Fee Exempt")]
     public bool NspsFeeExempt { get; init; }
 
     // The following lists are returned by the Facility Service when requesting facility details, but not when
@@ -89,11 +89,11 @@ public record RegulatoryData
     /// SIP, Federal SIP, Non-Federal SIP, CFC Tracking, PSD, NSR, NESHAP, NSPS, FESOP,
     /// Acid Precipitation, Native American, MACT, Title V, Risk Management Plan
     /// </remarks>
-    [Display(Name = "Air programs")]
+    [Display(Name = "Air Programs")]
     public List<AirProgram> AirPrograms { get; init; } = [];
 
     public IEnumerable<string> AirProgramsAsStrings =>
-        AirPrograms.Select(program => program.GetDescription());
+        AirPrograms.Select(program => program.GetDisplayName());
 
     /// <summary>
     /// List of pollutants that apply to a facility.
@@ -106,11 +106,11 @@ public record RegulatoryData
     /// <remarks>
     /// Possible values: NSR/PSD Major, HAPs Major
     /// </remarks>
-    [Display(Name = "Program classifications")]
+    [Display(Name = "Program Classifications")]
     public List<AirProgramClassification> ProgramClassifications { get; init; } = [];
 
     public IEnumerable<string> ProgramClassificationsAsStrings =>
-        ProgramClassifications.Select(program => program.GetDescription());
+        ProgramClassifications.Select(program => program.GetDisplayName());
 
     #region Regex patterns
 

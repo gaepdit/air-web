@@ -6,7 +6,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
 public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 {
-    public string ItemName => WorkEntryType.GetDescription();
+    public string ItemName => WorkEntryType.GetDisplayName();
     public string FacilityId { get; init; } = null!;
     public string? FacilityName { get; set; }
     public WorkEntryType WorkEntryType { get; init; }

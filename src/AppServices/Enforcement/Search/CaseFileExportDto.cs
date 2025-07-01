@@ -8,15 +8,15 @@ namespace AirWeb.AppServices.Enforcement.Search;
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record CaseFileExportDto : ISearchResult
 {
-    public CaseFileExportDto(CaseFile caseFile, string deleted)
+    public CaseFileExportDto(CaseFile caseFile)
     {
         CaseFileId = caseFile.Id;
         FacilityId = caseFile.FacilityId;
         ResponsibleStaff = caseFile.ResponsibleStaff?.SortableFullName;
-        CaseFileStatus = caseFile.CaseFileStatus.GetDescription();
+        CaseFileStatus = caseFile.CaseFileStatus.GetDisplayName();
         ViolationType = caseFile.ViolationType == null
             ? ""
-            : $"{caseFile.ViolationType.SeverityCode}: {caseFile.ViolationType.Description}";
+            : caseFile.ViolationType.Display;
         DiscoveryDate = caseFile.DiscoveryDate;
         DayZero = caseFile.DayZero;
         EnforcementDate = caseFile.EnforcementDate;

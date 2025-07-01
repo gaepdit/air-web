@@ -1,7 +1,6 @@
 @page "{handler?}"
 @using AirWeb.AppServices.CommonSearch
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.WebApp.Platform.PageModelHelpers
 @model ComplianceIndexModel
 @{
     ViewData["Title"] = "Compliance Monitoring Search";
@@ -116,7 +115,7 @@
                                                    value="@workEntryType" id="Include_@workEntryType"
                                                    checked="@Model.Spec.Include.Contains(workEntryType)"/>
                                             <label class="form-check-label"
-                                                   for="Include_@workEntryType">@workEntryType.GetDescription()</label>
+                                                   for="Include_@workEntryType">@workEntryType.GetDisplayName()</label>
                                         </div>
                                     }
                                 </div>
@@ -167,7 +166,7 @@
                 @if (Model.SearchResults.TotalCount > 0)
                 {
                     <div class="col-auto d-print-none ms-2">
-                        <a asp-page="../DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()"
+                        <a asp-page="../../DownloadSearch/ComplianceWork" asp-all-route-data="Model.Spec.AsRouteValues()"
                            asp-page-handler="WorkEntries" class="btn btn-sm btn-outline-secondary icon-link">
                             <svg class="bi">
                                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>

@@ -20,6 +20,6 @@ public abstract record PermitRevocationCommandDto : WorkEntryCommandDto, IPermit
     [Display(Name = "Physical Shutdown Date")]
     public DateOnly? PhysicalShutdownDate { get; init; }
 
-    [Display(Name = "Follow-up Action Taken")]
+    [Display(Name = "Follow-Up Action Taken")]
     public bool FollowupTaken { get; init; }
 }

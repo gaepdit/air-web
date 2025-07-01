@@ -7,7 +7,7 @@ namespace AirWeb.AppServices.Compliance.Fces;
 
 public record FceViewDto : IFceBasicViewDto
 {
-    [Display(Name = "FCE tracking number")]
+    [Display(Name = "FCE Tracking Number")]
     public int Id { get; init; }
 
     public string FacilityId { get; init; } = null!;
@@ -16,13 +16,13 @@ public record FceViewDto : IFceBasicViewDto
     [Display(Name = "FCE Year")]
     public int Year { get; init; }
 
-    [Display(Name = "Reviewed by")]
+    [Display(Name = "Reviewed By")]
     public StaffViewDto? ReviewedBy { get; init; }
 
-    [Display(Name = "Date completed")]
+    [Display(Name = "Date Completed")]
     public DateOnly CompletedDate { get; init; }
 
-    [Display(Name = "With on-site inspection")]
+    [Display(Name = "With On-Site Inspection")]
     public bool OnsiteInspection { get; init; }
 
     public string Notes { get; init; } = null!;
@@ -33,10 +33,10 @@ public record FceViewDto : IFceBasicViewDto
     // Properties: Deletion
     public bool IsDeleted { get; init; }
 
-    [Display(Name = "Deleted by")]
+    [Display(Name = "Deleted By")]
     public StaffViewDto? DeletedBy { get; init; }
 
-    [Display(Name = "Date deleted")]
+    [Display(Name = "Date Deleted")]
     public DateTimeOffset? DeletedAt { get; init; }
 
     [Display(Name = "Deletion Comments")]

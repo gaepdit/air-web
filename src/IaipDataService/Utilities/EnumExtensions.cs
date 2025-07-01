@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace IaipDataService.Utilities;
@@ -25,6 +26,21 @@ public static class EnumExtensions
         var memInfo = type.GetMember(enumString)[0];
         var attributes = memInfo.GetCustomAttributes<T>(false);
         return attributes.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Gets the enum display name.
+    /// </summary>
+    /// <param name="enumValue">The enum value.</param>
+    /// <returns>
+    /// Use <see cref="DisplayAttribute"/> if exists.
+    /// Otherwise, use the standard string representation.
+    /// </returns>
+    public static string GetDisplayName<TEnum>(this TEnum enumValue) where TEnum : Enum
+    {
+        var enumString = enumValue.ToString();
+        var attribute = enumValue.GetAttributeOfType<DisplayAttribute, TEnum>(enumString);
+        return attribute?.Name ?? enumString;
     }
 
     /// <summary>

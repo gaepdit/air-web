@@ -70,7 +70,7 @@ public class DetailsModel(
             loadFacilities: false, token: token);
 
         var searchEnforcement = await caseFileService.SearchAsync(
-            new CaseFileSearchDto { Sort = SortByEnforcement.DiscoveryDateAsc, PartialFacilityId = Id },
+            new CaseFileSearchDto { Sort = CaseFileSortBy.DiscoveryDateAsc, PartialFacilityId = Id },
             new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
             loadFacilities: false, token: token);
 

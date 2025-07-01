@@ -5,7 +5,6 @@ using AirWeb.AppServices.Permissions.ComplianceStaff;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Constants;
-using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 
@@ -15,8 +14,7 @@ namespace AirWeb.WebApp.Pages.Compliance.Work;
 public class ComplianceIndexModel(
     IWorkEntrySearchService searchService,
     IStaffService staff,
-    IOfficeService offices)
-    : PageModel
+    IOfficeService offices) : PageModel
 {
     public WorkEntrySearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }

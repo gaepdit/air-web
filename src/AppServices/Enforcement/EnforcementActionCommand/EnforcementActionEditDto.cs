@@ -6,7 +6,7 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 
 public record EnforcementActionEditDto : CommentDto
 {
-    [Display(Name = "Response requested")]
+    [Display(Name = "Response Requested")]
     public bool ResponseRequested { get; set; } = true;
 
     [DataType(DataType.Date)]

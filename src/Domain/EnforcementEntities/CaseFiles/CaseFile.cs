@@ -7,7 +7,6 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
@@ -172,8 +171,8 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 
 public enum CaseFileStatus
 {
-    [Description("Draft")] Draft,
-    [Description("Open")] Open,
-    [Description("Subject to compliance schedule")] SubjectToComplianceSchedule,
-    [Description("Closed")] Closed,
+    [Display(Name = "Draft")] Draft,
+    [Display(Name = "Open")] Open,
+    [Display(Name = "Subject to compliance schedule")] SubjectToComplianceSchedule,
+    [Display(Name = "Closed")] Closed,
 }

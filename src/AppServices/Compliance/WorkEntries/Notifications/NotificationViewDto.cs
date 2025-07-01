@@ -11,12 +11,12 @@ public record NotificationViewDto : WorkEntryViewDto
     [Display(Name = "Due Date")]
     public DateOnly? DueDate { get; init; }
 
-    [Display(Name = "Date Sent by Facility")]
+    [Display(Name = "Date Sent By Facility")]
     public DateOnly? SentDate { get; init; }
 
     [Display(Name = "Notification Type")]
     public required NotificationTypeViewDto NotificationType { get; init; }
 
-    [Display(Name = "Follow-up Action Taken")]
+    [Display(Name = "Follow-Up Action Taken")]
     public bool FollowupTaken { get; init; }
 }

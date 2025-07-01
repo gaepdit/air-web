@@ -20,7 +20,7 @@ public record Facility : IFacilityIdName
 
     // Description
 
-    [Display(Name = "Facility name")]
+    [Display(Name = "Facility Name")]
     public string Name { get; init; } = null!;
 
     [Display(Name = "Description")]
@@ -28,13 +28,13 @@ public record Facility : IFacilityIdName
 
     // Location
 
-    [Display(Name = "Company address")]
+    [Display(Name = "Company Address")]
     public Address? FacilityAddress { get; set; }
 
     [Display(Name = "County")]
     public string County { get; init; } = "";
 
-    [Display(Name = "Geographic coordinates")]
+    [Display(Name = "Geographic Coordinates")]
     public GeoCoordinates? GeoCoordinates { get; set; }
 
     // Regulatory data

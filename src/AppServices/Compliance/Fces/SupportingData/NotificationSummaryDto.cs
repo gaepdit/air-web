@@ -11,10 +11,10 @@ public record NotificationSummaryDto
     [Display(Name = "Comments:")]
     public string Notes { get; init; } = null!;
 
-    [Display(Name = "Date received")]
+    [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
-    [Display(Name = "Notification type")]
+    [Display(Name = "Notification Type")]
     public required NotificationTypeViewDto NotificationType { get; init; }
 
     [Display(Name = "Reviewer")]

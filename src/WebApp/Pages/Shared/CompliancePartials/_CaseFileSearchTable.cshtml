@@ -1,6 +1,11 @@
-﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.PageModelHelpers
+﻿@using AirWeb.AppServices.Enforcement.Search
+@using AirWeb.WebApp.Models
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model (IList<AirWeb.AppServices.Enforcement.Search.CaseFileSearchResultDto> Items, AirWeb.AppServices.Enforcement.Search.CaseFileSearchDto? Spec)
+@{
+    var rowCss = Model.Spec is null ? "" : "align-middle";
+    var linkCss = Model.Spec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+}
 
 <div class="table-responsive-md mb-3">
     <table class="table table-hover mb-0" aria-label="Compliance Work Entry results table">
@@ -10,10 +15,21 @@
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
                 <th scope="col" class="text-nowrap">Discovery Date</th>
-                <th scope="col" class="text-nowrap">Day Zero</th>
                 <th scope="col" class="text-nowrap">Case File Status</th>
-                <th scope="col" class="text-nowrap">Responsible Staff</th>
             }
+            else
+            {
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Tracking #", nameof(CaseFileSortBy.IdAsc), nameof(CaseFileSortBy.IdDesc), Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Facility", nameof(CaseFileSortBy.FacilityIdAsc), nameof(CaseFileSortBy.FacilityIdDesc), Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Discovery Date", nameof(CaseFileSortBy.DiscoveryDateAsc), nameof(CaseFileSortBy.DiscoveryDateDesc), Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead"
+                         model='new SearchResultsColumnDisplay("Case File Status", nameof(CaseFileSortBy.CaseFileStatusAsc), nameof(CaseFileSortBy.CaseFileStatusDesc), Model.Spec)' />
+            }
+            <th scope="col" class="text-nowrap">Day Zero</th>
+            <th scope="col" class="text-nowrap">Responsible Staff</th>
         </tr>
         </thead>
 
@@ -21,19 +37,27 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <th scope="row" class="align-middle">
+                <th scope="row" class="@rowCss">
                     <a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
-                       class="btn btn-sm btn-outline-primary">
+                       class="@linkCss">
                         @item.Id.ToString()
                     </a>
+                    @if (item.IsDeleted)
+                    {
+                        <span class="text-danger-emphasis">DELETED</span>
+                    }
                 </th>
+                @if (Model.Spec is not null)
+                {
+                    <td><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
+                }
                 <td>
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</span><br />
                 </td>
+                <td>@item.CaseFileStatus.GetDisplayName()</td>
                 <td>
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span><br />
                 </td>
-                <td>@item.CaseFileStatus.GetDescription()</td>
                 <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
             </tr>
         }

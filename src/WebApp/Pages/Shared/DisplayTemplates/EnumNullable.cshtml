@@ -1,5 +1,4 @@
-﻿@using AirWeb.WebApp.Platform.PageModelHelpers
-@model Enum?
+﻿@model Enum?
 
 @if (Model == null)
 {
@@ -7,5 +6,5 @@
 }
 else
 {
-    @Model.GetDescription()
+    @Model.GetDisplayName()
 }

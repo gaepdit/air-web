@@ -35,7 +35,7 @@
             <th scope="row" rowspan="2">@i.Id.ToString()</th>
             <td>@Html.DisplayFor(_ => i.InspectionDateRange)</td>
             <td>@i.ResponsibleStaff?.SortableFullName</td>
-            <td>@i.InspectionReason?.GetDescription()</td>
+            <td>@i.InspectionReason?.GetDisplayName()</td>
             <td>@Html.DisplayFor(_ => i.FacilityOperating, DisplayTemplate.BoolYesNo)</td>
             <td>@Html.DisplayFor(_ => i.DeviationsNoted, DisplayTemplate.BoolDeviationsNoted)</td>
         </tr>

@@ -1,6 +1,5 @@
 @page "{handler?}"
 @using AirWeb.AppServices.CommonSearch
-@using AirWeb.WebApp.Platform.PageModelHelpers
 @model FceIndexModel
 @{
     ViewData["Title"] = "FCE Search";
@@ -132,8 +131,8 @@
                 @if (Model.SearchResults.TotalCount > 0)
                 {
                     <div class="col-auto d-print-none ms-2">
-                        <a asp-page="../DownloadSearch" asp-all-route-data="Model.Spec.AsRouteValues()"
-                           asp-page-handler="Fces" class="btn btn-sm btn-outline-secondary icon-link">
+                        <a asp-page="../../DownloadSearch/FCE" asp-all-route-data="Model.Spec.AsRouteValues()"
+                           class="btn btn-sm btn-outline-secondary icon-link">
                             <svg class="bi">
                                 <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>
                             </svg>

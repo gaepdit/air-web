@@ -18,7 +18,7 @@ public record InspectionSummaryDto
     [Display(Name = "Dates")]
     public DateTimeRange InspectionDateRange => new(InspectionStarted, InspectionEnded);
 
-    [Display(Name = "Reason for Inspection")]
+    [Display(Name = "Reason For Inspection")]
     public InspectionReason? InspectionReason { get; init; }
 
     [Display(Name = "Facility Operating")]

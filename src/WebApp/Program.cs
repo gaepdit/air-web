@@ -65,7 +65,7 @@ builder.Services
     .AddRaygun(opts =>
     {
         opts.ApiKey = AppSettings.RaygunSettings.ApiKey;
-        opts.ApplicationVersion = AppSettings.SupportSettings.InformationalVersion;
+        opts.ApplicationVersion = AppSettings.Version;
         opts.ExcludeErrorsFromLocal = AppSettings.RaygunSettings.ExcludeErrorsFromLocal;
         opts.IgnoreFormFieldNames = ["*Password"];
         opts.EnvironmentVariables.Add("ASPNETCORE_*");

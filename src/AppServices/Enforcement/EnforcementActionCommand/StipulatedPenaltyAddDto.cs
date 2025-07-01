@@ -8,13 +8,13 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 public record StipulatedPenaltyAddDto
 {
     [PositiveDecimal(ErrorMessage = "The stipulated penalty amount must be a positive number.")]
-    [Display(Name = "Penalty amount")]
+    [Display(Name = "Penalty Amount")]
     public decimal Amount { get; init; } = 1;
 
     [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Date received")]
+    [Display(Name = "Date Received")]
     public DateOnly? ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.MultilineText)]
