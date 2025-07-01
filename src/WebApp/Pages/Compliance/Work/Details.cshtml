@@ -11,7 +11,7 @@
 @{
     var report = Model.Item!;
     var workEntryType = report.WorkEntryType;
-    var workEntryName = workEntryType.GetDescription();
+    var workEntryName = workEntryType.GetDisplayName();
     ViewData["Title"] = $"{workEntryName} #{Model.Id} (Facility {report.FacilityId})";
 }
 

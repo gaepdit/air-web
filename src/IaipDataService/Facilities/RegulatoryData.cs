@@ -14,7 +14,7 @@ public record RegulatoryData
     public FacilityOperatingStatus OperatingStatusCode { get; init; }
 
     [Display(Name = "Operating Status")]
-    public string OperatingStatus => OperatingStatusCode.GetDescription();
+    public string OperatingStatus => OperatingStatusCode.GetDisplayName();
 
 
     [Display(Name = "Startup Date")]
@@ -29,13 +29,13 @@ public record RegulatoryData
     public FacilityClassification ClassificationCode { get; init; }
 
     [Display(Name = "Classification")]
-    public string Classification => ClassificationCode.GetDescription();
+    public string Classification => ClassificationCode.GetDisplayName();
 
     [JsonIgnore]
     public FacilityCmsClassification CmsClassificationCode { get; init; }
 
     [Display(Name = "CMS Classification")]
-    public string CmsClassification => CmsClassificationCode.GetDescription();
+    public string CmsClassification => CmsClassificationCode.GetDisplayName();
 
     // Industry
 
@@ -93,7 +93,7 @@ public record RegulatoryData
     public List<AirProgram> AirPrograms { get; init; } = [];
 
     public IEnumerable<string> AirProgramsAsStrings =>
-        AirPrograms.Select(program => program.GetDescription());
+        AirPrograms.Select(program => program.GetDisplayName());
 
     /// <summary>
     /// List of pollutants that apply to a facility.
@@ -110,7 +110,7 @@ public record RegulatoryData
     public List<AirProgramClassification> ProgramClassifications { get; init; } = [];
 
     public IEnumerable<string> ProgramClassificationsAsStrings =>
-        ProgramClassifications.Select(program => program.GetDescription());
+        ProgramClassifications.Select(program => program.GetDisplayName());
 
     #region Regex patterns
 

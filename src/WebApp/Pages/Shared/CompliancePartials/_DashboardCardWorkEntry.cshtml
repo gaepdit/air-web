@@ -35,7 +35,7 @@
                                 </a>
                             </th>
                             <td class="text-nowrap">@Html.DisplayFor(_ => entry.EventDate, DisplayTemplate.ShortDateOnly)</td>
-                            <td>@entry.WorkEntryType.GetDescription()</td>
+                            <td>@entry.WorkEntryType.GetDisplayName()</td>
                         </tr>
                     }
                     </tbody>

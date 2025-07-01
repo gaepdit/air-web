@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace IaipDataService.Facilities;
@@ -6,24 +6,24 @@ namespace IaipDataService.Facilities;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum AirProgram
 {
-    [Description("SIP")] SIP = 1,
-    [Description("Federal SIP")] FederalSIP = 2,
-    [Description("Non-Federal SIP")] NonFederalSIP = 3,
-    [Description("CFC Tracking")] CfcTracking = 4,
-    [Description("PSD")] PSD = 5,
-    [Description("NSR")] NSR = 6,
-    [Description("NESHAP")] NESHAP = 7,
-    [Description("NSPS")] NSPS = 8,
-    [Description("FESOP")] FESOP = 9,
-    [Description("Acid Precipitation")] AcidPrecipitation = 10,
-    [Description("Native American")] NativeAmerican = 11,
-    [Description("MACT")] MACT = 12,
-    [Description("Title V")] TitleV = 13,
-    [Description("Risk Management Plan")] RMP = 14,
+    [Display(Name = "SIP")] SIP = 1,
+    [Display(Name = "Federal SIP")] FederalSIP = 2,
+    [Display(Name = "Non-Federal SIP")] NonFederalSIP = 3,
+    [Display(Name = "CFC Tracking")] CfcTracking = 4,
+    [Display(Name = "PSD")] PSD = 5,
+    [Display(Name = "NSR")] NSR = 6,
+    [Display(Name = "NESHAP")] NESHAP = 7,
+    [Display(Name = "NSPS")] NSPS = 8,
+    [Display(Name = "FESOP")] FESOP = 9,
+    [Display(Name = "Acid Precipitation")] AcidPrecipitation = 10,
+    [Display(Name = "Native American")] NativeAmerican = 11,
+    [Display(Name = "MACT")] MACT = 12,
+    [Display(Name = "Title V")] TitleV = 13,
+    [Display(Name = "Risk Management Plan")] RMP = 14,
 }
 
 public enum AirProgramClassification
 {
-    [Description("NSR/PSD Major")] NsrMajor = 1,
-    [Description("HAPs Major")] HapMajor = 2,
+    [Display(Name = "NSR/PSD Major")] NsrMajor = 1,
+    [Display(Name = "HAPs Major")] HapMajor = 2,
 }

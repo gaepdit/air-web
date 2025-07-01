@@ -33,8 +33,8 @@ public record SourceTestSummary
 
     [Display(Name = "Source Test Type")]
     public string TestType => ReportType is ReportType.SourceTest or ReportType.NA
-        ? DocumentType.GetDescription()
-        : ReportType.GetDescription();
+        ? DocumentType.GetDisplayName()
+        : ReportType.GetDisplayName();
 
     public FacilitySummary? Facility { get; set; }
 

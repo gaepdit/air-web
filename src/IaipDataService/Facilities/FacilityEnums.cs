@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace IaipDataService.Facilities;
@@ -9,13 +9,13 @@ namespace IaipDataService.Facilities;
 /// <remarks>Stored in the IAIP database as a single-character string.</remarks>
 public enum FacilityOperatingStatus
 {
-    [Description("Unspecified")] U,
-    [Description("Operational")] O,
-    [Description("Planned")] P,
-    [Description("Under Construction")] C,
-    [Description("Temporarily Closed")] T,
-    [Description("Closed/Dismantled")] X,
-    [Description("Seasonal Operation")] I,
+    [Display(Name = "Unspecified")] U,
+    [Display(Name = "Operational")] O,
+    [Display(Name = "Planned")] P,
+    [Display(Name = "Under Construction")] C,
+    [Display(Name = "Temporarily Closed")] T,
+    [Display(Name = "Closed/Dismantled")] X,
+    [Display(Name = "Seasonal Operation")] I,
 }
 
 /// <summary>
@@ -25,12 +25,12 @@ public enum FacilityOperatingStatus
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum FacilityClassification
 {
-    [Description("Unspecified")] Unspecified,
-    [Description("Major source")] A,
-    [Description("Minor source")] B,
-    [Description("Synthetic minor")] SM,
-    [Description("Permit by rule")] PR,
-    [Description("Unclassified")] C,
+    [Display(Name = "Unspecified")] Unspecified,
+    [Display(Name = "Major source")] A,
+    [Display(Name = "Minor source")] B,
+    [Display(Name = "Synthetic minor")] SM,
+    [Display(Name = "Permit by rule")] PR,
+    [Display(Name = "Unclassified")] C,
 }
 
 /// <summary>
@@ -39,11 +39,11 @@ public enum FacilityClassification
 /// <remarks>Stored in the IAIP database as a nullable one-character string.</remarks>
 public enum FacilityCmsClassification
 {
-    [Description("Unspecified")] Unspecified,
-    [Description("Major")] A,
-    [Description("SM")] S,
-    [Description("None")] X,
-    [Description("Mega-site")] M,
+    [Display(Name = "Unspecified")] Unspecified,
+    [Display(Name = "Major")] A,
+    [Display(Name = "SM")] S,
+    [Display(Name = "None")] X,
+    [Display(Name = "Mega-site")] M,
 }
 
 /// <summary>

@@ -3,7 +3,6 @@ using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -71,21 +70,21 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 // The order of these enum values is used by the UI.
 public enum EnforcementActionType
 {
-    [Description("Letter of Noncompliance")] LetterOfNoncompliance,
-    [Description("Notice of Violation")] NoticeOfViolation,
-    [Description("No Further Action Letter")] NoFurtherActionLetter,
-    [Description("Combined NOV/NFA Letter")] NovNfaLetter,
-    [Description("Proposed Consent Order")] ProposedConsentOrder,
-    [Description("Consent Order")] ConsentOrder,
-    [Description("Administrative Order")] AdministrativeOrder,
-    [Description("Informational Letter")] InformationalLetter,
+    [Display(Name = "Letter of Noncompliance")] LetterOfNoncompliance,
+    [Display(Name = "Notice of Violation")] NoticeOfViolation,
+    [Display(Name = "No Further Action Letter")] NoFurtherActionLetter,
+    [Display(Name = "Combined NOV/NFA Letter")] NovNfaLetter,
+    [Display(Name = "Proposed Consent Order")] ProposedConsentOrder,
+    [Display(Name = "Consent Order")] ConsentOrder,
+    [Display(Name = "Administrative Order")] AdministrativeOrder,
+    [Display(Name = "Informational Letter")] InformationalLetter,
 }
 
 public enum EnforcementActionStatus
 {
-    [Description("Draft Started")] Draft,
-    [Description("Review Requested")] ReviewRequested,
-    [Description("Approved")] Approved,
-    [Description("Issued")] Issued,
-    [Description("Canceled (Not Sent)")] Canceled,
+    [Display(Name = "Draft Started")] Draft,
+    [Display(Name = "Review Requested")] ReviewRequested,
+    [Display(Name = "Approved")] Approved,
+    [Display(Name = "Issued")] Issued,
+    [Display(Name = "Canceled (Not Sent)")] Canceled,
 }

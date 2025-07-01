@@ -47,7 +47,8 @@ public enum SearchStaffStatus
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum StaffSortBy
 {
-    [Description("FamilyName, GivenName")] NameAsc,
+    [Description("FamilyName, GivenName")]
+    NameAsc,
 
     [Description("FamilyName desc, GivenName desc")]
     NameDesc,

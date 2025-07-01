@@ -32,7 +32,7 @@
                 <td>
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span><br />
                 </td>
-                <td>@item.CaseFileStatus.GetDescription()</td>
+                <td>@item.CaseFileStatus.GetDisplayName()</td>
                 <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
             </tr>
         }

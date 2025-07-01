@@ -13,7 +13,7 @@ public record CaseFileExportDto : ISearchResult
         CaseFileId = caseFile.Id;
         FacilityId = caseFile.FacilityId;
         ResponsibleStaff = caseFile.ResponsibleStaff?.SortableFullName;
-        CaseFileStatus = caseFile.CaseFileStatus.GetDescription();
+        CaseFileStatus = caseFile.CaseFileStatus.GetDisplayName();
         ViolationType = caseFile.ViolationType == null
             ? ""
             : $"{caseFile.ViolationType.SeverityCode}: {caseFile.ViolationType.Description}";

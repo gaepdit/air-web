@@ -12,7 +12,7 @@ public record WorkEntryExportDto : ISearchResult
     {
         WorkEntryId = workEntry.Id;
         FacilityId = workEntry.FacilityId;
-        WorkEntryType = workEntry.WorkEntryType.GetDescription();
+        WorkEntryType = workEntry.WorkEntryType.GetDisplayName();
         EventDate = workEntry.EventDate;
         EventDateName = workEntry.EventDateName;
         ResponsibleStaff = workEntry.ResponsibleStaff?.SortableFullName;

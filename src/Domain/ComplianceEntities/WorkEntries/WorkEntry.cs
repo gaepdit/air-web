@@ -1,7 +1,6 @@
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Identity;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -61,11 +60,11 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkEntryType
 {
-    [Description("Annual Compliance Certification")] AnnualComplianceCertification,
-    Inspection,
-    Notification,
-    [Description("Permit Revocation")] PermitRevocation,
-    Report,
-    [Description("RMP Inspection")] RmpInspection,
-    [Description("Source Test Compliance Review")] SourceTestReview,
+    [Display(Name = "Annual Compliance Certification")] AnnualComplianceCertification,
+    [Display(Name = "Inspection")] Inspection,
+    [Display(Name = "Notification")] Notification,
+    [Display(Name = "Permit Revocation")] PermitRevocation,
+    [Display(Name = "Report")] Report,
+    [Display(Name = "RMP Inspection")] RmpInspection,
+    [Display(Name = "Source Test Compliance Review")] SourceTestReview,
 }

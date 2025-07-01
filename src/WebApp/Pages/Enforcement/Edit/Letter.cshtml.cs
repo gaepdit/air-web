@@ -52,7 +52,7 @@ public class LetterEditModel(
             ShowResponseRequested = true;
         }
 
-        ItemName = itemView.ActionType.GetDescription();
+        ItemName = itemView.ActionType.GetDisplayName();
         return Page();
     }
 
@@ -67,7 +67,7 @@ public class LetterEditModel(
         await actionService.UpdateAsync(Id, Item, token);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{itemView.ActionType.GetDescription()} successfully updated.");
+            $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
 
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },

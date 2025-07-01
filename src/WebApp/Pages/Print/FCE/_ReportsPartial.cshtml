@@ -29,7 +29,7 @@
         <tr>
             <th scope="row" rowspan="2">@i.Id</th>
             <td>
-                @i.ReportingPeriodType.GetDescription()<br />
+                @i.ReportingPeriodType.GetDisplayName()<br />
                 @Html.DisplayFor(_ => i.ReportPeriodDateRange, DisplayTemplate.DateRange, new { Connector = "–" })
             </td>
             <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
