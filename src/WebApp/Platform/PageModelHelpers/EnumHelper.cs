@@ -1,6 +1,4 @@
-﻿using GaEpd.AppLibrary.Extensions;
-
-namespace AirWeb.WebApp.Platform.PageModelHelpers;
+﻿namespace AirWeb.WebApp.Platform.PageModelHelpers;
 
 public static class EnumHelper
 {
