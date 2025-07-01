@@ -4,43 +4,43 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
 public record AccViewDto : WorkEntryViewDto
 {
-    [Display(Name = "Date received")]
+    [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
-    [Display(Name = "ACC reporting year")]
+    [Display(Name = "ACC Reporting Year")]
     public int AccReportingYear { get; init; }
 
-    [Display(Name = "Date postmarked")]
+    [Display(Name = "Date Postmarked")]
     public DateOnly PostmarkDate { get; init; }
 
-    [Display(Name = "Postmarked by deadline")]
+    [Display(Name = "Postmarked By Deadline")]
     public bool PostmarkedOnTime { get; init; }
 
-    [Display(Name = "Signed by responsible official")]
+    [Display(Name = "Signed By Responsible Official")]
     public bool SignedByRo { get; init; }
 
-    [Display(Name = "Submitted using correct ACC forms")]
+    [Display(Name = "Submitted Using Correct ACC Forms")]
     public bool OnCorrectForms { get; init; }
 
-    [Display(Name = "All Title V conditions listed")]
+    [Display(Name = "All Title V Conditions Listed")]
     public bool IncludesAllTvConditions { get; init; }
 
-    [Display(Name = "Correctly filled out")]
+    [Display(Name = "Correctly Filled Out")]
     public bool CorrectlyCompleted { get; init; }
 
-    [Display(Name = "Reported deviations")]
+    [Display(Name = "Reported Deviations")]
     public bool ReportsDeviations { get; init; }
 
-    [Display(Name = "Includes deviations not previously reported")]
+    [Display(Name = "Includes Deviations Not Previously Reported")]
     public bool IncludesPreviouslyUnreportedDeviations { get; init; }
 
-    [Display(Name = "Includes all previously known deviations")]
+    [Display(Name = "Includes All Previously Known Deviations")]
     public bool ReportsAllKnownDeviations { get; init; }
 
-    [Display(Name = "Resubmittal required")]
+    [Display(Name = "Resubmittal Required")]
     public bool ResubmittalRequired { get; init; }
 
-    [Display(Name = "Enforcement needed")]
+    [Display(Name = "Enforcement Needed")]
     public bool EnforcementNeeded { get; init; }
 
     public override bool HasPrintout => IsClosed;

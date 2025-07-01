@@ -13,6 +13,6 @@ public record SourceTestReviewViewDto : WorkEntryViewDto
     [Display(Name = "Test Due Date")]
     public DateOnly? DueDate { get; init; }
 
-    [Display(Name = "Follow-up Action Taken")]
+    [Display(Name = "Follow-Up Action Taken")]
     public bool FollowupTaken { get; init; }
 }

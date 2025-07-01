@@ -12,11 +12,11 @@ public record FceUpdateDto
     }
 
     [Required]
-    [Display(Name = "Reviewed by")]
+    [Display(Name = "Reviewed By")]
     public string? ReviewedById { get; init; }
 
     [Required]
-    [Display(Name = "With on-site inspection")]
+    [Display(Name = "With On-Site Inspection")]
     public bool OnsiteInspection { get; init; }
 
     [DataType(DataType.MultilineText)]

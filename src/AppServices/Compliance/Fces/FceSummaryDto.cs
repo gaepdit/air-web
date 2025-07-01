@@ -12,12 +12,12 @@ public record FceSummaryDto : IFceBasicViewDto
     [Display(Name = "FCE Year")]
     public int Year { get; init; }
 
-    [Display(Name = "Reviewed by")]
+    [Display(Name = "Reviewed By")]
     public StaffViewDto? ReviewedBy { get; init; }
 
     public DateOnly CompletedDate { get; init; }
 
-    [Display(Name = "With on-site inspection")]
+    [Display(Name = "With On-Site Inspection")]
     public bool OnsiteInspection { get; init; }
 
     public string Notes { get; init; } = null!;

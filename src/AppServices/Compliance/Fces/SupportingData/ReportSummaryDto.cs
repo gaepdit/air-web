@@ -12,17 +12,17 @@ public record ReportSummaryDto
     [Display(Name = "Comments:")]
     public string Notes { get; init; } = null!;
 
-    [Display(Name = "Report period")]
+    [Display(Name = "Report Period")]
     public ReportingPeriodType ReportingPeriodType { get; init; }
 
-    [Display(Name = "Date received")]
+    [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
     public DateOnly ReportingPeriodStart { get; init; }
     public DateOnly? ReportingPeriodEnd { get; init; }
     public DateRange ReportPeriodDateRange => new(ReportingPeriodStart, ReportingPeriodEnd);
 
-    [Display(Name = "Deviations reported")]
+    [Display(Name = "Deviations Reported")]
     public bool ReportsDeviations { get; init; }
 
     [Display(Name = "Reviewer")]

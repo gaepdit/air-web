@@ -10,13 +10,13 @@ public record AccSummaryDto
     [Display(Name = "Comments:")]
     public string Notes { get; init; } = null!;
 
-    [Display(Name = "Date received")]
+    [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 
-    [Display(Name = "Reporting year")]
+    [Display(Name = "Reporting Year")]
     public int AccReportingYear { get; init; }
 
-    [Display(Name = "Deviations reported")]
+    [Display(Name = "Deviations Reported")]
     public bool ReportsDeviations { get; init; }
 
     [Display(Name = "Reviewer")]

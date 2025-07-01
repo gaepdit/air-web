@@ -21,11 +21,11 @@ public record FceCreateDto
     public int Year { get; init; }
 
     [Required]
-    [Display(Name = "Reviewed by")]
+    [Display(Name = "Reviewed By")]
     public string? ReviewedById { get; init; }
 
     [Required]
-    [Display(Name = "Included an on-site inspection")]
+    [Display(Name = "Included An On-Site Inspection")]
     public bool OnsiteInspection { get; init; } = true;
 
     [DataType(DataType.MultilineText)]
