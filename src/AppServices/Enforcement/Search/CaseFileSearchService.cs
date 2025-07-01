@@ -28,9 +28,8 @@ public sealed class CaseFileSearchService(
     public Task<int> CountAsync(CaseFileSearchDto spec, CancellationToken token = default) =>
         CountAsync(spec, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
 
-    public Task<IEnumerable<CaseFileExportDto>>
-        ExportAsync(CaseFileSearchDto spec, CancellationToken token = default) =>
-        ExportAsync(spec, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
+    public Task<IEnumerable<CaseFileExportDto>> ExportAsync(CaseFileSearchDto spec, CancellationToken token = default)
+        => ExportAsync(spec, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

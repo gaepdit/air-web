@@ -13,6 +13,7 @@ public record FceExportDto : ISearchResult
         FacilityId = fce.FacilityId;
         Year = fce.Year;
         ReviewedBy = fce.ReviewedBy?.SortableFullName;
+        OnsiteInspection = fce.OnsiteInspection ? "Yes" : "No";
         CompletedDate = fce.CompletedDate;
         Notes = fce.Notes;
         Deleted = fce.IsDeleted ? "Deleted" : "No";
@@ -32,6 +33,9 @@ public record FceExportDto : ISearchResult
 
     [XLColumn(Header = "Reviewed By")]
     public string? ReviewedBy { get; init; }
+
+    [XLColumn(Header = "With On-Site Inspection")]
+    public string OnsiteInspection { get; set; }
 
     [XLColumn(Header = "Date Completed")]
     public DateOnly? CompletedDate { get; init; }

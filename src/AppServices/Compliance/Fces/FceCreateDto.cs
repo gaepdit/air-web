@@ -25,7 +25,7 @@ public record FceCreateDto
     public string? ReviewedById { get; init; }
 
     [Required]
-    [Display(Name = "Included An On-Site Inspection")]
+    [Display(Name = "With On-Site Inspection")]
     public bool OnsiteInspection { get; init; } = true;
 
     [DataType(DataType.MultilineText)]
