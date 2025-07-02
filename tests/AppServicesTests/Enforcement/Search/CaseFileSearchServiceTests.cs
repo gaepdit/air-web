@@ -19,6 +19,8 @@ public class CaseFileSearchServiceTests
     {
         // Arrange
         var searchDto = new CaseFileSearchDto();
+        // Hydrate the enforcement action data
+        _ = EnforcementActionData.GetData;
         var entries = CaseFileData.GetData.ToList();
 
         var repoMock = Substitute.For<ICaseFileRepository>();
