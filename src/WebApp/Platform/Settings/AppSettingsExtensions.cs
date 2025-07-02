@@ -2,7 +2,7 @@
 
 public static class AppSettingsExtensions
 {
-    public static void BindAppSettings(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder BindAppSettings(this WebApplicationBuilder builder)
     {
         // Bind app settings.
         builder.Configuration.GetSection(nameof(AppSettings.SupportSettings))
@@ -19,5 +19,7 @@ public static class AppSettingsExtensions
 
         if (useDevConfig) devConfig.Bind(AppSettings.DevSettings);
         else AppSettings.DevSettings = AppSettings.ProductionDefault;
+
+        return builder;
     }
 }
