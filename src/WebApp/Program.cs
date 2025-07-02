@@ -1,13 +1,10 @@
-using AirWeb.AppServices.ErrorLogging;
 using AirWeb.AppServices.RegisterServices;
 using AirWeb.WebApp.Platform.AppConfiguration;
-using AirWeb.WebApp.Platform.Logging;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using IaipDataService;
 using Microsoft.OpenApi.Models;
-using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // ReSharper disable once HeapView.BoxingAllocation
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
-// Bind application settings.
-BindingsConfiguration.BindSettings(builder);
+builder.BindAppSettings();
+builder.ConfigureErrorLogging();
 
 // Persist data protection keys.
 builder.Services.AddDataProtection();
@@ -50,28 +47,6 @@ if (!isDevelopment)
             options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
         });
 }
-
-// Configure application monitoring.
-builder.Services
-    .AddTransient<IErrorLogger, ErrorLogger>()
-    .AddSingleton(provider =>
-    {
-        var client = new RaygunClient(provider.GetService<RaygunSettings>()!,
-            provider.GetService<IRaygunUserProvider>()!);
-        client.SendingMessage += (_, eventArgs) =>
-            eventArgs.Message.Details.Tags.Add(builder.Environment.EnvironmentName);
-        return client;
-    })
-    .AddRaygun(opts =>
-    {
-        opts.ApiKey = AppSettings.RaygunSettings.ApiKey;
-        opts.ApplicationVersion = AppSettings.Version;
-        opts.ExcludeErrorsFromLocal = AppSettings.RaygunSettings.ExcludeErrorsFromLocal;
-        opts.IgnoreFormFieldNames = ["*Password"];
-        opts.EnvironmentVariables.Add("ASPNETCORE_*");
-    })
-    .AddRaygunUserProvider()
-    .AddHttpContextAccessor(); // needed by RaygunScriptPartial
 
 // Add app services.
 builder.Services.AddAutoMapperProfiles().AddAppServices().AddEmailService().AddValidators();

@@ -22,7 +22,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     public SelectList StaffSelectList { get; private set; } = null!;
 
     // Form buttons
-    public string SubmitText => $"Add {EntryType.GetDescription()}";
+    public string SubmitText => $"Add {EntryType.GetDisplayName()}";
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
@@ -55,7 +55,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         var createResult = await entryService.CreateAsync(item, token);
 
-        var message = $"{EntryType.GetDescription()} successfully created.";
+        var message = $"{EntryType.GetDisplayName()} successfully created.";
         if (createResult.HasAppNotificationFailure)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,

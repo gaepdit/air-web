@@ -3,7 +3,7 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AccAddModel
 @{
-    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()}";
+    ViewData["Title"] = $"Add a new {Model.EntryType.GetDisplayName()}";
     ViewData["NoAnchors"] = "True";
 }
 

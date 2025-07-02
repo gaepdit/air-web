@@ -4,7 +4,7 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model ReportAddModel
 @{
-    ViewData["Title"] = $"Add a new {Model.EntryType.GetDescription()}";
+    ViewData["Title"] = $"Add a new {Model.EntryType.GetDisplayName()}";
     ViewData["NoAnchors"] = "True";
 }
 

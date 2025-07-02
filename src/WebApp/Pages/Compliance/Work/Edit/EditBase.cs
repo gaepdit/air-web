@@ -64,7 +64,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
         var alertContext = notificationResult.Success
             ? DisplayMessage.AlertContext.Success
             : DisplayMessage.AlertContext.Warning;
-        TempData.SetDisplayMessage(alertContext, $"{entryType!.Value.GetDescription()} successfully updated.",
+        TempData.SetDisplayMessage(alertContext, $"{entryType!.Value.GetDisplayName()} successfully updated.",
             notificationResult.FailureMessage);
 
         return RedirectToPage("../Details", new { Id });

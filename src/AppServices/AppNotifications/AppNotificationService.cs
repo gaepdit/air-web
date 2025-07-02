@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.ErrorLogging;
-using AirWeb.Domain.EmailLog;
+﻿using AirWeb.Domain.EmailLog;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.AppNotifications;
 
@@ -12,7 +12,7 @@ public class AppNotificationService(
     IEmailLogRepository emailLogRepository,
     IHostEnvironment environment,
     IConfiguration configuration,
-    IErrorLogger errorLogger) : IAppNotificationService
+    ILogger<AppNotificationService> logger) : IAppNotificationService
 {
     private const string FailurePrefix = "Notification email not sent:";
 
@@ -43,7 +43,7 @@ public class AppNotificationService(
         }
         catch (Exception e)
         {
-            await errorLogger.LogErrorAsync(e, subject).ConfigureAwait(false);
+            logger.LogError(e, "Failure generating email message with subject {Subject}", subject);
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
@@ -60,7 +60,7 @@ public class AppNotificationService(
         }
         catch (Exception e)
         {
-            await errorLogger.LogErrorAsync(e, subject).ConfigureAwait(false);
+            logger.LogError(e, "Failure sending email message with subject {Subject}", subject);
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when sending the email.");
         }
 
