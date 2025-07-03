@@ -4,9 +4,9 @@ using Mindscape.Raygun4Net.Extensions.Logging;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
-internal static class ErrorLogging
+internal static class ErrorHandling
 {
-    public static void ConfigureErrorLogging(this WebApplicationBuilder builder)
+    public static void AddErrorLogging(this WebApplicationBuilder builder)
     {
         if (string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) return;
 
@@ -23,5 +23,15 @@ internal static class ErrorLogging
             options.MinimumLogLevel = LogLevel.Warning;
             options.OnlyLogExceptions = false;
         });
+    }
+
+    public static WebApplication UseErrorHandling(this WebApplication app)
+    {
+        if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+        else app.UseExceptionHandler("/Error"); // Production or Staging
+
+        if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
+
+        return app;
     }
 }

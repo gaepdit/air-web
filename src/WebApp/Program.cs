@@ -5,17 +5,16 @@ using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using IaipDataService;
 using Microsoft.OpenApi.Models;
-using Mindscape.Raygun4Net.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Set default timeout for regular expressions.
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
-// ReSharper disable once HeapView.BoxingAllocation
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
-builder.BindAppSettings();
-builder.ConfigureErrorLogging();
+builder
+    .BindAppSettings()
+    .AddErrorLogging();
 
 // Persist data protection keys.
 builder.Services.AddDataProtection();
@@ -32,12 +31,10 @@ builder.Services.AddAuthorizationHandlers();
 // Configure UI services.
 builder.Services.AddRazorPages();
 
-var isDevelopment = builder.Environment.IsDevelopment();
-
 // Starting value for HSTS max age is five minutes to allow for debugging.
 // For more info on updating HSTS max age value for production, see:
 // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
-if (!isDevelopment)
+if (!builder.Environment.IsDevelopment())
 {
     builder.Services
         .AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
@@ -91,20 +88,15 @@ builder.Services.AddMemoryCache();
 // Build the application.
 var app = builder.Build();
 
-// Configure error handling.
-if (isDevelopment) app.UseDeveloperExceptionPage(); // Development
-else app.UseExceptionHandler("/Error"); // Production or Staging
-
 // Configure security HTTP headers
-if (!isDevelopment || AppSettings.DevSettings.UseSecurityHeadersInDev)
+if (!builder.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
 {
     app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
 
-if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
-
 // Configure the application pipeline.
 app
+    .UseErrorHandling()
     .UseStatusCodePagesWithReExecute("/Error/{0}")
     .UseHttpsRedirection()
     .UseWebOptimizer()

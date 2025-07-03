@@ -15,6 +15,7 @@ public class AppNotificationService(
     ILogger<AppNotificationService> logger) : IAppNotificationService
 {
     private const string FailurePrefix = "Notification email not sent:";
+    internal static readonly EventId AppNotificationServiceFailure = new(2501, nameof(AppNotificationServiceFailure));
 
     public async Task<AppNotificationResult> SendNotificationAsync(Template template, string recipientEmail,
         CancellationToken token, params object?[] values)
@@ -43,7 +44,8 @@ public class AppNotificationService(
         }
         catch (Exception e)
         {
-            logger.LogError(e, "Failure generating email message with subject {Subject}", subject);
+            logger.LogError(AppNotificationServiceFailure, e, "Failure generating email message with subject {Subject}",
+                subject);
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
         }
 
@@ -60,7 +62,8 @@ public class AppNotificationService(
         }
         catch (Exception e)
         {
-            logger.LogError(e, "Failure sending email message with subject {Subject}", subject);
+            logger.LogError(AppNotificationServiceFailure, e, "Failure sending email message with subject {Subject}",
+                subject);
             return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when sending the email.");
         }
 
