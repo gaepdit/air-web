@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IaipDataService;
 
-public static class AppServices
+public static class AppServiceRegistration
 {
-    public static IServiceCollection AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
+    public static void AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
         string? connectionString)
     {
         if (useInMemoryIaipData)
@@ -29,7 +29,5 @@ public static class AppServices
                 .AddSingleton<IFacilityService, IaipFacilityService>()
                 .AddSingleton<ISourceTestService, IaipSourceTestService>();
         }
-
-        return services;
     }
 }

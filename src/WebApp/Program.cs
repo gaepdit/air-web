@@ -34,15 +34,15 @@ builder.Services.AddAppServices().AddAutoMapperProfiles().AddEmailService();
 // Configure UI services.
 builder.Services.AddRazorPages();
 
-// Add data stores.
-builder.Services
-    .AddIaipDataServices(AppSettings.DevSettings.UseInMemoryIaipData,
-        builder.Configuration.GetConnectionString("IaipConnection"))
-    .AddDataPersistence(builder.Configuration, builder.Environment)
-    .AddFileServices(builder.Configuration);
+// Add data stores and initialize the database.
+await builder.ConfigureDataPersistence();
 
-// Initialize database.
-builder.Services.AddHostedService<MigratorHostedService>();
+// Add IAIP data service.
+builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryIaipData,
+    builder.Configuration.GetConnectionString("IaipConnection"));
+
+// Add file storage.
+builder.Services.AddFileServices(builder.Configuration);
 
 // Add API documentation.
 builder.Services.AddApiDocumentation();
