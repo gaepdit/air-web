@@ -1,5 +1,3 @@
-using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.Users;
 using AirWeb.Domain.Identity;
 using AirWeb.EfRepository.DbContext;
 using AirWeb.LocalRepository.Identity;
@@ -14,7 +12,6 @@ public static class IdentityStores
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
 
-        // When running locally, you have the option to use in-memory data or a database.
         if (AppSettings.DevSettings.UseInMemoryData)
         {
             // Add local UserStore and RoleStore.
@@ -26,9 +23,5 @@ public static class IdentityStores
             // Add EF identity stores.
             identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
         }
-
-        // Add staff and user services.
-        services.AddTransient<IStaffService, StaffService>();
-        services.AddScoped<IUserService, UserService>();
     }
 }

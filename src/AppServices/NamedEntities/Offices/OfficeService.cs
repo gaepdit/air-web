@@ -1,7 +1,6 @@
-﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.AppServices.Users;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.IdentityServices;
+using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
 using AirWeb.Domain.NamedEntities.Offices;
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;

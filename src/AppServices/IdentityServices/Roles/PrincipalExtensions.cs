@@ -1,13 +1,12 @@
 using AirWeb.AppServices.DtoInterfaces;
-using AirWeb.AppServices.Permissions.AppClaims;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
+using AirWeb.AppServices.IdentityServices.Claims;
 using AirWeb.Domain.Identity;
 using Microsoft.Identity.Web;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace AirWeb.AppServices.Permissions.Helpers;
+namespace AirWeb.AppServices.IdentityServices.Roles;
 
 public static class PrincipalExtensions
 {
@@ -32,7 +31,7 @@ public static class PrincipalExtensions
     // General staff
     internal static bool IsStaff(this IPrincipal principal) =>
         principal.IsInRoles([RoleName.GeneralStaff, RoleName.SiteMaintenance, RoleName.AppUserAdmin]) ||
-        principal.IsAnyCompliance();
+        principal.IsAnyCompliance() || principal.IsEnforcementManager();
 
     // Admin roles
     internal static bool IsSiteMaintainer(this IPrincipal principal) =>

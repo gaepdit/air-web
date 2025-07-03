@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using IaipDataService.Facilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;

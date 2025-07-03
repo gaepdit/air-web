@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Users;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.IdentityServices;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;

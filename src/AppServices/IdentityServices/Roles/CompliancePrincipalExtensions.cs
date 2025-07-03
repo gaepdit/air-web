@@ -1,16 +1,14 @@
-﻿using AirWeb.AppServices.Permissions.Helpers;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Identity;
 using System.Security.Principal;
 
-namespace AirWeb.AppServices.Permissions.ComplianceStaff;
+namespace AirWeb.AppServices.IdentityServices.Roles;
 
 public static class CompliancePrincipalExtensions
 {
     // Compliance roles
     internal static bool IsAnyCompliance(this IPrincipal principal) =>
         principal.IsInRoles([
-            RoleName.ComplianceStaff, RoleName.ComplianceManager,
-            RoleName.EnforcementManager, RoleName.ComplianceSiteMaintenance,
+            RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.ComplianceSiteMaintenance,
         ]);
 
     internal static bool IsComplianceManager(this IPrincipal principal) =>
@@ -21,7 +19,4 @@ public static class CompliancePrincipalExtensions
 
     internal static bool IsComplianceStaff(this IPrincipal principal) =>
         principal.IsInRoles([RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager]);
-
-    internal static bool IsEnforcementManager(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.EnforcementManager);
 }

@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using AirWeb.AppServices.Users;
+﻿using AirWeb.AppServices.IdentityServices;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using System.Linq.Expressions;
 

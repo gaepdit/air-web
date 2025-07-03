@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.Enforcement;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Permissions;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
 using FluentValidation;

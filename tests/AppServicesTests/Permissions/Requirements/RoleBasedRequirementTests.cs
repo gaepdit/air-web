@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Permissions.ComplianceStaff.UserRequirements;
+﻿using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements.Compliance;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;

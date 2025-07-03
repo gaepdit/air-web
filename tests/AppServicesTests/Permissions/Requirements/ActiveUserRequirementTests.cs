@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Permissions.AppClaims;
-using AirWeb.AppServices.Permissions.UserRequirements;
+﻿using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements;
+using AirWeb.AppServices.IdentityServices.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

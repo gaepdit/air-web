@@ -1,5 +1,6 @@
-﻿using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
+﻿using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+using AirWeb.AppServices.IdentityServices.Roles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using System.Security.Claims;
 

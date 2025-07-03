@@ -1,11 +1,10 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 

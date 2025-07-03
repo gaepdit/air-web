@@ -27,8 +27,15 @@ using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.AutoMapper;
+
+public static class AutoMapperProfileRegistration
+{
+    public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services) =>
+        services.AddAutoMapper(expression => expression.AddProfile<AutoMapperProfile>());
+}
 
 public class AutoMapperProfile : Profile
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.Permissions.Helpers;
+namespace AirWeb.AppServices.AuthorizationPolicies;
 
 public static class RequirementsHelper
 {

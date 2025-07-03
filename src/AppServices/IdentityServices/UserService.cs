@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.Users;
+namespace AirWeb.AppServices.IdentityServices;
 
 public class UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
     : IUserService
@@ -19,8 +19,8 @@ public class UserService(UserManager<ApplicationUser> userManager, IHttpContextA
         await FindUserAsync(id).ConfigureAwait(false)
         ?? throw new EntityNotFoundException<ApplicationUser>(id);
 
-    public async Task<ApplicationUser?> FindUserAsync(string? id) =>
-        id is null ? null : await userManager.FindByIdAsync(id).ConfigureAwait(false);
+    public Task<ApplicationUser?> FindUserAsync(string id) =>
+        userManager.FindByIdAsync(id);
 
     public ClaimsPrincipal? GetCurrentPrincipal() => httpContextAccessor.HttpContext?.User;
 }

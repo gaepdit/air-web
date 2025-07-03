@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;

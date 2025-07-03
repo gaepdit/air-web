@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.ComplianceStaff;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;

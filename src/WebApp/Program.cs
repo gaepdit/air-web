@@ -1,4 +1,7 @@
-using AirWeb.AppServices.RegisterServices;
+using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.AutoMapper;
+using AirWeb.AppServices.IdentityServices;
+using AirWeb.AppServices.ServiceRegistration;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
@@ -12,9 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
-builder
-    .BindAppSettings()
-    .AddErrorLogging();
+builder.BindAppSettings();
+builder.AddErrorLogging();
 
 // Persist data protection keys.
 builder.Services.AddDataProtection();
@@ -23,10 +25,10 @@ builder.Services.AddDataProtection();
 builder.Services.AddIdentityStores();
 
 // Configure Authentication.
-builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.AddAuthenticationServices();
 
-// Configure authorization policies and handlers.
-builder.Services.AddAuthorizationHandlers();
+// Configure authorization and identity services.
+builder.Services.AddAuthorizationPolicies().AddIdentityServices();
 
 // Configure UI services.
 builder.Services.AddRazorPages();
@@ -46,7 +48,7 @@ if (!builder.Environment.IsDevelopment())
 }
 
 // Add app services.
-builder.Services.AddAutoMapperProfiles().AddAppServices().AddEmailService().AddValidators();
+builder.Services.AddAppServices().AddAutoMapperProfiles().AddEmailService();
 
 // Add data stores.
 builder.Services

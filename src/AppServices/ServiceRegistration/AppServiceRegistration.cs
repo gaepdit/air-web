@@ -14,11 +14,12 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AirWeb.AppServices.RegisterServices;
+namespace AirWeb.AppServices.ServiceRegistration;
 
-public static class AppServices
+public static class AppServiceRegistration
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services) => services
         // Work Entries
@@ -50,5 +51,8 @@ public static class AppServices
 
         // Offices
         .AddScoped<IOfficeManager, OfficeManager>()
-        .AddScoped<IOfficeService, OfficeService>();
+        .AddScoped<IOfficeService, OfficeService>()
+
+        // Validators
+        .AddValidatorsFromAssemblyContaining(typeof(AppServiceRegistration));
 }

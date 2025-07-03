@@ -1,9 +1,8 @@
-﻿using AirWeb.AppServices.Permissions.ComplianceStaff.UserRequirements;
-using AirWeb.AppServices.Permissions.UserRequirements;
+﻿using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements;
+using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements.Compliance;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace AirWeb.AppServices.Permissions;
+namespace AirWeb.AppServices.AuthorizationPolicies;
 
 #pragma warning disable S125 // Sections of code should not be commented out
 //
@@ -26,24 +25,10 @@ namespace AirWeb.AppServices.Permissions;
 //
 #pragma warning restore S125
 
+// These policies are for use in PageModel class attributes, e.g.:
+// [Authorize(Policy = nameof(Policies.ActiveUser))]
 public static class Policies
 {
-    // These policies are for use in PageModel class attributes, e.g.:
-    // [Authorize(Policy = nameof(Policies.ActiveUser))]
-
-    public static void AddAuthorizationPolicies(this IServiceCollection services)
-    {
-        services.AddAuthorizationBuilder()
-            .AddPolicy(nameof(ActiveUser), ActiveUser)
-            .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
-            .AddPolicy(nameof(Staff), Staff)
-            .AddPolicy(nameof(UserAdministrator), UserAdministrator)
-            .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
-            .AddPolicy(nameof(ComplianceManager), ComplianceManager)
-            .AddPolicy(nameof(EnforcementManager), EnforcementManager)
-            .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer);
-    }
-
     // Default policy builder
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser().AddRequirements(new ActiveUserRequirement());

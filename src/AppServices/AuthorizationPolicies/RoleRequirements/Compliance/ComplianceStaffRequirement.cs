@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AirWeb.AppServices.IdentityServices.Roles;
+using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.Permissions.ComplianceStaff.UserRequirements;
+namespace AirWeb.AppServices.AuthorizationPolicies.RoleRequirements.Compliance;
 
 internal class ComplianceStaffRequirement :
     AuthorizationHandler<ComplianceStaffRequirement>, IAuthorizationRequirement
