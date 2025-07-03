@@ -1,9 +1,12 @@
-﻿namespace AirWeb.WebApp.Platform.Settings;
+﻿using System.Reflection;
+
+namespace AirWeb.WebApp.Platform.Settings;
 
 public static class AppSettingsExtensions
 {
     public static WebApplicationBuilder BindAppSettings(this WebApplicationBuilder builder)
     {
+        AppSettings.Version = GetVersion();
         // Bind app settings.
         builder.Configuration.GetSection(nameof(AppSettings.SupportSettings))
             .Bind(AppSettings.SupportSettings);
@@ -21,5 +24,13 @@ public static class AppSettingsExtensions
         else AppSettings.DevSettings = AppSettings.ProductionDefault;
 
         return builder;
+    }
+
+    private static string GetVersion()
+    {
+        var entryAssembly = Assembly.GetEntryAssembly();
+        var segments = (entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion ?? entryAssembly?.GetName().Version?.ToString() ?? "").Split('+');
+        return segments[0] + (segments.Length > 0 ? $"+{segments[1][..Math.Min(7, segments[1].Length)]}" : "");
     }
 }
