@@ -50,13 +50,16 @@ public class DetailsModel(
             return RedirectToPage();
         }
 
-        if (Id is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)Id, RefreshIaipData);
+        if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
+
+        if (facilityId.FormattedId != Id) return RedirectToPage(new { id = facilityId });
+
+        Facility = await facilityService.FindFacilityDetailsAsync(facilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search services.
         var sourceTestsForFacilityTask =
-            sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)Id, RefreshIaipData);
+            sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(

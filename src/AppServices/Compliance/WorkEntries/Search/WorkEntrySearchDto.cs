@@ -96,7 +96,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
 
     public WorkEntrySearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
+        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
 }

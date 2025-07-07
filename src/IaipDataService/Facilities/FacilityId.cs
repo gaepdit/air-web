@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace IaipDataService.Facilities;
@@ -24,10 +25,7 @@ public partial record FacilityId : IComparable<FacilityId>
     public string Id
     {
         get => _id ?? throw new InvalidOperationException("Id not initialized.");
-
-        private init => _id = IsValidFormat(value)
-            ? value.Replace("-", "")
-            : throw new ArgumentException($"The value '{value}' is not a valid Facility ID format.");
+        private init => _id = Normalize(value);
     }
 
     /// <summary>
@@ -48,18 +46,66 @@ public partial record FacilityId : IComparable<FacilityId>
     public int CompareTo(FacilityId? other) => string.Compare(_id, other?._id, StringComparison.Ordinal);
     public override int GetHashCode() => string.GetHashCode(_id, StringComparison.Ordinal);
 
+    public static bool TryParse([NotNullWhen(true)] string? s, [NotNullWhen(true)] out FacilityId? result)
+    {
+        if (s is null)
+        {
+            result = null;
+            return false;
+        }
+
+        try
+        {
+            result = new FacilityId(s);
+            return true;
+        }
+        catch (Exception)
+        {
+            result = null;
+            return false;
+        }
+    }
+
     // Format validation
+    public const string FacilityIdFormatError = "The Facility ID entered is not valid.";
     public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
-    // Test at https://regex101.com/r/2uYyHl/6
+    // Test at https://regex101.com/r/2uYyHl/9
     // language:regex
-    public const string FacilityIdPattern = @"(?:777|321|3[0-1][13579]|[0-2][0-9][13579])-?\d{5}";
+    public const string FacilityIdPattern =
+        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)\d{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)\d{1,5})";
+
     public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
 
     [GeneratedRegex(FacilityIdEnclosedPattern)]
     private static partial Regex FacilityIdRegex();
 
-    public static string CleanFacilityId(string? input)
+    private static string Normalize(string input)
+    {
+        var value = input.Trim();
+
+        if (!IsValidFormat(value)) throw new ArgumentException(FacilityIdFormatError);
+
+        var dashIndex = value.IndexOf('-');
+        if (dashIndex == -1)
+        {
+            return value.Length switch
+            {
+                8 => value,
+                12 when value.StartsWith("0413") => value[4..],
+                _ => throw new ArgumentException(FacilityIdFormatError),
+            };
+        }
+
+        var countyPart = value[..dashIndex].PadLeft(3, '0');
+        var restPart = value[(dashIndex + 1)..].PadLeft(5, '0');
+        return countyPart + restPart;
+    }
+
+    // TODO: `CleanPartialFacilityId` is used to clean up search form entries.
+    // Instead of just replacing the entry, though, model validation should be 
+    // used to notify the user of invalid entries.
+    public static string CleanPartialFacilityId(string? input)
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
         var cleanFacilityId = new string(input.Where(c => c == '-' || char.IsDigit(c)).ToArray());

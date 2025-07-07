@@ -10,11 +10,11 @@
 <form method="post" class="row my-3" role="search">
     <label class="visually-hidden" for="FindId">Find by Facility ID</label>
     <div class="input-group w-auto my-2">
-        <input id="FindId" asp-for="FindId" type="search" aria-label="Search"
+        <input id="FindId" asp-for="Id" type="search" aria-label="Search"
                placeholder="Find by Facility ID" class="form-control" />
         <button class="btn btn-primary" type="submit">View</button>
     </div>
-    <span asp-validation-for="FindId" class="text-danger-emphasis"></span>
+    <span asp-validation-for="Id" class="text-danger-emphasis"></span>
 </form>
 
 @if (AppSettings.DevSettings.UseDevSettings && AppSettings.DevSettings.UseInMemoryIaipData)

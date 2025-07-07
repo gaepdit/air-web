@@ -10,7 +10,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 public class SourceTestsModel(IFacilityService facilityService, ISourceTestService sourceTestService) : PageModel
 {
     [FromRoute]
-    public string? FacilityId { get; set; }
+    public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
@@ -26,11 +26,14 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
             return RedirectToPage();
         }
 
-        if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId, RefreshIaipData);
+        if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
+
+        if (facilityId.FormattedId != Id) return RedirectToPage(new { id = facilityId });
+
+        Facility = await facilityService.FindFacilityDetailsAsync(facilityId, RefreshIaipData);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync((FacilityId)FacilityId, RefreshIaipData))
+        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData))
             .Take(GlobalConstants.PageSize).ToList();
 
         return Page();
