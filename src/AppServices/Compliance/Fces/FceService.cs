@@ -74,7 +74,7 @@ public sealed class FceService(
         var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser, token)
             .ConfigureAwait(false);
 
-        fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
+        fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById!).ConfigureAwait(false);
         fce.OnsiteInspection = resource.OnsiteInspection;
         fce.Notes = resource.Notes ?? string.Empty;
 
@@ -90,7 +90,7 @@ public sealed class FceService(
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
         fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
-        fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById).ConfigureAwait(false);
+        fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById!).ConfigureAwait(false);
         fce.OnsiteInspection = resource.OnsiteInspection;
         fce.Notes = resource.Notes ?? string.Empty;
 

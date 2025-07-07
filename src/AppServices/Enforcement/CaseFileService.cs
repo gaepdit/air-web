@@ -85,7 +85,7 @@ public class CaseFileService(
         var caseFile = await caseFileManager
             .Create((FacilityId)resource.FacilityId!, currentUser, token).ConfigureAwait(false);
 
-        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
         caseFile.Notes = resource.Notes ?? string.Empty;
 
@@ -111,7 +111,7 @@ public class CaseFileService(
         caseFile.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         // Update the case file properties
-        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
         caseFile.Notes = resource.Notes ?? string.Empty;
 
