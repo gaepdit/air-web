@@ -31,7 +31,7 @@ public partial class AppRole
     /// the <see cref="Microsoft.AspNetCore.Identity.IdentityRole.Name"/> of the role.
     /// (This declaration must appear before the list of static instance types.)
     /// </summary>
-    public static Dictionary<string, AppRole>? AllRoles { get; private set; } = new();
+    public static Dictionary<string, AppRole>? AllRoles { get; private set; }
 
     /// <summary>
     /// A list of all role categories used by the app.
