@@ -8,16 +8,10 @@ namespace IaipDataService;
 
 public static class IaipServiceRegistration
 {
-    public static void AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
+    public static void AddIaipDataServices(this IServiceCollection services, bool connectToIaipDatabase,
         string? connectionString)
     {
-        if (useInMemoryIaipData)
-        {
-            services
-                .AddSingleton<IFacilityService, LocalFacilityService>()
-                .AddSingleton<ISourceTestService, LocalSourceTestService>();
-        }
-        else
+        if (connectToIaipDatabase)
         {
             // DB service uses memory cache.
             services.AddMemoryCache();
@@ -28,6 +22,12 @@ public static class IaipServiceRegistration
                 .AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ => new DbConnectionFactory(connectionString))
                 .AddSingleton<IFacilityService, IaipFacilityService>()
                 .AddSingleton<ISourceTestService, IaipSourceTestService>();
+        }
+        else
+        {
+            services
+                .AddSingleton<IFacilityService, LocalFacilityService>()
+                .AddSingleton<ISourceTestService, LocalSourceTestService>();
         }
     }
 }

@@ -34,9 +34,9 @@ internal static partial class AppSettings
         public bool BuildDatabase { get; init; }
 
         /// <summary>
-        /// Use in-memory IAIP data store (`true`) or connect to a SQL Server database (`false`).
+        /// Connect to an existing IAIP database (`true`) or use in-memory test data (`false`).
         /// </summary>
-        public bool UseInMemoryIaipData { get; init; }
+        public bool ConnectToIaipDatabase { get; init; }
 
         /// <summary>
         /// Create a database using Entity Framework migrations (`true`) or solely based on the `DbContext` (`false`).

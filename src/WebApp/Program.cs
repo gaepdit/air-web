@@ -33,7 +33,7 @@ builder.Services.AddRazorPages();
 await builder.ConfigureDataPersistence();
 
 // Add IAIP data service.
-builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryIaipData,
+builder.Services.AddIaipDataServices(AppSettings.DevSettings.ConnectToIaipDatabase,
     builder.Configuration.GetConnectionString("IaipConnection"));
 
 // Add file storage.

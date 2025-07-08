@@ -97,10 +97,10 @@ To work with these settings, add an `appsettings.Development.json` file in the r
     - When `false`, the `LocalRepository` project is used. In-memory data is initialized from the `TestData` project.
 - *UseEfMigrations* — Applies Entity Framework database migrations when `true`. When `false`, the database is created
   directly based on the `DbContext`. (Only applies if `BuildDatabase` is `true`.)
-- *UseInMemoryIaipData* —
-    - When `true`, test IAIP data is used (located in `src/IaipDataService/TestData`).
-    - When `false`, the IAIP data services will connect to an existing SQL Server database defined by the
+- *ConnectToIaipDatabase* —
+    - When `true`, the IAIP data services will connect to an existing SQL Server database defined by the
       `IaipConnection` connection string. (A new database will not be created or seeded with data.)
+    - When `false`, test IAIP data is used (located in `src/IaipDataService/TestData`).
 
 ### Dev authentication settings
 
@@ -256,7 +256,7 @@ Here's a visualization of how the settings configure the IAIP data services at r
 
 ```mermaid
 flowchart LR
-    subgraph SPL["'UseInMemoryIaipData' = true"]
+    subgraph SPL["'ConnectToIaipDatabase' = false"]
         direction LR
         T["Test Data (in memory)"]
         A[IAIP App Services]
@@ -268,7 +268,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    subgraph SPB["Production/staging environment <br> or 'UseInMemoryIaipData' = false"]
+    subgraph SPB["Production/staging environment <br> or 'ConnectToIaipDatabase' = true"]
         direction LR
         A[IAIP App Services]
         W([Web App])
