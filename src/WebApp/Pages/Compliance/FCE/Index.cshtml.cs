@@ -1,7 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;

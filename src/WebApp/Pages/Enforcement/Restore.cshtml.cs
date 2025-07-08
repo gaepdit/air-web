@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Enforcement;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Permissions;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Enforcement;

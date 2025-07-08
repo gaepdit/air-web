@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.DataExport;
-using AirWeb.AppServices.Permissions;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 

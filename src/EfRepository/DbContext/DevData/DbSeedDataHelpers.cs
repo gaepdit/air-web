@@ -11,6 +11,7 @@ public static class DbSeedDataHelpers
 {
     public static void SeedAllData(AppDbContext context)
     {
+        ClearAllStaticData();
         SeedOfficeData(context);
         SeedIdentityData(context);
         SeedFceData(context);
@@ -20,31 +21,35 @@ public static class DbSeedDataHelpers
         SeedEnforcementActionData(context);
     }
 
-    internal static void SeedComplianceData(AppDbContext context)
+    private static void ClearAllStaticData()
     {
-        SeedOfficeData(context);
-        SeedIdentityData(context);
-        SeedFceData(context);
-        SeedNotificationTypeData(context);
-        SeedWorkEntryData(context);
+        CaseFileData.ClearData();
+        EnforcementActionData.ClearData();
+        FceData.ClearData();
+        NotificationTypeData.ClearData();
+        OfficeData.ClearData();
+        UserData.ClearData();
+        WorkEntryData.ClearData();
     }
 
     private static void SeedCaseFileData(AppDbContext context)
     {
         if (context.CaseFiles.Any()) return;
 
-        context.Database.BeginTransaction();
-
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
+            context.Database.BeginTransaction();
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles ON");
+        }
 
         context.CaseFiles.AddRange(CaseFileData.GetData);
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles OFF");
-
-        context.Database.CommitTransaction();
+            context.Database.CommitTransaction();
+        }
     }
 
     private static void SeedEnforcementActionData(AppDbContext context)
@@ -92,25 +97,27 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    internal static void SeedFceData(AppDbContext context)
+    private static void SeedFceData(AppDbContext context)
     {
         if (context.Fces.Any()) return;
 
-        context.Database.BeginTransaction();
-
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
+            context.Database.BeginTransaction();
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces ON");
+        }
 
         context.Fces.AddRange(FceData.GetData);
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces OFF");
-
-        context.Database.CommitTransaction();
+            context.Database.CommitTransaction();
+        }
     }
 
-    internal static void SeedNotificationTypeData(AppDbContext context)
+    private static void SeedNotificationTypeData(AppDbContext context)
     {
         if (context.NotificationTypes.Any()) return;
         context.NotificationTypes.AddRange(NotificationTypeData.GetData);
@@ -119,10 +126,11 @@ public static class DbSeedDataHelpers
 
     private static void SeedWorkEntryData(AppDbContext context)
     {
-        context.Database.BeginTransaction();
-
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
+            context.Database.BeginTransaction();
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries ON");
+        }
 
         if (!context.Accs.Any())
             context.Accs.AddRange(WorkEntryData.GetData
@@ -162,19 +170,20 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
             context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries OFF");
-
-        context.Database.CommitTransaction();
+            context.Database.CommitTransaction();
+        }
     }
 
-    internal static void SeedOfficeData(AppDbContext context)
+    private static void SeedOfficeData(AppDbContext context)
     {
         if (context.Offices.Any()) return;
         context.Offices.AddRange(OfficeData.GetData);
         context.SaveChanges();
     }
 
-    internal static void SeedIdentityData(AppDbContext context)
+    private static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
         var users = UserData.GetUsers.ToList();

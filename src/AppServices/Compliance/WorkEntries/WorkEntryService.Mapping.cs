@@ -30,9 +30,7 @@ public sealed partial class WorkEntryService
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
-        workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
-            ? null
-            : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        workEntry.ResponsibleStaff = await userService.GetUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
         workEntry.Notes = resource.Notes ?? string.Empty;
 

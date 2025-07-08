@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Enforcement.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 

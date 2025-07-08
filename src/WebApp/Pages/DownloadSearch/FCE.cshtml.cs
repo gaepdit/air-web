@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Fces.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 

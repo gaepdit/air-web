@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.WebApp.Platform.Constants;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;

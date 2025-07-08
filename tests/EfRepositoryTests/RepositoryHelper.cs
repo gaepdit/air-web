@@ -1,10 +1,6 @@
 using AirWeb.EfRepository.DbContext;
 using AirWeb.EfRepository.DbContext.DevData;
 using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData.Compliance;
-using AirWeb.TestData.Enforcement;
-using AirWeb.TestData.Identity;
-using AirWeb.TestData.NamedEntities;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -39,7 +35,8 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
             builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]));
         _context = new AppDbContext(_options);
-        _context.Database.EnsureCreated();
+        _context.Database.EnsureClean();
+        DbSeedDataHelpers.SeedAllData(_context);
     }
 
     /// <summary>
@@ -49,11 +46,12 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <param name="callingMember">The unit test method requesting the Repository Helper.</param>
     private RepositoryHelper(object callingClass, string callingMember)
     {
-        _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
-            builder: builder => builder.UseSqlServer()
-                .LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]));
+        _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(builder: builder =>
+                builder.UseSqlServer().LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]),
+            callingMember);
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
+        DbSeedDataHelpers.SeedAllData(_context);
     }
 
     /// <summary>
@@ -122,26 +120,12 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         ClearChangeTracker();
     }
 
-    private static void ClearAllStaticData()
-    {
-        EnforcementActionData.ClearData();
-        CaseFileData.ClearData();
-        FceData.ClearData();
-        WorkEntryData.ClearData();
-        NotificationTypeData.ClearData();
-        OfficeData.ClearData();
-        UserData.ClearData();
-    }
-
     /// <summary>
     /// Seeds data and returns an instance of <see cref="FceRepository"/>.
     /// </summary>
     /// <returns>An FCE Repository.</returns>
     public FceRepository GetFceRepository()
     {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedIdentityData(_context);
-        DbSeedDataHelpers.SeedFceData(_context);
         Context = new AppDbContext(_options);
         return new FceRepository(Context);
     }
@@ -152,8 +136,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <returns>An WorkEntryRepository.</returns>
     public WorkEntryRepository GetWorkEntryRepository()
     {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedComplianceData(_context);
         Context = new AppDbContext(_options);
         return new WorkEntryRepository(Context);
     }
@@ -164,8 +146,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <returns>An NotificationTypeRepository.</returns>
     public NotificationTypeRepository GetNotificationTypeRepository()
     {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedNotificationTypeData(_context);
         Context = new AppDbContext(_options);
         return new NotificationTypeRepository(Context);
     }
@@ -176,9 +156,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <returns>An OfficeRepository.</returns>
     public OfficeRepository GetOfficeRepository()
     {
-        ClearAllStaticData();
-        DbSeedDataHelpers.SeedOfficeData(_context);
-        DbSeedDataHelpers.SeedIdentityData(_context);
         Context = new AppDbContext(_options);
         return new OfficeRepository(Context);
     }

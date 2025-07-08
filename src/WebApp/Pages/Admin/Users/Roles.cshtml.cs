@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 
 namespace AirWeb.WebApp.Pages.Admin.Users;
 

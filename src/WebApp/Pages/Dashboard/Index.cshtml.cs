@@ -1,7 +1,6 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
 using AirWeb.AppServices.Staff;
 using GaEpd.AppLibrary.Pagination;
 

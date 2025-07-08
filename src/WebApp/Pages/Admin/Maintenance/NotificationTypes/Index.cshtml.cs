@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using AirWeb.AppServices.Permissions;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 

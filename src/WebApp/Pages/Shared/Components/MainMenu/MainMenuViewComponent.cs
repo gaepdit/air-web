@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Permissions;
-using AirWeb.AppServices.Permissions.Helpers;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.WebApp.Pages.Account;
 
 namespace AirWeb.WebApp.Pages.Shared.Components.MainMenu;

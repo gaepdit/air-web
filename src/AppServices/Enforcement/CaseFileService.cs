@@ -5,7 +5,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Users;
+using AirWeb.AppServices.IdentityServices;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -85,7 +85,7 @@ public class CaseFileService(
         var caseFile = await caseFileManager
             .Create((FacilityId)resource.FacilityId!, currentUser, token).ConfigureAwait(false);
 
-        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
         caseFile.Notes = resource.Notes ?? string.Empty;
 
@@ -111,7 +111,7 @@ public class CaseFileService(
         caseFile.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
         // Update the case file properties
-        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
+        caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
         caseFile.Notes = resource.Notes ?? string.Empty;
 

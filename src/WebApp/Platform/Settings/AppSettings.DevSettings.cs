@@ -14,7 +14,6 @@ internal static partial class AppSettings
         UseInMemoryData = false,
         UseInMemoryIaipData = false,
         UseEfMigrations = true,
-        DeleteAndRebuildDatabase = false,
         UseAzureAd = true,
         LocalUserIsAuthenticated = false,
         LocalUserRoles = [],
@@ -40,19 +39,10 @@ internal static partial class AppSettings
         public bool UseInMemoryIaipData { get; [UsedImplicitly] init; }
 
         /// <summary>
-        /// Run Entity Framework migrations (`true`).
-        /// If set to `false`, the database will be deleted and recreated on each run or left unmodified,
-        /// depending on the value of <see cref="DeleteAndRebuildDatabase"/>.
+        /// Run all Entity Framework migrations (`true`) or create the database based solely on the `DbContext` (`false`).
         /// (Only applies if <see cref="UseInMemoryData"/> is `false`.)
         /// </summary>
         public bool UseEfMigrations { get; [UsedImplicitly] init; }
-
-        /// <summary>
-        /// Delete and recreate the database on each run (`true`) or leave the database unmodified (`false`).
-        /// If the database does not exist yet, it will not be created if set to `false`.
-        /// (Only applies if <see cref="UseInMemoryData"/> and <see cref="UseEfMigrations"/> are both `false`.)
-        /// </summary>
-        public bool DeleteAndRebuildDatabase { get; [UsedImplicitly] init; }
 
         /// <summary>
         /// Use Azure AD authentication (`true`) or simulate authentication (`false`).

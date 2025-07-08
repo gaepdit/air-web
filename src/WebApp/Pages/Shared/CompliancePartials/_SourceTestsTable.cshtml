@@ -1,5 +1,9 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model IList<IaipDataService.SourceTests.Models.SourceTestSummary>
+@model (IList<IaipDataService.SourceTests.Models.SourceTestSummary> Items, bool SimpleTableFormat)
+@{
+    var rowCss = Model.SimpleTableFormat ? "" : "align-middle";
+    var linkCss = Model.SimpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+}
 
 <div class="table-responsive-md mb-3">
     <table class="table table-hover mb-0" aria-label="Source Tests for this facility">
@@ -14,13 +18,12 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var summary in Model)
+        @foreach (var summary in Model.Items)
         {
             <tr>
-                <th scope="row" class="align-middle">
-                    <a asp-page="/Compliance/SourceTest/Index"
-                       asp-route-referenceNumber="@summary.ReferenceNumber"
-                       class="btn btn-sm btn-outline-primary">
+                <th scope="row" class="@rowCss">
+                    <a asp-page="/Compliance/SourceTest/Index" class="@linkCss"
+                       asp-route-referenceNumber="@summary.ReferenceNumber">
                         @summary.ReferenceNumber.ToString()
                     </a>
                 </th>
