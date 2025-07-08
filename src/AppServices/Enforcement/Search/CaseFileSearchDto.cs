@@ -79,7 +79,7 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     public CaseFileSearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
+        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
 }

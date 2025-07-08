@@ -32,7 +32,7 @@ internal static class CommonFilters
         this Expression<Func<TEntity, bool>> predicate,
         string? input) where TEntity : IFacilityId
     {
-        var cleanInput = FacilityId.CleanFacilityId(input);
+        var cleanInput = FacilityId.CleanPartialFacilityId(input);
         return string.IsNullOrWhiteSpace(cleanInput)
             ? predicate
             : predicate.And(entry => entry.FacilityId.Contains(cleanInput));

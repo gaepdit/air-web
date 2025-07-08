@@ -1,4 +1,4 @@
-﻿@page "{facilityId?}"
+﻿@page "{id?}"
 @using AirWeb.WebApp.Platform.Settings
 @model SourceTestsModel
 @{
@@ -34,7 +34,7 @@ else
                         </small>
                     </div>
                     <div class="col-auto my-0 ms-3">
-                        <a asp-route-facilityId="@Model.FacilityId" asp-route-refresh="true"
+                        <a asp-route-facilityId="@Model.Id" asp-route-refresh="true"
                            class="btn btn-sm btn-outline-info icon-link">
                             <svg class="bi">
                                 <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>

@@ -63,7 +63,7 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
 
     public FceSearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanFacilityId(PartialFacilityId),
+        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
         Notes = Notes?.Trim(),
     };
 }
