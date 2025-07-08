@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.EmailLog;
-using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;
 

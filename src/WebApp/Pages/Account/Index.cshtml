@@ -37,6 +37,4 @@
     </form>
 </div>
 
-<h3>Roles</h3>
-
-<partial name="Shared/_UserRolesPartial" model="Model.Roles" />
+<partial name="Shared/_UserRolesPartial" model="(Model.Roles, Model.User.Claims)" />

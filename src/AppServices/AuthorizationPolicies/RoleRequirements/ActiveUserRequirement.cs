@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.IdentityServices.Roles;
+﻿using AirWeb.AppServices.AuthenticationServices.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.AuthorizationPolicies.RoleRequirements;

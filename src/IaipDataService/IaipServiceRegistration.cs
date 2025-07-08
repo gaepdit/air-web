@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IaipDataService;
 
-public static class AppServiceRegistration
+public static class IaipServiceRegistration
 {
     public static void AddIaipDataServices(this IServiceCollection services, bool useInMemoryIaipData,
         string? connectionString)

@@ -1,31 +1,40 @@
 ﻿@using AirWeb.Domain.Identity
-@model IReadOnlyList<AirWeb.Domain.Identity.AppRole>
-
+@model (IReadOnlyList<AirWeb.Domain.Identity.AppRole> Roles, IEnumerable<System.Security.Claims.Claim> Claims)
+<h3>Roles</h3>
 <p>
-    This account has @(Model.Count == 0 ? "no" : "the following") application roles. View a detailed description of
+    This account has @(Model.Roles.Count == 0 ? "no" : "the following") application roles.
+    View a detailed description of
     <a asp-page="/Admin/Users/Roles" class="no-external-link" target="_blank">user roles and capabilities</a>.
 </p>
 
-@if (Model.Count > 0)
+@foreach (var category in AppRole.AllRoleCategories)
 {
-    @foreach (var category in AppRole.AllRoleCategories)
-    {
-        <div class="p-3 pb-0 mb-3 border rounded-3 bg-light-subtle">
-            <h4 class="mb-3">@category Roles</h4>
-            @if (Model.Any(role => role.Category == category))
-            {
-                <dl>
-                    @foreach (var role in Model.Where(role => role.Category == category))
-                    {
-                        <dt>@role.DisplayName</dt>
-                        <dd><p class="text-body-secondary">@role.Description</p></dd>
-                    }
-                </dl>
-            }
-            else
-            {
-                <p>None.</p>
-            }
-        </div>
-    }
+    <div class="p-3 pb-0 mb-3 border rounded-3 bg-light-subtle">
+        <h4 class="mb-3">@category Roles</h4>
+        @if (Model.Roles.Any(role => role.Category == category))
+        {
+            <dl>
+                @foreach (var role in Model.Roles.Where(role => role.Category == category))
+                {
+                    <dt>@role.DisplayName</dt>
+                    <dd><p class="text-body-secondary">@role.Description</p></dd>
+                }
+            </dl>
+        }
+        else
+        {
+            <p>None.</p>
+        }
+    </div>
 }
+
+<environment include="Local, Development">
+    <h3>Claims</h3>
+    <dl class="p-3 border rounded-3 bg-light-subtle">
+        @foreach (var claim in Model.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd class="text-body-secondary">@claim.Value</dd>
+        }
+    </dl>
+</environment>

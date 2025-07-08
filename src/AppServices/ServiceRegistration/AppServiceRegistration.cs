@@ -8,6 +8,7 @@ using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -52,6 +53,9 @@ public static class AppServiceRegistration
         // Offices
         .AddScoped<IOfficeManager, OfficeManager>()
         .AddScoped<IOfficeService, OfficeService>()
+
+        // Staff
+        .AddScoped<IStaffService, StaffService>()
 
         // Validators
         .AddValidatorsFromAssemblyContaining(typeof(AppServiceRegistration));

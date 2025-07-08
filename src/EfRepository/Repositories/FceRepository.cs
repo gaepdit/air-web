@@ -1,6 +1,6 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 
 namespace AirWeb.EfRepository.Repositories;

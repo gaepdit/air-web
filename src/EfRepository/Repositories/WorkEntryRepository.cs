@@ -1,7 +1,7 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.EfRepository.DbContext;
+using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;
 
