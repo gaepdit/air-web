@@ -16,6 +16,7 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-11-21  DWaldron            Initial version
+2025-07-09  DWaldron            Added filter to exclude bad data (AIRS # ending in '00000')
 
 ***************************************************************************************************/
 
@@ -26,8 +27,10 @@ BEGIN
            trim(f.STRFACILITYNAME)   as [Value]
     from dbo.APBFACILITYINFORMATION f
         inner join dbo.AFSFACILITYDATA a
-        on f.STRAIRSNUMBER = a.STRAIRSNUMBER
+            on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     where a.STRUPDATESTATUS in ('A', 'C')
+      -- Once the bad data is cleaned up, we can remove this filter
+      and f.STRAIRSNUMBER <> '041312100000'
     order by f.STRAIRSNUMBER;
 
 END;
