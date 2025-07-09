@@ -68,17 +68,6 @@ public partial record FacilityId : IComparable<FacilityId>
 
     // Format validation
     public const string FacilityIdFormatError = "The Facility ID entered is not valid.";
-    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
-
-    // Test at https://regex101.com/r/2uYyHl/9
-    // language:regex
-    public const string FacilityIdPattern =
-        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)\d{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)\d{1,5})";
-
-    public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
-
-    [GeneratedRegex(FacilityIdEnclosedPattern)]
-    private static partial Regex FacilityIdRegex();
 
     private static string Normalize(string input)
     {
@@ -109,13 +98,33 @@ public partial record FacilityId : IComparable<FacilityId>
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
         var cleanFacilityId = new string(input.Where(c => c == '-' || char.IsDigit(c)).ToArray());
-        return EightDigitsRegex().IsMatch(cleanFacilityId)
+        return ShortFormatRegex().IsMatch(cleanFacilityId)
             ? cleanFacilityId.Insert(3, "-")
             : cleanFacilityId;
     }
 
-    private const string EightDigits = @"^\d{8}$";
+    // Regex
+    [GeneratedRegex(FacilityIdEnclosedPattern)]
+    private static partial Regex FacilityIdRegex();
 
-    [GeneratedRegex(EightDigits)]
-    private static partial Regex EightDigitsRegex();
+    // Test at https://regex101.com/r/2uYyHl/9
+    // language:regex
+    public const string FacilityIdPattern =
+        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)\d{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)\d{1,5})";
+
+    public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
+    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
+
+    [GeneratedRegex(StandardFormat)]
+    private static partial Regex StandardFormatRegex();
+
+    // language:regex
+    private const string StandardFormat = @"^\d{3}-\d{5}$";
+    public static bool IsStandardFormat(string id) => StandardFormatRegex().IsMatch(id);
+
+    [GeneratedRegex(ShortFormat)]
+    private static partial Regex ShortFormatRegex();
+
+    // language:regex
+    private const string ShortFormat = @"^\d{8}$";
 }
