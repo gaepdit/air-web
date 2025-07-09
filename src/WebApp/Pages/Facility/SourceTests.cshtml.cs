@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.WebApp.Platform.Constants;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
@@ -34,7 +33,7 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
         if (Facility is null) return NotFound("Facility ID not found.");
 
         SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData))
-            .Take(GlobalConstants.PageSize).ToList();
+            .ToList();
 
         return Page();
     }
