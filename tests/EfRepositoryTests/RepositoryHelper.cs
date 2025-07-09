@@ -1,5 +1,5 @@
-using AirWeb.EfRepository.DbContext;
-using AirWeb.EfRepository.DbContext.DevData;
+using AirWeb.EfRepository.Contexts;
+using AirWeb.EfRepository.Contexts.SeedDevData;
 using AirWeb.EfRepository.Repositories;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

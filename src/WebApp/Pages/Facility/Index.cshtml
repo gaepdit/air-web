@@ -17,7 +17,7 @@
     <span asp-validation-for="Id" class="text-danger-emphasis"></span>
 </form>
 
-@if (AppSettings.DevSettings.UseDevSettings && AppSettings.DevSettings.UseInMemoryIaipData)
+@if (AppSettings.DevSettings.UseDevSettings && !AppSettings.DevSettings.ConnectToIaipDatabase)
 {
     <p>Here is a short list of facilities for testing purposes.</p>
 }
@@ -52,7 +52,7 @@ else
 <ul id="filtered-facility-list"></ul>
 
 @section Footer {
-    @if (!AppSettings.DevSettings.UseDevSettings || !AppSettings.DevSettings.UseInMemoryIaipData)
+    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
     {
         <div class="bg-info-subtle py-2 border-bottom d-print-none">
             <div class="container">

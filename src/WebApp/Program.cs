@@ -1,6 +1,4 @@
-using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.AutoMapper;
-using AirWeb.AppServices.IdentityServices;
 using AirWeb.AppServices.ServiceRegistration;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.Settings;
@@ -19,14 +17,11 @@ builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
 // Persist data protection keys.
 builder.Services.AddDataProtection();
 
-// Configure Identity.
+// Configure Identity stores.
 builder.Services.AddIdentityStores();
 
-// Configure Authentication.
-builder.AddAuthenticationServices();
-
-// Configure authorization and identity services.
-builder.Services.AddAuthorizationPolicies().AddIdentityServices();
+// Configure authentication and authorization.
+builder.ConfigureAuthentication();
 
 // Add app services.
 builder.Services.AddAppServices().AddAutoMapperProfiles().AddEmailService();
@@ -38,7 +33,7 @@ builder.Services.AddRazorPages();
 await builder.ConfigureDataPersistence();
 
 // Add IAIP data service.
-builder.Services.AddIaipDataServices(AppSettings.DevSettings.UseInMemoryIaipData,
+builder.Services.AddIaipDataServices(AppSettings.DevSettings.ConnectToIaipDatabase,
     builder.Configuration.GetConnectionString("IaipConnection"));
 
 // Add file storage.
@@ -48,9 +43,16 @@ builder.Services.AddFileServices(builder.Configuration);
 builder.Services.AddApiDocumentation();
 
 // Configure bundling and minification.
-builder.Services.AddWebOptimizer(
-    minifyJavaScript: AppSettings.DevSettings.EnableWebOptimizer,
-    minifyCss: AppSettings.DevSettings.EnableWebOptimizer);
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddWebOptimizer(
+        minifyJavaScript: AppSettings.DevSettings.EnableWebOptimizerInDev,
+        minifyCss: AppSettings.DevSettings.EnableWebOptimizerInDev);
+}
+else
+{
+    builder.Services.AddWebOptimizer();
+}
 
 //Add simple cache.
 builder.Services.AddMemoryCache();

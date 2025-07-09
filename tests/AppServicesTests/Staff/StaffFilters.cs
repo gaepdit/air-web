@@ -16,7 +16,6 @@ public class StaffFilters
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(DefaultStaffSearch);
 
         result.Should().BeEquivalentTo(expected, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 
@@ -33,7 +32,6 @@ public class StaffFilters
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
         result.Should().BeEquivalentTo(expected, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 
@@ -48,7 +46,6 @@ public class StaffFilters
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
         result.Should().BeEquivalentTo(expected, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 
@@ -63,7 +60,6 @@ public class StaffFilters
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
         result.Should().BeEquivalentTo(expected, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 
@@ -76,7 +72,6 @@ public class StaffFilters
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
         result.Should().BeEquivalentTo(expected, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 
@@ -86,7 +81,6 @@ public class StaffFilters
         var spec = DefaultStaffSearch with { Status = SearchStaffStatus.All };
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
         result.Should().BeEquivalentTo(UserData.GetUsers, options => options
-            .Excluding(user => user.ObjectIdentifier)
             .Excluding(user => user.SecurityStamp));
     }
 }
