@@ -130,6 +130,12 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         return new FceRepository(Context);
     }
 
+    public CaseFileRepository GetCaseFileRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new CaseFileRepository(Context);
+    }
+
     /// <summary>
     /// Seeds data and returns an instance of <see cref="WorkEntryRepository"/>.
     /// </summary>

@@ -9,4 +9,5 @@ public static class RepositoryHelper
     public static LocalOfficeRepository GetOfficeRepository() => new();
     public static LocalFceRepository GetFceRepository() => new();
     public static LocalWorkEntryRepository GetWorkEntryRepository() => new();
+    public static LocalCaseFileRepository GetCaseFileRepository() => new();
 }
