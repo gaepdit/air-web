@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.IdentityServices.Claims;
+namespace AirWeb.AppServices.AuthenticationServices.Claims;
 
 public class AppClaimsTransformation(UserManager<ApplicationUser> userManager) : IClaimsTransformation
 {

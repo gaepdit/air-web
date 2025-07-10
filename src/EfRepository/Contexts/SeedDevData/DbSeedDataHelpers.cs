@@ -5,7 +5,7 @@ using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.NamedEntities;
 
-namespace AirWeb.EfRepository.DbContext.DevData;
+namespace AirWeb.EfRepository.Contexts.SeedDevData;
 
 public static class DbSeedDataHelpers
 {

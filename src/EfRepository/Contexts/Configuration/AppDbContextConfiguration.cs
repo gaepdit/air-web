@@ -7,7 +7,7 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AirWeb.EfRepository.DbContext.Configuration;
+namespace AirWeb.EfRepository.Contexts.Configuration;
 
 internal static class AppDbContextConfiguration
 {
@@ -47,12 +47,6 @@ internal static class AppDbContextConfiguration
         // Comments
         builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();
 
-        return builder;
-    }
-
-    internal static ModelBuilder ConfigureIdentityTables(this ModelBuilder builder)
-    {
-        builder.Entity<ApplicationUser>().HasIndex(user => user.ObjectIdentifier).IsUnique();
         return builder;
     }
 
@@ -229,33 +223,34 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureCalculatedColumns(this ModelBuilder builder, string? dbProviderName)
     {
-        if (dbProviderName == AppDbContext.SqlServerProvider)
+        var sql = dbProviderName switch
         {
-            builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
-                .HasComputedColumnSql("""
-                                      case
-                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
-                                              then convert(date, ReceivedDate)
-                                          when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByComplianceDate)
-                                          else convert(date, '1900-1-1')
-                                      end
-                                      """);
-        }
-        else
-        {
-            builder.Entity<WorkEntry>().Property(entry => entry.EventDate)
-                .HasComputedColumnSql("""
-                                      case
-                                          when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
-                                              then date(ReceivedDate)
-                                          when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                                          when WorkEntryType = 'SourceTestReview' then date(ReceivedByComplianceDate)
-                                          else '1900-1-1'
-                                      end
-                                      """);
-        }
+            AppDbContext.SqlServerProvider =>
+                """
+                case
+                    when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                        then convert(date, ReceivedDate)
+                    when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
+                    when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByComplianceDate)
+                    else convert(date, '1900-1-1')
+                end
+                """,
+            AppDbContext.SqliteProvider =>
+                """
+                case
+                    when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
+                        then date(ReceivedDate)
+                    when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
+                    when WorkEntryType = 'SourceTestReview' then date(ReceivedByComplianceDate)
+                    else '1900-1-1'
+                end
+                """,
+            _ => null,
+        };
 
+        if (sql == null) return builder;
+
+        builder.Entity<WorkEntry>().Property(entry => entry.EventDate).HasComputedColumnSql(sql);
         return builder;
     }
 
@@ -276,8 +271,9 @@ internal static class AppDbContextConfiguration
 
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
-            // This doesn't work with owned types which instead are configured above.
-            if (entityType.FindOwnership() != null) continue;
+            // This doesn't work with owned types which we don't have anyway but which would be configured like so:
+            // https://github.com/gaepdit/air-web/blob/ee621ee4708e7b4964e3aa66c34e04925cf80337/src/EfRepository/DbContext/AppDbContext.cs#L50-L68
+            if (entityType.FindOwnership() != null) continue; // Skip owned types
 
             var dateTimeOffsetProperties = entityType.ClrType.GetProperties()
                 .Where(info => info.PropertyType == typeof(DateTimeOffset) ||

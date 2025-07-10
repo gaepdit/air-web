@@ -8,8 +8,8 @@ internal static partial class UserData
     public const string AdminUserId = "00000000-0000-0000-0000-000000000001";
     public static ApplicationUser GetRandomUser() => GetUsers.ElementAt(Random.Shared.Next(GetUsers.Count()));
 
-    private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
-    {
+    private static IEnumerable<ApplicationUser> UserSeedItems =>
+    [
         new() // 0
         {
             Id = AdminUserId,
@@ -17,7 +17,6 @@ internal static partial class UserData
             FamilyName = "User1",
             Email = "test.user@example.net",
             Office = OfficeData.GetData.ElementAt(0),
-            ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 1
         {
@@ -26,7 +25,6 @@ internal static partial class UserData
             FamilyName = "User2",
             Email = "another.user2@example.net",
             Office = OfficeData.GetData.ElementAt(1),
-            ObjectIdentifier = Guid.NewGuid().ToString(),
         },
         new() // 2
         {
@@ -36,9 +34,8 @@ internal static partial class UserData
             Email = "inactive.user@example.net",
             Active = false,
             Office = OfficeData.GetData.ElementAt(0),
-            ObjectIdentifier = Guid.NewGuid().ToString(),
         },
-    };
+    ];
 
     private static List<ApplicationUser>? _users;
 

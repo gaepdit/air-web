@@ -7,10 +7,10 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
-using AirWeb.EfRepository.DbContext.Configuration;
+using AirWeb.EfRepository.Contexts.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace AirWeb.EfRepository.DbContext;
+namespace AirWeb.EfRepository.Contexts;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
@@ -21,7 +21,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
 
-    // Domain entities
+    // FCEs
     public DbSet<Fce> Fces => Set<Fce>();
 
     // Work entries/compliance events
@@ -71,7 +71,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
-            .ConfigureIdentityTables()
             .ConfigureWorkEntryMapping()
             .ConfigureEnforcementActionMapping()
             .ConfigureCommentsMappingStrategy()

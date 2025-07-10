@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.IdentityServices.Claims;
+﻿namespace AirWeb.AppServices.AuthenticationServices.Claims;
 
 public static class AppClaimTypes
 {

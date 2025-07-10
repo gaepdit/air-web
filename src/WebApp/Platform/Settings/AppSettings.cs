@@ -13,11 +13,12 @@ internal static partial class AppSettings
     // Organizational notifications
     public static string? OrgNotificationsApiUrl { get; set; }
 
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public record Support
     {
-        public string? CustomerSupportEmail { get; [UsedImplicitly] init; }
-        public string? TechnicalSupportEmail { get; [UsedImplicitly] init; }
-        public string? TechnicalSupportSite { get; [UsedImplicitly] init; }
+        public string? CustomerSupportEmail { get; init; }
+        public string? TechnicalSupportEmail { get; init; }
+        public string? TechnicalSupportSite { get; init; }
     }
 
     public record Raygun

@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.IdentityServices;
+﻿using AirWeb.AppServices.AuthenticationServices;
+using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
 using AirWeb.Domain.NamedEntities.Offices;
 using AutoMapper;
