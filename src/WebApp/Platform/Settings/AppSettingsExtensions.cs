@@ -4,7 +4,7 @@ namespace AirWeb.WebApp.Platform.Settings;
 
 public static class AppSettingsExtensions
 {
-    public static WebApplicationBuilder BindAppSettings(this WebApplicationBuilder builder)
+    public static IHostApplicationBuilder BindAppSettings(this IHostApplicationBuilder builder)
     {
         AppSettings.Version = GetVersion();
         // Bind app settings.

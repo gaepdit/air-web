@@ -4,7 +4,7 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 internal static class SecurityHeaders
 {
-    public static WebApplicationBuilder AddSecurityHeaders(this WebApplicationBuilder builder)
+    public static IHostApplicationBuilder AddSecurityHeaders(this IHostApplicationBuilder builder)
     {
         if (builder.Environment.IsDevelopment())
         {

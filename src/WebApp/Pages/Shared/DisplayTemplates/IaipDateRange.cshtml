@@ -1,15 +1,27 @@
 ﻿@using AirWeb.AppServices.Utilities
+@using IaipDataService
 @model IaipDataService.Structs.DateRange
 @if (Model.EndDate is null && Model.StartDate == default)
 {
-    @DefaultText.NotAvailable
+    // If neither date is valid.
+    <span class="text-body-secondary">@DefaultText.NotAvailable</span>
 }
-else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
+else if (DateOnly.FromDateTime(Model.StartDate) == IaipConstants.NullPlaceholderDate &&
+         (Model.EndDate == null || DateOnly.FromDateTime(Model.EndDate.Value) == IaipConstants.NullPlaceholderDate))
 {
+    // If both dates are null or null placeholders.
+    <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNotEntered</span>
+}
+else if (Model.EndDate is null
+         || DateOnly.FromDateTime(Model.EndDate.Value) == IaipConstants.NullPlaceholderDate
+         || Model.EndDate == Model.StartDate)
+{
+    // If the end date is not valid or available, or if both dates are the same, only display the start date.
     @Model.StartDate.ToString(DateTimeFormats.LongDate)
 }
 else
 {
+    // If we get here, display both dates (and format it nicely).
     var start = Model.StartDate.ToString(DateTimeFormats.LongDate);
     var end = Model.EndDate.ToString(DateTimeFormats.LongDate);
 

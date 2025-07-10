@@ -62,18 +62,21 @@ public class DetailsModel(
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         var searchWorkEntries = await entrySearchService.SearchAsync(
-            new WorkEntrySearchDto { Sort = WorkEntrySortBy.EventDateDesc, PartialFacilityId = Id },
-            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            new WorkEntrySearchDto { PartialFacilityId = Id },
+            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
+                sorting: WorkEntrySortBy.EventDateDesc.GetDescription()),
             loadFacilities: false, token: token);
 
         var searchFces = await fceSearchService.SearchAsync(
-            new FceSearchDto { Sort = FceSortBy.YearDesc, PartialFacilityId = Id },
-            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            new FceSearchDto { PartialFacilityId = Id },
+            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
+                sorting: FceSortBy.YearDesc.GetDescription()),
             loadFacilities: false, token: token);
 
         var searchEnforcement = await caseFileService.SearchAsync(
-            new CaseFileSearchDto { Sort = CaseFileSortBy.DiscoveryDateAsc, PartialFacilityId = Id },
-            new PaginatedRequest(1, GlobalConstants.SummaryTableSize),
+            new CaseFileSearchDto { PartialFacilityId = Id },
+            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
+                sorting: CaseFileSortBy.DiscoveryDateDesc.GetDescription()),
             loadFacilities: false, token: token);
 
         ComplianceWork = searchWorkEntries.Items.ToList();

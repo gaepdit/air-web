@@ -13,9 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
+// Configure basic settings.
 builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
-
-// Persist data protection keys.
 builder.Services.AddDataProtection();
 
 // Configure Identity stores.
@@ -44,16 +43,7 @@ builder.Services.AddFileServices(builder.Configuration);
 builder.Services.AddApiDocumentation();
 
 // Configure bundling and minification.
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddWebOptimizer(
-        minifyJavaScript: AppSettings.DevSettings.EnableWebOptimizerInDev,
-        minifyCss: AppSettings.DevSettings.EnableWebOptimizerInDev);
-}
-else
-{
-    builder.Services.AddWebOptimizer();
-}
+builder.AddWebOptimizer();
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
