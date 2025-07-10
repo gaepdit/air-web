@@ -10,6 +10,9 @@ internal static partial class AppSettings
     public static Raygun RaygunSettings { get; } = new();
     public static OrganizationInfo OrganizationInfo { get; } = new();
 
+    // Organizational notifications
+    public static string? OrgNotificationsApiUrl { get; set; }
+
     [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public record Support
     {

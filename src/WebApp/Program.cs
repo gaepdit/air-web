@@ -1,6 +1,7 @@
 using AirWeb.AppServices.AutoMapper;
 using AirWeb.AppServices.ServiceRegistration;
 using AirWeb.WebApp.Platform.AppConfiguration;
+using AirWeb.WebApp.Platform.OrgNotifications;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
@@ -56,6 +57,9 @@ else
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
+
+// Add organizational notifications.
+builder.Services.AddOrgNotifications();
 
 // Build the application.
 var app = builder.Build();

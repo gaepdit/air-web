@@ -15,6 +15,10 @@ public static class AppSettingsExtensions
         builder.Configuration.GetSection(nameof(AppSettings.RaygunSettings))
             .Bind(AppSettings.RaygunSettings);
 
+        // Organizational notifications
+        AppSettings.OrgNotificationsApiUrl =
+            builder.Configuration.GetValue<string>(nameof(AppSettings.OrgNotificationsApiUrl));
+
         // Dev settings should only be used in the development environment and when explicitly enabled.
         var devConfig = builder.Configuration.GetSection(nameof(AppSettings.DevSettings));
         var useDevConfig = builder.Environment.IsDevelopment() && devConfig.Exists() &&
