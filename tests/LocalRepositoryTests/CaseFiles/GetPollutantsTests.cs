@@ -48,13 +48,12 @@ public class GetPollutantsTests
     public async Task GivenNoID_ReturnException()
     {
         //Arrange
-        
-        var caseFile = new CaseFile(null, null, null);
+        var invalidId = -999;
 
         //Act
-        var results = await _repository.GetPollutantsAsync(caseFile.id);
+        Func<Task> act = async () => await _repository.GetPollutantsAsync(invalidId);
 
         //Asert
-        results.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<Exception>();
     }
 }
