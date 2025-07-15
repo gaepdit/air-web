@@ -371,10 +371,14 @@ footer a[target]::after, a[target].no-external-link::after {
     scroll-margin-top: 1.5rem;
 }
 
-/* Card with details/summary
+/* Card/accordion with details/summary
 -------------------------------------------------- */
 details.card:not([open]) summary.card-header {
     border-bottom: none;
+}
+
+.accordion-button.collapsed {
+    background-color: rgb(var(--bs-secondary-bg-rgb));
 }
 
 /* Bootstrap Icons

@@ -21,7 +21,7 @@
     {
         <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
             <div class="btn-group">
-                <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button"
+                <button class="btn btn-outline-primary dropdown-toggle icon-link" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     <svg class="bi">
                         <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
@@ -79,12 +79,20 @@
 </div>
 
 <section class="mt-3">
-    <details class="border rounded-1">
-        <summary class="bg-body-secondary px-2 py-1">
-            Facility Details
-        </summary>
-        <partial name="_Partials/_FacilityDetails" model="Model.Facility" />
-    </details>
+    <div id="facilityDetailsAccordion" class="accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header no-anchor">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#facilityDetailsBody" aria-expanded="false" aria-controls="facilityDetailsBody">
+                    Facility Details
+                </button>
+            </h2>
+            <div id="facilityDetailsBody" class="accordion-collapse collapse" data-bs-parent="facilityDetailsAccordion">
+                <div class="accordion-body">
+                    <partial name="_Partials/_FacilityDetails" model="Model.Facility" />
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section class="mt-4">
@@ -109,19 +117,27 @@
                 </a>
             </div>
         </div>
-        @* <details open="@(Model.ComplianceWork.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
-        <details class="border rounded-1 border-bottom-0">
-            <summary class="bg-body-secondary px-2 py-1 border-bottom">
-                @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
-                {
-                    @GlobalConstants.SummaryTableSize.ToString()
-                    @:most recent /
-                }
-                @Model.ComplianceWorkCount.ToString() total
-            </summary>
-            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                     model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
-        </details>
+
+        <div id="recentComplianceWorkAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentComplianceWorkBody" aria-expanded="false" aria-controls="recentComplianceWorkBody">
+                        @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
+                        {
+                            @GlobalConstants.SummaryTableSize.ToString()
+                            @:most recent /
+                        }
+                        @Model.ComplianceWorkCount.ToString() total
+                    </button>
+                </h3>
+                <div id="recentComplianceWorkBody" class="accordion-collapse collapse" data-bs-parent="recentComplianceWorkAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                                 model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </section>
 
@@ -147,18 +163,26 @@
                 </a>
             </div>
         </div>
-        @* <details open="@(Model.Fces.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
-        <details class="border rounded-1 border-bottom-0">
-            <summary class="bg-body-secondary px-2 py-1 border-bottom">
-                @if (Model.FceCount > GlobalConstants.SummaryTableSize)
-                {
-                    @GlobalConstants.SummaryTableSize.ToString()
-                    @:most recent /
-                }
-                @Model.FceCount.ToString() total
-            </summary>
-            <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
-        </details>
+
+        <div id="recentFceAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentFceBody" aria-expanded="false" aria-controls="recentFceBody">
+                        @if (Model.FceCount > GlobalConstants.SummaryTableSize)
+                        {
+                            @GlobalConstants.SummaryTableSize.ToString()
+                            @:most recent /
+                        }
+                        @Model.FceCount.ToString() total
+                    </button>
+                </h3>
+                <div id="recentFceBody" class="accordion-collapse collapse" data-bs-parent="recentFceAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </section>
 
@@ -184,19 +208,27 @@
                 </a>
             </div>
         </div>
-        @* <details open="@(Model.ComplianceWork.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
-        <details class="border rounded-1 border-bottom-0">
-            <summary class="bg-body-secondary px-2 py-1 border-bottom">
-                @if (Model.EnforcementCount > GlobalConstants.SummaryTableSize)
-                {
-                    @GlobalConstants.SummaryTableSize.ToString()
-                    @:most recent /
-                }
-                @Model.EnforcementCount.ToString() total
-            </summary>
-            <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
-                     model="(Model.EnforcementWork, (CaseFileSearchDto?)null)" />
-        </details>
+
+        <div id="recentEnforcementAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentEnforcementBody" aria-expanded="false" aria-controls="recentEnforcementBody">
+                        @if (Model.EnforcementCount > GlobalConstants.SummaryTableSize)
+                        {
+                            @GlobalConstants.SummaryTableSize.ToString()
+                            @:most recent /
+                        }
+                        @Model.EnforcementCount.ToString() total
+                    </button>
+                </h3>
+                <div id="recentEnforcementBody" class="accordion-collapse collapse" data-bs-parent="recentEnforcementAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
+                                 model="(Model.EnforcementWork, (CaseFileSearchDto?)null)" />
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </section>
 
@@ -221,18 +253,26 @@
                 </a>
             </div>
         </div>
-        @* <details open="@(Model.SourceTests.Count < GlobalConstants.SummaryTableSize)" class="border rounded-1 border-bottom-0"> *@
-        <details class="border rounded-1 border-bottom-0">
-            <summary class="bg-body-secondary px-2 py-1 border-bottom">
-                @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
-                {
-                    @GlobalConstants.SummaryTableSize.ToString()
-                    @:most recent /
-                }
-                @Model.SourceTestCount.ToString() total
-            </summary>
-            <partial name="Shared/CompliancePartials/_SourceTestsTable" model="(Model.SourceTests, true)" />
-        </details>
+
+        <div id="recentSourceTestAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentSourceTestBody" aria-expanded="false" aria-controls="recentSourceTestBody">
+                        @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
+                        {
+                            @GlobalConstants.SummaryTableSize.ToString()
+                            @:most recent /
+                        }
+                        @Model.SourceTestCount.ToString() total
+                    </button>
+                </h3>
+                <div id="recentSourceTestBody" class="accordion-collapse collapse" data-bs-parent="recentSourceTestAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_SourceTestsTable" model="(Model.SourceTests, true)" />
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </section>
 
