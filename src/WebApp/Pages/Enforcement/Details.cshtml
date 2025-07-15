@@ -96,7 +96,7 @@
     <dl class="row mb-2">
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            <div class="rounded-1 py-1 px-2 ms-n2 @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDisplayName()</div>
+            <div class="badge fs-6 fw-medium @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDisplayName()</div>
             @if (caseFile.IsClosed)
             {
                 <div class="mt-1">
