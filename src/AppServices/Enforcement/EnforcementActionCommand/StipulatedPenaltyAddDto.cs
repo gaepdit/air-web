@@ -49,6 +49,7 @@ public class StipulatedPenaltyAddValidator : AbstractValidator<StipulatedPenalty
         if (receivedDate == null) return true;
         if (!context.RootContextData.TryGetValue("ConsentOrder.Id", out var coId) || coId == null)
             return true;
+        // TODO: Replace with FindAsync using a query projection (anonymous type with only executed data as a single property).
         var executedDate = ((ConsentOrder)await _repository.GetAsync((Guid)coId, token: token)
             .ConfigureAwait(false)).ExecutedDate;
         return receivedDate >= executedDate;
