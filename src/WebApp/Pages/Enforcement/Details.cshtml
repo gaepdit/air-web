@@ -122,7 +122,9 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd class="border rounded-1 py-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</dd>
+        <dd>
+            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
+        </dd>
     </dl>
 
     <div id="supportingDataAccordion" class="accordion">

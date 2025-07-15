@@ -253,8 +253,11 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     margin-left: -0.25rem !important;
 }
 
-.ms-n2 {
-    margin-left: -0.5rem !important;
+.mx-neg {
+    margin-left: -.75rem !important;
+    margin-right: -.75rem !important;
+    padding-left: .75rem !important;
+    padding-right: .75rem !important;
 }
 
 /* External links
