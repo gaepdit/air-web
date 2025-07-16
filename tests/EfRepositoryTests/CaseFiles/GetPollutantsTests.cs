@@ -43,11 +43,17 @@ public class GetPollutantsTests
         results.Should().BeEmpty();
     }
 
-    // Given and ID that doesn't exist, return ...
-    /*[Test]
-    public async Task GivenNoID_ReturnException()
+    // Given and ID that doesn't exist, return Exception
+    [Test]
+    public async Task GivenNoID_ThrowsException()
     {
         //Arrange
-        var caseFile = new CaseFile(null, null, null);
-    }*/
+        var invalidId = -999;
+
+        //Act
+        Func<Task> act = async () => await _repository.GetPollutantsAsync(invalidId);
+
+        //Asert
+        await act.Should().ThrowAsync<Exception>();
+    }
 }
