@@ -250,6 +250,9 @@ internal static class AppDbContextConfiguration
 
         if (sql == null) return builder;
 
+        // TODO: See if there's a better way to handle this.
+        // As is, the "value is computed every time it is fetched from the database". Should it be persisted?
+        // Should it be replaced with a get-only property?
         builder.Entity<WorkEntry>().Property(entry => entry.EventDate).HasComputedColumnSql(sql);
         return builder;
     }

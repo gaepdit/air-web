@@ -159,7 +159,9 @@
 
 <dl class="row">
     <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-    <dd class="border rounded-1 py-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</dd>
+    <dd>
+        <div class="border rounded-1 p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</div>
+    </dd>
 </dl>
 
 <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />

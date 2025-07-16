@@ -169,6 +169,7 @@ public sealed partial class WorkEntryService(
         var result = await commentService.AddCommentAsync(entryRepository, itemId, resource, token)
             .ConfigureAwait(false);
 
+        // TODO: Replace with FindAsync using a query projection.
         var workEntry = await entryRepository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService

@@ -243,6 +243,7 @@ public class CaseFileService(
         var result = await commentService.AddCommentAsync(caseFileRepository, itemId, resource, token)
             .ConfigureAwait(false);
 
+        // TODO: Replace with FindAsync using a query projection.
         var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         return new NotificationResultWithId<Guid>(result.CommentId, await appNotificationService
