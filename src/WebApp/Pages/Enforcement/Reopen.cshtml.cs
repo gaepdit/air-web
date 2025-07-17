@@ -35,11 +35,9 @@ public class ReopenModel(ICaseFileService service) : PageModel
         if (item is null || !User.CanReopenCaseFile(item))
             return BadRequest();
 
-        var notificationResult = await service.ReopenAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"The Enforcement Case has been reopened.", notificationResult.FailureMessage);
-
+        var result = await service.ReopenAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "The Enforcement Case has been reopened.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

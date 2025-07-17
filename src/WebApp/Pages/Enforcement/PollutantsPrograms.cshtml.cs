@@ -59,7 +59,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
             airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.AirProgram),
             token);
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
         return RedirectToPage("Details", new { Id });
     }
 

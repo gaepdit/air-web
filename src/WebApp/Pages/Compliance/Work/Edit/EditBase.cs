@@ -59,14 +59,11 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
             return Page();
         }
 
-        var notificationResult = await EntryService.UpdateAsync(Id, item, token);
+        var result = await EntryService.UpdateAsync(Id, item, token);
         var entryType = await EntryService.GetWorkEntryTypeAsync(Id, token);
-        var alertContext = notificationResult.Success
-            ? DisplayMessage.AlertContext.Success
-            : DisplayMessage.AlertContext.Warning;
-        TempData.SetDisplayMessage(alertContext, $"{entryType!.Value.GetDisplayName()} successfully updated.",
-            notificationResult.FailureMessage);
-
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            $"{entryType!.Value.GetDisplayName()} successfully updated.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { Id });
     }
 

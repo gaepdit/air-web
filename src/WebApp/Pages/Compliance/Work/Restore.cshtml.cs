@@ -34,11 +34,9 @@ public class RestoreModel(IWorkEntryService entryService) : PageModel
         if (item is null || !item.IsDeleted || !User.CanRestore(item))
             return BadRequest();
 
-        var notificationResult = await entryService.RestoreAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"{item.ItemName} successfully restored.", notificationResult.FailureMessage);
-
+        var result = await entryService.RestoreAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"{item.ItemName} successfully restored.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

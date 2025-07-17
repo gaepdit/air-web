@@ -32,7 +32,7 @@ public class IndexTests
         // Assert
         using var scope = new AssertionScope();
         page.Items.Should().BeEquivalentTo(ListTest);
-        page.TempData.GetDisplayMessage().Should().BeNull();
+        page.TempData.GetDisplayMessages().Should().BeNull();
         page.HighlightId.Should().BeNull();
     }
 }

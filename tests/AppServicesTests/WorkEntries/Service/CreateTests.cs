@@ -37,7 +37,7 @@ public class CreateTests
         notificationMock
             .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<CancellationToken>(),
                 Arg.Any<object?[]>())
-            .Returns(AppNotificationResult.SuccessResult());
+            .Returns(AppNotificationResult.Success());
 
         var entryService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
             workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ICommentService<int>>(),
@@ -55,9 +55,8 @@ public class CreateTests
 
         // Assert
         using var scope = new AssertionScope();
-        result.AppNotificationResult.Should().NotBeNull();
-        result.AppNotificationResult!.Success.Should().BeTrue();
-        result.AppNotificationResult.FailureMessage.Should().BeEmpty();
+        result.HasWarning.Should().BeFalse();
+        result.WarningMessage.Should().BeNull();
         result.Id.Should().Be(id);
     }
 }

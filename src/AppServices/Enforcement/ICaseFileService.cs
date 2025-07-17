@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
@@ -10,7 +9,7 @@ namespace AirWeb.AppServices.Enforcement;
 
 public interface ICaseFileService
 {
-    // FUTURE: Replace with search.
+    // TODO: Delete.
     Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default);
 
     // Query
@@ -18,10 +17,8 @@ public interface ICaseFileService
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
 
     // Case File commands
-    Task<NotificationResultWithId<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);
-
-    Task<AppNotificationResult> UpdateAsync(int id, CaseFileUpdateDto resource,
-        CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);
+    Task<CommandResult> UpdateAsync(int id, CaseFileUpdateDto resource, CancellationToken token = default);
 
     // Case File Compliance Event linkages
     Task<IEnumerable<WorkEntrySearchResultDto>> GetLinkedEventsAsync(int id, CancellationToken token = default);
@@ -40,16 +37,13 @@ public interface ICaseFileService
         CancellationToken token = default);
 
     // Case File workflow
-    Task<AppNotificationResult> CloseAsync(int id, CancellationToken token = default);
-    Task<AppNotificationResult> ReopenAsync(int id, CancellationToken token = default);
-
-    Task<AppNotificationResult> DeleteAsync(int id, CommentDto resource,
-        CancellationToken token = default);
-
-    Task<AppNotificationResult> RestoreAsync(int id, CancellationToken token = default);
+    Task<CommandResult> CloseAsync(int id, CancellationToken token = default);
+    Task<CommandResult> ReopenAsync(int id, CancellationToken token = default);
+    Task<CommandResult> DeleteAsync(int id, CommentDto resource, CancellationToken token = default);
+    Task<CommandResult> RestoreAsync(int id, CancellationToken token = default);
 
     // Comments
-    Task<NotificationResultWithId<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
+    Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default);
 
     Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);

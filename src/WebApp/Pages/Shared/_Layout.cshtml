@@ -1,5 +1,5 @@
 @{
-    var displayMessage = TempData.GetDisplayMessage();
+    var displayMessages = TempData.GetDisplayMessages();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@
 
 <main id="main-content" role="main" class="flex-grow-1">
     <div class="container">
-        <partial name="Shared/_AlertPartial" for="@displayMessage" />
+        <partial name="Shared/_AlertPartial" for="@displayMessages" />
         @RenderBody()
     </div>
 </main>

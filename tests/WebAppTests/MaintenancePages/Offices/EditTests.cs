@@ -86,7 +86,7 @@ public class EditTests
         // Assert
         using var scope = new AssertionScope();
         page.HighlightId.Should().Be(page.Id.Value);
-        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        page.TempData.GetDisplayMessages().Should().BeEquivalentTo([expectedMessage]);
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Index");
     }

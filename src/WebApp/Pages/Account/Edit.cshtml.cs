@@ -52,7 +52,7 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
         var result = await staffService.UpdateAsync(staff.Id, UpdateStaff);
         if (!result.Succeeded) return BadRequest();
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
         return RedirectToPage("Index");
     }
 

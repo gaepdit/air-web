@@ -59,7 +59,7 @@ public class EditModel(
         }
 
         await caseFileService.UpdateAsync(Id, Item, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
         return RedirectToPage("Details", new { Id });
     }
 

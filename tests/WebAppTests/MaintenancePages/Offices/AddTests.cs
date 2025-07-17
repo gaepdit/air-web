@@ -35,7 +35,7 @@ public class AddTests
         // Assert
         using var scope = new AssertionScope();
         page.HighlightId.Should().Be(Guid.Empty);
-        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        page.TempData.GetDisplayMessages().Should().BeEquivalentTo([expectedMessage]);
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Index");
     }

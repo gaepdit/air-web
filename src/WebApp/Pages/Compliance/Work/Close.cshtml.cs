@@ -35,11 +35,9 @@ public class CloseModel(IWorkEntryService entryService) : PageModel
         if (item is null || !User.CanClose(item))
             return BadRequest();
 
-        var notificationResult = await entryService.CloseAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"The {item.ItemName} has been closed.", notificationResult.FailureMessage);
-
+        var result = await entryService.CloseAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

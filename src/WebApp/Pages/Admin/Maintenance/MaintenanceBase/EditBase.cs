@@ -35,7 +35,7 @@ public abstract class EditBase : PageModel, ISubmitCancelButtons
         await service.UpdateAsync(Id.Value, item);
 
         HighlightId = Id.Value;
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             message: $"“{item.Name}” successfully updated.");
         return RedirectToPage("Index");
     }

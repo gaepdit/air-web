@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.EmailLog;
+using AirWeb.Domain.Identity;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.AppNotifications;
+
+public interface IAppNotificationService
+{
+    Task<AppNotificationResult> SendNotificationAsync(Template template, string recipientEmail, CancellationToken token,
+        params object?[] values);
+}
 
 public class AppNotificationService(
     IEmailService emailService,
@@ -35,7 +42,7 @@ public class AppNotificationService(
         configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);
 
         if (string.IsNullOrEmpty(recipientEmail))
-            return AppNotificationResult.FailureResult($"{FailurePrefix} A recipient could not be determined.");
+            return AppNotificationResult.Failed($"{FailurePrefix} A recipient could not be determined.");
 
         Message message;
         try
@@ -46,14 +53,14 @@ public class AppNotificationService(
         {
             logger.LogError(AppNotificationServiceFailure, e, "Failure generating email message with subject {Subject}",
                 subject);
-            return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when generating the email.");
+            return AppNotificationResult.Failed($"{FailurePrefix} An error occurred when generating the email.");
         }
 
         await emailLogRepository.InsertAsync(Create(message), token).ConfigureAwait(false);
 
         if (settings is { EnableEmail: false, EnableEmailAuditing: false })
         {
-            return AppNotificationResult.FailureResult($"{FailurePrefix} Emailing is not enabled on the server.");
+            return AppNotificationResult.Failed($"{FailurePrefix} Emailing is not enabled on the server.");
         }
 
         try
@@ -64,10 +71,10 @@ public class AppNotificationService(
         {
             logger.LogError(AppNotificationServiceFailure, e, "Failure sending email message with subject {Subject}",
                 subject);
-            return AppNotificationResult.FailureResult($"{FailurePrefix} An error occurred when sending the email.");
+            return AppNotificationResult.Failed($"{FailurePrefix} An error occurred when sending the email.");
         }
 
-        return AppNotificationResult.SuccessResult();
+        return AppNotificationResult.Success();
     }
 
     private static EmailLog Create(Message message) => new()
@@ -82,4 +89,20 @@ public class AppNotificationService(
         HtmlBody = message.HtmlBody.Truncate(20_000),
         CreatedAt = DateTimeOffset.Now,
     };
+}
+
+public static class AppNotificationExtensions
+{
+    public static async Task<AppNotificationResult> SendNotificationAsync(this IAppNotificationService service,
+        Template template, ApplicationUser? recipient, CancellationToken token, params object?[] values)
+    {
+        if (recipient is null)
+            return AppNotificationResult.NotAttempted();
+        if (!recipient.Active)
+            return AppNotificationResult.Failed("The recipient is not an active user.");
+        if (recipient.Email is null)
+            return AppNotificationResult.Failed("The recipient has no email address.");
+
+        return await service.SendNotificationAsync(template, recipient.Email, token, values).ConfigureAwait(false);
+    }
 }

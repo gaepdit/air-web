@@ -63,7 +63,7 @@ public class AdministrativeOrderEditModel(
             return Page();
 
         await actionService.UpdateAsync(Id, Item, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
