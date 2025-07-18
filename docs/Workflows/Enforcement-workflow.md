@@ -9,7 +9,7 @@
 * Reopening a Case File re-enables all editing.
 * Comments can be added and edited.
 * A Comment can be deleted *(not shown in diagram)*.
-* A Case File can be deleted *(not shown)*.
+* A Case File can be deleted *(not shown in diagram)*.
 
 ### Case File Status
 
@@ -25,22 +25,32 @@ The Case File status depends (in part) on the status of its Enforcement Actions.
 
 * An Enforcement Action can be added to an open Case File.
 * An Enforcement Action can be edited while the Case File is open.
-* An Enforcement Action can be submitted for review.
+* An Enforcement Action can be submitted for review, creating an Enforcement Action Review.
+* An Enforcement Action Review can be completed, updating the Enforcement Action status.
 * An Enforcement Action can be issued (closed as sent) or canceled (closed as unsent), both of which disable the review
   process.
-* An Enforcement Action can be deleted *(not shown)*.
+* An Enforcement Action can be deleted *(not shown in diagram)*.
 
-### Consent Orders
+### Enforcement Action Types
 
+* Informational Letter
+* Letter of Noncompliance (LON)
+* No Further Action Letter (NFA)
+* Notice of Violation (NOV)
+* Combined NOV/NFA Letter
+* Proposed Consent Order (PCO)
+* Consent Order (CO)
+* Administrative Order (AO)
+
+### Enforcement Action Type-Specific Logic
+
+* An LON or a Combined NOV/NFA letter cannot be added if a reportable Enforcement Action (see Data Exchange table below)
+  has already been issued.
+* An NFA cannot be added directly to a Case File. It can only be generated from an existing NOV.
+* A CO cannot be added directly to a Case File. It can only be generated from an existing PCO (using the "Signed Order
+  received" action).
 * If the Enforcement Action is a Consent Order, Stipulated Penalties can be added.
-* A Stipulated Penalty can be deleted *(not shown)*.
-* A Consent Order (CO) cannot be added directly to a Case File. A Proposed Consent Order (PCO) must first be added, then
-  a CO can be generated from the PCO.
-
-### Enforcement Action Review
-
-* An Enforcement Action can be submitted for review, creating an Enforcement Action Review.
-* An Enforcement Action Review can be completed, updating the Enforcement Action.
+* A Stipulated Penalty can be deleted *(not shown in diagram)*.
 
 ### Enforcement Action Status
 
@@ -122,7 +132,7 @@ flowchart
     close -->|"`Disables/*enables*`"| editEnf
     close -->|"`Disables/*enables*`"| link
     close -->|"`Disables/*enables*`"| editAction
-    add -->|Creates| ENF
+    add -->|Adds| ENF
     addAction -->|Adds| ACT
     close -->|"`Closes/*reopens*`"| ENF
     comment -->|Adds| CTE
@@ -137,8 +147,6 @@ flowchart
 
 ### Consent Order Process Flow Chart
 
-A Consent Order can only be generated from a Proposed Consent Order.
-
 ```mermaid
 flowchart
     ENF{{Case File}}
@@ -146,10 +154,10 @@ flowchart
     CO{{"`Enforcement Action: **Consent Order**`"}}
     STP{{Stipulated Penalty}}
     addPCO([Add Proposed CO])
-    issuePCO([Issue])
+    issuePCO([Issue PCO])
     signed([Signed Order received])
     execute([Execute Order])
-    issueCO([Issue])
+    issueCO([Issue CO])
     penalty([Add Penalty])
     ENF -.-> addPCO
     PCO -.-> issuePCO
@@ -157,12 +165,9 @@ flowchart
     CO -.-> execute
     CO -.->|"`*only if Executed*`"| issueCO
     CO -.->|"`*only if Executed*`"| penalty
-    issuePCO -->|Issues| PCO
     addPCO -->|Adds| PCO
-    signed -->|Creates| CO
-    issueCO -->|Issues| CO
+    signed -->|Adds| CO
     penalty -->|Adds| STP
-    execute -->|Executes| CO
 
 ```
 
