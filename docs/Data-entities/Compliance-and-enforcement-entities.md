@@ -21,26 +21,67 @@
     - REV: Permit revocation (previously a type of Notification)
 - ENF: Enforcement Case File
 
-## ERD
+## Entity Relationship Diagrams
+
+**Key:**<br>
+🔗 - Many-to-many linkage table<br>
+⚓ - Primary entities<br>
+🛩️ - External data (from the IAIP service)
+
+### Simplified ERD
 
 ```mermaid
 erDiagram
     FAC["Facility 🛩️"] {
-    string FacilityId PK
-}
+        string FacilityId PK
+    }
 
     TST["Source Test Report 🛩️"] {
-    int ReferenceNumber PK
-}
+        int ReferenceNumber PK
+    }
 
     FCE["FCE ⚓"] {
-    int Id PK
-}
+        int Id PK
+    }
 
     WRK["Work Entry ⚓"] {
-    int Id PK
-    bool IsComplianceEvent
-}
+        int Id PK
+        bool IsComplianceEvent
+    }
+
+    ENF["Enforcement Case File ⚓"] {
+        int Id PK
+    }
+
+    TST }o--|| FAC: "is conducted at"
+    WRK }o--|| FAC: "is entered for"
+    ENF }o--|| FAC: "is issued to"
+    FCE }o--|| FAC: "is completed for"
+    TST }o--|| WRK: "is linked to"
+    ENF }o--o{ WRK: "is linked to"
+
+```
+
+### Full ERD
+
+```mermaid
+erDiagram
+    FAC["Facility 🛩️"] {
+        string FacilityId PK
+    }
+
+    TST["Source Test Report 🛩️"] {
+        int ReferenceNumber PK
+    }
+
+    FCE["FCE ⚓"] {
+        int Id PK
+    }
+
+    WRK["Work Entry ⚓"] {
+        int Id PK
+        bool IsComplianceEvent
+    }
 
     CME["Compliance Event"]
 
@@ -55,13 +96,13 @@ erDiagram
     REV["Permit Revocation"]
 
     ENF["Enforcement Case File ⚓"] {
-    int Id PK
-}
+        int Id PK
+    }
 
     CEL["Compliance Event-Case File 🔗"] {
-    int EnforcementId FK
-    int WorkEntryId FK
-}
+        int EnforcementId FK
+        int WorkEntryId FK
+    }
 
 STR |o--|| CME : "is a type of"
 ACC |o--|| CME : "is a type of"
@@ -84,8 +125,3 @@ CEL }o--|| ENF : "addresses"
 CEL }o--|| CME : "is linked to"
 
 ```
-
-Key:<br>
-🔗 - Many-to-many linkage table<br>
-⚓ - Primary entities<br>
-🛩️ - External data (from the IAIP service)
