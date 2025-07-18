@@ -150,8 +150,8 @@ flowchart
 ```mermaid
 flowchart
     ENF{{Case File}}
-    PCO{{"`Enforcement Action: **Proposed Consent Order**`"}}
-    CO{{"`Enforcement Action: **Consent Order**`"}}
+    PCO{{"`**Proposed CO**`"}}
+    CO{{"`**Consent Order**`"}}
     STP{{Stipulated Penalty}}
     addPCO([Add Proposed CO])
     issuePCO([Issue PCO])
