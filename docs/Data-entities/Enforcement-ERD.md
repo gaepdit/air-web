@@ -21,12 +21,12 @@ erDiagram
         int caseFileId FK
     }
 
-    ACT["Enforcement Action †"] {
+    ACT["Enforcement Action"] {
         Guid Id PK
         int caseFileId FK
     }
 
-    POL["Pollutants & Air Programs ‡"]
+    POL["Pollutants & Air Programs †"]
 
     REV["Enforcement Action Review"] {
         Guid Id PK
@@ -49,8 +49,7 @@ erDiagram
     STP }o--|| ACT: "may be required by (CO only)"
 ```
 
-† See next diagram for Enforcement Actions.<br>
-‡ Pollutants & Air Programs are combined on the graph but are tracked separately.
+† Pollutants & Air Programs are combined on the graph but are tracked separately.
 
 ### Enforcement Action Types
 
