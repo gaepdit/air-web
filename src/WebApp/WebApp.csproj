@@ -2,6 +2,7 @@
     <PropertyGroup>
         <InformationalVersion>2024.8.27</InformationalVersion>
         <RootNamespace>AirWeb.WebApp</RootNamespace>
+        <AssemblyName>AirWeb.WebApp</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
