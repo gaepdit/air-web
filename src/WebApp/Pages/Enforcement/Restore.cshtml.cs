@@ -34,11 +34,9 @@ public class RestoreModel(ICaseFileService service) : PageModel
         if (item is null || !User.CanRestoreCaseFile(item))
             return BadRequest();
 
-        var notificationResult = await service.RestoreAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"Enforcement Case successfully restored.", notificationResult.FailureMessage);
-
+        var result = await service.RestoreAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case successfully restored.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

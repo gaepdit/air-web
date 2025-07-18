@@ -35,11 +35,9 @@ public class ReopenModel(IWorkEntryService entryService) : PageModel
         if (item is null || !User.CanReopen(item))
             return BadRequest();
 
-        var notificationResult = await entryService.ReopenAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"The {item.ItemName} has been reopened.", notificationResult.FailureMessage);
-
+        var result = await entryService.ReopenAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been reopened.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

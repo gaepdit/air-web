@@ -77,10 +77,9 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             return Page();
         }
 
-        var addCommentResult = await entryService.AddCommentAsync(Id, newComment, token);
-        NewCommentId = addCommentResult.Id;
-        if (addCommentResult.AppNotificationResult is { Success: false })
-            NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
+        var result = await entryService.AddCommentAsync(Id, newComment, token);
+        NewCommentId = result.Id;
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 

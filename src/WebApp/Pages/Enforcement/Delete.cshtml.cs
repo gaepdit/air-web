@@ -38,11 +38,9 @@ public class DeleteModel(ICaseFileService service) : PageModel
         if (item is null || !User.CanDeleteCaseFile(item))
             return BadRequest();
 
-        var notificationResult = await service.DeleteAsync(Id, Comment, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"Enforcement Case successfully deleted.", notificationResult.FailureMessage);
-
+        var result = await service.DeleteAsync(Id, Comment, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case successfully deleted.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

@@ -53,20 +53,12 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
             return Page();
         }
 
-        var createResult = await entryService.CreateAsync(item, token);
+        var result = await entryService.CreateAsync(item, token);
 
-        var message = $"{EntryType.GetDisplayName()} successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
-        return RedirectToPage("../Details", new { createResult.Id });
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            $"{EntryType.GetDisplayName()} successfully created.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage("../Details", new { result.Id });
     }
 
     protected virtual async Task PopulateSelectListsAsync() =>

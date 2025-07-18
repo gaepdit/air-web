@@ -26,7 +26,7 @@ public abstract class AddBase : PageModel, ISubmitCancelButtons
         if (!ModelState.IsValid) return Page();
 
         HighlightId = await service.CreateAsync(item.Name);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message: $"“{item.Name}” successfully added.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, message: $"“{item.Name}” successfully added.");
         return RedirectToPage("Index");
     }
 }

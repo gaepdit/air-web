@@ -135,7 +135,7 @@ public class EditRolesTests
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Details");
         ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(userId);
-        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        page.TempData.GetDisplayMessages().Should().BeEquivalentTo([expectedMessage]);
     }
 
     [Test]

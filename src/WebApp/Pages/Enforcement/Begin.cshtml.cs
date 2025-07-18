@@ -89,20 +89,10 @@ public class BeginModel(
             return Page();
         }
 
-        var createResult = await caseFileService.CreateAsync(NewCaseFile, token);
-
-        const string message = "Enforcement Case File successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
-        return RedirectToPage("Details", new { createResult.Id });
+        var result = await caseFileService.CreateAsync(NewCaseFile, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case File successfully created.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage("Details", new { result.Id });
     }
 
     private async Task PopulateSelectListsAsync() =>

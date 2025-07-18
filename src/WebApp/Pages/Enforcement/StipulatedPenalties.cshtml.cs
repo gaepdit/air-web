@@ -65,7 +65,7 @@ public class StipulatedPenaltiesEditModel(
             return Page();
 
         await actionService.AddStipulatedPenalty(Id, NewPenalty, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty added.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty added.");
         return RedirectToPage();
     }
 
@@ -80,7 +80,7 @@ public class StipulatedPenaltiesEditModel(
             return BadRequest();
 
         await actionService.DeletedStipulatedPenalty(coView.Id, penaltyId, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty deleted.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty deleted.");
         return RedirectToPage();
     }
 }

@@ -38,7 +38,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
 
         if (result.Succeeded)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.");
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.");
             return RedirectToPage("Details", new { id = UserId });
         }
 

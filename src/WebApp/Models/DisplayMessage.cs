@@ -2,8 +2,18 @@
 
 namespace AirWeb.WebApp.Models;
 
-public record DisplayMessage(DisplayMessage.AlertContext Context, string Message, List<string>? Details = null)
+public record DisplayMessage(DisplayMessage.AlertContext Context, string Message)
 {
+    public enum AlertContext
+    {
+        Primary,
+        Secondary,
+        Success,
+        Danger,
+        Warning,
+        Info,
+    }
+
     [JsonIgnore]
     public string AlertClass => Context switch
     {
@@ -15,14 +25,4 @@ public record DisplayMessage(DisplayMessage.AlertContext Context, string Message
         AlertContext.Info => "alert-info",
         _ => string.Empty,
     };
-
-    public enum AlertContext
-    {
-        Primary,
-        Secondary,
-        Success,
-        Danger,
-        Warning,
-        Info,
-    }
 }

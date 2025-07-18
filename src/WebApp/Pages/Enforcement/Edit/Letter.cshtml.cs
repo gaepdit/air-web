@@ -66,7 +66,7 @@ public class LetterEditModel(
 
         await actionService.UpdateAsync(Id, Item, token);
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
 

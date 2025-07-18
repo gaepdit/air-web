@@ -41,12 +41,12 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
 
         if (result)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
                 $"Compliance Event #{entryId} successfully linked.");
         }
         else
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
                 $"There was an error linking Compliance Event #{entryId}.");
         }
 
@@ -63,12 +63,12 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
 
         if (result)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
                 $"Compliance Event #{entryId} successfully unlinked.");
         }
         else
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
                 $"There was an error unlinking Compliance Event #{entryId}.");
         }
 

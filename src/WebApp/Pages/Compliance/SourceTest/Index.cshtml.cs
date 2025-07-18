@@ -115,19 +115,10 @@ public class IndexModel(
             return Page();
         }
 
-        var createResult = await entryService.CreateAsync(newComplianceReview, token);
+        var result = await entryService.CreateAsync(newComplianceReview, token);
 
-        const string message = "Compliance Review successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "compliance-review");
     }
@@ -156,11 +147,9 @@ public class IndexModel(
             return Page();
         }
 
-        var addCommentResult = await entryService.AddCommentAsync(ComplianceReview.Id, newComment, token);
-        NewCommentId = addCommentResult.Id;
-        if (addCommentResult.AppNotificationResult is { Success: false })
-            NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
-
+        var result = await entryService.AddCommentAsync(ComplianceReview.Id, newComment, token);
+        NewCommentId = result.Id;
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: NewCommentId.ToString());
     }

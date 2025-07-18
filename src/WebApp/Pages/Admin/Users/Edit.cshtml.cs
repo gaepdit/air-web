@@ -61,7 +61,7 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
         var result = await staffService.UpdateAsync(Id.ToString(), Item);
         if (!result.Succeeded) return BadRequest();
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
         return RedirectToPage("Details", new { Id });
     }
 
