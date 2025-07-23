@@ -240,11 +240,10 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        var caseFile = await caseFileService.FindSummaryAsync(Id, token);
-        if (caseFile is null || caseFile.IsDeleted) return BadRequest();
-
-        await SetPermissionsAsync();
-        if (!UserCan[CaseFileOperation.DeleteComment]) return BadRequest();
+        var caseFileSummary = await caseFileService.FindSummaryAsync(Id, token);
+        if (!(await authorization.AuthorizeAsync(User, caseFileSummary, requirement: CaseFileOperation.DeleteComment))
+            .Succeeded)
+            return BadRequest();
 
         await caseFileService.DeleteCommentAsync(commentId, token);
         return RedirectToFragment("comments");

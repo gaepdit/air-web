@@ -27,7 +27,8 @@ public static class AuthorizationPolicyRegistration
 
         // ViewRequirements are added as scoped if they consume scoped services; otherwise as singletons.
         services
-            .AddSingleton<IAuthorizationHandler, CaseFileRequirementsHandler>()
+            .AddSingleton<IAuthorizationHandler, CaseFileViewRequirementsHandler>()
+            .AddSingleton<IAuthorizationHandler, CaseFileSummaryRequirementsHandler>()
             .AddScoped<IAuthorizationHandler, FceRequirementsHandler>()
             .AddScoped<IAuthorizationHandler, WorkEntryRequirementsHandler>();
 
