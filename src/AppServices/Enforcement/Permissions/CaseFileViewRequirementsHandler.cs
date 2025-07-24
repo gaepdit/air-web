@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Enforcement.Permissions;
 
-internal class CaseFileRequirementsHandler :
+internal class CaseFileViewRequirementsHandler :
     AuthorizationHandler<CaseFileOperation, CaseFileViewDto>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         CaseFileOperation requirement,
-        CaseFileViewDto resource)
+        CaseFileViewDto? resource)
     {
         var user = context.User;
-        if (user.Identity is not { IsAuthenticated: true })
+        if (user.Identity is not { IsAuthenticated: true } || resource is null)
             return Task.FromResult(0);
 
         var success = requirement.Name switch
