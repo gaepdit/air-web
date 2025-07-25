@@ -6,6 +6,7 @@ using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using IaipDataService;
+using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,9 @@ builder.Services.AddMemoryCache();
 // Add organizational notifications.
 builder.Services.AddOrgNotifications();
 
+// Configure Aspire.
+builder.AddServiceDefaults();
+
 // Build the application.
 var app = builder.Build();
 
@@ -69,6 +73,7 @@ app
     .UseApiDocumentation();
 
 // Map endpoints.
+app.MapDefaultEndpoints();
 app.MapRazorPages();
 app.MapControllers();
 
