@@ -1,5 +1,9 @@
 # Enforcement Case Workflow
 
+Case Files address non-compliance. They are linked to a single facility and may be linked to one or more compliance
+events. One or more Enforcement Actions will be issued for a Case File, some of which can be considered to resolve the
+Case File. Once all work on a Case File is complete, it can be closed.
+
 ## Case File
 
 * A new Case File can be entered from a Facility or Compliance Event.
@@ -20,6 +24,15 @@ The Case File status depends (in part) on the status of its Enforcement Actions.
 - *Subject to compliance schedule* - Case File has at least one Formal Enforcement Action (see Data Exchange table
   below) that has been executed.
 - *Closed* - Case File is closed.
+
+```mermaid
+flowchart LR
+    d[Draft] --> c[Closed]
+    d --> o[Open]
+    o --> c
+    o --> s[Compliance Schedule]
+    s --> c
+```
 
 ## Enforcement Action
 
@@ -64,43 +77,7 @@ flowchart LR
     a --> i
 ```
 
-## Data Exchange
-
-When an Informal or Formal Enforcement Action (EA) exists and a Compliance Event is linked, the Data Exchange is
-enabled for the Case File.
-
-| Enforcement Action type    | Not reportable | Informal reportable | Formal reportable |
-|----------------------------|:--------------:|:-------------------:|:-----------------:|
-| Letter of Noncompliance    |       ✓        |                     |                   |
-| Notice of Violation        |                |          ✓          |                   |
-| No Further Action Letter   |       ✓        |                     |                   |
-| Combined NOV/NFA Letter    |                |          ✓          |                   |
-| Proposed Consent Order     |                |          ✓          |                   |
-| Consent Order              |                |                     |         ✓         |
-| Administrative Order       |                |                     |         ✓         |
-| Order Resolved  (CO or AO) |       ✓        |                     |                   |
-| Informational Letter       |       ✓        |                     |                   |
-
-### ICIS-Air Data Exchange Activities
-
-| Item                          | ICIS-Air Data Type    | Pathway Activity *                |
-|-------------------------------|-----------------------|-----------------------------------|
-| Case File                     | Case File             | *N/A*                             |
-| Compliance Event              | Compliance Monitoring | Discovery                         |
-| Notice of Violation           | Informal EA           | Notification                      |
-| No Further Action Letter      | *N/A*                 | Addressing & Resolving            |
-| Combined NOV/NFA Letter       | Informal EA           | Notification/Addressing/Resolving |
-| Proposed Consent Order        | Informal EA           | Notification                      |
-| Consent Order                 | Formal EA             | Addressing                        |
-| Consent Order Resolved        | *N/A*                 | Resolving                         |
-| Administrative Order          | Formal EA             | Addressing                        |
-| Administrative Order Resolved | *N/A*                 | Resolving                         |
-
-<small>
-* Indicates Pathway Activities tracked for each Case File.
-</small>
-
-## Flow Chart
+## Case File Process Flow Chart
 
 ```mermaid
 flowchart
@@ -188,3 +165,39 @@ flowchart
     review -->|Starts| REV
 
 ```
+
+## Data Exchange
+
+When an Informal or Formal Enforcement Action (EA) exists and a Compliance Event is linked, the Data Exchange is
+enabled for the Case File.
+
+| Enforcement Action type    | Not reportable | Informal reportable | Formal reportable |
+|----------------------------|:--------------:|:-------------------:|:-----------------:|
+| Letter of Noncompliance    |       ✓        |                     |                   |
+| Notice of Violation        |                |          ✓          |                   |
+| No Further Action Letter   |       ✓        |                     |                   |
+| Combined NOV/NFA Letter    |                |          ✓          |                   |
+| Proposed Consent Order     |                |          ✓          |                   |
+| Consent Order              |                |                     |         ✓         |
+| Administrative Order       |                |                     |         ✓         |
+| Order Resolved  (CO or AO) |       ✓        |                     |                   |
+| Informational Letter       |       ✓        |                     |                   |
+
+### ICIS-Air Data Exchange Activities
+
+| Item                          | ICIS-Air Data Type    | Pathway Activity *                |
+|-------------------------------|-----------------------|-----------------------------------|
+| Case File                     | Case File             | *N/A*                             |
+| Compliance Event              | Compliance Monitoring | Discovery                         |
+| Notice of Violation           | Informal EA           | Notification                      |
+| No Further Action Letter      | *N/A*                 | Addressing & Resolving            |
+| Combined NOV/NFA Letter       | Informal EA           | Notification/Addressing/Resolving |
+| Proposed Consent Order        | Informal EA           | Notification                      |
+| Consent Order                 | Formal EA             | Addressing                        |
+| Consent Order Resolved        | *N/A*                 | Resolving                         |
+| Administrative Order          | Formal EA             | Addressing                        |
+| Administrative Order Resolved | *N/A*                 | Resolving                         |
+
+<small>
+* Indicates Pathway Activities tracked for each Case File.
+</small>
