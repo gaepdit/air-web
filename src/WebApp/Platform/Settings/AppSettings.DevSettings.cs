@@ -1,14 +1,12 @@
-using JetBrains.Annotations;
-
 namespace AirWeb.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
     // DEV configuration settings
-    public static DevSettingsSection DevSettings { get; set; } = new();
+    public static DevSettingsSection DevSettings { get; private set; } = new();
 
     // PROD configuration settings
-    public static readonly DevSettingsSection ProductionDefault = new()
+    private static readonly DevSettingsSection ProductionDefault = new()
     {
         UseDevSettings = false,
         BuildDatabase = true,
@@ -69,5 +67,18 @@ internal static partial class AppSettings
         /// Use WebOptimizer to bundle and minify CSS and JS files (`true`).
         /// </summary>
         public bool EnableWebOptimizerInDev { get; init; }
+    }
+
+    private static IHostApplicationBuilder BindDevAppSettings(this IHostApplicationBuilder builder)
+    {
+        // Dev settings should only be used in the development or staging environment and when explicitly enabled.
+        var devConfig = builder.Configuration.GetSection(nameof(DevSettings));
+        var useDevConfig = !builder.Environment.IsProduction() && devConfig.Exists() &&
+                           Convert.ToBoolean(devConfig[nameof(DevSettings.UseDevSettings)]);
+
+        if (useDevConfig) devConfig.Bind(DevSettings);
+        else DevSettings = ProductionDefault;
+
+        return builder;
     }
 }
