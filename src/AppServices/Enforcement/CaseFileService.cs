@@ -92,11 +92,11 @@ public class CaseFileService(
         caseFile.Notes = resource.Notes ?? string.Empty;
 
         if (resource.EventId != null &&
-            await entryRepository.FindAsync(resource.EventId.Value, token: token).ConfigureAwait(false) is
-                ComplianceEvent
-                complianceEvent)
+            await entryRepository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false) is
+                ComplianceEvent complianceEvent)
         {
             caseFile.ComplianceEvents.Add(complianceEvent);
+            complianceEvent.CaseFiles.Add(caseFile);
         }
 
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);
