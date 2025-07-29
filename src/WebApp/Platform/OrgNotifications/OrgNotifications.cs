@@ -9,11 +9,8 @@ namespace AirWeb.WebApp.Platform.OrgNotifications;
 
 public static class OrgNotificationsServiceExtensions
 {
-    public static void AddOrgNotifications(this IServiceCollection services)
-    {
-        services.AddHttpClient();
-        services.AddScoped<IOrgNotifications, OrgNotifications>();
-    }
+    public static void AddOrgNotifications(this IServiceCollection services) => 
+        services.AddHttpClient().AddScoped<IOrgNotifications, OrgNotifications>();
 }
 
 public interface IOrgNotifications
@@ -33,6 +30,7 @@ public class OrgNotifications(
 {
     private const string ApiEndpoint = "/current";
     private const string CacheKey = nameof(OrgNotifications);
+    internal static readonly EventId OrgNotificationsFetchFailure = new(2501, nameof(OrgNotificationsFetchFailure));
 
     public async Task<List<OrgNotification>> GetOrgNotificationsAsync()
     {
@@ -43,16 +41,14 @@ public class OrgNotifications(
 
         try
         {
-            notifications = await http.FetchApiDataAsync<List<OrgNotification>>(AppSettings.OrgNotificationsApiUrl,
-                ApiEndpoint, nameof(OrgNotifications));
-            if (notifications is null) return [];
+            notifications = await http.FetchApiDataAsync<List<OrgNotification>>(
+                AppSettings.OrgNotificationsApiUrl, ApiEndpoint, "NotificationsClient") ?? [];
         }
         catch (Exception ex)
         {
             // If the API is unresponsive or other error occurs, no notifications will be displayed.
-            // This empty list will be cached.
+            logger.LogError(OrgNotificationsFetchFailure, ex, "Failed to fetch organizational notifications.");
             notifications = [];
-            logger.LogError(ex, "Failed to fetch organizational notifications.");
         }
 
         cache.Set(CacheKey, notifications, new TimeSpan(hours: 1, minutes: 0, seconds: 0));

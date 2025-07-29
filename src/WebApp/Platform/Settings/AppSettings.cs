@@ -5,13 +5,11 @@ namespace AirWeb.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
-    public static string? Version { get; set; }
+    public static string? Version { get; private set; }
     public static Support SupportSettings { get; } = new();
     public static Raygun RaygunSettings { get; } = new();
     public static OrganizationInfo OrganizationInfo { get; } = new();
-
-    // Organizational notifications
-    public static string? OrgNotificationsApiUrl { get; set; }
+    public static string? OrgNotificationsApiUrl { get; private set; }
 
     [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public record Support

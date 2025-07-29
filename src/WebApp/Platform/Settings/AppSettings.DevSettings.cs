@@ -20,7 +20,6 @@ internal static partial class AppSettings
         EnableWebOptimizerInDev = false,
     };
 
-    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public record DevSettingsSection
     {
         /// <summary>
