@@ -15,7 +15,7 @@ public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageMod
 
     private async Task<SignOutResult> SignOut()
     {
-        var authenticationProperties = new AuthenticationProperties { RedirectUri = "/Index" };
+        var authenticationProperties = new AuthenticationProperties { RedirectUri = "../" };
         var userAuthenticationScheme = User.GetAuthenticationMethod();
 
         if (userAuthenticationScheme is null or LoginProviders.TestUserScheme)

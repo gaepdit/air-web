@@ -11,7 +11,6 @@ public class DisplayMessageTests
     public void SetDisplayMessage_ReturnsWithDisplayMessage()
     {
         // Arrange
-        // The actual Page model here doesn't matter. DisplayMessage is available for all pages.
         var page = new TestPage { TempData = WebAppTestsSetup.PageTempData() };
         var expectedMessage = new DisplayMessage(DisplayMessage.AlertContext.Info, "Info message");
 
