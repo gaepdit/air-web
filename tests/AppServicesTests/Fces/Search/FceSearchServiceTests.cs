@@ -12,7 +12,7 @@ namespace AppServicesTests.Fces.Search;
 
 public class FceSearchServiceTests
 {
-    private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100);
+    private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100, sorting: "Id");
 
     [Test]
     public async Task WhenItemsExist_ReturnsPagedList()
