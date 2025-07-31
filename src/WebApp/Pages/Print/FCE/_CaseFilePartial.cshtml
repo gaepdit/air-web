@@ -1,4 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using Microsoft.OpenApi.Extensions
 @model IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.EnforcementCaseSummaryDto>
 
 <h2 id="enforcement-history">Five-Year History of Enforcement Cases</h2>
@@ -18,8 +19,10 @@
     <tr>
         <th scope="col" class="no-wrap">@Html.DisplayNameFor(_ => firstItem.Id)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.ResponsibleStaff)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.CaseFileStatus)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.EnforcementDate)</th>
-        @* <th scope="col">@Html.DisplayNameFor(_ => firstItem.EnforcementType)</th> *@
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.LatestActionActionType)</th>
+        <th scope="col">@Html.DisplayNameFor(_ => firstItem.LatestActionIssueDate)</th>
     </tr>
     </thead>
     <tbody>
@@ -28,8 +31,10 @@
         <tr>
             <th scope="row">@i.Id</th>
             <td>@i.ResponsibleStaff?.SortableFullName</td>
+            <td>@i.CaseFileStatus.GetDisplayName()</td>
             <td>@Html.DisplayFor(_ => i.EnforcementDate, DisplayTemplate.LongDateOnly)</td>
-            @* <td>@Html.DisplayFor(_ => i.EnforcementType, DisplayTemplate.TextOrPlaceholder)</td> *@
+            <td>@Html.DisplayFor(_ => i.LatestActionActionType, DisplayTemplate.EnumNullable)</td>
+            <td>@Html.DisplayFor(_ => i.LatestActionIssueDate, DisplayTemplate.LongDateOnlyNullable)</td>
         </tr>
     }
     </tbody>

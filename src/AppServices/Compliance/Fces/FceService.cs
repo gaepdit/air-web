@@ -5,6 +5,7 @@ using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -16,6 +17,7 @@ public sealed class FceService(
     IFceRepository fceRepository,
     IFceManager fceManager,
     IWorkEntryRepository entryRepository,
+    ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
@@ -46,23 +48,25 @@ public sealed class FceService(
         {
             Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
             Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
             Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
             Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
             RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId, token).ConfigureAwait(false)),
+            EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
+                caseFile => caseFile.FacilityId == facilityId &&
+                            caseFile.HasIssuedEnforcement, mapper, token).ConfigureAwait(false),
         };
 
         // TODO: Implement remaining data summaries.
-        //  * EnforcementHistory
         //  * FeesHistory
         //  * SourceTests
 

@@ -48,7 +48,7 @@ public record CaseFileExportDto : ISearchResult
     [XLColumn(Header = "Day Zero")]
     public DateOnly? DayZero { get; init; }
 
-    [XLColumn(Header = "Date of initial Enforcement Action")]
+    [XLColumn(Header = "Date of Initial Enforcement Action")]
     public DateOnly? EnforcementDate { get; init; }
 
     [XLColumn(Header = "Notes")]
