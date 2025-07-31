@@ -1,7 +1,6 @@
-using GaEpd.AppLibrary.Extensions;
-using GaEpd.AppLibrary.Pagination;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
+using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Staff;
 
@@ -13,8 +12,7 @@ public static class StaffFilters
             .FilterByEmail(spec.Email)
             .FilterByOffice(spec.Office)
             .FilterByActiveStatus(spec.Status)
-            .OrderByIf(spec.Sort.GetDescription())
-            .ThenBy(user => user.Id);
+            .OrderByIf(spec.Sort.GetDescription());
 
 #pragma warning disable CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
     // The 'StringComparison' method overload is incompatible with Entity Framework.
@@ -23,7 +21,7 @@ public static class StaffFilters
         string.IsNullOrWhiteSpace(name)
             ? query
             : query.Where(user => user.GivenName.ToLower().Contains(name.ToLower())
-                || user.FamilyName.ToLower().Contains(name.ToLower()));
+                                  || user.FamilyName.ToLower().Contains(name.ToLower()));
 #pragma warning restore CA1862
 
     private static IQueryable<ApplicationUser> FilterByEmail(
