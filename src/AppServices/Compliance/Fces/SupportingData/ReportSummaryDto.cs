@@ -4,14 +4,8 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record ReportSummaryDto
+public record ReportSummaryDto : BaseSummaryDto
 {
-    [Display(Name = "Tracking #")]
-    public int Id { get; init; }
-
-    [Display(Name = "Comments:")]
-    public string Notes { get; init; } = null!;
-
     [Display(Name = "Report Period")]
     public ReportingPeriodType ReportingPeriodType { get; init; }
 
