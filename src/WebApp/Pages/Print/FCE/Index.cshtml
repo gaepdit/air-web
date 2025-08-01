@@ -94,8 +94,10 @@
         </dl>
     </div>
 
-    <h1>Supporting compliance data for
-        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through " })</h1>
+    <h1>
+        Supporting compliance data for
+        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through " })
+    </h1>
 
     <partial name="_InspectionsPartial" model="(Model.SupportingData.Inspections, false)" />
     <partial name="_InspectionsPartial" model="(Model.SupportingData.RmpInspections, true)" />
@@ -103,12 +105,16 @@
     <partial name="_ReportsPartial" model="Model.SupportingData.Reports" />
     <partial name="_NotificationsPartial" model="Model.SupportingData.Notifications" />
 
-    @* TODO: The following are not yet implemented. ---- *@
-
+    @* TODO: The following is not yet implemented. *@
     <partial name="_SourceTestsPartial" model="Model.SupportingData.SourceTests" />
+
+    <h1>
+        Supporting fees and enforcement data for
+        @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through " })
+    </h1>
+
+    @* TODO: The following is not yet implemented. *@
     <partial name="_FeesDataPartial" model="Model.SupportingData.Fees" />
 
-    @* ---- The above are not yet implemented. *@
-    
     <partial name="_CaseFilePartial" model="Model.SupportingData.EnforcementCases" />
 </div>

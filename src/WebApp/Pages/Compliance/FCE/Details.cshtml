@@ -90,8 +90,7 @@
         <div class="col">
             <h2 class="h4 mb-md-0">
                 Supporting compliance data for
-                @Html.DisplayFor(_ => report.SupportingDataDateRange, DisplayTemplate.DateRange,
-                    additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+                @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
             </h2>
         </div>
         <div class="col-auto ms-3 d-print-none">
