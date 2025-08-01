@@ -5,6 +5,7 @@ using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
 
@@ -16,6 +17,7 @@ public sealed class FceService(
     IFceRepository fceRepository,
     IFceManager fceManager,
     IWorkEntryRepository entryRepository,
+    ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
     ICommentService<int> commentService,
     IUserService userService,
@@ -40,29 +42,45 @@ public sealed class FceService(
     }
 
     public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId,
+        DateOnly completedDate,
         CancellationToken token = default)
     {
         var summary = new SupportingDataSummary
         {
             Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
             Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
             Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
             Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
             RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
                 entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId, token: token).ConfigureAwait(false)),
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
+            EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
+                caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
+                            caseFile.EnforcementDate >= completedDate.AddYears(-Fce.DataPeriod) &&
+                            caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
         };
+        // This issue explains why a different syntax is used for some of the supporting data queries:
+        // https://github.com/gaepdit/air-web/issues/326
 
         // TODO: Implement remaining data summaries.
-        //  * EnforcementHistory
         //  * FeesHistory
         //  * SourceTests
 

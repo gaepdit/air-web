@@ -2,14 +2,8 @@
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record AccSummaryDto
+public record AccSummaryDto : BaseSummaryDto
 {
-    [Display(Name = "Tracking #")]
-    public int Id { get; init; }
-
-    [Display(Name = "Comments:")]
-    public string Notes { get; init; } = null!;
-
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 

@@ -47,4 +47,5 @@ public record FceViewDto : IFceBasicViewDto
     public DateOnly SupportingDataStartDate => CompletedDate.AddYears(-Fce.DataPeriod);
     public DateRange SupportingDataDateRange => new(SupportingDataStartDate, CompletedDate);
     public DateOnly ExtendedDataStartDate => CompletedDate.AddYears(-Fce.ExtendedDataPeriod);
+    public DateRange ExtendedDataDateRange => new(ExtendedDataStartDate, CompletedDate);
 }
