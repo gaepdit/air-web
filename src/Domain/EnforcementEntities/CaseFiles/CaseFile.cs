@@ -151,6 +151,15 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
     public List<EnforcementAction> EnforcementActions { get; } = [];
 
+    // Calculated enforcement action data
+    public EnforcementAction? LatestAction => EnforcementActions
+        .Where(action => action is { IssueDate: not null, IsDeleted: false })
+        .OrderByDescending(action => action.IssueDate)
+        .FirstOrDefault();
+
+    public bool HasIssuedEnforcement =>
+        EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
+
     // Data exchange properties
 
     // Data exchange is not used for LONs, Cases with no linked compliance event,

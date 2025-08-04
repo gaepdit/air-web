@@ -3,14 +3,8 @@ using AirWeb.AppServices.Staff.Dto;
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record NotificationSummaryDto
+public record NotificationSummaryDto : BaseSummaryDto
 {
-    [Display(Name = "Tracking #")]
-    public int Id { get; init; }
-
-    [Display(Name = "Comments:")]
-    public string Notes { get; init; } = null!;
-
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
 

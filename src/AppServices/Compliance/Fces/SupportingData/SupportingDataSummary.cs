@@ -8,9 +8,9 @@ public record SupportingDataSummary
     public IEnumerable<NotificationSummaryDto> Notifications { get; init; } = [];
     public IEnumerable<ReportSummaryDto> Reports { get; init; } = [];
     public IEnumerable<InspectionSummaryDto> RmpInspections { get; init; } = [];
+    public IEnumerable<EnforcementCaseSummaryDto> EnforcementCases { get; init; } = [];
 
     // To be implemented
-    public IEnumerable<EnforcementCaseSummaryDto> EnforcementCases { get; init; } = [];
 
     // IAIP data
     public IEnumerable<FeeYearSummaryDto> Fees { get; init; } = [];
