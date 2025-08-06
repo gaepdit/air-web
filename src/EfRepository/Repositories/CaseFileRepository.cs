@@ -12,9 +12,11 @@ public sealed class CaseFileRepository(AppDbContext context)
     {
         throw new NotImplementedException();
     }
-    public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default)
+    public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        return (await Context.Set<CaseFile>()
+            .Where(entry => entry.Id.Equals(id))
+            .SingleAsync(token)).GetPollutants();
     }
     public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default)
     {

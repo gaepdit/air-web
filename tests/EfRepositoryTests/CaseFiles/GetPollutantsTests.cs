@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.EfRepository.Repositories;
+
 using AirWeb.TestData.Enforcement;
 
 namespace EfRepositoryTests.CaseFiles;
@@ -23,7 +24,7 @@ public class GetPollutantsTests
         var expected = caseFile.GetPollutants();
         
         // Act
-        var results =await _repository.GetPollutantsAsync(caseFile.Id);
+        var results = await _repository.GetPollutantsAsync(caseFile.Id);
         
         // Assert
         results.Should().BeEquivalentTo(expected);

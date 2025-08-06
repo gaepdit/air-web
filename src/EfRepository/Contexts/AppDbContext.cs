@@ -1,3 +1,4 @@
+﻿using System.Text.Json;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
@@ -9,6 +10,7 @@ using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.Contexts.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AirWeb.EfRepository.Contexts;
 
@@ -77,6 +79,15 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
             .ConfigureDateTimeOffsetHandling(Database.ProviderName);
+        builder.Entity<CaseFile>()
+            .Property(e => e.PollutantIds)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null)!,
+                new ValueComparer<ICollection<string>>(
+                    (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList())); 
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
