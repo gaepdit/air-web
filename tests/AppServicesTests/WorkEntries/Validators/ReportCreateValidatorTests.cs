@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Reports;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
@@ -7,7 +8,12 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class ReportCreateValidatorTests
 {
-    private readonly ReportCreateValidator _validator = new();
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly ReportCommandValidator ReportCommandValidator = new();
+
+    private static readonly ReportCreateValidator CreateValidator =
+        new(WorkEntryCreateValidator, ReportCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -20,7 +26,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -38,7 +44,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -58,7 +64,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -79,7 +85,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -99,7 +105,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -119,7 +125,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -140,7 +146,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -160,7 +166,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -180,7 +186,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -200,7 +206,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -220,7 +226,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -241,7 +247,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -262,7 +268,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

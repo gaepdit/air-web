@@ -32,6 +32,6 @@ public class NamedEntityUpdateValidator<TDto, TRepository, TEntity> : AbstractVa
         CancellationToken token)
     {
         var item = await _repository.FindByNameAsync(name, token).ConfigureAwait(false);
-        return item is null || item.Id == (Guid)context.RootContextData["Id"];
+        return item is null || item.Id == (Guid)context.RootContextData[nameof(item.Id)];
     }
 }

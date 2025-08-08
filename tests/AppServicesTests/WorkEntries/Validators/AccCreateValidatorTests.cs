@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Accs;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
@@ -7,7 +8,10 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class AccCreateValidatorTests
 {
-    private readonly AccCreateValidator _validator = new();
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator WorkEntryCreateDtoValidator = new(WorkEntryCommandValidator);
+    private static readonly AccCommandValidator AccCommandDtoValidator = new();
+    private readonly AccCreateValidator _validator = new(WorkEntryCreateDtoValidator, AccCommandDtoValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
@@ -7,7 +8,12 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class PermitRevocationCreateValidatorTests
 {
-    private readonly PermitRevocationCreateValidator _validator = new();
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly PermitRevocationCommandValidator PermitRevocationCommandValidator = new();
+
+    private static readonly PermitRevocationCreateValidator CreateValidator = new(WorkEntryCreateValidator,
+        PermitRevocationCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -20,7 +26,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -38,7 +44,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -58,7 +64,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -78,7 +84,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -98,7 +104,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -116,7 +122,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -136,7 +142,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -156,7 +162,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -174,7 +180,7 @@ public class PermitRevocationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

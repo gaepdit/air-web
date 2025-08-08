@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -7,6 +8,13 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class SourceTestReviewCreateValidatorTests
 {
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly SourceTestReviewCommandValidator SourceTestReviewCommandValidator = new();
+
+    private static SourceTestReviewCreateValidator GetCreateValidator(IWorkEntryService entryService) =>
+        new(entryService, WorkEntryCreateValidator, SourceTestReviewCommandValidator);
+
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
@@ -22,7 +30,7 @@ public class SourceTestReviewCreateValidatorTests
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var validator = new SourceTestReviewCreateValidator(entryService);
+        var validator = GetCreateValidator(entryService);
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -46,7 +54,7 @@ public class SourceTestReviewCreateValidatorTests
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var validator = new SourceTestReviewCreateValidator(entryService);
+        var validator = GetCreateValidator(entryService);
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -72,7 +80,7 @@ public class SourceTestReviewCreateValidatorTests
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
 
-        var validator = new SourceTestReviewCreateValidator(entryService);
+        var validator = GetCreateValidator(entryService);
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -99,7 +107,7 @@ public class SourceTestReviewCreateValidatorTests
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var validator = new SourceTestReviewCreateValidator(entryService);
+        var validator = GetCreateValidator(entryService);
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -125,7 +133,7 @@ public class SourceTestReviewCreateValidatorTests
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var validator = new SourceTestReviewCreateValidator(entryService);
+        var validator = GetCreateValidator(entryService);
 
         // Act
         var result = await validator.TestValidateAsync(model);

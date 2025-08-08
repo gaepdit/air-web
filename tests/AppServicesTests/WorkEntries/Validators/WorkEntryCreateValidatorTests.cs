@@ -7,7 +7,8 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class WorkEntryCreateValidatorTests
 {
-    private readonly WorkEntryCreateValidator _validator = new();
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator CreateValidator = new(WorkEntryCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -20,7 +21,7 @@ public class WorkEntryCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -36,7 +37,7 @@ public class WorkEntryCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -54,7 +55,7 @@ public class WorkEntryCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -74,7 +75,7 @@ public class WorkEntryCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 
 public class NotificationUpdateValidator : AbstractValidator<NotificationUpdateDto>
 {
-    public NotificationUpdateValidator()
+    public NotificationUpdateValidator(
+        IValidator<IWorkEntryCommandDto> workEntryCommandValidator,
+        IValidator<NotificationCommandDto> notificationCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(new WorkEntryCommandValidator());
-        RuleFor(dto => dto).SetValidator(new NotificationCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCommandValidator);
+        RuleFor(dto => dto).SetValidator(notificationCommandValidator);
     }
 }

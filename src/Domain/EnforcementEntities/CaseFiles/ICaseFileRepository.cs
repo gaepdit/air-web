@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public interface ICaseFileRepository : IRepository<CaseFile, int>, ICommentRepository<int>
+public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, ICommentRepository<int>
 {
     public static string[] IncludeDetails => [nameof(CaseFile.EnforcementActions), nameof(CaseFile.ComplianceEvents)];
 

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
@@ -7,7 +8,12 @@ namespace AppServicesTests.WorkEntries.Validators;
 
 public class NotificationCreateValidatorTests
 {
-    private readonly NotificationCreateValidator _validator = new();
+    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
+    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly NotificationCommandValidator NotificationCommandValidator = new();
+
+    private static readonly NotificationCreateValidator CreateValidator =
+        new(WorkEntryCreateValidator, NotificationCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -21,7 +27,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -38,7 +44,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -59,7 +65,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -80,7 +86,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -102,7 +108,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -123,7 +129,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -144,7 +150,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -165,7 +171,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -186,7 +192,7 @@ public class NotificationCreateValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await CreateValidator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

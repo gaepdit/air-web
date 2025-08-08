@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 
 public class PermitRevocationCreateValidator : AbstractValidator<PermitRevocationCreateDto>
 {
-    public PermitRevocationCreateValidator()
+    public PermitRevocationCreateValidator(
+        IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
+        IValidator<PermitRevocationCommandDto> permitRevocationCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(new WorkEntryCreateValidator());
-        RuleFor(dto => dto).SetValidator(new PermitRevocationCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
+        RuleFor(dto => dto).SetValidator(permitRevocationCommandValidator);
     }
 }

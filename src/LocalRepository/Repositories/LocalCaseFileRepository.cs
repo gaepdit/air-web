@@ -5,7 +5,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.LocalRepository.Repositories;
 
-public sealed class LocalCaseFileRepository : BaseRepository<CaseFile, int>, ICaseFileRepository
+public sealed class LocalCaseFileRepository : BaseRepositoryWithMapping<CaseFile, int>, ICaseFileRepository
 {
     public LocalCaseFileRepository() : base(CaseFileData.GetData) => _ = EnforcementActionData.GetData;
 
