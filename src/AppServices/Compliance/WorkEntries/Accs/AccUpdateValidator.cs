@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
 public class AccUpdateValidator : AbstractValidator<AccUpdateDto>
 {
-    public AccUpdateValidator()
+    public AccUpdateValidator(
+        IValidator<IWorkEntryCommandDto> workEntryCommandValidator,
+        IValidator<AccCommandDto> accCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(new WorkEntryCommandValidator());
-        RuleFor(dto => dto).SetValidator(new AccCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCommandValidator);
+        RuleFor(dto => dto).SetValidator(accCommandValidator);
     }
 }

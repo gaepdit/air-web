@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
 public class InspectionCreateValidator : AbstractValidator<InspectionCreateDto>
 {
-    public InspectionCreateValidator()
+    public InspectionCreateValidator(
+        IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
+        IValidator<InspectionCommandDto> inspectionCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(new WorkEntryCreateValidator());
-        RuleFor(dto => dto).SetValidator(new InspectionCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
+        RuleFor(dto => dto).SetValidator(inspectionCommandValidator);
     }
 }

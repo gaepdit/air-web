@@ -13,7 +13,7 @@ namespace AirWeb.AppServices.CommonSearch;
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExportDto>(
 #pragma warning restore S2436
-    IRepository<TEntity, int> repository,
+    IReadRepository<TEntity, int> repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,

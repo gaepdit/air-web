@@ -7,12 +7,15 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
 {
     private readonly IWorkEntryService _entryService;
 
-    public SourceTestReviewCreateValidator(IWorkEntryService entryService)
+    public SourceTestReviewCreateValidator(
+        IWorkEntryService entryService,
+        IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
+        IValidator<SourceTestReviewCommandDto> sourceTestReviewCommandValidator)
     {
         _entryService = entryService;
 
-        RuleFor(dto => dto).SetValidator(new WorkEntryCreateValidator());
-        RuleFor(dto => dto).SetValidator(new SourceTestReviewCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
+        RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
         RuleFor(dto => dto.TestReportIsClosed).Equal(true);
         RuleFor(dto => dto).MustAsync(async (dto, token) =>
             await NotExist(dto.ReferenceNumber, token).ConfigureAwait(false));
