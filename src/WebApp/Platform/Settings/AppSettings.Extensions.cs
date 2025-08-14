@@ -8,7 +8,7 @@ internal static partial class AppSettings
     {
         Version = GetVersion();
 
-        builder.Configuration.GetSection(nameof(SupportSettings)).Bind(SupportSettings);
+        builder.Configuration.GetSection(nameof(Support)).Bind(Support);
         builder.Configuration.GetSection(nameof(OrganizationInfo)).Bind(OrganizationInfo);
         builder.Configuration.GetSection(nameof(RaygunSettings)).Bind(RaygunSettings);
         OrgNotificationsApiUrl = builder.Configuration.GetValue<string>(nameof(OrgNotificationsApiUrl));

@@ -16,7 +16,8 @@
 @if (Model.DisplayFailedLogin)
 {
     <p class="lead text-danger-emphasis">
-        There was an error logging in. If you need assistance related to this error, please contact EPD IT support.
+        There was an error logging in. If you need assistance related to this error, please contact
+        <a asp-page="/Support">EPD-IT support</a>.
     </p>
     <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
         <svg class="bi me-2" role="img" aria-label="Danger:">
@@ -78,9 +79,9 @@
                     @if (Model.LoginProviderNames.Contains(LoginProviders.OktaScheme))
                     {
                         <div class="callout callout-warning">
-                            The work account login is being phased out for EPD-IT applications and will be completely
-                            removed by 12/1/2025. Please create an Okta account. For more information or technical
-                            support, contact EPD-IT.
+                            The SOG work account login is being phased out for EPD-IT applications.
+                            Please create and start using an Okta account. For more information or assistance, contact
+                            <a asp-page="/Support">EPD-IT support</a>.
                         </div>
                     }
                 </div>
