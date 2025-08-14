@@ -57,8 +57,8 @@
                 @Html.EditorFor(m => m.Item.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
             </div>
             <div class="col-md mb-3">
-                <input asp-for="Item.FollowupTaken" class="form-check-input" aria-describedby="FollowupTakenHelpText" />
-                <label asp-for="Item.FollowupTaken" class="form-check-label"></label>
+                @Html.EditorFor(m => m.Item.FollowupTaken, EditorTemplate.Checkbox,
+                    additionalViewData: new { DescribedById = "FollowupTakenHelpText" })
                 <small id="FollowupTakenHelpText" class="form-text text-body-secondary d-inline-block px-2">
                     (Note: A notification cannot be the discovery event for an enforcement action.)
                 </small>
