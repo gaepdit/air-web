@@ -8,5 +8,5 @@
 <div class="input-group">
     <span class="input-group-text" id="@addonId">$</span>
     <input asp-for="@__model" type="number" class="form-control" aria-describedby="@addonId" min="@min" max="@max" step="0.01" />
+    <span asp-validation-for="@__model" class="invalid-feedback ps-2"></span>
 </div>
-<span asp-validation-for="@__model" class="invalid-feedback"></span>
