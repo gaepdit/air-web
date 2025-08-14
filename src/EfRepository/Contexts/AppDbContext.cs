@@ -9,6 +9,7 @@ using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.Contexts.Configuration;
+using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -87,7 +88,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
                 new ValueComparer<ICollection<string>>(
                     (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList())); 
+                    c => c.ToList()));
+        builder.Entity<CaseFile>()
+            .Property(e => e.AirPrograms)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v.Select(p => p.ToString()), (JsonSerializerOptions?)null),
+                v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null)!
+                    .Select(Enum.Parse<AirProgram>).ToList(),
+                new ValueComparer<ICollection<AirProgram>>(
+                    (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()));
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
