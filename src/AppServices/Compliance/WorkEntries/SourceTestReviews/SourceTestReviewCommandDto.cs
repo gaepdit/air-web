@@ -8,10 +8,11 @@ public abstract record SourceTestReviewCommandDto : WorkEntryCommandDto, ISource
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }
 
+    [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received By Compliance")]
-    public DateOnly ReceivedByComplianceDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly? ReceivedByComplianceDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

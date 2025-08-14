@@ -77,7 +77,7 @@
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnly)
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnlyNullable)
                     </div>
                     <div class="col-md mb-3">
                         @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
@@ -133,7 +133,7 @@ else
                 }
                 @if (Model.UserCan[ComplianceOperation.Edit])
                 {
-                    <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                    <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                        class="btn btn-outline-primary">Edit</a>
                 }
             </div>
@@ -233,4 +233,8 @@ else
             </div>
         </div>
     }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
