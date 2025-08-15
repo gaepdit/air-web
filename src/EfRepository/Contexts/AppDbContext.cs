@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.ActionProperties;
@@ -12,6 +11,7 @@ using AirWeb.EfRepository.Contexts.Configuration;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Text.Json;
 
 namespace AirWeb.EfRepository.Contexts;
 

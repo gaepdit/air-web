@@ -1,13 +1,12 @@
 ﻿using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LocalRepositoryTests.CaseFiles;
 
 [TestFixture]
 public class GetPollutantsTests
 {
-    private LocalCaseFileRepository _repository = null!;
+    private LocalCaseFileRepository _repository;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetCaseFileRepository();
@@ -29,7 +28,7 @@ public class GetPollutantsTests
         results.Should().BeEquivalentTo(expected);
     }
 
-    // Given no pollutant return empty list
+    // Given no pollutant, return empty list
     [Test]
     public async Task GivenNoPollutants_ReturnEmptyList()
     {
@@ -39,21 +38,21 @@ public class GetPollutantsTests
         //Act
         var results = await _repository.GetPollutantsAsync(caseFile.Id);
 
-        //Asert
+        //Assert
         results.Should().BeEmpty();
     }
 
-    // Given and ID that doesn't exist, return Exception
+    // Given an ID that doesn't exist, throw Exception
     [Test]
     public async Task GivenNoID_ThrowsException()
     {
         //Arrange
-        var invalidId = -999;
+        const int invalidId = -999;
 
         //Act
         Func<Task> act = async () => await _repository.GetPollutantsAsync(invalidId);
 
-        //Asert
+        //Assert
         await act.Should().ThrowAsync<Exception>();
     }
 }

@@ -12,26 +12,25 @@ public sealed class CaseFileRepository(AppDbContext context)
     {
         throw new NotImplementedException();
     }
-    public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default)
-    {
-        return (await Context.Set<CaseFile>()
-            .Where(entry => entry.Id.Equals(id))
-            .SingleAsync(token)).GetPollutants();
-    }
-    public async Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default)
-    {
-        return (await Context.Set<CaseFile>()
-            .Where(entry => entry.Id.Equals(id))
-            .SingleAsync(token)).AirPrograms;
 
-    }
-    
+    public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
+        (await Context.Set<CaseFile>()
+            .Where(entry => entry.Id.Equals(id))
+            .SingleAsync(token).ConfigureAwait(false)).GetPollutants();
+
+    public async Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
+        (await Context.Set<CaseFile>()
+            .Where(entry => entry.Id.Equals(id))
+            .SingleAsync(token).ConfigureAwait(false)).AirPrograms;
+
     // For later
     public Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
         throw new NotImplementedException();
     }
+
     public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
         throw new NotImplementedException();
-    }}
+    }
+}

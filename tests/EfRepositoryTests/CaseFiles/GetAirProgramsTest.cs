@@ -1,18 +1,18 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.EfRepository.Repositories;
+﻿using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Enforcement;
 
 namespace EfRepositoryTests.CaseFiles;
+
 [TestFixture]
 public class GetAirProgramsTest
 {
-    private CaseFileRepository _repository = null;
+    private CaseFileRepository _repository;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetCaseFileRepository();
 
     [TearDown]
-    public void TearDown() => _repository?.Dispose();
+    public void TearDown() => _repository.Dispose();
 
     [Test]
     public async Task GivenAirProgramsExist_Return()
@@ -27,6 +27,7 @@ public class GetAirProgramsTest
         // Assert
         results.Should().BeEquivalentTo(expected);
     }
+
     [Test]
     public async Task GivenNoAirPrograms_ReturnEmpty()
     {
@@ -39,5 +40,4 @@ public class GetAirProgramsTest
         // Assert
         results.Should().BeNullOrEmpty();
     }
-
 }

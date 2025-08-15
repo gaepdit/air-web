@@ -1,20 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using AirWeb.LocalRepository.Repositories;
+﻿using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LocalRepositoryTests.CaseFiles;
 
 [TestFixture]
 public class GetAirProgramsTest
 {
-    private LocalCaseFileRepository _repository = null;
+    private LocalCaseFileRepository _repository;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetCaseFileRepository();
 
     [TearDown]
-    public void TearDown() => _repository?.Dispose();
+    public void TearDown() => _repository.Dispose();
 
     [Test]
     public async Task GivenAirProgramsExist_Return()
@@ -29,6 +27,7 @@ public class GetAirProgramsTest
         // Assert
         results.Should().BeEquivalentTo(expected);
     }
+
     [Test]
     public async Task GivenNoAirPrograms_ReturnEmpty()
     {
@@ -41,5 +40,4 @@ public class GetAirProgramsTest
         // Assert
         results.Should().BeNullOrEmpty();
     }
-
 }
