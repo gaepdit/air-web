@@ -82,7 +82,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureInheritanceMapping()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
-            .ConfigureDateTimeOffsetHandling(Database.ProviderName);
+            .ConfigureDateTimeOffsetHandling(Database.ProviderName)
+            .ConfigureCollectionSerialization();
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
