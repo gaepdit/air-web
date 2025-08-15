@@ -1,4 +1,4 @@
-using AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -76,7 +76,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureCommentsMappingStrategy()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
-            .ConfigureDateTimeOffsetHandling(Database.ProviderName);
+            .ConfigureDateTimeOffsetHandling(Database.ProviderName)
+            .ConfigureCollectionSerialization();
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
