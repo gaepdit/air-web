@@ -44,7 +44,7 @@ public class GetPollutantsTests
 
     // Given an ID that doesn't exist, throw Exception
     [Test]
-    public async Task GivenNoID_ThrowsException()
+    public async Task GivenInvalidId_ThrowsException()
     {
         //Arrange
         const int invalidId = -999;

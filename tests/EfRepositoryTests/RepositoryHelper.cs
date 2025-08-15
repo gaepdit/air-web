@@ -101,7 +101,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Stops tracking all currently tracked entities.
-    /// ReSharper disable once CommentTypo
     /// See https://github.com/JonPSmith/EfCore.TestSupport/wiki/Using-SQLite-in-memory-databases#1-best-approach-one-instance-and-use-changetrackerclear
     /// </summary>
     public void ClearChangeTracker() => Context.ChangeTracker.Clear();

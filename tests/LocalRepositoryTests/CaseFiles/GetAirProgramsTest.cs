@@ -40,4 +40,18 @@ public class GetAirProgramsTest
         // Assert
         results.Should().BeNullOrEmpty();
     }
+
+    // Given an ID that doesn't exist, throw Exception
+    [Test]
+    public async Task GivenInvalidId_ThrowsException()
+    {
+        //Arrange
+        const int invalidId = -999;
+
+        //Act
+        Func<Task> act = async () => await _repository.GetAirProgramsAsync(invalidId);
+
+        //Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
 }
