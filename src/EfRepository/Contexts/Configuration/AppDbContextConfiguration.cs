@@ -5,7 +5,10 @@ using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
+using IaipDataService.Facilities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 
 namespace AirWeb.EfRepository.Contexts.Configuration;
 
@@ -282,6 +285,36 @@ internal static class AppDbContextConfiguration
                 builder.Entity(entityType.Name).Property(property.Name)
                     .HasConversion(new DateTimeOffsetToBinaryConverter());
         }
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureCollectionSerialization(this ModelBuilder builder)
+    {
+        // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#collections-of-primitives
+
+        // Case File pollutants: `List<string>`
+        builder.Entity<CaseFile>()
+            .Property(e => e.PollutantIds)
+            .HasConversion(
+                original => JsonSerializer.Serialize(original, JsonSerializerOptions.Default),
+                serialized => JsonSerializer.Deserialize<List<string>>(serialized, JsonSerializerOptions.Default)!,
+                new ValueComparer<ICollection<string>>(
+                    (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()));
+
+        // Case File air programs: `List<AirProgram>`
+        builder.Entity<CaseFile>()
+            .Property(e => e.AirPrograms)
+            .HasConversion(
+                original => JsonSerializer.Serialize(original.Select(p => p.ToString()), JsonSerializerOptions.Default),
+                serialized => JsonSerializer.Deserialize<List<string>>(serialized, JsonSerializerOptions.Default)!
+                    .Select(Enum.Parse<AirProgram>).ToList(),
+                new ValueComparer<ICollection<AirProgram>>(
+                    (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()));
 
         return builder;
     }
