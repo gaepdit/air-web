@@ -72,6 +72,7 @@ public class LoginModel(
         foreach (var error in result.Errors)
             ModelState.AddModelError(string.Empty, error.Description);
         DisplayFailedLogin = true;
+        LoginProviderNames = configuration.LoginProviderNames();
         return Page();
     }
 
