@@ -6,7 +6,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class CaseFileRepository(AppDbContext context)
-    : BaseRepository<CaseFile, int, AppDbContext>(context), ICaseFileRepository
+    : BaseRepositoryWithMapping<CaseFile, int, AppDbContext>(context), ICaseFileRepository
 {
     public int? GetNextId()
     {
