@@ -52,6 +52,6 @@ public class GetAirProgramsTest
         Func<Task> act = async () => await _repository.GetAirProgramsAsync(invalidId);
 
         //Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 }

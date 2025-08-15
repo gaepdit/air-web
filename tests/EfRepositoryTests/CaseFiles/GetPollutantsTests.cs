@@ -53,6 +53,6 @@ public class GetPollutantsTests
         Func<Task> act = async () => await _repository.GetPollutantsAsync(invalidId);
 
         //Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 }
