@@ -19,13 +19,13 @@ Shown when staff is logged in.
     * Compliance Monitoring (`/Compliance/Work`)
     * Compliance FCEs (`/Compliance/FCE`)
     * Enforcement (`/Compliance/Enforcement`)
-- ▭ *(flexible space)*
 * ▼ 🡽 Go To
     * Facility *(form)*
     * —
     * Compliance Event *(form)*
     * Source Test *(form)*
     * Enforcement *(form)*
+- ▭ *(flexible space)*
 * ▼ More
     * Reports (`/Admin/Reporting`)
     * Users (`/Admin/Users`)

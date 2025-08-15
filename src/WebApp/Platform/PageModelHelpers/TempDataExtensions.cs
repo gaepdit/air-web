@@ -6,6 +6,8 @@ namespace AirWeb.WebApp.Platform.PageModelHelpers;
 
 public static class TempDataExtensions
 {
+    private const string DisplayMessages = nameof(DisplayMessages);
+
     private static void Set<T>(this ITempDataDictionary tempData, string key, T value) where T : class =>
         tempData[key] = JsonSerializer.Serialize(value);
 
@@ -15,13 +17,14 @@ public static class TempDataExtensions
         return o is null ? null : JsonSerializer.Deserialize<T>((string)o);
     }
 
-    public static void SetDisplayMessage(this ITempDataDictionary tempData, DisplayMessage.AlertContext context,
-        string message, string detail) => tempData.SetDisplayMessage(context, message, [detail]);
+    public static void AddDisplayMessage(this ITempDataDictionary tempData, DisplayMessage.AlertContext context,
+        string message)
+    {
+        var collection = GetDisplayMessages(tempData) ?? [];
+        collection.Add(new DisplayMessage(context, message));
+        tempData.Set(DisplayMessages, collection.ToArray());
+    }
 
-    public static void SetDisplayMessage(this ITempDataDictionary tempData, DisplayMessage.AlertContext context,
-        string message, List<string>? details = null) =>
-        tempData.Set(nameof(DisplayMessage), new DisplayMessage(context, message, details));
-
-    public static DisplayMessage? GetDisplayMessage(this ITempDataDictionary tempData) =>
-        tempData.Get<DisplayMessage>(nameof(DisplayMessage));
+    public static ICollection<DisplayMessage>? GetDisplayMessages(this ITempDataDictionary tempData) =>
+        tempData.Get<ICollection<DisplayMessage>>(DisplayMessages);
 }

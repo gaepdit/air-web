@@ -38,7 +38,7 @@ public class CreateCaseFileTests
         notificationMock
             .SendNotificationAsync(Arg.Any<Template>(), Arg.Any<string>(), Arg.Any<CancellationToken>(),
                 Arg.Any<object?[]>())
-            .Returns(AppNotificationResult.SuccessResult());
+            .Returns(AppNotificationResult.Success());
 
         var caseFileService = new CaseFileService(
             Substitute.For<IMapper>(), caseFileRepositoryMock, caseFileManager,
@@ -56,7 +56,7 @@ public class CreateCaseFileTests
 
         // Assert
         using var scope = new AssertionScope();
-        result.AppNotificationResult!.Success.Should().BeTrue();
+        result.HasWarning.Should().BeFalse();
         result.Id.Should().Be(id);
     }
 }

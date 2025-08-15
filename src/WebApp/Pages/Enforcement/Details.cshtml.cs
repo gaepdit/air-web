@@ -125,7 +125,7 @@ public class DetailsModel(
 
         if (closeCaseFileWasSet)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
                 "The Enforcement Case could not be closed.");
         }
 
@@ -202,7 +202,7 @@ public class DetailsModel(
 
         if (closeCaseFileWasSet)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning,
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
                 "The Enforcement Case could not be closed.");
         }
 
@@ -232,20 +232,18 @@ public class DetailsModel(
 
         if (!ModelState.IsValid) return InitializePage();
 
-        var addCommentResult = await caseFileService.AddCommentAsync(Id, newComment, token);
-        NewCommentId = addCommentResult.Id;
-        if (addCommentResult.AppNotificationResult is { Success: false })
-            NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
+        var result = await caseFileService.AddCommentAsync(Id, newComment, token);
+        NewCommentId = result.Id;
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToFragment(NewCommentId.ToString());
     }
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        var caseFile = await caseFileService.FindSummaryAsync(Id, token);
-        if (caseFile is null || caseFile.IsDeleted) return BadRequest();
-
-        await SetPermissionsAsync();
-        if (!UserCan[CaseFileOperation.DeleteComment]) return BadRequest();
+        var caseFileSummary = await caseFileService.FindSummaryAsync(Id, token);
+        if (!(await authorization.AuthorizeAsync(User, caseFileSummary, requirement: CaseFileOperation.DeleteComment))
+            .Succeeded)
+            return BadRequest();
 
         await caseFileService.DeleteCommentAsync(commentId, token);
         return RedirectToFragment("comments");

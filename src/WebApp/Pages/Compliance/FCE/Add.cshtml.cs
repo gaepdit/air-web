@@ -61,20 +61,10 @@ public class AddModel(
             return Page();
         }
 
-        var createResult = await fceService.CreateAsync(Item, token);
-
-        const string message = "FCE successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
-        return RedirectToPage("Details", new { createResult.Id });
+        var result = await fceService.CreateAsync(Item, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully created.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage("Details", new { result.Id });
     }
 
     private async Task PopulateSelectListsAsync() =>

@@ -1,10 +1,12 @@
 using AirWeb.AppServices.AutoMapper;
 using AirWeb.AppServices.ServiceRegistration;
 using AirWeb.WebApp.Platform.AppConfiguration;
+using AirWeb.WebApp.Platform.OrgNotifications;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using GaEpd.FileService;
 using IaipDataService;
+using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
+// Configure basic settings.
 builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
-
-// Persist data protection keys.
 builder.Services.AddDataProtection();
 
 // Configure Identity stores.
@@ -43,19 +44,16 @@ builder.Services.AddFileServices(builder.Configuration);
 builder.Services.AddApiDocumentation();
 
 // Configure bundling and minification.
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddWebOptimizer(
-        minifyJavaScript: AppSettings.DevSettings.EnableWebOptimizerInDev,
-        minifyCss: AppSettings.DevSettings.EnableWebOptimizerInDev);
-}
-else
-{
-    builder.Services.AddWebOptimizer();
-}
+builder.AddWebOptimizer();
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
+
+// Add organizational notifications.
+builder.Services.AddOrgNotifications();
+
+// Configure Aspire.
+builder.AddServiceDefaults();
 
 // Build the application.
 var app = builder.Build();
@@ -75,6 +73,7 @@ app
     .UseApiDocumentation();
 
 // Map endpoints.
+app.MapDefaultEndpoints();
 app.MapRazorPages();
 app.MapControllers();
 

@@ -72,10 +72,9 @@ public class DetailsModel(
             return Page();
         }
 
-        var addCommentResult = await fceService.AddCommentAsync(Id, newComment, token);
-        NewCommentId = addCommentResult.Id;
-        if (addCommentResult.AppNotificationResult is { Success: false })
-            NotificationFailureMessage = addCommentResult.AppNotificationResult.FailureMessage;
+        var result = await fceService.AddCommentAsync(Id, newComment, token);
+        NewCommentId = result.Id;
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
     }
 

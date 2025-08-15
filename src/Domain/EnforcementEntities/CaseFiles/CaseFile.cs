@@ -57,9 +57,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         {
             if (IsClosed) return CaseFileStatus.Closed;
 
-            if (EnforcementActions.Exists(action =>
-                    action.ActionType is EnforcementActionType.ConsentOrder
-                        or EnforcementActionType.AdministrativeOrder && ((IFormalEnforcementAction)action).IsExecuted))
+            if (EnforcementActions.Exists(action => action is IFormalEnforcementAction { IsExecuted: true }))
             {
                 return CaseFileStatus.SubjectToComplianceSchedule;
             }
@@ -152,6 +150,15 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
     public List<EnforcementAction> EnforcementActions { get; } = [];
+
+    // Calculated enforcement action data
+    public EnforcementAction? LatestAction => EnforcementActions
+        .Where(action => action is { IssueDate: not null, IsDeleted: false })
+        .OrderByDescending(action => action.IssueDate)
+        .FirstOrDefault();
+
+    public bool HasIssuedEnforcement =>
+        EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
 
     // Data exchange properties
 

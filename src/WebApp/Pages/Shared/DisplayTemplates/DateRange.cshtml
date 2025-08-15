@@ -6,7 +6,7 @@
 }
 @if (Model.EndDate is null && Model.StartDate == default)
 {
-    @DefaultText.NotAvailable
+    <span class="text-body-secondary">@DefaultText.NotAvailable</span>
 }
 else if (Model.EndDate is null || Model.EndDate == Model.StartDate)
 {

@@ -26,10 +26,10 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
 
     public string CaseStatusClass => CaseFileStatus switch
     {
-        CaseFileStatus.Open => "bg-warning-subtle",
-        CaseFileStatus.Draft => "bg-info-subtle",
-        CaseFileStatus.SubjectToComplianceSchedule => "bg-success-subtle",
-        CaseFileStatus.Closed => "bg-primary-subtle",
+        CaseFileStatus.Open => "text-bg-warning",
+        CaseFileStatus.Draft => "text-bg-info",
+        CaseFileStatus.SubjectToComplianceSchedule => "text-bg-success",
+        CaseFileStatus.Closed => "text-bg-primary",
         _ => "",
     };
 

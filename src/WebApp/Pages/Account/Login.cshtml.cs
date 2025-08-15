@@ -62,7 +62,7 @@ public class LoginModel(
 
     private RedirectToPageResult LoginPageWithError(string message)
     {
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Danger, message);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Danger, message);
         return RedirectToPage("Login", new { ReturnUrl });
     }
 

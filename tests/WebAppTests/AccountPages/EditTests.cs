@@ -73,7 +73,7 @@ public class EditTests
         page.ModelState.IsValid.Should().BeTrue();
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Index");
-        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        page.TempData.GetDisplayMessages().Should().BeEquivalentTo([expectedMessage]);
     }
 
     [Test]

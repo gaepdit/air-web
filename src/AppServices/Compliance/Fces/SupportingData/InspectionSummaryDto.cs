@@ -4,14 +4,8 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
-public record InspectionSummaryDto
+public record InspectionSummaryDto : BaseSummaryDto
 {
-    [Display(Name = "Tracking #")]
-    public int Id { get; init; }
-
-    [Display(Name = "Comments:")]
-    public string Notes { get; init; } = null!;
-
     public DateTime InspectionStarted { get; init; }
     public DateTime InspectionEnded { get; init; }
 

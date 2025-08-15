@@ -68,11 +68,6 @@ internal static class AppDbContextConfiguration
             .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
             .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
 
-        return builder.ConfigureWorkEntryColumnSharing();
-    }
-
-    private static ModelBuilder ConfigureWorkEntryColumnSharing(this ModelBuilder builder)
-    {
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
 
         var accEntity = builder.Entity<AnnualComplianceCertification>();
@@ -157,11 +152,6 @@ internal static class AppDbContextConfiguration
             .WithMany(complianceEvent => complianceEvent.CaseFiles)
             .UsingEntity("CaseFileComplianceEvents");
 
-        return builder.ConfigureEnforcementActionColumnSharing();
-    }
-
-    private static ModelBuilder ConfigureEnforcementActionColumnSharing(this ModelBuilder builder)
-    {
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
 
         var aorEntity = builder.Entity<AdministrativeOrder>();
@@ -253,6 +243,9 @@ internal static class AppDbContextConfiguration
 
         if (sql == null) return builder;
 
+        // TODO: See if there's a better way to handle this.
+        // As is, the "value is computed every time it is fetched from the database". Should it be persisted?
+        // Should it be replaced with a get-only property?
         builder.Entity<WorkEntry>().Property(entry => entry.EventDate).HasComputedColumnSql(sql);
         return builder;
     }

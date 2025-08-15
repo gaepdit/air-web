@@ -1,14 +1,15 @@
 ﻿@using AirWeb.WebApp.Models
-@model AirWeb.WebApp.Models.DisplayMessage?
+@model ICollection<AirWeb.WebApp.Models.DisplayMessage>?
 @{
     var iconsFile = Url.Content("~/images/app-icons.svg");
 }
 
 @if (Model != null)
 {
-    <div class="alert @Model.AlertClass alert-dismissible fade show d-flex align-items-center" role="alert">
-        @{
-            switch (Model.Context)
+    foreach (var message in Model)
+    {
+        <div class="alert @message.AlertClass alert-dismissible fade show d-flex align-items-center" role="alert">
+            @switch (message.Context)
             {
                 case DisplayMessage.AlertContext.Success:
                     <svg class="bi me-3" role="img" aria-label="Success:">
@@ -34,21 +35,11 @@
                 default:
                     break;
             }
-        }
 
-        <div>
-            @Model.Message
-            @if (Model.Details != null && Model.Details.Exists(s => !string.IsNullOrEmpty(s)))
-            {
-                @:The following warnings were generated:
-                <ul class="pt-1 mb-0 ps-3">
-                    @foreach (var s in Model.Details)
-                    {
-                        <li>@s</li>
-                    }
-                </ul>
-            }
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div>
+                @message.Message
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
-    </div>
+    }
 }

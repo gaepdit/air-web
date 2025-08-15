@@ -96,7 +96,7 @@
     <dl class="row mb-2">
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
-            <div class="rounded-1 py-1 px-2 ms-n2 @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDisplayName()</div>
+            <div class="badge fs-6 fw-medium @(caseFile.CaseStatusClass)">@caseFile.CaseFileStatus.GetDisplayName()</div>
             @if (caseFile.IsClosed)
             {
                 <div class="mt-1">
@@ -122,67 +122,76 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
-        <dd class="border rounded-1 py-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</dd>
+        <dd>
+            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
+        </dd>
     </dl>
 
-    <details class="border rounded-1" open="@(caseFile.AttentionNeeded)">
-        <summary class="bg-body-secondary px-2 py-1">
-            Related Details
-        </summary>
-        <div class="container mt-2">
-            <section class="mt-3">
-                <div class="row justify-content-between align-items-baseline g-0">
-                    <h3 class="h5 col-md" id="discovery-events">Linked Discovery Events</h3>
-                    @if (Model.UserCan[CaseFileOperation.EditCaseFile])
-                    {
-                        <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
-                            <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
-                                Edit Linked Events
-                            </a>
+    <div id="supportingDataAccordion" class="accordion">
+        <div class="accordion-item">
+            <h3 class="accordion-header no-anchor">
+                <button class="accordion-button @(caseFile.AttentionNeeded ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#supportingDataBody" aria-expanded="@(caseFile.AttentionNeeded ? "true" : "false")" aria-controls="supportingDataBody">
+                    Related Details
+                </button>
+            </h3>
+            <div id="supportingDataBody" class="accordion-collapse collapse @(caseFile.AttentionNeeded ? "show" : "")" data-bs-parent="supportingDataAccordion">
+                <div class="accordion-body">
+
+                    <section class="mt-2">
+                        <div class="row justify-content-between align-items-baseline g-0">
+                            <h3 class="h5 col-md" id="discovery-events">Linked Discovery Events</h3>
+                            @if (Model.UserCan[CaseFileOperation.EditCaseFile])
+                            {
+                                <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                                    <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                                        Edit Linked Events
+                                    </a>
+                                </div>
+                            }
                         </div>
+                        @if (!caseFile.ComplianceEvents.Any())
+                        {
+                            <p>
+                                <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
+                            </p>
+                        }
+                        else
+                        {
+                            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
+                                     model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
+                        }
+                    </section>
+
+                    @if (caseFile.WillHaveReportableEnforcement)
+                    {
+                        <section class="mt-4">
+                            <div class="row justify-content-between align-items-baseline g-0">
+                                <h3 class="h5 col-md" id="pollutants-programs">Associated Pollutants & Air Programs</h3>
+                                @if (Model.UserCan[CaseFileOperation.EditCaseFile])
+                                {
+                                    <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                                        <a asp-page="PollutantsPrograms" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                                            Edit Pollutants & Programs
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                            <dl class="ps-2">
+                                <dt>@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
+                                <dd>
+                                    <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
+                                </dd>
+                                <dt>@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
+                                <dd>
+                                    @Html.DisplayFor(_ => caseFile.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)
+                                </dd>
+                            </dl>
+                        </section>
                     }
                 </div>
-                @if (!caseFile.ComplianceEvents.Any())
-                {
-                    <p>
-                        <span class="text-body-secondary fw-lighter">@DefaultText.PlaceholderNone</span>
-                    </p>
-                }
-                else
-                {
-                    <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                             model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
-                }
-            </section>
-
-            @if (caseFile.WillHaveReportableEnforcement)
-            {
-                <section class="mt-3">
-                    <div class="row justify-content-between align-items-baseline g-0">
-                        <h3 class="h5 col-md" id="pollutants-programs">Associated Pollutants & Air Programs</h3>
-                        @if (Model.UserCan[CaseFileOperation.EditCaseFile])
-                        {
-                            <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
-                                <a asp-page="PollutantsPrograms" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
-                                    Edit Pollutants & Programs
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <dl class="ps-2">
-                        <dt>@Html.DisplayNameFor(_ => caseFile.Pollutants)</dt>
-                        <dd>
-                            <partial name="Facility/_Partials/_Pollutants" model="caseFile.Pollutants" />
-                        </dd>
-                        <dt>@Html.DisplayNameFor(_ => caseFile.AirPrograms)</dt>
-                        <dd>
-                            @Html.DisplayFor(_ => caseFile.AirProgramsAsStrings, DisplayTemplate.StringListOrPlaceholder)
-                        </dd>
-                    </dl>
-                </section>
-            }
+            </div>
         </div>
-    </details>
+    </div>
 </section>
 
 <section class="mt-4">

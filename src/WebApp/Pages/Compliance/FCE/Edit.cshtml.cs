@@ -51,8 +51,10 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
             return Page();
         }
 
-        await fceService.UpdateAsync(Id, Item, token);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully updated.");
+        var result = await fceService.UpdateAsync(Id, Item, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully updated.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+
         return RedirectToPage("Details", new { Id });
     }
 

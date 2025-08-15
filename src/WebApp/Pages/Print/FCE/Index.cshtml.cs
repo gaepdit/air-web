@@ -22,7 +22,7 @@ public class IndexModel : PageModel
         Facility = await facilityService.FindFacilityDetailsAsync((FacilityId?)FceView!.FacilityId);
         if (Facility == null) return NotFound();
 
-        SupportingData = await fceService.GetSupportingDataAsync(Facility.Id, token);
+        SupportingData = await fceService.GetSupportingDataAsync(Facility.Id, FceView.CompletedDate, token);
 
         return Page();
     }

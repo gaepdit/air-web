@@ -35,11 +35,9 @@ public class CloseModel(ICaseFileService service) : PageModel
         if (item is null || !User.CanCloseCaseFile(item))
             return BadRequest();
 
-        var notificationResult = await service.CloseAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"The Enforcement Case has been closed.", notificationResult.FailureMessage);
-
+        var result = await service.CloseAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "The Enforcement Case has been closed.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

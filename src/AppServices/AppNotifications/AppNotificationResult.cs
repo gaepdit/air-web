@@ -1,19 +1,22 @@
-﻿namespace AirWeb.AppServices.AppNotifications;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AirWeb.AppServices.AppNotifications;
 
 public record AppNotificationResult
 {
+    private static readonly AppNotificationResult SucceededResult = new() { Succeeded = true };
+
+    private static readonly AppNotificationResult NotAttemptedResult =
+        new() { FailureReason = "No notification email was sent." };
+
     private AppNotificationResult() { }
 
-    public bool Success { get; private init; }
-    public bool Attempted { get; private init; }
-    public string FailureMessage { get; private init; } = string.Empty;
+    [MemberNotNullWhen(false, nameof(FailureReason))]
+    public bool Succeeded { get; private init; }
 
-    public static AppNotificationResult SuccessResult() => new()
-        { Success = true };
+    public string? FailureReason { get; private init; }
 
-    public static AppNotificationResult NotAttemptedResult() => new()
-        { FailureMessage = "No notification email was sent." };
-
-    public static AppNotificationResult FailureResult(string failureMessage) => new()
-        { Attempted = true, FailureMessage = failureMessage };
+    public static AppNotificationResult Success() => SucceededResult;
+    public static AppNotificationResult NotAttempted() => NotAttemptedResult;
+    public static AppNotificationResult Failed(string failureMessage) => new() { FailureReason = failureMessage };
 }

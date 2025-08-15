@@ -53,7 +53,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 
     // Data exchange properties
     public bool IsReportable =>
-        IsComplianceEvent && IsClosed && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
+        IsComplianceEvent && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
 }
 
 // Enums

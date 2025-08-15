@@ -24,7 +24,7 @@ public class OfficeService(
         bool includeInactive = false,
         CancellationToken token = default)
     {
-        if (id is null) return Array.Empty<ListItem<string>>();
+        if (id is null) return [];
 
         var user = _userService.GetCurrentPrincipal();
 

@@ -150,6 +150,22 @@ public class FacilityIdTests
     }
 
     [Test]
+    public void IsStandardFormat_StandardFormat_ReturnsTrue()
+    {
+        var result = FacilityId.IsStandardFormat("001-00001");
+        result.Should().BeTrue();
+    }
+
+    [Test]
+    [TestCase("00100001")]
+    [TestCase("001-0001")]
+    public void IsStandardFormat_NonstandardFormat_ReturnsFalse(string input)
+    {
+        var result = FacilityId.IsStandardFormat(input);
+        result.Should().BeFalse();
+    }
+
+    [Test]
     public void TryParse_NullInput_Fails()
     {
         var result = FacilityId.TryParse(null, out var facilityId);

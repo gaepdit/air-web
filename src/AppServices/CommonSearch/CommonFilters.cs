@@ -33,8 +33,9 @@ internal static class CommonFilters
         string? input) where TEntity : IFacilityId
     {
         var cleanInput = FacilityId.CleanPartialFacilityId(input);
-        return string.IsNullOrWhiteSpace(cleanInput)
-            ? predicate
+        if (string.IsNullOrWhiteSpace(cleanInput)) return predicate;
+        return FacilityId.IsStandardFormat(cleanInput)
+            ? predicate.And(entry => entry.FacilityId == cleanInput)
             : predicate.And(entry => entry.FacilityId.Contains(cleanInput));
     }
 

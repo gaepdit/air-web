@@ -72,6 +72,9 @@ public class BeginModel(
         if (NewCaseFile.FacilityId is null) return NotFound(FacilityIdNotFound);
         await validator.ApplyValidationAsync(NewCaseFile, ModelState);
 
+        if (NewCaseFile.EventId != null && NewCaseFile.EventId != EventId)
+            return BadRequest();
+
         if (!ModelState.IsValid)
         {
             Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)NewCaseFile.FacilityId);
@@ -80,6 +83,7 @@ public class BeginModel(
             if (EventId != null)
             {
                 ComplianceEvent = await entryService.FindAsync(EventId!.Value, includeComments: false, token);
+
                 if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
                     !User.CanBeginEnforcement(ComplianceEvent))
                     return BadRequest();
@@ -89,20 +93,10 @@ public class BeginModel(
             return Page();
         }
 
-        var createResult = await caseFileService.CreateAsync(NewCaseFile, token);
-
-        const string message = "Enforcement Case File successfully created.";
-        if (createResult.HasAppNotificationFailure)
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Warning, message,
-                createResult.AppNotificationResult!.FailureMessage);
-        }
-        else
-        {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, message);
-        }
-
-        return RedirectToPage("Details", new { createResult.Id });
+        var result = await caseFileService.CreateAsync(NewCaseFile, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case File successfully created.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage("Details", new { result.Id });
     }
 
     private async Task PopulateSelectListsAsync() =>

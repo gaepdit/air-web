@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 
 public class ReportCreateValidator : AbstractValidator<ReportCreateDto>
 {
-    public ReportCreateValidator()
+    public ReportCreateValidator(
+        IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
+        IValidator<ReportCommandDto> reportCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(new WorkEntryCreateValidator());
-        RuleFor(dto => dto).SetValidator(new ReportCommandValidator());
+        RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
+        RuleFor(dto => dto).SetValidator(reportCommandValidator);
     }
 }

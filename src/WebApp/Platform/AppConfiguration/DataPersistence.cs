@@ -41,9 +41,13 @@ public static class DataPersistence
             throw new InvalidOperationException("No connection string found.");
 
         // Entity Framework context
-        builder.Services.AddDbContext<AppDbContext>(db => db
-            .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
-            .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning)));
+        builder.Services.AddDbContext<AppDbContext>(db =>
+        {
+            db.UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure());
+            db.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+
+            if (builder.Environment.IsDevelopment()) db.EnableSensitiveDataLogging().EnableDetailedErrors();
+        });
 
         // Repositories
         builder.Services

@@ -112,7 +112,7 @@ public class EditTests
         result.Should().BeOfType<RedirectToPageResult>();
         ((RedirectToPageResult)result).PageName.Should().Be("Details");
         ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty);
-        page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
+        page.TempData.GetDisplayMessages().Should().BeEquivalentTo([expectedMessage]);
     }
 
     [Test]

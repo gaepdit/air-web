@@ -38,11 +38,9 @@ public class DeleteModel(IWorkEntryService entryService) : PageModel
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var notificationResult = await entryService.DeleteAsync(Id, Comment, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            $"{item.ItemName} successfully deleted.", notificationResult.FailureMessage);
-
+        var result = await entryService.DeleteAsync(Id, Comment, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"{item.ItemName} successfully deleted.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });
     }
 }

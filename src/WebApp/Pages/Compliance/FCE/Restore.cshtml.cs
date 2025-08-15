@@ -33,10 +33,9 @@ public class RestoreModel(IFceService fceService) : PageModel
         if (item is null || !item.IsDeleted || !User.CanRestore(item))
             return BadRequest();
 
-        var notificationResult = await fceService.RestoreAsync(Id, token);
-        TempData.SetDisplayMessage(
-            notificationResult.Success ? DisplayMessage.AlertContext.Success : DisplayMessage.AlertContext.Warning,
-            "FCE successfully restored.", notificationResult.FailureMessage);
+        var result = await fceService.RestoreAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully restored.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
 
         return RedirectToPage("Details", new { Id });
     }

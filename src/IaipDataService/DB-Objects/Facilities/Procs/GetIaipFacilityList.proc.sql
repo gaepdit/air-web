@@ -26,7 +26,7 @@ BEGIN
            trim(f.STRFACILITYNAME)   as [Value]
     from dbo.APBFACILITYINFORMATION f
         inner join dbo.AFSFACILITYDATA a
-        on f.STRAIRSNUMBER = a.STRAIRSNUMBER
+            on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     where a.STRUPDATESTATUS in ('A', 'C')
     order by f.STRAIRSNUMBER;
 
