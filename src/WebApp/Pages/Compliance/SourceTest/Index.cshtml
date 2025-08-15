@@ -70,12 +70,6 @@
         <h2 id="compliance-review">Add a new Compliance Review</h2>
         <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
             <form method="post" asp-page-handler="NewReview">
-                <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-                    <svg class="bi me-2" role="img" aria-label="Danger:">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-                    </svg>
-                </div>
-
                 <div class="mb-3">
                     @Html.EditorFor(m => m.NewComplianceReview!.ResponsibleStaffId, EditorTemplate.Select,
                         additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
@@ -83,7 +77,7 @@
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnly)
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnlyNullable)
                     </div>
                     <div class="col-md mb-3">
                         @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
@@ -139,7 +133,7 @@ else
                 }
                 @if (Model.UserCan[ComplianceOperation.Edit])
                 {
-                    <a asp-page="../Work/Edit" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                    <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
                        class="btn btn-outline-primary">Edit</a>
                 }
             </div>
@@ -239,4 +233,8 @@ else
             </div>
         </div>
     }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

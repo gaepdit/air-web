@@ -7,6 +7,8 @@ public class SourceTestReviewCommandValidator : AbstractValidator<SourceTestRevi
     public SourceTestReviewCommandValidator()
     {
         RuleFor(dto => dto.ReceivedByComplianceDate)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
             .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
             .WithMessage("The Date Received By Compliance cannot be in the future.");
 

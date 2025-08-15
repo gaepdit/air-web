@@ -1,5 +1,8 @@
 ﻿@model bool
+@{
+    var describedById = (string?)ViewData["DescribedById"];
+}
 <div class="form-check">
-    <input asp-for="@__model" class="form-check-input" />
+    <input asp-for="@__model" class="form-check-input" aria-describedby="@describedById" />
     <label asp-for="@__model" class="form-check-label"></label>
 </div>
