@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public interface IFceManager
+public interface IFceManager : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Creates a new <see cref="Fce"/>.

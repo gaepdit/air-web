@@ -9,13 +9,13 @@ using System.Security.Claims;
 
 namespace AirWeb.AppServices.AuthenticationServices;
 
-public interface IAuthenticationManager
+public interface IAuthenticationManager : IDisposable
 {
     public Task<IdentityResult> LogInUsingExternalProviderAsync();
     public Task<IdentityResult> LogInAsTestUserAsync(string[] testUserRoles);
 }
 
-public class AuthenticationManager(
+public sealed class AuthenticationManager(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager,
     IConfiguration configuration,
@@ -266,4 +266,6 @@ public class AuthenticationManager(
         logger.LogWarning("User with subject ID {SubjectId} is not allowed", subjectId);
         return IdentityResult.Failed(error);
     }
+
+    public void Dispose() => userManager.Dispose();
 }

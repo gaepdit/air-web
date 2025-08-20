@@ -2,7 +2,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
+public sealed class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
 {
     public WorkEntry Create(WorkEntryType type, FacilityId facilityId, ApplicationUser? user)
     {
@@ -36,4 +36,11 @@ public class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManag
     public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user) => workEntry.Delete(comment, user);
 
     public void Restore(WorkEntry workEntry) => workEntry.Undelete();
+
+    #region IDisposable,  IAsyncDisposable
+
+    public void Dispose() => repository.Dispose();
+    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
+
+    #endregion
 }

@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFileManager(ICaseFileRepository repository, IFacilityService facilityService) : ICaseFileManager
+public sealed class CaseFileManager(ICaseFileRepository repository, IFacilityService facilityService) : ICaseFileManager
 {
     public async Task<CaseFile> Create(FacilityId facilityId, ApplicationUser? user,
         CancellationToken token = default)
@@ -29,4 +29,11 @@ public class CaseFileManager(ICaseFileRepository repository, IFacilityService fa
         caseFile.Delete(comment, user);
 
     public void Restore(CaseFile caseFile) => caseFile.Undelete();
+
+    #region IDisposable,  IAsyncDisposable
+
+    public void Dispose() => repository.Dispose();
+    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
+
+    #endregion
 }
