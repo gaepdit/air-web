@@ -124,6 +124,8 @@ public sealed class StaffService(
         return await userManager.UpdateAsync(user).ConfigureAwait(false);
     }
 
+    #region IDisposable,  IAsyncDisposable
+
     public void Dispose()
     {
         userManager.Dispose();
@@ -132,8 +134,9 @@ public sealed class StaffService(
 
     public async ValueTask DisposeAsync()
     {
-        var task = officeRepository.DisposeAsync();
         userManager.Dispose();
-        await task.ConfigureAwait(false);
+        await officeRepository.DisposeAsync().ConfigureAwait(false);
     }
+
+    #endregion
 }

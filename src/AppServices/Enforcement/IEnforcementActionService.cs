@@ -5,7 +5,7 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.AppServices.Enforcement;
 
-public interface IEnforcementActionService
+public interface IEnforcementActionService : IDisposable, IAsyncDisposable
 {
     Task<Guid> CreateAsync(int caseFileId, EnforcementActionCreateDto resource, CancellationToken token = default);
     Task<Guid> CreateAsync(int caseFileId, ConsentOrderCommandDto resource, CancellationToken token = default);

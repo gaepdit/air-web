@@ -16,7 +16,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.AppServices.Enforcement;
 
 #pragma warning disable S107 // Methods should not have too many parameters
-public class CaseFileService(
+public sealed class CaseFileService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
@@ -263,4 +263,26 @@ public class CaseFileService(
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
         commentService.DeleteCommentAsync(caseFileRepository, commentId, token);
+
+    #region IDisposable,  IAsyncDisposable
+
+    public void Dispose()
+    {
+        caseFileRepository.Dispose();
+        caseFileManager.Dispose();
+        entryRepository.Dispose();
+        userService.Dispose();
+        appNotificationService.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await caseFileRepository.DisposeAsync().ConfigureAwait(false);
+        await caseFileManager.DisposeAsync().ConfigureAwait(false);
+        await entryRepository.DisposeAsync().ConfigureAwait(false);
+        userService.Dispose();
+        await appNotificationService.DisposeAsync().ConfigureAwait(false);
+    }
+
+    #endregion
 }

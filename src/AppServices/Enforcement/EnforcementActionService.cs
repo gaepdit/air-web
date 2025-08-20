@@ -9,7 +9,7 @@ using GaEpd.GuardClauses;
 
 namespace AirWeb.AppServices.Enforcement;
 
-public class EnforcementActionService(
+public sealed class EnforcementActionService(
     IEnforcementActionManager actionManager,
     IEnforcementActionRepository actionRepository,
     ICaseFileRepository caseFileRepository,
@@ -230,4 +230,24 @@ public class EnforcementActionService(
         actionManager.DeleteStipulatedPenalty(penalty, currentUser);
         await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
     }
+
+    #region IDisposable,  IAsyncDisposable
+
+    public void Dispose()
+    {
+        actionRepository.Dispose();
+        caseFileRepository.Dispose();
+        caseFileManager.Dispose();
+        userService.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await actionRepository.DisposeAsync().ConfigureAwait(false);
+        await caseFileRepository.DisposeAsync().ConfigureAwait(false);
+        await caseFileManager.DisposeAsync().ConfigureAwait(false);
+        userService.Dispose();
+    }
+
+    #endregion
 }
