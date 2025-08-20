@@ -20,6 +20,9 @@ public class InvalidClassTagHelper : TagHelper
     private const string ClassAttributeName = "class";
     private const string BootstrapInvalidElementClass = "is-invalid";
 
+    [HtmlAttributeName(ForAttributeName)]
+    public ModelExpression? For { get; set; }
+    
     // If the element contains the default ASP.NET class indicating a validation error,
     // this will add the corresponding Bootstrap class.
     public override void Process(TagHelperContext context, TagHelperOutput output)
