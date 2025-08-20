@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.EnforcementEntities.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 

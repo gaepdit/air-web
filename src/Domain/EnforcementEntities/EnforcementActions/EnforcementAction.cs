@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
