@@ -45,7 +45,7 @@ public sealed class StaffService(
         return new PaginatedResult<StaffSearchResultDto>(listMapped, users.Count(), paging);
     }
 
-    public Task<IReadOnlyList<ListItem<string>>> GetAsListItemsAsync(bool includeInactive = false)
+    public Task<IReadOnlyList<ListItem<string>>> GetUsersAsync(bool includeInactive = false)
     {
         var status = includeInactive ? SearchStaffStatus.All : SearchStaffStatus.Active;
         var spec = new StaffSearchDto { Status = status };
@@ -55,10 +55,9 @@ public sealed class StaffService(
             .ToList());
     }
 
-    public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsListItemsAsync(AppRole role, Guid officeId) =>
+    public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsync(AppRole role) =>
         (await userManager.GetUsersInRoleAsync(role.Name).ConfigureAwait(false))
-        .AsQueryable()
-        .ApplyFilter(new StaffSearchDto { Role = role.Name, Office = officeId, Status = SearchStaffStatus.Active })
+        .Where(user => user.Active)
         .Select(user => new ListItem<string>(user.Id, user.SortableFullName))
         .ToList();
 

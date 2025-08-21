@@ -31,9 +31,9 @@ public class IndexModel : PageModel
         Report = includeConfidentialInfo ? Report : Report.RedactedStackTestReport();
         MemoHeader = new MemoHeader
         {
-            To = Report.ComplianceManager.DisplayName,
-            From = Report.ReviewedByStaff.DisplayName,
-            Through = Report.TestingUnitManager.DisplayName,
+            To = Report.ComplianceManager.FullName,
+            From = Report.ReviewedByStaff.FullName,
+            Through = Report.TestingUnitManager.FullName,
             Subject = Report.ReportTypeSubject.ToUpperInvariant(),
         };
         ShowConfidentialWarning = includeConfidentialInfo && Report.ConfidentialParameters.Count != 0;

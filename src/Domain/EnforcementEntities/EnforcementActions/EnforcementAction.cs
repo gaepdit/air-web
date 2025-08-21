@@ -31,15 +31,15 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionStatus Status { get; internal set; } = EnforcementActionStatus.Draft;
 
     // Status: Under review
+    // TODO: remove CurrentReviewer & ReviewRequestedDate, which are duplicated in CurrentOpenReview
     public ApplicationUser? CurrentReviewer { get; internal set; }
+    public EnforcementActionReview? CurrentOpenReview { get; internal set; }
     public DateOnly? ReviewRequestedDate { get; internal set; }
-
-    [UsedImplicitly]
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
     public DateOnly? ApprovedDate { get; internal set; }
-    public ApplicationUser? ApprovedBy { get; set; }
+    public ApplicationUser? ApprovedBy { get; internal set; }
 
     // Status: Issued
     public DateOnly? IssueDate { get; set; }

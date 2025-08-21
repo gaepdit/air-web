@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
+using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
@@ -126,8 +126,7 @@ public sealed class EnforcementActionService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
-        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
-            .ConfigureAwait(false);
+        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
 
         // TODO: Move business logic to Enforcement Action Manager.
         var caseFileClosed = false;
@@ -169,8 +168,7 @@ public sealed class EnforcementActionService(
     public async Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token)
-            .ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.AppealOrder((AdministrativeOrder)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -180,8 +178,7 @@ public sealed class EnforcementActionService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         actionManager.Resolve((IResolvable)enforcementAction, resource.Date, currentUser);
-        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token)
-            .ConfigureAwait(false);
+        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
 
         var caseFileClosed = false;
         if (resource.Option)
@@ -215,8 +212,8 @@ public sealed class EnforcementActionService(
         Guard.NotNull(resource.ReceivedDate);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var consentOrder = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        var penalty = actionManager.AddStipulatedPenalty(consentOrder, resource.Amount,
-            resource.ReceivedDate!.Value, currentUser);
+        var penalty = actionManager.AddStipulatedPenalty(consentOrder, resource.Amount, resource.ReceivedDate!.Value,
+            currentUser);
         penalty.Notes = resource.Notes;
         await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
     }
@@ -229,6 +226,29 @@ public sealed class EnforcementActionService(
         if (penalty == null) return;
         actionManager.DeleteStipulatedPenalty(penalty, currentUser);
         await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
+    }
+
+    public async Task RequestReviewAsync(Guid id, EnforcementActionRequestReviewDto resource, CancellationToken token)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var action = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
+
+        actionManager.RequestReview(action, reviewer, currentUser!);
+        await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
+    }
+
+    public async Task SubmitReviewAsync(Guid id, EnforcementActionSubmitReviewDto resource, CancellationToken token)
+    {
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        var action = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+
+        var nextReviewer = resource.RequestedOfId is null
+            ? null
+            : await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false);
+
+        actionManager.SubmitReview(action, resource.Result!.Value, resource.Comment, currentUser!, nextReviewer);
+        await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
     }
 
     #region IDisposable,  IAsyncDisposable

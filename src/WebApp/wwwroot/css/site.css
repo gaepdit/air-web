@@ -253,6 +253,10 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     margin-left: -0.25rem !important;
 }
 
+.ms-n4 {
+    margin-left: -1.5rem !important;
+}
+
 .mx-neg {
     margin-left: -.75rem !important;
     margin-right: -.75rem !important;

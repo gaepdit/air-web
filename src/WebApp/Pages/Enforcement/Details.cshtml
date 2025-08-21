@@ -359,9 +359,13 @@
                                                 </a>
                                             </li>
                                         }
-                                        @if (User.CanSubmitForReview(action))
+                                        @if (User.CanRequestReview(action))
                                         {
-                                            <li><a class="dropdown-item">Submit for review</a></li>
+                                            <li>
+                                                <a asp-page="RequestReview" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Submit for review
+                                                </a>
+                                            </li>
                                         }
                                         @if (User.CanFinalizeAction(action))
                                         {
@@ -444,6 +448,14 @@
                                 </div>
                             </div>
                         }
+                        @if (User.CanReview(action))
+                        {
+                            <div class="col-auto d-print-none">
+                                <a asp-page="SubmitReview" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-success">
+                                    Submit review
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="card-body">
@@ -482,10 +494,12 @@
                         }
                         else if (action.Status == EnforcementActionStatus.ReviewRequested)
                         {
+                            var currentReview = action.CurrentOpenReview!;
+
                             <div>
-                                Awaiting review
-                                by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
-                                on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                Review requested by @currentReview.RequestedByFullName
+                                from @currentReview.RequestedOfFullName
+                                on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.ShortDateOnly)
                             </div>
                         }
                         else if (action.Status == EnforcementActionStatus.Approved)
@@ -527,6 +541,35 @@
                         }
                     </small>
                 </div>
+                @if (action.Reviews.Any(r => r.IsCompleted))
+                {
+                    <div class="card-footer text-body-secondary">
+                        <h6>Reviews</h6>
+                        <ul>
+                            @foreach (var review in action.Reviews.Where(r => r.IsCompleted).OrderBy(r => r.RequestedDate))
+                            {
+                                <li>
+                                    <div>
+                                        <small>
+                                            Review requested by @review.RequestedByFullName
+                                            from @review.RequestedOfFullName
+                                            on @Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.ShortDateOnly)<br />
+                                            Reviewed by @review.ReviewedByFullName
+                                            and @review.Result!.Value.GetDisplayName()
+                                            on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                        </small>
+                                    </div>
+                                    @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
+                                    {
+                                        <blockquote class="ms-2">
+                                            <small><em>Comments:</em> @review.ReviewComments</small>
+                                        </blockquote>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
         }
 

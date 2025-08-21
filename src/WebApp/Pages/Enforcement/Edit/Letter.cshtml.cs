@@ -13,7 +13,7 @@ public class LetterEditModel(
     : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } // Enforcement Action ID
 
     [BindProperty]
     public EnforcementActionEditDto Item { get; set; } = null!;

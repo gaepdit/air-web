@@ -128,7 +128,7 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureEnforcementActionMapping(this ModelBuilder builder)
     {
-        // Enforcement Actions use Table Per Hierarchy (TPH) mapping strategy.
+        // Enforcement Actions use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<EnforcementAction>()
             .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("EnforcementActions")

@@ -8,7 +8,7 @@ namespace AirWeb.WebApp.Platform.PageModelHelpers;
 /// <see cref="ITagHelper"/> implementation targeting <c>&lt;label&gt;</c> elements with an <c>asp-for</c> attribute.
 /// </summary>
 [HtmlTargetElement("label", Attributes = ForAttributeName)]
-public class LabelTagHelper : TagHelper
+public class RequiredLabelTagHelper : TagHelper
 {
     private const string ForAttributeName = "asp-for";
 

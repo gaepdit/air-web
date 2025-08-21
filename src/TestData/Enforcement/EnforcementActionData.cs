@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
@@ -268,7 +268,8 @@ public static class EnforcementActionData
     private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction)
     {
         var requestedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-10 * (i + 1));
-        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(), null)
+        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(),
+            UserData.GetRandomUser())
         {
             RequestedDate = requestedDate,
             CompletedDate = incomplete ? null : requestedDate.AddDays(Random.Shared.Next(1, 5)),

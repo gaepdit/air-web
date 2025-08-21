@@ -49,7 +49,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Pollutant)</dt>
     <dd class="col-sm-8 col-lg-9">@summary.Pollutant</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
-    <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.DisplayName</dd>
+    <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.FullName</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>

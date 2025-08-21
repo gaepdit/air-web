@@ -8,17 +8,18 @@ public class EnforcementActionManager : IEnforcementActionManager
 {
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user)
     {
+        var id = Guid.NewGuid();
         EnforcementAction enforcementAction = action switch
         {
-            EnforcementActionType.AdministrativeOrder => new AdministrativeOrder(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.ConsentOrder => new ConsentOrder(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.InformationalLetter => new InformationalLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.LetterOfNoncompliance => new LetterOfNoncompliance(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.NoFurtherActionLetter => new NoFurtherActionLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.NovNfaLetter => new NovNfaLetter(Guid.NewGuid(), caseFile, user),
-            EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(Guid.NewGuid(), caseFile, user),
-            _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
+            EnforcementActionType.AdministrativeOrder => new AdministrativeOrder(id, caseFile, user),
+            EnforcementActionType.ConsentOrder => new ConsentOrder(id, caseFile, user),
+            EnforcementActionType.InformationalLetter => new InformationalLetter(id, caseFile, user),
+            EnforcementActionType.LetterOfNoncompliance => new LetterOfNoncompliance(id, caseFile, user),
+            EnforcementActionType.NoFurtherActionLetter => new NoFurtherActionLetter(id, caseFile, user),
+            EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(id, caseFile, user),
+            EnforcementActionType.NovNfaLetter => new NovNfaLetter(id, caseFile, user),
+            EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(id, caseFile, user),
+            _ => throw new ArgumentOutOfRangeException(nameof(action), action, null),
         };
 
         caseFile.EnforcementActions.Add(enforcementAction);
@@ -90,4 +91,59 @@ public class EnforcementActionManager : IEnforcementActionManager
 
     public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
         stipulatedPenalty.SetDeleted(user?.Id);
+
+    public void RequestReview(EnforcementAction enforcementAction, ApplicationUser reviewer, ApplicationUser user)
+    {
+        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), enforcementAction, reviewer, requester: user);
+
+        enforcementAction.SetUpdater(user.Id);
+        enforcementAction.Reviews.Add(reviewRequest);
+        enforcementAction.CurrentReviewer = reviewRequest.RequestedOf;
+        enforcementAction.CurrentOpenReview = reviewRequest;
+        enforcementAction.ReviewRequestedDate = reviewRequest.RequestedDate;
+        enforcementAction.Status = EnforcementActionStatus.ReviewRequested;
+    }
+
+    public void SubmitReview(EnforcementAction enforcementAction, ReviewResult result, string? comments,
+        ApplicationUser user, ApplicationUser? nextReviewer = null)
+    {
+        var review = enforcementAction.CurrentOpenReview!;
+        review.ReviewedBy = user;
+        review.CompletedDate = DateOnly.FromDateTime(DateTime.Today);
+        review.Result = result;
+        review.ReviewComments = comments;
+
+        enforcementAction.SetUpdater(user.Id);
+
+        switch (result)
+        {
+            case ReviewResult.Approved:
+                enforcementAction.Status = EnforcementActionStatus.Approved;
+                enforcementAction.ApprovedBy = user;
+                enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTime.Today);
+                ClearReview();
+                break;
+            case ReviewResult.Returned:
+                enforcementAction.Status = EnforcementActionStatus.Draft;
+                ClearReview();
+                break;
+            case ReviewResult.Canceled:
+                Cancel(enforcementAction, user);
+                break;
+            case ReviewResult.Forwarded:
+                RequestReview(enforcementAction, nextReviewer!, user);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(result), result, null);
+        }
+
+        return;
+
+        void ClearReview()
+        {
+            enforcementAction.CurrentReviewer = null;
+            enforcementAction.CurrentOpenReview = null;
+            enforcementAction.ReviewRequestedDate = null;
+        }
+    }
 }

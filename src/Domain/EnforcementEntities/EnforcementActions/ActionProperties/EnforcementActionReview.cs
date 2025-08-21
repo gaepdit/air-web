@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.Identity;
+using System.ComponentModel;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 
@@ -9,19 +10,24 @@ public class EnforcementActionReview : AuditableEntity
     private EnforcementActionReview() { }
 
     internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser reviewer,
-        ApplicationUser? user)
+        ApplicationUser requester)
     {
         Id = id;
         EnforcementAction = enforcementAction;
-        RequestedTo = reviewer;
-        SetCreator(user?.Id);
+        RequestedDate = DateOnly.FromDateTime(DateTime.Today);
+        RequestedBy = requester;
+        RequestedOf = reviewer;
+        SetCreator(requester.Id);
     }
 
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
 
     public DateOnly RequestedDate { get; internal init; }
-    public ApplicationUser RequestedTo { get; internal init; } = null!;
-    public ApplicationUser? ReviewedBy { get; internal init; }
+
+    public ApplicationUser RequestedBy { get; internal init; } = null!;
+    public ApplicationUser RequestedOf { get; internal init; } = null!;
+    public ApplicationUser? ReviewedBy { get; internal set; }
+
     public bool IsCompleted => CompletedDate.HasValue;
     public DateOnly? CompletedDate { get; internal set; }
 
@@ -34,15 +40,23 @@ public class EnforcementActionReview : AuditableEntity
 
 public enum ReviewResult
 {
-    // Returned to staff with changes requested.
-    [Display(Name = "Changes requested")] Returned,
-
-    // Forwarded to the next level of management for approval.
-    [Display(Name = "Forwarded for additional review")] Forwarded,
-
     // Approved with no further review required.
-    [Display(Name = "Approved")] Approved,
+    [Display(Name = "Approved")]
+    [Description("Approve")]
+    Approved,
 
-    // Disapproved.
-    [Display(Name = "Disapproved")] Disapproved,
+    // Returned to staff with changes requested.
+    [Display(Name = "Changes requested")]
+    [Description("Request changes")]
+    Returned,
+
+    // Canceled/Disapproved.
+    [Display(Name = "Canceled")]
+    [Description("Cancel and close as unsent")]
+    Canceled,
+
+    // Forwarded to someone else for additional review.
+    [Display(Name = "Forwarded for additional review")]
+    [Description("Approve and forward for additional review")]
+    Forwarded,
 }

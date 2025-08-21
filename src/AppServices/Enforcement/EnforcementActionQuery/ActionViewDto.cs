@@ -29,6 +29,7 @@ public record ActionViewDto : IActionViewDto
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
+    public ReviewDto? CurrentOpenReview { get; init; }
     public DateOnly? ReviewRequestedDate { get; init; }
     public ICollection<ReviewDto> Reviews { get; } = [];
 

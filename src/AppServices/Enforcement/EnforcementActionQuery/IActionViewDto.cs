@@ -20,7 +20,9 @@ public interface IActionViewDto : IDeletable
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; }
+    public ReviewDto? CurrentOpenReview { get; }
     public DateOnly? ReviewRequestedDate { get; }
+    public bool IsUnderReview => ReviewRequestedDate.HasValue;
     public ICollection<ReviewDto> Reviews { get; }
 
     // -- Approved
