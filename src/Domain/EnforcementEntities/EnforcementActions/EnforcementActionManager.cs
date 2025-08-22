@@ -55,7 +55,7 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.Status = EnforcementActionStatus.Approved;
         enforcementAction.ApprovedBy = user;
-        enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTime.Today);
+        enforcementAction.ApprovedDate = DateTime.Now;
     }
     private static void ReturnToDraft(EnforcementAction enforcementAction, ApplicationUser? user)
     {
@@ -74,7 +74,7 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
             throw new InvalidOperationException("Enforcement Action has already been issued.");
 
         enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.CanceledDate = DateOnly.FromDateTime(DateTime.Today);
+        enforcementAction.CanceledDate = DateTime.Now;
         enforcementAction.Status = EnforcementActionStatus.Canceled;
     }
 

@@ -4,13 +4,13 @@ namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
 public record ReviewDto
 {
-    public DateOnly RequestedDate { get; internal init; }
+    public DateTime RequestedDate { get; internal init; }
     public string RequestedByFullName { get; internal init; } = null!;
     public string RequestedOfFullName { get; internal init; } = null!;
     public string? ReviewedByFullName { get; internal init; }
 
     public bool IsCompleted => CompletedDate.HasValue;
-    public DateOnly? CompletedDate { get; internal init; }
+    public DateTime? CompletedDate { get; internal init; }
 
     public ReviewResult? Result { get; internal init; }
 

@@ -14,7 +14,7 @@ public class EnforcementActionReview : AuditableEntity
     {
         Id = id;
         EnforcementAction = enforcementAction;
-        RequestedDate = DateOnly.FromDateTime(DateTime.Today);
+        RequestedDate = DateTime.Today;
         RequestedBy = requester;
         RequestedOf = reviewer;
         SetCreator(requester.Id);
@@ -22,14 +22,14 @@ public class EnforcementActionReview : AuditableEntity
 
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
 
-    public DateOnly RequestedDate { get; internal init; }
+    public DateTime RequestedDate { get; internal init; }
 
     public ApplicationUser RequestedBy { get; internal init; } = null!;
     public ApplicationUser RequestedOf { get; internal init; } = null!;
     public ApplicationUser? ReviewedBy { get; internal set; }
 
     public bool IsCompleted => CompletedDate.HasValue;
-    public DateOnly? CompletedDate { get; internal set; }
+    public DateTime? CompletedDate { get; internal set; }
 
     [StringLength(11)]
     public ReviewResult? Result { get; internal set; }
@@ -42,7 +42,7 @@ public class EnforcementActionReview : AuditableEntity
        ReviewedBy = user;
        Result = result;
        ReviewComments = comments;
-       CompletedDate = DateOnly.FromDateTime(DateTime.Today);
+       CompletedDate = DateTime.Today;
     }
     }
 

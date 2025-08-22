@@ -33,11 +33,11 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     // Status: Under review
     public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(r => !r.IsCompleted);
     public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
-    public DateOnly? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
+    [UsedImplicitly] public DateTime? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
-    public DateOnly? ApprovedDate { get; internal set; }
+    public DateTime? ApprovedDate { get; internal set; }
     public ApplicationUser? ApprovedBy { get; internal set; }
 
     // Status: Issued
@@ -45,7 +45,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     internal bool IsIssued => IssueDate.HasValue;
 
     // Status: Canceled (closed as unsent)
-    public DateOnly? CanceledDate { get; internal set; }
+    public DateTime? CanceledDate { get; internal set; }
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties

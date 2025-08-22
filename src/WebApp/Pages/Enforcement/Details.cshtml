@@ -332,7 +332,7 @@
                                 @action.ActionType.GetDisplayName()
                             </h3>
                             <h4 class="col-auto h5 card-subtitle text-body-secondary">
-                                <span class="text-info-emphasis">@action.Status.GetDisplayName()</span> @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
+                                <span class="text-info-emphasis">@action.Status.GetDisplayName()</span> @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
                             </h4>
                         </div>
                         @if (!action.IsDeleted && Model.UserCan[CaseFileOperation.EditCaseFile])
@@ -499,7 +499,7 @@
                             <div>
                                 Review requested by @currentReview.RequestedByFullName
                                 from @currentReview.RequestedOfFullName
-                                on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.ShortDateOnly)
+                                on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.ShortDateTime)
                             </div>
                         }
                         else if (action.Status == EnforcementActionStatus.Approved)
@@ -507,7 +507,7 @@
                             <div>
                                 Approved
                                 by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
-                                on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateTimeNullable)
                             </div>
                         }
                         else if (action.Status == EnforcementActionStatus.Issued)
@@ -521,7 +521,7 @@
                         {
                             <div>
                                 Canceled
-                                on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
+                                on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateTimeNullable)
                             </div>
                         }
                         @if (action is IIsResolved { IsResolved: true } resolved)
@@ -553,10 +553,10 @@
                                         <small>
                                             Review requested by @review.RequestedByFullName
                                             from @review.RequestedOfFullName
-                                            on @Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.ShortDateOnly)<br />
+                                            on @Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.ShortDateTime)<br />
                                             Reviewed by @review.ReviewedByFullName
                                             and @review.Result!.Value.GetDisplayName()
-                                            on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)
+                                            on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.ShortDateTimeNullable)
                                         </small>
                                     </div>
                                     @if (!string.IsNullOrWhiteSpace(review.ReviewComments))

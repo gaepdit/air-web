@@ -37,7 +37,7 @@ public static class EnforcementActionData
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
-            CanceledDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-5)),
+            CanceledDate = DateTime.Now.AddYears(-1).AddDays(-5),
         },
 
         // 304 (4)
@@ -197,7 +197,7 @@ public static class EnforcementActionData
                 {
                     action.Status = EnforcementActionStatus.Issued;
                     action.ApprovedBy = UserData.GetRandomUser();
-                    action.ApprovedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5));
+                    action.ApprovedDate = DateTime.Now.AddDays(-5);
                     GenerateEnforcementActionReviews(action);
                 }
                 else if (action.IsCanceled)
@@ -209,7 +209,7 @@ public static class EnforcementActionData
                 {
                     action.Status = EnforcementActionStatus.Approved;
                     action.ApprovedBy = UserData.GetRandomUser();
-                    action.ApprovedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5));
+                    action.ApprovedDate = DateTime.Now.AddDays(-5);
                     GenerateEnforcementActionReviews(action);
                 }
 #pragma warning disable S1862 // Related "if/else if" statements should not have the same condition
@@ -266,7 +266,7 @@ public static class EnforcementActionData
 
     private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction)
     {
-        var requestedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-10 * (i + 1));
+        var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
         return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(),
             UserData.GetRandomUser())
         {
