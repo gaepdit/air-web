@@ -46,7 +46,7 @@ public static class DataPersistence
             db.UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure());
             db.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
 
-            if (builder.Environment.IsDevelopment()) db.EnableSensitiveDataLogging().EnableDetailedErrors();
+            if (builder.Environment.IsDevelopment()) db.EnableDetailedErrors();
         });
 
         // Repositories

@@ -21,12 +21,12 @@
             {
                 <div id="@comment.Id.ToString()" class="card mb-3 @(comment.Id == Model.NewCommentId ? "border-success" : "")">
                     <div class="card-body">@Html.DisplayFor(_ => comment.Text, DisplayTemplate.TextWithLinebreaks)</div>
-                    <div class="card-footer">
+                    <div class="card-footer small">
                         <div class="row justify-content-between align-items-center g-0 my-1">
-                            <small class="col text-body-secondary">
+                            <div class="col text-body-secondary">
                                 Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
                                 on @Html.DisplayFor(_ => comment.CommentedAt, DisplayTemplate.ShortDateTimeOffset)
-                            </small>
+                            </div>
                             @if (Model.CanDeleteComment)
                             {
                                 <div class="col-auto d-print-none ms-2">

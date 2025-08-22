@@ -69,5 +69,5 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
 
     // FUTURE: Allow for editing a Work Entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await StaffService.GetAsListItemsAsync()).ToSelectList();
+        StaffSelectList = (await StaffService.GetUsersAsync()).ToSelectList();
 }

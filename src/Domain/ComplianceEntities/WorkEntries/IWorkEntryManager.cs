@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public interface IWorkEntryManager
+public interface IWorkEntryManager : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Creates a new <see cref="WorkEntry"/>.

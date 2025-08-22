@@ -68,5 +68,5 @@ public class AddModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersAsync()).ToSelectList();
 }

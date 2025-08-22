@@ -1,9 +1,9 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -39,7 +39,6 @@ internal static class AppDbContextConfiguration
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
         enforcementActionEntity.Navigation(enforcementAction => enforcementAction.ApprovedBy).AutoInclude();
-        enforcementActionEntity.Navigation(enforcementAction => enforcementAction.CurrentReviewer).AutoInclude();
 
         var enforcementActionReviewEntity = builder.Entity<EnforcementActionReview>();
         enforcementActionReviewEntity.Navigation(review => review.ReviewedBy).AutoInclude();
@@ -128,7 +127,7 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureEnforcementActionMapping(this ModelBuilder builder)
     {
-        // Enforcement Actions use Table Per Hierarchy (TPH) mapping strategy.
+        // Enforcement Actions use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<EnforcementAction>()
             .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("EnforcementActions")

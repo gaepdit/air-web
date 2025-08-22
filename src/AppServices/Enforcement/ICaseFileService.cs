@@ -7,7 +7,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
 
-public interface ICaseFileService
+public interface ICaseFileService : IDisposable, IAsyncDisposable
 {
     // TODO: Delete.
     Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default);

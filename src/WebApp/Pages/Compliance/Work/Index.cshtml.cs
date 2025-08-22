@@ -49,7 +49,7 @@ public class ComplianceIndexModel(
 
     private async Task PopulateSelectListsAsync(CancellationToken token = default)
     {
-        StaffSelectList = (await staff.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
+        StaffSelectList = (await staff.GetUsersAsync(includeInactive: true)).ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
     }
 }

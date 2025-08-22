@@ -1,5 +1,7 @@
 ﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 
 namespace DomainTests.EnforcementActionManagerTests
 {
@@ -8,7 +10,8 @@ namespace DomainTests.EnforcementActionManagerTests
         private EnforcementActionManager _manager;
 
         [SetUp]
-        public void SetUp() => _manager = new EnforcementActionManager();
+        public void SetUp() =>
+            _manager = new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>());
 
         [Test]
         public void AddResponse_ValidResponse_SetsResponseReceivedAndComment()

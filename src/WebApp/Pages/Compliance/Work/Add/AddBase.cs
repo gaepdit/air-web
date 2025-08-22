@@ -62,5 +62,5 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     }
 
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetAsListItemsAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersAsync()).ToSelectList();
 }

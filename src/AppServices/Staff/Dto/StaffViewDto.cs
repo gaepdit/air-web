@@ -24,9 +24,6 @@ public record StaffViewDto : INamedEntity
     public string Name => new[] { GivenName, FamilyName }.ConcatWithSeparator();
 
     [JsonIgnore]
-    public string DisplayName => Name;
-
-    [JsonIgnore]
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
 
     [JsonIgnore]

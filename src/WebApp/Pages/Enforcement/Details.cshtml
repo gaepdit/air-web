@@ -2,7 +2,6 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
-@using AirWeb.AppServices.Utilities
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
@@ -327,13 +326,14 @@
                             <h3 id="@action.Id.ToString()" class="h5 card-title">
                                 @if (action.IsDeleted)
                                 {
-                                    <em class="text-danger-emphasis">Deleted</em>
+                                    <em class="text-danger-emphasis">Deleted:</em>
+                                }
+                                else
+                                {
+                                    <span class="text-info-emphasis">@action.Status.GetDisplayName():</span>
                                 }
                                 @action.ActionType.GetDisplayName()
                             </h3>
-                            <h4 class="col-auto h5 card-subtitle text-body-secondary">
-                                <span class="text-info-emphasis">@action.Status.GetDisplayName()</span> @action.StatusDate?.ToString(DateTimeFormats.ShortDate)
-                            </h4>
                         </div>
                         @if (!action.IsDeleted && Model.UserCan[CaseFileOperation.EditCaseFile])
                         {
@@ -359,9 +359,13 @@
                                                 </a>
                                             </li>
                                         }
-                                        @if (User.CanSubmitForReview(action))
+                                        @if (User.CanRequestReview(action))
                                         {
-                                            <li><a class="dropdown-item">Submit for review</a></li>
+                                            <li>
+                                                <a asp-page="RequestReview" asp-route-id="@action.Id.ToString()" class="dropdown-item">
+                                                    Submit for review
+                                                </a>
+                                            </li>
                                         }
                                         @if (User.CanFinalizeAction(action))
                                         {
@@ -444,6 +448,14 @@
                                 </div>
                             </div>
                         }
+                        @if (User.CanReview(action))
+                        {
+                            <div class="col-auto d-print-none">
+                                <a asp-page="SubmitReview" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-success">
+                                    Submit review
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="card-body">
@@ -464,69 +476,90 @@
                             break;
                     }
                 </div>
-                <div class="card-footer">
-                    <small class="text-body-secondary">
-                        @if (action is IIsExecuted { IsExecuted: true } executed)
-                        {
-                            <div>
-                                Executed
-                                on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        @if (action.Status == EnforcementActionStatus.Draft)
-                        {
-                            <div>
-                                Draft started
-                                on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        else if (action.Status == EnforcementActionStatus.ReviewRequested)
-                        {
-                            <div>
-                                Awaiting review
-                                by @Html.DisplayFor(_ => action.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)
-                                on @Html.DisplayFor(_ => action.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        else if (action.Status == EnforcementActionStatus.Approved)
-                        {
-                            <div>
-                                Approved
-                                by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
-                                on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        else if (action.Status == EnforcementActionStatus.Issued)
-                        {
-                            <div>
-                                Issued
-                                on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        else if (action.Status == EnforcementActionStatus.Canceled)
-                        {
-                            <div>
-                                Canceled
-                                on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        @if (action is IIsResolved { IsResolved: true } resolved)
-                        {
-                            <div>
-                                Resolved
-                                on @Html.DisplayFor(_ => resolved.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
-                            </div>
-                        }
-                        @if (action.IsDeleted)
-                        {
-                            <div>
-                                <span class="text-danger-emphasis">Deleted</span>
-                                by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
-                                on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
-                            </div>
-                        }
-                    </small>
+                <div class="card-footer small text-body-secondary">
+                    @if (action is IIsExecuted { IsExecuted: true } executed)
+                    {
+                        <div>
+                            Executed
+                            on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
+                        </div>
+                    }
+                    @if (action.Status == EnforcementActionStatus.Draft)
+                    {
+                        <div>
+                            Draft started
+                            on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
+                        </div>
+                    }
+                    else if (action.Status == EnforcementActionStatus.ReviewRequested)
+                    {
+                        var currentReview = action.CurrentOpenReview!;
+
+                        <div>
+                            Review requested by @currentReview.RequestedByFullName
+                            from @currentReview.RequestedOfFullName
+                            on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.DateTimeShort)
+                        </div>
+                    }
+                    else if (action.Status == EnforcementActionStatus.Approved)
+                    {
+                        <div>
+                            Approved
+                            by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
+                            on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.DateTimeNullableShort)
+                        </div>
+                    }
+                    else if (action.Status == EnforcementActionStatus.Issued)
+                    {
+                        <div>
+                            Issued
+                            on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                        </div>
+                    }
+                    else if (action.Status == EnforcementActionStatus.Canceled)
+                    {
+                        <div>
+                            Canceled
+                            on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.DateTimeNullableShort)
+                        </div>
+                    }
+                    @if (action is IIsResolved { IsResolved: true } resolved)
+                    {
+                        <div>
+                            Resolved
+                            on @Html.DisplayFor(_ => resolved.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
+                        </div>
+                    }
+                    @if (action.IsDeleted)
+                    {
+                        <div>
+                            <span class="text-danger-emphasis">Deleted</span>
+                            by @Html.DisplayFor(_ => action.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+                            on @Html.DisplayFor(_ => action.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
+                        </div>
+                    }
                 </div>
+                @if (action.Reviews.Any(r => r.IsCompleted))
+                {
+                    <div class="card-footer small text-body-secondary">
+                        <h6>Completed reviews</h6>
+                        <ul class="list-unstyled">
+                            @foreach (var review in action.Reviews.Where(r => r.IsCompleted).OrderBy(r => r.RequestedDate))
+                            {
+                                <li>
+                                    <em>@Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):</em>
+                                    @review.Result!.Value.GetDisplayName() by @review.ReviewedByFullName
+                                    @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
+                                    {
+                                        <blockquote class="ps-2 m-0 my-2 border-start border-3 text-break">
+                                            <div class="text-pre-line"><em>Comments:</em> @review.ReviewComments</div>
+                                        </blockquote>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using GaEpd.AppLibrary.Extensions;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ValueObjects;
 
@@ -10,12 +11,5 @@ public readonly record struct PersonName(
 )
 {
     [JsonIgnore]
-    public string DisplayName =>
-        string.Join(" ", new[] { GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
-
-    [JsonIgnore]
-    public string SortableFullName =>
-        string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
-
-    public override string ToString() => DisplayName;
+    public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
 }

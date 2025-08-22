@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 
@@ -37,7 +37,7 @@ public static class EnforcementActionData
         {
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseRequested = true,
-            CanceledDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-5)),
+            CanceledDate = DateTime.Now.AddYears(-1).AddDays(-5),
         },
 
         // 304 (4)
@@ -197,7 +197,7 @@ public static class EnforcementActionData
                 {
                     action.Status = EnforcementActionStatus.Issued;
                     action.ApprovedBy = UserData.GetRandomUser();
-                    action.ApprovedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5));
+                    action.ApprovedDate = DateTime.Now.AddDays(-5);
                     GenerateEnforcementActionReviews(action);
                 }
                 else if (action.IsCanceled)
@@ -209,7 +209,7 @@ public static class EnforcementActionData
                 {
                     action.Status = EnforcementActionStatus.Approved;
                     action.ApprovedBy = UserData.GetRandomUser();
-                    action.ApprovedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-5));
+                    action.ApprovedDate = DateTime.Now.AddDays(-5);
                     GenerateEnforcementActionReviews(action);
                 }
 #pragma warning disable S1862 // Related "if/else if" statements should not have the same condition
@@ -217,8 +217,7 @@ public static class EnforcementActionData
 #pragma warning restore S1862
                 {
                     action.Status = EnforcementActionStatus.ReviewRequested;
-                    action.CurrentReviewer = UserData.GetRandomUser();
-                    action.ReviewRequestedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-3));
+                    action.Reviews.Add(new EnforcementActionReview(Guid.NewGuid(),action,UserData.GetRandomUser(),UserData.GetRandomUser()));
                 }
                 else
                 {
@@ -267,8 +266,9 @@ public static class EnforcementActionData
 
     private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction)
     {
-        var requestedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-10 * (i + 1));
-        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(), null)
+        var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
+        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(),
+            UserData.GetRandomUser())
         {
             RequestedDate = requestedDate,
             CompletedDate = incomplete ? null : requestedDate.AddDays(Random.Shared.Next(1, 5)),

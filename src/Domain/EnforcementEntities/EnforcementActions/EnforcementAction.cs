@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.EnforcementEntities.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
@@ -31,22 +31,21 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionStatus Status { get; internal set; } = EnforcementActionStatus.Draft;
 
     // Status: Under review
-    public ApplicationUser? CurrentReviewer { get; internal set; }
-    public DateOnly? ReviewRequestedDate { get; internal set; }
-
-    [UsedImplicitly]
+    public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(r => !r.IsCompleted);
+    public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
+    [UsedImplicitly] public DateTime? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
-    public DateOnly? ApprovedDate { get; internal set; }
-    public ApplicationUser? ApprovedBy { get; set; }
+    public DateTime? ApprovedDate { get; internal set; }
+    public ApplicationUser? ApprovedBy { get; internal set; }
 
     // Status: Issued
     public DateOnly? IssueDate { get; set; }
     internal bool IsIssued => IssueDate.HasValue;
 
     // Status: Canceled (closed as unsent)
-    public DateOnly? CanceledDate { get; internal set; }
+    public DateTime? CanceledDate { get; internal set; }
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
@@ -65,7 +64,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
-}
+    }
 
 // The order of these enum values is used by the UI.
 public enum EnforcementActionType

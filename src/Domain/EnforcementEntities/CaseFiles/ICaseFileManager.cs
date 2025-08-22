@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public interface ICaseFileManager
+public interface ICaseFileManager : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Creates a new <see cref="CaseFile"/>.

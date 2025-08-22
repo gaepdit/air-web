@@ -1,0 +1,75 @@
+﻿@page "{id:Guid?}"
+@using AirWeb.AppServices.Utilities
+@using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model SubmitReviewModel
+
+@{
+    ViewData["Title"] = $"Submit a Review for {Model.ItemView.ActionType.GetDisplayName()}";
+    ViewData["NoAnchors"] = "True";
+    var showForwardSelect = Model.ItemReview.Result == ReviewResult.Forwarded;
+}
+
+<h1>@ViewData["Title"]</h1>
+<h2 class="h5">
+    Review requested @Model.ItemView.StatusDate?.ToString(DateTimeFormats.ShortDate)
+    <span class="text-body-secondary">(Enforcement Case #@Model.ItemView.CaseFileId)</span>
+</h2>
+
+<div class="p-3 mt-3 border rounded-3 bg-light-subtle">
+    <form method="post">
+        <div class="mb-3">
+            <fieldset>
+                <legend>Your review <span class="text-danger-emphasis">*</span></legend>
+                @* <h3 class="h6">Your review</h3> *@
+                @foreach (var reviewResult in Enum.GetValues<ReviewResult>())
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="ItemReview.Result" value="@reviewResult.ToString()" id="ItemReview_Result_@reviewResult.ToString()">
+                        <label class="form-check-label" for="ItemReview_Result_@reviewResult.ToString()">
+                            @reviewResult.GetDescription()
+                        </label>
+                        @if (reviewResult == ReviewResult.Forwarded)
+                        {
+                            <span asp-validation-for="ItemReview.Result" class="invalid-feedback ms-n4"></span>
+                        }
+                    </div>
+                }
+            </fieldset>
+        </div>
+
+        <div id="forwarded-select-container" class="mb-3 @(showForwardSelect ? "" : "d-none")">
+            @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.StaffSelectList })
+        </div>
+
+        <div class="mb-3">
+            @Html.EditorFor(m => m.ItemReview.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+        </div>
+
+        <partial name="Shared/_SubmitCancelButtons" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('forwarded-select-container');
+            const radios = document.querySelectorAll('input[name="ItemReview.Result"]');
+
+            function updateForwardedVisibility() {
+                const selected = Array.from(radios).find(r => r.checked);
+                const isForwarded = selected && selected.value === 'Forwarded';
+                if (isForwarded) {
+                    container.classList.remove('d-none');
+                } else {
+                    container.classList.add('d-none');
+                }
+            }
+
+            radios.forEach(r => r.addEventListener('change', updateForwardedVisibility));
+            updateForwardedVisibility();
+        });
+    </script>
+}

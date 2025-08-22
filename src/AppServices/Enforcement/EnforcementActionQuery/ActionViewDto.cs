@@ -15,10 +15,10 @@ public record ActionViewDto : IActionViewDto
 
     public DateOnly? StatusDate => Status switch
     {
-        EnforcementActionStatus.ReviewRequested => ReviewRequestedDate,
-        EnforcementActionStatus.Approved => ApprovedDate,
+        EnforcementActionStatus.ReviewRequested => DateOnly.FromDateTime(ReviewRequestedDate!.Value),
+        EnforcementActionStatus.Approved => DateOnly.FromDateTime(ApprovedDate!.Value),
         EnforcementActionStatus.Issued => IssueDate,
-        EnforcementActionStatus.Canceled => CanceledDate,
+        EnforcementActionStatus.Canceled => DateOnly.FromDateTime(CanceledDate!.Value),
         EnforcementActionStatus.Draft => DateOnly.FromDateTime(CreatedAt.DateTime),
         _ => null,
     };
@@ -29,11 +29,12 @@ public record ActionViewDto : IActionViewDto
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
-    public DateOnly? ReviewRequestedDate { get; init; }
+    public ReviewDto? CurrentOpenReview { get; init; }
+    public DateTime? ReviewRequestedDate { get; init; }
     public ICollection<ReviewDto> Reviews { get; } = [];
 
     // -- Approved
-    public DateOnly? ApprovedDate { get; init; }
+    public DateTime? ApprovedDate { get; init; }
     public StaffViewDto? ApprovedBy { get; init; }
     public bool IsApproved => ApprovedDate.HasValue;
 
@@ -42,7 +43,7 @@ public record ActionViewDto : IActionViewDto
     public bool IsIssued => IssueDate.HasValue;
 
     // -- Canceled (closed as unsent)
-    public DateOnly? CanceledDate { get; init; }
+    public DateTime? CanceledDate { get; init; }
     public bool IsCanceled => CanceledDate.HasValue;
 
     // -- Deleted

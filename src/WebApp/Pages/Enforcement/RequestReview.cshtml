@@ -1,0 +1,26 @@
+﻿@page "{id:Guid?}"
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model RequestReviewModel
+
+@{
+    ViewData["Title"] = $"Request a Review for {Model.ItemView.ActionType.GetDisplayName()}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h2 class="h5"><span class="text-body-secondary">(Enforcement Case #@Model.ItemView.CaseFileId)</span></h2>
+
+<div class="p-3 mt-3 border rounded-3 bg-light-subtle">
+    <form method="post">
+        <div class="mb-3">
+            @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.StaffSelectList })
+        </div>
+
+        <partial name="Shared/_SubmitCancelButtons" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

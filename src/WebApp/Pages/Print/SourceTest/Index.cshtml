@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.ReviewedByStaff)</th>
-                <td>@report.ReviewedByStaff.DisplayName</td>
+                <td>@report.ReviewedByStaff.FullName</td>
             </tr>
             <tr>
                 <th scope="row">@Html.DisplayNameFor(_ => report.WitnessedByStaff)</th>
@@ -107,7 +107,7 @@
                 <td colspan="2">
                     <footer class="split-lr">
                         <div>
-                            <div>cc: @report.ComplianceManager.DisplayName</div>
+                            <div>cc: @report.ComplianceManager.FullName</div>
                             <div>AIRS Number: @report.Facility.Id</div>
                         </div>
                         <div>

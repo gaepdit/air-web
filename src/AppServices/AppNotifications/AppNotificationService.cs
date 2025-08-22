@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.AppNotifications;
 
-public interface IAppNotificationService
+public interface IAppNotificationService : IDisposable, IAsyncDisposable
 {
     Task<AppNotificationResult> SendNotificationAsync(Template template, string recipientEmail, CancellationToken token,
         params object?[] values);
 }
 
-public class AppNotificationService(
+public sealed class AppNotificationService(
     IEmailService emailService,
     IEmailLogRepository emailLogRepository,
     IHostEnvironment environment,
@@ -89,6 +89,13 @@ public class AppNotificationService(
         HtmlBody = message.HtmlBody.Truncate(20_000),
         CreatedAt = DateTimeOffset.Now,
     };
+
+    #region IDisposable,  IAsyncDisposable
+
+    public void Dispose() => emailLogRepository.Dispose();
+    public async ValueTask DisposeAsync() => await emailLogRepository.DisposeAsync().ConfigureAwait(false);
+
+    #endregion
 }
 
 public static class AppNotificationExtensions
