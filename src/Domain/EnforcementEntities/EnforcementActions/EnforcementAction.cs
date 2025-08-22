@@ -31,10 +31,9 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionStatus Status { get; internal set; } = EnforcementActionStatus.Draft;
 
     // Status: Under review
-    // TODO: remove CurrentReviewer & ReviewRequestedDate, which are duplicated in CurrentOpenReview
-    public ApplicationUser? CurrentReviewer { get; internal set; }
-    public EnforcementActionReview? CurrentOpenReview { get; internal set; }
-    public DateOnly? ReviewRequestedDate { get; internal set; }
+    public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(r => !r.IsCompleted);
+    public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
+    public DateOnly? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
@@ -65,7 +64,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
-}
+    }
 
 // The order of these enum values is used by the UI.
 public enum EnforcementActionType

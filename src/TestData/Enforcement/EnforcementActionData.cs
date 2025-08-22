@@ -217,8 +217,7 @@ public static class EnforcementActionData
 #pragma warning restore S1862
                 {
                     action.Status = EnforcementActionStatus.ReviewRequested;
-                    action.CurrentReviewer = UserData.GetRandomUser();
-                    action.ReviewRequestedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-3));
+                    action.Reviews.Add(new EnforcementActionReview(Guid.NewGuid(),action,UserData.GetRandomUser(),UserData.GetRandomUser()));
                 }
                 else
                 {

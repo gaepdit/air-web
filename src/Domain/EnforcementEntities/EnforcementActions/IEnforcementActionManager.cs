@@ -28,8 +28,8 @@ public interface IEnforcementActionManager
     void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user);
 
     // Reviews
-    void RequestReview(EnforcementAction enforcementAction, ApplicationUser reviewer, ApplicationUser user);
+    void RequestReview(EnforcementAction action, ApplicationUser reviewer, ApplicationUser user);
 
-    void SubmitReview(EnforcementAction enforcementAction, ReviewResult result, string? comments, ApplicationUser user,
+    void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
         ApplicationUser? nextReviewer = null);
 }

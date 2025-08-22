@@ -6,6 +6,7 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
+using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Enforcement.EnforcementActions;
 
@@ -29,7 +30,8 @@ public class CreateEnforcementActionTests
 
         var enforcementActionRepositoryMock = Substitute.For<IEnforcementActionRepository>();
 
-        var enforcementActionService = new EnforcementActionService(new EnforcementActionManager(),
+        var enforcementActionService = new EnforcementActionService(
+            new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>()),
             enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
             AppServicesTestsSetup.Mapper!, userServiceMock);
         var item = new EnforcementActionCreateDto { ActionType = EnforcementActionType.LetterOfNoncompliance };

@@ -36,7 +36,15 @@ public class EnforcementActionReview : AuditableEntity
 
     [StringLength(7000)]
     public string? ReviewComments { get; internal set; }
-}
+
+    internal void CompleteReview(ApplicationUser user, ReviewResult result, string? comments)
+    {
+       ReviewedBy = user;
+       Result = result;
+       ReviewComments = comments;
+       CompletedDate = DateOnly.FromDateTime(DateTime.Today);
+    }
+    }
 
 public enum ReviewResult
 {

@@ -1,10 +1,11 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class EnforcementActionManager : IEnforcementActionManager
+public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
 {
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user)
     {
@@ -44,6 +45,27 @@ public class EnforcementActionManager : IEnforcementActionManager
         enforcementAction.SetUpdater(user?.Id);
         enforcementAction.IssueDate = issueDate;
         enforcementAction.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+    }
+
+    private static void Approve(EnforcementAction enforcementAction, ApplicationUser? user)
+    {
+        if (enforcementAction.IsIssued || enforcementAction.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has already been issued or canceled.");
+        
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.Status = EnforcementActionStatus.Approved;
+        enforcementAction.ApprovedBy = user;
+        enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTime.Today);
+    }
+    private static void ReturnToDraft(EnforcementAction enforcementAction, ApplicationUser? user)
+    {
+        if (enforcementAction.IsIssued || enforcementAction.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has already been issued or canceled.");
+
+        enforcementAction.SetUpdater(user?.Id);
+        enforcementAction.Status = EnforcementActionStatus.Draft;
+        enforcementAction.ApprovedBy = null;
+        enforcementAction.ApprovedDate = null;
     }
 
     public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)
@@ -92,58 +114,48 @@ public class EnforcementActionManager : IEnforcementActionManager
     public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
         stipulatedPenalty.SetDeleted(user?.Id);
 
-    public void RequestReview(EnforcementAction enforcementAction, ApplicationUser reviewer, ApplicationUser user)
+    public void RequestReview(EnforcementAction action, ApplicationUser reviewer, ApplicationUser user)
     {
-        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), enforcementAction, reviewer, requester: user);
+        if (action.Reviews.Any(r => !r.IsCompleted))
+        {
+            logger.LogError("Enforcement action {Id} already has an open review request.", action.Id);
+            return;
+        }
 
-        enforcementAction.SetUpdater(user.Id);
-        enforcementAction.Reviews.Add(reviewRequest);
-        enforcementAction.CurrentReviewer = reviewRequest.RequestedOf;
-        enforcementAction.CurrentOpenReview = reviewRequest;
-        enforcementAction.ReviewRequestedDate = reviewRequest.RequestedDate;
-        enforcementAction.Status = EnforcementActionStatus.ReviewRequested;
+        action.SetUpdater(user.Id);
+        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), action, reviewer, requester: user);
+        action.Reviews.Add(reviewRequest);
+        action.Status = EnforcementActionStatus.ReviewRequested;
     }
 
-    public void SubmitReview(EnforcementAction enforcementAction, ReviewResult result, string? comments,
-        ApplicationUser user, ApplicationUser? nextReviewer = null)
+    public void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
+        ApplicationUser? nextReviewer = null)
     {
-        var review = enforcementAction.CurrentOpenReview!;
-        review.ReviewedBy = user;
-        review.CompletedDate = DateOnly.FromDateTime(DateTime.Today);
-        review.Result = result;
-        review.ReviewComments = comments;
+        if (action.Reviews.All(r => r.IsCompleted))
+        {
+            logger.LogError("Enforcement action {Id} does not have an open review request.", action.Id);
+            return;
+        }
 
-        enforcementAction.SetUpdater(user.Id);
+        action.CurrentOpenReview!.CompleteReview(user, result, comments);
+        action.SetUpdater(user.Id);
 
         switch (result)
         {
             case ReviewResult.Approved:
-                enforcementAction.Status = EnforcementActionStatus.Approved;
-                enforcementAction.ApprovedBy = user;
-                enforcementAction.ApprovedDate = DateOnly.FromDateTime(DateTime.Today);
-                ClearReview();
+                Approve(action, user);
                 break;
             case ReviewResult.Returned:
-                enforcementAction.Status = EnforcementActionStatus.Draft;
-                ClearReview();
+                ReturnToDraft(action,user);
                 break;
             case ReviewResult.Canceled:
-                Cancel(enforcementAction, user);
+                Cancel(action, user);
                 break;
             case ReviewResult.Forwarded:
-                RequestReview(enforcementAction, nextReviewer!, user);
+                RequestReview(action, nextReviewer!, user);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(result), result, null);
-        }
-
-        return;
-
-        void ClearReview()
-        {
-            enforcementAction.CurrentReviewer = null;
-            enforcementAction.CurrentOpenReview = null;
-            enforcementAction.ReviewRequestedDate = null;
         }
     }
 }
