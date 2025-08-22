@@ -28,79 +28,78 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
     }
 
     // Common update methods
-    public void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
-        ApplicationUser? user)
+    public void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user)
     {
-        if (enforcementAction is not IResponseRequested responseRequested) throw new InvalidOperationException();
-        enforcementAction.SetUpdater(user?.Id);
+        if (action is not IResponseRequested responseRequested) throw new InvalidOperationException();
+        action.SetUpdater(user?.Id);
         responseRequested.ResponseReceived = responseDate;
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssueDate(EnforcementAction enforcementAction, DateOnly? issueDate, ApplicationUser? user)
+    public void SetIssueDate(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
     {
-        if (enforcementAction.IsCanceled)
+        if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.IssueDate = issueDate;
-        enforcementAction.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+        action.SetUpdater(user?.Id);
+        action.IssueDate = issueDate;
+        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
     }
 
-    private static void Approve(EnforcementAction enforcementAction, ApplicationUser? user)
+    private static void Approve(EnforcementAction action, ApplicationUser? user)
     {
-        if (enforcementAction.IsIssued || enforcementAction.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has already been issued or canceled.");
-        
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.Status = EnforcementActionStatus.Approved;
-        enforcementAction.ApprovedBy = user;
-        enforcementAction.ApprovedDate = DateTime.Now;
-    }
-    private static void ReturnToDraft(EnforcementAction enforcementAction, ApplicationUser? user)
-    {
-        if (enforcementAction.IsIssued || enforcementAction.IsCanceled)
+        if (action.IsIssued || action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has already been issued or canceled.");
 
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.Status = EnforcementActionStatus.Draft;
-        enforcementAction.ApprovedBy = null;
-        enforcementAction.ApprovedDate = null;
+        action.SetUpdater(user?.Id);
+        action.Status = EnforcementActionStatus.Approved;
+        action.ApprovedBy = user;
+        action.ApprovedDate = DateTime.Now;
     }
 
-    public void Cancel(EnforcementAction enforcementAction, ApplicationUser? user)
+    private static void ReturnToDraft(EnforcementAction action, ApplicationUser? user)
     {
-        if (enforcementAction.IsIssued)
+        if (action.IsIssued || action.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has already been issued or canceled.");
+
+        action.SetUpdater(user?.Id);
+        action.Status = EnforcementActionStatus.Draft;
+        action.ApprovedBy = null;
+        action.ApprovedDate = null;
+    }
+
+    public void Cancel(EnforcementAction action, ApplicationUser? user)
+    {
+        if (action.IsIssued)
             throw new InvalidOperationException("Enforcement Action has already been issued.");
 
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.CanceledDate = DateTime.Now;
-        enforcementAction.Status = EnforcementActionStatus.Canceled;
+        action.SetUpdater(user?.Id);
+        action.CanceledDate = DateTime.Now;
+        action.Status = EnforcementActionStatus.Canceled;
     }
 
-    public void Delete(EnforcementAction enforcementAction, ApplicationUser? user) =>
-        enforcementAction.Delete(comment: null, user);
+    public void Delete(EnforcementAction action, ApplicationUser? user) => action.Delete(comment: null, user);
 
     // Type-specific update methods
-    public void Resolve(IResolvable enforcementAction, DateOnly resolvedDate, ApplicationUser? user)
+    public void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user)
     {
-        if (enforcementAction.IsResolved)
+        if (action.IsResolved)
             throw new InvalidOperationException("Enforcement Action has already been resolved.");
 
-        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
-        enforcementAction.Resolve(resolvedDate);
+        ((EnforcementAction)action).SetUpdater(user?.Id);
+        action.Resolve(resolvedDate);
     }
 
-    public void ExecuteOrder(IFormalEnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
-        ((EnforcementAction)enforcementAction).SetUpdater(user?.Id);
-        enforcementAction.Execute(executedDate);
+        ((EnforcementAction)action).SetUpdater(user?.Id);
+        action.Execute(executedDate);
     }
 
-    public void AppealOrder(AdministrativeOrder enforcementAction, DateOnly executedDate, ApplicationUser? user)
+    public void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user)
     {
-        enforcementAction.SetUpdater(user?.Id);
-        enforcementAction.Appeal(executedDate);
+        action.SetUpdater(user?.Id);
+        action.Appeal(executedDate);
     }
 
     public StipulatedPenalty AddStipulatedPenalty(ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
@@ -146,7 +145,7 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
                 Approve(action, user);
                 break;
             case ReviewResult.Returned:
-                ReturnToDraft(action,user);
+                ReturnToDraft(action, user);
                 break;
             case ReviewResult.Canceled:
                 Cancel(action, user);

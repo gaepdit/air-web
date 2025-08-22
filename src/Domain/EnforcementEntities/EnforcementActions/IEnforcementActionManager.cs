@@ -9,17 +9,15 @@ public interface IEnforcementActionManager
     EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user);
 
     // Common update methods
-    void AddResponse(EnforcementAction enforcementAction, DateOnly responseDate, string? comment,
-        ApplicationUser? user);
-
-    void SetIssueDate(EnforcementAction enforcementAction, DateOnly? issueDate, ApplicationUser? user);
-    void Cancel(EnforcementAction enforcementAction, ApplicationUser? user);
-    void Delete(EnforcementAction enforcementAction, ApplicationUser? user);
+    void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
+    void SetIssueDate(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+    void Cancel(EnforcementAction action, ApplicationUser? user);
+    void Delete(EnforcementAction action, ApplicationUser? user);
 
     // Type-specific update methods
-    void Resolve(IResolvable enforcementAction, DateOnly resolvedDate, ApplicationUser? user);
-    void ExecuteOrder(IFormalEnforcementAction enforcementAction, DateOnly executedDate, ApplicationUser? user);
-    void AppealOrder(AdministrativeOrder enforcementAction, DateOnly executedDate, ApplicationUser? user);
+    void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user);
+    void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user);
+    void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user);
 
     // Stipulated penalties
     StipulatedPenalty AddStipulatedPenalty(ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
