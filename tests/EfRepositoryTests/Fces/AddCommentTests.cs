@@ -15,16 +15,16 @@ public class AddCommentTests
         await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
         await using var repository = repositoryHelper.GetFceRepository();
 
-        var fceId = FceData.GetData.First().Id;
+        var id = FceData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
-        await repository.AddCommentAsync(fceId, newComment);
+        await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var fceInRepo = await repository.GetAsync(fceId, IFceRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
 
         // Assert
-        fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+        itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
             .Should().BeEquivalentTo(newComment);
     }
 
@@ -35,16 +35,16 @@ public class AddCommentTests
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetFceRepository();
 
-        var fceId = FceData.GetData.First().Id;
+        var id = FceData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
-        await repository.AddCommentAsync(fceId, newComment);
+        await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var fceInRepo = await repository.GetAsync(fceId, IFceRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
 
         // Assert
-        fceInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+        itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
             .Should().BeEquivalentTo(newComment);
     }
 }

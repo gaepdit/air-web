@@ -8,10 +8,8 @@ namespace AirWeb.EfRepository.Repositories;
 public sealed class CaseFileRepository(AppDbContext context)
     : BaseRepositoryWithMapping<CaseFile, int, AppDbContext>(context), ICaseFileRepository
 {
-    public int? GetNextId()
-    {
-        throw new NotImplementedException();
-    }
+    // Entity Framework will set the ID automatically.
+    public int? GetNextId() => null;
 
     public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
         (await Context.Set<CaseFile>()
@@ -23,14 +21,19 @@ public sealed class CaseFileRepository(AppDbContext context)
             .Where(entry => entry.Id.Equals(id))
             .SingleAsync(token).ConfigureAwait(false)).AirPrograms;
 
-    // For later
-    public Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
+    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        Context.CaseFileComments.Add(new CaseFileComment(comment, itemId));
+        await SaveChangesAsync(token).ConfigureAwait(false);
     }
 
-    public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
+    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
-        throw new NotImplementedException();
+        var comment = await Context.CaseFileComments.FindAsync([commentId], token).ConfigureAwait(false);
+        if (comment != null)
+        {
+            comment.SetDeleted(userId);
+            await SaveChangesAsync(token).ConfigureAwait(false);
+        }
     }
 }

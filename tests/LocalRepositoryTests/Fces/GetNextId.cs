@@ -16,7 +16,7 @@ public class GetNextId
     public void GivenExistingItems_ReturnsNextIdNumber()
     {
         // Arrange
-        var maxId = _repository.Items.Max(fce => fce.Id);
+        var maxId = _repository.Items.Max(item => item.Id);
 
         // Act
         var result = _repository.GetNextId();

@@ -1,13 +1,13 @@
 using AirWeb.LocalRepository.Repositories;
 
-namespace LocalRepositoryTests.WorkEntries;
+namespace LocalRepositoryTests.CaseFiles;
 
 public class GetNextId
 {
-    private LocalWorkEntryRepository _repository = null!;
+    private LocalCaseFileRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetCaseFileRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
