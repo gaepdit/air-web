@@ -12,15 +12,15 @@ public class AddCommentTests
         // Arrange
         await using var repository = RepositoryHelper.GetWorkEntryRepository();
 
-        var entryId = WorkEntryData.GetData.First().Id;
+        var id = WorkEntryData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
-        await repository.AddCommentAsync(entryId, newComment);
-        var entryInRepo = await repository.GetAsync(entryId);
+        await repository.AddCommentAsync(id, newComment);
+        var itemInRepo = await repository.GetAsync(id);
 
         // Assert
-        entryInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
+        itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
             .Should().BeEquivalentTo(newComment);
     }
 }

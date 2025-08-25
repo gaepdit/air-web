@@ -1,8 +1,8 @@
 using AirWeb.Domain.Comments;
-using AirWeb.TestData.Compliance;
+using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.SampleData;
 
-namespace LocalRepositoryTests.Fces;
+namespace LocalRepositoryTests.CaseFiles;
 
 public class AddCommentTests
 {
@@ -10,10 +10,10 @@ public class AddCommentTests
     public async Task AddComment_AddsComment()
     {
         // Arrange
-        await using var repository = RepositoryHelper.GetFceRepository();
+        await using var repository = RepositoryHelper.GetCaseFileRepository();
 
-        var id = FceData.GetData.First().Id;
-        var newComment = Comment.CreateComment(SampleText.ValidName, null);
+        var id = CaseFileData.GetData.First().Id;
+        var newComment = Comment.CreateComment(SampleText.GetRandomText(SampleText.TextLength.Paragraph), user: null);
 
         // Act
         await repository.AddCommentAsync(id, newComment);
