@@ -618,8 +618,11 @@
                         actionIdHidden.value = this.value;
                         const eaType = this.getAttribute('data-eaType').trim();
                         label.textContent = eaType;
-                        if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter")
-                            actionCloseOption.remove();
+                        if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter"){
+                            actionCloseOption.classList.add('d-none');
+                        } else {
+                            actionCloseOption.classList.remove('d-none');
+                        }
                         modal.show();
                     });
                 });
