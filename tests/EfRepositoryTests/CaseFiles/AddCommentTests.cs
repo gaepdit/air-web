@@ -1,9 +1,9 @@
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.TestData.Compliance;
+using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.SampleData;
 
-namespace EfRepositoryTests.WorkEntries;
+namespace EfRepositoryTests.CaseFiles;
 
 public class AddCommentTests
 {
@@ -13,15 +13,15 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetCaseFileRepository();
 
-        var id = WorkEntryData.GetData.First().Id;
+        var id = CaseFileData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
         await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var itemInRepo = await repository.GetAsync(id, IWorkEntryRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
 
         // Assert
         itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
@@ -33,15 +33,15 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetCaseFileRepository();
 
-        var id = WorkEntryData.GetData.First().Id;
+        var id = CaseFileData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act
         await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var itemInRepo = await repository.GetAsync(id, IWorkEntryRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
 
         // Assert
         itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()

@@ -111,7 +111,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// <typeparam name="TEntity">The entity whose data is to be deleted.</typeparam>
     /// <typeparam name="TKey">The type of the primary key.</typeparam>
     public async Task ClearTableAsync<TEntity, TKey>()
-        where TEntity : AuditableEntity<TKey, string>
+        where TEntity : Entity<TKey>
         where TKey : IEquatable<TKey>
     {
         Context.RemoveRange(Context.Set<TEntity>());
