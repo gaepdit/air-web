@@ -2,7 +2,8 @@
 
 @if (Model is { Count: > 0 })
 {
-    @string.Join(", ", Model)
+    @Model.Select(p => p.FullName).ConcatWithSeparator(", ")
+    ;
 }
 else
 {

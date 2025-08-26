@@ -160,6 +160,10 @@ public class AutoMapperProfile : Profile
         CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<SourceTestReview, SourceTestSummaryDto>()
+            .ForMember(dto => dto.ComplianceStatus, expression => expression.Ignore())
+            .ForMember(dto => dto.PollutantMeasured, expression => expression.Ignore())
+            .ForMember(dto => dto.SourceTested, expression => expression.Ignore());
     }
 
     private void Enforcement()

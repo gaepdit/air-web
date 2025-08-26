@@ -8,6 +8,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -19,6 +20,7 @@ public sealed class FceService(
     IWorkEntryRepository entryRepository,
     ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
+    ISourceTestService sourceTestService,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -41,10 +43,11 @@ public sealed class FceService(
         return fce;
     }
 
-    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId,
-        DateOnly completedDate,
+    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
+        // This issue explains why a different syntax is used for some of the supporting data queries:
+        // https://github.com/gaepdit/air-web/issues/326
         var summary = new SupportingDataSummary
         {
             Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
@@ -72,20 +75,33 @@ public sealed class FceService(
                          entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
                          entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
 
+            SourceTests = mapper.Map<IEnumerable<SourceTestSummaryDto>>(await entryRepository.GetListAsync(
+                entry => entry.WorkEntryType == WorkEntryType.SourceTestReview &&
+                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+
             EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
                 caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
                             caseFile.EnforcementDate >= completedDate.AddYears(-Fce.DataPeriod) &&
                             caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
         };
-        // This issue explains why a different syntax is used for some of the supporting data queries:
-        // https://github.com/gaepdit/air-web/issues/326
 
         // TODO: Implement remaining data summaries.
         //  * FeesHistory
-        //  * SourceTests
 
+        await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
         return summary;
     }
+
+    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
+    {
+        foreach (var test in tests)
+        {
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber).ConfigureAwait(false);
+            test.AddDetails(summary);
+        }
+    }
+
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource,
         CancellationToken token = default)

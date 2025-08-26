@@ -1,4 +1,4 @@
-﻿USE airbranch;
+USE airbranch;
 GO
 SET ANSI_NULLS ON;
 GO
@@ -39,8 +39,9 @@ BEGIN
                                               as Comments,
            convert(date, r.DATRECEIVEDDATE)  as DateReceivedByApb,
            r.STRCONFIDENTIALDATA              as ConfidentialParametersCode,
-           s.STRCOMPLIANCESTATEMENT           as ReportStatement,
            r.STRCLOSED                       as ReportClosed,
+           s.STRCOMPLIANCESTATUS             as ComplianceStatus,
+           s.STRCOMPLIANCESTATEMENT          as ReportStatement,
            r.STRDIRECTOR                      as EpdDirector,
 
            -- Facility Summary
@@ -66,23 +67,23 @@ BEGIN
            convert(date, r.DATTESTDATEEND)   as EndDate
     from dbo.ISMPREPORTINFORMATION r
         left join dbo.LOOKUPPOLLUTANTS lp
-        on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE
+            on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE
         left join dbo.LOOKUPISMPCOMPLIANCESTATUS s
-        on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
+            on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
 
         left join dbo.EPDUSERPROFILES pr
-        on pr.NUMUSERID = r.STRREVIEWINGENGINEER
+            on pr.NUMUSERID = r.STRREVIEWINGENGINEER
         left join dbo.EPDUSERPROFILES pc
-        on pc.NUMUSERID = r.STRCOMPLIANCEMANAGER
+            on pc.NUMUSERID = r.STRCOMPLIANCEMANAGER
         left join dbo.EPDUSERPROFILES pt
-        on pt.NUMUSERID = r.NUMREVIEWINGMANAGER
+            on pt.NUMUSERID = r.NUMREVIEWINGMANAGER
 
         inner join dbo.ISMPMASTER i
-        on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+            on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         inner join dbo.APBFACILITYINFORMATION f
-        on f.STRAIRSNUMBER = i.STRAIRSNUMBER
+            on f.STRAIRSNUMBER = i.STRAIRSNUMBER
         left join dbo.LOOKUPCOUNTYINFORMATION lc
-        on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
+            on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
     where r.STRDOCUMENTTYPE <> '001'
       and r.STRDELETE is null
       and r.STRREFERENCENUMBER = @ReferenceNumber;
@@ -106,9 +107,9 @@ BEGIN
                           convert(int, STRWITNESSINGENGINEER)
                    from dbo.ISMPWITNESSINGENG
                    where STRWITNESSINGENGINEER <> 0) w
-        on r.STRREFERENCENUMBER = w.STRREFERENCENUMBER
+            on r.STRREFERENCENUMBER = w.STRREFERENCENUMBER
         left join dbo.EPDUSERPROFILES p
-        on p.NUMUSERID = w.WitnessId
+            on p.NUMUSERID = w.WitnessId
     where r.STRDOCUMENTTYPE <> '001'
       and r.STRDELETE is null
       and r.STRREFERENCENUMBER = @ReferenceNumber;
