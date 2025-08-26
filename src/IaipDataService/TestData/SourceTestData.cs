@@ -27,6 +27,7 @@ public static class SourceTestData
             Comments = "N/A",
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -44,10 +45,7 @@ public static class SourceTestData
 
             MaxOperatingCapacity = new ValueWithUnits("100", "tons/hr"),
             OperatingCapacity = new ValueWithUnits("90", "tons/hr"),
-            AllowableEmissionRates =
-            [
-                new ValueWithUnits("0.018", "lb/ton")
-            ],
+            AllowableEmissionRates = [new ValueWithUnits("0.018", "lb/ton")],
             ControlEquipmentInfo = TextData.ShortMultiline,
             TestRuns =
             [
@@ -104,6 +102,7 @@ public static class SourceTestData
             Comments = "N/A",
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -117,10 +116,7 @@ public static class SourceTestData
 
             MaxOperatingCapacity = new ValueWithUnits("100", "tons/hr"),
             OperatingCapacity = new ValueWithUnits("90", "tons/hr"),
-            AllowableEmissionRates =
-            [
-                new ValueWithUnits("0.018", "lb/ton")
-            ],
+            AllowableEmissionRates = [new ValueWithUnits("0.018", "lb/ton")],
             ControlEquipmentInfo = TextData.ShortMultiline,
             TestRuns =
             [
@@ -177,6 +173,7 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -193,7 +190,7 @@ public static class SourceTestData
             AllowableEmissionRates =
             [
                 new ValueWithUnits("1", "lb/TON"),
-                new ValueWithUnits("20", "LB/HR")
+                new ValueWithUnits("20", "LB/HR"),
             ],
             ControlEquipmentInfo = TextData.None,
             StackOneName = "Inner",
@@ -277,6 +274,7 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2016, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -293,7 +291,7 @@ public static class SourceTestData
             AllowableEmissionRates =
             [
                 new ValueWithUnits("1", "lb/TON"),
-                new ValueWithUnits("20", "LB/HR")
+                new ValueWithUnits("20", "LB/HR"),
             ],
             ControlEquipmentInfo = TextData.None,
             StackOneName = "Inlet",
@@ -373,6 +371,7 @@ public static class SourceTestData
             Comments = TextData.ShortMultiline,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -386,10 +385,7 @@ public static class SourceTestData
 
             MaxOperatingCapacity = new ValueWithUnits("400,000,000", "GPY"),
             OperatingCapacity = new ValueWithUnits("90,000", "GPY"),
-            AllowableEmissionRates =
-            [
-                new ValueWithUnits("18", "mg/L")
-            ],
+            AllowableEmissionRates = [new ValueWithUnits("18", "mg/L")],
             ControlEquipmentInfo = TextData.ShortMultiline,
             TestDuration = new ValueWithUnits("6", "Hours"),
             PollutantConcentrationIn = new ValueWithUnits("20", "%"),
@@ -410,6 +406,7 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -439,7 +436,7 @@ public static class SourceTestData
                     RunNumber = "2",
                     PollutantCollectionRate = "7.4",
                     TreatmentRate = "37",
-                    ConfidentialParametersCode = "7.2",
+                    ConfidentialParametersCode = "",
                 },
 
                 new PondTreatmentTestRun
@@ -447,7 +444,7 @@ public static class SourceTestData
                     RunNumber = "3",
                     PollutantCollectionRate = "7.8",
                     TreatmentRate = "39",
-                    ConfidentialParametersCode = "7.4",
+                    ConfidentialParametersCode = "",
                 }
             ],
             AvgPollutantCollectionRate = new ValueWithUnits("7.4", "lb/ODTP"),
@@ -467,6 +464,7 @@ public static class SourceTestData
             Comments = TextData.Short,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -480,10 +478,7 @@ public static class SourceTestData
 
             MaxOperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
             OperatingCapacity = new ValueWithUnits("2000", "Tons/Day"),
-            AllowableEmissionRates =
-            [
-                new ValueWithUnits("25", "PPM @ 15% O2")
-            ],
+            AllowableEmissionRates = [new ValueWithUnits("25", "PPM @ 15% O2")],
             ControlEquipmentInfo = TextData.ShortMultiline,
             TestRuns =
             [
@@ -500,7 +495,7 @@ public static class SourceTestData
                     RunNumber = "2",
                     PollutantConcentration = "26",
                     EmissionRate = "22",
-                    ConfidentialParametersCode = "7.2",
+                    ConfidentialParametersCode = "",
                 },
 
                 new GasConcentrationTestRun
@@ -508,7 +503,7 @@ public static class SourceTestData
                     RunNumber = "3",
                     PollutantConcentration = "26",
                     EmissionRate = "22",
-                    ConfidentialParametersCode = "7.4",
+                    ConfidentialParametersCode = "",
                 }
             ],
             AvgPollutantConcentration = new ValueWithUnits("25", "PPM"),
@@ -528,6 +523,7 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -544,7 +540,7 @@ public static class SourceTestData
             AllowableEmissionRates =
             [
                 new ValueWithUnits("80", "ft/sec", "Velocity less than"),
-                new ValueWithUnits("200", "BTU/scf", "Heat Content greater than or equal to")
+                new ValueWithUnits("200", "BTU/scf", "Heat Content greater than or equal to"),
             ],
             ControlEquipmentInfo = TextData.Short,
             TestRuns =
@@ -590,6 +586,7 @@ public static class SourceTestData
             Comments = TextData.None,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -609,7 +606,6 @@ public static class SourceTestData
             RelativeAccuracyRequiredPercent = "10",
             RelativeAccuracyRequiredLabel = "% of the applicable standard (when the average of " +
                                             "the RM test data is less than 50% of the applicable standard).",
-            ComplianceStatus = "Pass",
             TestRuns =
             [
                 new RataTestRun
@@ -679,6 +675,7 @@ public static class SourceTestData
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -691,6 +688,7 @@ public static class SourceTestData
             EpdDirector = EpdDirector,
 
             Comments = TextData.LongMultiline,
+            ConfidentialParametersCode = "",
         },
         new SourceTestMemorandum
         {
@@ -703,6 +701,7 @@ public static class SourceTestData
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -717,6 +716,7 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             MonitorManufacturer = TextData.Short,
             MonitorSerialNumber = TextData.VeryShort,
+            ConfidentialParametersCode = "",
         },
         new SourceTestMemorandum
         {
@@ -729,6 +729,7 @@ public static class SourceTestData
             ApplicableRequirement = "Permit Condition 3.1",
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -743,11 +744,9 @@ public static class SourceTestData
             Comments = TextData.LongMultiline,
             MaxOperatingCapacity = new ValueWithUnits("100000", "Units"),
             OperatingCapacity = new ValueWithUnits("50000", "Units"),
-            AllowableEmissionRates =
-            [
-                new ValueWithUnits("100", "%")
-            ],
+            AllowableEmissionRates = [new ValueWithUnits("100", "%")],
             ControlEquipmentInfo = TextData.Long,
+            ConfidentialParametersCode = "",
         },
         new SourceTestReportOpacity
         {
@@ -761,6 +760,7 @@ public static class SourceTestData
             Comments = TextData.VeryShort,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -773,7 +773,6 @@ public static class SourceTestData
             EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
-            ComplianceStatus = "In Compliance",
             OpacityStandard = "Highest 6-minute average",
             MaxOperatingCapacityUnits = "Tons/Day",
             OperatingCapacityUnits = "Tons/Day",
@@ -788,6 +787,7 @@ public static class SourceTestData
                     AllowableEmissionRate = "40",
                     Opacity = "15",
                     EquipmentItem = TextData.Short,
+                    ConfidentialParametersCode = "",
                 },
                 new OpacityTestRun
                 {
@@ -797,6 +797,7 @@ public static class SourceTestData
                     AllowableEmissionRate = "40",
                     Opacity = "12",
                     EquipmentItem = TextData.Short,
+                    ConfidentialParametersCode = "",
                 },
                 new OpacityTestRun
                 {
@@ -806,6 +807,7 @@ public static class SourceTestData
                     AllowableEmissionRate = "40",
                     Opacity = "20",
                     EquipmentItem = TextData.Short,
+                    ConfidentialParametersCode = "",
                 },
                 new OpacityTestRun
                 {
@@ -815,6 +817,7 @@ public static class SourceTestData
                     AllowableEmissionRate = "40",
                     Opacity = "19",
                     EquipmentItem = TextData.Short,
+                    ConfidentialParametersCode = "",
                 },
                 new OpacityTestRun
                 {
@@ -824,8 +827,10 @@ public static class SourceTestData
                     AllowableEmissionRate = "40",
                     Opacity = "21",
                     EquipmentItem = TextData.Short,
+                    ConfidentialParametersCode = "",
                 },
             },
+            ConfidentialParametersCode = "",
         },
         new SourceTestReportOpacity
         {
@@ -839,6 +844,7 @@ public static class SourceTestData
             Comments = TextData.None,
             ReportStatement = ReportStatement,
             ReportClosed = true,
+            ComplianceStatus = "Not In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -851,7 +857,6 @@ public static class SourceTestData
             EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
-            ComplianceStatus = "Not In Compliance",
             TestDuration = "60 minutes",
             MaxOperatingCapacityUnits = "Tons/HR",
             OperatingCapacityUnits = "Tons/HR",
@@ -864,8 +869,10 @@ public static class SourceTestData
                     OperatingCapacity = "3",
                     AllowableEmissionRate = "0 % Opacity",
                     AccumulatedEmissionTime = "20:00",
+                    ConfidentialParametersCode = "",
                 },
             },
+            ConfidentialParametersCode = "",
         },
         new SourceTestReportOpacity
         {
@@ -879,6 +886,7 @@ public static class SourceTestData
             Comments = TextData.None,
             ReportStatement = ReportStatement,
             ReportClosed = false,
+            ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
@@ -891,7 +899,6 @@ public static class SourceTestData
             EpdDirector = EpdDirector,
 
             ControlEquipmentInfo = TextData.ShortMultiline,
-            ComplianceStatus = "In Compliance",
             OpacityStandard = "30-minute average",
             TestDuration = "180 minutes",
             MaxOperatingCapacityUnits = "UNITS",
@@ -906,8 +913,10 @@ public static class SourceTestData
                     OperatingCapacity = "9.9",
                     AllowableEmissionRate = "40.0",
                     Opacity = "0.1",
+                    ConfidentialParametersCode = "",
                 },
             },
+            ConfidentialParametersCode = "",
         },
     ];
 

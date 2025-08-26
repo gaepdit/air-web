@@ -16,9 +16,6 @@ public abstract record BaseSourceTestReport
     [JsonIgnore]
     public DocumentType DocumentType { get; init; } = DocumentType.Unassigned;
 
-    [Display(Name = "Document type")]
-    public string DocumentTypeName => DocumentType.GetDisplayName();
-
     public FacilitySummary? Facility { get; set; }
 
     [Display(Name = "Pollutant determined")]
@@ -51,6 +48,9 @@ public abstract record BaseSourceTestReport
 
     public string ReportStatement { get; init; } = null!;
     public bool ReportClosed { get; init; }
+
+    [Display(Name = "Compliance status")]
+    public string ComplianceStatus { get; set; } = null!; // STRCOMPLIANCESTATUS
 
     // Test report routing
 
@@ -97,6 +97,7 @@ public abstract record BaseSourceTestReport
             Pollutant = CheckConfidential(Pollutant, nameof(Pollutant)),
             Source = CheckConfidential(Source, nameof(Source)),
             Comments = CheckConfidential(Comments, nameof(Comments)),
+            ComplianceStatus = CheckConfidential(ComplianceStatus, nameof(ComplianceStatus)),
             TestDates = CheckConfidential(TestDates, nameof(TestDates)),
             DateReceivedByApb = CheckConfidential(DateReceivedByApb, nameof(DateReceivedByApb)),
             ReviewedByStaff = CheckConfidential(ReviewedByStaff, nameof(ReviewedByStaff)),

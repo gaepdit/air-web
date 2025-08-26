@@ -18,6 +18,7 @@ public record SourceTestSummary
         Source = report.Source;
         ReportType = report.ReportType;
         ApplicableRequirement = report.ApplicableRequirement;
+        ComplianceStatus = report.ComplianceStatus;
         ReportClosed = report.ReportClosed;
         TestDates = report.TestDates;
         DateReceivedByApb = report.DateReceivedByApb;
@@ -46,6 +47,9 @@ public record SourceTestSummary
 
     [Display(Name = "Applicable Requirement")]
     public string ApplicableRequirement { get; init; } = null!;
+
+    [Display(Name = "Compliance Determination")]
+    public string ComplianceStatus { get; init; } = null!;
 
     [Display(Name = "Test Report Status")]
     public bool ReportClosed { get; init; }

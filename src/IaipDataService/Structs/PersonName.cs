@@ -10,5 +10,5 @@ public readonly record struct PersonName(
     string? Suffix = null)
 {
     [JsonIgnore]
-    public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator(", ");
+    public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator();
 }

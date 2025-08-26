@@ -437,6 +437,7 @@ dl.dl-inline dd {
 }
 
 .print-toolbar button {
+    vertical-align: middle;
     padding: 5px 16px;
     margin-left: .5rem;
     line-height: 1;
@@ -480,10 +481,14 @@ dl.dl-inline dd {
 }
 
 #tooltip-text kbd {
-    padding: 1px 3px;
+    padding: 2px 3px;
     border-radius: 3px;
     border: 1px solid hsla(0 0% 100% / .25);
     background: hsla(0 0% 100% / .1);
+}
+
+#tooltip-text kbd svg {
+    margin-top: -1px;
 }
 
 /* optional styling to add a "wedge" to the tooltip */
