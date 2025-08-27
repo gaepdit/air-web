@@ -3,6 +3,7 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Models;
 using GaEpd.AppLibrary.Pagination;
 
@@ -12,13 +13,15 @@ namespace AirWeb.WebApp.Pages.Compliance.FCE;
 public class DetailsModel(
     IFceService fceService,
     IWorkEntrySearchService workEntrySearchService,
+    ICaseFileSearchService caseFileSearchService,
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = null!;
+    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceSearchResults { get; private set; } = null!;
+    public IPaginatedResult<CaseFileSearchResultDto> CaseFileSearchResults { get; private set; } = null!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -92,6 +95,12 @@ public class DetailsModel(
 
     private async Task LoadSupportingData(CancellationToken token)
     {
+        await LoadComplianceData(token);
+        await LoadEnforcementData(token);
+    }
+
+    private async Task LoadComplianceData(CancellationToken token)
+    {
         var spec = new WorkEntrySearchDto
         {
             PartialFacilityId = Item!.FacilityId,
@@ -100,7 +109,20 @@ public class DetailsModel(
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
             sorting: WorkEntrySortBy.WorkTypeAsc.GetDescription());
-        SearchResults = await workEntrySearchService.SearchAsync(spec, paging, token: token);
+        ComplianceSearchResults = await workEntrySearchService.SearchAsync(spec, paging, token: token);
+    }
+
+    private async Task LoadEnforcementData(CancellationToken token)
+    {
+        var spec = new CaseFileSearchDto
+        {
+            PartialFacilityId = Item!.FacilityId,
+            DateTo = Item.CompletedDate,
+            DateFrom = Item.ExtendedDataStartDate,
+        };
+        var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
+            sorting: CaseFileSortBy.IdAsc.GetDescription());
+        CaseFileSearchResults = await caseFileSearchService.SearchAsync(spec, paging, token: token);
     }
 
     private async Task SetPermissionsAsync() =>

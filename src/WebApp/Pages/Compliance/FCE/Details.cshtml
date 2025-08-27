@@ -1,6 +1,7 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.AppServices.Enforcement.Search
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
@@ -89,7 +90,7 @@
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
             <h2 class="h4 mb-md-0">
-                Supporting compliance data for
+                Supporting compliance data:
                 @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
             </h2>
         </div>
@@ -104,23 +105,74 @@
         </div>
     </div>
 
-    @if (Model.SearchResults.TotalCount == 0)
+    @if (Model.ComplianceSearchResults.TotalCount == 0)
     {
-        <p class="lead text-info">No data found in date range.</p>
+        <div class="border rounded-1 p-3">
+            <p class="lead text-info mb-0">No compliance data found in date range.</p>
+        </div>
     }
     else
     {
-        <div id="supportingDataAccordion" class="accordion">
+        <div id="supportingComplianceDataAccordion" class="accordion">
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supportingDataBody" aria-expanded="false" aria-controls="supportingDataBody">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                            data-bs-target="#supportingComplianceDataBody" aria-controls="supportingComplianceDataBody">
                         View supporting data
                     </button>
                 </h3>
-                <div id="supportingDataBody" class="accordion-collapse collapse" data-bs-parent="supportingDataAccordion">
+                <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
+                     data-bs-parent="supportingComplianceDataAccordion">
                     <div class="accordion-body">
                         <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                 model="(Model.SearchResults.Items, (WorkEntrySearchDto?)null)" />
+                                 model="(Model.ComplianceSearchResults.Items, (WorkEntrySearchDto?)null)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+<section class="my-3">
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="h4 mb-md-0">
+                Five-year history of enforcement cases:
+                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+            </h2>
+        </div>
+        <div class="col-auto ms-3 d-print-none">
+            <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
+               asp-route-DateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
+               asp-route-DateTo="@Model.Item!.CompletedDate.ToString()"
+               asp-page-handler="Search" asp-fragment="search-results"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                View Search
+            </a>
+        </div>
+    </div>
+
+    @if (Model.CaseFileSearchResults.TotalCount == 0)
+    {
+        <div class="border rounded-1 p-3">
+            <p class="lead text-info mb-0">No enforcement cases found in date range.</p>
+        </div>
+    }
+    else
+    {
+        <div id="supportingEnforcementDataAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                            data-bs-target="#supportingEnforcementDataBody" aria-controls="supportingEnforcementDataBody">
+                        View supporting data
+                    </button>
+                </h3>
+                <div id="supportingEnforcementDataBody" class="accordion-collapse collapse"
+                     data-bs-parent="supportingEnforcementDataAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
+                                 model="(Model.CaseFileSearchResults.Items, (CaseFileSearchDto?)null)" />
                     </div>
                 </div>
             </div>
