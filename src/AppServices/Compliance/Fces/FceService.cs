@@ -9,6 +9,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
+using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -46,37 +47,35 @@ public sealed class FceService(
     public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
+        Expression<Func<AnnualComplianceCertification, bool>> expression = entry =>
+            entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+            entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
+
         var summary = new SupportingDataSummary
         {
-            Accs = await entryRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(entry =>
-                entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            Accs = await entryRepository
+                .GetListAsync<AccSummaryDto, AnnualComplianceCertification>(Predicate<AnnualComplianceCertification>(),
+                    mapper, token: token).ConfigureAwait(false),
 
-            Inspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(entry =>
-                entry.WorkEntryType == WorkEntryType.Inspection &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            Inspections = await entryRepository
+                .GetListAsync<InspectionSummaryDto, Inspection>(Predicate<Inspection>(), mapper, token: token)
+                .ConfigureAwait(false),
 
-            Notifications = await entryRepository.GetListAsync<NotificationSummaryDto, Notification>(entry =>
-                entry.WorkEntryType == WorkEntryType.Notification &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            Notifications = await entryRepository
+                .GetListAsync<NotificationSummaryDto, Notification>(Predicate<Notification>(), mapper, token: token)
+                .ConfigureAwait(false),
 
-            Reports = await entryRepository.GetListAsync<ReportSummaryDto, Report>(entry =>
-                entry.WorkEntryType == WorkEntryType.Report &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            Reports = await entryRepository
+                .GetListAsync<ReportSummaryDto, Report>(Predicate<Report>(), mapper, token: token)
+                .ConfigureAwait(false),
 
-            RmpInspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(entry =>
-                entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            RmpInspections = await entryRepository
+                .GetListAsync<InspectionSummaryDto, RmpInspection>(Predicate<RmpInspection>(), mapper, token: token)
+                .ConfigureAwait(false),
 
-            SourceTests = await entryRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(entry =>
-                entry.WorkEntryType == WorkEntryType.SourceTestReview &&
-                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
+            SourceTests = await entryRepository
+                .GetListAsync<SourceTestSummaryDto, SourceTestReview>(Predicate<SourceTestReview>(), mapper,
+                    token: token).ConfigureAwait(false),
 
             EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
                 caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
@@ -89,6 +88,10 @@ public sealed class FceService(
 
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
         return summary;
+
+        Expression<Func<TSource, bool>> Predicate<TSource>() where TSource : WorkEntry => source =>
+            source.FacilityId == facilityId && source.EventDate <= completedDate &&
+            source.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
     }
 
     private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
