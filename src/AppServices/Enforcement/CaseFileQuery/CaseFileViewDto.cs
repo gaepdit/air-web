@@ -56,6 +56,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
 
+    public List<Guid> EnforcementActionIds { get; } = [];
     public List<IActionViewDto> EnforcementActions { get; } = [];
 
     // Attention needed

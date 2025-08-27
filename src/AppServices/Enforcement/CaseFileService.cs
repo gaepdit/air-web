@@ -34,34 +34,39 @@ public sealed class CaseFileService(
 
     public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository
-            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeDetails, token).ConfigureAwait(false);
-
-        if (caseFile == null) return null;
-
         // Facility name and enforcement actions are ignored in Automapper.
-        var caseFileDto = mapper.Map<CaseFileViewDto>(caseFile);
+        var caseFileDto = await caseFileRepository
+            .FindAsync<CaseFileViewDto>(id, mapper, token).ConfigureAwait(false);
+
+        if (caseFileDto == null) return null;
 
         // Facility name comes from the IAIP facility service.
         caseFileDto.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFileDto.FacilityId)
             .ConfigureAwait(false);
 
+        // foreach (var enforcementActionId in caseFileDto.EnforcementActionIds)
+        // {
+        //     caseFileDto.EnforcementActions.Add(
+        //         
+        //         );
+        // }
+
         // Enforcement actions must be mapped individually to their respective DTOs.
-        foreach (var action in caseFile.EnforcementActions)
-        {
-            caseFileDto.EnforcementActions.Add(action switch
-            {
-                AdministrativeOrder a => mapper.Map<AoViewDto>(a),
-                ConsentOrder a => mapper.Map<CoViewDto>(a),
-                InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
-                LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
-                NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
-                NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
-                NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
-                ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
-                _ => throw new InvalidOperationException("Unknown enforcement action type"),
-            });
-        }
+        // foreach (var action in caseFile.EnforcementActions)
+        // {
+        //     caseFile.EnforcementActions.Add(action switch
+        //     {
+        //         AdministrativeOrder a => mapper.Map<AoViewDto>(a),
+        //         ConsentOrder a => mapper.Map<CoViewDto>(a),
+        //         InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+        //         LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
+        //         NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
+        //         NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
+        //         NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+        //         ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
+        //         _ => throw new InvalidOperationException("Unknown enforcement action type"),
+        //     });
+        // }
 
         return caseFileDto;
     }

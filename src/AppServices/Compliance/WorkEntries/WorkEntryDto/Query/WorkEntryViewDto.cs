@@ -10,7 +10,7 @@ public abstract record WorkEntryViewDto : WorkEntrySummaryDto, IWorkEntryViewDto
     public DateOnly? AcknowledgmentLetterDate { get; init; }
 
     public string Notes { get; init; } = null!;
-    public List<CommentViewDto> Comments { get; } = [];
+    public List<CommentViewDto> Comments { get; init; } = [];
     public virtual bool HasPrintout => false;
     public virtual string PrintoutPath => string.Empty;
 }

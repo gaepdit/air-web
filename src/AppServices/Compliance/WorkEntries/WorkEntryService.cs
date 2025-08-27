@@ -31,28 +31,27 @@ public sealed partial class WorkEntryService(
     {
         if (!await entryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
-        IWorkEntryViewDto entry =
-            await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
-            {
-                WorkEntryType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await entryRepository
-                    .FindAsync<AnnualComplianceCertification>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.Inspection => mapper.Map<InspectionViewDto>(await entryRepository
-                    .FindAsync<Inspection>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.Notification => mapper.Map<NotificationViewDto>(await entryRepository
-                    .FindAsync<Notification>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.PermitRevocation => mapper.Map<PermitRevocationViewDto>(await entryRepository
-                    .FindAsync<PermitRevocation>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.Report => mapper.Map<ReportViewDto>(await entryRepository
-                    .FindAsync<Report>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.RmpInspection => mapper.Map<InspectionViewDto>(await entryRepository
-                    .FindAsync<RmpInspection>(id, includeComments, token).ConfigureAwait(false)),
-                WorkEntryType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(await entryRepository
-                    .FindAsync<SourceTestReview>(id, includeComments, token).ConfigureAwait(false)),
+        IWorkEntryViewDto? entry = await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+        {
+            WorkEntryType.AnnualComplianceCertification => await entryRepository
+                .FindAsync<AccViewDto, AnnualComplianceCertification>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.Inspection => await entryRepository
+                .FindAsync<InspectionViewDto, Inspection>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.Notification => await entryRepository
+                .FindAsync<NotificationViewDto, Notification>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.PermitRevocation => await entryRepository
+                .FindAsync<PermitRevocationViewDto, PermitRevocation>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.Report => await entryRepository
+                .FindAsync<ReportViewDto, Report>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.RmpInspection => await entryRepository
+                .FindAsync<InspectionViewDto, RmpInspection>(id, mapper, token).ConfigureAwait(false),
+            WorkEntryType.SourceTestReview => await entryRepository
+                .FindAsync<SourceTestReviewViewDto, SourceTestReview>(id, mapper, token).ConfigureAwait(false),
 
-                _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
-            };
+            _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
+        };
 
-        entry.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
+        entry!.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
         return entry;
     }
 

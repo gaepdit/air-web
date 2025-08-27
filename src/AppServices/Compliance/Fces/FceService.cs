@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
@@ -46,39 +46,37 @@ public sealed class FceService(
     public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
-        // This issue explains why a different syntax is used for some of the supporting data queries:
-        // https://github.com/gaepdit/air-web/issues/326
         var summary = new SupportingDataSummary
         {
-            Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Accs = await entryRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(entry =>
+                entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
-            Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Inspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(entry =>
+                entry.WorkEntryType == WorkEntryType.Inspection &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
-            Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Notifications = await entryRepository.GetListAsync<NotificationSummaryDto, Notification>(entry =>
+                entry.WorkEntryType == WorkEntryType.Notification &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
-            Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Reports = await entryRepository.GetListAsync<ReportSummaryDto, Report>(entry =>
+                entry.WorkEntryType == WorkEntryType.Report &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
-            RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            RmpInspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(entry =>
+                entry.WorkEntryType == WorkEntryType.RmpInspection &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
-            SourceTests = mapper.Map<IEnumerable<SourceTestSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.SourceTestReview &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            SourceTests = await entryRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(entry =>
+                entry.WorkEntryType == WorkEntryType.SourceTestReview &&
+                entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
+                entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), mapper, token: token).ConfigureAwait(false),
 
             EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
                 caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&

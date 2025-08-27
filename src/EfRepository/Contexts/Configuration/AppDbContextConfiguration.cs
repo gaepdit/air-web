@@ -49,11 +49,11 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureWorkEntryMappingStrategy(this ModelBuilder builder)
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<WorkEntry>()
-            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
+            .UseTphMappingStrategy()
             .ToTable("WorkEntries")
             .HasDiscriminator(entry => entry.WorkEntryType)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
@@ -248,8 +248,7 @@ internal static class AppDbContextConfiguration
 
     internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
     {
-        // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
-        // directly exposed as a DbSet).
+        // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<Comment>().UseTphMappingStrategy().ToTable("Comments");
 
         return builder;

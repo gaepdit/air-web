@@ -2,6 +2,10 @@ using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.EfRepository.Contexts;
+using AutoMapper;
+using GaEpd.AppLibrary.Extensions;
+using System.Linq.Expressions;
+using AutoMapper.QueryableExtensions;
 
 namespace AirWeb.EfRepository.Repositories;
 
@@ -23,7 +27,22 @@ public sealed class WorkEntryRepository(AppDbContext context)
             : query;
         return include.SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
     }
+    
+    public async Task<TDestination?> FindAsync<TDestination, TSource>(int id, IMapper mapper,
+        CancellationToken token = default) where TSource : WorkEntry =>
+        await mapper.ProjectTo<TDestination>(NoTrackingSet()
+            .OfType<TSource>()
+            .Where(source => source.Id.Equals(id))
+        ).SingleOrDefaultAsync(token).ConfigureAwait(false);
 
+    public async Task<IReadOnlyCollection<TDestination>> GetListAsync<TDestination, TSource>(
+        Expression<Func<TSource, bool>>? predicate, IMapper mapper, string? ordering = null,
+        CancellationToken token = default) where TSource : WorkEntry =>
+        await mapper.ProjectTo<TDestination>(NoTrackingSet()
+            .OfType<TSource>()
+            .WhereIf(predicate).OrderByIf(ordering)
+        ).ToListAsync(token).ConfigureAwait(false);
+    
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<WorkEntry>().AsNoTracking()
             .Where(entry => entry.Id.Equals(id)).Select(entry => entry.WorkEntryType).SingleAsync(token);

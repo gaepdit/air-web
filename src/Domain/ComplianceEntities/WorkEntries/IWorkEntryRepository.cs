@@ -1,4 +1,6 @@
 ﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AutoMapper;
+using System.Linq.Expressions;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -22,6 +24,17 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <returns>A Work Entry of type TEntry or null.</returns>
     Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments, CancellationToken token = default)
         where TEntry : WorkEntry;
+
+    // ============================
+    // TODO: Move the following two methods into the app library.
+    Task<TDestination?> FindAsync<TDestination, TSource>(int id, IMapper mapper, CancellationToken token = default)
+        where TSource : WorkEntry;
+
+    Task<IReadOnlyCollection<TDestination>> GetListAsync<TDestination, TSource>(
+        Expression<Func<TSource, bool>>? predicate, IMapper mapper, string? ordering = null,
+        CancellationToken token = default)
+        where TSource : WorkEntry;
+    // ============================
 
     /// <summary>
     /// Gets the <see cref="WorkEntryType"/> for the <see cref="WorkEntry"/> with the specified ID.

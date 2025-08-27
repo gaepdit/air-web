@@ -71,7 +71,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
-            .ConfigureWorkEntryMapping()
+            .ConfigureWorkEntryMappingStrategy()
             .ConfigureEnforcementActionMapping()
             .ConfigureCommentsMappingStrategy()
             .ConfigureEnumValues()
@@ -89,6 +89,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution);
     }
 }

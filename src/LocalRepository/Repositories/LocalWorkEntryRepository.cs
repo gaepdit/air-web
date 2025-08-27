@@ -3,6 +3,9 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.NamedEntities;
+using AutoMapper;
+using GaEpd.AppLibrary.Extensions;
+using System.Linq.Expressions;
 
 namespace AirWeb.LocalRepository.Repositories;
 
@@ -13,9 +16,21 @@ public sealed class LocalWorkEntryRepository()
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
 
     public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments,
-        CancellationToken token = default)
-        where TEntry : WorkEntry =>
+        CancellationToken token = default) where TEntry : WorkEntry =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
+
+    public async Task<TDestination?> FindAsync<TDestination, TSource>(int id, IMapper mapper,
+        CancellationToken token = default) where TSource : WorkEntry =>
+        await Task.FromResult(mapper.Map<TDestination?>(Items.OfType<TSource>()
+            .SingleOrDefault(entity => entity.Id.Equals(id)))).ConfigureAwait(false);
+
+    public async Task<IReadOnlyCollection<TDestination>> GetListAsync<TDestination, TSource>(
+        Expression<Func<TSource, bool>>? predicate, IMapper mapper, string? ordering = null,
+        CancellationToken token = default) where TSource : WorkEntry =>
+        await Task.FromResult(mapper.Map<IReadOnlyCollection<TDestination>>(Items.OfType<TSource>()
+            .WhereIf(predicate)
+            .OrderByIf(ordering)
+            .ToList())).ConfigureAwait(false);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
