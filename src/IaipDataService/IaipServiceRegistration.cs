@@ -26,8 +26,8 @@ public static class IaipServiceRegistration
         else
         {
             services
-                .AddSingleton<IFacilityService, LocalFacilityService>()
-                .AddSingleton<ISourceTestService, LocalSourceTestService>();
+                .AddSingleton<IFacilityService, TestFacilityService>()
+                .AddSingleton<ISourceTestService, TestSourceTestService>();
         }
     }
 }

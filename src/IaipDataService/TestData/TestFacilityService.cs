@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace IaipDataService.TestData;
 
-public sealed class LocalFacilityService : IFacilityService
+public sealed class TestFacilityService : IFacilityService
 {
     internal IReadOnlyCollection<Facility> Items { get; } = FacilityData.GetData.ToList();
 
