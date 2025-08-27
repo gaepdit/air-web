@@ -82,7 +82,7 @@ public sealed class FceService(
 
             EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
                 caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
-                            caseFile.EnforcementDate >= completedDate.AddYears(-Fce.DataPeriod) &&
+                            caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
                             caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
         };
 
