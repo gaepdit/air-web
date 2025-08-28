@@ -5,10 +5,10 @@ namespace IaipDataService.TestData;
 
 public class TestPermitFeesService : IPermitFeesService
 {
-    public Task<List<AnnualFeeSummary>> GetAnnualFeesHistoryForFacilityAsync(FacilityId facilityId,
-        DateOnly cutoffDate, int lookbackYears, bool forceRefresh = false)
+    public Task<List<AnnualFeeSummary>> GetAnnualFeesHistoryAsync(FacilityId facilityId, DateOnly cutoffDate,
+        int lookbackYears, bool forceRefresh = false)
     {
-        var history = new List<AnnualFeeSummary>();
+        var annualFees = new List<AnnualFeeSummary>();
         var finalYear = (short)(cutoffDate.Month < 10 ? cutoffDate.Year - 1 : cutoffDate.Year);
 
         for (short i = 0; i < lookbackYears; i++)
@@ -20,7 +20,7 @@ public class TestPermitFeesService : IPermitFeesService
                 : Random.Shared.Next(decimal.ToInt32(invoicedAmount - 1) * 100) / 100m;
             var balance = invoicedAmount - paidAmount;
 
-            history.Add(new AnnualFeeSummary
+            annualFees.Add(new AnnualFeeSummary
             {
                 FeeYear = finalYear - i,
                 InvoicedAmount = invoicedAmount,
@@ -30,7 +30,7 @@ public class TestPermitFeesService : IPermitFeesService
             });
         }
 
-        return Task.FromResult(history);
+        return Task.FromResult(annualFees);
     }
 
     private static bool NextBoolean() => Convert.ToBoolean(Random.Shared.Next(maxValue: 2));

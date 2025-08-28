@@ -1,0 +1,29 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model List<IaipDataService.PermitFees.AnnualFeeSummary>
+
+<div class="table-responsive-md">
+    <table class="table table-hover mb-0" aria-label="FCE results table">
+        <thead>
+        <tr>
+            <th scope="col" class="text-nowrap">Fee Year</th>
+            <th scope="col" class="text-nowrap text-end">Invoiced Amount</th>
+            <th scope="col" class="text-nowrap text-end">Amount Paid</th>
+            <th scope="col" class="text-nowrap text-end">Balance</th>
+            <th scope="col" class="text-nowrap">Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row" class="fw-normal">@item.FeeYear</th>
+                <td class="text-nowrap text-end">@Html.DisplayFor(_ => item.InvoicedAmount, DisplayTemplate.Currency)</td>
+                <td class="text-nowrap text-end">@Html.DisplayFor(_ => item.PaidAmount, DisplayTemplate.Currency)</td>
+                <td class="text-nowrap text-end">@Html.DisplayFor(_ => item.Balance, DisplayTemplate.Currency)</td>
+                <td class="text-nowrap">@item.Status.GetDisplayName()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -87,8 +87,7 @@ public sealed class FceService(
                             caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
                             caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
 
-            Fees = await permitFeesService
-                .GetAnnualFeesHistoryForFacilityAsync(facilityId, completedDate, Fce.ExtendedDataPeriod)
+            Fees = await permitFeesService.GetAnnualFeesHistoryAsync(facilityId, completedDate, Fce.ExtendedDataPeriod)
                 .ConfigureAwait(false),
         };
 
