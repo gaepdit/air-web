@@ -14,20 +14,20 @@ public sealed class IaipFacilityService(
     IMemoryCache cache,
     ILogger<IaipFacilityService> logger) : IFacilityService
 {
-    public Task<Facility?> FindFacilityDetailsAsync(FacilityId? id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
         GetFacilityAsync(id, forceRefresh, loadDetails: true);
 
-    public Task<Facility?> FindFacilitySummaryAsync(FacilityId? id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false) =>
         GetFacilityAsync(id, forceRefresh, loadDetails: false);
 
-    private async Task<Facility?> GetFacilityAsync(FacilityId? id, bool forceRefresh, bool loadDetails)
+    private async Task<Facility?> GetFacilityAsync(FacilityId id, bool forceRefresh, bool loadDetails)
     {
-        if (id is null || !await ExistsAsync(id)) return null;
+        if (!await ExistsAsync(id)) return null;
 
         var facilityDetailsCacheKey = FacilityDetailsCacheKey(id);
         var facilitySummaryCacheKey = FacilitySummaryCacheKey(id);
         var cacheKey = loadDetails ? facilityDetailsCacheKey : facilitySummaryCacheKey;
-        var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(CacheConstants.FacilityExpiration);
+        var cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(CacheConstants.FacilityExpiration);
 
         if (!forceRefresh)
         {
@@ -43,14 +43,13 @@ public sealed class IaipFacilityService(
             // when requesting a summary that is not in the summary cache.
             if (cache.TryGetValue(facilityDetailsCacheKey, out cachedFacility) && cachedFacility != null)
             {
-                if (!loadDetails) cache.Set(cacheKey, cachedFacility, cacheEntryOptions);
+                if (!loadDetails) cache.Set(cacheKey, cachedFacility, cacheOptions);
                 logger.LogCacheHit(cacheKey);
                 return cachedFacility;
             }
         }
 
         using var db = dbf.Create();
-
         var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
         var varMultiTask = db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
             commandType: CommandType.StoredProcedure);
@@ -73,7 +72,7 @@ public sealed class IaipFacilityService(
             facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
         }
 
-        cache.Set(cacheKey, facility, cacheEntryOptions);
+        cache.Set(cacheKey, facility, cacheOptions);
         logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         return facility;

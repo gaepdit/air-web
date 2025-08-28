@@ -1,5 +1,6 @@
 using IaipDataService.DbConnection;
 using IaipDataService.Facilities;
+using IaipDataService.PermitFees;
 using IaipDataService.SourceTests;
 using IaipDataService.TestData;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,13 +22,15 @@ public static class IaipServiceRegistration
             services
                 .AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ => new DbConnectionFactory(connectionString))
                 .AddSingleton<IFacilityService, IaipFacilityService>()
-                .AddSingleton<ISourceTestService, IaipSourceTestService>();
+                .AddSingleton<ISourceTestService, IaipSourceTestService>()
+                .AddSingleton<IPermitFeesService, IaipPermitFeesService>();
         }
         else
         {
             services
                 .AddSingleton<IFacilityService, TestFacilityService>()
-                .AddSingleton<ISourceTestService, TestSourceTestService>();
+                .AddSingleton<ISourceTestService, TestSourceTestService>()
+                .AddSingleton<IPermitFeesService, TestPermitFeesService>();
         }
     }
 }

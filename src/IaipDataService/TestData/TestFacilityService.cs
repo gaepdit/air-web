@@ -10,10 +10,10 @@ public sealed class TestFacilityService : IFacilityService
     private ReadOnlyDictionary<FacilityId, string> FacilityList =>
         new(Items.ToDictionary(facility => facility.Id, facility => facility.Name));
 
-    public Task<Facility?> FindFacilityDetailsAsync(FacilityId? id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
         Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
 
-    public Task<Facility?> FindFacilitySummaryAsync(FacilityId? id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false) =>
         FindFacilityDetailsAsync(id, forceRefresh);
 
     public Task<string> GetNameAsync(string id) =>
