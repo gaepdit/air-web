@@ -113,16 +113,11 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 
     public DateOnly? EnforcementDate
     {
-        get
-        {
-            var actionDates = EnforcementActions
-                .Where(action => !action.IsDeleted)
-                .Where(action => action.IsIssued)
-                .Select(action => action.IssueDate); // List the dates each enforcement action was issued.
-            var dates = actionDates.Where(date => date.HasValue).ToArray();
-            return
-                dates.Length == 0 ? null : dates.Min(); // Enforcement Date is the earliest of the above list of dates.
-        }
+        // Enforcement Date is the earliest date of the issued enforcement actions.
+        get => EnforcementActions
+            .Where(action => action is { IsDeleted: false, IsIssued: true, IssueDate: not null })
+            .Select(action => action.IssueDate)
+            .Min();
 
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
