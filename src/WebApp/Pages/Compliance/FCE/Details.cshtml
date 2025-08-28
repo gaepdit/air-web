@@ -108,7 +108,7 @@
     @if (Model.ComplianceSearchResults.TotalCount == 0)
     {
         <div class="border rounded-1 p-3">
-            <p class="lead text-info mb-0">No compliance data found in date range.</p>
+            <p class="lead mb-0">No compliance data found in date range.</p>
         </div>
     }
     else
@@ -143,8 +143,8 @@
         </div>
         <div class="col-auto ms-3 d-print-none">
             <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
-               asp-route-DateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
-               asp-route-DateTo="@Model.Item!.CompletedDate.ToString()"
+               asp-route-EnforcementDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
+               asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results"
                class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                 View Search
@@ -155,7 +155,7 @@
     @if (Model.CaseFileSearchResults.TotalCount == 0)
     {
         <div class="border rounded-1 p-3">
-            <p class="lead text-info mb-0">No enforcement cases found in date range.</p>
+            <p class="lead mb-0">No enforcement cases found in date range.</p>
         </div>
     }
     else

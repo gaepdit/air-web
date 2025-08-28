@@ -117,8 +117,8 @@ public class DetailsModel(
         var spec = new CaseFileSearchDto
         {
             PartialFacilityId = Item!.FacilityId,
-            DateTo = Item.CompletedDate,
-            DateFrom = Item.ExtendedDataStartDate,
+            EnforcementDateTo = Item.CompletedDate,
+            EnforcementDateFrom = Item.ExtendedDataStartDate,
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
             sorting: CaseFileSortBy.IdAsc.GetDescription());
