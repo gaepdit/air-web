@@ -8,6 +8,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
+using IaipDataService.PermitFees;
 using IaipDataService.SourceTests;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -21,6 +22,7 @@ public sealed class FceService(
     ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
     ISourceTestService sourceTestService,
+    IPermitFeesService permitFeesService,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -84,10 +86,11 @@ public sealed class FceService(
                 caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
                             caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
                             caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
-        };
 
-        // TODO: Implement remaining data summaries.
-        //  * FeesHistory
+            Fees = await permitFeesService
+                .GetAnnualFeesHistoryForFacilityAsync(facilityId, completedDate, Fce.ExtendedDataPeriod)
+                .ConfigureAwait(false),
+        };
 
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
         return summary;
