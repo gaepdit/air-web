@@ -90,7 +90,7 @@
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
             <h2 class="h4 mb-md-0">
-                Supporting compliance data:
+                Supporting compliance data:<br />
                 @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
             </h2>
         </div>
@@ -100,7 +100,7 @@
                asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results"
                class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                View Search
+                Open Search Page
             </a>
         </div>
     </div>
@@ -137,7 +137,7 @@
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
             <h2 class="h4 mb-md-0">
-                Five-year history of enforcement cases:
+                Five-year history of enforcement cases:<br />
                 @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
             </h2>
         </div>
@@ -147,7 +147,7 @@
                asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results"
                class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                View Search
+                Open Search Page
             </a>
         </div>
     </div>
