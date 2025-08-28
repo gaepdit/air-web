@@ -36,8 +36,17 @@ public class DetailsModel(
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
         if (Id == 0) return RedirectToPage("Index");
         Item = await fceService.FindAsync(Id, token);
         if (Item is null) return NotFound();
@@ -134,7 +143,7 @@ public class DetailsModel(
     private async Task LoadAnnualFeesData()
     {
         AnnualFeesSummary = await permitFeesService.GetAnnualFeesHistoryAsync((FacilityId)Item!.FacilityId,
-            Item.CompletedDate, Fce.ExtendedDataPeriod);
+            Item.CompletedDate, Fce.ExtendedDataPeriod, RefreshIaipData);
     }
 
     private async Task SetPermissionsAsync() =>

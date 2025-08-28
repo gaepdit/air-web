@@ -4,6 +4,7 @@
 @using AirWeb.AppServices.Enforcement.Search
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
     var report = Model.Item!;
@@ -230,6 +231,33 @@
             Delete FCE
         </a>
     </div>
+}
+
+@section Footer {
+    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
+    {
+        <div class="bg-info-subtle py-2 border-bottom d-print-none">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                        <small>
+                            * <em>Note:</em> This page displays annual fees data from the IAIP, which is refreshed
+                            every 24&nbsp;hours. If it appears out of date, you can manually refresh the data.
+                        </small>
+                    </div>
+                    <div class="col-auto my-0 ms-3">
+                        <a asp-route-id="@Model.Id" asp-route-refresh="true"
+                           class="btn btn-sm btn-outline-info icon-link">
+                            <svg class="bi">
+                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
+                            </svg>
+                            Refresh IAIP Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 @section Scripts {

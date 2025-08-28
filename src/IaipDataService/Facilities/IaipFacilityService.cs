@@ -32,7 +32,8 @@ public sealed class IaipFacilityService(
         if (!forceRefresh)
         {
             // When requesting a facility summary, check the summary cache first.
-            if (!loadDetails && cache.TryGetValue(facilitySummaryCacheKey, out Facility? cachedFacility) &&
+            if (!loadDetails &&
+                cache.TryGetValue(facilitySummaryCacheKey, out Facility? cachedFacility) &&
                 cachedFacility != null)
             {
                 logger.LogCacheHit(cacheKey);
