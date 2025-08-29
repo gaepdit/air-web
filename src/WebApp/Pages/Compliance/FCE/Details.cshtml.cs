@@ -41,13 +41,14 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (Id == 0) return RedirectToPage("Index");
+
         if (refresh)
         {
             RefreshIaipData = true;
             return RedirectToPage();
         }
 
-        if (Id == 0) return RedirectToPage("Index");
         Item = await fceService.FindAsync(Id, token);
         if (Item is null) return NotFound();
 

@@ -14,8 +14,8 @@ These pages are available to the public.
 *Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) should be implemented.*
 
 * `/print/acc/{accId}` Printable ACC report page.
-* `/print/source-test/{referenceNumber}` Printable source test report page.
 * `/print/fce/{fcdId}` Printable FCE report page.
+* `/print/source-test/{referenceNumber}` Printable source test report page.
 
 ---
 
