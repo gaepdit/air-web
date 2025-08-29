@@ -4,8 +4,11 @@ using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using GaEpd.AppLibrary.Pagination;
+using IaipDataService.Facilities;
+using IaipDataService.PermitFees;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
@@ -14,14 +17,16 @@ public class DetailsModel(
     IFceService fceService,
     IWorkEntrySearchService workEntrySearchService,
     ICaseFileSearchService caseFileSearchService,
+    IPermitFeesService permitFeesService,
     IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceSearchResults { get; private set; } = null!;
-    public IPaginatedResult<CaseFileSearchResultDto> CaseFileSearchResults { get; private set; } = null!;
+    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceSummary { get; private set; } = null!;
+    public IPaginatedResult<CaseFileSearchResultDto> CaseFileSummary { get; private set; } = null!;
+    public List<AnnualFeeSummary> AnnualFeesSummary { get; private set; } = null!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -31,8 +36,17 @@ public class DetailsModel(
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
+    [TempData]
+    public bool RefreshIaipData { get; set; }
+
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (refresh)
+        {
+            RefreshIaipData = true;
+            return RedirectToPage();
+        }
+
         if (Id == 0) return RedirectToPage("Index");
         Item = await fceService.FindAsync(Id, token);
         if (Item is null) return NotFound();
@@ -97,6 +111,7 @@ public class DetailsModel(
     {
         await LoadComplianceData(token);
         await LoadEnforcementData(token);
+        await LoadAnnualFeesData();
     }
 
     private async Task LoadComplianceData(CancellationToken token)
@@ -109,7 +124,7 @@ public class DetailsModel(
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
             sorting: WorkEntrySortBy.WorkTypeAsc.GetDescription());
-        ComplianceSearchResults = await workEntrySearchService.SearchAsync(spec, paging, token: token);
+        ComplianceSummary = await workEntrySearchService.SearchAsync(spec, paging, token: token);
     }
 
     private async Task LoadEnforcementData(CancellationToken token)
@@ -122,7 +137,13 @@ public class DetailsModel(
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
             sorting: CaseFileSortBy.IdAsc.GetDescription());
-        CaseFileSearchResults = await caseFileSearchService.SearchAsync(spec, paging, token: token);
+        CaseFileSummary = await caseFileSearchService.SearchAsync(spec, paging, token: token);
+    }
+
+    private async Task LoadAnnualFeesData()
+    {
+        AnnualFeesSummary = await permitFeesService.GetAnnualFeesHistoryAsync((FacilityId)Item!.FacilityId,
+            Item.CompletedDate, Fce.ExtendedDataPeriod, RefreshIaipData);
     }
 
     private async Task SetPermissionsAsync() =>

@@ -4,7 +4,7 @@ using IaipDataService.SourceTests.Models;
 
 namespace IaipDataService.TestData;
 
-public class LocalSourceTestService : ISourceTestService
+public class TestSourceTestService : ISourceTestService
 {
     internal IReadOnlyCollection<BaseSourceTestReport> Items { get; } = SourceTestData.GetData.ToList();
 

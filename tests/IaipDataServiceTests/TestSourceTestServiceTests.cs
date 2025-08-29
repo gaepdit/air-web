@@ -2,13 +2,13 @@ using IaipDataService.TestData;
 
 namespace IaipDataServiceTests;
 
-public class LocalSourceTestServiceTests
+public class TestSourceTestServiceTests
 {
     [Test]
     public async Task IfExists_Find_ReturnsData()
     {
         // Arrange
-        var service = new LocalSourceTestService();
+        var service = new TestSourceTestService();
         var test = service.Items.ElementAt(0);
 
         // Act
@@ -22,7 +22,7 @@ public class LocalSourceTestServiceTests
     public async Task IfNotExists_Find_ReturnsNull()
     {
         // Arrange
-        var service = new LocalSourceTestService();
+        var service = new TestSourceTestService();
 
         // Act
         var result = await service.FindAsync(0);

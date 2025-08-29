@@ -3,12 +3,12 @@ using IaipDataService.TestData;
 
 namespace IaipDataServiceTests;
 
-public class LocalFacilityServiceTests
+public class TestFacilityServiceTests
 {
-    private LocalFacilityService _service = null!;
+    private TestFacilityService _service = null!;
 
     [SetUp]
-    public void SetUp() => _service = new LocalFacilityService();
+    public void SetUp() => _service = new TestFacilityService();
 
     [Test]
     public async Task IfExists_FindDetails_ReturnsData()

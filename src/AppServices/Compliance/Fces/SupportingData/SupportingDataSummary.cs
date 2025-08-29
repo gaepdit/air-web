@@ -1,3 +1,5 @@
+using IaipDataService.PermitFees;
+
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 
 public record SupportingDataSummary
@@ -13,7 +15,7 @@ public record SupportingDataSummary
     // To be implemented
 
     // IAIP data
-    public IEnumerable<FeeYearSummaryDto> Fees { get; init; } = [];
+    public IEnumerable<AnnualFeeSummary> Fees { get; init; } = [];
 
     // Combined compliance and IAIP data
     public IEnumerable<SourceTestSummaryDto> SourceTests { get; init; } = [];

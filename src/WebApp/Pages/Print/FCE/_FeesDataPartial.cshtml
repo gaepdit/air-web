@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model IEnumerable<AirWeb.AppServices.Compliance.Fces.SupportingData.FeeYearSummaryDto>
+@model IEnumerable<IaipDataService.PermitFees.AnnualFeeSummary>
 
 <h2 id="permit-fees">Five-Year History of Annual Permit Fees</h2>
 
@@ -16,9 +16,9 @@
 <table aria-labelledby="permit-fees">
     <thead>
     <tr>
-        <th scope="col" class="minimize-col-width">@Html.DisplayNameFor(_ => firstItem.Year)</th>
+        <th scope="col" class="minimize-col-width">@Html.DisplayNameFor(_ => firstItem.FeeYear)</th>
         <th scope="col" class="align-right minimize-col-width">@Html.DisplayNameFor(_ => firstItem.InvoicedAmount)</th>
-        <th scope="col" class="align-right">@Html.DisplayNameFor(_ => firstItem.AmountPaid)</th>
+        <th scope="col" class="align-right">@Html.DisplayNameFor(_ => firstItem.PaidAmount)</th>
         <th scope="col" class="align-right">@Html.DisplayNameFor(_ => firstItem.Balance)</th>
         <th scope="col">@Html.DisplayNameFor(_ => firstItem.Status)</th>
     </tr>
@@ -27,11 +27,11 @@
     @foreach (var i in Model)
     {
         <tr>
-            <th scope="row">@i.Year</th>
+            <th scope="row">@i.FeeYear</th>
             <td class="align-right">@Html.DisplayFor(_ => i.InvoicedAmount, DisplayTemplate.Currency)</td>
-            <td class="align-right">@Html.DisplayFor(_ => i.AmountPaid, DisplayTemplate.Currency)</td>
+            <td class="align-right">@Html.DisplayFor(_ => i.PaidAmount, DisplayTemplate.Currency)</td>
             <td class="align-right">@Html.DisplayFor(_ => i.Balance, DisplayTemplate.Currency)</td>
-            <td>@i.Status</td>
+            <td>@i.Status.GetDisplayName()</td>
         </tr>
     }
     </tbody>
