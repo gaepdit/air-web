@@ -29,7 +29,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
     Task ExecuteOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token);
     Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token);
     Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token);
-    Task DeleteAsync(Guid id, CancellationToken token);
+    Task DeleteAsync(Guid id, int caseFileId, CancellationToken token);
     Task AddStipulatedPenalty(Guid id, StipulatedPenaltyAddDto resource, CancellationToken token);
     Task DeletedStipulatedPenalty(Guid id, Guid stipulatedPenaltyId, CancellationToken token);
 

@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Identity;
@@ -40,6 +41,9 @@ public class Fce : DeletableEntity<int>, IFacilityId, INotes
 
     // Comments
     public List<FceComment> Comments { get; } = [];
+
+    // Audit Points
+    public List<FceAuditPoint> AuditPoints { get; } = [];
 
     // Business Logic
 

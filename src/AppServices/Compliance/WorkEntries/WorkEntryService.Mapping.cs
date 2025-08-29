@@ -17,19 +17,23 @@ public sealed partial class WorkEntryService
         ApplicationUser? currentUser, CancellationToken token = default)
     {
         var facilityId = (FacilityId)resource.FacilityId!;
-        var workEntry = resource switch
+        var workEntryTask = resource switch
         {
-            AccCreateDto => entryManager.Create(WorkEntryType.AnnualComplianceCertification, facilityId, currentUser),
+            AccCreateDto => entryManager.CreateAsync(WorkEntryType.AnnualComplianceCertification, facilityId,
+                currentUser),
             InspectionCreateDto dto => dto.IsRmpInspection
-                ? entryManager.Create(WorkEntryType.RmpInspection, facilityId, currentUser)
-                : entryManager.Create(WorkEntryType.Inspection, facilityId, currentUser),
-            NotificationCreateDto => entryManager.Create(WorkEntryType.Notification, facilityId, currentUser),
-            PermitRevocationCreateDto => entryManager.Create(WorkEntryType.PermitRevocation, facilityId, currentUser),
-            ReportCreateDto => entryManager.Create(WorkEntryType.Report, facilityId, currentUser),
-            SourceTestReviewCreateDto => entryManager.Create(WorkEntryType.SourceTestReview, facilityId, currentUser),
+                ? entryManager.CreateAsync(WorkEntryType.RmpInspection, facilityId, currentUser)
+                : entryManager.CreateAsync(WorkEntryType.Inspection, facilityId, currentUser),
+            NotificationCreateDto => entryManager.CreateAsync(WorkEntryType.Notification, facilityId, currentUser),
+            PermitRevocationCreateDto => entryManager.CreateAsync(WorkEntryType.PermitRevocation, facilityId,
+                currentUser),
+            ReportCreateDto => entryManager.CreateAsync(WorkEntryType.Report, facilityId, currentUser),
+            SourceTestReviewCreateDto => entryManager.CreateAsync(WorkEntryType.SourceTestReview, facilityId,
+                currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
+        var workEntry = await workEntryTask.ConfigureAwait(false);
         workEntry.ResponsibleStaff = await userService.GetUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
         workEntry.Notes = resource.Notes ?? string.Empty;

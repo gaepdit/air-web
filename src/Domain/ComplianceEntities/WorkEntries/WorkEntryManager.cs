@@ -1,14 +1,19 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public sealed class WorkEntryManager(IWorkEntryRepository repository) : IWorkEntryManager
+public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityService facilityService)
+    : IWorkEntryManager
 {
-    public WorkEntry Create(WorkEntryType type, FacilityId facilityId, ApplicationUser? user)
+    public async Task<WorkEntry> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user)
     {
+        if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
+            throw new ArgumentException("Facility does not exist.", nameof(facilityId));
+
         var id = repository.GetNextId();
 
-        return type switch
+        WorkEntry workEntry = type switch
         {
             WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id, facilityId, user),
             WorkEntryType.Inspection => new Inspection(id, facilityId, user),
@@ -19,23 +24,40 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository) : IWorkEnt
             WorkEntryType.SourceTestReview => new SourceTestReview(id, facilityId, user),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
+
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Added(user));
+        return workEntry;
+    }
+
+    public void Update(WorkEntry workEntry, ApplicationUser? user)
+    {
+        workEntry.SetUpdater(user?.Id);
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Edited(user));
     }
 
     public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
-        workEntry.SetUpdater(user?.Id);
         workEntry.Close(user);
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Closed(user));
     }
 
     public void Reopen(WorkEntry workEntry, ApplicationUser? user)
     {
-        workEntry.SetUpdater(user?.Id);
-        workEntry.Reopen();
+        workEntry.Reopen(user);
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Reopened(user));
     }
 
-    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user) => workEntry.Delete(comment, user);
+    public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
+    {
+        workEntry.Delete(comment, user);
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Deleted(user));
+    }
 
-    public void Restore(WorkEntry workEntry) => workEntry.Undelete();
+    public void Restore(WorkEntry workEntry, ApplicationUser? user)
+    {
+        workEntry.Undelete();
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Restored(user));
+    }
 
     #region IDisposable,  IAsyncDisposable
 

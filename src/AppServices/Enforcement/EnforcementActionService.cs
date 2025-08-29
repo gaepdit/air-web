@@ -199,11 +199,12 @@ public sealed class EnforcementActionService(
         return caseFileClosed;
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken token)
+    public async Task DeleteAsync(Guid id, int caseFileId, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        actionManager.Delete(enforcementAction, currentUser);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
+        actionManager.Delete(enforcementAction, caseFile, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 

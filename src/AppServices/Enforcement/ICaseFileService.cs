@@ -26,8 +26,8 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default);
 
-    Task<bool> LinkComplianceEvent(int id, int entryId, CancellationToken token = default);
-    Task<bool> UnLinkComplianceEvent(int id, int entryId, CancellationToken token = default);
+    Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);
+    Task<bool> UnLinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);
 
     // Pollutants & Air Programs
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);

@@ -216,7 +216,7 @@ public class DetailsModel(
         var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanDeleteAction(action)) return BadRequest();
 
-        await actionService.DeleteAsync(enforcementActionId, token);
+        await actionService.DeleteAsync(enforcementActionId, action.CaseFileId, token);
         return RedirectToPage();
     }
 

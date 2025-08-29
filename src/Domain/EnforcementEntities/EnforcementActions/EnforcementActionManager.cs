@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using Microsoft.Extensions.Logging;
@@ -7,10 +8,10 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
 {
-    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user)
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user)
     {
         var id = Guid.NewGuid();
-        EnforcementAction enforcementAction = action switch
+        EnforcementAction enforcementAction = actionType switch
         {
             EnforcementActionType.AdministrativeOrder => new AdministrativeOrder(id, caseFile, user),
             EnforcementActionType.ConsentOrder => new ConsentOrder(id, caseFile, user),
@@ -20,10 +21,11 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
             EnforcementActionType.NoticeOfViolation => new NoticeOfViolation(id, caseFile, user),
             EnforcementActionType.NovNfaLetter => new NovNfaLetter(id, caseFile, user),
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(id, caseFile, user),
-            _ => throw new ArgumentOutOfRangeException(nameof(action), action, null),
+            _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null),
         };
 
         caseFile.EnforcementActions.Add(enforcementAction);
+        caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionAdded(actionType, user));
         return enforcementAction;
     }
 
@@ -78,7 +80,11 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
         action.Status = EnforcementActionStatus.Canceled;
     }
 
-    public void Delete(EnforcementAction action, ApplicationUser? user) => action.Delete(comment: null, user);
+    public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
+    {
+        action.Delete(comment: null, user);
+        caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
+    }
 
     // Type-specific update methods
     public void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user)

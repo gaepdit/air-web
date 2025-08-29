@@ -11,7 +11,14 @@ public interface IWorkEntryManager : IDisposable, IAsyncDisposable
     /// <param name="facilityId">The ID of the facility associated with the Work Entry.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The Work Entry that was created.</returns>
-    WorkEntry Create(WorkEntryType type, FacilityId facilityId, ApplicationUser? user);
+    Task<WorkEntry> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user);
+
+    /// <summary>
+    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was edited.
+    /// </summary>
+    /// <param name="workEntry">The Entry that was updated.</param>
+    /// <param name="user">The user committing the change.</param>
+    void Update(WorkEntry workEntry, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
@@ -39,5 +46,6 @@ public interface IWorkEntryManager : IDisposable, IAsyncDisposable
     /// Updates the properties of a deleted <see cref="WorkEntry"/> to indicate that it was restored.
     /// </summary>
     /// <param name="workEntry">The Entry which was restored.</param>
-    void Restore(WorkEntry workEntry);
+    /// <param name="user"></param>
+    void Restore(WorkEntry workEntry, ApplicationUser? user);
 }
