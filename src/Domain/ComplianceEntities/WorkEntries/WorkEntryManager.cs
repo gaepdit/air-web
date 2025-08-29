@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -23,6 +24,7 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository) : IWorkEnt
 
     public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
+        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Close(workEntry.Id, user));
         workEntry.SetUpdater(user?.Id);
         workEntry.Close(user);
     }

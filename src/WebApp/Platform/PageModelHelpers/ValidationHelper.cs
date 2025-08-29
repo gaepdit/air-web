@@ -31,7 +31,7 @@ public static class ValidationHelper
                 { RootContextData = { [dataKey] = dataValue } });
 
         if (validationResult.IsValid) return;
-
+        
         foreach (var error in validationResult.Errors)
         {
             var key = string.IsNullOrEmpty(prefix)
