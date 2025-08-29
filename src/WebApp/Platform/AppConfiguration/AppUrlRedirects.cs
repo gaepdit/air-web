@@ -26,6 +26,11 @@ public static class AppUrlRedirects
                 .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdPattern}/fce/{IntPattern}$",
                     replacement: "print/fce/$1",
                     statusCode: StatusCodes.Status302Found)
+
+                // Incomplete URLs (that can't be handled within the page itself)
+                .AddRedirect(regex: "^Enforcement/Edit/?$",
+                    replacement: "Enforcement",
+                    statusCode: StatusCodes.Status302Found)
             ;
 
         return app.UseRewriter(options);
