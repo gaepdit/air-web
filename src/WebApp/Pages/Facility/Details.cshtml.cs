@@ -43,6 +43,8 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
+        if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
+
         if (refresh)
         {
             RefreshIaipData = true;

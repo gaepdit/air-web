@@ -19,6 +19,8 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
     {
+        if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
+
         if (refresh)
         {
             RefreshIaipData = true;

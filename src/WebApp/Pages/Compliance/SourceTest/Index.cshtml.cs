@@ -52,7 +52,7 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
-        if (ReferenceNumber == 0) return NotFound();
+        if (ReferenceNumber == 0) return RedirectToPage("../Work/Index");
 
         if (refresh)
         {

@@ -30,6 +30,8 @@ public class StipulatedPenaltiesEditModel(
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
+        if (Id == Guid.Empty) return RedirectToPage("Index");
+
         try
         {
             ConsentOrder = await actionService.GetConsentOrderAsync(Id, token);
