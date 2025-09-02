@@ -9,6 +9,7 @@ using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 
@@ -43,6 +44,9 @@ public class IndexModel(
 
     // This `UserCan` dictionary is only used if a compliance review (`SourceTestReview`) does exist.
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
+    [Display(Name = "Linked Enforcement Cases")]
+    public IEnumerable<int> CaseFileIds { get; private set; } = [];
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -79,6 +83,8 @@ public class IndexModel(
         }
         else
         {
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+
             CommentSection = new CommentsSectionModel
             {
                 Comments = ComplianceReview.Comments,
@@ -137,6 +143,8 @@ public class IndexModel(
 
         if (!ModelState.IsValid)
         {
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+
             CommentSection = new CommentsSectionModel
             {
                 Comments = ComplianceReview.Comments,

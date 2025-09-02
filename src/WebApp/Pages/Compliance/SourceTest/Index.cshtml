@@ -179,6 +179,20 @@ else
         </dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.AcknowledgmentLetterDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        @if (Model.CaseFileIds.Any())
+        {
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.CaseFileIds)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <ul class="mb-0 p-0 ps-1">
+                    @foreach (var id in Model.CaseFileIds)
+                    {
+                        <li class="float-start me-4 ms-2">
+                            <a asp-page="/Enforcement/Details" asp-route-id="@id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">@id</a>
+                        </li>
+                    }
+                </ul>
+            </dd>
+        }
     </dl>
 
     <h3 class="mt-4">Details</h3>

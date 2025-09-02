@@ -67,6 +67,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (!ModelState.IsValid)
         {
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
+
             CommentSection = new CommentsSectionModel
             {
                 Comments = Item.Comments,
