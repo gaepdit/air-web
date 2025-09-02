@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
@@ -48,6 +49,8 @@ public class IndexModel(
     [Display(Name = "Linked Enforcement Cases")]
     public IEnumerable<int> CaseFileIds { get; private set; } = [];
 
+    public List<AuditPointViewDto> AuditPoints { get; private set; } = [];
+
     [TempData]
     public Guid NewCommentId { get; set; }
 
@@ -84,6 +87,7 @@ public class IndexModel(
         else
         {
             CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            await LoadAuditPoints();
 
             CommentSection = new CommentsSectionModel
             {
@@ -144,6 +148,7 @@ public class IndexModel(
         if (!ModelState.IsValid)
         {
             CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            await LoadAuditPoints();
 
             CommentSection = new CommentsSectionModel
             {
@@ -152,6 +157,7 @@ public class IndexModel(
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
             return Page();
         }
 
@@ -177,6 +183,8 @@ public class IndexModel(
         return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "comments");
     }
+
+    private async Task LoadAuditPoints() => AuditPoints = await entryService.GetAuditPointsAsync(ComplianceReview!.Id);
 
     private async Task SetPermissionsAsync()
     {

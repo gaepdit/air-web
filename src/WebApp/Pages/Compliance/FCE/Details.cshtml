@@ -142,7 +142,7 @@
             <h2 class="h5 mb-md-0">
                 Five-year history of enforcement cases:
                 <div class="text-info-emphasis">
-                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+                    @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
                 </div>
             </h2>
         </div>
@@ -258,6 +258,8 @@
             </div>
         </div>
     }
+
+    <partial name="Shared/_AuditPointsPartial" model="Model.AuditPoints" />
 }
 
 @section Scripts {

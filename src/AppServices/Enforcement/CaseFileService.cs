@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
@@ -80,6 +81,10 @@ public sealed class CaseFileService(
         return caseFile;
     }
 
+    public async Task<List<AuditPointViewDto>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
+        mapper.Map<List<AuditPointViewDto>>(await caseFileRepository.GetAuditPointsAsync(id, token)
+            .ConfigureAwait(false));
+
     public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)
     {
@@ -92,11 +97,10 @@ public sealed class CaseFileService(
         caseFile.Notes = resource.Notes ?? string.Empty;
 
         if (resource.EventId != null &&
-            await entryRepository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false) is
-                ComplianceEvent complianceEvent)
+            await entryRepository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false)
+                is ComplianceEvent entry)
         {
-            caseFile.ComplianceEvents.Add(complianceEvent);
-            complianceEvent.CaseFiles.Add(caseFile);
+            caseFileManager.LinkComplianceEvent(caseFile, entry, currentUser);
         }
 
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);

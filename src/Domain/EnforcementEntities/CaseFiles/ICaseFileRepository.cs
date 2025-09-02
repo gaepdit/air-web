@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.AuditPoints;
+
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, ICommentRepository<int>
 {
@@ -11,4 +13,12 @@ public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, IC
     // Pollutants & Air Programs
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
     Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
+
+    /// <summary>
+    /// Returns a list of <see cref="CaseFileAuditPoint"/> for the specified <see cref="CaseFile"/>.
+    /// </summary>
+    /// <param name="id">The ID of the Case File.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A list of Audit Points.</returns>
+    public Task<List<CaseFileAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default);
 }

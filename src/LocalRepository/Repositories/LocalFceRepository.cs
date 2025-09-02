@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
@@ -21,6 +22,9 @@ public sealed class LocalFceRepository()
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default) => Task.FromResult(Items.Any(fce =>
         fce.FacilityId == facilityId && fce.Year.Equals(year) && !fce.IsDeleted && fce.Id != ignoreId));
+
+    public Task<List<FceAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
+        Task.FromResult(Items.Single(fce => fce.Id == id).AuditPoints.OrderBy(audit => audit.When).ToList());
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
         (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(new FceComment(comment, itemId));

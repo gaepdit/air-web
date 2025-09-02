@@ -1,0 +1,27 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model List<AirWeb.AppServices.AuditPoints.AuditPointViewDto>
+@if (Model.Count > 0)
+{
+    <div class="container border-top text-body-secondary small py-2 d-print-none">
+        <details>
+            <summary class="ps-1"><span class="ps-2">Show audit history</span></summary>
+            <ul class="mt-2 mb-0">
+                @foreach (var audit in Model)
+                {
+                    <li>
+                        @audit.What
+                        @if (!string.IsNullOrWhiteSpace(audit.MoreInfo))
+                        {
+                            @:(@audit.MoreInfo)
+                        }
+                        by
+                        @Html.DisplayFor(_ => audit.WhoFullName, DisplayTemplate.TextOrPlaceholder,
+                            additionalViewData: new { Placeholder = DefaultText.NotAvailable })
+                        on
+                        @Html.DisplayFor(_ => audit.When, DisplayTemplate.LongDateTimeOffset)
+                    </li>
+                }
+            </ul>
+        </details>
+    </div>
+}

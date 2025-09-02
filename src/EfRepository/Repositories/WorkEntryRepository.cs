@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
@@ -39,6 +40,14 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
+
+    public async Task<List<WorkEntryAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
+        (await Context.Set<WorkEntry>().AsNoTracking()
+            .Include(entry => entry.AuditPoints
+                .OrderBy(audit => audit.When)
+                .ThenBy(audit => audit.Id)
+            ).SingleAsync(entry => entry.Id.Equals(id), token).ConfigureAwait(false))
+        .AuditPoints;
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {

@@ -28,6 +28,7 @@ public static class DisplayTemplate
     public const string IntOrPlaceholder = nameof(IntOrPlaceholder);
     public const string LongDateOnly = nameof(LongDateOnly);
     public const string LongDateOnlyNullable = nameof(LongDateOnlyNullable);
+    public const string LongDateTimeOffset = nameof(LongDateTimeOffset);
     public const string LongDateTimeOffsetNullable = nameof(LongDateTimeOffsetNullable);
     public const string Name = nameof(Name);
     public const string NameOrPlaceholder = nameof(NameOrPlaceholder);

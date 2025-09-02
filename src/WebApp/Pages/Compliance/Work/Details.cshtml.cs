@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
@@ -22,6 +23,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
     [Display(Name = "Linked Enforcement Cases")]
     public IEnumerable<int> CaseFileIds { get; private set; } = [];
+
+    public List<AuditPointViewDto> AuditPoints { get; private set; } = [];
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -53,6 +56,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             CanAddComment = UserCan[ComplianceOperation.AddComment],
             CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
+
+        await LoadAuditPoints();
         return Page();
     }
 
@@ -76,6 +81,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
+            await LoadAuditPoints();
             return Page();
         }
 
@@ -96,6 +103,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         await entryService.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
+
+    private async Task LoadAuditPoints() => AuditPoints = await entryService.GetAuditPointsAsync(Id);
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, Item);

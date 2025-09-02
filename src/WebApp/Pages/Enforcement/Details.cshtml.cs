@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement;
@@ -24,15 +25,12 @@ public class DetailsModel(
     public int Id { get; set; } // Case File ID
 
     public CaseFileViewDto? CaseFile { get; private set; }
-
-    // Permissions, etc.
+    public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+    public List<AuditPointViewDto> AuditPoints { get; private set; } = [];
 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
-
-    // Comments
-    public CommentsSectionModel CommentSection { get; set; } = null!;
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -71,6 +69,7 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[CaseFileOperation.View]) return NotFound();
 
+        await LoadAuditPoints();
         return InitializePage();
     }
 
@@ -97,6 +96,7 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
+            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -116,7 +116,11 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            await LoadAuditPoints();
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = IssueEnforcementAction.Option;
         IssueEnforcementAction.Option = IssueEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -157,6 +161,7 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
+            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -175,6 +180,7 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
+            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -193,7 +199,11 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            await LoadAuditPoints();
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = ResolveEnforcementAction.Option;
         ResolveEnforcementAction.Option = ResolveEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -230,7 +240,11 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[CaseFileOperation.AddComment]) return BadRequest();
 
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            await LoadAuditPoints();
+            return InitializePage();
+        }
 
         var result = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = result.Id;
@@ -250,6 +264,8 @@ public class DetailsModel(
     }
 
     #endregion
+
+    private async Task LoadAuditPoints() => AuditPoints = await caseFileService.GetAuditPointsAsync(Id);
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(CaseFileOperation.AllOperations, User, CaseFile);

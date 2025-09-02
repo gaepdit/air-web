@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
+﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -59,4 +60,12 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no Notification Type exists with the given ID.</exception>
     /// <returns>The <see cref="NotificationType"/>.</returns>
     Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default);
+
+    /// <summary>
+    /// Returns a list of <see cref="WorkEntryAuditPoint"/> for the specified <see cref="WorkEntry"/>.
+    /// </summary>
+    /// <param name="id">The ID of the Work Entry.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A list of Audit Points.</returns>
+    public Task<List<WorkEntryAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default);
 }

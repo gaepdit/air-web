@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
@@ -15,6 +16,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     // Query
     Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default);
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
+    Task<List<AuditPointViewDto>> GetAuditPointsAsync(int id, CancellationToken token = default);
 
     // Case File commands
     Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);

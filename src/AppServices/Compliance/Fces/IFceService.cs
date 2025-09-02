@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using IaipDataService.Facilities;
@@ -13,6 +14,8 @@ public interface IFceService : IDisposable, IAsyncDisposable
 
     Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default);
+
+    Task<List<AuditPointViewDto>> GetAuditPointsAsync(int id, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);

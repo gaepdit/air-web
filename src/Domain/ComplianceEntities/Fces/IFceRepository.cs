@@ -1,4 +1,6 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.Domain.AuditPoints;
+
+namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
 {
@@ -12,7 +14,7 @@ public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
     /// Returns the <see cref="Fce"/> with the given <paramref name="id"/>. Returns null if there are no matches.
     /// The returned entity will include the Comments navigation property.
     /// </summary>
-    /// <param name="id">The ID of the entity.</param>
+    /// <param name="id">The ID of the FCE.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An FCE with Comments included or null.</returns>
     Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default);
@@ -27,4 +29,12 @@ public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
     /// <returns>True if the FCE exists; otherwise false.</returns>
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default);
+
+    /// <summary>
+    /// Returns a list of <see cref="FceAuditPoint"/> for the specified <see cref="Fce"/>.
+    /// </summary>
+    /// <param name="id">The ID of the FCE.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A list of Audit Points.</returns>
+    public Task<List<FceAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default);
 }

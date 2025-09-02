@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.EfRepository.Contexts;
@@ -22,6 +23,14 @@ public sealed class FceRepository(AppDbContext context)
         CancellationToken token = default) =>
         Context.Fces.AsNoTracking().AnyAsync(fce =>
             fce.FacilityId.Equals(facilityId) && fce.Year.Equals(year) && !fce.IsDeleted && fce.Id != ignoreId, token);
+
+    public async Task<List<FceAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
+        (await Context.Set<Fce>().AsNoTracking()
+            .Include(fce => fce.AuditPoints
+                .OrderBy(audit => audit.When)
+                .ThenBy(audit => audit.Id)
+            ).SingleAsync(fce => fce.Id.Equals(id), token).ConfigureAwait(false))
+        .AuditPoints;
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
