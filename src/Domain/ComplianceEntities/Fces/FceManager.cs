@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
@@ -10,12 +11,28 @@ public sealed class FceManager(IFceRepository repository, IFacilityService facil
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        return new Fce(repository.GetNextId(), facilityId, year, user);
+        var fce = new Fce(repository.GetNextId(), facilityId, year, user);
+        fce.AuditPoints.Add(FceAuditPoint.Added(user));
+        return fce;
     }
 
-    public void Delete(Fce fce, string? comment, ApplicationUser? user) => fce.Delete(comment, user);
+    public void Update(Fce fce, ApplicationUser? user)
+    {
+        fce.SetUpdater(user?.Id);
+        fce.AuditPoints.Add(FceAuditPoint.Edited(user));
+    }
 
-    public void Restore(Fce fce) => fce.Undelete();
+    public void Delete(Fce fce, string? comment, ApplicationUser? user)
+    {
+        fce.Delete(comment, user);
+        fce.AuditPoints.Add(FceAuditPoint.Deleted(user));
+    }
+
+    public void Restore(Fce fce, ApplicationUser? user)
+    {
+        fce.Undelete();
+        fce.AuditPoints.Add(FceAuditPoint.Restored(user));
+    }
 
     #region IDisposable,  IAsyncDisposable
 

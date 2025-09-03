@@ -31,7 +31,7 @@ public sealed class FceService(
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false));
+        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithExtrasAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
@@ -104,7 +104,6 @@ public sealed class FceService(
         }
     }
 
-
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource,
         CancellationToken token = default)
     {
@@ -128,12 +127,13 @@ public sealed class FceService(
         CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById!).ConfigureAwait(false);
         fce.OnsiteInspection = resource.OnsiteInspection;
         fce.Notes = resource.Notes ?? string.Empty;
 
+        fceManager.Update(fce, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
@@ -158,7 +158,9 @@ public sealed class FceService(
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        fceManager.Restore(fce);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        fceManager.Restore(fce, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

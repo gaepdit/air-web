@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.BaseEntities;
+﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
@@ -141,6 +142,9 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];
+
+    // Audit Points
+    public List<CaseFileAuditPoint> AuditPoints { get; } = [];
 
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];

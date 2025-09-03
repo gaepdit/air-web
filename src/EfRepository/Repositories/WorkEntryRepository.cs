@@ -11,15 +11,18 @@ public sealed class WorkEntryRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments, CancellationToken token = default)
+    public Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)
         where TEntry : WorkEntry
     {
         var query = Context.Set<TEntry>().AsNoTracking();
-        var include = includeComments
-            ? query.Include(entry => entry.Comments
-                .Where(comment => !comment.DeletedAt.HasValue)
-                .OrderBy(comment => comment.CommentedAt)
-                .ThenBy(comment => comment.Id))
+        var include = includeExtras
+            ? query
+                .Include(entry => entry.Comments
+                    .Where(comment => !comment.DeletedAt.HasValue)
+                    .OrderBy(comment => comment.CommentedAt)
+                    .ThenBy(comment => comment.Id))
+                .Include(entry => entry.AuditPoints
+                    .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             : query;
         return include.SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
     }

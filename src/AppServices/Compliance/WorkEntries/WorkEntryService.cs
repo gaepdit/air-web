@@ -102,9 +102,10 @@ public sealed partial class WorkEntryService(
         CancellationToken token = default)
     {
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        workEntry.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
+        entryManager.Update(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
@@ -161,7 +162,9 @@ public sealed partial class WorkEntryService(
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        entryManager.Restore(workEntry);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        entryManager.Restore(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

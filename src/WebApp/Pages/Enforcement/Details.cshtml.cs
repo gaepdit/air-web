@@ -24,15 +24,11 @@ public class DetailsModel(
     public int Id { get; set; } // Case File ID
 
     public CaseFileViewDto? CaseFile { get; private set; }
-
-    // Permissions, etc.
+    public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
-
-    // Comments
-    public CommentsSectionModel CommentSection { get; set; } = null!;
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -116,7 +112,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = IssueEnforcementAction.Option;
         IssueEnforcementAction.Option = IssueEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -193,7 +192,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = ResolveEnforcementAction.Option;
         ResolveEnforcementAction.Option = ResolveEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -216,7 +218,7 @@ public class DetailsModel(
         var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanDeleteAction(action)) return BadRequest();
 
-        await actionService.DeleteAsync(enforcementActionId, token);
+        await actionService.DeleteAsync(enforcementActionId, action.CaseFileId, token);
         return RedirectToPage();
     }
 
@@ -230,7 +232,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[CaseFileOperation.AddComment]) return BadRequest();
 
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var result = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = result.Id;

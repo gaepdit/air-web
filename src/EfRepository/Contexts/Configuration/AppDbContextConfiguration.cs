@@ -1,3 +1,4 @@
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -5,6 +6,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
+using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AirWeb.EfRepository.Contexts.Configuration;
@@ -46,6 +48,9 @@ internal static class AppDbContextConfiguration
         // Comments
         builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();
 
+        // Audit Points
+        builder.Entity<AuditPoint>().Navigation(comment => comment.Who).AutoInclude();
+
         return builder;
     }
 
@@ -53,7 +58,6 @@ internal static class AppDbContextConfiguration
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<WorkEntry>()
-            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("WorkEntries")
             .HasDiscriminator(entry => entry.WorkEntryType)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
@@ -65,7 +69,6 @@ internal static class AppDbContextConfiguration
             .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
-
         var accEntity = builder.Entity<AnnualComplianceCertification>();
         var insEntity = builder.Entity<Inspection>();
         var notEntity = builder.Entity<Notification>();
@@ -129,7 +132,6 @@ internal static class AppDbContextConfiguration
     {
         // Enforcement Actions use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<EnforcementAction>()
-            .UseTphMappingStrategy() // This is already the default, but making it explicit here for future clarity.
             .ToTable("EnforcementActions")
             .HasDiscriminator(action => action.ActionType)
             .HasValue<AdministrativeOrder>(EnforcementActionType.AdministrativeOrder)
@@ -149,7 +151,6 @@ internal static class AppDbContextConfiguration
             .UsingEntity("CaseFileComplianceEvents");
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
-
         var aorEntity = builder.Entity<AdministrativeOrder>();
         var corEntity = builder.Entity<ConsentOrder>();
         var infEntity = builder.Entity<InformationalLetter>();
@@ -246,11 +247,12 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCommentsMappingStrategy(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureInheritanceMapping(this ModelBuilder builder)
     {
-        // Use TPH strategy for Comments table (this doesn't happen automatically because the Comment class is not 
-        // directly exposed as a DbSet).
-        builder.Entity<Comment>().UseTphMappingStrategy().ToTable("Comments");
+        // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.
+        builder.Entity<AuditPoint>().ToTable("AuditPoints");
+        builder.Entity<Comment>().ToTable("Comments");
+        builder.Entity<StandardNamedEntity>().ToTable("SelectLists");
 
         return builder;
     }

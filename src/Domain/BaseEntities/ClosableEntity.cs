@@ -19,11 +19,13 @@ public abstract class ClosableEntity<TKey> : DeletableEntity<TKey>, IIsClosed
     {
         ClosedDate = DateOnly.FromDateTime(DateTime.Today);
         ClosedBy = user;
+        SetUpdater(user?.Id);
     }
 
-    internal void Reopen()
+    internal void Reopen(ApplicationUser? user)
     {
         ClosedDate = null;
         ClosedBy = null;
+        SetUpdater(user?.Id);
     }
 }

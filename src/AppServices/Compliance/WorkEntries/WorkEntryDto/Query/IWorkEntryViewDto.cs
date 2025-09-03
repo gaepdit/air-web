@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.Comments;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
@@ -9,6 +10,7 @@ public interface IWorkEntryViewDto : IWorkEntrySummaryDto
 
     public string Notes { get; }
     public List<CommentViewDto> Comments { get; }
+    public List<AuditPointViewDto> AuditPoints { get; }
 
     // Display properties
     public bool HasPrintout { get; }

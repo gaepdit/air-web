@@ -53,6 +53,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             CanAddComment = UserCan[ComplianceOperation.AddComment],
             CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
+
         return Page();
     }
 
@@ -67,6 +68,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (!ModelState.IsValid)
         {
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
+
             CommentSection = new CommentsSectionModel
             {
                 Comments = Item.Comments,
@@ -74,6 +77,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
             return Page();
         }
 

@@ -8,6 +8,6 @@ public record WorkEntryComment : Comment
     private WorkEntryComment() { }
 
     private WorkEntryComment(Comment c) : base(c) { }
-    public WorkEntryComment(Comment c, int workEntryId) : this(c) => WorkEntryId = workEntryId;
+    public WorkEntryComment(Comment c, int workEntryId) : base(c) => WorkEntryId = workEntryId;
     public int WorkEntryId { get; init; }
 }
