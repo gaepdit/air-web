@@ -389,6 +389,12 @@ footer a[target]::after, a[target].no-external-link::after {
     border: none;
 }
 
+/* Details/Summary
+-------------------------------------------------- */
+footer summary:hover, footer summary:focus {
+    background: hsla(0, 0%, 100%, 0.04);
+}
+
 /* Bootstrap Icons
 -------------------------------------------------- */
 .bi {

@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.AuditPoints;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Enforcement;
@@ -27,7 +26,6 @@ public class DetailsModel(
     public CaseFileViewDto? CaseFile { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
-    public List<AuditPointViewDto> AuditPoints { get; private set; } = [];
 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
@@ -69,7 +67,6 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[CaseFileOperation.View]) return NotFound();
 
-        await LoadAuditPoints();
         return InitializePage();
     }
 
@@ -96,7 +93,6 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -118,7 +114,6 @@ public class DetailsModel(
         await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
         if (!ModelState.IsValid)
         {
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -161,7 +156,6 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -180,7 +174,6 @@ public class DetailsModel(
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -201,7 +194,6 @@ public class DetailsModel(
         await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
         if (!ModelState.IsValid)
         {
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -242,7 +234,6 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            await LoadAuditPoints();
             return InitializePage();
         }
 
@@ -264,8 +255,6 @@ public class DetailsModel(
     }
 
     #endregion
-
-    private async Task LoadAuditPoints() => AuditPoints = await caseFileService.GetAuditPointsAsync(Id);
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(CaseFileOperation.AllOperations, User, CaseFile);

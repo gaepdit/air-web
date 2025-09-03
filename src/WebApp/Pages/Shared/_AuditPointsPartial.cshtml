@@ -1,10 +1,11 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model List<AirWeb.AppServices.AuditPoints.AuditPointViewDto>
-@if (Model.Count > 0)
+@model List<AirWeb.AppServices.AuditPoints.AuditPointViewDto>?
+@if (Model is { Count: > 0 })
 {
-    <div class="container border-top text-body-secondary small py-2 d-print-none">
+    <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
+        <div class="container">
         <details>
-            <summary class="ps-1"><span class="ps-2">Show audit history</span></summary>
+            <summary class="rounded-1 p-1"><span class="ps-1">Show audit history</span></summary>
             <ul class="mt-2 mb-0">
                 @foreach (var audit in Model)
                 {
@@ -23,5 +24,6 @@
                 }
             </ul>
         </details>
+    </div>
     </div>
 }

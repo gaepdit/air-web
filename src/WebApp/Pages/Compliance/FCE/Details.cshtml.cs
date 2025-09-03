@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.AuditPoints;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
@@ -30,7 +29,6 @@ public class DetailsModel(
     public List<AnnualFeeSummary> AnnualFeesSummary { get; private set; } = null!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
-    public List<AuditPointViewDto> AuditPoints { get; private set; } = [];
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -115,7 +113,6 @@ public class DetailsModel(
         await LoadComplianceData(token);
         await LoadEnforcementData(token);
         await LoadAnnualFeesData();
-        await LoadAuditPoints();
     }
 
     private async Task LoadComplianceData(CancellationToken token)
@@ -149,8 +146,6 @@ public class DetailsModel(
         AnnualFeesSummary = await permitFeesService.GetAnnualFeesHistoryAsync((FacilityId)Item!.FacilityId,
             Item.CompletedDate, Fce.ExtendedDataPeriod, RefreshIaipData);
     }
-
-    private async Task LoadAuditPoints() => AuditPoints = await fceService.GetAuditPointsAsync(Id);
 
     private async Task SetPermissionsAsync() =>
         UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, Item);

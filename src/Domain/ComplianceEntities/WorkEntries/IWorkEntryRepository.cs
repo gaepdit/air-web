@@ -17,11 +17,11 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the WorkEntry.</param>
-    /// <param name="includeComments">Whether to include the <see cref="WorkEntryComment"/> navigation property with
-    ///     the result.</param>
+    /// <param name="includeExtras">Whether to include the <see cref="WorkEntryComment"/> and
+    /// <see cref="WorkEntryAuditPoint"/> navigation properties with the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Work Entry of type TEntry or null.</returns>
-    Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments, CancellationToken token = default)
+    Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)
         where TEntry : WorkEntry;
 
     /// <summary>
@@ -60,12 +60,4 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no Notification Type exists with the given ID.</exception>
     /// <returns>The <see cref="NotificationType"/>.</returns>
     Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default);
-
-    /// <summary>
-    /// Returns a list of <see cref="WorkEntryAuditPoint"/> for the specified <see cref="WorkEntry"/>.
-    /// </summary>
-    /// <param name="id">The ID of the Work Entry.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>A list of Audit Points.</returns>
-    public Task<List<WorkEntryAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default);
 }

@@ -1,5 +1,4 @@
 using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
@@ -70,9 +69,6 @@ public sealed partial class WorkEntryService(
         await entryRepository.ExistsAsync(id, token).ConfigureAwait(false)
             ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
-
-    public async Task<List<AuditPointViewDto>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
-        mapper.Map<List<AuditPointViewDto>>(await entryRepository.GetAuditPointsAsync(id, token).ConfigureAwait(false));
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>

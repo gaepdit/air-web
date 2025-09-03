@@ -70,7 +70,7 @@
     else
     {
         <h2 id="compliance-review">Add a new Compliance Review</h2>
-        <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
+        <div class="p-3 mb-2 border border-primary-subtle rounded-3 bg-light-subtle">
             <form method="post" asp-page-handler="NewReview">
                 <div class="mb-3">
                     @Html.EditorFor(m => m.NewComplianceReview!.ResponsibleStaffId, EditorTemplate.Select,
@@ -250,7 +250,7 @@ else
         </div>
     }
 
-    <partial name="Shared/_AuditPointsPartial" model="Model.AuditPoints" />
+    <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview?.AuditPoints" />
 }
 
 @section Scripts {

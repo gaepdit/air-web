@@ -1,4 +1,3 @@
-using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
@@ -13,7 +12,7 @@ public sealed class LocalWorkEntryRepository()
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
 
-    public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments,
+    public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras,
         CancellationToken token = default)
         where TEntry : WorkEntry =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
@@ -31,9 +30,6 @@ public sealed class LocalWorkEntryRepository()
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));
-
-    public Task<List<WorkEntryAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(Items.Single(entry => entry.Id == id).AuditPoints.OrderBy(audit => audit.When).ToList());
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
         (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(

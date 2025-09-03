@@ -1,3 +1,4 @@
+using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -29,6 +30,8 @@ public record FceViewDto : IFceBasicViewDto
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];
+
+    public List<AuditPointViewDto> AuditPoints { get; } = [];
 
     // Properties: Deletion
     public bool IsDeleted { get; init; }

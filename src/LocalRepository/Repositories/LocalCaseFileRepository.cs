@@ -1,4 +1,3 @@
-using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.TestData.Enforcement;
@@ -19,9 +18,6 @@ public sealed class LocalCaseFileRepository : BaseRepositoryWithMapping<CaseFile
 
     public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
         Task.FromResult<IEnumerable<AirProgram>>(Items.Single(caseFile => caseFile.Id.Equals(id)).AirPrograms);
-
-    public Task<List<CaseFileAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(Items.Single(caseFile => caseFile.Id == id).AuditPoints.OrderBy(audit => audit.When).ToList());
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
         (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(new CaseFileComment(comment, itemId));

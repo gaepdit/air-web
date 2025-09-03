@@ -32,7 +32,7 @@ public class FindIncludeProperty
     }
 
     [Test]
-    public async Task GetWithComments_ReturnsEntityWithComments()
+    public async Task GetWithExtras_ReturnsEntityWithAdditionalProperties()
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
@@ -40,7 +40,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindAsync<Notification>(expected.Id, includeComments: true);
+        var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: true);
 
         // Assert
         using var scope = new AssertionScope();
@@ -49,7 +49,7 @@ public class FindIncludeProperty
     }
 
     [Test]
-    public async Task WhenNotRequestingProperty_ReturnsEntityWithoutProperty()
+    public async Task WhenNotRequestingExtras_ReturnsEntityWithoutAdditionalProperties()
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
@@ -66,7 +66,7 @@ public class FindIncludeProperty
     }
 
     [Test]
-    public async Task GetWithoutComments_ReturnsEntityWithoutComments()
+    public async Task WhenNotRequestingExtras_ForChildEntity_ReturnsEntityWithoutAdditionalProperties()
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
@@ -74,7 +74,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindAsync<Notification>(expected.Id, includeComments: false);
+        var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: false);
 
         // Assert
         using var scope = new AssertionScope();

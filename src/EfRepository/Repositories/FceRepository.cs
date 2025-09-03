@@ -12,11 +12,13 @@ public sealed class FceRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default) =>
+    public Task<Fce?> FindWithExtrasAsync(int id, CancellationToken token = default) =>
         Context.Set<Fce>().AsNoTracking()
             .Include(fce => fce.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))
+            .Include(fce => fce.AuditPoints
+                .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             .SingleOrDefaultAsync(fce => fce.Id.Equals(id), token);
 
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,

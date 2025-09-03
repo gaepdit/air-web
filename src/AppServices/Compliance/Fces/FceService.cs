@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
@@ -32,7 +31,7 @@ public sealed class FceService(
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false));
+        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithExtrasAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
@@ -95,9 +94,6 @@ public sealed class FceService(
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
         return summary;
     }
-
-    public async Task<List<AuditPointViewDto>> GetAuditPointsAsync(int id, CancellationToken token = default) =>
-        mapper.Map<List<AuditPointViewDto>>(await fceRepository.GetAuditPointsAsync(id, token).ConfigureAwait(false));
 
     private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
     {
