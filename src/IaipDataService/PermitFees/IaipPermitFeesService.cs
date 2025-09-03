@@ -14,7 +14,7 @@ public class IaipPermitFeesService(
     IMemoryCache cache,
     ILogger<IaipPermitFeesService> logger) : IPermitFeesService
 {
-    public async Task<List<AnnualFeeSummary>> GetAnnualFeesHistoryAsync(FacilityId facilityId, DateOnly cutoffDate,
+    public async Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
         int lookbackYears, bool forceRefresh = false)
     {
         if (!await facilityService.ExistsAsync(facilityId)) return [];

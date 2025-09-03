@@ -5,7 +5,7 @@ namespace IaipDataService.TestData;
 
 public class TestPermitFeesService : IPermitFeesService
 {
-    public Task<List<AnnualFeeSummary>> GetAnnualFeesHistoryAsync(FacilityId facilityId, DateOnly cutoffDate,
+    public Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
         int lookbackYears, bool forceRefresh = false)
     {
         var annualFees = new List<AnnualFeeSummary>();

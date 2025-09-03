@@ -143,7 +143,7 @@ public class DetailsModel(
 
     private async Task LoadAnnualFeesData()
     {
-        AnnualFeesSummary = await permitFeesService.GetAnnualFeesHistoryAsync((FacilityId)Item!.FacilityId,
+        AnnualFeesSummary = await permitFeesService.GetAnnualFeesAsync((FacilityId)Item!.FacilityId,
             Item.CompletedDate, Fce.ExtendedDataPeriod, RefreshIaipData);
     }
 
