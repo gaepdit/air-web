@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Platform.OrgNotifications;
 
 public static class OrgNotificationsServiceExtensions
 {
-    public static void AddOrgNotifications(this IServiceCollection services) => 
+    public static void AddOrgNotifications(this IServiceCollection services) =>
         services.AddHttpClient().AddScoped<IOrgNotifications, OrgNotifications>();
 }
 
@@ -30,7 +30,7 @@ public class OrgNotifications(
 {
     private const string ApiEndpoint = "/current";
     private const string CacheKey = nameof(OrgNotifications);
-    internal static readonly EventId OrgNotificationsFetchFailure = new(2501, nameof(OrgNotificationsFetchFailure));
+    internal static readonly EventId OrgNotificationsFetchFailure = new(2502, nameof(OrgNotificationsFetchFailure));
 
     public async Task<List<OrgNotification>> GetOrgNotificationsAsync()
     {

@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
+using AirWeb.AppServices.Caching;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
@@ -10,6 +11,8 @@ using AutoMapper;
 using IaipDataService.Facilities;
 using IaipDataService.PermitFees;
 using IaipDataService.SourceTests;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.Fces;
@@ -26,7 +29,9 @@ public sealed class FceService(
     IPermitFeesService permitFeesService,
     ICommentService<int> commentService,
     IUserService userService,
-    IAppNotificationService appNotificationService)
+    IAppNotificationService appNotificationService,
+    IMemoryCache cache,
+    ILogger<FceService> logger)
     : IFceService
 #pragma warning restore S107
 {
@@ -49,7 +54,12 @@ public sealed class FceService(
     public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
-        var summary = new SupportingDataSummary
+        // Check the cache first.
+        var cacheKey = $"FceSupportingData.{facilityId}.{completedDate}";
+        if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? summary))
+            return summary;
+
+        summary = new SupportingDataSummary
         {
             Accs = await entryRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
                 For<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
@@ -79,7 +89,8 @@ public sealed class FceService(
         };
 
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
-        return summary;
+
+        return cache.Set(cacheKey, summary, CacheConstants.FceSupportingData, logger);
 
         Expression<Func<TSource, bool>> For<TSource>() where TSource : WorkEntry => source =>
             source.FacilityId == facilityId && source.EventDate <= completedDate &&
