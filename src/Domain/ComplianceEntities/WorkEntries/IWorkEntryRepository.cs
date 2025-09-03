@@ -1,11 +1,9 @@
 ﻿using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AutoMapper;
-using System.Linq.Expressions;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRepository<int>
+public interface IWorkEntryRepository : IRepositoryWithMapping<WorkEntry, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(WorkEntry.Comments)];
 
@@ -62,10 +60,4 @@ public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRep
     /// <exception cref="EntityNotFoundException{TEntity}">Thrown if no Notification Type exists with the given ID.</exception>
     /// <returns>The <see cref="NotificationType"/>.</returns>
     Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default);
-
-    // TODO: Move this method into the app library.
-    Task<IReadOnlyCollection<TDestination>> GetListAsync<TDestination, TSource>(
-        Expression<Func<TSource, bool>>? predicate, IMapper mapper, string? ordering = null,
-        CancellationToken token = default)
-        where TSource : WorkEntry;
 }

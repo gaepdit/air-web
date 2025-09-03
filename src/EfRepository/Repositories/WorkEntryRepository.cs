@@ -2,14 +2,11 @@ using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.EfRepository.Contexts;
-using AutoMapper;
-using GaEpd.AppLibrary.Extensions;
-using System.Linq.Expressions;
 
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class WorkEntryRepository(AppDbContext context)
-    : BaseRepository<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
+    : BaseRepositoryWithMapping<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
@@ -45,14 +42,6 @@ public sealed class WorkEntryRepository(AppDbContext context)
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>().AsNoTracking()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
-
-    public async Task<IReadOnlyCollection<TDestination>> GetListAsync<TDestination, TSource>(
-        Expression<Func<TSource, bool>>? predicate, IMapper mapper, string? ordering = null,
-        CancellationToken token = default) where TSource : WorkEntry =>
-        await mapper.ProjectTo<TDestination>(NoTrackingSet()
-            .OfType<TSource>()
-            .WhereIf(predicate).OrderByIf(ordering)
-        ).ToListAsync(token).ConfigureAwait(false);
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
