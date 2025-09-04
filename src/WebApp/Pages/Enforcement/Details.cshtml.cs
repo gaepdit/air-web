@@ -65,7 +65,11 @@ public class DetailsModel(
         if (CaseFile is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (!UserCan[CaseFileOperation.View]) return NotFound();
+        if (CaseFile.IsDeleted && !UserCan[CaseFileOperation.ViewDeleted]) return NotFound();
+        if (!UserCan[CaseFileOperation.View]) return Forbid();
+
+        if (!UserCan[CaseFileOperation.ViewDraftEnforcement])
+            CaseFile.EnforcementActions.RemoveAll(dto => !dto.IsIssued);
 
         return InitializePage();
     }
@@ -149,7 +153,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostExecuteOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
         var action = await actionService.FindAsync(enforcementActionId, token);
-        if (action is null || !action.CanBeExecuted()) return BadRequest();
+        if (action is null || !action.CanBeExecuted() || !User.CanEdit(action)) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
 
@@ -167,7 +171,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostAppealOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
         var action = await actionService.FindAsync(enforcementActionId, token);
-        if (action is null || !action.CanBeAppealed()) return BadRequest();
+        if (action is null || !action.CanBeAppealed() || !User.CanEdit(action)) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(AppealOrder, ModelState);
 

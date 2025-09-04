@@ -13,14 +13,14 @@
 <script asp-add-nonce>
     let today = new Date();
     let todayHtmlString = [today.getFullYear(), ('0' + (today.getMonth() + 1)).slice(-2), ('0' + today.getDate()).slice(-2)].join('-');
-    
+
     // Helper functions for modal setup
     function setupModalWithDateValidation(buttonName, modalId, hiddenInputId, dateInputId, labelId, customClickHandler) {
         const actionButtons = document.querySelectorAll(`button[name="${buttonName}"]`);
         const actionIdHidden = document.getElementById(hiddenInputId);
         const modal = new bootstrap.Modal(document.getElementById(modalId));
         const label = labelId ? document.getElementById(labelId) : null;
-        
+
         if (dateInputId) {
             const actionDate = document.getElementById(dateInputId);
             actionDate.max = todayHtmlString;
@@ -28,7 +28,7 @@
                 actionDate.value = todayHtmlString;
             }
         }
-        
+
         actionButtons.forEach(button => {
             button.addEventListener('click', function () {
                 actionIdHidden.value = this.value;
@@ -41,7 +41,7 @@
             });
         });
     }
-    
+
     function setupModalWithLabel(buttonName, modalId, hiddenInputId, labelId) {
         setupModalWithDateValidation(buttonName, modalId, hiddenInputId, null, labelId);
     }
@@ -573,23 +573,26 @@
                 </div>
                 @if (action.Reviews.Any(r => r.IsCompleted))
                 {
-                    <div class="card-footer small text-body-secondary">
-                        <h6>Completed reviews</h6>
-                        <ul class="list-unstyled">
-                            @foreach (var review in action.Reviews.Where(r => r.IsCompleted).OrderBy(r => r.RequestedDate))
-                            {
-                                <li>
-                                    <em>@Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):</em>
-                                    @review.Result!.Value.GetDisplayName() by @review.ReviewedByFullName
-                                    @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
-                                    {
-                                        <blockquote class="ps-2 m-0 my-2 border-start border-3 text-break">
-                                            <div class="text-pre-line"><em>Comments:</em> @review.ReviewComments</div>
-                                        </blockquote>
-                                    }
-                                </li>
-                            }
-                        </ul>
+                    <div class="card-footer small text-body-secondary py-1">
+                        <details>
+                            <summary class="rounded-1 py-1"><span class="ps-1">Completed reviews</span></summary>
+                            <ul class="list-unstyled mt-1">
+                                @foreach (var review in action.Reviews.Where(r => r.IsCompleted).OrderBy(r => r.RequestedDate))
+                                {
+                                    <li>
+                                        <em>@Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):</em>
+                                        @review.Result!.Value.GetDisplayName() by @review.ReviewedByFullName
+                                        @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
+                                        {
+                                            <blockquote class="ps-2 m-0 my-2 border-start border-3 text-break">
+                                                <div class="text-pre-line"><em>Comments:</em> @review.ReviewComments
+                                                </div>
+                                            </blockquote>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </details>
                     </div>
                 }
             </div>
@@ -635,11 +638,11 @@
 
         <script asp-add-content-to-csp>
             document.addEventListener('DOMContentLoaded', function () {
-                setupModalWithDateValidation('issueEnforcementAction', 'issueEnforcementModal', 'issueEnforcementActionId', 'IssueEnforcementAction_Date', 'issueEnforcementLabel', function(button, modal, actionIdHidden, label) {
+                setupModalWithDateValidation('issueEnforcementAction', 'issueEnforcementModal', 'issueEnforcementActionId', 'IssueEnforcementAction_Date', 'issueEnforcementLabel', function (button, modal, actionIdHidden, label) {
                     const eaType = button.getAttribute('data-eaType').trim();
                     label.textContent = eaType;
                     const actionCloseOption = document.getElementById('issueEnforcementCloseOption');
-                    if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter"){
+                    if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter") {
                         actionCloseOption.classList.add('d-none');
                     } else {
                         actionCloseOption.classList.remove('d-none');
@@ -881,7 +884,8 @@
 @if (Model.UserCan[CaseFileOperation.DeleteCaseFile])
 {
     <div class="mt-4 text-end d-print-none">
-        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
+           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
             Delete Enforcement Case
         </a>
     </div>

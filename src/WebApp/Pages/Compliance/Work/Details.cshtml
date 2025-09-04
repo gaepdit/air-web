@@ -169,8 +169,9 @@
 @if (Model.UserCan[ComplianceOperation.Delete])
 {
     <div class="mt-4 text-end d-print-none">
-        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
-            Delete Entry
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
+           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
+            Delete @workEntryName
         </a>
     </div>
 }

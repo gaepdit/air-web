@@ -6,75 +6,80 @@
 
 <h1 class="mb-3">@ViewData["Title"]</h1>
 
-<div class="callout callout-info">
-    <p>TO-DO: Add complete descriptions of roles and capabilities.</p>
-</div>
-
 <h2 class="h4">Public</h2>
+<p><em>Visitors</em> to this site who are not logged in can only view the printout reports (ACC, FCE, and STR).</p>
 
-<p><em>Visitors</em> to this site who are not logged in can only do the following:</p>
-
+<h2 class="h4">Users</h2>
+<p>All active <em>Users</em> with active accounts who are logged into the application can:</p>
 <ul>
-    <li>
-        <b>List capabilities for public visitors.</b>
-    </li>
-</ul>
-
-<h2 class="h4">User</h2>
-
-<p>All active <em>Users</em> with work accounts who are logged into the application can:</p>
-
-<ul>
-    <li>
-        <b>List additional capabilities for Users.</b>
-    </li>
+    <li>Edit their own account profiles.</li>
     <li>Search for and view Application Users.</li>
-    <li>View the lists of maintenance items.</li>
-    <li>View the list of roles and capabilities.</li>
-    <li>Edit account info for themselves, including changing assigned Office.</li>
+    <li>View this list of roles and capabilities.</li>
+    <li>View the lists of site maintenance items.</li>
 </ul>
-
 <p>
-    Note: Users who still have current work accounts can be marked "Inactive" by a user account administrator. Inactive
-    users are not able to sign in to the application.
+    Note: Users who still have current accounts can be marked “Inactive” by a <em>User Account Administrator</em>.
+    Inactive users are not able to sign in to the application.
 </p>
 
 <h2 class="h4" id="app-roles">Application Roles</h2>
-
 <p><em>Users</em> can be granted one or more of the following roles.</p>
 
-<h3 class="h5">Staff</h3>
-
-<p>Users in the <em>Staff</em> role can:</p>
-
+<h3 class="h5">General Staff</h3>
+<p>Users in the <em>General Staff</em> role can:</p>
 <ul>
-    <li>
-        <b>List capabilities for Staff.</b>
-    </li>
-</ul>
-
-<h3 class="h5">Manager</h3>
-
-<p>Users in the <em>Manager</em> role have all the capabilities of the <em>Staff</em> role. Plus they can:</p>
-
-<ul>
-    <li>
-        <b>List capabilities for Managers.</b>
-    </li>
+    <li>View facility details and lists.</li>
+    <li>View compliance work and FCE data.</li>
+    <li>View all search results for case files.</li>
+    <li>View details for closed case files, including issued enforcement actions.</li>
 </ul>
 
 <h3 class="h5">User Account Admin</h3>
-
 <p>Users in the <em>User Account Admin</em> role can:</p>
-
 <ul>
-    <li>Manage Application User accounts and assign roles.</li>
+    <li>Edit all User profiles and assign or remove roles.</li>
 </ul>
 
 <h3 class="h5">Site Maintenance</h3>
-
 <p>Users in the <em>Site Maintenance</em> role can:</p>
-
 <ul>
-    <li>Edit the lookup tables used for drop-down lists.</li>
+    <li>Edit the common lookup tables used for drop-down lists.</li>
 </ul>
+
+<h3 class="h5 mb-3">Compliance-Specific Roles</h3>
+
+<h4 class="h6">Compliance Staff</h4>
+<p>Users in the <em>Compliance Staff</em> role have all the capabilities of the <em>General Staff</em> role.
+    Plus they can:</p>
+<ul>
+    <li>Add and edit compliance work and FCE data.</li>
+    <li>Add and edit enforcement data (case files and enforcement actions).</li>
+    <li>Delete comments on compliance work, FCEs, and case files.</li>
+</ul>
+
+<h4 class="h6">Compliance Manager</h4>
+<p>Users in the <em>Compliance Manager</em> role have all the capabilities of the <em>Compliance Staff</em> role.
+    Plus they can:</p>
+<ul>
+    <li>Delete compliance work and FCE data.</li>
+    <li>Search for and view deleted compliance work and FCEs.</li>
+</ul>
+
+<h4 class="h6">Enforcement Manager</h4>
+<p>Users in the <em>Enforcement Manager</em> role have all the capabilities of the <em>Compliance Staff</em> role.
+    Plus they can:</p>
+<ul>
+    <li>Close and reopen case files.</li>
+    <li>Review enforcement actions.</li>
+    <li>Delete case files and enforcement actions.</li>
+    <li>Search for and view deleted case files and enforcement actions.</li>
+</ul>
+
+<h4 class="h6">Compliance Site Maintenance</h4>
+<p>Users in the <em>Compliance Site Maintenance</em> role have all the capabilities of the
+    <em>Site Maintenance</em> role.
+    Plus they can:</p>
+<ul>
+    <li>Edit the compliance-related lookup tables used for drop-down lists.</li>
+</ul>
+

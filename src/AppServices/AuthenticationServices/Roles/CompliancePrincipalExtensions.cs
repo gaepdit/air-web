@@ -7,9 +7,7 @@ public static class CompliancePrincipalExtensions
 {
     // Compliance roles
     internal static bool IsAnyCompliance(this IPrincipal principal) =>
-        principal.IsInOneOfRoles([
-            RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.ComplianceSiteMaintenance,
-        ]);
+        principal.IsInOneOfRoles([RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager]);
 
     internal static bool IsComplianceManager(this IPrincipal principal) =>
         principal.IsInRole(RoleName.ComplianceManager);

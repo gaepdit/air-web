@@ -26,7 +26,7 @@ public class EditRolesTests
 
     private static readonly List<EditRolesModel.RoleSetting> RoleSettingsTest =
     [
-        new EditRolesModel.RoleSetting
+        new()
         {
             Name = SampleText.ValidName,
             Category = SampleText.ValidName,

@@ -30,7 +30,7 @@ public partial class AppRole
     [UsedImplicitly]
     public static AppRole EnforcementManagerRole { get; } = new(
         RoleName.EnforcementManager, RoleCategory.Compliance, "Enforcement Manager",
-        "Can manage reportable enforcement."
+        "Can manage enforcement cases."
     );
 
     [UsedImplicitly]

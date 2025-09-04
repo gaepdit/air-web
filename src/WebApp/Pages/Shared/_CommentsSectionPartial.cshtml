@@ -8,7 +8,7 @@
 
 <section>
     <h2 class="h4">@commentsTitle</h2>
-    <div class="border rounded-2 py-3 bg-secondary-subtle mx-neg">
+    <div class="border rounded-2 pt-3 bg-secondary-subtle mx-neg">
         @if (!Model.Comments.Any())
         {
             <div class="ps-3 mb-3">
@@ -21,7 +21,7 @@
             {
                 <div id="@comment.Id.ToString()" class="card mb-3 @(comment.Id == Model.NewCommentId ? "border-success" : "")">
                     <div class="card-body">@Html.DisplayFor(_ => comment.Text, DisplayTemplate.TextWithLinebreaks)</div>
-                    <div class="card-footer small">
+                    <div class="card-footer small py-0">
                         <div class="row justify-content-between align-items-center g-0 my-1">
                             <div class="col text-body-secondary">
                                 Entered by @Html.DisplayFor(_ => comment.CommentBy, DisplayTemplate.Name)
@@ -31,7 +31,7 @@
                             {
                                 <div class="col-auto d-print-none ms-2">
                                     <form class="delete-comment" asp-page-handler="DeleteComment" method="post">
-                                        <button type="submit" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+                                        <button type="submit" class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
                                             Delete Comment
                                         </button>
                                         <input name="commentId" type="hidden" value="@comment.Id.ToString()" />
@@ -52,13 +52,12 @@
                          model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.NotificationFailureMessage)" />
             }
 
-            <div class="container bg-light-subtle border border-primary-subtle rounded-2 py-2 d-print-none">
+            <div class="container bg-light-subtle border border-primary-subtle rounded-2 py-2 mb-3 d-print-none">
                 <h3 id="new-comment" class="h5">Add a comment</h3>
-
                 <form method="post" asp-page-handler="NewComment">
-                        <div class="mb-3">
-                            @Html.EditorFor(m => m.NewComment.Comment, EditorTemplate.Textarea, new { Rows = 4 })
-                        </div>
+                    <div class="mb-3">
+                        @Html.EditorFor(m => m.NewComment.Comment, EditorTemplate.Textarea, new { Rows = 4 })
+                    </div>
                     <button type="submit" class="btn btn-primary mb-1">Comment</button>
                     <input asp-for="NewComment.ItemId" type="hidden" />
                 </form>

@@ -47,4 +47,8 @@ public static class CompliancePermissions
         user.CanManageDeletions() ||
         !item.IsDeleted && user.IsComplianceStaff() ||
         item.IsClosed && user.IsStaff();
+
+    public static bool CanViewDraftEnforcement<T>(this ClaimsPrincipal user, T item)
+        where T : IIsClosed, IIsDeleted =>
+        user.IsComplianceStaff();
 }

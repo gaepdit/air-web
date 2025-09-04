@@ -13,12 +13,11 @@ public static class PrincipalExtensions
 
     // General staff
     internal static bool IsStaff(this IPrincipal principal) =>
-        principal.IsInOneOfRoles([RoleName.GeneralStaff, RoleName.SiteMaintenance, RoleName.AppUserAdmin]) ||
-        principal.IsAnyCompliance() || principal.IsEnforcementManager();
+        principal.IsInRole(RoleName.GeneralStaff) || principal.IsAnyCompliance();
 
     // Admin roles
     internal static bool IsSiteMaintainer(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.SiteMaintenance);
+        principal.IsInOneOfRoles([RoleName.SiteMaintenance, RoleName.ComplianceSiteMaintenance]);
 
     internal static bool IsUserAdmin(this IPrincipal principal) =>
         principal.IsInRole(RoleName.AppUserAdmin);
