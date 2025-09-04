@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.AuditPoints;
-
-namespace AirWeb.Domain.ComplianceEntities.Fces;
+﻿namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
 {
@@ -29,12 +27,4 @@ public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
     /// <returns>True if the FCE exists; otherwise false.</returns>
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int? ignoreId = null,
         CancellationToken token = default);
-
-    /// <summary>
-    /// Returns a list of <see cref="FceAuditPoint"/> for the specified <see cref="Fce"/>.
-    /// </summary>
-    /// <param name="id">The ID of the FCE.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>A list of Audit Points.</returns>
-    public Task<List<FceAuditPoint>> GetAuditPointsAsync(int id, CancellationToken token = default);
 }

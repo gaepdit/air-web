@@ -6,7 +6,7 @@ using AirWeb.EfRepository.Contexts;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class WorkEntryRepository(AppDbContext context)
-    : BaseRepository<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
+    : BaseRepositoryWithMapping<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;

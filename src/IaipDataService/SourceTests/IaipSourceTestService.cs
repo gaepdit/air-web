@@ -46,14 +46,8 @@ public class IaipSourceTestService(
         if (!await SourceTestExistsAsync(referenceNumber)) return null;
 
         var cacheKey = $"IaipSourceTestService.FindSummaryAsync.{referenceNumber}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, out SourceTestSummary? cachedTestSummary) &&
-            cachedTestSummary != null)
-        {
-            logger.LogCacheHit(cacheKey);
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedTestSummary))
             return cachedTestSummary;
-        }
-
-        logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         using var db = dbf.Create();
 
@@ -70,25 +64,15 @@ public class IaipSourceTestService(
                 return summary;
             }).SingleOrDefault();
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(CacheConstants.SourceTestExpiration);
-        cache.Set(cacheKey, testSummary, cacheEntryOptions);
-
-        return testSummary;
+        return cache.Set(cacheKey, testSummary, CacheConstants.SourceTestExpiration, logger, forceRefresh);
     }
 
     public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false)
     {
         var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, out List<SourceTestSummary>? cachedSourceTests) &&
-            cachedSourceTests != null)
-        {
-            logger.LogCacheHit(cacheKey);
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out List<SourceTestSummary>? cachedSourceTests))
             return cachedSourceTests;
-        }
-
-        logger.LogCacheRefresh(cacheKey, forceRefresh);
 
         using var db = dbf.Create();
 
@@ -103,11 +87,7 @@ public class IaipSourceTestService(
                 return summary;
             }).ToList();
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(CacheConstants.SourceTestListExpiration);
-        cache.Set(cacheKey, sourceTests, cacheEntryOptions);
-
-        return sourceTests;
+        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)

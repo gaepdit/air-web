@@ -3,7 +3,7 @@ using AirWeb.Domain.NamedEntities.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public interface IWorkEntryRepository : IRepository<WorkEntry, int>, ICommentRepository<int>
+public interface IWorkEntryRepository : IRepositoryWithMapping<WorkEntry, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(WorkEntry.Comments)];
 
