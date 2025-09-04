@@ -5,7 +5,7 @@ using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Repositories;
 
 
-namespace LocalRepositoryTests.EnforcementAction;
+namespace LocalRepositoryTests.EnforcementActions;
 
 [TestFixture]
 public class GetConsentOrderTest
@@ -19,7 +19,7 @@ public class GetConsentOrderTest
     public void TearDown() => _repository.Dispose();
 
     [Test]
-    public async Task GetConsentOrder_WhenIdExist()
+    public async Task GetConsentOrder_WhenIdExist_ReturnConsentOrder()
     {
         // Arrange
         var existingCO = EnforcementActionData.GetData
@@ -33,16 +33,10 @@ public class GetConsentOrderTest
         results.Should().BeEquivalentTo(existingCO);
     }
     [Test]
-    public async Task GetConsentOrder_WhenIdDoesNotExist()
+    public async Task GetConsentOrder_WhenIdDoesNotExist_ThrowAsync()
     {
         // Arrange
         var nonExistingCO = Guid.NewGuid();
-
-        /*// Act
-        var results = await _repository.GetConsentOrder(nonExistingCO);
-
-        //Assert
-        results.Should().BeNull();*/
 
         // Act
         Func<Task> act = async () => await _repository.GetConsentOrder(nonExistingCO);

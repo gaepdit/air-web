@@ -4,7 +4,7 @@ using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
 
 
-namespace LocalRepositoryTests.EnforcementAction;
+namespace LocalRepositoryTests.EnforcementActions;
 
 [TestFixture]
 public class GetEnforcementActionTypeTest
@@ -18,7 +18,7 @@ public class GetEnforcementActionTypeTest
     public void TearDown() => _repository.Dispose();
     
     [Test]
-    public async Task GetEnforcementActionType_WhenIdExist()
+    public async Task GetEnforcementActionType_WhenIdExist_ReturnActionType()
     {
         // Arrange
         var existingEAT = EnforcementActionData.GetData.First();
@@ -31,7 +31,7 @@ public class GetEnforcementActionTypeTest
         results.Should().Be(expected);
     }
     [Test]
-    public async Task GetEnforcementActionType_WhenIdDoesNotExist()
+    public async Task GetEnforcementActionType_WhenIdDoesNotExist_ReturnNull()
     {
         // Arrange
         var nonExistingEAT = Guid.NewGuid();
