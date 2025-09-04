@@ -20,7 +20,7 @@ public partial class AppRole
     [UsedImplicitly]
     public static AppRole GeneralStaffRole { get; } = new(
         RoleName.GeneralStaff, RoleCategory.General, "General Staff",
-        "Can access read-only views and search pages."
+        "Can access search results and read-only views of most data."
     );
 
     [UsedImplicitly]

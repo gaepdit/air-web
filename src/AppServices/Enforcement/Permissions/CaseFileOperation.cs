@@ -22,4 +22,5 @@ public class CaseFileOperation :
     public static readonly CaseFileOperation RestoreCaseFile = new(nameof(RestoreCaseFile));
     public static readonly CaseFileOperation View = new(nameof(View));
     public static readonly CaseFileOperation ViewDeleted = new(nameof(ViewDeleted));
+    public static readonly CaseFileOperation ViewDraftEnforcement = new(nameof(ViewDraftEnforcement));
 }
