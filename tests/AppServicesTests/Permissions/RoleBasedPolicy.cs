@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
-namespace AppServicesTests.Permissions.PolicyTests;
+namespace AppServicesTests.Permissions;
 
 public class RoleBasedPolicy
 {

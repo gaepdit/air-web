@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
-namespace AppServicesTests.Permissions.PolicyTests;
+namespace AppServicesTests.Permissions;
 
 public class ActiveUserPolicy
 {
@@ -12,8 +12,7 @@ public class ActiveUserPolicy
 
     [SetUp]
     public void SetUp() => _authorization = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
-        collection.AddAuthorizationBuilder()
-            .AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser));
+        collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser));
 
     [Test]
     public async Task WhenActiveAndAuthenticated_Succeeds()

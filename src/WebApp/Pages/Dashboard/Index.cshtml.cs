@@ -6,7 +6,7 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Dashboard;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.Staff))]
 public class DashboardIndexModel(
     IWorkEntrySearchService entrySearchService,
     IAuthorizationService authorization,
