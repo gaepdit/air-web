@@ -1,5 +1,6 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements;
-using AirWeb.AppServices.AuthorizationPolicies.RoleRequirements.Compliance;
+﻿using AirWeb.AppServices.AuthenticationServices.Claims;
+using AirWeb.AppServices.AuthenticationServices.Roles;
+using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.AuthorizationPolicies;
@@ -25,40 +26,38 @@ namespace AirWeb.AppServices.AuthorizationPolicies;
 //
 #pragma warning restore S125
 
-// These policies are for use in PageModel class attributes, e.g.:
-// [Authorize(Policy = nameof(Policies.ActiveUser))]
 public static class Policies
 {
     // Default policy builder
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser().AddRequirements(new ActiveUserRequirement());
+        .RequireAuthenticatedUser()
+        .RequireClaim(AppClaimTypes.ActiveUser, true.ToString());
 
     // Claims-based policies
-    public static AuthorizationPolicy ActiveUser { get; } =
-        ActiveUserPolicyBuilder.Build();
+    public static AuthorizationPolicy ActiveUser { get; } = ActiveUserPolicyBuilder.Build();
 
     // Role-based policies
 
     // -- General roles
-    public static AuthorizationPolicy SiteMaintainer { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new SiteMaintenanceRequirement()).Build();
+    public static AuthorizationPolicy SiteMaintainer { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.IsSiteMaintainer()).Build();
 
-    public static AuthorizationPolicy Staff { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new StaffRequirement()).Build();
+    public static AuthorizationPolicy Staff { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.IsStaff()).Build();
 
-    public static AuthorizationPolicy UserAdministrator { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new UserAdminRequirement()).Build();
+    public static AuthorizationPolicy UserAdministrator { get; } = ActiveUserPolicyBuilder
+        .RequireRole(RoleName.AppUserAdmin).Build();
 
     // -- Compliance roles
-    public static AuthorizationPolicy ComplianceStaff { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceStaffRequirement()).Build();
+    public static AuthorizationPolicy ComplianceStaff { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.IsComplianceStaff()).Build();
 
-    public static AuthorizationPolicy ComplianceManager { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceManagerRequirement()).Build();
+    public static AuthorizationPolicy ComplianceManager { get; } = ActiveUserPolicyBuilder
+        .RequireRole(RoleName.ComplianceManager).Build();
 
-    public static AuthorizationPolicy EnforcementManager { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new EnforcementManagerRequirement()).Build();
+    public static AuthorizationPolicy EnforcementManager { get; } = ActiveUserPolicyBuilder
+        .RequireRole(RoleName.EnforcementManager).Build();
 
-    public static AuthorizationPolicy ComplianceSiteMaintainer { get; } =
-        ActiveUserPolicyBuilder.AddRequirements(new ComplianceSiteMaintenanceRequirement()).Build();
+    public static AuthorizationPolicy ComplianceSiteMaintainer { get; } = ActiveUserPolicyBuilder
+        .RequireRole(RoleName.ComplianceSiteMaintenance).Build();
 }
