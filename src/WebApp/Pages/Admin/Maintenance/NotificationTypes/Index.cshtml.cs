@@ -5,7 +5,7 @@ using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 
-[Authorize(Policy = nameof(Policies.Staff))]
+[Authorize(Policy = nameof(Policies.ViewSiteMaintenancePage))]
 public class NotificationTypeIndexModel : IndexBase
 {
     public override MaintenanceOption ThisOption => MaintenanceOption.NotificationType;

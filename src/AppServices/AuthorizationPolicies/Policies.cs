@@ -2,6 +2,7 @@
 using AirWeb.AppServices.AuthenticationServices.Roles;
 using AirWeb.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.AuthorizationPolicies;
 
@@ -28,6 +29,19 @@ namespace AirWeb.AppServices.AuthorizationPolicies;
 
 public static class Policies
 {
+    public static void AddPolicies(this IServiceCollection services) => services.AddAuthorizationBuilder()
+        .AddPolicy(nameof(ActiveUser), ActiveUser)
+        .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
+        .AddPolicy(nameof(Staff), Staff)
+        .AddPolicy(nameof(UserAdministrator), UserAdministrator)
+        .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
+        .AddPolicy(nameof(ComplianceManager), ComplianceManager)
+        .AddPolicy(nameof(EnforcementManager), EnforcementManager)
+        .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
+        .AddPolicy(nameof(ViewAdminPages), ViewAdminPages)
+        .AddPolicy(nameof(ViewSiteMaintenancePage), ViewSiteMaintenancePage)
+        .AddPolicy(nameof(ViewUsersPage), ViewUsersPage);
+
     // Default policy builder
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
@@ -60,4 +74,16 @@ public static class Policies
 
     public static AuthorizationPolicy ComplianceSiteMaintainer { get; } = ActiveUserPolicyBuilder
         .RequireRole(RoleName.ComplianceSiteMaintenance).Build();
+
+    // -- Admin page access
+
+    public static AuthorizationPolicy ViewAdminPages { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context =>
+            context.User.IsStaff() || context.User.IsSiteMaintainer() || context.User.IsUserAdmin()).Build();
+
+    public static AuthorizationPolicy ViewSiteMaintenancePage { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.IsStaff() || context.User.IsSiteMaintainer()).Build();
+
+    public static AuthorizationPolicy ViewUsersPage { get; } = ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.IsStaff() || context.User.IsUserAdmin()).Build();
 }

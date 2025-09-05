@@ -10,7 +10,7 @@ using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = nameof(Policies.Staff))]
+[Authorize(Policy = nameof(Policies.ViewUsersPage))]
 public class UsersIndexModel(IOfficeService officeService, IStaffService staffService) : PageModel
 {
     public StaffSearchDto Spec { get; set; } = null!;
