@@ -14,7 +14,7 @@ internal static class WorkEntryFilters
             .ByWorkType(spec.Include)
             .ByFacilityId(spec.PartialFacilityId)
             .ByOffice(spec.Office)
-            .ByStaff(spec.ResponsibleStaff)
+            .ByStaff(spec.Staff)
             .MinEventDate(spec.EventDateFrom)
             .MaxEventDate(spec.EventDateTo)
             .MinClosedDate(spec.ClosedDateFrom)

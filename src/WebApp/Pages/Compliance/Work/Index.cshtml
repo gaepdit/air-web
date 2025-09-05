@@ -1,5 +1,4 @@
 @page "{handler?}"
-@using AirWeb.AppServices.CommonSearch
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @model ComplianceIndexModel
 @{
@@ -137,11 +136,11 @@
                     </div>
                     <div class="col-md mb-3">
                         <div class="form-floating">
-                            <select asp-for="Spec.ResponsibleStaff" name="@nameof(Model.Spec.ResponsibleStaff)"
+                            <select asp-for="Spec.Staff" name="@nameof(Model.Spec.Staff)"
                                     asp-items="Model.StaffSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
-                            <label asp-for="Spec.ResponsibleStaff" class="form-label"></label>
+                            <label asp-for="Spec.Staff" class="form-label"></label>
                         </div>
                     </div>
                 </div>
