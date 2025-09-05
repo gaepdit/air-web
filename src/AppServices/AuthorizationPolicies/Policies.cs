@@ -36,6 +36,7 @@ public static class Policies
         .AddPolicy(nameof(UserAdministrator), UserAdministrator)
         .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
         .AddPolicy(nameof(ComplianceManager), ComplianceManager)
+        .AddPolicy(nameof(EnforcementReviewer), EnforcementReviewer)
         .AddPolicy(nameof(EnforcementManager), EnforcementManager)
         .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
         .AddPolicy(nameof(ViewAdminPages), ViewAdminPages)
@@ -68,6 +69,9 @@ public static class Policies
 
     public static AuthorizationPolicy ComplianceManager { get; } = ActiveUserPolicyBuilder
         .RequireRole(RoleName.ComplianceManager).Build();
+
+    public static AuthorizationPolicy EnforcementReviewer { get; } = ActiveUserPolicyBuilder
+        .RequireRole(RoleName.EnforcementReviewer).Build();
 
     public static AuthorizationPolicy EnforcementManager { get; } = ActiveUserPolicyBuilder
         .RequireRole(RoleName.EnforcementManager).Build();

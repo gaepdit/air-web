@@ -66,8 +66,8 @@ public static class EnforcementActionPermissions
 
     public static bool CanReview(this ClaimsPrincipal user, IActionViewDto item) =>
         user.CanEdit(item) && item is { Status: EnforcementActionStatus.ReviewRequested, IsUnderReview: true } &&
-        (user.IsReviewerFor(item) || user.IsEnforcementManager());
+        (user.IsReviewerFor(item) || user.IsEnforcementReviewer());
 
-    public static bool IsReviewerFor(this ClaimsPrincipal user, IActionViewDto item) =>
+    private static bool IsReviewerFor(this ClaimsPrincipal user, IActionViewDto item) =>
         item.CurrentReviewer != null && item.CurrentReviewer.Id.Equals(user.GetNameIdentifierId());
 }

@@ -1,4 +1,6 @@
 @page
+@using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.AppServices.Enforcement.Search
 @model IndexModel
 @{
     ViewData["Title"] = "Air Branch Web Application";
@@ -8,40 +10,84 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>Coming Soon: Staff Dashboard</p>
+@if (Model.IsComplianceStaff)
+{
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5">Compliance work</h2>
+            <div><em>Most recent open compliance work assigned to you</em></div>
+            <h3 class="h6"></h3>
+        </div>
+        <div class="card-body">
+            @if (Model.ComplianceWork.Count > 0)
+            {
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+            }
+            else
+            {
+                @:None
+            }
+        </div>
+    </div>
 
-<div class="card mt-4 border-info shadow">
-    <div class="card-header text-bg-info">
-        <h2 class="h5">Some helpful temporary testing links</h2>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5">Enforcement cases</h2>
+            <div><em>Most recent open enforcement cases assigned to you</em></div>
+        </div>
+        <div class="card-body">
+            @if (Model.CaseFiles.Count > 0)
+            {
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.CaseFiles, (CaseFileSearchDto?)null)" />
+            }
+            else
+            {
+                @:None
+            }
+        </div>
     </div>
-    <div class="card-body">
-        <ul>
-            <li>
-                <a asp-page="/Facility/Index">Facilities</a>
-            </li>
-            <li>
-                <a asp-page="/Enforcement/Index">Enforcement Cases</a>
-            </li>
-            <li>
-                <a asp-page="/Compliance/FCE/Index">FCEs</a>
-            </li>
-            <li>
-                <a asp-page="/Compliance/Work/Index">Compliance Work</a>
-            </li>
-            <li>
-                Printouts
-                <ul>
-                    <li>
-                        <a asp-page="/Print/FCE/Index" asp-route-id="401">FCE</a>
-                    </li>
-                    <li>
-                        <a asp-page="/Print/ACC/Index" asp-route-id="5002">ACC</a>
-                    </li>
-                    <li>
-                        <a asp-page="/Print/SourceTest/Index" asp-route-referenceNumber="201100541">Source Test</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    
+    // Source tests assigned
+}
+
+@if (Model.IsComplianceManager)
+{
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5">Office compliance work</h2>
+            <div><em>Most recent open compliance work assigned to your office</em></div>
+        </div>
+        <div class="card-body">
+            @if (Model.OfficeComplianceWork.Count > 0)
+            {
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.OfficeComplianceWork, (WorkEntrySearchDto?)null)" />
+            }
+            else
+            {
+                @:None
+            }
+        </div>
     </div>
-</div>
+
+    // Office source tests assigned
+}
+
+@if (Model.IsEnforcementReviewer)
+{
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5">Office enforcement cases</h2>
+            <div><em>Most recent open enforcement cases assigned to your office</em></div>
+        </div>
+        <div class="card-body">
+            @if (Model.OfficeCaseFiles.Count > 0)
+            {
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.OfficeCaseFiles, (CaseFileSearchDto?)null)" />
+            }
+            else
+            {
+                @:None
+            }
+        </div>
+    </div>
+}
