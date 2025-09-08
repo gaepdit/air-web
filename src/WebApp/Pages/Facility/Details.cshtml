@@ -1,7 +1,6 @@
 ﻿@page "{id?}"
 @using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.AppServices.Enforcement.Search
 @using AirWeb.WebApp.Platform.Defaults
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
@@ -223,8 +222,8 @@
                 </h3>
                 <div id="recentEnforcementBody" class="accordion-collapse collapse" data-bs-parent="recentEnforcementAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
-                                 model="(Model.EnforcementWork, (CaseFileSearchDto?)null)" />
+                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.EnforcementWork"
+                                 view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                     </div>
                 </div>
             </div>

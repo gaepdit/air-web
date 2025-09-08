@@ -1,6 +1,5 @@
 @page
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.AppServices.Enforcement.Search
 @model IndexModel
 @{
     ViewData["Title"] = "Air Branch Web Application";
@@ -47,7 +46,8 @@ else
         <div class="card-body">
             @if (Model.CaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.CaseFiles.Items, (CaseFileSearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.CaseFiles.Items"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-HideStaff="true" />
             }
             else
             {
@@ -95,7 +95,7 @@ else
         <div class="card-body">
             @if (Model.OfficeCaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.OfficeCaseFiles.Items, (CaseFileSearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.OfficeCaseFiles.Items" />
             }
             else
             {
