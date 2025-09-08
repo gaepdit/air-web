@@ -5,7 +5,7 @@
 }
 
 <div class="form-floating">
-    <select asp-for="@__model" asp-items="items" class="form-select">
+    <select asp-for="@__model" asp-items="@items" class="form-select">
         <option value="">@placeholder</option>
     </select>
     <label asp-for="@__model" class="form-label"></label>

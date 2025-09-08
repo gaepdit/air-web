@@ -1,4 +1,5 @@
 @page "{handler?}"
+@using AirWeb.AppServices.CommonSearch
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @model ComplianceIndexModel
 @{
@@ -19,7 +20,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Closed" name="@nameof(Model.Spec.Closed)"
-                                    asp-items="Html.GetEnumSelectList<ClosedOpenAny>()" class="form-select">
+                                    asp-items="@Html.GetEnumSelectList<ClosedOpenAny>()" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Closed" class="form-label"></label>
@@ -30,7 +31,7 @@
                         <div class="col-md mb-3">
                             <div class="form-floating">
                                 <select asp-for="Spec.DeleteStatus" name="@nameof(Model.Spec.DeleteStatus)"
-                                        asp-items="Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
+                                        asp-items="@Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
                                     <option value="">@DefaultText.SelectOptionNotDeleted</option>
                                 </select>
                                 <label asp-for="Spec.DeleteStatus" class="form-label"></label>
@@ -128,7 +129,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
-                                    asp-items="Model.OfficesSelectList" class="form-select">
+                                    asp-items="@Model.OfficesSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Office" class="form-label"></label>
@@ -137,7 +138,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Staff" name="@nameof(Model.Spec.Staff)"
-                                    asp-items="Model.StaffSelectList" class="form-select">
+                                    asp-items="@Model.StaffSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Staff" class="form-label"></label>

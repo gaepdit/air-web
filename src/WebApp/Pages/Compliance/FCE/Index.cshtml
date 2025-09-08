@@ -29,7 +29,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Year" name="@nameof(Model.Spec.Year)"
-                                    asp-items="FceIndexModel.YearSelectList" class="form-select">
+                                    asp-items="@FceIndexModel.YearSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Year" class="form-label"></label>
@@ -40,7 +40,7 @@
                         <div class="col-md mb-3">
                             <div class="form-floating">
                                 <select asp-for="Spec.DeleteStatus" name="@nameof(Model.Spec.DeleteStatus)"
-                                        asp-items="Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
+                                        asp-items="@Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
                                     <option value="">@DefaultText.SelectOptionNotDeleted</option>
                                 </select>
                                 <label asp-for="Spec.DeleteStatus" class="form-label"></label>
@@ -63,7 +63,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Onsite" name="@nameof(Model.Spec.Onsite)"
-                                    asp-items="Html.GetEnumSelectList<YesNoAny>()" class="form-select">
+                                    asp-items="@Html.GetEnumSelectList<YesNoAny>()" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Onsite" class="form-label"></label>
@@ -94,7 +94,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
-                                    asp-items="Model.OfficesSelectList" class="form-select">
+                                    asp-items="@Model.OfficesSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Office" class="form-label"></label>
@@ -103,7 +103,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.ReviewedBy" name="@nameof(Model.Spec.ReviewedBy)"
-                                    asp-items="Model.StaffSelectList" class="form-select">
+                                    asp-items="@Model.StaffSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.ReviewedBy" class="form-label"></label>
