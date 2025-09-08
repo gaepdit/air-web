@@ -8,20 +8,29 @@
 
 <vc:notifications />
 
-<h1>@ViewData["Title"]</h1>
+@if (!Model.ShowDashboard)
+{
+    <h1>@ViewData["Title"]</h1>
+    <p>See your manager to request access to the application.</p>
+}
+else
+{
+    <h1>@ViewData["Title"] — User Dashboard</h1>
+}
 
 @if (Model.IsComplianceStaff)
 {
+    <h2>Compliance Staff Work</h2>
+
     <div class="card mt-4">
         <div class="card-header">
             <h2 class="h5">Compliance work</h2>
             <div><em>Most recent open compliance work assigned to you</em></div>
-            <h3 class="h6"></h3>
         </div>
         <div class="card-body">
-            @if (Model.ComplianceWork.Count > 0)
+            @if (Model.ComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork.Items, (WorkEntrySearchDto?)null)" />
             }
             else
             {
@@ -36,9 +45,9 @@
             <div><em>Most recent open enforcement cases assigned to you</em></div>
         </div>
         <div class="card-body">
-            @if (Model.CaseFiles.Count > 0)
+            @if (Model.CaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.CaseFiles, (CaseFileSearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.CaseFiles.Items, (CaseFileSearchDto?)null)" />
             }
             else
             {
@@ -46,21 +55,23 @@
             }
         </div>
     </div>
-    
+
     // Source tests assigned
 }
 
 @if (Model.IsComplianceManager)
 {
+    <h2>Compliance Management Work</h2>
+
     <div class="card mt-4">
         <div class="card-header">
             <h2 class="h5">Office compliance work</h2>
             <div><em>Most recent open compliance work assigned to your office</em></div>
         </div>
         <div class="card-body">
-            @if (Model.OfficeComplianceWork.Count > 0)
+            @if (Model.OfficeComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.OfficeComplianceWork, (WorkEntrySearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.OfficeComplianceWork.Items, (WorkEntrySearchDto?)null)" />
             }
             else
             {
@@ -74,15 +85,17 @@
 
 @if (Model.IsEnforcementReviewer)
 {
+    <h2>Enforcement Management Work</h2>
+
     <div class="card mt-4">
         <div class="card-header">
             <h2 class="h5">Office enforcement cases</h2>
             <div><em>Most recent open enforcement cases assigned to your office</em></div>
         </div>
         <div class="card-body">
-            @if (Model.OfficeCaseFiles.Count > 0)
+            @if (Model.OfficeCaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.OfficeCaseFiles, (CaseFileSearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.OfficeCaseFiles.Items, (CaseFileSearchDto?)null)" />
             }
             else
             {

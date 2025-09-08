@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.WebApp.Platform.Constants;
+using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
@@ -26,12 +26,18 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
-    public IList<CaseFileSearchResultDto> EnforcementWork { get; private set; } = [];
-    public int EnforcementCount { get; private set; }
-    public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
-    public int ComplianceWorkCount { get; private set; }
-    public IList<FceSearchResultDto> Fces { get; private set; } = [];
-    public int FceCount { get; private set; }
+    private IPaginatedResult<CaseFileSearchResultDto> EnforcementSearch { get; set; } = null!;
+    public IList<CaseFileSearchResultDto> EnforcementWork => EnforcementSearch.Items;
+    public int EnforcementCount => EnforcementSearch.TotalCount;
+
+    private IPaginatedResult<WorkEntrySearchResultDto> ComplianceSearch { get; set; } = null!;
+    public IList<WorkEntrySearchResultDto> ComplianceWork => ComplianceSearch.Items;
+    public int ComplianceWorkCount => ComplianceSearch.TotalCount;
+
+    private IPaginatedResult<FceSearchResultDto> FceSearch { get; set; } = null!;
+    public IList<FceSearchResultDto> Fces => FceSearch.Items;
+    public int FceCount => FceSearch.TotalCount;
+
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
     public int SourceTestCount { get; private set; }
 
@@ -59,39 +65,20 @@ public class DetailsModel(
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search services.
-        var sourceTestsForFacilityTask =
-            sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData);
+        var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
-        var searchWorkEntries = await entrySearchService.SearchAsync(
-            new WorkEntrySearchDto { PartialFacilityId = Id },
-            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
-                sorting: WorkEntrySortBy.EventDateDesc.GetDescription()),
-            loadFacilities: false, token: token);
+        ComplianceSearch = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
+            PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
-        var searchFces = await fceSearchService.SearchAsync(
-            new FceSearchDto { PartialFacilityId = Id },
-            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
-                sorting: FceSortBy.YearDesc.GetDescription()),
-            loadFacilities: false, token: token);
+        FceSearch = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),
+            PaginationDefaults.FceSummary, loadFacilities: false, token: token);
 
-        var searchEnforcement = await caseFileService.SearchAsync(
-            new CaseFileSearchDto { PartialFacilityId = Id },
-            new PaginatedRequest(pageNumber: 1, GlobalConstants.SummaryTableSize,
-                sorting: CaseFileSortBy.DiscoveryDateDesc.GetDescription()),
-            loadFacilities: false, token: token);
-
-        ComplianceWork = searchWorkEntries.Items.ToList();
-        ComplianceWorkCount = searchWorkEntries.TotalCount;
-
-        Fces = searchFces.Items.ToList();
-        FceCount = searchFces.TotalCount;
-
-        EnforcementWork = searchEnforcement.Items.ToList();
-        EnforcementCount = searchEnforcement.TotalCount;
+        EnforcementSearch = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
+            PaginationDefaults.EnforcementSummary, loadFacilities: false, token: token);
 
         var sourceTestsForFacility = await sourceTestsForFacilityTask;
-        SourceTests = sourceTestsForFacility.Take(GlobalConstants.SummaryTableSize).ToList();
+        SourceTests = sourceTestsForFacility.Take(SearchDefaults.SummaryTableSize).ToList();
         SourceTestCount = sourceTestsForFacility.Count;
 
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);

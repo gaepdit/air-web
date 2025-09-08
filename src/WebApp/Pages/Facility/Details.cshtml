@@ -2,7 +2,7 @@
 @using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.Search
-@using AirWeb.WebApp.Platform.Constants
+@using AirWeb.WebApp.Platform.Defaults
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
@@ -122,9 +122,9 @@
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentComplianceWorkBody" aria-expanded="false" aria-controls="recentComplianceWorkBody">
-                        @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
+                        @if (Model.ComplianceWorkCount > SearchDefaults.SummaryTableSize)
                         {
-                            @GlobalConstants.SummaryTableSize.ToString()
+                            @SearchDefaults.SummaryTableSize.ToString()
                             @:most recent /
                         }
                         @Model.ComplianceWorkCount.ToString() total
@@ -168,9 +168,9 @@
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentFceBody" aria-expanded="false" aria-controls="recentFceBody">
-                        @if (Model.FceCount > GlobalConstants.SummaryTableSize)
+                        @if (Model.FceCount > SearchDefaults.SummaryTableSize)
                         {
-                            @GlobalConstants.SummaryTableSize.ToString()
+                            @SearchDefaults.SummaryTableSize.ToString()
                             @:most recent /
                         }
                         @Model.FceCount.ToString() total
@@ -213,9 +213,9 @@
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentEnforcementBody" aria-expanded="false" aria-controls="recentEnforcementBody">
-                        @if (Model.EnforcementCount > GlobalConstants.SummaryTableSize)
+                        @if (Model.EnforcementCount > SearchDefaults.SummaryTableSize)
                         {
-                            @GlobalConstants.SummaryTableSize.ToString()
+                            @SearchDefaults.SummaryTableSize.ToString()
                             @:most recent /
                         }
                         @Model.EnforcementCount.ToString() total
@@ -258,9 +258,9 @@
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentSourceTestBody" aria-expanded="false" aria-controls="recentSourceTestBody">
-                        @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
+                        @if (Model.SourceTestCount > SearchDefaults.SummaryTableSize)
                         {
-                            @GlobalConstants.SummaryTableSize.ToString()
+                            @SearchDefaults.SummaryTableSize.ToString()
                             @:most recent /
                         }
                         @Model.SourceTestCount.ToString() total

@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Claims;
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
+using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.SourceTests.Models;
 using Microsoft.Identity.Web;
@@ -15,6 +15,7 @@ public class IndexModel(
     ICaseFileSearchService caseFileSearchService,
     IAuthorizationService authorization) : PageModel
 {
+    public bool ShowDashboard { get; private set; }
     public bool IsStaff { get; private set; }
     public bool IsComplianceStaff { get; private set; }
     public bool IsComplianceManager { get; private set; }
@@ -25,17 +26,17 @@ public class IndexModel(
     // Dashboard cards
 
     // -- Compliance staff
-    public IList<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = [];
+    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceWork { get; private set; } = null!;
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
-    public IList<CaseFileSearchResultDto> CaseFiles { get; private set; } = [];
+    public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; private set; } = null!;
 
     // -- Compliance manager
-    public IList<WorkEntrySearchResultDto> OfficeComplianceWork { get; private set; } = [];
+    public IPaginatedResult<WorkEntrySearchResultDto> OfficeComplianceWork { get; private set; } = null!;
     public IList<SourceTestSummary> OfficeSourceTests { get; private set; } = [];
 
     // -- Enforcement reviewer/manager
-    public IList<CaseFileSearchResultDto> EnforcementReviews { get; private set; } = [];
-    public IList<CaseFileSearchResultDto> OfficeCaseFiles { get; private set; } = [];
+    public IPaginatedResult<CaseFileSearchResultDto> EnforcementReviews { get; private set; } = null!;
+    public IPaginatedResult<CaseFileSearchResultDto> OfficeCaseFiles { get; private set; } = null!;
 
     public async Task<IActionResult> OnGet(CancellationToken token = default)
     {
@@ -47,6 +48,8 @@ public class IndexModel(
 
         UserId = User.GetNameIdentifierId();
         if (UserId is null) return Page();
+
+        ShowDashboard = true;
         OfficeId = User.GetOfficeId();
 
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
@@ -65,71 +68,61 @@ public class IndexModel(
     private async Task LoadComplianceStaffTables(CancellationToken token)
     {
         await LoadComplianceWork(token);
-        // await LoadSourceTests(token);
+        await LoadSourceTests(token);
         await LoadCaseFiles(token);
     }
 
     private async Task LoadComplianceWork(CancellationToken token)
     {
-        var spec = new WorkEntrySearchDto { Closed = ClosedOpenAny.Open, Staff = UserId };
-        var paging = new PaginatedRequest(1, 20, WorkEntrySortBy.EventDateDesc.GetDescription());
-        ComplianceWork = (await complianceSearchService.SearchAsync(spec, paging, token: token)).Items.ToList();
+        ComplianceWork = await complianceSearchService.SearchAsync(SearchDefaults.StaffOpenCompliance(UserId!),
+            PaginationDefaults.ComplianceSummary, token: token);
     }
 
     private async Task LoadSourceTests(CancellationToken token)
     {
         // Requires an addition to the IAIP data service.
-        throw new NotImplementedException();
     }
 
     private async Task LoadCaseFiles(CancellationToken token)
     {
-        var spec = new CaseFileSearchDto { Closed = ClosedOpenAny.Open, Staff = UserId };
-        var paging = new PaginatedRequest(1, 20, CaseFileSortBy.DiscoveryDateDesc.GetDescription());
-        CaseFiles = (await caseFileSearchService.SearchAsync(spec, paging, token: token)).Items.ToList();
+        CaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults.StaffOpenEnforcement(UserId!),
+            PaginationDefaults.EnforcementSummary, token: token);
     }
 
     // Load compliance manager tables
     private async Task LoadComplianceManagerTables(CancellationToken token)
     {
+        if (OfficeId is null) return;
         await LoadOfficeComplianceWork(token);
-        // await LoadOfficeSourceTests(token);
+        await LoadOfficeSourceTests(token);
     }
 
     private async Task LoadOfficeComplianceWork(CancellationToken token)
     {
-        if (OfficeId is null) return;
-        var spec = new WorkEntrySearchDto { Closed = ClosedOpenAny.Open, Office = OfficeId };
-        var paging = new PaginatedRequest(1, 20, WorkEntrySortBy.EventDateDesc.GetDescription());
-        OfficeComplianceWork = (await complianceSearchService.SearchAsync(spec, paging, token: token)).Items.ToList();
+        OfficeComplianceWork = await complianceSearchService.SearchAsync(
+            SearchDefaults.OfficeOpenCompliance(OfficeId!.Value), PaginationDefaults.ComplianceSummary, token: token);
     }
 
     private async Task LoadOfficeSourceTests(CancellationToken token)
     {
-        if (OfficeId is null) return;
         // Requires an addition to the IAIP data service.
-        throw new NotImplementedException();
     }
 
     // Load enforcement reviewer tables
     private async Task LoadEnforcementReviewerTables(CancellationToken token)
     {
-        // await LoadReviewRequests();
+        await LoadReviewRequests();
+        if (OfficeId is null) return;
         await LoadOfficeEnforcementWork(token);
     }
 
     private async Task LoadReviewRequests()
     {
         // Load enforcement action review requests
-        // Requires building an enforcement action search service
-        throw new NotImplementedException();
+        // Requires adding an enforcement action search
     }
 
-    private async Task LoadOfficeEnforcementWork(CancellationToken token)
-    {
-        if (OfficeId is null) return;
-        var spec = new CaseFileSearchDto { Closed = ClosedOpenAny.Open, Office = OfficeId };
-        var paging = new PaginatedRequest(1, 20, CaseFileSortBy.DiscoveryDateDesc.GetDescription());
-        OfficeCaseFiles = (await caseFileSearchService.SearchAsync(spec, paging, token: token)).Items.ToList();
-    }
+    private async Task LoadOfficeEnforcementWork(CancellationToken token) =>
+        OfficeCaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults.OfficeOpenEnforcement(OfficeId!.Value),
+            PaginationDefaults.EnforcementSummary, token: token);
 }
