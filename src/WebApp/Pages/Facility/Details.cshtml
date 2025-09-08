@@ -267,7 +267,8 @@
                 </h3>
                 <div id="recentSourceTestBody" class="accordion-collapse collapse" data-bs-parent="recentSourceTestAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_SourceTestsTable" model="(Model.SourceTests, true)" />
+                        <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests"
+                                 view-data="new ViewDataDictionary(ViewData)" view-data-SimpleTableFormat="true" />
                     </div>
                 </div>
             </div>
