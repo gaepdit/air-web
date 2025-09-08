@@ -494,17 +494,17 @@
                     @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
-                        case AoViewDto model:
-                            <partial name="_Partials/_AoDetails" model="model" />
+                        case AoViewDto dto:
+                            <partial name="_Partials/_AoDetails" model="dto" />
                             break;
-                        case CoViewDto model:
-                            <partial name="_Partials/_CoDetails" model="model" />
+                        case CoViewDto dto:
+                            <partial name="_Partials/_CoDetails" model="dto" />
                             break;
-                        case ProposedCoViewDto model:
-                            <partial name="_Partials/_ProposedCoDetails" model="model" />
+                        case ProposedCoViewDto dto:
+                            <partial name="_Partials/_ProposedCoDetails" model="dto" />
                             break;
-                        case ResponseRequestedViewDto model:
-                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
+                        case ResponseRequestedViewDto dto:
+                            <partial name="_Partials/_ResponseRequestedDetails" model="dto" />
                             break;
                     }
                 </div>

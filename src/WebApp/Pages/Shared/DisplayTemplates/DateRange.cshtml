@@ -1,8 +1,8 @@
 ﻿@using AirWeb.AppServices.Utilities
 @model AirWeb.Domain.ValueObjects.DateRange
 @{
-    var format = ViewData.ContainsKey("Format") ? (string)ViewData["Format"]! : DateTimeFormats.LongDate;
-    var connector = ViewData.ContainsKey("Connector") ? (string)ViewData["Connector"]! : " to ";
+    var format = (string?)ViewData["Format"] ?? DateTimeFormats.LongDate;
+    var connector = (string?)ViewData["Connector"] ?? " to ";
 }
 @if (Model.EndDate is null && Model.StartDate == default)
 {

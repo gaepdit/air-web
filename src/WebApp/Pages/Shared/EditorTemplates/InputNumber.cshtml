@@ -1,7 +1,7 @@
 ﻿@model int
 @{
-    var min = ViewData.ContainsKey("Min") ? (int)ViewData["Min"]! : (int?)null;
-    var max = ViewData.ContainsKey("Max") ? (int)ViewData["Max"]! : (int?)null;
+    var min = (int?)ViewData["Min"];
+    var max = (int?)ViewData["Max"];
 }
 <div class="form-floating">
     <input asp-for="@__model" class="form-control" min="@min" max="@max" />
