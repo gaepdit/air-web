@@ -1,5 +1,4 @@
 @page
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @model IndexModel
 @{
     ViewData["Title"] = "Air Branch Web Application";
@@ -29,7 +28,8 @@ else
         <div class="card-body">
             @if (Model.ComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.ComplianceWork.Items, (WorkEntrySearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.ComplianceWork.Items"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-HideStaff="true" />
             }
             else
             {
@@ -71,7 +71,7 @@ else
         <div class="card-body">
             @if (Model.OfficeComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="(Model.OfficeComplianceWork.Items, (WorkEntrySearchDto?)null)" />
+                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.OfficeComplianceWork.Items" />
             }
             else
             {

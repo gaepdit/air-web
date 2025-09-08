@@ -1,5 +1,4 @@
 ﻿@page "{id?}"
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.WebApp.Platform.Defaults
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
@@ -130,8 +129,8 @@
                 </h3>
                 <div id="recentComplianceWorkBody" class="accordion-collapse collapse" data-bs-parent="recentComplianceWorkAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                 model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
+                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.ComplianceWork"
+                                 view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                     </div>
                 </div>
             </div>

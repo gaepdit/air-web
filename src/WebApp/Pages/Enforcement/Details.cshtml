@@ -1,5 +1,4 @@
 @page "{id:int?}"
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
@@ -188,8 +187,8 @@
                         }
                         else
                         {
-                            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                     model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
+                            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="caseFile.ComplianceEvents"
+                                     view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                         }
                     </section>
 

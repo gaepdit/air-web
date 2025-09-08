@@ -185,8 +185,8 @@
         else
         {
             <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay"/>
-            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                     model="(Model.SearchResults.Items, Model.Spec)"/>
+            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.SearchResults.Items"
+                     view-data="new ViewDataDictionary(ViewData)" view-data-SearchSpec="Model.Spec" />
             <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay"/>
         }
     </div>
