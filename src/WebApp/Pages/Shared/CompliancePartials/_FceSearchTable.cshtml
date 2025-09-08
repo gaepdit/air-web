@@ -14,20 +14,21 @@
             @if (Model.Spec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
+                <th scope="col" class="text-nowrap">FCE Date</th>
                 <th scope="col" class="text-nowrap">FCE Year</th>
             }
             else
             {
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Tracking #", nameof(FceSortBy.IdAsc), nameof(FceSortBy.IdDesc), Model.Spec)' />
+                <th scope="col" class="text-nowrap">FCE Date</th>
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("FCE Year", nameof(FceSortBy.YearAsc), nameof(FceSortBy.YearDesc), Model.Spec)' />
                 <partial name="Shared/_SortableTableColHead"
                          model='new SearchResultsColumnDisplay("Facility", nameof(FceSortBy.FacilityIdAsc), nameof(FceSortBy.FacilityIdDesc), Model.Spec)' />
             }
-            <th scope="col" class="text-nowrap">FCE Date</th>
-            <th scope="col" class="text-nowrap">Staff</th>
             <th scope="col" class="text-nowrap">Onsite Inspection</th>
+            <th scope="col" class="text-nowrap">Responsible Staff</th>
         </tr>
         </thead>
 
@@ -45,6 +46,7 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
+                <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
                 <td class="text-nowrap">@item.Year</td>
                 @if (Model.Spec is not null)
                 {
@@ -52,9 +54,8 @@
                         <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                     </td>
                 }
-                <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
-                <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
                 <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
+                <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
             </tr>
         }
         </tbody>
