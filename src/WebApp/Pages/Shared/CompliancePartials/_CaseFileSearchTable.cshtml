@@ -7,7 +7,6 @@
     var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
     var hideStaff = (bool?)ViewData["HideStaff"] ?? false;
     var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
-
     var rowCss = searchSpec is null ? "" : "align-middle";
     var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
 }

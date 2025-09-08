@@ -1,5 +1,4 @@
 ﻿@page "{id?}"
-@using AirWeb.AppServices.Compliance.Fces.Search
 @using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.WebApp.Platform.Defaults
 @using AirWeb.WebApp.Platform.Settings
@@ -177,7 +176,8 @@
                 </h3>
                 <div id="recentFceBody" class="accordion-collapse collapse" data-bs-parent="recentFceAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
+                        <partial name="Shared/CompliancePartials/_FceSearchTable" model="Model.Fces"
+                                 view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                     </div>
                 </div>
             </div>
