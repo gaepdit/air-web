@@ -1,6 +1,5 @@
 ﻿@using AirWeb.AppServices.CommonSearch
 @using AirWeb.AppServices.Enforcement.Search
-@using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model IList<AirWeb.AppServices.Enforcement.Search.CaseFileSearchResultDto>
 @{
@@ -28,18 +27,18 @@
             }
             else
             {
-                <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Tracking #", nameof(CaseFileSortBy.IdAsc), nameof(CaseFileSortBy.IdDesc), searchSpec)' />
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(CaseFileSortBy.IdAsc)" view-data-Descender="@nameof(CaseFileSortBy.IdDesc)" />
                 @if (!hideFacility)
                 {
-                    <partial name="Shared/_SortableTableColHead"
-                             model='new SearchResultsColumnDisplay("Facility", nameof(CaseFileSortBy.FacilityIdAsc), nameof(CaseFileSortBy.FacilityIdDesc), searchSpec)' />
+                    <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                             view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(CaseFileSortBy.FacilityIdAsc)" view-data-Descender="@nameof(CaseFileSortBy.FacilityIdDesc)" />
                 }
 
-                <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Discovery Date", nameof(CaseFileSortBy.DiscoveryDateAsc), nameof(CaseFileSortBy.DiscoveryDateDesc), searchSpec)' />
-                <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Case File Status", nameof(CaseFileSortBy.CaseFileStatusAsc), nameof(CaseFileSortBy.CaseFileStatusDesc), searchSpec)' />
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Discovery Date")" view-data-Ascender="@nameof(CaseFileSortBy.DiscoveryDateAsc)" view-data-Descender="@nameof(CaseFileSortBy.DiscoveryDateDesc)" />
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Case File Status")" view-data-Ascender="@nameof(CaseFileSortBy.CaseFileStatusAsc)" view-data-Descender="@nameof(CaseFileSortBy.CaseFileStatusDesc)" />
             }
             <th scope="col" class="text-nowrap">Day Zero</th>
             @if (!hideStaff)
