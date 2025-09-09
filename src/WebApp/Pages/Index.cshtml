@@ -18,11 +18,11 @@ else
 
 @if (Model.IsComplianceStaff)
 {
-    <h2>Compliance Staff Work</h2>
+    <h2 class="h3">Compliance Staff Work</h2>
 
-    <div class="card mt-4">
+    <div class="card my-4">
         <div class="card-header">
-            <h2 class="h5">Compliance work</h2>
+            <h3 class="h5">Compliance work</h3>
             <div><em>Most recent open compliance work assigned to you</em></div>
         </div>
         <div class="card-body">
@@ -38,34 +38,34 @@ else
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-header">
-            <h2 class="h5">Enforcement cases</h2>
-            <div><em>Most recent open enforcement cases assigned to you</em></div>
+    <section class="my-4">
+        <h3 class="h5">Enforcement cases</h3>
+        <div class="row justify-content-between align-items-baseline mb-2">
+            <div class="col">
+                <div><em>Most recent open enforcement cases assigned to you</em></div>
+            </div>
+            <div class="col-auto ms-md-3 d-print-none">
+                <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
+                   asp-page-handler="Search" asp-fragment="search-results"
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    Open in search
+                </a>
+            </div>
         </div>
-        <div class="card-body">
-            @if (Model.CaseFiles.TotalCount > 0)
-            {
-                <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.CaseFiles.Items"
-                         view-data="new ViewDataDictionary(ViewData)" view-data-HideStaff="true" />
-            }
-            else
-            {
-                @:None
-            }
-        </div>
-    </div>
+        <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFiles"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
+    </section>
 
     // Source tests assigned
 }
 
 @if (Model.IsComplianceManager)
 {
-    <h2>Compliance Management Work</h2>
+    <h2 class="h3">Compliance Management Work</h2>
 
-    <div class="card mt-4">
+    <div class="card my-4">
         <div class="card-header">
-            <h2 class="h5">Office compliance work</h2>
+            <h3 class="h5">Office compliance work</h3>
             <div><em>Most recent open compliance work assigned to your office</em></div>
         </div>
         <div class="card-body">
@@ -85,22 +85,23 @@ else
 
 @if (Model.IsEnforcementReviewer)
 {
-    <h2>Enforcement Management Work</h2>
+    <h2 class="h3">Enforcement Management Work</h2>
 
-    <div class="card mt-4">
-        <div class="card-header">
-            <h2 class="h5">Office enforcement cases</h2>
-            <div><em>Most recent open enforcement cases assigned to your office</em></div>
+    <section class="my-4">
+        <h3 class="h5">Office enforcement cases</h3>
+        <div class="row justify-content-between align-items-baseline mb-2">
+            <div class="col">
+                <div><em>Most recent open enforcement cases assigned to your office</em></div>
+            </div>
+            <div class="col-auto ms-md-3 d-print-none">
+                <a asp-page="/Enforcement/Index" asp-route-Office="@Model.OfficeId" asp-route-Closed="0"
+                   asp-page-handler="Search" asp-fragment="search-results"
+                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                    Open in search
+                </a>
+            </div>
         </div>
-        <div class="card-body">
-            @if (Model.OfficeCaseFiles.TotalCount > 0)
-            {
-                <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.OfficeCaseFiles.Items" />
-            }
-            else
-            {
-                @:None
-            }
-        </div>
-    </div>
+        <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.OfficeCaseFiles"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+    </section>
 }

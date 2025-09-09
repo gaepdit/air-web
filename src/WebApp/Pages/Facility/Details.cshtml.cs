@@ -26,9 +26,7 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
 
     // Data tables
-    private IPaginatedResult<CaseFileSearchResultDto> EnforcementSearch { get; set; } = null!;
-    public IList<CaseFileSearchResultDto> EnforcementWork => EnforcementSearch.Items;
-    public int EnforcementCount => EnforcementSearch.TotalCount;
+    public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
 
     private IPaginatedResult<WorkEntrySearchResultDto> ComplianceSearch { get; set; } = null!;
     public IList<WorkEntrySearchResultDto> ComplianceWork => ComplianceSearch.Items;
@@ -74,7 +72,7 @@ public class DetailsModel(
         FceSearch = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),
             PaginationDefaults.FceSummary, loadFacilities: false, token: token);
 
-        EnforcementSearch = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
+        CaseFiles = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
             PaginationDefaults.EnforcementSummary, loadFacilities: false, token: token);
 
         var sourceTestsForFacility = await sourceTestsForFacilityTask;

@@ -20,8 +20,8 @@ public class IndexModel(
     public bool IsComplianceStaff { get; private set; }
     public bool IsComplianceManager { get; private set; }
     public bool IsEnforcementReviewer { get; private set; }
-    private string? UserId { get; set; }
-    private Guid? OfficeId { get; set; }
+    public string? UserId { get; set; }
+    public Guid? OfficeId { get; set; }
 
     // Dashboard cards
 

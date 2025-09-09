@@ -17,26 +17,26 @@
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
+                <th scope="col" class="text-nowrap">Discovery Date</th>
                 @if (!hideFacility)
                 {
                     <th scope="col" class="text-nowrap">Facility</th>
                 }
 
-                <th scope="col" class="text-nowrap">Discovery Date</th>
                 <th scope="col" class="text-nowrap">Case File Status</th>
             }
             else
             {
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(CaseFileSortBy.IdAsc)" view-data-Descender="@nameof(CaseFileSortBy.IdDesc)" />
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Discovery Date")" view-data-Ascender="@nameof(CaseFileSortBy.DiscoveryDateAsc)" view-data-Descender="@nameof(CaseFileSortBy.DiscoveryDateDesc)" />
                 @if (!hideFacility)
                 {
                     <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
-                             view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(CaseFileSortBy.FacilityIdAsc)" view-data-Descender="@nameof(CaseFileSortBy.FacilityIdDesc)" />
+                             view-data-Heading="@("Facility")" view-data-Ascender="@nameof(CaseFileSortBy.FacilityIdAsc)" view-data-Descender="@nameof(CaseFileSortBy.FacilityIdDesc)" />
                 }
 
-                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
-                         view-data-Heading="@("Discovery Date")" view-data-Ascender="@nameof(CaseFileSortBy.DiscoveryDateAsc)" view-data-Descender="@nameof(CaseFileSortBy.DiscoveryDateDesc)" />
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Case File Status")" view-data-Ascender="@nameof(CaseFileSortBy.CaseFileStatusAsc)" view-data-Descender="@nameof(CaseFileSortBy.CaseFileStatusDesc)" />
             }
@@ -62,16 +62,16 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
+                <td>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</span>
+                </td>
                 @if (!hideFacility)
                 {
                     <td><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
                 }
-                <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</span><br />
-                </td>
                 <td>@item.CaseFileStatus.GetDisplayName()</td>
                 <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span><br />
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span>
                 </td>
                 @if (!hideStaff)
                 {
