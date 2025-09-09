@@ -27,12 +27,9 @@ public class DetailsModel(
 
     // Data tables
     public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
+    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceWork { get; set; } = null!;
 
-    private IPaginatedResult<WorkEntrySearchResultDto> ComplianceSearch { get; set; } = null!;
-    public IList<WorkEntrySearchResultDto> ComplianceWork => ComplianceSearch.Items;
-    public int ComplianceWorkCount => ComplianceSearch.TotalCount;
-
-    private IPaginatedResult<FceSearchResultDto> FceSearch { get; set; } = null!;
+    public IPaginatedResult<FceSearchResultDto> FceSearch { get; set; } = null!;
     public IList<FceSearchResultDto> Fces => FceSearch.Items;
     public int FceCount => FceSearch.TotalCount;
 
@@ -66,7 +63,7 @@ public class DetailsModel(
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
-        ComplianceSearch = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
+        ComplianceWork = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
             PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
         FceSearch = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),

@@ -18,11 +18,11 @@
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
                 <th scope="col" class="text-nowrap">Event Date</th>
-                <th scope="col" class="text-nowrap">Work Type</th>
                 @if (!hideFacility)
                 {
                     <th scope="col" class="text-nowrap">Facility</th>
                 }
+                <th scope="col" class="text-nowrap">Work Type</th>
             }
             else
             {
@@ -30,13 +30,13 @@
                          view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(WorkEntrySortBy.IdAsc)" view-data-Descender="@nameof(WorkEntrySortBy.IdDesc)" />
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Event Date")" view-data-Ascender="@nameof(WorkEntrySortBy.EventDateAsc)" view-data-Descender="@nameof(WorkEntrySortBy.EventDateDesc)" />
-                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
-                         view-data-Heading="@("Work Type")" view-data-Ascender="@nameof(WorkEntrySortBy.WorkTypeAsc)" view-data-Descender="@nameof(WorkEntrySortBy.WorkTypeDesc)" />
                 @if (!hideFacility)
                 {
                     <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                              view-data-Heading="@("Facility")" view-data-Ascender="@nameof(WorkEntrySortBy.FacilityIdAsc)" view-data-Descender="@nameof(WorkEntrySortBy.FacilityIdDesc)" />
                 }
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Work Type")" view-data-Ascender="@nameof(WorkEntrySortBy.WorkTypeAsc)" view-data-Descender="@nameof(WorkEntrySortBy.WorkTypeDesc)" />
             }
             <th scope="col" class="text-nowrap">Status</th>
             @if (!hideStaff)
@@ -64,13 +64,13 @@
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                     @item.EventDateName
                 </td>
-                <td>@item.WorkEntryType.GetDisplayName()</td>
                 @if (!hideFacility)
                 {
                     <td>
                         <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                     </td>
                 }
+                <td>@item.WorkEntryType.GetDisplayName()</td>
                 <td class="text-nowrap">
                     @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                     @if (item.IsClosed)
