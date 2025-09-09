@@ -28,10 +28,7 @@ public class DetailsModel(
     // Data tables
     public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
     public IPaginatedResult<WorkEntrySearchResultDto> ComplianceWork { get; set; } = null!;
-
-    public IPaginatedResult<FceSearchResultDto> FceSearch { get; set; } = null!;
-    public IList<FceSearchResultDto> Fces => FceSearch.Items;
-    public int FceCount => FceSearch.TotalCount;
+    public IPaginatedResult<FceSearchResultDto> Fces { get; set; } = null!;
 
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
     public int SourceTestCount { get; private set; }
@@ -66,7 +63,7 @@ public class DetailsModel(
         ComplianceWork = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
             PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
-        FceSearch = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),
+        Fces = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),
             PaginationDefaults.FceSummary, loadFacilities: false, token: token);
 
         CaseFiles = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
