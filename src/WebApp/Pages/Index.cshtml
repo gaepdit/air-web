@@ -28,7 +28,7 @@ else
         <div class="card-body">
             @if (Model.ComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.ComplianceWork.Items"
+                <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="Model.ComplianceWork.Items"
                          view-data="new ViewDataDictionary(ViewData)" view-data-HideStaff="true" />
             }
             else
@@ -46,7 +46,7 @@ else
         <div class="card-body">
             @if (Model.CaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.CaseFiles.Items"
+                <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.CaseFiles.Items"
                          view-data="new ViewDataDictionary(ViewData)" view-data-HideStaff="true" />
             }
             else
@@ -71,7 +71,7 @@ else
         <div class="card-body">
             @if (Model.OfficeComplianceWork.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.OfficeComplianceWork.Items" />
+                <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="Model.OfficeComplianceWork.Items" />
             }
             else
             {
@@ -95,7 +95,7 @@ else
         <div class="card-body">
             @if (Model.OfficeCaseFiles.TotalCount > 0)
             {
-                <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.OfficeCaseFiles.Items" />
+                <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.OfficeCaseFiles.Items" />
             }
             else
             {

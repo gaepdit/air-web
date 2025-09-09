@@ -125,7 +125,7 @@
                 <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
                      data-bs-parent="supportingComplianceDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable" model="Model.ComplianceSummary.Items"
+                        <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="Model.ComplianceSummary.Items"
                                  view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                 <div id="supportingEnforcementDataBody" class="accordion-collapse collapse"
                      data-bs-parent="supportingEnforcementDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="Model.CaseFileSummary.Items"
+                        <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.CaseFileSummary.Items"
                                  view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                     </div>
                 </div>
@@ -212,7 +212,7 @@
                 <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
                      data-bs-parent="supportingAnnualFeesDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_AnnualFeesSummaryTable" model="Model.AnnualFeesSummary" />
+                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="Model.AnnualFeesSummary" />
                     </div>
                 </div>
             </div>
