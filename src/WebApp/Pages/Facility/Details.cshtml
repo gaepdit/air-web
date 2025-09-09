@@ -1,5 +1,4 @@
 ﻿@page "{id?}"
-@using AirWeb.WebApp.Platform.Defaults
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
@@ -144,48 +143,19 @@
 </section>
 
 <section class="my-4">
-    @if (!Model.SourceTests.Any())
-    {
-        <h2>Recent Source Tests</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent Source Tests</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Facility/SourceTests" asp-route-Id="@Model.Id"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="mb-0">Recent Source Tests</h2>
         </div>
-
-        <div id="recentSourceTestAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentSourceTestBody" aria-expanded="false" aria-controls="recentSourceTestBody">
-                        @if (Model.SourceTestCount > SearchDefaults.SummaryTableSize)
-                        {
-                            @SearchDefaults.SummaryTableSize.ToString()
-                            @:most recent /
-                        }
-                        @Model.SourceTestCount.ToString() total
-                    </button>
-                </h3>
-                <div id="recentSourceTestBody" class="accordion-collapse collapse" data-bs-parent="recentSourceTestAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests"
-                                 view-data="new ViewDataDictionary(ViewData)" view-data-SimpleTableFormat="true" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-auto ms-md-3 d-print-none">
+            <a asp-page="/Facility/SourceTests" asp-route-Id="@Model.Id"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                View All
+            </a>
         </div>
-    }
+    </div>
+    <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="(Model.SourceTests, Model.SourceTestCount)"
+             view-data="new ViewDataDictionary(ViewData)" view-data-SimpleTableFormat="true" />
 </section>
 
 @section Footer {
