@@ -875,10 +875,8 @@
     }
 </section>
 
-@{
-    ViewData["CommentsTitle"] = "Case File Comments";
-}
-<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" view-data="ViewData" />
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection"
+         view-data="new ViewDataDictionary(ViewData)" view-data-CommentsTitle="@("Case File Comments")" />
 
 @if (Model.UserCan[CaseFileOperation.DeleteCaseFile])
 {
