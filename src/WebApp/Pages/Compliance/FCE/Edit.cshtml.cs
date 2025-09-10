@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using GaEpd.AppLibrary.ListItems;
 
@@ -60,5 +61,5 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
 
     // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
 }

@@ -2,6 +2,7 @@ using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -68,5 +69,5 @@ public class AddModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
 }

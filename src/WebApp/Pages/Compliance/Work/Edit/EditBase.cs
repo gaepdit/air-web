@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 using FluentValidation;
@@ -69,5 +70,5 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
 
     // FUTURE: Allow for editing a Work Entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await StaffService.GetUsersAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
 }
