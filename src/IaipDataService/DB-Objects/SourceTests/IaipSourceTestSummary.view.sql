@@ -28,6 +28,7 @@ select convert(int, r.STRREFERENCENUMBER) as ReferenceNumber,
        s.STRCOMPLIANCESTATUS              as ComplianceStatus,
        convert(bit, r.STRCLOSED)          as ReportClosed,
        convert(date, r.DATRECEIVEDDATE)   as DateReceivedByApb,
+       cu.STREMAILADDRESS                 as IaipComplianceAssignment,
 
        -- Facility Summary
        right(i.STRAIRSNUMBER, 8)          as FacilityId,
@@ -58,6 +59,14 @@ from dbo.ISMPREPORTINFORMATION r
         on f.STRAIRSNUMBER = i.STRAIRSNUMBER
     left join dbo.LOOKUPCOUNTYINFORMATION lc
         on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
+
+    left join dbo.SSCPTESTREPORTS c
+        on c.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+    left join dbo.SSCPITEMMASTER ci
+        on c.STRTRACKINGNUMBER = ci.STRTRACKINGNUMBER
+    left join dbo.EPDUSERPROFILES cu
+        on cu.NUMUSERID = ci.STRRESPONSIBLESTAFF
+
 where r.STRDOCUMENTTYPE <> '001'
   and r.STRDELETE is null;
 

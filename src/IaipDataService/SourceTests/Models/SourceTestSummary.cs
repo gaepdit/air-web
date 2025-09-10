@@ -54,6 +54,8 @@ public record SourceTestSummary
     [Display(Name = "Test Report Status")]
     public bool ReportClosed { get; init; }
 
+    public string? IaipComplianceAssignment { get; init; }
+
     // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
     // https://github.com/DapperLib/Dapper/issues/2072
     [Display(Name = "Date Received By APB")]

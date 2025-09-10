@@ -35,6 +35,7 @@ BEGIN
            ComplianceStatus,
            ReportClosed,
            DateReceivedByApb,
+           IaipComplianceAssignment,
 
            -- Facility Summary
            FacilityId        as Id,
