@@ -19,43 +19,32 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-10-07  DWaldron            Initial version
+2025-09-10  DWaldron            Use a common view instead (#355)
 
 ***************************************************************************************************/
 
 BEGIN
     SET NOCOUNT ON;
 
-    select convert(int, r.STRREFERENCENUMBER) as ReferenceNumber,
-           convert(int, r.STRDOCUMENTTYPE)   as DocumentType,
-           lp.STRPOLLUTANTDESCRIPTION         as Pollutant,
-           trim(r.STREMISSIONSOURCE)          as Source,
-           convert(int, r.STRREPORTTYPE)      as ReportType,
-           trim(r.STRAPPLICABLEREQUIREMENT)   as ApplicableRequirement,
-           r.STRCLOSED                       as ReportClosed,
-           convert(date, r.DATRECEIVEDDATE)  as DateReceivedByApb,
-           s.STRCOMPLIANCESTATEMENT           as ReportStatement,
-           r.STRDIRECTOR                      as EpdDirector,
+    select ReferenceNumber,
+           ReportType,
+           DocumentType,
+           Source,
+           Pollutant,
+           ApplicableRequirement,
+           ReportClosed,
+           DateReceivedByApb,
 
-           'TestDates'                        as Id,
-           convert(date, r.DATTESTDATESTART) as StartDate,
-           convert(date, r.DATTESTDATEEND)   as EndDate,
+           'TestDates'       as Id,
+           StartDate,
+           EndDate,
 
-           'ReviewedByStaff'                  as Id,
-           pr.STRFIRSTNAME                    as GivenName,
-           pr.STRLASTNAME                    as FamilyName
-    from dbo.ISMPREPORTINFORMATION r
-        inner join dbo.ISMPMASTER i
-        on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER
-        left join dbo.LOOKUPPOLLUTANTS lp
-        on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE
-        left join dbo.LOOKUPISMPCOMPLIANCESTATUS s
-        on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
-        left join dbo.EPDUSERPROFILES pr
-        on pr.NUMUSERID = r.STRREVIEWINGENGINEER
-    where r.STRDOCUMENTTYPE <> '001'
-      and r.STRDELETE is null
-      and i.STRAIRSNUMBER = concat('0413', @FacilityId)
-    order by r.DATTESTDATESTART desc, convert(int, r.STRREFERENCENUMBER) desc;
+           'ReviewedByStaff' as Id,
+           GivenName,
+           FamilyName
+    from air.IaipSourceTestSummary
+    where FacilityId = @FacilityId
+    order by StartDate desc, ReferenceNumber desc;
 
 END
 GO
