@@ -34,8 +34,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
     // == Staff ==
 
     [Display(Name = "Staff Responsible")]
-    // Guid as string
-    public string? ResponsibleStaff { get; init; }
+    public string? Staff { get; init; } // Guid as string
 
     [Display(Name = "Office")]
     public Guid? Office { get; init; }
@@ -76,7 +75,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
             { nameof(Closed), Closed?.ToString() },
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
             { nameof(PartialFacilityId), PartialFacilityId },
-            { nameof(ResponsibleStaff), ResponsibleStaff },
+            { nameof(Staff), Staff },
             { nameof(Office), Office.ToString() },
             { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
             { nameof(EventDateTo), EventDateTo?.ToString("d") },

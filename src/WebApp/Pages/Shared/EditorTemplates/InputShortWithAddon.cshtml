@@ -1,8 +1,8 @@
 ﻿@model short
 @{
-    var addon = ViewData.ContainsKey("Addon") ? (string)ViewData["Addon"]! : string.Empty;
-    var min = ViewData.ContainsKey("Min") ? (int)ViewData["Min"]! : (int?)null;
-    var max = ViewData.ContainsKey("Max") ? (int)ViewData["Max"]! : (int?)null;
+    var addon = (string?)ViewData["Addon"] ?? string.Empty;
+    var min = (int?)ViewData["Min"];
+    var max = (int?)ViewData["Max"];
     var addonId = $"addon-{Guid.NewGuid()}";
 }
 <label asp-for="@__model" class="form-label"></label>

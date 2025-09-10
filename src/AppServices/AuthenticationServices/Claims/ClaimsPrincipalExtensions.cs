@@ -24,6 +24,12 @@ public static class ClaimsPrincipalExtensions
     public static string GetFamilyName(this ClaimsPrincipal principal) =>
         principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty;
 
+    public static Guid? GetOfficeId(this ClaimsPrincipal principal)
+    {
+        var officeIdString = principal.FindFirstValue(AppClaimTypes.OfficeId);
+        return officeIdString is null ? null : new Guid(officeIdString);
+    }
+
     public static bool HasMatchingClaim(this ClaimsPrincipal principal, string type,
         [NotNullWhen(true)] string? value) =>
         value is not null && principal.HasClaim(type, value);

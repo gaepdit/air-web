@@ -384,8 +384,13 @@ footer a[target]::after, a[target].no-external-link::after {
     background-color: rgb(var(--bs-secondary-bg-rgb));
 }
 
+/* Accordion/Dashboard cards
+-------------------------------------------------- */
+
 .accordion-body tbody tr:last-of-type th,
-.accordion-body tbody tr:last-of-type td {
+.accordion-body tbody tr:last-of-type td,
+.card-body tbody tr:last-of-type th,
+.card-body tbody tr:last-of-type td {
     border: none;
 }
 

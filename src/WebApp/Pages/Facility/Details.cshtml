@@ -1,8 +1,4 @@
 ﻿@page "{id?}"
-@using AirWeb.AppServices.Compliance.Fces.Search
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.AppServices.Enforcement.Search
-@using AirWeb.WebApp.Platform.Constants
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
@@ -95,185 +91,71 @@
     </div>
 </section>
 
-<section class="mt-4">
-    @if (!Model.ComplianceWork.Any())
-    {
-        <h2>Recent Compliance Work</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent Compliance Work</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Id"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
+<section class="my-4">
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="mb-0">Recent Compliance Work</h2>
         </div>
-
-        <div id="recentComplianceWorkAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentComplianceWorkBody" aria-expanded="false" aria-controls="recentComplianceWorkBody">
-                        @if (Model.ComplianceWorkCount > GlobalConstants.SummaryTableSize)
-                        {
-                            @GlobalConstants.SummaryTableSize.ToString()
-                            @:most recent /
-                        }
-                        @Model.ComplianceWorkCount.ToString() total
-                    </button>
-                </h3>
-                <div id="recentComplianceWorkBody" class="accordion-collapse collapse" data-bs-parent="recentComplianceWorkAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                 model="(Model.ComplianceWork, (WorkEntrySearchDto?)null)" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-auto ms-md-3 d-print-none">
+            <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Id"
+               asp-page-handler="Search" asp-fragment="search-results"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                Open in search
+            </a>
         </div>
-    }
+    </div>
+    <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.ComplianceWork"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-<section class="mt-4">
-    @if (!Model.Fces.Any())
-    {
-        <h2>Recent FCEs</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent FCEs</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.Id"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
+<section class="my-4">
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="mb-0">Recent FCEs</h2>
         </div>
-
-        <div id="recentFceAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentFceBody" aria-expanded="false" aria-controls="recentFceBody">
-                        @if (Model.FceCount > GlobalConstants.SummaryTableSize)
-                        {
-                            @GlobalConstants.SummaryTableSize.ToString()
-                            @:most recent /
-                        }
-                        @Model.FceCount.ToString() total
-                    </button>
-                </h3>
-                <div id="recentFceBody" class="accordion-collapse collapse" data-bs-parent="recentFceAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_FceSearchTable" model="(Model.Fces, (FceSearchDto?)null)" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-auto ms-md-3 d-print-none">
+            <a asp-page="/Compliance/FCE/Index" asp-route-PartialFacilityId="@Model.Id"
+               asp-page-handler="Search" asp-fragment="search-results"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                Open in search
+            </a>
         </div>
-    }
+    </div>
+    <partial name="Shared/CompliancePartials/_FceAccordion" model="Model.Fces"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-<section class="mt-4">
-    @if (!Model.EnforcementWork.Any())
-    {
-        <h2>Recent Enforcement Work</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent Enforcement Work</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Id"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
+<section class="my-4">
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="mb-0">Recent Enforcement Work</h2>
         </div>
-
-        <div id="recentEnforcementAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentEnforcementBody" aria-expanded="false" aria-controls="recentEnforcementBody">
-                        @if (Model.EnforcementCount > GlobalConstants.SummaryTableSize)
-                        {
-                            @GlobalConstants.SummaryTableSize.ToString()
-                            @:most recent /
-                        }
-                        @Model.EnforcementCount.ToString() total
-                    </button>
-                </h3>
-                <div id="recentEnforcementBody" class="accordion-collapse collapse" data-bs-parent="recentEnforcementAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
-                                 model="(Model.EnforcementWork, (CaseFileSearchDto?)null)" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-auto ms-md-3 d-print-none">
+            <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Id"
+               asp-page-handler="Search" asp-fragment="search-results"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                Open in search
+            </a>
         </div>
-    }
+    </div>
+    <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFiles"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-<section class="mt-4">
-    @if (!Model.SourceTests.Any())
-    {
-        <h2>Recent Source Tests</h2>
-        <p>
-            <em>None.</em>
-        </p>
-    }
-    else
-    {
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <h2 class="mb-0">Recent Source Tests</h2>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Facility/SourceTests" asp-route-Id="@Model.Id"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                    View All
-                </a>
-            </div>
+<section class="my-4">
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h2 class="mb-0">Recent Source Tests</h2>
         </div>
-
-        <div id="recentSourceTestAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#recentSourceTestBody" aria-expanded="false" aria-controls="recentSourceTestBody">
-                        @if (Model.SourceTestCount > GlobalConstants.SummaryTableSize)
-                        {
-                            @GlobalConstants.SummaryTableSize.ToString()
-                            @:most recent /
-                        }
-                        @Model.SourceTestCount.ToString() total
-                    </button>
-                </h3>
-                <div id="recentSourceTestBody" class="accordion-collapse collapse" data-bs-parent="recentSourceTestAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_SourceTestsTable" model="(Model.SourceTests, true)" />
-                    </div>
-                </div>
-            </div>
+        <div class="col-auto ms-md-3 d-print-none">
+            <a asp-page="/Facility/SourceTests" asp-route-Id="@Model.Id"
+               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                View All
+            </a>
         </div>
-    }
+    </div>
+    <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="(Model.SourceTests, Model.SourceTestCount)"
+             view-data="new ViewDataDictionary(ViewData)" view-data-SimpleTableFormat="true" />
 </section>
 
 @section Footer {

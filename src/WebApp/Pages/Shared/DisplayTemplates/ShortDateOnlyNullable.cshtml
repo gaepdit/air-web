@@ -1,7 +1,7 @@
 @using AirWeb.AppServices.Utilities
 @model DateOnly?
 @{
-    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered;
+    var placeholder = (string?)ViewData["Placeholder"] ?? DefaultText.PlaceholderNotEntered;
 }
 @if (Model is null)
 {

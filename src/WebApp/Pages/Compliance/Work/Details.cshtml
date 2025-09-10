@@ -137,23 +137,23 @@
 
 @switch (report)
 {
-    case AccViewDto model:
-        <partial name="_Partials/_AccDetails" model="model" />
+    case AccViewDto dto:
+        <partial name="_Partials/_AccDetails" model="dto" />
         break;
-    case InspectionViewDto model:
-        <partial name="_Partials/_InspectionDetails" model="model" />
+    case InspectionViewDto dto:
+        <partial name="_Partials/_InspectionDetails" model="dto" />
         break;
-    case NotificationViewDto model:
-        <partial name="_Partials/_NotificationDetails" model="model" />
+    case NotificationViewDto dto:
+        <partial name="_Partials/_NotificationDetails" model="dto" />
         break;
-    case PermitRevocationViewDto model:
-        <partial name="_Partials/_PermitRevocationDetails" model="model" />
+    case PermitRevocationViewDto dto:
+        <partial name="_Partials/_PermitRevocationDetails" model="dto" />
         break;
-    case ReportViewDto model:
-        <partial name="_Partials/_ReportDetails" model="model" />
+    case ReportViewDto dto:
+        <partial name="_Partials/_ReportDetails" model="dto" />
         break;
-    case SourceTestReviewViewDto model:
-        <partial name="_Partials/_SourceTestReviewDetails" model="model" />
+    case SourceTestReviewViewDto dto:
+        <partial name="_Partials/_SourceTestReviewDetails" model="dto" />
         break;
 }
 

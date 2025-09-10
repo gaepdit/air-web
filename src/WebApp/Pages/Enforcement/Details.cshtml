@@ -1,5 +1,4 @@
 @page "{id:int?}"
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
@@ -188,8 +187,8 @@
                         }
                         else
                         {
-                            <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                     model="(caseFile.ComplianceEvents, (WorkEntrySearchDto?)null)" />
+                            <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="caseFile.ComplianceEvents"
+                                     view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
                         }
                     </section>
 
@@ -494,17 +493,17 @@
                     @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
-                        case AoViewDto model:
-                            <partial name="_Partials/_AoDetails" model="model" />
+                        case AoViewDto dto:
+                            <partial name="_Partials/_AoDetails" model="dto" />
                             break;
-                        case CoViewDto model:
-                            <partial name="_Partials/_CoDetails" model="model" />
+                        case CoViewDto dto:
+                            <partial name="_Partials/_CoDetails" model="dto" />
                             break;
-                        case ProposedCoViewDto model:
-                            <partial name="_Partials/_ProposedCoDetails" model="model" />
+                        case ProposedCoViewDto dto:
+                            <partial name="_Partials/_ProposedCoDetails" model="dto" />
                             break;
-                        case ResponseRequestedViewDto model:
-                            <partial name="_Partials/_ResponseRequestedDetails" model="model" />
+                        case ResponseRequestedViewDto dto:
+                            <partial name="_Partials/_ResponseRequestedDetails" model="dto" />
                             break;
                     }
                 </div>
@@ -876,10 +875,8 @@
     }
 </section>
 
-@{
-    ViewData["CommentsTitle"] = "Case File Comments";
-}
-<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" view-data="ViewData" />
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection"
+         view-data="new ViewDataDictionary(ViewData)" view-data-CommentsTitle="@("Case File Comments")" />
 
 @if (Model.UserCan[CaseFileOperation.DeleteCaseFile])
 {

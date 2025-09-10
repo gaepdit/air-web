@@ -3,11 +3,11 @@
 
 @if (Model.DocumentType == DocumentType.Method9Multi)
 {
-    <partial name="_TestRunsOpacityMultiPartial" model="Model" />
+    <partial name="_TestRunsOpacityMultiPartial" />
 }
 else // DocumentType.Method22 or DocumentType.Method9Single
 {
-    <partial name="_TestRunsOpacitySinglePartial" model="Model" />
+    <partial name="_TestRunsOpacitySinglePartial" />
 }
 
 @if (Model.DocumentType == DocumentType.Method22)
@@ -36,5 +36,5 @@ else
 
 @if (Model.DocumentType == DocumentType.Method9Multi)
 {
-    <partial name="_TestRunsOpacityMultiEquipmentPartial" model="Model" />
+    <partial name="_TestRunsOpacityMultiEquipmentPartial" />
 }

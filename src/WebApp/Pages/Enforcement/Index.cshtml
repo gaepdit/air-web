@@ -20,7 +20,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Closed" name="@nameof(Model.Spec.Closed)"
-                                    asp-items="Html.GetEnumSelectList<ClosedOpenAny>()" class="form-select">
+                                    asp-items="@Html.GetEnumSelectList<ClosedOpenAny>()" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Closed" class="form-label"></label>
@@ -29,7 +29,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.CaseFileStatus" name="@nameof(Model.Spec.CaseFileStatus)"
-                                    asp-items="Html.GetEnumSelectList<CaseFileStatus>()" class="form-select">
+                                    asp-items="@Html.GetEnumSelectList<CaseFileStatus>()" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.CaseFileStatus" class="form-label"></label>
@@ -40,7 +40,7 @@
                         <div class="col-md mb-3">
                             <div class="form-floating">
                                 <select asp-for="Spec.DeleteStatus" name="@nameof(Model.Spec.DeleteStatus)"
-                                        asp-items="Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
+                                        asp-items="@Html.GetEnumSelectList<DeleteStatus>()" class="form-select">
                                     <option value="">@DefaultText.SelectOptionNotDeleted</option>
                                 </select>
                                 <label asp-for="Spec.DeleteStatus" class="form-label"></label>
@@ -53,7 +53,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.ViolationType" name="@nameof(Model.Spec.ViolationType)"
-                                    asp-items="Model.ViolationTypeSelectList" class="form-select">
+                                    asp-items="@Model.ViolationTypeSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.ViolationType" class="form-label"></label>
@@ -125,7 +125,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Office" name="@nameof(Model.Spec.Office)"
-                                    asp-items="Model.OfficesSelectList" class="form-select">
+                                    asp-items="@Model.OfficesSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Office" class="form-label"></label>
@@ -134,7 +134,7 @@
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <select asp-for="Spec.Staff" name="@nameof(Model.Spec.Staff)"
-                                    asp-items="Model.StaffSelectList" class="form-select">
+                                    asp-items="@Model.StaffSelectList" class="form-select">
                                 <option value="">@DefaultText.SelectOptionAny</option>
                             </select>
                             <label asp-for="Spec.Staff" class="form-label"></label>
@@ -181,7 +181,8 @@
         else
         {
             <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
-            <partial name="Shared/CompliancePartials/_CaseFileSearchTable" model="(Model.SearchResults.Items, Model.Spec)" />
+            <partial name="Shared/CompliancePartials/_CaseFileTable" model="Model.SearchResults.Items"
+                     view-data="new ViewDataDictionary(ViewData)" view-data-SearchSpec="Model.Spec" />
             <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
         }
     </div>

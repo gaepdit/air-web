@@ -1,7 +1,5 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
-@using AirWeb.AppServices.Enforcement.Search
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
@@ -87,15 +85,13 @@
     </dl>
 </section>
 
-<section class="my-3">
+<section class="my-4">
+    <h2 class="h5 mb-0">Supporting compliance data:</h2>
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
-            <h2 class="h5 mb-md-0">
-                Supporting compliance data:
-                <div class="text-info-emphasis">
-                    @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-                </div>
-            </h2>
+            <h3 class="h5 mb-md-0 text-info-emphasis">
+                @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+            </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
             <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
@@ -103,89 +99,37 @@
                asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
                class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                Compliance Search Page
+                Open in search
             </a>
         </div>
     </div>
-
-    @if (Model.ComplianceSummary.TotalCount == 0)
-    {
-        <div class="border rounded-2 p-3">
-            <p class="lead mb-0">No compliance data found in date range.</p>
-        </div>
-    }
-    else
-    {
-        <div id="supportingComplianceDataAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-                            data-bs-target="#supportingComplianceDataBody" aria-controls="supportingComplianceDataBody">
-                        View supporting data
-                    </button>
-                </h3>
-                <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
-                     data-bs-parent="supportingComplianceDataAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                 model="(Model.ComplianceSummary.Items, (WorkEntrySearchDto?)null)" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.ComplianceSummary"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-<section class="my-3">
+<section class="my-4">
+    <h2 class="h5 mb-0">Five-year history of enforcement cases:</h2>
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
-            <h2 class="h5 mb-md-0">
-                Five-year history of enforcement cases:
-                <div class="text-info-emphasis">
-                    @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-                </div>
-            </h2>
+            <h3 class="h5 mb-md-0 text-info-emphasis">
+                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+            </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
             <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
-               asp-route-EnforcementDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
+               asp-route-EnforcementDateFrom="@Model.Item!.ExtendedDataStartDate.ToShortDateString()"
                asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
                class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                Enforcement Search Page
+                Open in search
             </a>
         </div>
     </div>
-
-    @if (Model.CaseFileSummary.TotalCount == 0)
-    {
-        <div class="border rounded-2 p-3">
-            <p class="lead mb-0">No enforcement cases found in date range.</p>
-        </div>
-    }
-    else
-    {
-        <div id="supportingEnforcementDataAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-                            data-bs-target="#supportingEnforcementDataBody" aria-controls="supportingEnforcementDataBody">
-                        View supporting data
-                    </button>
-                </h3>
-                <div id="supportingEnforcementDataBody" class="accordion-collapse collapse"
-                     data-bs-parent="supportingEnforcementDataAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_CaseFileSearchTable"
-                                 model="(Model.CaseFileSummary.Items, (CaseFileSearchDto?)null)" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFileSummary"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-<section class="my-3">
+<section class="my-4">
     <div class="mb-2">
         <h2 class="h5 mb-md-0">
             Five-year history of annual permit fees:
@@ -214,7 +158,7 @@
                 <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
                      data-bs-parent="supportingAnnualFeesDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_AnnualFeesSummaryTable" model="Model.AnnualFeesSummary" />
+                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="Model.AnnualFeesSummary" />
                     </div>
                 </div>
             </div>

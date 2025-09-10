@@ -32,9 +32,8 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Staff ==
 
-    [Display(Name = "Staff")]
-    // Guid as string
-    public string? Staff { get; init; }
+    [Display(Name = "Staff Responsible")]
+    public string? Staff { get; init; } // Guid as string
 
     [Display(Name = "Office")]
     public Guid? Office { get; init; }

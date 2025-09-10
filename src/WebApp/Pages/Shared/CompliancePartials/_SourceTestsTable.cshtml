@@ -1,8 +1,9 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model (IList<IaipDataService.SourceTests.Models.SourceTestSummary> Items, bool SimpleTableFormat)
+@model IList<IaipDataService.SourceTests.Models.SourceTestSummary>
 @{
-    var rowCss = Model.SimpleTableFormat ? "" : "align-middle";
-    var linkCss = Model.SimpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+    var simpleTableFormat = (bool?)ViewData["SimpleTableFormat"] ?? false;
+    var rowCss = simpleTableFormat ? "" : "align-middle";
+    var linkCss = simpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
 }
 
 <div class="table-responsive-md">
@@ -18,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var summary in Model.Items)
+        @foreach (var summary in Model)
         {
             <tr>
                 <th scope="row" class="@rowCss">
