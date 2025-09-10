@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -72,13 +73,18 @@ public class IndexModel(
 
         if (ComplianceReview is null)
         {
+            var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
+            if (defaultStaff != null && !await staffService.IsInRoleAsync(defaultStaff.Id, AppRole.ComplianceStaffRole))
+                defaultStaff = null;
+
             NewComplianceReview = new SourceTestReviewCreateDto
             {
                 ReferenceNumber = ReferenceNumber,
                 TestReportIsClosed = TestSummary.ReportClosed,
                 FacilityId = TestSummary.Facility?.FacilityId,
-                ResponsibleStaffId = (await staffService.GetCurrentUserAsync()).Id,
+                ResponsibleStaffId = defaultStaff?.Id ?? (await staffService.GetCurrentUserAsync()).Id,
             };
+
             await PopulateSelectListsAsync();
         }
         else

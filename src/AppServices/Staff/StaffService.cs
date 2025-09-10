@@ -34,6 +34,13 @@ public sealed class StaffService(
         return mapper.Map<StaffViewDto?>(user);
     }
 
+    public async Task<StaffViewDto?> FindByEmailAsync(string? email)
+    {
+        if (email is null) return null;
+        var user = await userManager.FindByEmailAsync(email).ConfigureAwait(false);
+        return mapper.Map<StaffViewDto?>(user);
+    }
+
     public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging)
     {
         var users = string.IsNullOrEmpty(spec.Role)
@@ -60,6 +67,12 @@ public sealed class StaffService(
         .Where(user => user.Active)
         .Select(user => new ListItem<string>(user.Id, user.SortableFullName))
         .ToList();
+
+    public async Task<bool> IsInRoleAsync(string id, AppRole role)
+    {
+        var user = await userManager.FindByIdAsync(id).ConfigureAwait(false);
+        return user is not null && await userManager.IsInRoleAsync(user, role.Name).ConfigureAwait(false);
+    }
 
     public async Task<IList<string>> GetRolesAsync(string id)
     {
