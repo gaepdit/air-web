@@ -39,7 +39,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
-            return RedirectToPage("../SourceTest/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
+            return RedirectToPage("../SourceTest/Details", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
 
         if (Item.IsComplianceEvent)
             CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);

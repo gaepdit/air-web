@@ -34,6 +34,7 @@ BEGIN
            ApplicableRequirement,
            ReportClosed,
            DateReceivedByApb,
+           DateTestReviewComplete,
 
            'TestDates'       as Id,
            StartDate,

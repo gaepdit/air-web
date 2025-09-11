@@ -33,6 +33,7 @@ BEGIN
            ComplianceStatus,
            ReportClosed,
            DateReceivedByApb,
+           DateTestReviewComplete,
            IaipComplianceAssignment,
 
            -- Facility Summary

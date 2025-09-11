@@ -29,7 +29,7 @@ else
             <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Compliance/Work/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                     Open in search
                 </a>
             </div>
@@ -47,7 +47,7 @@ else
             <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                     Open in search
                 </a>
             </div>
@@ -62,16 +62,15 @@ else
             <div class="col">
                 <div><em>Most recent open source tests assigned to you</em></div>
             </div>
-            @* <div class="col-auto ms-md-3 d-print-none"> *@
-            @*     <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0" *@
-            @*        asp-page-handler="Search" asp-fragment="search-results" *@
-            @*        class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> *@
-            @*         Open in search *@
-            @*     </a> *@
-            @* </div> *@
+            <div class="col-auto ms-md-3 d-print-none">
+                <a asp-page="/Compliance/SourceTest/Index"
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                    View all
+                </a>
+            </div>
         </div>
         <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.StaffSourceTests"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideReportClosed="true" />
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
     </section>
 }
 
@@ -88,7 +87,7 @@ else
             <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Compliance/Work/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                     Open in search
                 </a>
             </div>
@@ -103,16 +102,15 @@ else
             <div class="col">
                 <div><em>Most recent open source tests</em></div>
             </div>
-            @* <div class="col-auto ms-md-3 d-print-none"> *@
-            @*     <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0" *@
-            @*        asp-page-handler="Search" asp-fragment="search-results" *@
-            @*        class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> *@
-            @*         Open in search *@
-            @*     </a> *@
-            @* </div> *@
+            <div class="col-auto ms-md-3 d-print-none">
+                <a asp-page="/Compliance/SourceTest/Index"
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                    View all
+                </a>
+            </div>
         </div>
         <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.OfficeSourceTests"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideReportClosed="true" />
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
     </section>
 }
 
@@ -129,7 +127,7 @@ else
             <div class="col-auto ms-md-3 d-print-none">
                 <a asp-page="/Enforcement/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
+                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                     Open in search
                 </a>
             </div>

@@ -11,6 +11,7 @@ public static class DisplayTemplate
     public const string AddressOneLine = nameof(AddressOneLine);
     public const string BoolActive = nameof(BoolActive);
     public const string BoolAsterisk = nameof(BoolAsterisk);
+    public const string BoolComplete = nameof(BoolComplete);
     public const string BoolClosed = nameof(BoolClosed);
     public const string BoolDeviationsNoted = nameof(BoolDeviationsNoted);
     public const string BoolYesNo = nameof(BoolYesNo);
