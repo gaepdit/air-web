@@ -19,7 +19,7 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-10-09  DWaldron            Initial version
-2025-09-10  DWaldron            Use a common view instead (#355)
+2025-09-11  DWaldron            Use a common view instead (#355)
 
 ***************************************************************************************************/
 
@@ -35,6 +35,7 @@ BEGIN
            ComplianceStatus,
            ReportClosed,
            DateReceivedByApb,
+           DateTestReviewComplete,
            IaipComplianceAssignment,
 
            -- Facility Summary

@@ -12,7 +12,7 @@ public abstract record SourceTestReviewCommandDto : WorkEntryCommandDto, ISource
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received By Compliance")]
-    public DateOnly? ReceivedByComplianceDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateOnly? ReceivedByComplianceDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

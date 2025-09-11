@@ -56,10 +56,13 @@ public record SourceTestSummary
 
     public string? IaipComplianceAssignment { get; init; }
 
-    // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
+    // FUTURE: Change DateTime to DateOnly when this Dapper issue is fixed and DateOnly is supported:
     // https://github.com/DapperLib/Dapper/issues/2072
     [Display(Name = "Date Received By APB")]
     public DateTime DateReceivedByApb { get; init; }
+
+    [Display(Name = "Date Test Review Complete")]
+    public DateTime? DateTestReviewComplete { get; init; }
 
     [Display(Name = "Test Dates")]
     public DateRange TestDates { get; set; }

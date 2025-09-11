@@ -74,15 +74,23 @@ public class IndexModel(
         if (ComplianceReview is null)
         {
             var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
-            if (defaultStaff != null && !await staffService.IsInRoleAsync(defaultStaff.Id, AppRole.ComplianceStaffRole))
-                defaultStaff = null;
+
+            var defaultStaffId =
+                defaultStaff != null && await staffService.IsInRoleAsync(defaultStaff.Id, AppRole.ComplianceStaffRole)
+                    ? defaultStaff.Id
+                    : (await staffService.GetCurrentUserAsync()).Id;
+
+            var defaultReceivedDate = TestSummary.DateTestReviewComplete is null
+                ? DateOnly.FromDateTime(DateTime.Today)
+                : DateOnly.FromDateTime(TestSummary.DateTestReviewComplete.Value);
 
             NewComplianceReview = new SourceTestReviewCreateDto
             {
                 ReferenceNumber = ReferenceNumber,
                 TestReportIsClosed = TestSummary.ReportClosed,
                 FacilityId = TestSummary.Facility?.FacilityId,
-                ResponsibleStaffId = defaultStaff?.Id ?? (await staffService.GetCurrentUserAsync()).Id,
+                ReceivedByComplianceDate = defaultReceivedDate,
+                ResponsibleStaffId = defaultStaffId,
             };
 
             await PopulateSelectListsAsync();
