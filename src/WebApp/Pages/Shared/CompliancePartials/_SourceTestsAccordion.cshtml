@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Platform.Defaults
-@model (IList<IaipDataService.SourceTests.Models.SourceTestSummary> Items, int TotalCount)
+@model GaEpd.AppLibrary.Pagination.IPaginatedResult<IaipDataService.SourceTests.Models.SourceTestSummary>
 @{
     var expanded = (bool?)ViewData["expanded"] ?? false;
     var id = Guid.NewGuid();

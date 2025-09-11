@@ -34,7 +34,7 @@ else
                 </a>
             </div>
         </div>
-        <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.ComplianceWork"
+        <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.StaffComplianceWork"
                  view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
     </section>
 
@@ -52,11 +52,27 @@ else
                 </a>
             </div>
         </div>
-        <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFiles"
+        <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.StaffCaseFiles"
                  view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
     </section>
 
-    // Source tests assigned
+    <section class="my-4">
+        <h3 class="h5">Source tests</h3>
+        <div class="row justify-content-between align-items-baseline mb-2">
+            <div class="col">
+                <div><em>Most recent open source tests assigned to you</em></div>
+            </div>
+            @* <div class="col-auto ms-md-3 d-print-none"> *@
+            @*     <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0" *@
+            @*        asp-page-handler="Search" asp-fragment="search-results" *@
+            @*        class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> *@
+            @*         Open in search *@
+            @*     </a> *@
+            @* </div> *@
+        </div>
+        <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.StaffSourceTests"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideReportClosed="true" />
+    </section>
 }
 
 @if (Model.IsComplianceManager)
@@ -70,7 +86,7 @@ else
                 <div><em>Most recent open compliance work assigned to your office</em></div>
             </div>
             <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/Work/Index" asp-route-Office="@Model.OfficeId" asp-route-Closed="0"
+                <a asp-page="/Compliance/Work/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     Open in search
@@ -81,7 +97,23 @@ else
                  view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
     </section>
 
-    // Office source tests assigned
+    <section class="my-4">
+        <h3 class="h5">Source tests</h3>
+        <div class="row justify-content-between align-items-baseline mb-2">
+            <div class="col">
+                <div><em>Most recent open source tests</em></div>
+            </div>
+            @* <div class="col-auto ms-md-3 d-print-none"> *@
+            @*     <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0" *@
+            @*        asp-page-handler="Search" asp-fragment="search-results" *@
+            @*        class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"> *@
+            @*         Open in search *@
+            @*     </a> *@
+            @* </div> *@
+        </div>
+        <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.OfficeSourceTests"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideReportClosed="true" />
+    </section>
 }
 
 @if (Model.IsEnforcementReviewer)
@@ -95,7 +127,7 @@ else
                 <div><em>Most recent open enforcement cases assigned to your office</em></div>
             </div>
             <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Enforcement/Index" asp-route-Office="@Model.OfficeId" asp-route-Closed="0"
+                <a asp-page="/Enforcement/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
                    asp-page-handler="Search" asp-fragment="search-results"
                    class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
                     Open in search

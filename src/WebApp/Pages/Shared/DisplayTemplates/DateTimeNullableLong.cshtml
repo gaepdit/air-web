@@ -1,0 +1,10 @@
+@using AirWeb.AppServices.Utilities
+@model DateTime?
+@if (Model == null)
+{
+    <span class="text-body-secondary fw-lighter">@DefaultText.NotAvailable</span>
+}
+else
+{
+    @Model.ToString(DateTimeFormats.LongDate)
+}

@@ -31,6 +31,8 @@ select convert(int, r.STRREFERENCENUMBER)    as ReferenceNumber,
        IIF(r.DATCOMPLETEDATE = '1776-07-04', null,
            convert(date, r.DATCOMPLETEDATE)) as DateTestReviewComplete,
        cu.STREMAILADDRESS                    as IaipComplianceAssignment,
+       convert(bit, IIF(ci.DATCOMPLETEDATE is null, 0, 1))
+           as IaipComplianceComplete,
 
        -- Facility Summary
        right(i.STRAIRSNUMBER, 8)             as FacilityId,

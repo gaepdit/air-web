@@ -55,7 +55,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeLong)</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
     <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.FullName</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>
@@ -67,7 +67,14 @@
     if (!Model.CanAddNewReview)
     {
         <h2 id="compliance-review">Compliance Review</h2>
-        <p class="lead">No compliance review has been completed for this source test report.</p>
+        @if (summary.ReportClosed)
+        {
+            <p class="lead">No compliance review has been completed for this source test report.</p>
+        }
+        else
+        {
+            <p class="lead">A compliance review can not be completed for this source test yet because the test report is still open.</p>
+        }
     }
     else
     {

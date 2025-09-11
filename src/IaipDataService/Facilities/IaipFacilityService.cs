@@ -31,15 +31,15 @@ public sealed class IaipFacilityService(
         if (!forceRefresh)
         {
             // When requesting a facility summary, check the summary cache first.
-            if (!loadDetails && cache.TryGetValue(facilitySummaryCacheKey, logger, out Facility? cachedFacility))
-                return cachedFacility;
+            if (!loadDetails && cache.TryGetValue(facilitySummaryCacheKey, logger, out Facility? cachedValue))
+                return cachedValue;
 
             // Check the details cache when requesting facility details or
             // when requesting a summary that is not in the summary cache.
-            if (cache.TryGetValue(facilityDetailsCacheKey, logger, out cachedFacility))
+            if (cache.TryGetValue(facilityDetailsCacheKey, logger, out cachedValue))
                 return loadDetails
-                    ? cachedFacility
-                    : cache.Set(cacheKey, cachedFacility, CacheConstants.FacilityExpiration, logger);
+                    ? cachedValue
+                    : cache.Set(cacheKey, cachedValue, CacheConstants.FacilityExpiration, logger);
         }
 
         using var db = dbf.Create();
@@ -91,8 +91,8 @@ public sealed class IaipFacilityService(
     public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
     {
         if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
-                out ReadOnlyDictionary<FacilityId, string>? cachedFacilityList))
-            return cachedFacilityList;
+                out ReadOnlyDictionary<FacilityId, string>? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
         var facilityList = new ReadOnlyDictionary<FacilityId, string>(

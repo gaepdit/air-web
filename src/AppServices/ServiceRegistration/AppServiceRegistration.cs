@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.SourceTests;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
@@ -27,6 +28,9 @@ public static class AppServiceRegistration
         .AddScoped<IWorkEntryManager, WorkEntryManager>()
         .AddScoped<IWorkEntryService, WorkEntryService>()
         .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
+
+        // Source Tests
+        .AddScoped<ISourceTestsService, SourceTestsService>()
 
         // FCEs
         .AddScoped<IFceManager, FceManager>()

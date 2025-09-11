@@ -18,6 +18,7 @@ public static class DisplayTemplate
     public const string Currency = nameof(Currency);
     public const string DateRange = nameof(DateRange);
     public const string DateTimeLong = nameof(DateTimeLong);
+    public const string DateTimeNullableLong = nameof(DateTimeNullableLong);
     public const string DateTimeShort = nameof(DateTimeShort);
     public const string DateTimeNullableShort = nameof(DateTimeNullableShort);
     public const string DateTimeRange = nameof(DateTimeRange);

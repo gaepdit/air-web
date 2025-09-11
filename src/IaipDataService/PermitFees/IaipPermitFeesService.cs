@@ -24,8 +24,8 @@ public class IaipPermitFeesService(
 
         // Check the cache first.
         var cacheKey = $"AnnualFeesSummary.{facilityId}.{lowerYear}.{upperYear}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out List<AnnualFeeSummary>? cachedAnnualFees))
-            return cachedAnnualFees;
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out List<AnnualFeeSummary>? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
 

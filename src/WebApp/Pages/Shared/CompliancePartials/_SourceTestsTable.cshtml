@@ -2,6 +2,7 @@
 @model IList<IaipDataService.SourceTests.Models.SourceTestSummary>
 @{
     var simpleTableFormat = (bool?)ViewData["SimpleTableFormat"] ?? false;
+    var hideReportClosed = (bool?)ViewData["HideReportClosed"] ?? false;
     var rowCss = simpleTableFormat ? "" : "align-middle";
     var linkCss = simpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
 }
@@ -15,7 +16,10 @@
             <th scope="col">Source Tested</th>
             <th scope="col">Pollutant</th>
             <th scope="col">Test Dates</th>
-            <th scope="col">Open/Closed</th>
+            @if (!hideReportClosed)
+            {
+                <th scope="col">Open/Closed</th>
+            }
         </tr>
         </thead>
         <tbody>
@@ -32,7 +36,10 @@
                 <td>@summary.Source</td>
                 <td>@summary.Pollutant</td>
                 <td>@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</td>
-                <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
+                @if (!hideReportClosed)
+                {
+                    <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
+                }
             </tr>
         }
         </tbody>

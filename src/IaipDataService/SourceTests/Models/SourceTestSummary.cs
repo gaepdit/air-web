@@ -20,6 +20,8 @@ public record SourceTestSummary
         ApplicableRequirement = report.ApplicableRequirement;
         ComplianceStatus = report.ComplianceStatus;
         ReportClosed = report.ReportClosed;
+        DateTestReviewComplete = report.DateTestReviewComplete;
+        IaipComplianceAssignment = report.IaipComplianceAssignment;
         TestDates = report.TestDates;
         DateReceivedByApb = report.DateReceivedByApb;
         ReviewedByStaff = report.ReviewedByStaff;

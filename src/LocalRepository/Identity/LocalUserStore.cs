@@ -12,7 +12,7 @@ public sealed class LocalUserStore :
     IUserEmailStore<ApplicationUser>
 {
     public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
-    internal ICollection<ApplicationUser> UserStore { get; } = UserData.GetUsers.ToList();
+    internal ICollection<ApplicationUser> UserStore { get; } = UserData.GetData.ToList();
     internal ICollection<IdentityRole> Roles { get; } = UserData.GetRoles.ToList();
     private List<IdentityUserRole<string>> UserRoles { get; } = [];
     private List<UserLogin> UserLogins { get; } = [];
