@@ -46,8 +46,8 @@ public class IaipSourceTestService(
         if (!await SourceTestExistsAsync(referenceNumber)) return null;
 
         var cacheKey = $"IaipSourceTestService.FindSummaryAsync.{referenceNumber}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedTestSummary))
-            return cachedTestSummary;
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
 
@@ -67,12 +67,13 @@ public class IaipSourceTestService(
         return cache.Set(cacheKey, testSummary, CacheConstants.SourceTestExpiration, logger, forceRefresh);
     }
 
-    public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
+    public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false)
     {
         var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out List<SourceTestSummary>? cachedSourceTests))
-            return cachedSourceTests;
+        if (!forceRefresh &&
+            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
 
@@ -88,6 +89,35 @@ public class IaipSourceTestService(
             }).ToList();
 
         return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+    }
+
+    public async Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
+        bool forceRefresh = false)
+    {
+        const string cacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
+        if (!forceRefresh &&
+            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
+            return cachedValue;
+
+        using var db = dbf.Create();
+
+        await using var multi = await db.QueryMultipleAsync("air.GetOpenSourceTestsForCompliance",
+            commandType: CommandType.StoredProcedure);
+
+        var sourceTests = multi
+            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
+            {
+                summary.TestDates = testDates;
+                summary.ReviewedByStaff = reviewedByStaff;
+                return summary;
+            }).ToList();
+
+        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+    }
+
+    public Task UpdateSourceTest(int referenceNumber, string complianceAssignment, bool complianceComplete)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)

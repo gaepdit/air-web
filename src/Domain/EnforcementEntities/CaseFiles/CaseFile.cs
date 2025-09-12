@@ -76,8 +76,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty: This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
@@ -106,8 +105,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty. This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
@@ -125,8 +123,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty. This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }

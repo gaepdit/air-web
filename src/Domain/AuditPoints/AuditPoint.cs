@@ -16,7 +16,7 @@ public record AuditPoint : IEntity
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; private init; }
 
-    [StringLength(10)]
+    [StringLength(100)]
     public string What { get; private init; } = null!;
 
     public ApplicationUser? Who { get; private init; }

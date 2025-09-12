@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Platform.Defaults
-@model (IList<IaipDataService.SourceTests.Models.SourceTestSummary> Items, int TotalCount)
+@model GaEpd.AppLibrary.Pagination.IPaginatedResult<IaipDataService.SourceTests.Models.SourceTestSummary>
 @{
     var expanded = (bool?)ViewData["expanded"] ?? false;
     var id = Guid.NewGuid();
@@ -31,7 +31,7 @@ else
             <div id="@bodyId" class="accordion-collapse collapse @(expanded ? "show" : "")" data-bs-parent="@parentId">
                 <div class="accordion-body pb-2">
                     <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.Items"
-                             view-data="new ViewDataDictionary(ViewData)" view-data-SimpleTableFormat="true" />
+                             view-data="ViewData" view-data-SimpleTableFormat="true" />
                 </div>
             </div>
         </div>

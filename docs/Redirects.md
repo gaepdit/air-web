@@ -21,7 +21,7 @@ Rules are approximately ordered from the most frequently matched rule to the lea
 | `/Facility/SourceTests/`           | `/Facility/Index`              |  ✔️  |
 | `/Compliance/[FCE,Work]/Details/`  | `/Compliance/[FCE,Work]/Index` |  ✔️  | 
 | `/Compliance/[FCE,Work]/(action)/` | `/Compliance/[FCE,Work]/Index` |  ✔️  | 
-| `/Compliance/SourceTest/Details/`  | `/Compliance/Work/Index`       |  ✔️  | 
+| `/Compliance/SourceTest/Details/`  | `/Compliance/SourceTest/Index` |  ✔️  | 
 | `/Enforcement/Details/`            | `/Enforcement/Index`           |  ✔️  |
 | `/Enforcement/(action)/`           | `/Enforcement/Index`           |  ✔️  |
 | `/Enforcement/Edit/[Type]/`        | `/Enforcement/Index`           |  ✔️  |

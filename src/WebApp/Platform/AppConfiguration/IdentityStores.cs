@@ -11,6 +11,7 @@ public static class IdentityStores
     public static void AddIdentityStores(this IServiceCollection services)
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
+        services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
         if (AppSettings.DevSettings.BuildDatabase)
         {

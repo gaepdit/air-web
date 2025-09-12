@@ -3,23 +3,21 @@ GO
 SET ANSI_NULLS ON;
 GO
 
-CREATE OR ALTER PROCEDURE air.GetFacilitySourceTests
-    @FacilityId varchar(8)
+CREATE OR ALTER PROCEDURE air.GetOpenSourceTestsForCompliance
 AS
 
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:   Retrieves a list of stack tests for a given facility.
+Overview:   Retrieves a list of stack tests which have not yet been reviewed by compliance staff.
 
 Input Parameters:
-    @FacilityId - The Facility ID
+    @ReferenceNumber - The stack test reference number
 
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2024-10-07  DWaldron            Initial version
-2025-09-11  DWaldron            Use a common view instead (#355)
+2025-09-11  DWaldron            Initial version (#355)
 
 ***************************************************************************************************/
 
@@ -32,9 +30,18 @@ BEGIN
            Source,
            Pollutant,
            ApplicableRequirement,
+           ComplianceStatus,
            ReportClosed,
            DateReceivedByApb,
            DateTestReviewComplete,
+           IaipComplianceAssignment,
+
+           -- Facility Summary
+           FacilityId        as Id,
+           Name,
+           County,
+           City,
+           State,
 
            'TestDates'       as Id,
            StartDate,
@@ -44,8 +51,9 @@ BEGIN
            GivenName,
            FamilyName
     from air.IaipSourceTestSummary
-    where FacilityId = @FacilityId
-    order by StartDate desc, ReferenceNumber desc;
+    where ReportClosed = convert(bit, 1)
+      and IaipComplianceComplete = convert(bit, 0)
+    order by DateTestReviewComplete desc, ReferenceNumber desc;
 
 END
 GO

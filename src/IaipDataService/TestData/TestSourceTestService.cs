@@ -21,9 +21,24 @@ public class TestSourceTestService : ISourceTestService
         return Task.FromResult(result is null ? null : new SourceTestSummary(result));
     }
 
-    public Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
+    public Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false) =>
-        Task.FromResult(Items.Where(report => report.Facility?.Id == facilityId)
-            .Select(report => new SourceTestSummary(report))
-            .ToList());
+        Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
+            .Where(report => report.Facility?.Id == facilityId)
+            .OrderByDescending(report => report.TestDates.StartDate)
+            .ThenByDescending(report => report.ReferenceNumber)
+            .Select(report => new SourceTestSummary(report)).ToList());
+
+    public Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
+        bool forceRefresh = false) =>
+        Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
+            .Where(report => report is { ReportClosed: true, IaipComplianceComplete: false })
+            .OrderByDescending(report => report.DateTestReviewComplete)
+            .ThenByDescending(report => report.ReferenceNumber)
+            .Select(report => new SourceTestSummary(report)).ToList());
+
+    public Task UpdateSourceTest(int referenceNumber, string complianceAssignment, bool complianceComplete)
+    {
+        throw new NotImplementedException();
+    }
 }

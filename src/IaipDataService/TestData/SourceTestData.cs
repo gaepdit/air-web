@@ -33,6 +33,9 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
+            IaipComplianceComplete = true,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff =
             [
@@ -108,6 +111,9 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
+            IaipComplianceComplete = true,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -179,6 +185,9 @@ public static class SourceTestData
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2016, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2016, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
+            IaipComplianceComplete = true,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -280,6 +289,8 @@ public static class SourceTestData
                 new DateTime(2016, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2016, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2016, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -377,6 +388,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -412,6 +425,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -470,6 +485,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -529,6 +546,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -592,6 +611,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -681,6 +702,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -707,6 +730,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -735,6 +760,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -766,6 +793,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,
@@ -850,6 +879,8 @@ public static class SourceTestData
                 new DateTime(2020, 10, 1, 0, 0, 0, DateTimeKind.Local)
             ),
             DateReceivedByApb = new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Local),
+            DateTestReviewComplete = new DateTime(2020, 11, 5, 0, 0, 0, DateTimeKind.Local),
+            IaipComplianceAssignment = StaffData.GetRandomStaff().EmailAddress,
             ReviewedByStaff = StaffData.GetRandomStaff().Name,
             WitnessedByStaff = [],
             ComplianceManager = StaffData.GetRandomStaff().Name,

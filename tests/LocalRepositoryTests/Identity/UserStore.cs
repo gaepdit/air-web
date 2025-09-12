@@ -21,7 +21,7 @@ public class UserStore
     [Test]
     public async Task GetUserId_ReturnsId()
     {
-        var user = UserData.GetUsers.First();
+        var user = UserData.GetData.First();
         var result = await _store.GetUserIdAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.Id);
     }

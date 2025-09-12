@@ -1,11 +1,11 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.SourceTests;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
-using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
 
 namespace AirWeb.WebApp.Pages.Facility;
@@ -16,7 +16,7 @@ public class DetailsModel(
     IFceSearchService fceSearchService,
     ICaseFileSearchService caseFileService,
     IWorkEntrySearchService entrySearchService,
-    ISourceTestService sourceTestService,
+    ISourceTestsService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
     // Facility
@@ -30,8 +30,7 @@ public class DetailsModel(
     public IPaginatedResult<WorkEntrySearchResultDto> ComplianceWork { get; set; } = null!;
     public IPaginatedResult<FceSearchResultDto> Fces { get; set; } = null!;
 
-    public IList<SourceTestSummary> SourceTests { get; private set; } = [];
-    public int SourceTestCount { get; private set; }
+    public IPaginatedResult<SourceTestSummary> SourceTests { get; private set; } = null!;
 
     [TempData]
     public bool RefreshIaipData { get; set; }
@@ -57,7 +56,8 @@ public class DetailsModel(
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search services.
-        var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData);
+        var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
+            PaginationDefaults.SourceTestSummary, RefreshIaipData);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         ComplianceWork = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
@@ -69,9 +69,7 @@ public class DetailsModel(
         CaseFiles = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
             PaginationDefaults.EnforcementSummary, loadFacilities: false, token: token);
 
-        var sourceTestsForFacility = await sourceTestsForFacilityTask;
-        SourceTests = sourceTestsForFacility.Take(SearchDefaults.SummaryTableSize).ToList();
-        SourceTestCount = sourceTestsForFacility.Count;
+        SourceTests = await sourceTestsForFacilityTask;
 
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
         return Page();

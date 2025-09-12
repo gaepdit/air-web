@@ -1,0 +1,268 @@
+@page "{referenceNumber:int?}"
+@using AirWeb.AppServices.Compliance.Permissions
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using AirWeb.WebApp.Platform.Settings
+@model DetailsModel
+@{
+    var summary = Model.TestSummary!;
+    ViewData["Title"] = $"STR {summary.ReferenceNumber} – Facility {summary.Facility?.Id}";
+}
+
+<div class="row justify-content-between align-items-center mb-2">
+    <div class="col-md">
+        <h1 class="mb-md-0">Source Test Summary</h1>
+    </div>
+    <div class="col-md-auto ms-md-3 d-print-none">
+        @if (Model.TestSummary!.HasPrintout)
+        {
+            <a asp-page="/Print/SourceTest/Index" target="_blank" rel="noopener"
+               asp-route-referenceNumber="@summary.ReferenceNumber.ToString()"
+               class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
+                <svg class="bi">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
+                </svg>
+                Print
+            </a>
+        }
+    </div>
+</div>
+
+<dl class="row mt-3">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
+    </dd>
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(summary.Facility!.FacilityId,summary.Facility.Name)" />
+    </dd>
+</dl>
+<dl class="row mt-3 bg-body-tertiary py-2 border rounded-1">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestType)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.TestType</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Source)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Source</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Pollutant)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Pollutant</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ComplianceStatus)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ComplianceStatus</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.FullName</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
+</dl>
+
+@if (Model.ComplianceReview is null)
+{
+    if (!Model.CanAddNewReview)
+    {
+        <h2 id="compliance-review">Compliance Review</h2>
+        @if (summary.ReportClosed)
+        {
+            <p class="lead">No compliance review has been completed for this source test report.</p>
+        }
+        else
+        {
+            <p class="lead">A compliance review cannot be completed for this source test yet because the test report is still incomplete.</p>
+        }
+    }
+    else
+    {
+        <h2 id="compliance-review">Add a new Compliance Review</h2>
+        <div class="p-3 mb-2 border border-primary-subtle rounded-3 bg-light-subtle">
+            <form method="post" asp-page-handler="NewReview">
+                <div class="mb-3">
+                    @Html.EditorFor(m => m.NewComplianceReview!.ResponsibleStaffId, EditorTemplate.Select,
+                            additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+                </div>
+
+                <div class="row">
+                    <div class="col-md mb-3">
+                        @Html.EditorFor(m => m.NewComplianceReview!.ReceivedByComplianceDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                    <div class="col-md mb-3">
+                        @Html.EditorFor(m => m.NewComplianceReview!.DueDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3">
+                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, new { Rows = 3 })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        @Html.EditorFor(m => m.NewComplianceReview!.AcknowledgmentLetterDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                    <div class="col-md mb-3">
+                        @Html.EditorFor(m => m.NewComplianceReview!.FollowupTaken, EditorTemplate.Checkbox)
+                    </div>
+                </div>
+
+                <div class="mb-1">
+                    <button id="SubmitButton" type="submit" class="btn btn-primary">
+                        Add Compliance Review
+                    </button>
+                </div>
+                <div class="text-danger-emphasis mt-3">* denotes a required field</div>
+                <input asp-for="NewComplianceReview!.ReferenceNumber" type="hidden" />
+                <input asp-for="NewComplianceReview!.FacilityId" type="hidden" />
+            </form>
+        </div>
+    }
+}
+else
+{
+    <div class="row justify-content-between align-items-center mb-2">
+        <div class="col-md">
+            <h2 id="compliance-review" class="mb-md-0">Compliance Review</h2>
+        </div>
+        <div class="col-md-auto ms-md-3 d-print-none">
+            <div class="btn-group">
+                @if (Model.UserCan[ComplianceOperation.Close])
+                {
+                    <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">Close</a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Reopen])
+                {
+                    <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">
+                        Reopen
+                    </a>
+                }
+                @if (Model.UserCan[ComplianceOperation.Edit])
+                {
+                    <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                       class="btn btn-outline-primary">Edit</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    var review = Model.ComplianceReview!;
+
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md">
+            <div class="lead">Compliance Tracking #@review.Id.ToString()</div>
+        </div>
+        @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
+        {
+            <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
+                <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
+                   class="btn btn-sm btn-outline-primary icon-link">
+                    <svg class="bi">
+                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
+                    </svg>
+                    Enforcement Case
+                </a>
+            </div>
+        }
+    </div>
+
+    <dl class="row mt-3">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ResponsibleStaff)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+        <dt class="col-sm-4 col-lg-3">Compliance Review Status</dt>
+        <dd class="col-sm-8 col-lg-9">
+            @if (Model.ComplianceReview.IsClosed)
+            {
+                @:Closed by @Html.DisplayFor(_ => review.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
+            }
+            else
+            {
+                @:Open
+            }
+        </dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.AcknowledgmentLetterDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        @if (Model.CaseFileIds.Any())
+        {
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.CaseFileIds)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <ul class="mb-0 p-0 ps-1">
+                    @foreach (var id in Model.CaseFileIds)
+                    {
+                        <li class="float-start me-4 ms-2">
+                            <a asp-page="/Enforcement/Details" asp-route-id="@id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">@id</a>
+                        </li>
+                    }
+                </ul>
+            </dd>
+        }
+    </dl>
+
+    <h3 class="mt-4">Details</h3>
+    <dl class="row my-3">
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByComplianceDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByComplianceDate, DisplayTemplate.ShortDateOnly)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.DueDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.DueDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.FollowupTaken)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.FollowupTaken, DisplayTemplate.BoolYesNo)</dd>
+        <dt class="mb-2">@Html.DisplayNameFor(_ => review.Notes)</dt>
+        <dd>
+            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => review.Notes, DisplayTemplate.TextWithLinebreaks)</div>
+        </dd>
+    </dl>
+
+    if (Model.CommentSection != null)
+    {
+        <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+    }
+}
+
+@if (Model.ComplianceReview is not null && Model.UserCan[ComplianceOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="../Work/Delete" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
+            Delete Compliance Review
+        </a>
+    </div>
+}
+
+@section Footer {
+    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
+    {
+        <div class="bg-info-subtle py-2 border-bottom d-print-none">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                        <small>
+                            * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24&nbsp;hours.
+                            If it appears out of date, you can manually refresh the data.
+                        </small>
+                    </div>
+                    <div class="col-auto my-0 ms-3">
+                        <a asp-route-referenceNumber="@Model.ReferenceNumber.ToString()" asp-route-refresh="true"
+                           class="btn btn-sm btn-outline-info icon-link">
+                            <svg class="bi">
+                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
+                            </svg>
+                            Refresh IAIP Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview?.AuditPoints" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

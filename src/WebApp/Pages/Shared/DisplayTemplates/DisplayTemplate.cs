@@ -11,6 +11,7 @@ public static class DisplayTemplate
     public const string AddressOneLine = nameof(AddressOneLine);
     public const string BoolActive = nameof(BoolActive);
     public const string BoolAsterisk = nameof(BoolAsterisk);
+    public const string BoolComplete = nameof(BoolComplete);
     public const string BoolClosed = nameof(BoolClosed);
     public const string BoolDeviationsNoted = nameof(BoolDeviationsNoted);
     public const string BoolYesNo = nameof(BoolYesNo);
@@ -18,6 +19,7 @@ public static class DisplayTemplate
     public const string Currency = nameof(Currency);
     public const string DateRange = nameof(DateRange);
     public const string DateTimeLong = nameof(DateTimeLong);
+    public const string DateTimeNullableLong = nameof(DateTimeNullableLong);
     public const string DateTimeShort = nameof(DateTimeShort);
     public const string DateTimeNullableShort = nameof(DateTimeNullableShort);
     public const string DateTimeRange = nameof(DateTimeRange);

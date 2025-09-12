@@ -52,6 +52,10 @@ public abstract record BaseSourceTestReport
     [Display(Name = "Compliance status")]
     public string ComplianceStatus { get; set; } = null!; // STRCOMPLIANCESTATUS
 
+    public DateTime? DateTestReviewComplete { get; init; }
+    public string? IaipComplianceAssignment { get; init; }
+    public bool IaipComplianceComplete { get; init; }
+
     // Test report routing
 
     [Display(Name = "Test dates")]
