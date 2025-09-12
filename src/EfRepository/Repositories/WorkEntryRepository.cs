@@ -40,7 +40,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
             .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
-        Context.Set<NotificationType>().AsNoTracking()
+        Context.Set<NotificationType>()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
