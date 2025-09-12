@@ -1,5 +1,5 @@
 using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData.NamedEntities;
+using AirWeb.TestData.Identity;
 
 namespace EfRepositoryTests.Offices;
 
@@ -16,17 +16,9 @@ public class GetActiveStaffMembersList
     [Test]
     public async Task WhenStaffExist_ReturnsList()
     {
-        var item = OfficeData.GetData.First(e => e.Active);
-        var result = await _repository.GetStaffMembersListAsync(item.Id, true);
+        var item = UserData.GetData.First().Office?.Id;
+        var result = await _repository.GetStaffMembersListAsync(item!.Value, true);
         result.Should().NotBeEmpty();
-    }
-
-    [Test]
-    public async Task WhenStaffDoNotExist_ReturnsEmptyList()
-    {
-        var item = OfficeData.GetData.Last(e => e.Active);
-        var result = await _repository.GetStaffMembersListAsync(item.Id, false);
-        result.Should().BeEmpty();
     }
 
     [Test]

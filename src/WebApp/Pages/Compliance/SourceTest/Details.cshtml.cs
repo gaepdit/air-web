@@ -69,7 +69,7 @@ public class DetailsModel(
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
-        await SetPermissionsAsync();
+        await SetPermissionsAsync(token);
 
         if (ComplianceReview is null)
         {
@@ -123,7 +123,7 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
-        await SetPermissionsAsync();
+        await SetPermissionsAsync(token);
         if (!CanAddNewReview) return BadRequest();
 
         newComplianceReview.TestReportIsClosed = TestSummary.ReportClosed;
@@ -139,7 +139,7 @@ public class DetailsModel(
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
-        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "compliance-review");
     }
 
@@ -152,7 +152,7 @@ public class DetailsModel(
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
-        await SetPermissionsAsync();
+        await SetPermissionsAsync(token);
         if (!UserCan[ComplianceOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
@@ -173,7 +173,7 @@ public class DetailsModel(
         var result = await entryService.AddCommentAsync(ComplianceReview.Id, newComment, token);
         NewCommentId = result.Id;
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
-        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: NewCommentId.ToString());
     }
 
@@ -185,19 +185,21 @@ public class DetailsModel(
         ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
-        await SetPermissionsAsync();
+        await SetPermissionsAsync(token);
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await entryService.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Index", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "comments");
     }
 
-    private async Task SetPermissionsAsync()
+    private async Task SetPermissionsAsync(CancellationToken token)
     {
         // FUTURE: Refactor this permission check.
-        CanAddNewReview = ComplianceReview is null && await authorization.Succeeded(User, Policies.ComplianceStaff) &&
-                          TestSummary is { ReportClosed: true };
+        CanAddNewReview = ComplianceReview is null &&
+                          await authorization.Succeeded(User, Policies.ComplianceStaff) &&
+                          TestSummary is { ReportClosed: true } &&
+                          !await entryService.SourceTestReviewExistsAsync(ReferenceNumber, token);
         if (ComplianceReview is not null)
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
