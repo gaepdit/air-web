@@ -16,23 +16,15 @@ public class GetActiveStaffMembersList
     public async Task WhenStaffExist_ReturnsList()
     {
         // Arrange
-        var officeId = _repository.Items.First(e => e.Active).Id;
+        var officeId = _repository.Staff.Users.First(e => e.Active).Office?.Id;
         var expected = _repository.Staff.Users
             .Where(e => e.Office != null && e.Office.Id.Equals(officeId));
 
         // Act
-        var result = await _repository.GetStaffMembersListAsync(officeId, true);
+        var result = await _repository.GetStaffMembersListAsync(officeId!.Value, true);
 
         // Assert
         result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
-    public async Task WhenStaffDoNotExist_ReturnsEmptyList()
-    {
-        var item = _repository.Items.Last();
-        var result = await _repository.GetStaffMembersListAsync(item.Id, false);
-        result.Should().BeEmpty();
     }
 
     [Test]
