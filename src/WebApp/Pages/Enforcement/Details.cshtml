@@ -359,9 +359,17 @@
                                 {
                                     <em class="text-danger-emphasis">Deleted:</em>
                                 }
-                                else
+                                else if (action.Status is EnforcementActionStatus.Issued or EnforcementActionStatus.Canceled)
                                 {
                                     <span class="text-info-emphasis">@action.Status.GetDisplayName():</span>
+                                }
+                                else if (action.Status == EnforcementActionStatus.Approved)
+                                {
+                                    <span class="text-success">@action.Status.GetDisplayName():</span>
+                                }
+                                else
+                                {
+                                    <span class="text-warning">@action.Status.GetDisplayName():</span>
                                 }
                                 @action.ActionType.GetDisplayName()
                             </h3>

@@ -7,11 +7,11 @@ namespace AirWeb.TestData.Identity;
 internal static partial class UserData
 {
     public static readonly string AdminUserId = IntToGuid(1).ToString();
-    public static ApplicationUser GetRandomUser() => GetData.ElementAt(Random.Shared.Next(GetData.Count()));
+    public static ApplicationUser GetRandomUser() => GetData[Random.Shared.Next(GetData.Count)];
 
     private static List<ApplicationUser>? _users;
 
-    public static IEnumerable<ApplicationUser> GetData
+    public static List<ApplicationUser> GetData
     {
         get
         {

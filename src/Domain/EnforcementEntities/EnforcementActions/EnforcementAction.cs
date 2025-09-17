@@ -31,7 +31,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionStatus Status { get; internal set; } = EnforcementActionStatus.Draft;
 
     // Status: Under review
-    public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(r => !r.IsCompleted);
+    public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(review => !review.IsCompleted);
     public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
     [UsedImplicitly] public DateTime? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
@@ -64,7 +64,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
-    }
+}
 
 // The order of these enum values is used by the UI.
 public enum EnforcementActionType
