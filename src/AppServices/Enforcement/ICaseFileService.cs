@@ -3,6 +3,8 @@ using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Enforcement.Search;
+using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
@@ -34,6 +36,10 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
 
     Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants, IEnumerable<AirProgram> airPrograms,
+        CancellationToken token = default);
+
+    // Enforcement Action Reviews
+    Task<IPaginatedResult<CaseFileSearchResultDto>> GetReviewRequestsAsync(string userId, PaginatedRequest paging,
         CancellationToken token = default);
 
     // Case File workflow

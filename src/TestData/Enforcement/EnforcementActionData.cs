@@ -267,7 +267,8 @@ public static class EnforcementActionData
     private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction)
     {
         var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
-        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(),
+        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction,
+            incomplete ? UserData.GetData[0] : UserData.GetRandomUser(),
             UserData.GetRandomUser())
         {
             RequestedDate = requestedDate,

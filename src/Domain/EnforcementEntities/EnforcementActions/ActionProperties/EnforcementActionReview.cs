@@ -39,12 +39,12 @@ public class EnforcementActionReview : AuditableEntity
 
     internal void CompleteReview(ApplicationUser user, ReviewResult result, string? comments)
     {
-       ReviewedBy = user;
-       Result = result;
-       ReviewComments = comments;
-       CompletedDate = DateTime.Today;
+        ReviewedBy = user;
+        Result = result;
+        ReviewComments = comments;
+        CompletedDate = DateTime.Today;
     }
-    }
+}
 
 public enum ReviewResult
 {

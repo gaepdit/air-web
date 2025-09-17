@@ -156,6 +156,13 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
 
+    public bool HasReviewRequest => EnforcementActions
+        .Exists(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested });
+
+    public string? ReviewRequestedOf => EnforcementActions
+        .SingleOrDefault(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested })
+        ?.CurrentReviewer?.Id;
+
     // Data exchange properties
 
     // Data exchange is not used for LONs, Cases with no linked compliance event,
