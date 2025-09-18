@@ -198,26 +198,26 @@ public static class EnforcementActionData
                     action.Status = EnforcementActionStatus.Issued;
                     action.ApprovedBy = UserData.GetRandomUser();
                     action.ApprovedDate = DateTime.Now.AddDays(-5);
-                    GenerateEnforcementActionReviews(action);
+                    GenerateEnforcementActionReviews(action, false);
                 }
                 else if (action.IsCanceled)
                 {
                     action.Status = EnforcementActionStatus.Canceled;
-                    GenerateEnforcementActionReviews(action);
+                    GenerateEnforcementActionReviews(action, false);
                 }
                 else if (Random.Shared.NextBoolean())
                 {
                     action.Status = EnforcementActionStatus.Approved;
                     action.ApprovedBy = UserData.GetRandomUser();
                     action.ApprovedDate = DateTime.Now.AddDays(-5);
-                    GenerateEnforcementActionReviews(action);
+                    GenerateEnforcementActionReviews(action, false);
                 }
 #pragma warning disable S1862 // Related "if/else if" statements should not have the same condition
                 else if (Random.Shared.NextBoolean())
 #pragma warning restore S1862
                 {
                     action.Status = EnforcementActionStatus.ReviewRequested;
-                    action.Reviews.Add(new EnforcementActionReview(Guid.NewGuid(),action,UserData.GetRandomUser(),UserData.GetRandomUser()));
+                    GenerateEnforcementActionReviews(action, true);
                 }
                 else
                 {
@@ -253,12 +253,12 @@ public static class EnforcementActionData
         }
     }
 
-    private static void GenerateEnforcementActionReviews(EnforcementAction enforcementAction)
+    private static void GenerateEnforcementActionReviews(EnforcementAction enforcementAction, bool finalIsIncomplete)
     {
         var reviewCount = Random.Shared.Next(1, 4); // Generate 1 to 3 reviews.
         for (var i = 0; i < reviewCount; i++)
         {
-            var incomplete = i + 1 == reviewCount && Random.Shared.NextBoolean(); // Final review may be incomplete.
+            var incomplete = finalIsIncomplete && i + 1 == reviewCount; // Final review may be incomplete.
             var review = GenerateReview(i, incomplete, enforcementAction);
             enforcementAction.Reviews.Add(review);
         }
@@ -267,7 +267,8 @@ public static class EnforcementActionData
     private static EnforcementActionReview GenerateReview(int i, bool incomplete, EnforcementAction enforcementAction)
     {
         var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
-        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction, UserData.GetRandomUser(),
+        return new EnforcementActionReview(Guid.NewGuid(), enforcementAction,
+            incomplete ? UserData.GetData[0] : UserData.GetRandomUser(),
             UserData.GetRandomUser())
         {
             RequestedDate = requestedDate,

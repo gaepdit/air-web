@@ -32,9 +32,8 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Staff ==
 
-    [Display(Name = "Staff")]
-    // Guid as string
-    public string? Staff { get; init; }
+    [Display(Name = "Staff Responsible")]
+    public string? Staff { get; init; } // Guid as string
 
     [Display(Name = "Office")]
     public Guid? Office { get; init; }
@@ -54,12 +53,24 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DateFrom { get; init; }
+    public DateOnly? DiscoveryDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    public DateOnly? DateTo { get; init; }
+    public DateOnly? DiscoveryDateTo { get; init; }
+
+    // == Initial enforcement date ==
+
+    [Display(Name = "From")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    public DateOnly? EnforcementDateFrom { get; init; }
+
+    [Display(Name = "Until")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    public DateOnly? EnforcementDateTo { get; init; }
 
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
@@ -73,8 +84,10 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
         { nameof(Office), Office.ToString() },
         { nameof(Notes), Notes },
         { nameof(ViolationType), ViolationType },
-        { nameof(DateFrom), DateFrom?.ToString("d") },
-        { nameof(DateTo), DateTo?.ToString("d") },
+        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString("d") },
+        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString("d") },
+        { nameof(EnforcementDateFrom), EnforcementDateFrom?.ToString("d") },
+        { nameof(EnforcementDateTo), EnforcementDateTo?.ToString("d") },
     };
 
     public CaseFileSearchDto TrimAll() => this with

@@ -2,7 +2,7 @@
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.ViewSiteMaintenancePage))]
 public class MaintenanceIndexModel : PageModel
 {
     public void OnGet()

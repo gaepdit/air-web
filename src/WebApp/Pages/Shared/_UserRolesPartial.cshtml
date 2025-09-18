@@ -1,10 +1,9 @@
 ﻿@using AirWeb.Domain.Identity
-@model IReadOnlyList<AirWeb.Domain.Identity.AppRole> 
+@model IReadOnlyList<AirWeb.Domain.Identity.AppRole>
 <h3>Roles</h3>
 <p>
     This account has @(Model.Count == 0 ? "no" : "the following") application roles.
-    View a detailed description of
-    <a asp-page="/Admin/Users/Roles" class="no-external-link" target="_blank">user roles and capabilities</a>.
+    View a detailed description of <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
 </p>
 
 @foreach (var category in AppRole.AllRoleCategories)

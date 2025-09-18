@@ -8,10 +8,11 @@ namespace AirWeb.AppServices.AuthenticationServices;
 
 public interface IUserService : IDisposable
 {
-    public Task<ApplicationUser?> GetCurrentUserAsync();
-    public Task<ApplicationUser> GetUserAsync(string id);
-    public Task<ApplicationUser?> FindUserAsync(string id);
-    public ClaimsPrincipal? GetCurrentPrincipal();
+    Task<ApplicationUser?> GetCurrentUserAsync();
+    Task<ApplicationUser> GetUserAsync(string id);
+    Task<ApplicationUser?> FindUserAsync(string id);
+    ClaimsPrincipal? GetCurrentPrincipal();
+    Task<bool> UserIsInRoleAsync(ApplicationUser user, string role);
 }
 
 public sealed class UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
@@ -29,6 +30,8 @@ public sealed class UserService(UserManager<ApplicationUser> userManager, IHttpC
     public Task<ApplicationUser?> FindUserAsync(string id) => userManager.FindByIdAsync(id);
 
     public ClaimsPrincipal? GetCurrentPrincipal() => httpContextAccessor.HttpContext?.User;
+
+    public Task<bool> UserIsInRoleAsync(ApplicationUser user, string role) => userManager.IsInRoleAsync(user, role);
 
     public void Dispose() => userManager.Dispose();
 }

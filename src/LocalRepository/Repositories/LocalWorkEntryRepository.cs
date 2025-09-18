@@ -7,12 +7,12 @@ using AirWeb.TestData.NamedEntities;
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository()
-    : BaseRepository<WorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
+    : BaseRepositoryWithMapping<WorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
 
-    public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeComments,
+    public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras,
         CancellationToken token = default)
         where TEntry : WorkEntry =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);

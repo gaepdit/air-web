@@ -18,7 +18,8 @@
 }
 else
 {
-    <partial name="Shared/CompliancePartials/_SourceTestsTable" model="(Model.SourceTests, false)" />
+    <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 }
 
 @section Footer {

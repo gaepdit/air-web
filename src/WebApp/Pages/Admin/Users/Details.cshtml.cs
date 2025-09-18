@@ -5,7 +5,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.ViewUsersPage))]
 public class DetailsModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = null!;

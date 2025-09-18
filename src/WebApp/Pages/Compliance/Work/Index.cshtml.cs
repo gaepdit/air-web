@@ -4,7 +4,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Constants;
+using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 

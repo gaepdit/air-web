@@ -4,8 +4,10 @@ using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Identity;
 using AutoMapper;
 using GaEpd.GuardClauses;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Enforcement;
 
@@ -15,7 +17,8 @@ public sealed class EnforcementActionService(
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
     IMapper mapper,
-    IUserService userService) : IEnforcementActionService
+    IUserService userService,
+    ILogger<EnforcementActionService> logger) : IEnforcementActionService
 {
     public async Task<Guid> CreateAsync(int caseFileId, EnforcementActionCreateDto resource,
         CancellationToken token = default)
@@ -199,11 +202,12 @@ public sealed class EnforcementActionService(
         return caseFileClosed;
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken token)
+    public async Task DeleteAsync(Guid id, int caseFileId, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        actionManager.Delete(enforcementAction, currentUser);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
+        actionManager.Delete(enforcementAction, caseFile, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
 
@@ -230,10 +234,18 @@ public sealed class EnforcementActionService(
 
     public async Task RequestReviewAsync(Guid id, EnforcementActionRequestReviewDto resource, CancellationToken token)
     {
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var action = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
 
+        if (!await userService.UserIsInRoleAsync(reviewer, RoleName.EnforcementManager).ConfigureAwait(false))
+        {
+            logger.LogError(
+                "User {UserId} does not have the Enforcement Manager role and cannot review action {ActionId}.",
+                reviewer.Id, action.Id);
+            return;
+        }
+
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         actionManager.RequestReview(action, reviewer, currentUser!);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
     }

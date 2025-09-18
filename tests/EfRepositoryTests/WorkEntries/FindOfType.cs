@@ -21,7 +21,7 @@ public class FindOfType
         var expected = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(WorkEntryType.Notification));
 
         // Act
-        var result = await _repository.FindAsync<Notification>(expected.Id, includeComments: false);
+        var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: false);
 
         // Assert
         using var scope = new AssertionScope();
@@ -34,7 +34,7 @@ public class FindOfType
     public async Task GivenNonexistentId_ReturnsNull()
     {
         // Act
-        var result = await _repository.FindAsync<Notification>(id: 0, includeComments: false);
+        var result = await _repository.FindAsync<Notification>(id: 0, includeExtras: false);
 
         // Assert
         result.Should().BeNull();

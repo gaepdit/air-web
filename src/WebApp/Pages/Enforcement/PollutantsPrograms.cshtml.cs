@@ -26,7 +26,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         if (caseFile.IsClosed) return BadRequest();
         if (!User.CanEditCaseFile(caseFile)) return Forbid();
 
-        var facilityData = (await facilityService.FindFacilityDetailsAsync((FacilityId?)caseFile.FacilityId))
+        var facilityData = (await facilityService.FindFacilityDetailsAsync((FacilityId)caseFile.FacilityId))
             ?.RegulatoryData;
         if (facilityData is null) return NotFound();
 

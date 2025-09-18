@@ -39,7 +39,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
-            return RedirectToPage("../SourceTest/Index", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
+            return RedirectToPage("../SourceTest/Details", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
 
         if (Item.IsComplianceEvent)
             CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
@@ -53,6 +53,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             CanAddComment = UserCan[ComplianceOperation.AddComment],
             CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
+
         return Page();
     }
 
@@ -67,6 +68,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (!ModelState.IsValid)
         {
+            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
+
             CommentSection = new CommentsSectionModel
             {
                 Comments = Item.Comments,
@@ -74,6 +77,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
             return Page();
         }
 

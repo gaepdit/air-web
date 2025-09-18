@@ -31,14 +31,14 @@ public class FindIncludeProperty
     }
 
     [Test]
-    public async Task GetWithComments_ReturnsEntityWithComments()
+    public async Task GetWithExtras_ReturnsEntityWithAdditionalProperties()
     {
         // Arrange
         var expected = FceData.GetData.FirstOrDefault(fce => fce.Comments.Count > 0);
         if (expected is null) Assert.Inconclusive("Test can only run if at least one FCE has comments.");
 
         // Act
-        var result = await _repository.FindWithCommentsAsync(expected.Id);
+        var result = await _repository.FindWithExtrasAsync(expected.Id);
 
         // Assert
         using var scope = new AssertionScope();
@@ -47,7 +47,7 @@ public class FindIncludeProperty
     }
 
     [Test]
-    public async Task WhenNotRequestingProperty_ReturnsEntityWithoutProperty()
+    public async Task WhenNotRequestingExtras_ReturnsEntityWithoutAdditionalProperties()
     {
         // Arrange
         var expected = FceData.GetData.FirstOrDefault(fce => fce.Comments.Count > 0);

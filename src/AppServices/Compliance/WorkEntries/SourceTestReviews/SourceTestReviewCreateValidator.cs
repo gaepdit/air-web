@@ -17,8 +17,10 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
         RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
         RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
         RuleFor(dto => dto.TestReportIsClosed).Equal(true);
-        RuleFor(dto => dto).MustAsync(async (dto, token) =>
-            await NotExist(dto.ReferenceNumber, token).ConfigureAwait(false));
+        RuleFor(dto => dto.ReferenceNumber)
+            .MustAsync(async (referenceNumber, token) =>
+                await NotExist(referenceNumber, token).ConfigureAwait(false))
+            .WithMessage("A compliance review already exists for this reference number.");
     }
 
     private async Task<bool> NotExist(int referenceNumber, CancellationToken token) =>

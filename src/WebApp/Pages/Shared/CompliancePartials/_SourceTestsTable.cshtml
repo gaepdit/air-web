@@ -1,37 +1,54 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model (IList<IaipDataService.SourceTests.Models.SourceTestSummary> Items, bool SimpleTableFormat)
+@model IList<IaipDataService.SourceTests.Models.SourceTestSummary>
 @{
-    var rowCss = Model.SimpleTableFormat ? "" : "align-middle";
-    var linkCss = Model.SimpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+    var simpleTableFormat = (bool?)ViewData["SimpleTableFormat"] ?? false;
+    var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
+    var rowCss = simpleTableFormat ? "" : "align-middle";
+    var linkCss = simpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
 }
 
-<div class="table-responsive-md mb-3">
+<div class="table-responsive-md">
     <table class="table table-hover mb-0" aria-label="Source Tests for this facility">
         <thead>
         <tr>
             <th scope="col">Reference Number</th>
-            <th scope="col">Report Type</th>
+            <th scope="col">Test Review Status</th>
+            @if (!hideFacility)
+            {
+                <th scope="col" class="text-nowrap">Facility</th>
+            }
             <th scope="col">Source Tested</th>
             <th scope="col">Pollutant</th>
             <th scope="col">Test Dates</th>
-            <th scope="col">Open/Closed</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var summary in Model.Items)
+        @foreach (var summary in Model)
         {
             <tr>
                 <th scope="row" class="@rowCss">
-                    <a asp-page="/Compliance/SourceTest/Index" class="@linkCss"
+                    <a asp-page="/Compliance/SourceTest/Details" class="@linkCss"
                        asp-route-referenceNumber="@summary.ReferenceNumber">
                         @summary.ReferenceNumber.ToString()
                     </a>
                 </th>
-                <td>@summary.TestType</td>
+                <td>
+                    @Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolComplete)
+                    @if (summary.DateTestReviewComplete != null)
+                    {
+                        <br />
+                        @Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)
+                    }
+                </td>
+                @if (!hideFacility)
+                {
+                    <td>
+                        <span class="text-nowrap">@summary.Facility?.FacilityId</span><br />@summary.Facility?.Name
+                    </td>
+                }
                 <td>@summary.Source</td>
                 <td>@summary.Pollutant</td>
                 <td>@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</td>
-                <td>@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</td>
             </tr>
         }
         </tbody>

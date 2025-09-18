@@ -99,8 +99,9 @@
         @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through " })
     </h1>
 
-    <partial name="_InspectionsPartial" model="(Model.SupportingData.Inspections, false)" />
-    <partial name="_InspectionsPartial" model="(Model.SupportingData.RmpInspections, true)" />
+    <partial name="_InspectionsPartial" model="Model.SupportingData.Inspections" />
+    <partial name="_InspectionsPartial" model="Model.SupportingData.RmpInspections"
+             view-data="new ViewDataDictionary(ViewData)" view-data-IsRmp="true" />
     <partial name="_AccsPartial" model="Model.SupportingData.Accs" />
     <partial name="_ReportsPartial" model="Model.SupportingData.Reports" />
     <partial name="_NotificationsPartial" model="Model.SupportingData.Notifications" />

@@ -20,6 +20,13 @@ public record PaginatedResultsDisplay
         RouteValues = spec.AsRouteValues();
     }
 
+    public PaginatedResultsDisplay(IPaginatedResult searchResults)
+    {
+        SearchResults = searchResults;
+        SortByName = "default";
+        RouteValues = new Dictionary<string, string?>();
+    }
+
     public string SortByName { get; }
     public IDictionary<string, string?> RouteValues { get; }
     public IPaginatedResult SearchResults { get; init; }

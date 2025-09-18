@@ -43,7 +43,12 @@ public record SourceTestReportRata : BaseSourceTestReport
     public string RelativeAccuracyRequiredLabel { get; set; } = null!;
 
     [Display(Name = "Result")]
-    public string ComplianceStatus { get; set; } = null!;
+    public string RataComplianceStatus => ComplianceStatus switch
+    {
+        "For Information Purposes Only" or "In Compliance" => "Pass",
+        "Not In Compliance" => "Fail",
+        _ => "N/A",
+    };
 
     #region Confidential info handling
 

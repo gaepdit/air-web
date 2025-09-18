@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.AuditPoints;
+using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
@@ -17,6 +18,7 @@ using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.NamedEntities.NotificationTypes;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff.Dto;
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -44,6 +46,7 @@ public class AutoMapperProfile : Profile
         Users();
         MaintenanceItems();
         Comments();
+        AuditPoints();
         Fces();
         WorkEntries();
         Enforcement();
@@ -83,6 +86,11 @@ public class AutoMapperProfile : Profile
     private void Comments()
     {
         CreateMap<Comment, CommentViewDto>();
+    }
+
+    private void AuditPoints()
+    {
+        CreateMap<AuditPoint, AuditPointViewDto>();
     }
 
     private void Fces()
@@ -160,6 +168,10 @@ public class AutoMapperProfile : Profile
         CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>();
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<SourceTestReview, SourceTestSummaryDto>()
+            .ForMember(dto => dto.ComplianceStatus, expression => expression.Ignore())
+            .ForMember(dto => dto.PollutantMeasured, expression => expression.Ignore())
+            .ForMember(dto => dto.SourceTested, expression => expression.Ignore());
     }
 
     private void Enforcement()

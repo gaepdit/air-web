@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -61,6 +62,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
     public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();
 
+    // Audit Points (mapped to a single table)
+    public DbSet<CaseFileAuditPoint> CaseFileAuditPoints => Set<CaseFileAuditPoint>();
+    public DbSet<FceAuditPoint> FceAuditPoints => Set<FceAuditPoint>();
+    public DbSet<WorkEntryAuditPoint> WorkEntryAuditPoints => Set<WorkEntryAuditPoint>();
+
     // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
 
@@ -73,7 +79,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureNavigationAutoIncludes()
             .ConfigureWorkEntryMapping()
             .ConfigureEnforcementActionMapping()
-            .ConfigureCommentsMappingStrategy()
+            .ConfigureInheritanceMapping()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
             .ConfigureDateTimeOffsetHandling(Database.ProviderName)

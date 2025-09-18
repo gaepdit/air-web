@@ -8,13 +8,21 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
     public async Task<IViewComponentResult> InvokeAsync(PageModel model) =>
         View("Default", new MenuParams
         {
-            IsLoginPage = model is LoginModel,
-            IsActiveUser = await authorization.Succeeded(User, Policies.ActiveUser),
+            ShowStaffOptions = await authorization.Succeeded(User, Policies.Staff),
+            ShowAdminOptions = await authorization.Succeeded(User, Policies.ViewAdminPages),
+            ShowSiteMaintenancePage = await authorization.Succeeded(User, Policies.ViewSiteMaintenancePage),
+            ShowUsersPage = await authorization.Succeeded(User, Policies.ViewUsersPage),
+            ShowAccountMenu = User.Identity is { IsAuthenticated: true },
+            ShowLoginLink = model is not LoginModel,
         });
 
     public record MenuParams
     {
-        public bool IsLoginPage { get; init; }
-        public bool IsActiveUser { get; init; }
+        public bool ShowStaffOptions { get; init; }
+        public bool ShowAdminOptions { get; init; }
+        public bool ShowSiteMaintenancePage { get; init; }
+        public bool ShowUsersPage { get; init; }
+        public bool ShowAccountMenu { get; init; }
+        public bool ShowLoginLink { get; init; }
     }
 }

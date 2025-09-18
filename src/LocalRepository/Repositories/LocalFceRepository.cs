@@ -11,7 +11,7 @@ public sealed class LocalFceRepository()
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(fce => fce.Id).Max() + 1;
 
-    public async Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default)
+    public async Task<Fce?> FindWithExtrasAsync(int id, CancellationToken token = default)
     {
         var fce = await FindAsync(id, token: token).ConfigureAwait(false);
         fce?.Comments.RemoveAll(comment => comment.IsDeleted);

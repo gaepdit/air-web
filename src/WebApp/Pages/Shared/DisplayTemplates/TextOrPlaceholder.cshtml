@@ -1,6 +1,6 @@
 ﻿@model string?
 @{
-    var placeholder = ViewData.ContainsKey("Placeholder") ? (string)ViewData["Placeholder"]! : DefaultText.PlaceholderNotEntered;
+    var placeholder = (string?)ViewData["Placeholder"] ?? DefaultText.PlaceholderNotEntered;
 }
 @if (string.IsNullOrEmpty(Model))
 {

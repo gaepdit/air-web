@@ -18,7 +18,10 @@ public record SourceTestSummary
         Source = report.Source;
         ReportType = report.ReportType;
         ApplicableRequirement = report.ApplicableRequirement;
+        ComplianceStatus = report.ComplianceStatus;
         ReportClosed = report.ReportClosed;
+        DateTestReviewComplete = report.DateTestReviewComplete;
+        IaipComplianceAssignment = report.IaipComplianceAssignment;
         TestDates = report.TestDates;
         DateReceivedByApb = report.DateReceivedByApb;
         ReviewedByStaff = report.ReviewedByStaff;
@@ -47,13 +50,21 @@ public record SourceTestSummary
     [Display(Name = "Applicable Requirement")]
     public string ApplicableRequirement { get; init; } = null!;
 
+    [Display(Name = "Compliance Determination")]
+    public string ComplianceStatus { get; init; } = null!;
+
     [Display(Name = "Test Report Status")]
     public bool ReportClosed { get; init; }
 
-    // FUTURE: Change to DateOnly when this Dapper issue is fixed and DateOnly is supported:
+    public string? IaipComplianceAssignment { get; init; }
+
+    // FUTURE: Change DateTime to DateOnly when this Dapper issue is fixed and DateOnly is supported:
     // https://github.com/DapperLib/Dapper/issues/2072
     [Display(Name = "Date Received By APB")]
     public DateTime DateReceivedByApb { get; init; }
+
+    [Display(Name = "Date Test Review Complete")]
+    public DateTime? DateTestReviewComplete { get; init; }
 
     [Display(Name = "Test Dates")]
     public DateRange TestDates { get; set; }

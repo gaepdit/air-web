@@ -6,13 +6,13 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IEnforcementActionManager
 {
-    EnforcementAction Create(CaseFile caseFile, EnforcementActionType action, ApplicationUser? user);
+    EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user);
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
     void SetIssueDate(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
     void Cancel(EnforcementAction action, ApplicationUser? user);
-    void Delete(EnforcementAction action, ApplicationUser? user);
+    void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user);
 
     // Type-specific update methods
     void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user);

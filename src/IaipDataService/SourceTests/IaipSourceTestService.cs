@@ -46,22 +46,17 @@ public class IaipSourceTestService(
         if (!await SourceTestExistsAsync(referenceNumber)) return null;
 
         var cacheKey = $"IaipSourceTestService.FindSummaryAsync.{referenceNumber}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, out SourceTestSummary? cachedTestSummary) &&
-            cachedTestSummary != null)
-        {
-            logger.LogCacheHit(cacheKey);
-            return cachedTestSummary;
-        }
-
-        logger.LogCacheRefresh(cacheKey, forceRefresh);
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
 
         await using var multi = await db.QueryMultipleAsync("air.GetSourceTestSummary",
             param: new { ReferenceNumber = referenceNumber });
 
-        var testSummary = multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>(
-            (summary, facility, testDates, reviewedByStaff) =>
+        var testSummary = multi
+            .Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary, facility,
+                testDates, reviewedByStaff) =>
             {
                 summary.Facility = facility;
                 summary.TestDates = testDates;
@@ -69,44 +64,60 @@ public class IaipSourceTestService(
                 return summary;
             }).SingleOrDefault();
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(CacheConstants.SourceTestExpiration);
-        cache.Set(cacheKey, testSummary, cacheEntryOptions);
-
-        return testSummary;
+        return cache.Set(cacheKey, testSummary, CacheConstants.SourceTestExpiration, logger, forceRefresh);
     }
 
-    public async Task<List<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
+    public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false)
     {
         var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, out List<SourceTestSummary>? cachedSourceTests) &&
-            cachedSourceTests != null)
-        {
-            logger.LogCacheHit(cacheKey);
-            return cachedSourceTests;
-        }
-
-        logger.LogCacheRefresh(cacheKey, forceRefresh);
+        if (!forceRefresh &&
+            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
+            return cachedValue;
 
         using var db = dbf.Create();
 
         await using var multi = await db.QueryMultipleAsync("air.GetFacilitySourceTests",
             param: new { FacilityId = facilityId.Id }, commandType: CommandType.StoredProcedure);
 
-        var sourceTests = multi.Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
-            (summary, testDates, reviewedByStaff) =>
+        var sourceTests = multi
+            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
             {
                 summary.TestDates = testDates;
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
             }).ToList();
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(CacheConstants.SourceTestListExpiration);
-        cache.Set(cacheKey, sourceTests, cacheEntryOptions);
+        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+    }
 
-        return sourceTests;
+    public async Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
+        bool forceRefresh = false)
+    {
+        const string cacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
+        if (!forceRefresh &&
+            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
+            return cachedValue;
+
+        using var db = dbf.Create();
+
+        await using var multi = await db.QueryMultipleAsync("air.GetOpenSourceTestsForCompliance",
+            commandType: CommandType.StoredProcedure);
+
+        var sourceTests = multi
+            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
+            {
+                summary.TestDates = testDates;
+                summary.ReviewedByStaff = reviewedByStaff;
+                return summary;
+            }).ToList();
+
+        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+    }
+
+    public Task UpdateSourceTest(int referenceNumber, string complianceAssignment, bool complianceComplete)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)
@@ -131,16 +142,16 @@ public class IaipSourceTestService(
         await using var multi = await db.QueryMultipleAsync("air.GetBaseSourceTestReport",
             param: new { ReferenceNumber = referenceNumber }, commandType: CommandType.StoredProcedure);
 
-        var report = multi.Read<T, FacilitySummary, PersonName, PersonName, PersonName, DateRange, T>(
-            (report, facility, reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
-            {
-                report.Facility = facility;
-                report.ReviewedByStaff = reviewedByStaff;
-                report.ComplianceManager = complianceManager;
-                report.TestingUnitManager = testingUnitManager;
-                report.TestDates = testDates;
-                return report;
-            }).Single();
+        var report = multi.Read<T, FacilitySummary, PersonName, PersonName, PersonName, DateRange, T>((report, facility,
+            reviewedByStaff, complianceManager, testingUnitManager, testDates) =>
+        {
+            report.Facility = facility;
+            report.ReviewedByStaff = reviewedByStaff;
+            report.ComplianceManager = complianceManager;
+            report.TestingUnitManager = testingUnitManager;
+            report.TestDates = testDates;
+            return report;
+        }).Single();
 
         report.WitnessedByStaff.AddRange(await multi.ReadAsync<PersonName>());
 
@@ -159,17 +170,17 @@ public class IaipSourceTestService(
         await using var multi = await getMultiTask;
         _ = multi
             .Read<SourceTestReportOneStack, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
-                SourceTestReportOneStack>(
-                (r, maxOperatingCapacity, operatingCapacity, avgPollutantConcentration, avgEmissionRate) =>
-                {
-                    report.MaxOperatingCapacity = maxOperatingCapacity;
-                    report.OperatingCapacity = operatingCapacity;
-                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-                    report.AvgPollutantConcentration = avgPollutantConcentration;
-                    report.AvgEmissionRate = avgEmissionRate;
-                    report.PercentAllowable = r.PercentAllowable;
-                    return r;
-                });
+                SourceTestReportOneStack>((r, maxOperatingCapacity, operatingCapacity, avgPollutantConcentration,
+                avgEmissionRate) =>
+            {
+                report.MaxOperatingCapacity = maxOperatingCapacity;
+                report.OperatingCapacity = operatingCapacity;
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.AvgPollutantConcentration = avgPollutantConcentration;
+                report.AvgEmissionRate = avgEmissionRate;
+                report.PercentAllowable = r.PercentAllowable;
+                return r;
+            });
 
         report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
         report.TestRuns.AddRange(await multi.ReadAsync<StackTestRun>());
@@ -279,17 +290,17 @@ public class IaipSourceTestService(
         await using var multi = await getMultiTask;
         _ = multi
             .Read<SourceTestReportPondTreatment, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
-                SourceTestReportPondTreatment>(
-                (r, maxOperatingCapacity, operatingCapacity, avgPollutantCollectionRate, avgTreatmentRate) =>
-                {
-                    report.MaxOperatingCapacity = maxOperatingCapacity;
-                    report.OperatingCapacity = operatingCapacity;
-                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-                    report.AvgPollutantCollectionRate = avgPollutantCollectionRate;
-                    report.AvgTreatmentRate = avgTreatmentRate;
-                    report.DestructionEfficiency = r.DestructionEfficiency;
-                    return r;
-                });
+                SourceTestReportPondTreatment>((r, maxOperatingCapacity, operatingCapacity, avgPollutantCollectionRate,
+                avgTreatmentRate) =>
+            {
+                report.MaxOperatingCapacity = maxOperatingCapacity;
+                report.OperatingCapacity = operatingCapacity;
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.AvgPollutantCollectionRate = avgPollutantCollectionRate;
+                report.AvgTreatmentRate = avgTreatmentRate;
+                report.DestructionEfficiency = r.DestructionEfficiency;
+                return r;
+            });
 
         report.TestRuns.AddRange(await multi.ReadAsync<PondTreatmentTestRun>());
 
@@ -309,17 +320,17 @@ public class IaipSourceTestService(
         await using var multi = await getMultiTask;
         _ = multi
             .Read<SourceTestReportGasConcentration, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
-                SourceTestReportGasConcentration>(
-                (r, maxOperatingCapacity, operatingCapacity, avgPollutantConcentration, avgEmissionRate) =>
-                {
-                    report.MaxOperatingCapacity = maxOperatingCapacity;
-                    report.OperatingCapacity = operatingCapacity;
-                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-                    report.AvgPollutantConcentration = avgPollutantConcentration;
-                    report.AvgEmissionRate = avgEmissionRate;
-                    report.PercentAllowable = r.PercentAllowable;
-                    return r;
-                });
+                SourceTestReportGasConcentration>((r, maxOperatingCapacity, operatingCapacity,
+                avgPollutantConcentration, avgEmissionRate) =>
+            {
+                report.MaxOperatingCapacity = maxOperatingCapacity;
+                report.OperatingCapacity = operatingCapacity;
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.AvgPollutantConcentration = avgPollutantConcentration;
+                report.AvgEmissionRate = avgEmissionRate;
+                report.PercentAllowable = r.PercentAllowable;
+                return r;
+            });
 
         report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
         report.TestRuns.AddRange(await multi.ReadAsync<GasConcentrationTestRun>());
@@ -341,17 +352,17 @@ public class IaipSourceTestService(
         await using var multi = await getMultiTask;
         _ = multi
             .Read<SourceTestReportFlare, ValueWithUnits, ValueWithUnits, ValueWithUnits, ValueWithUnits,
-                SourceTestReportFlare>(
-                (r, maxOperatingCapacity, operatingCapacity, avgHeatingValue, avgEmissionRateVelocity) =>
-                {
-                    report.MaxOperatingCapacity = maxOperatingCapacity;
-                    report.OperatingCapacity = operatingCapacity;
-                    report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-                    report.AvgHeatingValue = avgHeatingValue;
-                    report.AvgEmissionRateVelocity = avgEmissionRateVelocity;
-                    report.PercentAllowable = r.PercentAllowable;
-                    return r;
-                });
+                SourceTestReportFlare>((r, maxOperatingCapacity, operatingCapacity, avgHeatingValue,
+                avgEmissionRateVelocity) =>
+            {
+                report.MaxOperatingCapacity = maxOperatingCapacity;
+                report.OperatingCapacity = operatingCapacity;
+                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+                report.AvgHeatingValue = avgHeatingValue;
+                report.AvgEmissionRateVelocity = avgEmissionRateVelocity;
+                report.PercentAllowable = r.PercentAllowable;
+                return r;
+            });
 
         report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
         report.TestRuns.AddRange(await multi.ReadAsync<FlareTestRun>());
@@ -379,7 +390,6 @@ public class IaipSourceTestService(
         report.RelativeAccuracyPercent = r.RelativeAccuracyPercent;
         report.RelativeAccuracyRequiredPercent = r.RelativeAccuracyRequiredPercent;
         report.RelativeAccuracyRequiredLabel = r.RelativeAccuracyRequiredLabel;
-        report.ComplianceStatus = r.ComplianceStatus;
 
         report.TestRuns.AddRange(await multi.ReadAsync<RataTestRun>());
 
@@ -397,17 +407,17 @@ public class IaipSourceTestService(
         var report = await GetBaseSourceTestReportAsync<SourceTestMemorandum>(referenceNumber);
 
         await using var multi = await getMultiTask;
-        _ = multi.Read<SourceTestMemorandum, ValueWithUnits, ValueWithUnits, SourceTestMemorandum>(
-            (r, maxOperatingCapacity, operatingCapacity) =>
-            {
-                report.MonitorManufacturer = r.MonitorManufacturer;
-                report.MonitorSerialNumber = r.MonitorSerialNumber;
-                report.MaxOperatingCapacity = maxOperatingCapacity;
-                report.OperatingCapacity = operatingCapacity;
-                report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-                report.Comments = r.Comments;
-                return r;
-            });
+        _ = multi.Read<SourceTestMemorandum, ValueWithUnits, ValueWithUnits, SourceTestMemorandum>((r,
+            maxOperatingCapacity, operatingCapacity) =>
+        {
+            report.MonitorManufacturer = r.MonitorManufacturer;
+            report.MonitorSerialNumber = r.MonitorSerialNumber;
+            report.MaxOperatingCapacity = maxOperatingCapacity;
+            report.OperatingCapacity = operatingCapacity;
+            report.ControlEquipmentInfo = r.ControlEquipmentInfo;
+            report.Comments = r.Comments;
+            return r;
+        });
 
         report.AllowableEmissionRates.AddRange(await multi.ReadAsync<ValueWithUnits>());
 
@@ -428,7 +438,6 @@ public class IaipSourceTestService(
         var r = await multi.ReadSingleAsync<SourceTestReportOpacity>();
 
         report.ControlEquipmentInfo = r.ControlEquipmentInfo;
-        report.ComplianceStatus = r.ComplianceStatus;
         report.OpacityStandard = r.OpacityStandard;
         report.TestDuration = r.TestDuration;
         report.MaxOperatingCapacityUnits = r.MaxOperatingCapacityUnits;

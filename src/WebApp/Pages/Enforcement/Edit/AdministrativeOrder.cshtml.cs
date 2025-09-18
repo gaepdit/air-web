@@ -33,6 +33,8 @@ public class AdministrativeOrderEditModel(
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
+        if (Id == Guid.Empty) return RedirectToPage("../Index");
+
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null) return NotFound();
         if (itemView.ActionType != EnforcementActionType.AdministrativeOrder)

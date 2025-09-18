@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 using FluentValidation;
@@ -15,8 +16,6 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 public abstract class EditBase(IWorkEntryService entryService, IStaffService staffService, IMapper mapper)
     : PageModel, ISubmitCancelButtons
 {
-    protected readonly IWorkEntryService EntryService = entryService;
-    protected readonly IStaffService StaffService = staffService;
     protected readonly IMapper Mapper = mapper;
 
     [FromRoute]
@@ -34,7 +33,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
     {
         if (Id == 0) return RedirectToPage("../Index");
 
-        var itemView = await EntryService.FindAsync(Id, false, token);
+        var itemView = await entryService.FindAsync(Id, false, token);
         if (itemView is null) return NotFound();
         if (!User.CanEdit(itemView)) return Forbid();
 
@@ -48,7 +47,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
         TDto item, IValidator<TDto> validator, CancellationToken token)
         where TDto : IWorkEntryCommandDto
     {
-        var itemView = await EntryService.FindSummaryAsync(Id, token);
+        var itemView = await entryService.FindSummaryAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
@@ -59,8 +58,8 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
             return Page();
         }
 
-        var result = await EntryService.UpdateAsync(Id, item, token);
-        var entryType = await EntryService.GetWorkEntryTypeAsync(Id, token);
+        var result = await entryService.UpdateAsync(Id, item, token);
+        var entryType = await entryService.GetWorkEntryTypeAsync(Id, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{entryType!.Value.GetDisplayName()} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
@@ -69,5 +68,5 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
 
     // FUTURE: Allow for editing a Work Entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await StaffService.GetUsersAsync()).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
 }

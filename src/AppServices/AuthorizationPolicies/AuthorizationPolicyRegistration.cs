@@ -12,15 +12,7 @@ public static class AuthorizationPolicyRegistration
 {
     public static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
     {
-        services.AddAuthorizationBuilder()
-            .AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser)
-            .AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer)
-            .AddPolicy(nameof(Policies.Staff), Policies.Staff)
-            .AddPolicy(nameof(Policies.UserAdministrator), Policies.UserAdministrator)
-            .AddPolicy(nameof(Policies.ComplianceStaff), Policies.ComplianceStaff)
-            .AddPolicy(nameof(Policies.ComplianceManager), Policies.ComplianceManager)
-            .AddPolicy(nameof(Policies.EnforcementManager), Policies.EnforcementManager)
-            .AddPolicy(nameof(Policies.ComplianceSiteMaintainer), Policies.ComplianceSiteMaintainer);
+        services.AddPolicies();
 
         // Resource/operation-based permission handlers, e.g.:
         // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);

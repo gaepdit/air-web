@@ -24,15 +24,11 @@ public class DetailsModel(
     public int Id { get; set; } // Case File ID
 
     public CaseFileViewDto? CaseFile { get; private set; }
-
-    // Permissions, etc.
+    public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     [TempData]
     public string? NotificationFailureMessage { get; set; }
-
-    // Comments
-    public CommentsSectionModel CommentSection { get; set; } = null!;
 
     [TempData]
     public Guid NewCommentId { get; set; }
@@ -69,7 +65,11 @@ public class DetailsModel(
         if (CaseFile is null) return NotFound();
 
         await SetPermissionsAsync();
-        if (!UserCan[CaseFileOperation.View]) return NotFound();
+        if (CaseFile.IsDeleted && !UserCan[CaseFileOperation.ViewDeleted]) return NotFound();
+        if (!UserCan[CaseFileOperation.View]) return Forbid();
+
+        if (!UserCan[CaseFileOperation.ViewDraftEnforcement])
+            CaseFile.EnforcementActions.RemoveAll(dto => !dto.IsIssued);
 
         return InitializePage();
     }
@@ -116,7 +116,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await maxDateValidator.ApplyValidationAsync(IssueEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = IssueEnforcementAction.Option;
         IssueEnforcementAction.Option = IssueEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -150,7 +153,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostExecuteOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
         var action = await actionService.FindAsync(enforcementActionId, token);
-        if (action is null || !action.CanBeExecuted()) return BadRequest();
+        if (action is null || !action.CanBeExecuted() || !User.CanEdit(action)) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(ExecuteOrder, ModelState);
 
@@ -168,7 +171,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostAppealOrderAsync(Guid enforcementActionId, CancellationToken token)
     {
         var action = await actionService.FindAsync(enforcementActionId, token);
-        if (action is null || !action.CanBeAppealed()) return BadRequest();
+        if (action is null || !action.CanBeAppealed() || !User.CanEdit(action)) return BadRequest();
 
         await maxDateValidator.ApplyValidationAsync(AppealOrder, ModelState);
 
@@ -193,7 +196,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
 
         await resolveActionValidator.ApplyValidationAsync(ResolveEnforcementAction, ModelState);
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var closeCaseFileWasSet = ResolveEnforcementAction.Option;
         ResolveEnforcementAction.Option = ResolveEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
@@ -216,7 +222,7 @@ public class DetailsModel(
         var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanDeleteAction(action)) return BadRequest();
 
-        await actionService.DeleteAsync(enforcementActionId, token);
+        await actionService.DeleteAsync(enforcementActionId, action.CaseFileId, token);
         return RedirectToPage();
     }
 
@@ -230,7 +236,10 @@ public class DetailsModel(
         await SetPermissionsAsync();
         if (!UserCan[CaseFileOperation.AddComment]) return BadRequest();
 
-        if (!ModelState.IsValid) return InitializePage();
+        if (!ModelState.IsValid)
+        {
+            return InitializePage();
+        }
 
         var result = await caseFileService.AddCommentAsync(Id, newComment, token);
         NewCommentId = result.Id;

@@ -10,12 +10,12 @@ public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
 
     /// <summary>
     /// Returns the <see cref="Fce"/> with the given <paramref name="id"/>. Returns null if there are no matches.
-    /// The returned entity will include the Comments navigation property.
+    /// The returned entity will include the Comments and Audit Points navigation properties.
     /// </summary>
-    /// <param name="id">The ID of the entity.</param>
+    /// <param name="id">The ID of the FCE.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An FCE with Comments included or null.</returns>
-    Task<Fce?> FindWithCommentsAsync(int id, CancellationToken token = default);
+    Task<Fce?> FindWithExtrasAsync(int id, CancellationToken token = default);
 
     /// <summary>
     /// Returns a boolean indicating whether an <see cref="Fce"/> with the given parameters exists.

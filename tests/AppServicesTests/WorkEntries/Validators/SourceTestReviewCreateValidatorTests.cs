@@ -24,6 +24,7 @@ public class SourceTestReviewCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             TestReportIsClosed = true,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -48,6 +49,7 @@ public class SourceTestReviewCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             TestReportIsClosed = false,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -72,8 +74,9 @@ public class SourceTestReviewCreateValidatorTests
         var model = new SourceTestReviewCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         var entryService = Substitute.For<IWorkEntryService>();
@@ -88,7 +91,9 @@ public class SourceTestReviewCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.ReceivedByComplianceDate);
+        result
+            .ShouldHaveValidationErrorFor(dto => dto.ReferenceNumber)
+            .WithErrorMessage("A compliance review already exists for this reference number.");
     }
 
     [Test]

@@ -1,3 +1,4 @@
+using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.DtoInterfaces;
@@ -57,6 +58,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public List<CommentViewDto> Comments { get; } = [];
 
     public List<IActionViewDto> EnforcementActions { get; } = [];
+    public List<AuditPointViewDto> AuditPoints { get; } = [];
 
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms;

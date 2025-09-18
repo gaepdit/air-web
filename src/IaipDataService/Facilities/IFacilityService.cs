@@ -4,8 +4,8 @@ namespace IaipDataService.Facilities;
 
 public interface IFacilityService
 {
-    Task<Facility?> FindFacilityDetailsAsync(FacilityId? id, bool forceRefresh = false);
-    Task<Facility?> FindFacilitySummaryAsync(FacilityId? id, bool forceRefresh = false);
+    Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false);
+    Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false);
     Task<string> GetNameAsync(string id);
     Task<bool> ExistsAsync(FacilityId id);
 

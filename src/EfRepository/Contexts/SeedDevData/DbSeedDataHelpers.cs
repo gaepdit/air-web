@@ -186,7 +186,7 @@ public static class DbSeedDataHelpers
     private static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
-        var users = UserData.GetUsers.ToList();
+        var users = UserData.GetData.ToList();
         if (!context.Users.Any()) context.Users.AddRange(users);
 
         // Seed Roles

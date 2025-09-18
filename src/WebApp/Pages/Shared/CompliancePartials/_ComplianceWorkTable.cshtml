@@ -1,0 +1,90 @@
+﻿@using AirWeb.AppServices.CommonSearch
+@using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model IList<AirWeb.AppServices.Compliance.WorkEntries.Search.WorkEntrySearchResultDto>
+@{
+    var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
+    var hideStaff = (bool?)ViewData["HideStaff"] ?? false;
+    var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
+    var rowCss = searchSpec is null ? "" : "align-middle";
+    var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+}
+
+<div class="table-responsive-md">
+    <table class="table table-hover mb-0" aria-label="Compliance Work Entry results table">
+        <thead>
+        <tr>
+            @if (searchSpec is null)
+            {
+                <th scope="col" class="text-nowrap">Tracking #</th>
+                <th scope="col" class="text-nowrap">Event Date</th>
+                @if (!hideFacility)
+                {
+                    <th scope="col" class="text-nowrap">Facility</th>
+                }
+                <th scope="col" class="text-nowrap">Work Type</th>
+            }
+            else
+            {
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(WorkEntrySortBy.IdAsc)" view-data-Descender="@nameof(WorkEntrySortBy.IdDesc)" />
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Event Date")" view-data-Ascender="@nameof(WorkEntrySortBy.EventDateAsc)" view-data-Descender="@nameof(WorkEntrySortBy.EventDateDesc)" />
+                @if (!hideFacility)
+                {
+                    <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                             view-data-Heading="@("Facility")" view-data-Ascender="@nameof(WorkEntrySortBy.FacilityIdAsc)" view-data-Descender="@nameof(WorkEntrySortBy.FacilityIdDesc)" />
+                }
+                <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Work Type")" view-data-Ascender="@nameof(WorkEntrySortBy.WorkTypeAsc)" view-data-Descender="@nameof(WorkEntrySortBy.WorkTypeDesc)" />
+            }
+            <th scope="col" class="text-nowrap">Status</th>
+            @if (!hideStaff)
+            {
+                <th scope="col" class="text-nowrap">Responsible Staff</th>
+            }
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row" class="@rowCss">
+                    <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
+                       class="@linkCss">
+                        @item.Id.ToString()
+                    </a>
+                    @if (item.IsDeleted)
+                    {
+                        <span class="text-danger-emphasis">DELETED</span>
+                    }
+                </th>
+                <td>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
+                    @item.EventDateName
+                </td>
+                @if (!hideFacility)
+                {
+                    <td>
+                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                    </td>
+                }
+                <td>@item.WorkEntryType.GetDisplayName()</td>
+                <td class="text-nowrap">
+                    @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
+                    @if (item.IsClosed)
+                    {
+                        <br />
+                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                    }
+                </td>
+                @if (!hideStaff)
+                {
+                    <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

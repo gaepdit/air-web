@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.BaseEntities;
+﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Data;
@@ -75,8 +76,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty: This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
@@ -105,32 +105,25 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty. This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
 
     public DateOnly? EnforcementDate
     {
-        get
-        {
-            var actionDates = EnforcementActions
-                .Where(action => !action.IsDeleted)
-                .Where(action => action.IsIssued)
-                .Select(action => action.IssueDate); // List the dates each enforcement action was issued.
-            var dates = actionDates.Where(date => date.HasValue).ToArray();
-            return
-                dates.Length == 0 ? null : dates.Min(); // Enforcement Date is the earliest of the above list of dates.
-        }
+        // Enforcement Date is the earliest date of the issued enforcement actions.
+        get => EnforcementActions
+            .Where(action => action is { IsDeleted: false, IsIssued: true, IssueDate: not null })
+            .Select(action => action.IssueDate)
+            .Min();
 
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
         private set
         {
-            // Method intentionally left empty.
-            // This allows storing read-only properties in the database.
+            // Method intentionally left empty. This allows storing read-only properties in the database.
             // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
         }
     }
@@ -147,6 +140,9 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     // Comments
     public List<CaseFileComment> Comments { get; } = [];
 
+    // Audit Points
+    public List<CaseFileAuditPoint> AuditPoints { get; } = [];
+
     // Compliance Event & Enforcement Action relationships
     public ICollection<ComplianceEvent> ComplianceEvents { get; } = [];
     public List<EnforcementAction> EnforcementActions { get; } = [];
@@ -159,6 +155,13 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
+
+    public bool HasReviewRequest => EnforcementActions
+        .Exists(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested });
+
+    public string? ReviewRequestedOf => EnforcementActions
+        .SingleOrDefault(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested })
+        ?.CurrentReviewer?.Id;
 
     // Data exchange properties
 

@@ -4,6 +4,8 @@ namespace AirWeb.TestData.NamedEntities;
 
 internal static class OfficeData
 {
+    public static Office GetRandomOffice() => GetData.ElementAt(Random.Shared.Next(GetData.Count()));
+
     private static IEnumerable<Office> OfficeSeedItems =>
     [
         new(new Guid("10000000-0000-0000-0000-000000000011"), "Branch Office"),

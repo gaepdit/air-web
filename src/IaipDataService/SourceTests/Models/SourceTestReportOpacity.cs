@@ -10,9 +10,6 @@ public record SourceTestReportOpacity : BaseSourceTestReport
     [Display(Name = "Control equipment and monitoring data")]
     public string ControlEquipmentInfo { get; set; } = null!;
 
-    [Display(Name = "Compliance status")]
-    public string ComplianceStatus { get; set; } = null!;
-
     // `OpacityStandard` is used by "Method9Single" and "Method9Multi"
     // but not by "Method22"
     [Display(Name = "Opacity standard")]
@@ -45,7 +42,6 @@ public record SourceTestReportOpacity : BaseSourceTestReport
         RedactedBaseStackTestReport<SourceTestReportOpacity>() with
         {
             ControlEquipmentInfo = CheckConfidential(ControlEquipmentInfo, nameof(ControlEquipmentInfo)),
-            ComplianceStatus = CheckConfidential(ComplianceStatus, nameof(ComplianceStatus)),
             TestDuration = CheckConfidential(TestDuration, nameof(TestDuration)),
             TestRuns = BaseTestRun.RedactedTestRuns(TestRuns),
         };

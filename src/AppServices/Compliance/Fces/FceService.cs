@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
+using AirWeb.AppServices.Caching;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
@@ -8,6 +9,11 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using IaipDataService.Facilities;
+using IaipDataService.PermitFees;
+using IaipDataService.SourceTests;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
@@ -19,15 +25,19 @@ public sealed class FceService(
     IWorkEntryRepository entryRepository,
     ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
+    ISourceTestService sourceTestService,
+    IPermitFeesService permitFeesService,
     ICommentService<int> commentService,
     IUserService userService,
-    IAppNotificationService appNotificationService)
+    IAppNotificationService appNotificationService,
+    IMemoryCache cache,
+    ILogger<FceService> logger)
     : IFceService
 #pragma warning restore S107
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithCommentsAsync(id, token).ConfigureAwait(false));
+        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithExtrasAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
@@ -41,50 +51,59 @@ public sealed class FceService(
         return fce;
     }
 
-    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId,
-        DateOnly completedDate,
+    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
-        var summary = new SupportingDataSummary
+        // Check the cache first.
+        var cacheKey = $"FceSupportingData.{facilityId}.{completedDate}";
+        if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? summary))
+            return summary;
+
+        summary = new SupportingDataSummary
         {
-            Accs = mapper.Map<IEnumerable<AccSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Accs = await entryRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
+                For<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
 
-            Inspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Inspection &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Inspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(
+                For<Inspection>(), mapper, token: token).ConfigureAwait(false),
 
-            Notifications = mapper.Map<IEnumerable<NotificationSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Notification &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Notifications = await entryRepository.GetListAsync<NotificationSummaryDto, Notification>(
+                For<Notification>(), mapper, token: token).ConfigureAwait(false),
 
-            Reports = mapper.Map<IEnumerable<ReportSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.Report &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            Reports = await entryRepository.GetListAsync<ReportSummaryDto, Report>(
+                For<Report>(), mapper, token: token).ConfigureAwait(false),
 
-            RmpInspections = mapper.Map<IEnumerable<InspectionSummaryDto>>(await entryRepository.GetListAsync(
-                entry => entry.WorkEntryType == WorkEntryType.RmpInspection &&
-                         entry.FacilityId == facilityId && entry.EventDate <= completedDate &&
-                         entry.EventDate >= completedDate.AddYears(-Fce.DataPeriod), token).ConfigureAwait(false)),
+            RmpInspections = await entryRepository.GetListAsync<InspectionSummaryDto, RmpInspection>(
+                For<RmpInspection>(), mapper, token: token).ConfigureAwait(false),
 
-            EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(
-                caseFile => caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
-                            caseFile.EnforcementDate >= completedDate.AddYears(-Fce.DataPeriod) &&
-                            caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
+            SourceTests = await entryRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
+                For<SourceTestReview>(), mapper, token: token).ConfigureAwait(false),
+
+            EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(caseFile =>
+                caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
+                caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
+                caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
+
+            Fees = await permitFeesService.GetAnnualFeesAsync(facilityId, completedDate, Fce.ExtendedDataPeriod)
+                .ConfigureAwait(false),
         };
-        // This issue explains why a different syntax is used for some of the supporting data queries:
-        // https://github.com/gaepdit/air-web/issues/326
 
-        // TODO: Implement remaining data summaries.
-        //  * FeesHistory
-        //  * SourceTests
+        await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
 
-        return summary;
+        return cache.Set(cacheKey, summary, CacheConstants.FceSupportingData, logger);
+
+        Expression<Func<TSource, bool>> For<TSource>() where TSource : WorkEntry => source =>
+            source.FacilityId == facilityId && source.EventDate <= completedDate &&
+            source.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
+    }
+
+    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
+    {
+        foreach (var test in tests)
+        {
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber).ConfigureAwait(false);
+            test.AddDetails(summary);
+        }
     }
 
     public async Task<CreateResult<int>> CreateAsync(FceCreateDto resource,
@@ -110,12 +129,13 @@ public sealed class FceService(
         CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        fce.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById!).ConfigureAwait(false);
         fce.OnsiteInspection = resource.OnsiteInspection;
         fce.Notes = resource.Notes ?? string.Empty;
 
+        fceManager.Update(fce, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
@@ -140,7 +160,9 @@ public sealed class FceService(
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        fceManager.Restore(fce);
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+
+        fceManager.Restore(fce, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

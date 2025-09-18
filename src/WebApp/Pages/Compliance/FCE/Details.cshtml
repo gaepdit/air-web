@@ -1,8 +1,8 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Permissions
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
 @using AirWeb.AppServices.Utilities
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
     var report = Model.Item!;
@@ -85,42 +85,80 @@
     </dl>
 </section>
 
-<section class="my-3">
+<section class="my-4">
+    <h2 class="h5 mb-0">Supporting compliance data:</h2>
     <div class="row justify-content-between align-items-baseline mb-2">
         <div class="col">
-            <h2 class="h4 mb-md-0">
-                Supporting compliance data for
+            <h3 class="h5 mb-md-0 text-info-emphasis">
                 @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-            </h2>
+            </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
             <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
                asp-route-EventDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
                asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
-               asp-page-handler="Search" asp-fragment="search-results"
-               class="link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
-                View Search
+               asp-page-handler="Search" asp-fragment="search-results" target="_blank"
+               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                Open in search
             </a>
         </div>
     </div>
+    <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.ComplianceSummary"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+</section>
 
-    @if (Model.SearchResults.TotalCount == 0)
+<section class="my-4">
+    <h2 class="h5 mb-0">Five-year history of enforcement cases:</h2>
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col">
+            <h3 class="h5 mb-md-0 text-info-emphasis">
+                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+            </h3>
+        </div>
+        <div class="col-auto ms-3 d-print-none">
+            <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
+               asp-route-EnforcementDateFrom="@Model.Item!.ExtendedDataStartDate.ToShortDateString()"
+               asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
+               asp-page-handler="Search" asp-fragment="search-results" target="_blank"
+               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                Open in search
+            </a>
+        </div>
+    </div>
+    <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFileSummary"
+             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+</section>
+
+<section class="my-4">
+    <div class="mb-2">
+        <h2 class="h5 mb-md-0">
+            Five-year history of annual permit fees:
+            <div class="text-info-emphasis">
+                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+            </div>
+        </h2>
+    </div>
+
+    @if (Model.AnnualFeesSummary.Count == 0)
     {
-        <p class="lead text-info">No data found in date range.</p>
+        <div class="border rounded-2 p-3">
+            <p class="lead mb-0">No annual fees data found in date range.</p>
+        </div>
     }
     else
     {
-        <div id="supportingDataAccordion" class="accordion">
+        <div id="supportingAnnualFeesDataAccordion" class="accordion">
             <div class="accordion-item">
                 <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supportingDataBody" aria-expanded="false" aria-controls="supportingDataBody">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                            data-bs-target="#supportingAnnualFeesDataBody" aria-controls="supportingAnnualFeesDataBody">
                         View supporting data
                     </button>
                 </h3>
-                <div id="supportingDataBody" class="accordion-collapse collapse" data-bs-parent="supportingDataAccordion">
+                <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
+                     data-bs-parent="supportingAnnualFeesDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_WorkEntrySearchTable"
-                                 model="(Model.SearchResults.Items, (WorkEntrySearchDto?)null)" />
+                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="Model.AnnualFeesSummary" />
                     </div>
                 </div>
             </div>
@@ -133,10 +171,40 @@
 @if (Model.UserCan[ComplianceOperation.Delete])
 {
     <div class="mt-4 text-end d-print-none">
-        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()" class="btn btn-sm btn-link px-0 link-danger link-offset-2">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
+           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
             Delete FCE
         </a>
     </div>
+}
+
+@section Footer {
+    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
+    {
+        <div class="bg-info-subtle py-2 border-bottom d-print-none">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                        <small>
+                            * <em>Note:</em> This page displays annual fees data from the IAIP, which is refreshed
+                            every 24&nbsp;hours. If it appears out of date, you can manually refresh the data.
+                        </small>
+                    </div>
+                    <div class="col-auto my-0 ms-3">
+                        <a asp-route-id="@Model.Id" asp-route-refresh="true"
+                           class="btn btn-sm btn-outline-info icon-link">
+                            <svg class="bi">
+                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
+                            </svg>
+                            Refresh IAIP Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <partial name="Shared/_AuditPointsPartial" model="report.AuditPoints" />
 }
 
 @section Scripts {

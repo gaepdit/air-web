@@ -7,18 +7,24 @@ Rules are approximately ordered from the most frequently matched rule to the lea
 
 ## Previous Reporting App
 
-| Redirect                                                  | To                                                                |
-|-----------------------------------------------------------|-------------------------------------------------------------------|
-| `/facility/{facilityId}/acc-report/{reportId}`            | `/report/facility/{facilityId}/acc/{id:int}`                      |
-| `/facility/{facilityId}/stack-test/{referenceNumber:int}` | `/report/facility/{facilityId}/source-test/{referenceNumber:int}` |
-| `/facility/{facilityId}/fce/{id:int}`                     | `/report/facility/{facilityId}/fce/{id:int}`                      |
+| Redirect                                                  | To                                         | Done |
+|-----------------------------------------------------------|--------------------------------------------|:----:|
+| `/facility/{facilityId}/acc-report/{id:int}`              | `/print/acc/{id:int}`                      |  ✔️  |
+| `/facility/{facilityId}/fce/{id:int}`                     | `/print/fce/{id:int}`                      |  ✔️  |
+| `/facility/{facilityId}/stack-test/{referenceNumber:int}` | `/print/source-test/{referenceNumber:int}` |  ✔️  |
 
 ### Incomplete URLs
 
-| Redirect                                                   | To                                    |
-|------------------------------------------------------------|---------------------------------------|
-| `/Staff/Facility/Details/`                                 | `/Staff/Facility`                     |
-| `/Staff/Compliance/[FCE,WorkEntry[/[Edit,Delete,Restore]]` | `/Staff/Compliance`                   | 
-| `/Staff/SourceTests/Report`                                | `/Staff/SourceTests`                  |
-| `/Staff/Enforcement/Details`                               | `/Staff/Enforcement`                  |
-| `/Staff/Enforcement/Add/{facilityId}/ComplianceEvent`      | `/Staff/Enforcement/Add/{facilityId}` |
+| Redirect                           | To                             | Done |
+|------------------------------------|--------------------------------|:----:|
+| `/Facility/Details/`               | `/Facility/Index`              |  ✔️  |
+| `/Facility/SourceTests/`           | `/Facility/Index`              |  ✔️  |
+| `/Compliance/[FCE,Work]/Details/`  | `/Compliance/[FCE,Work]/Index` |  ✔️  | 
+| `/Compliance/[FCE,Work]/(action)/` | `/Compliance/[FCE,Work]/Index` |  ✔️  | 
+| `/Compliance/SourceTest/Details/`  | `/Compliance/SourceTest/Index` |  ✔️  | 
+| `/Enforcement/Details/`            | `/Enforcement/Index`           |  ✔️  |
+| `/Enforcement/(action)/`           | `/Enforcement/Index`           |  ✔️  |
+| `/Enforcement/Edit/[Type]/`        | `/Enforcement/Index`           |  ✔️  |
+| `/Enforcement/Edit/`               | `/Enforcement/Index`           |  ✔️  |
+| `/Admin/Maintenance/[Type]/Edit`   | `/Admin/Maintenance/Index`     |  ✔️  |
+| `/Admin/Users/[Edit,EditRoles]`    | `/Admin/Users/Index`           |  ✔️  |

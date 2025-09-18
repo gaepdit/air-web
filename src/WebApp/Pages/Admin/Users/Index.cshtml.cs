@@ -4,13 +4,13 @@ using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Constants;
+using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[Authorize(Policy = nameof(Policies.ViewUsersPage))]
 public class UsersIndexModel(IOfficeService officeService, IStaffService staffService) : PageModel
 {
     public StaffSearchDto Spec { get; set; } = null!;

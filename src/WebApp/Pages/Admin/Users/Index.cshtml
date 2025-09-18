@@ -1,6 +1,5 @@
 @page "{handler?}"
 @using AirWeb.AppServices.Staff.Dto
-@using AirWeb.WebApp.Models
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model UsersIndexModel
 @{
@@ -29,7 +28,7 @@
         <div class="row">
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Office" asp-items="Model.OfficesSelectList" name="@nameof(Model.Spec.Office)" class="form-select">
+                    <select asp-for="Spec.Office" asp-items="@Model.OfficesSelectList" name="@nameof(Model.Spec.Office)" class="form-select">
                         <option value="">@DefaultText.SelectOptionAny</option>
                     </select>
                     <label asp-for="Spec.Office" class="form-label"></label>
@@ -37,18 +36,18 @@
             </div>
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Role" asp-items="Model.RolesSelectList" name="@nameof(Model.Spec.Role)" class="form-select" aria-describedby="rolesHelpBlock">
+                    <select asp-for="Spec.Role" asp-items="@Model.RolesSelectList" name="@nameof(Model.Spec.Role)" class="form-select" aria-describedby="rolesHelpBlock">
                         <option value="">@DefaultText.SelectOptionAny</option>
                     </select>
                     <label asp-for="Spec.Role" class="form-label"></label>
                 </div>
                 <div id="rolesHelpBlock" class="form-text">
-                    <a asp-page="Roles" asp-fragment="app-roles" target="_blank">Description of roles</a>
+                    <a asp-page="Roles" asp-fragment="app-roles" target="_blank">View description of roles</a>
                 </div>
             </div>
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Status" asp-items="Html.GetEnumSelectList<SearchStaffStatus>()" name="@nameof(Model.Spec.Status)" class="form-select"></select>
+                    <select asp-for="Spec.Status" asp-items="@Html.GetEnumSelectList<SearchStaffStatus>()" name="@nameof(Model.Spec.Status)" class="form-select"></select>
                     <label asp-for="Spec.Status" class="form-label"></label>
                 </div>
             </div>
@@ -78,11 +77,11 @@
 
             <thead>
             <tr>
-                <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Name", nameof(StaffSortBy.NameAsc), nameof(StaffSortBy.NameDesc), Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Name")" view-data-Ascender="@nameof(StaffSortBy.NameAsc)" view-data-Descender="@nameof(StaffSortBy.NameDesc)" />
                 <th scope="col">@Html.DisplayNameFor(m => m.Spec.Email)</th>
-                <partial name="Shared/_SortableTableColHead"
-                         model='new SearchResultsColumnDisplay("Office", nameof(StaffSortBy.OfficeAsc), nameof(StaffSortBy.OfficeDesc), Model.Spec)' />
+                <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
+                         view-data-Heading="@("Office")" view-data-Ascender="@nameof(StaffSortBy.OfficeAsc)" view-data-Descender="@nameof(StaffSortBy.OfficeDesc)" />
                 <th scope="col">Status</th>
                 <th scope="col">
                     <span class="visually-hidden">Actions</span>
