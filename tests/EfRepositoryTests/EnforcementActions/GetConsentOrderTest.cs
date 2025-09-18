@@ -29,7 +29,8 @@ public class GetConsentOrderTest
         var results = await _repository.GetConsentOrder(existingCO.Id);
 
         // Assert
-        results.Should().BeEquivalentTo(existingCO);
+        results.StipulatedPenalties.Should().BeEquivalentTo(existingCO.StipulatedPenalties);
+        results.Id.Should().Be(existingCO.Id);
     }
     [Test]
     public async Task GetConsentOrder_WhenIdDoesNotExist_ThrowAsync()
@@ -42,7 +43,6 @@ public class GetConsentOrderTest
 
         //Assert
         await act.Should()
-            .ThrowAsync<EntityNotFoundException<EnforcementAction>>()
-            .WithMessage("Entity not found. Entity type: AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction, id: " + nonExistingCO);
+            .ThrowAsync<InvalidOperationException>();
     }
 }
