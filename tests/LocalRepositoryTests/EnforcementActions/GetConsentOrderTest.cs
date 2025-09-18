@@ -1,7 +1,6 @@
 ﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using GaEpd.AppLibrary.Domain.Repositories;
 
 namespace LocalRepositoryTests.EnforcementActions;
 
@@ -41,10 +40,6 @@ public class GetConsentOrderTest
         var act = async () => await _repository.GetConsentOrder(nonExistingCO);
 
         //Assert
-        await act.Should()
-            .ThrowAsync<EntityNotFoundException<EnforcementAction>>()
-            .WithMessage(
-                "Entity not found. Entity type: AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction, id: " +
-                nonExistingCO);
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 }

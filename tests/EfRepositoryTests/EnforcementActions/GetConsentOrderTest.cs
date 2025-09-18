@@ -41,7 +41,6 @@ public class GetConsentOrderTest
         var act = async () => await _repository.GetConsentOrder(nonExistingCO);
 
         //Assert
-        await act.Should()
-            .ThrowAsync<InvalidOperationException>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 }
