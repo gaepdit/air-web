@@ -10,4 +10,5 @@ public static class RepositoryHelper
     public static LocalFceRepository GetFceRepository() => new();
     public static LocalWorkEntryRepository GetWorkEntryRepository() => new();
     public static LocalCaseFileRepository GetCaseFileRepository() => new();
+    public static LocalEnforcementActionRepository GetEnforcementActionRepository() => new();
 }

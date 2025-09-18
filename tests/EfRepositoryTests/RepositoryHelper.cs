@@ -1,4 +1,4 @@
-using AirWeb.EfRepository.Contexts;
+﻿using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;
 using AirWeb.EfRepository.Repositories;
 using GaEpd.AppLibrary.Domain.Entities;
@@ -133,6 +133,12 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     {
         Context = new AppDbContext(_options);
         return new CaseFileRepository(Context);
+    }
+
+    public EnforcementActionRepository GetEnforcementActionRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new EnforcementActionRepository(Context);
     }
 
     /// <summary>
