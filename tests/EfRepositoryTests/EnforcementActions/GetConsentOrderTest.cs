@@ -1,8 +1,6 @@
 ﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.EfRepository.Repositories;
-using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using GaEpd.AppLibrary.Domain.Repositories;
 
 namespace EfRepositoryTests.EnforcementActions;
 
@@ -32,6 +30,7 @@ public class GetConsentOrderTest
         results.StipulatedPenalties.Should().BeEquivalentTo(existingCO.StipulatedPenalties);
         results.Id.Should().Be(existingCO.Id);
     }
+
     [Test]
     public async Task GetConsentOrder_WhenIdDoesNotExist_ThrowAsync()
     {
@@ -39,7 +38,7 @@ public class GetConsentOrderTest
         var nonExistingCO = Guid.NewGuid();
 
         // Act
-        Func<Task> act = async () => await _repository.GetConsentOrder(nonExistingCO);
+        var act = async () => await _repository.GetConsentOrder(nonExistingCO);
 
         //Assert
         await act.Should()

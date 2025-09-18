@@ -1,9 +1,7 @@
-﻿using AirWeb.Domain.BaseEntities.Interfaces;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Repositories;
-
 
 namespace LocalRepositoryTests.EnforcementActions;
 
@@ -32,6 +30,7 @@ public class GetConsentOrderTest
         // Assert
         results.Should().BeEquivalentTo(existingCO);
     }
+
     [Test]
     public async Task GetConsentOrder_WhenIdDoesNotExist_ThrowAsync()
     {
@@ -39,13 +38,13 @@ public class GetConsentOrderTest
         var nonExistingCO = Guid.NewGuid();
 
         // Act
-        Func<Task> act = async () => await _repository.GetConsentOrder(nonExistingCO);
+        var act = async () => await _repository.GetConsentOrder(nonExistingCO);
 
         //Assert
         await act.Should()
             .ThrowAsync<EntityNotFoundException<EnforcementAction>>()
-            .WithMessage("Entity not found. Entity type: AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction, id: " + nonExistingCO);
+            .WithMessage(
+                "Entity not found. Entity type: AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction, id: " +
+                nonExistingCO);
     }
-
 }
-

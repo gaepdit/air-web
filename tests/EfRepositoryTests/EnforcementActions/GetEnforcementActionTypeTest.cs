@@ -1,8 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.EfRepository.Repositories;
-using AirWeb.LocalRepository.Repositories;
+﻿using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using GaEpd.AppLibrary.Domain.Repositories;
 
 namespace EfRepositoryTests.EnforcementActions;
 
@@ -30,6 +27,7 @@ public class GetEnforcementActionTypeTest
         // Assert
         results.Should().Be(expected);
     }
+
     [Test]
     public async Task GetEnforcementActionType_WhenIdDoesNotExist_ReturnNull()
     {
@@ -43,4 +41,3 @@ public class GetEnforcementActionTypeTest
         results.Should().BeNull();
     }
 }
-

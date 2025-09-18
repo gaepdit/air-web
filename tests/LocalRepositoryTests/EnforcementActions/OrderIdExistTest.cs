@@ -1,9 +1,6 @@
-﻿using AirWeb.Domain.BaseEntities.Interfaces;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-using GaEpd.AppLibrary.Domain.Repositories;
-
 
 namespace LocalRepositoryTests.EnforcementActions;
 
@@ -32,11 +29,12 @@ public class OrderIdExistTest
         // Assert
         results.Should().BeTrue();
     }
+
     [Test]
     public async Task OrderIdExist_WhenIdDoesNotExist_ReturnFalse()
     {
         // Arrange
-        short nonExistingOrderId = 9999;
+        const short nonExistingOrderId = 9999;
 
         // Act
         var results = await _repository.OrderIdExists(nonExistingOrderId, Guid.NewGuid());
@@ -44,6 +42,4 @@ public class OrderIdExistTest
         // Assert
         results.Should().BeFalse();
     }
-
 }
-

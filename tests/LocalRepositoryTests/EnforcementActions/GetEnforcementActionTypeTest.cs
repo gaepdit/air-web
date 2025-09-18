@@ -1,8 +1,5 @@
-﻿using AirWeb.Domain.BaseEntities.Interfaces;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.LocalRepository.Repositories;
+﻿using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Enforcement;
-
 
 namespace LocalRepositoryTests.EnforcementActions;
 
@@ -13,10 +10,10 @@ public class GetEnforcementActionTypeTest
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetEnforcementActionRepository();
-    
+
     [TearDown]
     public void TearDown() => _repository.Dispose();
-    
+
     [Test]
     public async Task GetEnforcementActionType_WhenIdExist_ReturnActionType()
     {
@@ -30,6 +27,7 @@ public class GetEnforcementActionTypeTest
         // Assert
         results.Should().Be(expected);
     }
+
     [Test]
     public async Task GetEnforcementActionType_WhenIdDoesNotExist_ReturnNull()
     {
@@ -43,4 +41,3 @@ public class GetEnforcementActionTypeTest
         results.Should().BeNull();
     }
 }
-    
