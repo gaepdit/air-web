@@ -34,7 +34,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(review => !review.IsCompleted);
     public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
     [UsedImplicitly] public DateTime? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
-    public ICollection<EnforcementActionReview> Reviews { get; } = [];
+    public List<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
     public DateTime? ApprovedDate { get; internal set; }

@@ -198,7 +198,6 @@ internal static class AppDbContextConfiguration
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
 
-        // TODO: Double check that these are working
         // Work entries
         builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
@@ -260,6 +259,16 @@ internal static class AppDbContextConfiguration
         builder.Entity<AuditPoint>().ToTable("AuditPoints");
         builder.Entity<Comment>().ToTable("Comments");
         builder.Entity<StandardNamedEntity>().ToTable("SelectLists");
+
+        return builder;
+    }
+    internal static ModelBuilder ConfigureImpliedAddedChildEntities(this ModelBuilder builder)
+    {
+        // See https://github.com/dotnet/efcore/issues/35090#issuecomment-2485974295
+        builder.Entity<AuditPoint>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<Comment>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<EnforcementActionReview>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<StipulatedPenalty>().Property(e => e.Id).ValueGeneratedNever();
 
         return builder;
     }

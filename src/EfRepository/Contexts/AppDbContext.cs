@@ -80,6 +80,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureWorkEntryMapping()
             .ConfigureEnforcementActionMapping()
             .ConfigureInheritanceMapping()
+            .ConfigureImpliedAddedChildEntities()
             .ConfigureEnumValues()
             .ConfigureCalculatedColumns(Database.ProviderName)
             .ConfigureDateTimeOffsetHandling(Database.ProviderName)

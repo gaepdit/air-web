@@ -63,7 +63,9 @@ public sealed class EnforcementActionService(
 
     public async Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var action = await actionRepository.FindAsync(id, token: token).ConfigureAwait(false);
+        var action = await actionRepository
+            .FindAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
+                token: token).ConfigureAwait(false);
         return action is null
             ? null
             : action switch
@@ -254,7 +256,8 @@ public sealed class EnforcementActionService(
     public async Task SubmitReviewAsync(Guid id, EnforcementActionSubmitReviewDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var action = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var action = await actionRepository
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.Reviews)], token: token).ConfigureAwait(false);
 
         var nextReviewer = resource.RequestedOfId is null
             ? null

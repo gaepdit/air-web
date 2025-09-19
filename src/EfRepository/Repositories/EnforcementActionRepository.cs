@@ -24,6 +24,7 @@ public sealed class EnforcementActionRepository(AppDbContext context)
 
     public async Task<ConsentOrder?> FindConsentOrder(Guid id, CancellationToken token = default) =>
         await Context.Set<ConsentOrder>()
+            .Include(e => e.CaseFile)
             .Include(e => e.StipulatedPenalties
                 .Where(p => !p.IsDeleted))
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);

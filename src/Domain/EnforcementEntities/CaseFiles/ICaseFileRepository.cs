@@ -1,8 +1,15 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+
+namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, ICommentRepository<int>
 {
-    public static string[] IncludeDetails => [nameof(CaseFile.EnforcementActions), nameof(CaseFile.ComplianceEvents)];
+    public static string[] IncludeDetails =>
+    [
+        nameof(CaseFile.ComplianceEvents),
+        nameof(CaseFile.EnforcementActions),
+        $"{nameof(CaseFile.EnforcementActions)}.{nameof(EnforcementAction.Reviews)}",
+    ];
 
     // Will return the next available ID if the repository requires it for adding new entities (e.g., local repository).
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).
