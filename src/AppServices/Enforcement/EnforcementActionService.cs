@@ -183,6 +183,7 @@ public sealed class EnforcementActionService(
         actionManager.Resolve((IResolvable)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
 
+        // TODO: Move business logic to Enforcement Action Manager.
         var caseFileClosed = false;
         if (resource.Option)
         {

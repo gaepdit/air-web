@@ -41,7 +41,6 @@ public abstract class BaseInspection : ComplianceEvent
 
 // Enums
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum InspectionReason
 {
     [Display(Name = "Planned Unannounced")] PlannedUnannounced,

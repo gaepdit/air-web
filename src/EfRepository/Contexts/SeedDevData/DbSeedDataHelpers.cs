@@ -55,44 +55,28 @@ public static class DbSeedDataHelpers
     private static void SeedEnforcementActionData(AppDbContext context)
     {
         if (!context.AdministrativeOrders.Any())
-            context.AdministrativeOrders.AddRange(EnforcementActionData.GetData
-                .Where(action => action is AdministrativeOrder)
-                .Cast<AdministrativeOrder>());
+            context.AdministrativeOrders.AddRange(EnforcementActionData.GetData.OfType<AdministrativeOrder>());
 
         if (!context.ConsentOrders.Any())
-            context.ConsentOrders.AddRange(EnforcementActionData.GetData
-                .Where(action => action is ConsentOrder)
-                .Cast<ConsentOrder>());
+            context.ConsentOrders.AddRange(EnforcementActionData.GetData.OfType<ConsentOrder>());
 
         if (!context.InformationalLetters.Any())
-            context.InformationalLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is InformationalLetter)
-                .Cast<InformationalLetter>());
+            context.InformationalLetters.AddRange(EnforcementActionData.GetData.OfType<InformationalLetter>());
 
         if (!context.LettersOfNoncompliance.Any())
-            context.LettersOfNoncompliance.AddRange(EnforcementActionData.GetData
-                .Where(action => action is LetterOfNoncompliance)
-                .Cast<LetterOfNoncompliance>());
+            context.LettersOfNoncompliance.AddRange(EnforcementActionData.GetData.OfType<LetterOfNoncompliance>());
 
         if (!context.NoFurtherActionLetters.Any())
-            context.NoFurtherActionLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is NoFurtherActionLetter)
-                .Cast<NoFurtherActionLetter>());
+            context.NoFurtherActionLetters.AddRange(EnforcementActionData.GetData.OfType<NoFurtherActionLetter>());
 
         if (!context.NoticesOfViolation.Any())
-            context.NoticesOfViolation.AddRange(EnforcementActionData.GetData
-                .Where(action => action is NoticeOfViolation)
-                .Cast<NoticeOfViolation>());
+            context.NoticesOfViolation.AddRange(EnforcementActionData.GetData.OfType<NoticeOfViolation>());
 
         if (!context.NovNfaLetters.Any())
-            context.NovNfaLetters.AddRange(EnforcementActionData.GetData
-                .Where(action => action is NovNfaLetter)
-                .Cast<NovNfaLetter>());
+            context.NovNfaLetters.AddRange(EnforcementActionData.GetData.OfType<NovNfaLetter>());
 
         if (!context.ProposedConsentOrders.Any())
-            context.ProposedConsentOrders.AddRange(EnforcementActionData.GetData
-                .Where(action => action is ProposedConsentOrder)
-                .Cast<ProposedConsentOrder>());
+            context.ProposedConsentOrders.AddRange(EnforcementActionData.GetData.OfType<ProposedConsentOrder>());
 
         context.SaveChanges();
     }

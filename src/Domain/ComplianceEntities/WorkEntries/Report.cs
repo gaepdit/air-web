@@ -39,7 +39,6 @@ public class Report : ComplianceEvent
 
 // Enums
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ReportingPeriodType
 {
     [Display(Name = "First Quarter")] FirstQuarter,

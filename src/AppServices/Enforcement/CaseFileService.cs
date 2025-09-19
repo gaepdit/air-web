@@ -30,10 +30,6 @@ public sealed class CaseFileService(
     : ICaseFileService
 #pragma warning restore S107
 {
-    public async Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default) =>
-        mapper.Map<IEnumerable<CaseFileSummaryDto>>(await caseFileRepository.GetListAsync(ordering: "Id", token: token)
-            .ConfigureAwait(false)).ToList();
-
     public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository
@@ -193,7 +189,7 @@ public sealed class CaseFileService(
             .GetPagedListAsync<CaseFileSearchResultDto>(caseFile => caseFile.ReviewRequestedOf == userId, paging,
                 mapper, token).ConfigureAwait(false);
 
-        var count = await caseFileRepository.CountAsync(caseFile => caseFile.HasReviewRequest, token)
+        var count = await caseFileRepository.CountAsync(caseFile => caseFile.ReviewRequestedOf == userId, token)
             .ConfigureAwait(false);
 
         return new PaginatedResult<CaseFileSearchResultDto>(list, count, paging);

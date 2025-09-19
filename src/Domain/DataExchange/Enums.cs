@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.DataExchange;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public enum DataExchangeStatus
 {

@@ -61,7 +61,6 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 }
 
 // Enums
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkEntryType
 {
     [Display(Name = "Annual Compliance Certification")] AnnualComplianceCertification,
