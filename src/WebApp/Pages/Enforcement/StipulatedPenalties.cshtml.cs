@@ -32,39 +32,33 @@ public class StipulatedPenaltiesEditModel(
     {
         if (Id == Guid.Empty) return RedirectToPage("Index");
 
-        try
-        {
-            ConsentOrder = await actionService.GetConsentOrderAsync(Id, token);
-        }
-        catch (Exception)
-        {
-            return NotFound();
-        }
+        var coView = await actionService.FindConsentOrderAsync(Id, token);
+        if (coView is null) return NotFound();
+        if (!User.CanEditStipulatedPenalties(coView)) return Forbid();
 
-        if (!User.CanEditStipulatedPenalties(ConsentOrder)) return Forbid();
-
-        CaseFile = await caseFileService.FindSummaryAsync(ConsentOrder.CaseFileId, token);
+        CaseFile = await caseFileService.FindSummaryAsync(coView.CaseFileId, token);
         if (CaseFile is null) return BadRequest();
         if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
+        ConsentOrder = coView;
         NewPenalty = new StipulatedPenaltyAddDto();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        ConsentOrder = await actionService.GetConsentOrderAsync(Id, token);
-        if (!User.CanEditStipulatedPenalties(ConsentOrder))
-            return BadRequest();
+        var coView = await actionService.FindConsentOrderAsync(Id, token);
+        if (coView is null || !User.CanEditStipulatedPenalties(coView)) return BadRequest();
 
-        CaseFile = await caseFileService.FindSummaryAsync(ConsentOrder.CaseFileId, token);
-        if (CaseFile is null || !User.CanEditCaseFile(CaseFile))
-            return BadRequest();
+        CaseFile = await caseFileService.FindSummaryAsync(coView.CaseFileId, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
-        await validator.ApplyValidationAsync(NewPenalty, ModelState, ConsentOrder.Id);
-
+        await validator.ApplyValidationAsync(NewPenalty, ModelState, coView.Id);
         if (!ModelState.IsValid)
+        {
+            ConsentOrder = coView;
             return Page();
+        }
 
         await actionService.AddStipulatedPenalty(Id, NewPenalty, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty added.");
@@ -73,13 +67,11 @@ public class StipulatedPenaltiesEditModel(
 
     public async Task<IActionResult> OnPostDeletePenaltyAsync(Guid penaltyId, CancellationToken token)
     {
-        var coView = await actionService.GetConsentOrderAsync(Id, token);
-        if (!User.CanEditStipulatedPenalties(coView))
-            return BadRequest();
+        var coView = await actionService.FindConsentOrderAsync(Id, token);
+        if (coView is null || !User.CanEditStipulatedPenalties(coView)) return BadRequest();
 
         CaseFile = await caseFileService.FindSummaryAsync(coView.CaseFileId, token);
-        if (CaseFile is null || !User.CanEditCaseFile(CaseFile))
-            return BadRequest();
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
         await actionService.DeletedStipulatedPenalty(coView.Id, penaltyId, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Stipulated penalty deleted.");

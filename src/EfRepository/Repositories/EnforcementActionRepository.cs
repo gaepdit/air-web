@@ -22,9 +22,9 @@ public sealed class EnforcementActionRepository(AppDbContext context)
                 action.OrderId.Equals(orderId), token).ConfigureAwait(false);
 
 
-    public async Task<ConsentOrder> GetConsentOrder(Guid id, CancellationToken token = default) =>
+    public async Task<ConsentOrder?> FindConsentOrder(Guid id, CancellationToken token = default) =>
         await Context.Set<ConsentOrder>()
             .Include(e => e.StipulatedPenalties
                 .Where(p => !p.IsDeleted))
-            .SingleAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);
+            .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);
 }

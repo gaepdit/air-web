@@ -83,8 +83,8 @@ public sealed class EnforcementActionService(
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
         await actionRepository.GetEnforcementActionType(id, token).ConfigureAwait(false);
 
-    public async Task<CoViewDto> GetConsentOrderAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CoViewDto>(await actionRepository.GetConsentOrder(id, token: token).ConfigureAwait(false));
+    public async Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default) =>
+        mapper.Map<CoViewDto>(await actionRepository.FindConsentOrder(id, token: token).ConfigureAwait(false));
 
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {

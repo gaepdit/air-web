@@ -18,11 +18,12 @@ public class LocalEnforcementActionRepository()
                 !action.IsDeleted &&
                 action.OrderId.Equals(orderId)));
 
-    public Task<ConsentOrder> GetConsentOrder(Guid id, CancellationToken token = default)
+    public Task<ConsentOrder?> FindConsentOrder(Guid id, CancellationToken token = default)
     {
         var consentOrder = Items.OfType<ConsentOrder>()
-            .Single(e => e.Id.Equals(id));
+            .SingleOrDefault(e => e.Id.Equals(id));
+        if (consentOrder == null) return Task.FromResult<ConsentOrder?>(null);
         consentOrder.StipulatedPenalties.RemoveAll(p => p.IsDeleted);
-        return Task.FromResult(consentOrder);
+        return Task.FromResult<ConsentOrder?>(consentOrder);
     }
 }
