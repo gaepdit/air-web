@@ -12,14 +12,10 @@ public sealed class CaseFileRepository(AppDbContext context)
     public int? GetNextId() => null;
 
     public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
-        (await Context.Set<CaseFile>()
-            .Where(entry => entry.Id.Equals(id))
-            .SingleAsync(token).ConfigureAwait(false)).GetPollutants();
+        (await GetAsync(id, token).ConfigureAwait(false)).GetPollutants();
 
     public async Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
-        (await Context.Set<CaseFile>()
-            .Where(entry => entry.Id.Equals(id))
-            .SingleAsync(token).ConfigureAwait(false)).AirPrograms;
+        (await GetAsync(id, token).ConfigureAwait(false)).AirPrograms;
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {

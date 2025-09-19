@@ -129,10 +129,8 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     }
 
     // Programs & pollutants
-    // Required if the data exchange is enabled.
-    public ICollection<Pollutant> GetPollutants() => CommonData.AllPollutants
-        .Where(pollutant => PollutantIds.Contains(pollutant.Code)).ToList();
-
+    // are required if the data exchange is enabled.
+    public ICollection<Pollutant> GetPollutants() => PollutantIds.AsPollutants();
     public List<string> PollutantIds { get; } = [];
     public List<AirProgram> AirPrograms { get; } = [];
     public bool MissingPollutantsOrPrograms => !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0);
