@@ -1,16 +1,16 @@
 ﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.LocalRepository.Repositories;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Enforcement;
 
-namespace LocalRepositoryTests.EnforcementActions;
+namespace EfRepositoryTests.EnforcementActions;
 
 [TestFixture]
-public class OrderIdExistTest
+public class OrderIdExistsTests
 {
-    private LocalEnforcementActionRepository _repository;
+    private EnforcementActionRepository _repository;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetEnforcementActionRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetEnforcementActionRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -19,12 +19,12 @@ public class OrderIdExistTest
     public async Task OrderIdExist_WhenIdExist_ReturnTrue()
     {
         // Arrange
-        var existingCO = EnforcementActionData.GetData
+        var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
             .First();
 
         // Act
-        var results = await _repository.OrderIdExists(existingCO.OrderId, Guid.NewGuid());
+        var results = await _repository.OrderIdExists(existingOrder.OrderId, Guid.NewGuid());
 
         // Assert
         results.Should().BeTrue();
