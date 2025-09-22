@@ -1,7 +1,7 @@
 using IaipDataService.Facilities;
 using IaipDataService.TestData;
 
-namespace IaipDataServiceTests;
+namespace IaipDataServiceTests.TestServices;
 
 public class TestFacilityServiceTests
 {
