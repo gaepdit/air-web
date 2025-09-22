@@ -1,5 +1,7 @@
-﻿using AirWeb.EfRepository.Repositories;
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Enforcement;
+using GaEpd.AppLibrary.Domain.Repositories;
 
 namespace EfRepositoryTests.CaseFiles;
 
@@ -52,6 +54,6 @@ public class GetAirProgramsTest
         Func<Task> act = async () => await _repository.GetAirProgramsAsync(invalidId);
 
         //Assert
-        await act.Should().ThrowAsync<InvalidOperationException>();
+        await act.Should().ThrowAsync<EntityNotFoundException<CaseFile>>();
     }
 }
