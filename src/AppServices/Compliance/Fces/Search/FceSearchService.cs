@@ -17,10 +17,12 @@ public sealed class FceSearchService(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    : BaseSearchService<Fce, FceSearchDto, FceSearchResultDto, FceExportDto>
+    : BaseSearchService<Fce, FceSearchDto, FceSearchResultDto, FceExportDto, IFceRepository>
         (repository, facilityService, mapper, userService, authorization),
         IFceSearchService
 {
+    private readonly IFceRepository _repository = repository;
+
     public Task<IPaginatedResult<FceSearchResultDto>> SearchAsync(FceSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
         SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
@@ -33,8 +35,8 @@ public sealed class FceSearchService(
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose() => repository.Dispose();
-    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
+    public void Dispose() => _repository.Dispose();
+    public async ValueTask DisposeAsync() => await _repository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }

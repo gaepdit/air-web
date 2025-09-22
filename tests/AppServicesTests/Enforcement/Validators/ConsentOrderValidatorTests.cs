@@ -4,7 +4,7 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Enforcement.Validators;
 
-public class ConsentOrderCommandTests
+public class ConsentOrderValidatorTests
 {
     [Test]
     public async Task DtoWithValidValues_ReturnsAsValid()

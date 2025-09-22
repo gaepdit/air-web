@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public interface IFceRepository : IRepository<Fce, int>, ICommentRepository<int>
+public interface IFceRepository : IRepositoryWithMapping<Fce, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(Fce.Comments)];
 

@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Compliance;
+using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +20,14 @@ public class WorkEntrySearchServiceTests
     {
         // Arrange
         var searchDto = new WorkEntrySearchDto();
-        var entries = WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList();
+        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<WorkEntrySearchResultDto>>(
+            WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
-                Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
+        repoMock.GetPagedListAsync<WorkEntrySearchResultDto>(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+                Arg.Any<PaginatedRequest>(), Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
         var authMock = Substitute.For<IAuthorizationService>();
@@ -34,8 +36,7 @@ public class WorkEntrySearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new WorkEntrySearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
-            Substitute.For<IUserService>(), authMock);
+            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

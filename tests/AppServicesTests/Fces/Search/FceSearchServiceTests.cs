@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
+using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +20,14 @@ public class FceSearchServiceTests
     {
         // Arrange
         var searchDto = new FceSearchDto();
-        var entries = FceData.GetData.Where(fce => !fce.IsDeleted).ToList();
+        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<FceSearchResultDto>>(
+            FceData.GetData.Where(fce => !fce.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IFceRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<Fce, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<CancellationToken>())
+        repoMock.GetPagedListAsync<FceSearchResultDto>(Arg.Any<Expression<Func<Fce, bool>>>(),
+                Arg.Any<PaginatedRequest>(), Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
         var authMock = Substitute.For<IAuthorizationService>();
@@ -34,7 +36,7 @@ public class FceSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new FceSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
+            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

@@ -4,7 +4,7 @@ using AirWeb.TestData.Enforcement;
 namespace EfRepositoryTests.EnforcementActions;
 
 [TestFixture]
-public class GetEnforcementActionTypeTest
+public class GetEnforcementActionTypeTests
 {
     private EnforcementActionRepository _repository;
 
@@ -18,11 +18,11 @@ public class GetEnforcementActionTypeTest
     public async Task GetEnforcementActionType_WhenIdExist_ReturnActionType()
     {
         // Arrange
-        var existingEAT = EnforcementActionData.GetData.First();
-        var expected = existingEAT.ActionType;
+        var existingAction = EnforcementActionData.GetData.First();
+        var expected = existingAction.ActionType;
 
         // Act
-        var results = await _repository.GetEnforcementActionType(existingEAT.Id);
+        var results = await _repository.GetEnforcementActionType(existingAction.Id);
 
         // Assert
         results.Should().Be(expected);
@@ -32,10 +32,10 @@ public class GetEnforcementActionTypeTest
     public async Task GetEnforcementActionType_WhenIdDoesNotExist_ReturnNull()
     {
         // Arrange
-        var nonExistingEAT = Guid.NewGuid();
+        var nonExistingActionId = Guid.NewGuid();
 
         // Act
-        var results = await _repository.GetEnforcementActionType(nonExistingEAT);
+        var results = await _repository.GetEnforcementActionType(nonExistingActionId);
 
         // Assert
         results.Should().BeNull();

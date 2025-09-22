@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.TestData.Enforcement;
+using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +22,14 @@ public class CaseFileSearchServiceTests
         var searchDto = new CaseFileSearchDto();
         // Hydrate the enforcement action data
         _ = EnforcementActionData.GetData;
-        var entries = CaseFileData.GetData.ToList();
+        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<CaseFileSearchResultDto>>(
+            CaseFileData.GetData.ToList());
 
         var repoMock = Substitute.For<ICaseFileRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<CaseFile, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<CancellationToken>())
+        repoMock.GetPagedListAsync<CaseFileSearchResultDto>(Arg.Any<Expression<Func<CaseFile, bool>>>(),
+                Arg.Any<PaginatedRequest>(), Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
         var authMock = Substitute.For<IAuthorizationService>();
@@ -36,7 +38,7 @@ public class CaseFileSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new CaseFileSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
+            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

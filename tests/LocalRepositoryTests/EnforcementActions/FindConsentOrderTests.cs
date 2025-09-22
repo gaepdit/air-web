@@ -5,7 +5,7 @@ using AirWeb.TestData.Enforcement;
 namespace LocalRepositoryTests.EnforcementActions;
 
 [TestFixture]
-public class GetConsentOrderTest
+public class FindConsentOrderTests
 {
     private LocalEnforcementActionRepository _repository;
 
@@ -16,30 +16,30 @@ public class GetConsentOrderTest
     public void TearDown() => _repository.Dispose();
 
     [Test]
-    public async Task GetConsentOrder_WhenIdExist_ReturnConsentOrder()
+    public async Task FindConsentOrder_WhenIdExist_ReturnConsentOrder()
     {
         // Arrange
-        var existingCO = EnforcementActionData.GetData
+        var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
             .First();
 
         // Act
-        var results = await _repository.GetConsentOrder(existingCO.Id);
+        var results = await _repository.FindConsentOrder(existingOrder.Id);
 
         // Assert
-        results.Should().BeEquivalentTo(existingCO);
+        results.Should().BeEquivalentTo(existingOrder);
     }
 
     [Test]
-    public async Task GetConsentOrder_WhenIdDoesNotExist_ThrowAsync()
+    public async Task FindConsentOrder_WhenIdDoesNotExist_ReturnsNull()
     {
         // Arrange
-        var nonExistingCO = Guid.NewGuid();
+        var nonExistingOrderId = Guid.NewGuid();
 
         // Act
-        var act = async () => await _repository.GetConsentOrder(nonExistingCO);
+        var results = await _repository.FindConsentOrder(nonExistingOrderId);
 
         //Assert
-        await act.Should().ThrowAsync<InvalidOperationException>();
+        results.Should().BeNull();
     }
 }

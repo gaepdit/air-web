@@ -1,4 +1,3 @@
-using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.EfRepository.Contexts;
@@ -7,7 +6,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class FceRepository(AppDbContext context)
-    : BaseRepository<Fce, int, AppDbContext>(context), IFceRepository
+    : BaseRepositoryWithMapping<Fce, int, AppDbContext>(context), IFceRepository
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;

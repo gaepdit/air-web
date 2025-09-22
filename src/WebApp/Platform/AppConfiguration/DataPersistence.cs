@@ -58,10 +58,8 @@ public static class DataPersistence
             .AddScoped<IOfficeRepository, OfficeRepository>()
             .AddScoped<IFceRepository, FceRepository>()
             .AddScoped<IWorkEntryRepository, WorkEntryRepository>()
-
-            // TODO: Replace these with EF repositories.
-            .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
-            .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
+            .AddScoped<IEnforcementActionRepository, EnforcementActionRepository>()
+            .AddScoped<ICaseFileRepository, CaseFileRepository>();
     }
 
     private static DbContextOptionsBuilder<AppDbContext> GetMigrationDbOpts(IConfiguration configuration)

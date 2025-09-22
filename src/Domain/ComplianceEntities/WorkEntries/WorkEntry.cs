@@ -2,7 +2,6 @@ using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Identity;
-using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -35,7 +34,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 
     // Comments
     public List<WorkEntryComment> Comments { get; } = [];
-    
+
     // Audit Points
     public List<WorkEntryAuditPoint> AuditPoints { get; } = [];
 
@@ -61,7 +60,6 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
 }
 
 // Enums
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum WorkEntryType
 {
     [Display(Name = "Annual Compliance Certification")] AnnualComplianceCertification,

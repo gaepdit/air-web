@@ -15,7 +15,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
     // Find
     Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
-    Task<CoViewDto> GetConsentOrderAsync(Guid id, CancellationToken token = default);
+    Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default);
 
     // Update
     Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default);

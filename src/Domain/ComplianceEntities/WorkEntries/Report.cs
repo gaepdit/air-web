@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Identity;
-using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
@@ -39,7 +38,6 @@ public class Report : ComplianceEvent
 
 // Enums
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ReportingPeriodType
 {
     [Display(Name = "First Quarter")] FirstQuarter,

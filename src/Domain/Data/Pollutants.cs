@@ -15,7 +15,10 @@ namespace AirWeb.Domain.Data;
 
 public static partial class CommonData
 {
-    public static List<Pollutant> AllPollutants { get; } =
+    public static ICollection<Pollutant> AsPollutants(this List<string> pollutantIds) =>
+        AllPollutants.Where(pollutant => pollutantIds.Contains(pollutant.Code)).ToList();
+
+    private static List<Pollutant> AllPollutants { get; } =
     [
         new("300000331", "Chromium"),
         new("300000025", "Cadmium"),
