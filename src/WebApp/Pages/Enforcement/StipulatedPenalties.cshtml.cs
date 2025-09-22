@@ -25,7 +25,7 @@ public class StipulatedPenaltiesEditModel(
 
     // Form buttons
     public string SubmitText => "Add New";
-    public string CancelRoute => "../Details";
+    public string CancelRoute => "Details";
     public string RouteId => CaseFile?.Id.ToString() ?? string.Empty;
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)

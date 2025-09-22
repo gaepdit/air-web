@@ -28,7 +28,7 @@ public class SubmitReviewModel(
 
     // Form buttons
     public string SubmitText => "Submit Review";
-    public string CancelRoute => "../Details";
+    public string CancelRoute => "Details";
     public string RouteId => ItemView.CaseFileId.ToString();
 
     [TempData]
