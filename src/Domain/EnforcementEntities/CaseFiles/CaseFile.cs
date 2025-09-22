@@ -29,7 +29,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     // Basic data
 
     [StringLength(9)]
-    public string FacilityId { get; } = null!;
+    public string FacilityId { get; init; } = null!;
 
     // Required for new cases but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
@@ -154,12 +154,22 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
 
-    public bool HasReviewRequest => EnforcementActions
-        .Exists(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested });
+    [StringLength(450)]
+    public string? ReviewRequestedOf
+    {
+        get => EnforcementActions
+            .SingleOrDefault(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested })
+            ?.CurrentReviewer?.Id;
 
-    public string? ReviewRequestedOf => EnforcementActions
-        .SingleOrDefault(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested })
-        ?.CurrentReviewer?.Id;
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty. This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
+    }
 
     // Data exchange properties
 

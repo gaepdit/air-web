@@ -63,7 +63,9 @@ public sealed class EnforcementActionService(
 
     public async Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var action = await actionRepository.FindAsync(id, token: token).ConfigureAwait(false);
+        var action = await actionRepository
+            .FindAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
+                token: token).ConfigureAwait(false);
         return action is null
             ? null
             : action switch
@@ -127,7 +129,8 @@ public sealed class EnforcementActionService(
     public async Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
+            .ConfigureAwait(false);
         actionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
 
@@ -137,8 +140,7 @@ public sealed class EnforcementActionService(
             enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
                 or EnforcementActionType.NoFurtherActionLetter)
         {
-            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token: token)
-                .ConfigureAwait(false);
+            var caseFile = enforcementAction.CaseFile;
             if (!caseFile.MissingPollutantsOrPrograms)
             {
                 caseFileManager.Close(caseFile, currentUser);
@@ -147,7 +149,6 @@ public sealed class EnforcementActionService(
             }
         }
 
-        // TODO: Does this also save the case file when using Entity Framework?
         await actionRepository.SaveChangesAsync(token).ConfigureAwait(false);
         return caseFileClosed;
     }
@@ -179,15 +180,16 @@ public sealed class EnforcementActionService(
     public async Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
+            .ConfigureAwait(false);
         actionManager.Resolve((IResolvable)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
 
+        // TODO: Move business logic to Enforcement Action Manager.
         var caseFileClosed = false;
         if (resource.Option)
         {
-            var caseFile = await caseFileRepository.GetAsync(enforcementAction.CaseFile.Id, token: token)
-                .ConfigureAwait(false);
+            var caseFile = enforcementAction.CaseFile;
             if (!caseFile.IsClosed)
             {
                 caseFileManager.Close(caseFile, currentUser);
@@ -196,9 +198,7 @@ public sealed class EnforcementActionService(
             }
         }
 
-        // TODO: Does this also save the case file when using Entity Framework?
         await actionRepository.SaveChangesAsync(token).ConfigureAwait(false);
-
         return caseFileClosed;
     }
 
@@ -253,7 +253,8 @@ public sealed class EnforcementActionService(
     public async Task SubmitReviewAsync(Guid id, EnforcementActionSubmitReviewDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var action = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var action = await actionRepository
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.Reviews)], token: token).ConfigureAwait(false);
 
         var nextReviewer = resource.RequestedOfId is null
             ? null

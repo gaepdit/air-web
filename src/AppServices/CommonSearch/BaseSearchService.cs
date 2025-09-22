@@ -11,9 +11,9 @@ using System.Linq.Expressions;
 namespace AirWeb.AppServices.CommonSearch;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
-public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExportDto>(
+public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExportDto, TRepository>(
 #pragma warning restore S2436
-    IReadRepository<TEntity, int> repository,
+    TRepository repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
@@ -22,6 +22,7 @@ public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExport
     where TSearchDto : class, ISearchDto<TSearchDto>, IDeleteStatus
     where TResultDto : class, ISearchResult
     where TExportDto : class, ISearchResult
+    where TRepository : IRepositoryWithMapping<TEntity, int>, IReadRepository<TEntity, int>
 {
     protected async Task<IPaginatedResult<TResultDto>> SearchAsync(
         TSearchDto spec,
@@ -37,8 +38,8 @@ public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExport
         var count = await repository.CountAsync(expression, token).ConfigureAwait(false);
 
         var list = count > 0
-            ? mapper.Map<IReadOnlyCollection<TResultDto>>(
-                await repository.GetPagedListAsync(expression, paging, token: token).ConfigureAwait(false))
+            ? await repository.GetPagedListAsync<TResultDto>(
+                expression, paging, mapper, token: token).ConfigureAwait(false)
             : [];
 
         if (!loadFacilities) return new PaginatedResult<TResultDto>(list, count, paging);

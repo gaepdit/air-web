@@ -11,9 +11,6 @@ namespace AirWeb.AppServices.Enforcement;
 
 public interface ICaseFileService : IDisposable, IAsyncDisposable
 {
-    // TODO: Delete.
-    Task<IReadOnlyCollection<CaseFileSummaryDto>> GetListAsync(CancellationToken token = default);
-
     // Query
     Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default);
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);

@@ -6,7 +6,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalFceRepository()
-    : BaseRepository<Fce, int>(FceData.GetData), IFceRepository
+    : BaseRepositoryWithMapping<Fce, int>(FceData.GetData), IFceRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(fce => fce.Id).Max() + 1;

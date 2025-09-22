@@ -18,10 +18,13 @@ public sealed class WorkEntrySearchService(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    : BaseSearchService<WorkEntry, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto>
+    : BaseSearchService<WorkEntry, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto,
+            IWorkEntryRepository>
         (repository, facilityService, mapper, userService, authorization),
         IWorkEntrySearchService
 {
+    private readonly IWorkEntryRepository _repository = repository;
+
     public Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
         SearchAsync(spec, paging, loadFacilities, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
@@ -35,8 +38,8 @@ public sealed class WorkEntrySearchService(
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose() => repository.Dispose();
-    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
+    public void Dispose() => _repository.Dispose();
+    public async ValueTask DisposeAsync() => await _repository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }

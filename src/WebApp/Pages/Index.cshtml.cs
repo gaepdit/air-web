@@ -122,7 +122,7 @@ public class IndexModel(
     {
         if (UserId is null) return;
         EnforcementReviews = await caseFileService
-            .GetReviewRequestsAsync(UserId!, PaginationDefaults.EnforcementBulk, token);
+            .GetReviewRequestsAsync(UserId, PaginationDefaults.EnforcementBulk, token);
     }
 
     private async Task LoadOfficeEnforcementWork(CancellationToken token)

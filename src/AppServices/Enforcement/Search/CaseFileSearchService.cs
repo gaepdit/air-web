@@ -17,10 +17,12 @@ public sealed class CaseFileSearchService(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization) :
-    BaseSearchService<CaseFile, CaseFileSearchDto, CaseFileSearchResultDto, CaseFileExportDto>
+    BaseSearchService<CaseFile, CaseFileSearchDto, CaseFileSearchResultDto, CaseFileExportDto, ICaseFileRepository>
     (repository, facilityService, mapper, userService, authorization),
     ICaseFileSearchService
 {
+    private readonly ICaseFileRepository _repository = repository;
+
     public Task<IPaginatedResult<CaseFileSearchResultDto>> SearchAsync(CaseFileSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
         SearchAsync(spec, paging, loadFacilities, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
@@ -33,8 +35,8 @@ public sealed class CaseFileSearchService(
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose() => repository.Dispose();
-    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
+    public void Dispose() => _repository.Dispose();
+    public async ValueTask DisposeAsync() => await _repository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }

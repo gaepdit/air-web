@@ -6,8 +6,8 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
-using IaipDataService.Facilities;
 using GaEpd.AppLibrary.Domain.Entities;
+using IaipDataService.Facilities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
@@ -259,6 +259,17 @@ internal static class AppDbContextConfiguration
         builder.Entity<AuditPoint>().ToTable("AuditPoints");
         builder.Entity<Comment>().ToTable("Comments");
         builder.Entity<StandardNamedEntity>().ToTable("SelectLists");
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureImpliedAddedChildEntities(this ModelBuilder builder)
+    {
+        // See https://github.com/dotnet/efcore/issues/35090#issuecomment-2485974295
+        builder.Entity<AuditPoint>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<Comment>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<EnforcementActionReview>().Property(e => e.Id).ValueGeneratedNever();
+        builder.Entity<StipulatedPenalty>().Property(e => e.Id).ValueGeneratedNever();
 
         return builder;
     }
