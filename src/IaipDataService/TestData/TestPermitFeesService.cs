@@ -6,12 +6,12 @@ namespace IaipDataService.TestData;
 public class TestPermitFeesService : IPermitFeesService
 {
     public Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
-        int lookbackYears, bool forceRefresh = false)
+        int lookBackYears, bool forceRefresh = false)
     {
         var annualFees = new List<AnnualFeeSummary>();
         var finalYear = (short)(cutoffDate.Month < 10 ? cutoffDate.Year - 1 : cutoffDate.Year);
 
-        for (short i = 0; i < lookbackYears; i++)
+        for (short i = 0; i < lookBackYears; i++)
         {
             var balanced = NextBoolean();
             var invoicedAmount = Random.Shared.Next(1, 50_000_000) / 100m;

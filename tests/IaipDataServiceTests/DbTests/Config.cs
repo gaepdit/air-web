@@ -11,6 +11,7 @@ public class Config
     internal static readonly FacilityId TestFacilityId = new("247-00007");
     internal const string TestFacilityName = "C&D Technologies";
 
+    internal static readonly FacilityId FeesTestFacilityId = new("001-00001");
 
     internal static IDbConnectionFactory? DbConnectionFactory;
 
