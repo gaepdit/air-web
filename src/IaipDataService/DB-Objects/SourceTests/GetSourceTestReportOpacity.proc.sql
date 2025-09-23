@@ -41,17 +41,17 @@ BEGIN
                u3.STRUNITDESCRIPTION)      as AllowableEmissionRateUnits
     from dbo.ISMPREPORTINFORMATION r
         inner join dbo.ISMPREPORTOPACITY d
-        on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+            on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         left join dbo.LOOKUPISMPCOMPLIANCESTATUS s
-        on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
+            on s.STRCOMPLIANCEKEY = r.STRCOMPLIANCESTATUS
         left join dbo.LOOKUPUNITS u1
-        on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
+            on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
             and u1.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u2
-        on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
+            on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
             and u2.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u3
-        on u3.STRUNITKEY = d.STRALLOWABLEEMISSIONRATEUNIT
+            on u3.STRUNITKEY = d.STRALLOWABLEEMISSIONRATEUNIT
             and u3.STRUNITKEY <> @InvalidKey
     where convert(int, r.STRREFERENCENUMBER) = @ReferenceNumber;
 
@@ -81,7 +81,7 @@ BEGIN
                                             as ConfidentialParametersCode
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE = '015'
         union
         -- Method 9 (Single and Multi)
@@ -104,7 +104,7 @@ BEGIN
                           substring(r.STRCONFIDENTIALDATA, 52, 1)))
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE in ('014', '016')
         union
         -- Method 9 Multi follows
@@ -122,7 +122,7 @@ BEGIN
                       substring(r.STRCONFIDENTIALDATA, 53, 1))
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE in ('014', '016')
         union
         select d.STRREFERENCENUMBER,
@@ -139,7 +139,7 @@ BEGIN
                       substring(r.STRCONFIDENTIALDATA, 54, 1))
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE in ('014', '016')
         union
         select d.STRREFERENCENUMBER,
@@ -156,7 +156,7 @@ BEGIN
                       substring(r.STRCONFIDENTIALDATA, 55, 1))
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE in ('014', '016')
         union
         select d.STRREFERENCENUMBER,
@@ -173,7 +173,7 @@ BEGIN
                       substring(r.STRCONFIDENTIALDATA, 56, 1))
         from dbo.ISMPREPORTOPACITY d
             inner join dbo.ISMPREPORTINFORMATION r
-            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+                on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
                 and r.STRDOCUMENTTYPE in ('014', '016')) t
     where convert(int, STRREFERENCENUMBER) = @ReferenceNumber
       and not (t.RunNumber > 1 and trim(t.Opacity) in ('', 'N/A'))

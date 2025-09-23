@@ -56,18 +56,18 @@ BEGIN
            u4.STRUNITDESCRIPTION               as Units
     from dbo.ISMPREPORTINFORMATION r
         inner join dbo.ISMPREPORTTWOSTACK d
-        on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
+            on r.STRREFERENCENUMBER = d.STRREFERENCENUMBER
         left join dbo.LOOKUPUNITS u1
-        on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
+            on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
             and u1.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u2
-        on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
+            on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
             and u2.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u3
-        on u3.STRUNITKEY = d.STRPOLLUTANTCONCENTRATIONUNIT
+            on u3.STRUNITKEY = d.STRPOLLUTANTCONCENTRATIONUNIT
             and u3.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u4
-        on u4.STRUNITKEY = d.STREMISSIONRATEUNIT
+            on u4.STRUNITKEY = d.STREMISSIONRATEUNIT
             and u4.STRUNITKEY <> @InvalidKey
     where convert(int, r.STRREFERENCENUMBER) = @ReferenceNumber;
 
@@ -91,7 +91,7 @@ BEGIN
                  STRALLOWABLEEMISSIONRATEUNIT3
           from dbo.ISMPREPORTTWOSTACK) t
         inner join dbo.LOOKUPUNITS u
-        on u.STRUNITKEY = t.UnitCode
+            on u.STRUNITKEY = t.UnitCode
             and u.STRUNITKEY <> @InvalidKey
     where convert(int, t.STRREFERENCENUMBER) = @ReferenceNumber
     order by t.Id;
@@ -133,7 +133,7 @@ BEGIN
                                                as ConfidentialParametersCode
           from dbo.ISMPREPORTTWOSTACK s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select 2, -- run 2
                  s.STRREFERENCENUMBER,
@@ -156,7 +156,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 85, 1))
           from dbo.ISMPREPORTTWOSTACK s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select 3, -- run 3
                  s.STRREFERENCENUMBER,
@@ -179,7 +179,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 86, 1))
           from dbo.ISMPREPORTTWOSTACK s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
     where convert(int, ReferenceNumber) = @ReferenceNumber
     order by Id;
 

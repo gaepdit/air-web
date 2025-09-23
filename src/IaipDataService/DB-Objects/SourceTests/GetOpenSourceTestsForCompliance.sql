@@ -11,9 +11,6 @@ AS
 Author:     Doug Waldron
 Overview:   Retrieves a list of stack tests which have not yet been reviewed by compliance staff.
 
-Input Parameters:
-    @ReferenceNumber - The stack test reference number
-
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
