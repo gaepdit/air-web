@@ -3,6 +3,7 @@ using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.SourceTests;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.Pagination;
@@ -14,7 +15,7 @@ namespace AirWeb.WebApp.Pages;
 public class IndexModel(
     IWorkEntrySearchService complianceSearchService,
     ICaseFileSearchService caseFileSearchService,
-    ICaseFileService caseFileService,
+    IEnforcementActionService enforcementActionService,
     ISourceTestAppService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
@@ -39,7 +40,7 @@ public class IndexModel(
     public IPaginatedResult OfficeSourceTests { get; private set; } = null!;
 
     // -- Enforcement reviewer/manager
-    public IPaginatedResult<CaseFileSearchResultDto> EnforcementReviews { get; private set; } = null!;
+    public IPaginatedResult<ActionViewDto> EnforcementReviews { get; private set; } = null!;
     public IPaginatedResult<CaseFileSearchResultDto> OfficeCaseFiles { get; private set; } = null!;
 
     public async Task<IActionResult> OnGet(CancellationToken token = default)
@@ -121,7 +122,7 @@ public class IndexModel(
     private async Task LoadReviewRequests(CancellationToken token)
     {
         if (UserId is null) return;
-        EnforcementReviews = await caseFileService
+        EnforcementReviews = await enforcementActionService
             .GetReviewRequestsAsync(UserId, PaginationDefaults.EnforcementBulk, token);
     }
 

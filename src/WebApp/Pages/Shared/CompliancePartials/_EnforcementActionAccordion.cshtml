@@ -1,0 +1,38 @@
+﻿@using AirWeb.WebApp.Platform.Defaults
+@model GaEpd.AppLibrary.Pagination.IPaginatedResult<AirWeb.AppServices.Enforcement.EnforcementActionQuery.ActionViewDto>
+@{
+    var expanded = (bool?)ViewData["expanded"] ?? false;
+    var id = Guid.NewGuid();
+    var parentId = $"accordion-parent-{id}";
+    var bodyId = $"accordion-body-{id}";
+}
+
+@if (!Model.Items.Any())
+{
+    <div class="border rounded-2 p-3">
+        <p class="mb-0">None found.</p>
+    </div>
+}
+else
+{
+    <div id="@parentId" class="accordion">
+        <div class="accordion-item">
+            <h3 class="accordion-header no-anchor">
+                <button class="accordion-button @(expanded ? "" : "collapsed")" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#@bodyId" aria-expanded="@expanded.ToString()" aria-controls="@bodyId">
+                    @if (Model.TotalCount > SearchDefaults.SummaryTableSize)
+                    {
+                        @SearchDefaults.SummaryTableSize.ToString()
+                        @:most recent /
+                    }
+                    @Model.TotalCount.ToString() total
+                </button>
+            </h3>
+            <div id="@bodyId" class="accordion-collapse collapse @(expanded ? "show" : "")" data-bs-parent="@parentId">
+                <div class="accordion-body pb-2">
+                    <partial name="Shared/CompliancePartials/_EnforcementActionTable" model="Model.Items" view-data="ViewData" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

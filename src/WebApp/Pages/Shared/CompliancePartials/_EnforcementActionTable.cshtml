@@ -1,0 +1,34 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model IList<AirWeb.AppServices.Enforcement.EnforcementActionQuery.ActionViewDto>
+
+<div class="table-responsive-md">
+    <table class="table table-hover mb-0" aria-label="Enforcement Action results table">
+        <thead>
+        <tr>
+            <th scope="col" class="text-nowrap">Tracking #</th>
+            <th scope="col" class="text-nowrap">Review Requested Date</th>
+            <th scope="col" class="text-nowrap">Item</th>
+            <th scope="col" class="text-nowrap">Responsible Staff</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row" class="align-middle">
+                    <a asp-page="/Enforcement/Details" asp-route-id="@item.CaseFileId" asp-fragment="@item.Id"
+                       class="fw-normal link-offset-1">
+                        @item.CaseFileId.ToString()
+                    </a>
+                </th>
+                <td>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.ReviewRequestedDate, DisplayTemplate.DateTimeNullableShort)</span>
+                </td>
+                <td>@item.ActionType.GetDisplayName()</td>
+                <td>@Html.DisplayFor(_ => item.CurrentReviewer, DisplayTemplate.NameOrPlaceholder)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
