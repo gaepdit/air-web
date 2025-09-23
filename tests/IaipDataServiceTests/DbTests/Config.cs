@@ -13,6 +13,9 @@ public class Config
 
     internal static readonly FacilityId FeesTestFacilityId = new("001-00001");
 
+    internal const int TestFacilityReferenceNumber = 200700127;
+    internal const int NonexistentReferenceNumber = 1;
+
     internal static IDbConnectionFactory? DbConnectionFactory;
 
     [OneTimeSetUp]

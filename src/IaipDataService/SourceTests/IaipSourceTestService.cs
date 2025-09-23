@@ -14,7 +14,7 @@ namespace IaipDataService.SourceTests;
 public class IaipSourceTestService(
     IDbConnectionFactory dbf,
     IMemoryCache cache,
-    ILogger<IaipFacilityService> logger) : ISourceTestService
+    ILogger<IaipSourceTestService> logger) : ISourceTestService
 {
     public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
