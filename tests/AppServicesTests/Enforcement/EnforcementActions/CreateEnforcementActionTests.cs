@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
+﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -33,7 +34,8 @@ public class CreateEnforcementActionTests
         var enforcementActionService = new EnforcementActionService(
             new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>()),
             enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
-            AppServicesTestsSetup.Mapper!, userServiceMock, Substitute.For<ILogger<EnforcementActionService>>());
+            AppServicesTestsSetup.Mapper!, userServiceMock, Substitute.For<ILogger<EnforcementActionService>>(),
+            Substitute.For<IAppNotificationService>());
         var item = new EnforcementActionCreateDto { ActionType = EnforcementActionType.LetterOfNoncompliance };
 
         // Act

@@ -12,23 +12,16 @@ public partial class Template
 
     public static readonly Template EnforcementUpdated = new()
     {
-        Subject = "Enforcement Updated",
-        TextBody = "Enforcement ID {0} has been updated.",
-        HtmlBody = "<p>Enforcement ID {0} has been updated.</p>",
+        Subject = "Enforcement Case Updated",
+        TextBody = "Enforcement Case ID {0} has been updated.",
+        HtmlBody = "<p>Enforcement Case ID {0} has been updated.</p>",
     };
 
     public static readonly Template EnforcementCommentAdded = new()
     {
-        Subject = "New Comment on Enforcement",
-        TextBody =
-            """
-            Enforcement ID {0} has a new comment by {2}:
-
-            {1}
-
-            """,
-        HtmlBody = "<p>Enforcement ID {0} has a new comment by {2}:</p>" +
-                   "<blockquote style='white-space:pre-line'>{1}</blockquote>",
+        Subject = "New Comment on Enforcement Case",
+        TextBody = "A comment has been added to Enforcement Case ID {0}.",
+        HtmlBody = "<p>A comment has been added to Enforcement Case ID {0}.</p>",
     };
 
     public static readonly Template EnforcementClosed = new()
@@ -57,5 +50,33 @@ public partial class Template
         Subject = "Enforcement Case Restored",
         TextBody = "Enforcement Case ID {0} has been restored.",
         HtmlBody = "<p>Enforcement Case ID {0} has been restored.</p>",
+    };
+
+    public static readonly Template EnforcementActionAdded = new()
+    {
+        Subject = "Enforcement Case Updated",
+        TextBody = "An Enforcement Action has been added to Enforcement Case ID {0}.",
+        HtmlBody = "<p>An Enforcement Action has been added to Enforcement Case ID {0}.</p>",
+    };
+
+    public static readonly Template EnforcementActionDeleted = new()
+    {
+        Subject = "Enforcement Case Updated",
+        TextBody = "An Enforcement Action was deleted from Enforcement Case ID {0}.",
+        HtmlBody = "<p>An Enforcement Action was deleted from Enforcement Case ID {0}.</p>",
+    };
+
+    public static readonly Template EnforcementActionReviewRequested = new()
+    {
+        Subject = "Enforcement Action Review Requested",
+        TextBody = "Your review has been requested for an Enforcement Action on Case ID {0}.",
+        HtmlBody = "<p>Your review has been requested for an Enforcement Action on Case ID {0}.</p>",
+    };
+
+    public static readonly Template EnforcementActionReviewCompleted = new()
+    {
+        Subject = "Enforcement Action Review Completed",
+        TextBody = "An Enforcement Action review has been completed on Case ID {0}.",
+        HtmlBody = "<p>An Enforcement Action review has been completed on Case ID {0}.</p>",
     };
 }
