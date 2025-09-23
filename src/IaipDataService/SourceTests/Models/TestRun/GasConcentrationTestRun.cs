@@ -22,7 +22,7 @@ public record GasConcentrationTestRun : BaseTestRun
     protected override void ParseConfidentialParameters()
     {
         ConfidentialParameters = new HashSet<string>();
-        if (ConfidentialParametersCode == "") return;
+        if (NoConfidentialParameters()) return;
         ParseBaseConfidentialParameters();
 
         AddIfConfidential(1, nameof(RunNumber));

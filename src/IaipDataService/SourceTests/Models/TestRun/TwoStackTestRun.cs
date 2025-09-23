@@ -71,7 +71,7 @@ public record TwoStackTestRun : BaseTestRun
     protected override void ParseConfidentialParameters()
     {
         ConfidentialParameters = new HashSet<string>();
-        if (ConfidentialParametersCode == "") return;
+        if (NoConfidentialParameters()) return;
         ParseBaseConfidentialParameters();
 
         AddIfConfidential(2, nameof(StackOneGasTemperature));

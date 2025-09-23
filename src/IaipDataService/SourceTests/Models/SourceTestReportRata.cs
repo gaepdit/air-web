@@ -72,7 +72,7 @@ public record SourceTestReportRata : BaseSourceTestReport
         ConfidentialParameters = new HashSet<string>();
         TestRuns = BaseTestRun.ParsedTestRuns(TestRuns);
 
-        if (ConfidentialParametersCode == "" || ConfidentialParametersCode[0] == '0') return;
+        if (NoConfidentialParameters()) return;
         ParseBaseConfidentialParameters();
 
         AddIfConfidential(26, nameof(ApplicableStandard));

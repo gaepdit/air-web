@@ -110,6 +110,9 @@ public abstract record BaseSourceTestReport
             TestingUnitManager = CheckConfidential(TestingUnitManager, nameof(TestingUnitManager)),
         };
 
+    protected bool NoConfidentialParameters() =>
+        string.IsNullOrEmpty(ConfidentialParametersCode) || ConfidentialParametersCode[0] == '0';
+
     protected string CheckConfidential(string input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
             ? ConfidentialInfoPlaceholder
