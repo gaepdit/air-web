@@ -8,7 +8,7 @@ using IaipDataService.SourceTests.Models;
 namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class SourceTestIndexModel(ISourceTestsService sourceTestService) : PageModel
+public class SourceTestIndexModel(ISourceTestAppService sourceTestService) : PageModel
 {
     public IPaginatedResult<SourceTestSummary> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(SearchResults);

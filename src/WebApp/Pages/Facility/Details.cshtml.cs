@@ -16,7 +16,7 @@ public class DetailsModel(
     IFceSearchService fceSearchService,
     ICaseFileSearchService caseFileService,
     IWorkEntrySearchService entrySearchService,
-    ISourceTestsService sourceTestService,
+    ISourceTestAppService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
     // Facility

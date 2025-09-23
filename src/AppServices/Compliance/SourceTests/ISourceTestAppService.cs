@@ -5,7 +5,7 @@ using IaipDataService.SourceTests.Models;
 
 namespace AirWeb.AppServices.Compliance.SourceTests;
 
-public interface ISourceTestsService
+public interface ISourceTestAppService
 {
     Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         PaginatedRequest paging, bool forceRefresh = false);
@@ -14,7 +14,7 @@ public interface ISourceTestsService
         PaginatedRequest paging, bool forceRefresh = false);
 }
 
-public class SourceTestsService(ISourceTestService sourceTestService) : ISourceTestsService
+public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
 {
     public async Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         PaginatedRequest paging, bool forceRefresh = false)

@@ -30,7 +30,7 @@ public static class AppServiceRegistration
         .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
 
         // Source Tests
-        .AddScoped<ISourceTestsService, SourceTestsService>()
+        .AddScoped<ISourceTestAppService, SourceTestAppService>()
 
         // FCEs
         .AddScoped<IFceManager, FceManager>()
