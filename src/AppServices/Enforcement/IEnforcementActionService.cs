@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.Enforcement;
 
@@ -36,4 +37,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
     // Reviews
     Task RequestReviewAsync(Guid id, EnforcementActionRequestReviewDto resource, CancellationToken token);
     Task SubmitReviewAsync(Guid id, EnforcementActionSubmitReviewDto resource, CancellationToken token);
+
+    Task<IPaginatedResult<ActionViewDto>> GetReviewRequestsAsync(string userId, PaginatedRequest paging,
+        CancellationToken token = default);
 }

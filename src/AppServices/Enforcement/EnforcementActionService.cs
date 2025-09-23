@@ -6,6 +6,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
 using AutoMapper;
+using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;
 using Microsoft.Extensions.Logging;
 
@@ -262,6 +263,22 @@ public sealed class EnforcementActionService(
 
         actionManager.SubmitReview(action, resource.Result!.Value, resource.Comment, currentUser!, nextReviewer);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
+    }
+
+    public async Task<IPaginatedResult<ActionViewDto>> GetReviewRequestsAsync(string userId, PaginatedRequest paging,
+        CancellationToken token = default)
+    {
+        var count = await actionRepository.CountAsync(action =>
+                !action.IsDeleted && action.CurrentReviewer != null && action.CurrentReviewer.Id.Equals(userId), token)
+            .ConfigureAwait(false);
+
+        var list = count > 0
+            ? mapper.Map<IReadOnlyList<ActionViewDto>>(await actionRepository.GetPagedListAsync(action =>
+                    !action.IsDeleted && action.CurrentReviewer != null && action.CurrentReviewer.Id.Equals(userId),
+                paging, token).ConfigureAwait(false))
+            : [];
+
+        return new PaginatedResult<ActionViewDto>(list, count, paging);
     }
 
     #region IDisposable,  IAsyncDisposable

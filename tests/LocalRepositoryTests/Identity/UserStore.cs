@@ -21,7 +21,7 @@ public class UserStore
     [Test]
     public async Task GetUserId_ReturnsId()
     {
-        var user = UserData.GetData.First();
+        var user = UserData.GetData[0];
         var result = await _store.GetUserIdAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.Id);
     }
@@ -29,7 +29,7 @@ public class UserStore
     [Test]
     public async Task GetUserName_ReturnsUserName()
     {
-        var user = _store.UserStore.First();
+        var user = UserData.GetData[0];
         var result = await _store.GetUserNameAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.UserName);
     }
@@ -37,7 +37,7 @@ public class UserStore
     [Test]
     public async Task GetNormalizedUserName_ReturnsNormalizedUserName()
     {
-        var user = _store.UserStore.First();
+        var user = UserData.GetData[0];
         var result = await _store.GetNormalizedUserNameAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.NormalizedUserName);
     }
@@ -46,7 +46,7 @@ public class UserStore
     public async Task Update_WhenItemIsValid_UpdatesItem()
     {
         var store = RepositoryHelper.GetUserStore();
-        var user = store.UserStore.First();
+        var user = UserData.GetData[0];
         user.PhoneNumber = "1";
         user.Office = new Office(Guid.NewGuid(), SampleText.ValidName);
 
@@ -69,7 +69,7 @@ public class UserStore
     [Test]
     public async Task FindById_ReturnsUser()
     {
-        var user = _store.UserStore.First();
+        var user = UserData.GetData[0];
         var result = await _store.FindByIdAsync(user.Id, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }
@@ -77,7 +77,7 @@ public class UserStore
     [Test]
     public async Task FindByName_ReturnsUser()
     {
-        var user = _store.UserStore.First();
+        var user = UserData.GetData[0];
         Debug.Assert(user.NormalizedUserName != null);
         var result = await _store.FindByNameAsync(user.NormalizedUserName, CancellationToken.None);
         result.Should().BeEquivalentTo(user);

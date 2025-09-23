@@ -6,13 +6,11 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AutoMapper;
 using GaEpd.AppLibrary.Extensions;
-using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement;
@@ -180,19 +178,6 @@ public sealed class CaseFileService(
 
         caseFileManager.UpdatePollutantsAndPrograms(caseFile, pollutants, airPrograms, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
-    }
-
-    public async Task<IPaginatedResult<CaseFileSearchResultDto>> GetReviewRequestsAsync(string userId,
-        PaginatedRequest paging, CancellationToken token = default)
-    {
-        var list = await caseFileRepository
-            .GetPagedListAsync<CaseFileSearchResultDto>(caseFile => caseFile.ReviewRequestedOf == userId, paging,
-                mapper, token).ConfigureAwait(false);
-
-        var count = await caseFileRepository.CountAsync(caseFile => caseFile.ReviewRequestedOf == userId, token)
-            .ConfigureAwait(false);
-
-        return new PaginatedResult<CaseFileSearchResultDto>(list, count, paging);
     }
 
     public async Task<CommandResult> CloseAsync(int id, CancellationToken token = default)

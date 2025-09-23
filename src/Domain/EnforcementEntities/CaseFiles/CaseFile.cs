@@ -154,23 +154,6 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
 
-    [StringLength(450)]
-    public string? ReviewRequestedOf
-    {
-        get => EnforcementActions
-            .SingleOrDefault(action => action is { IsDeleted: false, Status: EnforcementActionStatus.ReviewRequested })
-            ?.CurrentReviewer?.Id;
-
-        [UsedImplicitly]
-        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
-        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
-        private set
-        {
-            // Method intentionally left empty. This allows storing read-only properties in the database.
-            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
-        }
-    }
-
     // Data exchange properties
 
     // Data exchange is not used for LONs, Cases with no linked compliance event,

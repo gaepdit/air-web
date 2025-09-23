@@ -50,6 +50,5 @@ internal static class PaginationDefaults
             sorting: CaseFileSortBy.DiscoveryDateDesc.GetDescription());
 
     public static PaginatedRequest EnforcementBulk { get; } =
-        new(pageNumber: 1, pageSize: 1000,
-            sorting: CaseFileSortBy.DiscoveryDateDesc.GetDescription());
+        new(pageNumber: 1, pageSize: 1000, sorting: "ReviewRequestedDate");
 }
