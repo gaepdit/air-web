@@ -99,6 +99,7 @@ public sealed class CaseFileService(
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EnforcementCreated, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false);
+
         return CreateResult<int>.Create(caseFile.Id, notificationResult.FailureReason);
     }
 
@@ -119,6 +120,7 @@ public sealed class CaseFileService(
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EnforcementUpdated, caseFile.ResponsibleStaff, token, id)
             .ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -206,6 +208,7 @@ public sealed class CaseFileService(
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EnforcementReopened, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -221,6 +224,7 @@ public sealed class CaseFileService(
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EnforcementDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -235,6 +239,7 @@ public sealed class CaseFileService(
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EnforcementRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -248,8 +253,9 @@ public sealed class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId,
-                resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false);
+            .SendNotificationAsync(Template.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId)
+            .ConfigureAwait(false);
+
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);
     }
 
