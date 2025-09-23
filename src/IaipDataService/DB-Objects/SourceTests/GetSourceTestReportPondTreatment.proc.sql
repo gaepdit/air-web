@@ -45,18 +45,18 @@ BEGIN
            u4.STRUNITDESCRIPTION           as Units
     from dbo.ISMPREPORTINFORMATION r
         inner join dbo.ISMPREPORTPONDANDGAS d
-        on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+            on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         left join dbo.LOOKUPUNITS u1
-        on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
+            on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
             and u1.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u2
-        on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
+            on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
             and u2.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u3
-        on u3.STRUNITKEY = d.STRPOLLUTANTCONCENTRATIONUNIT
+            on u3.STRUNITKEY = d.STRPOLLUTANTCONCENTRATIONUNIT
             and u3.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u4
-        on u4.STRUNITKEY = d.STRTREATMENTRATEUNIT
+            on u4.STRUNITKEY = d.STRTREATMENTRATEUNIT
             and u4.STRUNITKEY <> @InvalidKey
     where convert(int, r.STRREFERENCENUMBER) = @ReferenceNumber;
 
@@ -71,7 +71,7 @@ BEGIN
                  substring(r.STRCONFIDENTIALDATA, 33, 3) as ConfidentialParametersCode
           from dbo.ISMPREPORTPONDANDGAS s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  s.STRRUNNUMBER1B                        as RunNumber,
@@ -80,7 +80,7 @@ BEGIN
                  substring(r.STRCONFIDENTIALDATA, 36, 3) as ConfidentialParametersCode
           from dbo.ISMPREPORTPONDANDGAS s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  s.STRRUNNUMBER1C                        as RunNumber,
@@ -89,7 +89,7 @@ BEGIN
                  substring(r.STRCONFIDENTIALDATA, 39, 3) as ConfidentialParametersCode
           from dbo.ISMPREPORTPONDANDGAS s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
     where convert(int, STRREFERENCENUMBER) = @ReferenceNumber
     order by t.RunNumber;
 

@@ -52,24 +52,24 @@ BEGIN
            '%'                              as Units
     from dbo.ISMPREPORTINFORMATION r
         inner join dbo.ISMPREPORTFLARE d
-        on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+            on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         left join dbo.LOOKUPUNITS u1
-        on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
+            on u1.STRUNITKEY = d.STRMAXOPERATINGCAPACITYUNIT
             and u1.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u2
-        on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
+            on u2.STRUNITKEY = d.STROPERATINGCAPACITYUNIT
             and u2.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u3
-        on u3.STRUNITKEY = d.STRTESTDURATIONUNIT
+            on u3.STRUNITKEY = d.STRTESTDURATIONUNIT
             and u3.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u4
-        on u4.STRUNITKEY = d.STRPOLLUTANTCONCENUNITIN
+            on u4.STRUNITKEY = d.STRPOLLUTANTCONCENUNITIN
             and u4.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u5
-        on u5.STRUNITKEY = d.STRPOLLUTANTCONCENUNITOUT
+            on u5.STRUNITKEY = d.STRPOLLUTANTCONCENUNITOUT
             and u5.STRUNITKEY <> @InvalidKey
         left join dbo.LOOKUPUNITS u6
-        on u6.STRUNITKEY = d.STREMISSIONRATEUNIT
+            on u6.STRUNITKEY = d.STREMISSIONRATEUNIT
             and u6.STRUNITKEY <> @InvalidKey
     where convert(int, r.STRREFERENCENUMBER) = @ReferenceNumber;
 
@@ -93,7 +93,7 @@ BEGIN
                  STRALLOWEMISSIONRATEUNIT3A
           from dbo.ISMPREPORTFLARE) t
         inner join dbo.LOOKUPUNITS u
-        on u.STRUNITKEY = t.UnitCode
+            on u.STRUNITKEY = t.UnitCode
             and u.STRUNITKEY <> @InvalidKey
     where convert(int, t.STRREFERENCENUMBER) = @ReferenceNumber
     order by t.Id;

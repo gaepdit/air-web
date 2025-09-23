@@ -15,12 +15,12 @@ public class IaipPermitFeesService(
     ILogger<IaipPermitFeesService> logger) : IPermitFeesService
 {
     public async Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
-        int lookbackYears, bool forceRefresh = false)
+        int lookBackYears, bool forceRefresh = false)
     {
         if (!await facilityService.ExistsAsync(facilityId)) return [];
 
         var upperYear = cutoffDate.Month < 10 ? cutoffDate.Year - 1 : cutoffDate.Year;
-        var lowerYear = upperYear - lookbackYears + 1;
+        var lowerYear = upperYear - lookBackYears + 1;
 
         // Check the cache first.
         var cacheKey = $"AnnualFeesSummary.{facilityId}.{lowerYear}.{upperYear}";

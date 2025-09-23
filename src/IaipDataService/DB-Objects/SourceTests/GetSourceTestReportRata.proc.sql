@@ -38,14 +38,14 @@ BEGIN
                when r.STRCOMPLIANCESTATUS in ('02', '03') then 'Pass'
                when r.STRCOMPLIANCESTATUS in ('05') then 'Fail'
                else 'N/A'
-           end                            as ComplianceStatus
+               end as ComplianceStatus
     from dbo.ISMPREPORTINFORMATION r
         inner join dbo.ISMPREPORTRATA d
-        on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
+            on d.STRREFERENCENUMBER = r.STRREFERENCENUMBER
         left join dbo.LOOKUPUNITS u
-        on u.STRUNITKEY = d.STRRATAUNITS
+            on u.STRUNITKEY = d.STRRATAUNITS
         left join dbo.LOOKUPPOLLUTANTS p
-        on p.STRPOLLUTANTCODE = d.STRDILUENT
+            on p.STRPOLLUTANTCODE = d.STRDILUENT
     where convert(int, r.STRREFERENCENUMBER) = @ReferenceNumber;
 
     select trim(RunNumber)                 as RunNumber,
@@ -66,7 +66,7 @@ BEGIN
                                        as ConfidentialParametersCode
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '2',
@@ -78,7 +78,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 42, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '3',
@@ -90,7 +90,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 43, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '4',
@@ -102,7 +102,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 44, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '5',
@@ -114,7 +114,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 45, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '6',
@@ -126,7 +126,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 46, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '7',
@@ -138,7 +138,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 47, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '8',
@@ -150,7 +150,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 48, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '9',
@@ -162,7 +162,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 49, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '10',
@@ -174,7 +174,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 50, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '11',
@@ -186,7 +186,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 51, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER
           union
           select s.STRREFERENCENUMBER,
                  '12',
@@ -198,7 +198,7 @@ BEGIN
                         substring(r.STRCONFIDENTIALDATA, 52, 1))
           from dbo.ISMPREPORTRATA s
               inner join dbo.ISMPREPORTINFORMATION r
-              on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
+                  on r.STRREFERENCENUMBER = s.STRREFERENCENUMBER) t
     where convert(int, STRREFERENCENUMBER) = @ReferenceNumber
       and not (trim(t.ReferenceMethod) in ('', 'N/A')
         and trim(t.Cms) in ('', 'N/A'))

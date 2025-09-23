@@ -1,6 +1,6 @@
 ﻿using IaipDataService.Facilities;
 
-namespace IaipDataServiceTests;
+namespace IaipDataServiceTests.Models;
 
 [TestFixture]
 [TestOf(typeof(FacilityId))]

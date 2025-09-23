@@ -15,7 +15,7 @@ public class IndexModel(
     IWorkEntrySearchService complianceSearchService,
     ICaseFileSearchService caseFileSearchService,
     ICaseFileService caseFileService,
-    ISourceTestsService sourceTestService,
+    ISourceTestAppService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
     public bool ShowDashboard { get; private set; }

@@ -53,7 +53,7 @@ public record SourceTestReportLoadingRack : BaseSourceTestReport
     public override void ParseConfidentialParameters()
     {
         ConfidentialParameters = new HashSet<string>();
-        if (ConfidentialParametersCode == "" || ConfidentialParametersCode[0] == '0') return;
+        if (NoConfidentialParameters()) return;
         ParseBaseConfidentialParameters();
 
         AddIfConfidential(26, nameof(MaxOperatingCapacity));

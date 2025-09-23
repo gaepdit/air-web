@@ -32,8 +32,10 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// </summary>
     private RepositoryHelper()
     {
-        _options = SqliteInMemory.CreateOptions<AppDbContext>(builder =>
-            builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]));
+        _options = SqliteInMemory.CreateOptions<AppDbContext>(
+            // Uncomment the following line to log SQL statements:
+            // builder => builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted])
+        );
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
         DbSeedDataHelpers.SeedAllData(_context);

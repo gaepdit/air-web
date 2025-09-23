@@ -24,6 +24,8 @@ public abstract record BaseTestRun
             RunNumber = CheckConfidential(RunNumber, nameof(RunNumber)),
         };
 
+    protected bool NoConfidentialParameters() => string.IsNullOrEmpty(ConfidentialParametersCode);
+
     protected string CheckConfidential(string input, string parameter) =>
         ConfidentialParameters.Contains(parameter)
             ? BaseSourceTestReport.ConfidentialInfoPlaceholder

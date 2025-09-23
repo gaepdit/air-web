@@ -1,7 +1,8 @@
 ﻿if object_id(N'air.ReportsLog', N'U') is null
     begin
 
-        create table air.ReportsLog (
+        create table air.ReportsLog
+        (
             Id         uniqueidentifier default newid()
                 constraint ReportsLog_pk primary key,
             Type       nvarchar(max) not null,

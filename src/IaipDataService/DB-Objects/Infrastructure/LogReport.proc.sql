@@ -3,8 +3,9 @@ GO
 SET ANSI_NULLS ON;
 GO
 
-CREATE OR ALTER PROCEDURE air.LogReport @type nvarchar(max),
-                                        @parameters nvarchar(max)
+CREATE OR ALTER PROCEDURE air.LogReport
+    @type nvarchar(max),
+    @parameters nvarchar(max)
 AS
 
 /**************************************************************************************************

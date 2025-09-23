@@ -14,9 +14,6 @@ AS
 Author:     Doug Waldron
 Overview:   Retrieves a summary of annual fees for a given facility for use by the Air Web IAIP data service.
 
-Input Parameters:
-    @FacilityId - The facility ID
-
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------

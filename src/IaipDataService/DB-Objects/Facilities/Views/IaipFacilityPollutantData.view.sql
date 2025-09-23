@@ -26,8 +26,8 @@ select distinct right(p.STRAIRSNUMBER, 8)      as [FacilityId],
                     l.STRPOLLUTANTDESCRIPTION) as Description
 from dbo.APBAIRPROGRAMPOLLUTANTS p
     inner join dbo.LK_ICIS_POLLUTANT i
-    on p.STRPOLLUTANTKEY = i.LGCY_POLLUTANT_CODE
+        on p.STRPOLLUTANTKEY = i.LGCY_POLLUTANT_CODE
     left join dbo.LOOKUPPOLLUTANTS l
-    on p.STRPOLLUTANTKEY = l.STRPOLLUTANTCODE;
+        on p.STRPOLLUTANTKEY = l.STRPOLLUTANTCODE;
 
 GO

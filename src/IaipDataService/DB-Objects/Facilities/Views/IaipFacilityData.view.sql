@@ -55,13 +55,13 @@ select right(f.STRAIRSNUMBER, 8)     as Id,
        s.NspsFeeExempt
 from dbo.APBFACILITYINFORMATION f
     inner join dbo.APBHEADERDATA h
-    on f.STRAIRSNUMBER = h.STRAIRSNUMBER
+        on f.STRAIRSNUMBER = h.STRAIRSNUMBER
     inner join dbo.APBSUPPLAMENTALDATA s
-    on f.STRAIRSNUMBER = s.STRAIRSNUMBER
+        on f.STRAIRSNUMBER = s.STRAIRSNUMBER
     inner join dbo.AFSFACILITYDATA a
-    on f.STRAIRSNUMBER = a.STRAIRSNUMBER
+        on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     left join dbo.LOOKUPCOUNTYINFORMATION lc
-    on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
+        on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
 where STRUPDATESTATUS in ('A', 'C');
 
 GO
