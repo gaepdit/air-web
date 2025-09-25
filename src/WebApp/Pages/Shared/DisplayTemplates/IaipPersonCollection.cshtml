@@ -3,7 +3,6 @@
 @if (Model is { Count: > 0 })
 {
     @Model.Select(p => p.FullName).ConcatWithSeparator(", ")
-    ;
 }
 else
 {
