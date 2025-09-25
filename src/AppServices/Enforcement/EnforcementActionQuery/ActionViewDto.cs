@@ -7,6 +7,8 @@ public record ActionViewDto : IActionViewDto
 {
     public Guid Id { get; init; }
     public int CaseFileId { get; init; }
+    public StaffViewDto? CaseFileResponsibleStaff { get; init; }
+
     public EnforcementActionType ActionType { get; init; }
     public string Notes { get; init; } = null!;
 

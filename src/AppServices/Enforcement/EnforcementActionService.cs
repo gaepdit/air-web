@@ -320,7 +320,12 @@ public sealed class EnforcementActionService(
         var list = count > 0
             ? mapper.Map<IReadOnlyList<ActionViewDto>>(await actionRepository.GetPagedListAsync(action =>
                     !action.IsDeleted && action.CurrentReviewer != null && action.CurrentReviewer.Id.Equals(userId),
-                paging, token).ConfigureAwait(false))
+                paging, includeProperties:
+                [
+                    nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews),
+                    $"{nameof(EnforcementAction.CaseFile)}.{nameof(CaseFile.ResponsibleStaff)}"
+                ],
+                token).ConfigureAwait(false))
             : [];
 
         return new PaginatedResult<ActionViewDto>(list, count, paging);

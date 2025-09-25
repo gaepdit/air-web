@@ -3,6 +3,7 @@ using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -32,8 +33,35 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
 
     // Status: Under review
     public EnforcementActionReview? CurrentOpenReview => Reviews.SingleOrDefault(review => !review.IsCompleted);
-    public ApplicationUser? CurrentReviewer => CurrentOpenReview?.RequestedOf;
-    [UsedImplicitly] public DateTime? ReviewRequestedDate => CurrentOpenReview?.RequestedDate;
+
+    public ApplicationUser? CurrentReviewer
+    {
+        get => CurrentOpenReview?.RequestedOf;
+
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty: This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
+    }
+
+    [UsedImplicitly] public DateTime? ReviewRequestedDate
+    {
+        get => CurrentOpenReview?.RequestedDate;
+
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
+        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
+        private set
+        {
+            // Method intentionally left empty: This allows storing read-only properties in the database.
+            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
+        }
+    }
+
     public ICollection<EnforcementActionReview> Reviews { get; } = [];
 
     // Status: Approved
