@@ -92,8 +92,8 @@ public partial record FacilityId : IComparable<FacilityId>
     }
 
     // TODO: `CleanPartialFacilityId` is used to clean up search form entries.
-    // Instead of just replacing the entry, though, model validation should be 
-    // used to notify the user of invalid entries.
+    //       Instead of just replacing the entry, though, model validation should be 
+    //       used to notify the user of invalid entries.
     public static string CleanPartialFacilityId(string? input)
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
