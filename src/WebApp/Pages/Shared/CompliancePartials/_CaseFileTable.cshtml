@@ -17,13 +17,13 @@
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
-                <th scope="col" class="text-nowrap">Discovery Date</th>
+                <th scope="col">Discovery Date</th>
                 @if (!hideFacility)
                 {
-                    <th scope="col" class="text-nowrap">Facility</th>
+                    <th scope="col">Facility</th>
                 }
 
-                <th scope="col" class="text-nowrap">Case File Status</th>
+                <th scope="col">Case File Status</th>
             }
             else
             {
@@ -40,10 +40,10 @@
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Case File Status")" view-data-Ascender="@nameof(CaseFileSortBy.CaseFileStatusAsc)" view-data-Descender="@nameof(CaseFileSortBy.CaseFileStatusDesc)" />
             }
-            <th scope="col" class="text-nowrap">Day Zero</th>
+            <th scope="col">Day Zero</th>
             @if (!hideStaff)
             {
-                <th scope="col" class="text-nowrap">Responsible Staff</th>
+                <th scope="col">Responsible Staff</th>
             }
         </tr>
         </thead>

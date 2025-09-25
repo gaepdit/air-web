@@ -91,6 +91,9 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     {
         get
         {
+            // TODO: Should this be calculated regardless of the `IsReportable` value?
+            //      Current logic prevents a Day Zero from being calculated for case files that require it
+            //      (e.g., Consent Orders) until compliance work is linked.
             if (!IsReportable) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsReportable)
