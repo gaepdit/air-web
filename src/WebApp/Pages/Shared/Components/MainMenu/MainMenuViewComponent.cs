@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.WebApp.Pages.Account;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace AirWeb.WebApp.Pages.Shared.Components.MainMenu;
 
@@ -14,6 +15,7 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
             ShowUsersPage = await authorization.Succeeded(User, Policies.ViewUsersPage),
             ShowAccountMenu = User.Identity is { IsAuthenticated: true },
             ShowLoginLink = model is not LoginModel,
+            ReturnUrl = Request.GetEncodedPathAndQuery(),
         });
 
     public record MenuParams
@@ -24,5 +26,6 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         public bool ShowUsersPage { get; init; }
         public bool ShowAccountMenu { get; init; }
         public bool ShowLoginLink { get; init; }
+        public string? ReturnUrl { get; init; }
     }
 }

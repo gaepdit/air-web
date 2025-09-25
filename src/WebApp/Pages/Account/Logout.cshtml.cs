@@ -11,11 +11,11 @@ namespace AirWeb.WebApp.Pages.Account;
 public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageModel
 {
     public Task<SignOutResult> OnGetAsync() => SignOut();
-    public Task<SignOutResult> OnPostAsync() => SignOut();
+    public Task<SignOutResult> OnPostAsync(string? returnUrl = null) => SignOut(returnUrl);
 
-    private async Task<SignOutResult> SignOut()
+    private async Task<SignOutResult> SignOut(string? returnUrl = null)
     {
-        var authenticationProperties = new AuthenticationProperties { RedirectUri = "../" };
+        var authenticationProperties = new AuthenticationProperties { RedirectUri = returnUrl ?? "../" };
         var userAuthenticationScheme = User.GetAuthenticationMethod();
 
         if (userAuthenticationScheme is null or LoginProviders.TestUserScheme)
