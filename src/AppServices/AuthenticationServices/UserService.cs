@@ -10,6 +10,7 @@ public interface IUserService : IDisposable
 {
     Task<ApplicationUser?> GetCurrentUserAsync();
     Task<ApplicationUser> GetUserAsync(string id);
+    Task<string?> GetUserEmailAsync(string id);
     Task<ApplicationUser?> FindUserAsync(string id);
     ClaimsPrincipal? GetCurrentPrincipal();
     Task<bool> UserIsInRoleAsync(ApplicationUser user, string role);
@@ -26,6 +27,8 @@ public sealed class UserService(UserManager<ApplicationUser> userManager, IHttpC
 
     public async Task<ApplicationUser> GetUserAsync(string id) =>
         await FindUserAsync(id).ConfigureAwait(false) ?? throw new EntityNotFoundException<ApplicationUser>(id);
+
+    public async Task<string?> GetUserEmailAsync(string id) => (await GetUserAsync(id).ConfigureAwait(false)).Email;
 
     public Task<ApplicationUser?> FindUserAsync(string id) => userManager.FindByIdAsync(id);
 

@@ -37,8 +37,13 @@ public class TestSourceTestService : ISourceTestService
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());
 
-    public Task UpdateSourceTest(int referenceNumber, string complianceAssignment, bool complianceComplete)
+    public Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail,
+        DateOnly? reviewDate)
     {
-        throw new NotImplementedException();
+        var report = Items.Single(report => report.ReferenceNumber == referenceNumber);
+        report.IaipComplianceAssignment = complianceAssignmentEmail;
+        report.IaipComplianceComplete = reviewDate != null;
+
+        return Task.CompletedTask;
     }
 }

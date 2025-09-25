@@ -12,5 +12,5 @@ public interface ISourceTestService
         bool forceRefresh = false);
 
     Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(bool forceRefresh = false);
-    Task UpdateSourceTest(int referenceNumber, string complianceAssignment, bool complianceComplete);
+    Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail, DateOnly? reviewDate);
 }

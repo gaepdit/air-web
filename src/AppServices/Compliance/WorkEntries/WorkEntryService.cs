@@ -13,18 +13,22 @@ using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AutoMapper;
 using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 
+#pragma warning disable S107 // Methods should not have too many parameters
 public sealed partial class WorkEntryService(
     IMapper mapper,
     IWorkEntryRepository entryRepository,
     IWorkEntryManager entryManager,
     IFacilityService facilityService,
+    ISourceTestService testService,
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
     : IWorkEntryService
+#pragma warning restore S107
 {
     // Query
     public async Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default)
@@ -92,6 +96,14 @@ public sealed partial class WorkEntryService(
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
         await entryRepository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
 
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+                .ConfigureAwait(false);
+        }
+
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
@@ -108,6 +120,14 @@ public sealed partial class WorkEntryService(
         entryManager.Update(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+                .ConfigureAwait(false);
+        }
+
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryUpdated, workEntry.ResponsibleStaff, token, id)
             .ConfigureAwait(false);
@@ -122,6 +142,14 @@ public sealed partial class WorkEntryService(
 
         entryManager.Close(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+                .ConfigureAwait(false);
+        }
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryClosed, workEntry.ResponsibleStaff, token, workEntry.Id)
@@ -138,6 +166,14 @@ public sealed partial class WorkEntryService(
         entryManager.Reopen(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, reviewDate: null)
+                .ConfigureAwait(false);
+        }
+
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryReopened, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
@@ -153,6 +189,14 @@ public sealed partial class WorkEntryService(
         entryManager.Delete(workEntry, resource.Comment, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, reviewDate: null)
+                .ConfigureAwait(false);
+        }
+
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryDeleted, workEntry.ResponsibleStaff, token, workEntry.Id)
             .ConfigureAwait(false);
@@ -166,6 +210,14 @@ public sealed partial class WorkEntryService(
 
         entryManager.Restore(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+
+        if (workEntry is SourceTestReview str)
+        {
+            var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
+                .ConfigureAwait(false);
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+                .ConfigureAwait(false);
+        }
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
