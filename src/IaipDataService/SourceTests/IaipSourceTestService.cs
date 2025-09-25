@@ -91,12 +91,13 @@ public class IaipSourceTestService(
         return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
     }
 
+    private const string OpenSourceTestsCacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
+
     public async Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
         bool forceRefresh = false)
     {
-        const string cacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
         if (!forceRefresh &&
-            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
+            cache.TryGetValue(OpenSourceTestsCacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
             return cachedValue;
 
         using var db = dbf.Create();
@@ -112,7 +113,8 @@ public class IaipSourceTestService(
                 return summary;
             }).ToList();
 
-        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+        return cache.Set(OpenSourceTestsCacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger,
+            forceRefresh);
     }
 
     public async Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail,
@@ -123,6 +125,7 @@ public class IaipSourceTestService(
         await db.ExecuteAsync("air.UpdateSourceTest",
             param: new { referenceNumber, complianceAssignmentEmail, complianceReviewDate },
             commandType: CommandType.StoredProcedure);
+        cache.Remove(OpenSourceTestsCacheKey);
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)
