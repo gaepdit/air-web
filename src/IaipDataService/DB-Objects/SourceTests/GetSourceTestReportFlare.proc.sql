@@ -111,9 +111,6 @@ BEGIN
     where convert(int, STRREFERENCENUMBER) = @ReferenceNumber
     order by t.RunNumber;
 
-    declare @params nvarchar(max) = concat_ws(':', '@ReferenceNumber', @ReferenceNumber);
-    exec air.LogReport 'StackTestReportFlare', @params;
-
 END;
 
 GO

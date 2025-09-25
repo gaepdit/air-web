@@ -50,11 +50,11 @@ public abstract record BaseSourceTestReport
     public bool ReportClosed { get; init; }
 
     [Display(Name = "Compliance status")]
-    public string ComplianceStatus { get; set; } = null!; // STRCOMPLIANCESTATUS
+    public string ComplianceStatus { get; init; } = null!; // STRCOMPLIANCESTATUS
 
     public DateTime? DateTestReviewComplete { get; init; }
-    public string? IaipComplianceAssignment { get; init; }
-    public bool IaipComplianceComplete { get; init; }
+    public string? IaipComplianceAssignment { get; set; }
+    public bool IaipComplianceComplete { get; set; }
 
     // Test report routing
 

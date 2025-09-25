@@ -3,41 +3,42 @@ GO
 SET ANSI_NULLS ON;
 GO
 
-CREATE OR ALTER PROCEDURE air.LogReport
-    @type nvarchar(max),
-    @parameters nvarchar(max)
+CREATE OR ALTER PROCEDURE air.UpdateSourceTest
+    @ReferenceNumber int,
+    @ComplianceAssignmentEmail varchar(100),
+    @ComplianceReviewDate date
 AS
 
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:   Logs reports.
+Overview:   Updates a source test record with compliance review data.
 
 Input Parameters:
-    @type - The type of report.
-    @parameters - The parameters of the report.
-
-Returns:
-   0 on success
-  -1 on error
+    @ReferenceNumber - The stack test reference number
 
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2022-02-22  DWaldron            Initial version
+2025-09-25  DWaldron            Initial version (#359)
 
 ***************************************************************************************************/
 
-    SET XACT_ABORT, NOCOUNT ON;
+    SET XACT_ABORT, NOCOUNT ON
 BEGIN TRY
+
+    declare @userId int;
 
     BEGIN TRANSACTION;
 
-    insert into air.ReportsLog
-    (Type,
-     Parameters)
-    values (@type,
-            @parameters);
+    select @userId = NUMUSERID
+    from AIRBRANCH.dbo.EPDUSERPROFILES
+    where STREMAILADDRESS = @ComplianceAssignmentEmail;
+
+    update dbo.ISMPREPORTINFORMATION
+    set ComplianceAssignment = @userId,
+        ComplianceReviewDate = @ComplianceReviewDate
+    where STRREFERENCENUMBER = @ReferenceNumber;
 
     COMMIT TRANSACTION;
 
@@ -51,5 +52,5 @@ BEGIN CATCH
         @ErrorSeverity int = ERROR_SEVERITY();
     RAISERROR (@ErrorMessage, @ErrorSeverity, 1);
     RETURN -1;
-END CATCH;
+END CATCH
 GO

@@ -6,6 +6,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 
 namespace AppServicesTests.WorkEntries.Service;
 
@@ -30,8 +31,9 @@ public class FindTests
             .Returns(SampleText.ValidName);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), facilityRepoMock, Substitute.For<ICommentService<int>>(),
-            Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
+            Substitute.For<IWorkEntryManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
+            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
+            Substitute.For<IAppNotificationService>());
 
         // Act
         var result = await appService.FindAsync(item.Id, includeComments: false);
@@ -53,8 +55,8 @@ public class FindTests
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IWorkEntryManager>(), Substitute.For<IFacilityService>(),
-            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
-            Substitute.For<IAppNotificationService>());
+            Substitute.For<ISourceTestService>(), Substitute.For<ICommentService<int>>(),
+            Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
 
         // Act
         var result = await appService.FindAsync(-1, includeComments: false);

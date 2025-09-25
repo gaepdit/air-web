@@ -204,9 +204,6 @@ BEGIN
         and trim(t.Cms) in ('', 'N/A'))
     order by convert(int, t.RunNumber);
 
-    declare @params nvarchar(max) = concat_ws(':', '@ReferenceNumber', @ReferenceNumber);
-    exec air.LogReport 'StackTestReportRata', @params;
-
 END;
 
 GO

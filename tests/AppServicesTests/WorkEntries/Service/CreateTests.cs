@@ -7,6 +7,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
+using IaipDataService.SourceTests;
 
 namespace AppServicesTests.WorkEntries.Service;
 
@@ -40,8 +41,8 @@ public class CreateTests
             .Returns(AppNotificationResult.Success());
 
         var entryService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
-            workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ICommentService<int>>(),
-            userServiceMock, notificationMock);
+            workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
+            Substitute.For<ICommentService<int>>(), userServiceMock, notificationMock);
 
         var item = new PermitRevocationCreateDto
         {
