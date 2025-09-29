@@ -4,15 +4,8 @@ using AirWeb.EfRepository.Contexts;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class EnforcementActionRepository(AppDbContext context)
-    : BaseRepository<EnforcementAction, Guid, AppDbContext>(context), IEnforcementActionRepository
+    : BaseRepositoryWithMapping<EnforcementAction, Guid, AppDbContext>(context), IEnforcementActionRepository
 {
-    public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
-        (await Context.Set<EnforcementAction>()
-            .AsNoTracking()
-            .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false))
-        ?.ActionType;
-
-
     public async Task<bool> OrderIdExists(short orderId, Guid? ignoreActionId, CancellationToken token = default) =>
         await Context.Set<ConsentOrder>()
             .AsNoTracking()

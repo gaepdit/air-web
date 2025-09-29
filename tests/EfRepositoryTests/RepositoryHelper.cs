@@ -3,7 +3,6 @@ using AirWeb.EfRepository.Contexts.SeedDevData;
 using AirWeb.EfRepository.Repositories;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
@@ -25,7 +24,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     public AppDbContext Context { get; private set; } = null!;
 
     private readonly DbContextOptions<AppDbContext> _options;
-    private readonly AppDbContext _context;
 
     /// <summary>
     /// Constructor used by <see cref="CreateRepositoryHelper"/>.
@@ -36,9 +34,9 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
             // Uncomment the following line to log SQL statements:
             // builder => builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted])
         );
-        _context = new AppDbContext(_options);
-        _context.Database.EnsureClean();
-        DbSeedDataHelpers.SeedAllData(_context);
+        using var context = new AppDbContext(_options);
+        context.Database.EnsureClean();
+        DbSeedDataHelpers.SeedAllData(context);
     }
 
     /// <summary>
@@ -49,11 +47,15 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     private RepositoryHelper(object callingClass, string callingMember)
     {
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(builder: builder =>
-                builder.UseSqlServer().LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]),
+            {
+                builder.UseSqlServer();
+                // Uncomment the following line to log SQL statements:
+                // builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]);
+            },
             callingMember);
-        _context = new AppDbContext(_options);
-        _context.Database.EnsureClean();
-        DbSeedDataHelpers.SeedAllData(_context);
+        using var context = new AppDbContext(_options);
+        context.Database.EnsureClean();
+        DbSeedDataHelpers.SeedAllData(context);
     }
 
     /// <summary>
@@ -173,15 +175,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         return new OfficeRepository(Context);
     }
 
-    public void Dispose()
-    {
-        _context.Dispose();
-        Context.Dispose();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await _context.DisposeAsync();
-        await Context.DisposeAsync();
-    }
+    public void Dispose() => Context.Dispose();
+    public async ValueTask DisposeAsync() => await Context.DisposeAsync();
 }

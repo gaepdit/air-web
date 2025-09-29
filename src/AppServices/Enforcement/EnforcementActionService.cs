@@ -104,7 +104,7 @@ public sealed class EnforcementActionService(
     }
 
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
-        await actionRepository.GetEnforcementActionType(id, token).ConfigureAwait(false);
+        (await actionRepository.FindAsync<ActionTypeDto>(id, mapper, token).ConfigureAwait(false))?.ActionType;
 
     public async Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default) =>
         mapper.Map<CoViewDto>(await actionRepository.FindConsentOrder(id, token: token).ConfigureAwait(false));

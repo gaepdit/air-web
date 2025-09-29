@@ -188,6 +188,7 @@ public class AutoMapperProfile : Profile
         CreateMap<CaseFileViewDto, CaseFileSummaryDto>();
 
         CreateMap<EnforcementAction, ActionViewDto>();
+        CreateMap<EnforcementAction, ActionTypeDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
