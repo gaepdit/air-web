@@ -46,7 +46,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var penalty in stipulatedPenalties)
+        @foreach (var penalty in stipulatedPenalties.OrderBy(s => s.ReceivedDate))
         {
             <tr>
                 <td>@penalty.ReceivedDate.ToString(DateTimeFormats.ShortDate)</td>

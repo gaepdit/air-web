@@ -45,6 +45,7 @@ public sealed class CaseFileService(
         // Enforcement actions must be mapped individually to their respective DTOs.
         foreach (var action in caseFile.EnforcementActions)
         {
+            if (action is ConsentOrder co) co.StipulatedPenalties.RemoveAll(e => e.IsDeleted);
             caseFileDto.EnforcementActions.Add(action switch
             {
                 AdministrativeOrder a => mapper.Map<AoViewDto>(a),
