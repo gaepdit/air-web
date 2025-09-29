@@ -29,7 +29,7 @@ public class StaffFilters
                         (string.Equals(e.GivenName, name, StringComparison.CurrentCultureIgnoreCase) ||
                          string.Equals(e.FamilyName, name, StringComparison.CurrentCultureIgnoreCase)));
 
-        var result = UserData.GetData.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetData.AsQueryable().ApplyFilter(spec).ToList();
 
         result.Should().BeEquivalentTo(expected, options => options
             .Excluding(user => user.SecurityStamp));
@@ -43,7 +43,7 @@ public class StaffFilters
         var expected = UserData.GetData
             .Where(e => e.Active && e.Email == email);
 
-        var result = UserData.GetData.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetData.AsQueryable().ApplyFilter(spec).ToList();
 
         result.Should().BeEquivalentTo(expected, options => options
             .Excluding(user => user.SecurityStamp));
@@ -52,12 +52,12 @@ public class StaffFilters
     [Test]
     public void OfficeFilter_ReturnsMatches()
     {
-        var office = UserData.GetData.First().Office;
+        var office = UserData.GetData[0].Office;
         var spec = DefaultStaffSearch with { Office = office!.Id, Status = SearchStaffStatus.All };
         var expected = UserData.GetData
             .Where(e => e.Office!.Id == office.Id);
 
-        var result = UserData.GetData.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetData.AsQueryable().ApplyFilter(spec).ToList();
 
         result.Should().BeEquivalentTo(expected, options => options
             .Excluding(user => user.SecurityStamp));
@@ -69,7 +69,7 @@ public class StaffFilters
         var spec = DefaultStaffSearch with { Status = SearchStaffStatus.Inactive };
         var expected = UserData.GetData.Where(e => !e.Active);
 
-        var result = UserData.GetData.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetData.AsQueryable().ApplyFilter(spec).ToList();
 
         result.Should().BeEquivalentTo(expected, options => options
             .Excluding(user => user.SecurityStamp));
@@ -79,7 +79,7 @@ public class StaffFilters
     public void StatusAllFilter_ReturnsAll()
     {
         var spec = DefaultStaffSearch with { Status = SearchStaffStatus.All };
-        var result = UserData.GetData.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetData.AsQueryable().ApplyFilter(spec).ToList();
         result.Should().BeEquivalentTo(UserData.GetData, options => options
             .Excluding(user => user.SecurityStamp));
     }
