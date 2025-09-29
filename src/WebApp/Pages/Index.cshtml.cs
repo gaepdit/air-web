@@ -5,6 +5,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
+using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Defaults;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.Identity.Web;
@@ -55,7 +56,15 @@ public class IndexModel(
         if (UserId is null) return Page();
 
         UserEmail = User.GetEmail();
+        if (UserEmail is null) return Page();
+
         UserOfficeId = User.GetOfficeId();
+        if (UserOfficeId is null)
+        {
+            TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, message: "Set your Office to proceed.");
+            return RedirectToPage("Account/Edit");
+        }
+
         ShowDashboard = true;
 
         IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
