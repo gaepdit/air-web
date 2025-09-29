@@ -82,26 +82,28 @@ public sealed class EnforcementActionService(
         return enforcementAction.Id;
     }
 
-    public async Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default)
-    {
-        var action = await actionRepository
-            .FindAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
-                token: token).ConfigureAwait(false);
-        return action is null
-            ? null
-            : action switch
-            {
-                AdministrativeOrder a => mapper.Map<AoViewDto>(a),
-                ConsentOrder a => mapper.Map<CoViewDto>(a),
-                InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
-                LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
-                NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
-                NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
-                NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
-                ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
-                _ => throw new InvalidOperationException("Unknown enforcement action type"),
-            };
-    }
+    public async Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
+        await GetEnforcementActionType(id, token).ConfigureAwait(false) switch
+        {
+            null => null,
+            EnforcementActionType.AdministrativeOrder => await actionRepository
+                .FindAsync<AoViewDto, AdministrativeOrder>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.ConsentOrder => await actionRepository
+                .FindAsync<CoViewDto, ConsentOrder>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.InformationalLetter => await actionRepository
+                .FindAsync<ResponseRequestedViewDto, InformationalLetter>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.LetterOfNoncompliance => await actionRepository
+                .FindAsync<LonViewDto, LetterOfNoncompliance>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.NoFurtherActionLetter => await actionRepository
+                .FindAsync<ActionViewDto, NoFurtherActionLetter>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.NoticeOfViolation => await actionRepository
+                .FindAsync<ResponseRequestedViewDto, NoticeOfViolation>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.NovNfaLetter => await actionRepository
+                .FindAsync<ResponseRequestedViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
+            EnforcementActionType.ProposedConsentOrder => await actionRepository
+                .FindAsync<ProposedCoViewDto, ProposedConsentOrder>(id, mapper, token).ConfigureAwait(false),
+            _ => throw new InvalidOperationException("Unknown enforcement action type")
+        };
 
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
         (await actionRepository.FindAsync<ActionTypeDto>(id, mapper, token).ConfigureAwait(false))?.ActionType;
@@ -324,14 +326,9 @@ public sealed class EnforcementActionService(
             .ConfigureAwait(false);
 
         var list = count > 0
-            ? mapper.Map<IReadOnlyList<ActionViewDto>>(await actionRepository.GetPagedListAsync(action =>
+            ? await actionRepository.GetPagedListAsync<ActionViewDto>(action =>
                     !action.IsDeleted && action.CurrentReviewer != null && action.CurrentReviewer.Id.Equals(userId),
-                paging, includeProperties:
-                [
-                    nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews),
-                    $"{nameof(EnforcementAction.CaseFile)}.{nameof(CaseFile.ResponsibleStaff)}"
-                ],
-                token).ConfigureAwait(false))
+                paging, mapper, token).ConfigureAwait(false)
             : [];
 
         return new PaginatedResult<ActionViewDto>(list, count, paging);
