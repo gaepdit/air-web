@@ -106,8 +106,13 @@ public sealed class EnforcementActionService(
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
         (await actionRepository.FindAsync<ActionTypeDto>(id, mapper, token).ConfigureAwait(false))?.ActionType;
 
-    public async Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CoViewDto>(await actionRepository.FindConsentOrder(id, token: token).ConfigureAwait(false));
+    public async Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default)
+    {
+        var coViewDto = await actionRepository.FindAsync<CoViewDto, ConsentOrder>(id, mapper, token)
+            .ConfigureAwait(false);
+        coViewDto?.StipulatedPenalties.RemoveAll(p => p.IsDeleted);
+        return coViewDto;
+    }
 
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {
@@ -258,7 +263,8 @@ public sealed class EnforcementActionService(
     public async Task DeletedStipulatedPenalty(Guid id, Guid stipulatedPenaltyId, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var consentOrder = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var consentOrder = (ConsentOrder)await actionRepository
+            .GetAsync(id, [nameof(ConsentOrder.StipulatedPenalties)], token: token).ConfigureAwait(false);
         var penalty = consentOrder.StipulatedPenalties.SingleOrDefault(penalty => penalty.Id == stipulatedPenaltyId);
         if (penalty == null) return;
         actionManager.DeleteStipulatedPenalty(penalty, currentUser);

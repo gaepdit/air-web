@@ -35,5 +35,5 @@ public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
     public bool StipulatedPenaltiesDefined { get; init; }
 
     [Display(Name = "Stipulated Penalties Received")]
-    public ICollection<StipulatedPenaltyViewDto> StipulatedPenalties { get; } = [];
+    public List<StipulatedPenaltyViewDto> StipulatedPenalties { get; init; } = [];
 }

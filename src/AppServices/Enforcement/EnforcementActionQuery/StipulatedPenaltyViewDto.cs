@@ -6,4 +6,5 @@ public record StipulatedPenaltyViewDto
     public decimal Amount { get; init; }
     public DateOnly ReceivedDate { get; init; }
     public string? Notes { get; init; }
+    public bool IsDeleted { get; init; }
 }
