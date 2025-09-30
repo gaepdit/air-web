@@ -74,7 +74,7 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-md-0">Enforcement Case File</h1>
+        <h1 class="mb-md-0" id="case-file">Enforcement Case File</h1>
     </div>
     @if (!caseFile.IsDeleted)
     {
@@ -97,7 +97,7 @@
     }
 </div>
 
-<div class=" lead">Enforcement Tracking #@Model.Id.ToString()</div>
+<div class="lead">Enforcement Tracking #@Model.Id.ToString()</div>
 
 @if (caseFile.AttentionNeeded && Model.UserCan[CaseFileOperation.EditCaseFile])
 {
@@ -116,13 +116,21 @@
             {
                 @:associated <a href="#pollutants-programs">pollutants and programs</a>
             }
+            @if ((caseFile.LacksLinkedCompliance || caseFile.LacksPollutantsOrPrograms) && caseFile.LacksViolationType)
+            {
+                @:and
+            }
+            @if (caseFile.LacksViolationType)
+            {
+                @:a <a href="#case-file">violation type</a>
+            }
             .
         </p>
     </div>
 }
 
 <section class="mt-3">
-    <h2 class="visually-hidden">Details</h2>
+    <h2 class="visually-hidden" id="details">Details</h2>
     <dl class="row mb-2">
         <dt class="col-sm-4 col-lg-3">Status</dt>
         <dd class="col-sm-8 col-lg-9">
@@ -144,10 +152,10 @@
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-        @if (caseFile.HasReportableEnforcement)
+        @if (caseFile.WillHaveReportableEnforcement)
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable)</dd>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.ViolationType)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }

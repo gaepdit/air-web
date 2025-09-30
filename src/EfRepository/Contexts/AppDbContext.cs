@@ -5,6 +5,7 @@ using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.NamedEntities.NotificationTypes;
 using AirWeb.Domain.NamedEntities.Offices;
@@ -18,9 +19,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     internal const string SqlServerProvider = "Microsoft.EntityFrameworkCore.SqlServer";
     internal const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
-    // Maintenance items
+    // Maintenance items (These are stored in the `SelectLists` table.)
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
+
+    // Lookup tables
+    public DbSet<ViolationType> ViolationTypes => Set<ViolationType>();
 
     // FCEs
     public DbSet<Fce> Fces => Set<Fce>();

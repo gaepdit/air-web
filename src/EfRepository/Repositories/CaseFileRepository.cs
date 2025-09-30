@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.Comments;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 
@@ -10,6 +11,10 @@ public sealed class CaseFileRepository(AppDbContext context)
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
+
+    public async Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default) =>
+        await Context.ViolationTypes.AsTracking().SingleOrDefaultAsync(v => v.Code == code, token)
+            .ConfigureAwait(false);
 
     public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
         (await GetAsync(id, token).ConfigureAwait(false)).GetPollutants();

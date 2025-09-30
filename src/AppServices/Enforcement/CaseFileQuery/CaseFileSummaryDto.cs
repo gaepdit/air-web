@@ -18,6 +18,8 @@ public record CaseFileSummaryDto : IIsClosed, IDeletable, IDeleteComments, IHasO
     [Display(Name = "Status")]
     public CaseFileStatus CaseFileStatus { get; init; }
 
+    public string? ViolationTypeCode { get; init; }
+
     [Display(Name = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
 

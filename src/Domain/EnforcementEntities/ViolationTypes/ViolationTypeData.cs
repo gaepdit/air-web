@@ -1,6 +1,4 @@
-﻿using GaEpd.AppLibrary.ListItems;
-
-namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 // ReSharper disable StringLiteralTypo
 // Source of data from IAIP DB:
@@ -17,16 +15,28 @@ namespace AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 public static class ViolationTypeData
 {
-    public static ViolationType? GetViolationType(string? code) => ViolationTypes.Find(type => type.Code == code);
+    public static ViolationType? GetViolationType(string? code) =>
+        ViolationTypes.Find(type => type.Code == code);
 
-    public static IReadOnlyList<ListItem<string>> AsListItems() =>
-        ViolationTypes.Select(v => new ListItem<string>(v.Code, v.Display)).ToList();
+    public static IReadOnlyList<ViolationType> GetAll() =>
+        ViolationTypes
+            .OrderBy(v => v.Deprecated)
+            .ThenBy(v => v.SeverityCode)
+            .ThenBy(v => v.Description)
+            .ToList();
 
-    public static IReadOnlyList<ListItem<string>> CurrentAsListItems() =>
-        ViolationTypes.Where(v => !v.Deprecated).Select(v => new ListItem<string>(v.Code, v.Display)).ToList();
+    public static IReadOnlyList<ViolationType> GetCurrent() =>
+        ViolationTypes
+            .Where(v => !v.Deprecated)
+            .OrderBy(v => v.SeverityCode)
+            .ThenBy(v => v.Description)
+            .ToList();
+
+    internal static ViolationType GetRandomViolationType() =>
+        ViolationTypes.Where(type => !type.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
 
     // ReSharper disable StringLiteralTypo
-    internal static List<ViolationType> ViolationTypes { get; } =
+    public static List<ViolationType> ViolationTypes { get; } =
     [
         new()
         {

@@ -25,13 +25,21 @@
         <div class="row">
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.ResponsibleStaffId, EditorTemplate.SelectNoPlaceholder,
-                        additionalViewData: new { Items = Model.StaffSelectList })
+                    additionalViewData: new { Items = Model.StaffSelectList })
             </div>
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.DiscoveryDate, EditorTemplate.InputDateOnly)
             </div>
         </div>
 
+        @if (Model.ItemView.WillHaveReportableEnforcement)
+        {
+            <div class="col-md mb-3">
+                @Html.EditorFor(m => m.Item.ViolationTypeCode, EditorTemplate.Select,
+                    additionalViewData: new { Items = Model.ViolationTypeSelectList, Placeholder = DefaultText.PlaceholderNone })
+            </div>
+        }
+        
         @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
 
         <partial name="Shared/_SubmitCancelButtons" />

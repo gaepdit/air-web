@@ -7,11 +7,12 @@ public record CaseFileUpdateDto
 {
     public CaseFileUpdateDto() { }
 
-    public CaseFileUpdateDto(CaseFileSummaryDto caseFile)
+    public CaseFileUpdateDto(CaseFileViewDto caseFile)
     {
         ResponsibleStaffId = caseFile.ResponsibleStaff?.Id;
         DiscoveryDate = caseFile.DiscoveryDate ?? DateOnly.FromDateTime(DateTime.Today);
         Notes = caseFile.Notes;
+        ViolationTypeCode = caseFile.ViolationType?.Code;
     }
 
     // Data properties
@@ -29,4 +30,7 @@ public record CaseFileUpdateDto
     [StringLength(7000)]
     [Display(Name = "Notes")]
     public string? Notes { get; init; }
+
+    [Display(Name = "Violation Type")]
+    public string? ViolationTypeCode { get; init; }
 }
