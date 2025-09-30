@@ -4,13 +4,13 @@ using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
+namespace AirWeb.AppServices.Lookups.LookupsBase;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 
-public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntityService<TViewDto, TUpdateDto>
+public class LookupService<TEntity, TViewDto, TUpdateDto> : ILookupService<TViewDto, TUpdateDto>
     where TEntity : StandardNamedEntity
-    where TUpdateDto : NamedEntityUpdateDto
+    where TUpdateDto : LookupUpdateDto
 #pragma warning restore S2436
 {
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class NamedEntityService<TEntity, TViewDto, TUpdateDto> : INamedEntitySer
     private readonly INamedEntityManager<TEntity> _manager;
     private readonly IUserService _userService;
 
-    protected NamedEntityService(IMapper mapper,
+    protected LookupService(IMapper mapper,
         INamedEntityRepository<TEntity> repository,
         INamedEntityManager<TEntity> manager,
         IUserService userService)

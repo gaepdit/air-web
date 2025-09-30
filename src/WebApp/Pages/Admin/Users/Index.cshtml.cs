@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;

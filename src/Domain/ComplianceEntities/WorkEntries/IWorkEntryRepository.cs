@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.Lookups.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 

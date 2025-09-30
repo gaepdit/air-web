@@ -1,4 +1,4 @@
-namespace AirWeb.Domain.NamedEntities.Offices;
+namespace AirWeb.Domain.Lookups.Offices;
 
 public class Office : StandardNamedEntity
 {

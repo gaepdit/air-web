@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.Lookups.NotificationTypes;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 

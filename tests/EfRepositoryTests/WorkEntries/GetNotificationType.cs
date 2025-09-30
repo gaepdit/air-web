@@ -1,5 +1,5 @@
 using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData.NamedEntities;
+using AirWeb.TestData.Lookups;
 
 namespace EfRepositoryTests.WorkEntries;
 

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;

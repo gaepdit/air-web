@@ -1,5 +1,5 @@
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.Offices;
 
 namespace AirWeb.WebApp.Api;
 

@@ -1,8 +1,8 @@
 ﻿using GaEpd.AppLibrary.ListItems;
 
-namespace AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
+namespace AirWeb.AppServices.Lookups.LookupsBase;
 
-public interface INamedEntityService<TViewDto, TUpdateDto> : IDisposable, IAsyncDisposable
+public interface ILookupService<TViewDto, TUpdateDto> : IDisposable, IAsyncDisposable
 {
     Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);

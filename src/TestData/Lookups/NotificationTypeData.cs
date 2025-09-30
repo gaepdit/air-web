@@ -1,6 +1,6 @@
-using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.Lookups.NotificationTypes;
 
-namespace AirWeb.TestData.NamedEntities;
+namespace AirWeb.TestData.Lookups;
 
 internal static class NotificationTypeData
 {

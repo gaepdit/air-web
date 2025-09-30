@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.NamedEntities.Offices;
+﻿using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.TestData.SampleData;
 

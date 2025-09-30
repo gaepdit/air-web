@@ -1,6 +1,6 @@
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Lookups.Offices;
 
-namespace AirWeb.TestData.NamedEntities;
+namespace AirWeb.TestData.Lookups;
 
 internal static class OfficeData
 {

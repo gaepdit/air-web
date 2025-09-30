@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.TestData.NamedEntities;
+﻿using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.TestData.Lookups;
 
 namespace AirWeb.LocalRepository.Repositories;
 

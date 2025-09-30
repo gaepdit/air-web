@@ -1,12 +1,12 @@
 ﻿using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.LookupsBase;
+using AirWeb.Domain.Lookups.Offices;
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AirWeb.AppServices.NamedEntities.Offices;
+namespace AirWeb.AppServices.Lookups.Offices;
 
 public class OfficeService(
     IMapper mapper,
@@ -14,7 +14,7 @@ public class OfficeService(
     IOfficeManager manager,
     IUserService userService,
     IAuthorizationService authorization)
-    : NamedEntityService<Office, OfficeViewDto, OfficeUpdateDto>
+    : LookupService<Office, OfficeViewDto, OfficeUpdateDto>
         (mapper, repository, manager, userService),
         IOfficeService
 {
