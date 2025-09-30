@@ -155,7 +155,8 @@ public sealed class CaseFileService(
 
     public async Task<bool> UnLinkComplianceEventAsync(int id, int entryId, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, [nameof(CaseFile.ComplianceEvents)], token: token)
+            .ConfigureAwait(false);
         if (await entryRepository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
             return false;
         if (!caseFile.ComplianceEvents.Contains(entry))
