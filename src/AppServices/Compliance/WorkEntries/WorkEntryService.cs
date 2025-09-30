@@ -76,7 +76,8 @@ public sealed partial class WorkEntryService(
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
-        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent, token: token)
+        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent,
+                [nameof(ComplianceEvent.CaseFiles)], token: token)
             .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
 
     // Source test-specific
