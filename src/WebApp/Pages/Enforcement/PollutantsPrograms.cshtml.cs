@@ -1,8 +1,10 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.Permissions;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using IaipDataService.Facilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
@@ -17,6 +19,12 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
     [BindProperty]
     public List<AirProgramSetting> AirProgramSettings { get; set; } = [];
+
+    [BindProperty]
+    [Display(Name = "Select Violation Type")]
+    public string? ViolationTypeCode { get; set; }
+
+    public SelectList ViolationTypesSelectList { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
@@ -45,6 +53,11 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
             IsSelected = caseFileAirPrograms.Any(cfAirProgram => cfAirProgram == airProgram)
         }).ToList();
 
+        ViolationTypeCode = caseFile.ViolationTypeCode;
+
+        ViolationTypesSelectList = new SelectList(ViolationTypeData.GetCurrent(),
+            nameof(ViolationType.Code), nameof(ViolationType.Display),
+            null, nameof(ViolationType.SeverityCode));
         return Page();
     }
 
@@ -54,10 +67,11 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         var caseFile = await caseFileService.FindSummaryAsync(Id, token);
         if (caseFile is null || caseFile.IsClosed || !User.CanEditCaseFile(caseFile)) return BadRequest();
 
-        await caseFileService.SavePollutantsAndProgramsAsync(Id,
+        await caseFileService.SaveCaseFileExtraDataAsync(Id,
             pollutants: PollutantSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
             airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.AirProgram),
-            token);
+            violationTypeCode: ViolationTypeCode,
+            token: token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
         return RedirectToPage("Details", new { Id });

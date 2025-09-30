@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
@@ -12,6 +13,7 @@ public static class DbSeedDataHelpers
     public static void SeedAllData(AppDbContext context)
     {
         ClearAllStaticData();
+        SeedLookupTables(context);
         SeedOfficeData(context);
         SeedIdentityData(context);
         SeedFceData(context);
@@ -30,6 +32,13 @@ public static class DbSeedDataHelpers
         OfficeData.ClearData();
         UserData.ClearData();
         WorkEntryData.ClearData();
+    }
+
+    private static void SeedLookupTables(AppDbContext context)
+    {
+        if (context.ViolationTypes.Any()) return;
+        context.ViolationTypes.AddRange(ViolationTypeData.ViolationTypes);
+        context.SaveChanges();
     }
 
     private static void SeedCaseFileData(AppDbContext context)

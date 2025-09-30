@@ -51,6 +51,8 @@ public class EnforcementIndexModel(
     {
         StaffSelectList = (await staff.GetUsersAsync(includeInactive: true)).ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
-        ViolationTypeSelectList = ViolationTypeData.AsListItems().ToSelectList();
+        ViolationTypeSelectList = new SelectList(ViolationTypeData.GetAll(),
+            nameof(ViolationType.Code), nameof(ViolationType.Display),
+            null, nameof(ViolationType.Current));
     }
 }

@@ -7,7 +7,6 @@ using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
@@ -38,15 +37,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public string? Notes { get; set; }
 
     // Required if the data exchange is enabled.
-    [BackingField(nameof(_violationTypeCode))]
-    public ViolationType? ViolationType
-    {
-        get => ViolationTypeData.GetViolationType(_violationTypeCode);
-        internal set => _violationTypeCode = value?.Code;
-    }
-
-    [StringLength(5)]
-    private string? _violationTypeCode;
+    public ViolationType? ViolationType { get; set; }
 
     // Status
 

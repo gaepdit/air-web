@@ -61,10 +61,12 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public List<AuditPointViewDto> AuditPoints { get; } = [];
 
     // Attention needed
-    public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms;
+    public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
     public bool WillHaveReportableEnforcement => EnforcementActions.Exists(action => action.WillBeReportable);
+
+    public bool LacksViolationType => !IsClosed && ViolationType == null && HasReportableEnforcement;
 
     private bool MissingLinkedCompliance => HasReportableEnforcement && !ComplianceEvents.Any(dto => dto.IsReportable);
     public bool LacksLinkedCompliance => !IsClosed && MissingLinkedCompliance;

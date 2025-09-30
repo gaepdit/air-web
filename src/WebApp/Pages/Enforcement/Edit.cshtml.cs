@@ -4,6 +4,7 @@ using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using FluentValidation;
@@ -23,8 +24,9 @@ public class EditModel(
     [BindProperty]
     public CaseFileUpdateDto Item { get; set; } = null!;
 
-    public CaseFileSummaryDto ItemView { get; private set; } = null!;
+    public CaseFileViewDto ItemView { get; private set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
+    public SelectList ViolationTypeSelectList { get; private set; } = null!;
 
     // Form buttons
     public string SubmitText => "Save Changes";
@@ -35,7 +37,7 @@ public class EditModel(
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var itemView = await caseFileService.FindSummaryAsync(Id, token);
+        var itemView = await caseFileService.FindDetailedAsync(Id, token);
         if (itemView is null) return NotFound();
         if (!User.CanEditCaseFile(itemView)) return Forbid();
 
@@ -48,7 +50,7 @@ public class EditModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        var itemView = await caseFileService.FindSummaryAsync(Id, token);
+        var itemView = await caseFileService.FindDetailedAsync(Id, token);
         if (itemView is null || !User.CanEditCaseFile(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(Item, ModelState);
 
@@ -64,6 +66,11 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task PopulateSelectListsAsync() =>
+    private async Task PopulateSelectListsAsync()
+    {
         StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
+            nameof(ViolationType.Code), nameof(ViolationType.Display),
+            null, nameof(ViolationType.SeverityCode));
+    }
 }

@@ -30,8 +30,8 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
     Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
 
-    Task SavePollutantsAndProgramsAsync(int id, IEnumerable<string> pollutants, IEnumerable<AirProgram> airPrograms,
-        CancellationToken token = default);
+    Task SaveCaseFileExtraDataAsync(int id, IEnumerable<string> pollutants, IEnumerable<AirProgram> airPrograms,
+        string? violationTypeCode, CancellationToken token = default);
 
     // Case File workflow
     Task<CommandResult> CloseAsync(int id, CancellationToken token = default);

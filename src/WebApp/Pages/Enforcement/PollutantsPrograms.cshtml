@@ -1,4 +1,5 @@
 ﻿@page "{id:int?}"
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model PollutantsProgramsModel
 
 @{
@@ -51,6 +52,12 @@
                 </label>
             </div>
         }
+    </div>
+
+    <div class="mt-4">
+        <h2 class="h4">Violation Type</h2>
+        @Html.EditorFor(m => m.ViolationTypeCode, EditorTemplate.Select,
+            additionalViewData: new { Items = Model.ViolationTypesSelectList, Placeholder = DefaultText.PlaceholderNone })
     </div>
 
     <div class="mt-3">
