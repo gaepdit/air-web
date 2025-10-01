@@ -157,7 +157,14 @@ public sealed class EnforcementActionService(
     public async Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
+        var enforcementAction = await actionRepository.GetAsync(id,
+                includeProperties:
+                [
+                    nameof(EnforcementAction.CaseFile),
+                    $"{nameof(CaseFile)}.{nameof(CaseFile.ViolationType)}",
+                    $"{nameof(CaseFile)}.{nameof(CaseFile.ComplianceEvents)}",
+                ],
+                token: token)
             .ConfigureAwait(false);
         actionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
@@ -169,7 +176,7 @@ public sealed class EnforcementActionService(
                 or EnforcementActionType.NoFurtherActionLetter)
         {
             var caseFile = enforcementAction.CaseFile;
-            if (!caseFile.MissingPollutantsOrPrograms)
+            if (!caseFile.MissingData)
             {
                 caseFileManager.Close(caseFile, currentUser);
                 await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);

@@ -82,10 +82,6 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     {
         get
         {
-            // TODO: Should this be calculated regardless of the `IsReportable` value?
-            //      Current logic prevents a Day Zero from being calculated for case files that require it
-            //      (e.g., Consent Orders) until compliance work is linked.
-            if (!IsReportable) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsReportable)
                 .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
@@ -127,7 +123,11 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public ICollection<Pollutant> GetPollutants() => PollutantIds.AsPollutants();
     public List<string> PollutantIds { get; } = [];
     public List<AirProgram> AirPrograms { get; } = [];
-    public bool MissingPollutantsOrPrograms => !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0);
+
+    public bool MissingData =>
+        !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0 ||
+                      ComplianceEvents.All(dto => dto.IsDeleted) ||
+                      ViolationType == null);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];
@@ -152,9 +152,8 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
 
     // Data exchange is not used for LONs, Cases with no linked compliance event,
     // or Cases where the only linked compliance event is an RMP inspection.
-    public bool IsReportable =>
-        ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
-        EnforcementActions.Exists(action => action.IsReportable);
+    public bool IsReportable => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
+                                EnforcementActions.Exists(action => action.IsReportable);
 
     // Required if the data exchange is enabled.
     public short? ActionNumber { get; set; }

@@ -152,7 +152,7 @@
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-        @if (caseFile.WillHaveReportableEnforcement)
+        @if (caseFile.HasReportableEnforcement)
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</dd>
@@ -200,7 +200,7 @@
                         }
                     </section>
 
-                    @if (caseFile.WillHaveReportableEnforcement)
+                    @if (caseFile.HasReportableEnforcement)
                     {
                         <section class="mt-4">
                             <div class="row justify-content-between align-items-baseline g-0">
@@ -631,7 +631,7 @@
                                     Issued</label>
                                 <span asp-validation-for="IssueEnforcementAction.Date" class="invalid-feedback"></span>
                             </div>
-                            @if (Model.UserCan[CaseFileOperation.CloseCaseFile])
+                            @if (Model.UserCan[CaseFileOperation.CloseCaseFile] && !caseFile.MissingData)
                             {
                                 <div class="form-check mt-2" id="issueEnforcementCloseOption">
                                     <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
@@ -657,10 +657,12 @@
                     const eaType = button.getAttribute('data-eaType').trim();
                     label.textContent = eaType;
                     const actionCloseOption = document.getElementById('issueEnforcementCloseOption');
-                    if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter") {
-                        actionCloseOption.classList.add('d-none');
-                    } else {
-                        actionCloseOption.classList.remove('d-none');
+                    if (actionCloseOption != null) {
+                        if (eaType !== "No Further Action Letter" && eaType !== "Combined NOV/NFA Letter") {
+                            actionCloseOption.classList.add('d-none');
+                        } else {
+                            actionCloseOption.classList.remove('d-none');
+                        }
                     }
                 });
             });
