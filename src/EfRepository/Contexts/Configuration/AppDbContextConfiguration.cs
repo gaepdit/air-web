@@ -267,6 +267,7 @@ internal static class AppDbContextConfiguration
     internal static ModelBuilder ConfigureImpliedAddedChildEntities(this ModelBuilder builder)
     {
         // See https://github.com/dotnet/efcore/issues/35090#issuecomment-2485974295
+        // and https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties?tabs=fluent-api#no-value-generation
         builder.Entity<AuditPoint>().Property(e => e.Id).ValueGeneratedNever();
         builder.Entity<Comment>().Property(e => e.Id).ValueGeneratedNever();
         builder.Entity<EnforcementActionReview>().Property(e => e.Id).ValueGeneratedNever();

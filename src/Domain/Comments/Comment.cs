@@ -12,7 +12,6 @@ public record Comment : ISoftDelete<string>
     };
 
     // Properties
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; init; }
 
     [StringLength(15_000)]

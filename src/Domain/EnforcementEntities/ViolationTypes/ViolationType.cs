@@ -8,6 +8,7 @@ public record ViolationType
     [StringLength(5)]
     public required string Code { get; init; }
 
+    [StringLength(300)]
     public required string Description { get; init; }
 
     [StringLength(3)]

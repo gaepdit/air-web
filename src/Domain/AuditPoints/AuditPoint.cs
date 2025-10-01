@@ -13,7 +13,6 @@ public record AuditPoint : IEntity
         MoreInfo = moreInfo,
     };
 
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; private init; }
 
     [StringLength(100)]
