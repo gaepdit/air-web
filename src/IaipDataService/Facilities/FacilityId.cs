@@ -91,7 +91,7 @@ public partial record FacilityId : IComparable<FacilityId>
         return countyPart + restPart;
     }
 
-    // TODO: `CleanPartialFacilityId` is used to clean up search form entries.
+    // FUTURE: `CleanPartialFacilityId` is used to clean up search form entries.
     //       Instead of just replacing the entry, though, model validation should be 
     //       used to notify the user of invalid entries.
     public static string CleanPartialFacilityId(string? input)
