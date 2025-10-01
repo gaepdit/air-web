@@ -32,14 +32,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
     [StringLength(7000)]
     public string? Notes { get; set; }
 
-    // Comments
-    public List<WorkEntryComment> Comments { get; } = [];
-
-    // Audit Points
-    public List<WorkEntryAuditPoint> AuditPoints { get; } = [];
-
-    // Calculated properties
-    public DateOnly EventDate { get; set; }
+    public DateOnly EventDate { get; protected set; }
 
     [UsedImplicitly]
     public string EventDateName => WorkEntryType switch
@@ -50,6 +43,12 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
         WorkEntryType.SourceTestReview => "Received By Compliance",
         _ => "Error",
     };
+
+    // Comments
+    public List<WorkEntryComment> Comments { get; } = [];
+
+    // Audit Points
+    public List<WorkEntryAuditPoint> AuditPoints { get; } = [];
 
     // Business logic
     public bool IsComplianceEvent { get; internal init; }

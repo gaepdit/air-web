@@ -20,7 +20,6 @@ internal static partial class WorkEntries
 
             InspectionReason = InspectionReason.PlannedUnannounced,
             InspectionStarted = DateTime.Now.AddYears(-5).AddDays(-10),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-5).AddDays(-10)),
             InspectionEnded = DateTime.Now.AddYears(-5).AddDays(-10).AddHours(3),
             WeatherConditions = SampleText.GetRandomText(SampleText.TextLength.Phrase),
             InspectionGuide = SampleText.GetRandomText(SampleText.TextLength.Word),
@@ -39,7 +38,6 @@ internal static partial class WorkEntries
 
             InspectionReason = InspectionReason.Complaint,
             InspectionStarted = DateTime.Now.AddYears(-3).AddDays(-1),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             InspectionEnded = DateTime.Now.AddYears(-3).AddDays(-1).AddHours(3),
             WeatherConditions = string.Empty,
             InspectionGuide = string.Empty,
@@ -56,7 +54,6 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             InspectionStarted = DateTime.Now.AddYears(-3).AddDays(-1),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             InspectionEnded = DateTime.Now.AddYears(-3).AddDays(-1).AddHours(3),
         },
     ];

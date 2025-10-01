@@ -19,7 +19,6 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Annual,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),
@@ -40,7 +39,6 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
             ReportingPeriodEnd = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
@@ -60,7 +58,6 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = new DateOnly(2020, 1, 1),
             ReportingPeriodEnd = new DateOnly(2020, 12, 31),

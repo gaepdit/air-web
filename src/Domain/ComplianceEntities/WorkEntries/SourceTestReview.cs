@@ -19,7 +19,19 @@ public class SourceTestReview : ComplianceEvent
     // Properties
 
     public int ReferenceNumber { get; set; }
-    public DateOnly ReceivedByComplianceDate { get; set; }
+
+    private DateOnly _receivedByComplianceDate;
+
+    public DateOnly ReceivedByComplianceDate
+    {
+        get => _receivedByComplianceDate;
+        set
+        {
+            _receivedByComplianceDate = value;
+            EventDate = value;
+        }
+    }
+
     public DateOnly? DueDate { get; set; }
     public bool FollowupTaken { get; set; }
 }

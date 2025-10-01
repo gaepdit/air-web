@@ -16,7 +16,18 @@ public class AnnualComplianceCertification : ComplianceEvent
     }
 
     // Properties
-    public DateOnly ReceivedDate { get; set; }
+    private DateOnly _receivedDate;
+
+    public DateOnly ReceivedDate
+    {
+        get => _receivedDate;
+        set
+        {
+            _receivedDate = value;
+            EventDate = value;
+        }
+    }
+
     public int AccReportingYear { get; set; }
     public DateOnly PostmarkDate { get; set; }
     public bool PostmarkedOnTime { get; set; }

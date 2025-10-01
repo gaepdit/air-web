@@ -20,7 +20,18 @@ public abstract class BaseInspection : ComplianceEvent
     [StringLength(18)]
     public InspectionReason? InspectionReason { get; set; }
 
-    public DateTime InspectionStarted { get; set; }
+    private DateTime _inspectionStarted;
+
+    public DateTime InspectionStarted
+    {
+        get => _inspectionStarted;
+        set
+        {
+            _inspectionStarted = value;
+            EventDate = DateOnly.FromDateTime(value);
+        }
+    }
+
     public DateTime InspectionEnded { get; set; }
 
     [StringLength(250)]

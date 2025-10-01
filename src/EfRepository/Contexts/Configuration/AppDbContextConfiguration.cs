@@ -217,43 +217,6 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCalculatedColumns(this ModelBuilder builder, string? dbProviderName)
-    {
-        var sql = dbProviderName switch
-        {
-            AppDbContext.SqlServerProvider =>
-                """
-                case
-                    when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
-                        then convert(date, ReceivedDate)
-                    when WorkEntryType in ('Inspection', 'RmpInspection') then convert(date, InspectionStarted)
-                    when WorkEntryType = 'SourceTestReview' then convert(date, ReceivedByComplianceDate)
-                    else convert(date, '1900-1-1')
-                end
-                """,
-            AppDbContext.SqliteProvider =>
-                """
-                case
-                    when WorkEntryType in ('AnnualComplianceCertification', 'Notification', 'PermitRevocation', 'Report')
-                        then date(ReceivedDate)
-                    when WorkEntryType in ('Inspection', 'RmpInspection') then date(InspectionStarted)
-                    when WorkEntryType = 'SourceTestReview' then date(ReceivedByComplianceDate)
-                    else '1900-1-1'
-                end
-                """,
-            _ => null,
-        };
-
-        if (sql == null) return builder;
-
-        // TODO: See if there's a better way to handle this.
-        //       As is, the "value is computed every time it is fetched from the database".
-        //       Should it be persisted instead?
-        //       Should it be replaced with a get-only property?
-        builder.Entity<WorkEntry>().Property(entry => entry.EventDate).HasComputedColumnSql(sql);
-        return builder;
-    }
-
     internal static ModelBuilder ConfigureInheritanceMapping(this ModelBuilder builder)
     {
         // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.

@@ -17,8 +17,17 @@ public class Report : ComplianceEvent
     }
 
     // Properties
+    private DateOnly _receivedDate;
 
-    public DateOnly ReceivedDate { get; set; }
+    public DateOnly ReceivedDate
+    {
+        get => _receivedDate;
+        set
+        {
+            _receivedDate = value;
+            EventDate = value;
+        }
+    }
 
     [StringLength(29)]
     public ReportingPeriodType ReportingPeriodType { get; set; }

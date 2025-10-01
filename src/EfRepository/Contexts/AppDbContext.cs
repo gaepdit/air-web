@@ -86,7 +86,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureInheritanceMapping()
             .ConfigureImpliedAddedChildEntities()
             .ConfigureEnumValues()
-            .ConfigureCalculatedColumns(Database.ProviderName)
             .ConfigureDateTimeOffsetHandling(Database.ProviderName)
             .ConfigureCollectionSerialization();
 
