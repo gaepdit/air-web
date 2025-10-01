@@ -10,12 +10,13 @@ public interface IEnforcementActionManager
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
-    void SetIssueDate(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+    void SetIssuedStatus(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+    bool Issue(EnforcementAction action, DateOnly issueDate, ApplicationUser? user, bool tryCloseCaseFile = false);
     void Cancel(EnforcementAction action, ApplicationUser? user);
     void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user);
 
     // Type-specific update methods
-    void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user);
+    bool Resolve(EnforcementAction action, DateOnly resolvedDate, ApplicationUser? user, bool tryCloseCaseFile = false);
     void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user);
     void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user);
 

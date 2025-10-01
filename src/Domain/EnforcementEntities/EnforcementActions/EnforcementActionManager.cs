@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
+public class EnforcementActionManager(
+    ILogger<EnforcementActionManager> logger,
+    ICaseFileManager caseFileManager) : IEnforcementActionManager
 {
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user)
     {
@@ -38,14 +40,35 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssueDate(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public void SetIssuedStatus(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    {
+        if (action.IsCanceled)
+            throw new InvalidOperationException("Enforcement Action has been canceled.");
+
+        action.SetUpdater(user?.Id);
+        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+    }
+
+    public bool Issue(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
+        bool tryCloseCaseFile = false)
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
-        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+        action.Status = EnforcementActionStatus.Issued;
+
+        if (!tryCloseCaseFile || action is not
+            {
+                ActionType: EnforcementActionType.NovNfaLetter or EnforcementActionType.NoFurtherActionLetter,
+                CaseFile.MissingData: false,
+            })
+            return false;
+
+        var caseFile = action.CaseFile;
+        caseFileManager.Close(caseFile, user);
+        return true;
     }
 
     private static void Approve(EnforcementAction action, ApplicationUser? user)
@@ -87,13 +110,20 @@ public class EnforcementActionManager(ILogger<EnforcementActionManager> logger) 
     }
 
     // Type-specific update methods
-    public void Resolve(IResolvable action, DateOnly resolvedDate, ApplicationUser? user)
+    public bool Resolve(EnforcementAction action, DateOnly resolvedDate, ApplicationUser? user,
+        bool tryCloseCaseFile = false)
     {
-        if (action.IsResolved)
-            throw new InvalidOperationException("Enforcement Action has already been resolved.");
+        if (action is not IResolvable resolvable || resolvable.IsResolved)
+            throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
-        ((EnforcementAction)action).SetUpdater(user?.Id);
-        action.Resolve(resolvedDate);
+        action.SetUpdater(user?.Id);
+        resolvable.Resolve(resolvedDate);
+
+        if (!tryCloseCaseFile) return false;
+
+        var caseFile = action.CaseFile;
+        caseFileManager.Close(caseFile, user);
+        return true;
     }
 
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)

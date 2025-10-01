@@ -32,7 +32,8 @@ public class CreateEnforcementActionTests
         var enforcementActionRepositoryMock = Substitute.For<IEnforcementActionRepository>();
 
         var enforcementActionService = new EnforcementActionService(
-            new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>()),
+            new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>(),
+                Substitute.For<ICaseFileManager>()),
             enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
             AppServicesTestsSetup.Mapper!, userServiceMock, Substitute.For<ILogger<EnforcementActionService>>(),
             Substitute.For<IAppNotificationService>());
