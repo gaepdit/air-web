@@ -18,7 +18,6 @@ internal static partial class WorkEntries
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
             PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-1)),
             PhysicalShutdownDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-21)),
             FollowupTaken = false,
@@ -34,7 +33,6 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
             PhysicalShutdownDate = null,
             FollowupTaken = true,
@@ -48,7 +46,6 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             PermitRevocationDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-1)),
         },
     ];

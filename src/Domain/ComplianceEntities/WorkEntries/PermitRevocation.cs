@@ -16,8 +16,18 @@ public class PermitRevocation : WorkEntry
     }
 
     // Properties
+    private DateOnly _receivedDate;
 
-    public DateOnly ReceivedDate { get; set; }
+    public DateOnly ReceivedDate
+    {
+        get => _receivedDate;
+        set
+        {
+            _receivedDate = value;
+            EventDate = value;
+        }
+    }
+
     public DateOnly PermitRevocationDate { get; set; }
     public DateOnly? PhysicalShutdownDate { get; set; }
     public bool FollowupTaken { get; set; }

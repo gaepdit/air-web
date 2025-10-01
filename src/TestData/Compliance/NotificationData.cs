@@ -20,7 +20,6 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-15)),
             DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-12)),
             SentDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-20)),
             FollowupTaken = false,
@@ -36,7 +35,6 @@ internal static partial class WorkEntries
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
             DueDate = null,
             SentDate = null,
             FollowupTaken = false,
@@ -51,7 +49,6 @@ internal static partial class WorkEntries
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
-            EventDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
         },
     ];
 }

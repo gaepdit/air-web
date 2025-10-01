@@ -120,6 +120,7 @@ public sealed class EnforcementActionService(
     {
         var entity = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
         entity.Notes = resource.Comment;
+        entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
@@ -141,8 +142,7 @@ public sealed class EnforcementActionService(
 
     private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
     {
-        actionManager.SetIssueDate(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
-        entity.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        actionManager.SetIssuedStatus(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 
@@ -157,31 +157,22 @@ public sealed class EnforcementActionService(
     public async Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
-            .ConfigureAwait(false);
-        actionManager.SetIssueDate(enforcementAction, resource.Date, currentUser);
-        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
+        var action = await actionRepository.GetAsync(id,
+            includeProperties:
+            [
+                nameof(EnforcementAction.CaseFile),
+                $"{nameof(CaseFile)}.{nameof(CaseFile.ViolationType)}",
+                $"{nameof(CaseFile)}.{nameof(CaseFile.ComplianceEvents)}",
+            ],
+            token: token).ConfigureAwait(false);
 
-        // TODO: Move business logic to Enforcement Action Manager.
-        var caseFileClosed = false;
-        if (resource.Option &&
-            enforcementAction.ActionType is EnforcementActionType.NovNfaLetter
-                or EnforcementActionType.NoFurtherActionLetter)
-        {
-            var caseFile = enforcementAction.CaseFile;
-            if (!caseFile.MissingPollutantsOrPrograms)
-            {
-                caseFileManager.Close(caseFile, currentUser);
-                await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);
-                caseFileClosed = true;
+        var caseFileClosed = actionManager.Issue(action, resource.Date, currentUser, resource.Option);
+        await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
-                await appNotificationService
-                    .SendNotificationAsync(Template.EnforcementClosed, caseFile.ResponsibleStaff, token, caseFile.Id)
-                    .ConfigureAwait(false);
-            }
-        }
+        if (caseFileClosed)
+            await appNotificationService.SendNotificationAsync(Template.EnforcementClosed,
+                action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
-        await actionRepository.SaveChangesAsync(token).ConfigureAwait(false);
         return caseFileClosed;
     }
 
@@ -212,29 +203,17 @@ public sealed class EnforcementActionService(
     public async Task<bool> ResolveAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
-            .ConfigureAwait(false);
-        actionManager.Resolve((IResolvable)enforcementAction, resource.Date, currentUser);
-        await actionRepository.UpdateAsync(enforcementAction, autoSave: false, token: token).ConfigureAwait(false);
+        var action = await actionRepository.GetAsync(id,
+            includeProperties: [nameof(EnforcementAction.CaseFile)],
+            token: token).ConfigureAwait(false);
 
-        // TODO: Move business logic to Enforcement Action Manager.
-        var caseFileClosed = false;
-        if (resource.Option)
-        {
-            var caseFile = enforcementAction.CaseFile;
-            if (!caseFile.IsClosed)
-            {
-                caseFileManager.Close(caseFile, currentUser);
-                await caseFileRepository.UpdateAsync(caseFile, autoSave: false, token: token).ConfigureAwait(false);
-                caseFileClosed = true;
+        var caseFileClosed = actionManager.Resolve(action, resource.Date, currentUser, resource.Option);
+        await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
-                await appNotificationService
-                    .SendNotificationAsync(Template.EnforcementClosed, caseFile.ResponsibleStaff, token, caseFile.Id)
-                    .ConfigureAwait(false);
-            }
-        }
+        if (caseFileClosed)
+            await appNotificationService.SendNotificationAsync(Template.EnforcementClosed,
+                action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
-        await actionRepository.SaveChangesAsync(token).ConfigureAwait(false);
         return caseFileClosed;
     }
 

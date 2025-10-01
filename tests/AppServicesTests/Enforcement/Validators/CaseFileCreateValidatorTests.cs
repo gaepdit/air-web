@@ -48,7 +48,7 @@ public class CaseFileCreateValidatorTests
     {
         // Arrange
         var date = DateOnly.FromDateTime(DateTime.Today);
-        var report = new Report(1, (FacilityId)"00100001") { EventDate = date };
+        var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
         var entryRepoMock = Substitute.For<IWorkEntryRepository>();
         entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
@@ -74,11 +74,7 @@ public class CaseFileCreateValidatorTests
     {
         // Arrange
         var date = DateOnly.FromDateTime(DateTime.Today);
-        var report = new Report(1, (FacilityId)"00100001")
-        {
-            EventDate = date,
-            ReceivedDate = date,
-        };
+        var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
         var entryRepoMock = Substitute.For<IWorkEntryRepository>();
         entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())

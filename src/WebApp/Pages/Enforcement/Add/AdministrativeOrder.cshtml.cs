@@ -56,7 +56,7 @@ public class AdministrativeOrderAddModel(
 
         HighlightEnforcementId = await actionService.CreateAsync(Id, Item, token);
 
-        return caseFile.MissingPollutantsOrPrograms
+        return caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType
             ? RedirectToPage("../PollutantsPrograms", new { Id })
             : RedirectToPage("../Details", pageHandler: null, routeValues: new { Id },
                 fragment: HighlightEnforcementId.ToString());

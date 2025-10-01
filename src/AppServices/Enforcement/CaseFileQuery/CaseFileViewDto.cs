@@ -63,19 +63,18 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
-    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportable);
-    public bool WillHaveReportableEnforcement => EnforcementActions.Exists(action => action.WillBeReportable);
+    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.WillBeReportable);
 
-    public bool LacksViolationType => !IsClosed && ViolationType == null && HasReportableEnforcement;
+    public bool MissingViolationType => ViolationType == null;
+    public bool LacksViolationType => !IsClosed && HasReportableEnforcement && MissingViolationType;
 
-    private bool MissingLinkedCompliance => HasReportableEnforcement && !ComplianceEvents.Any(dto => dto.IsReportable);
-    public bool LacksLinkedCompliance => !IsClosed && MissingLinkedCompliance;
+    private bool MissingLinkedCompliance => ComplianceEvents.All(dto => dto.IsDeleted);
+    public bool LacksLinkedCompliance => !IsClosed && HasReportableEnforcement && MissingLinkedCompliance;
 
-    public bool MissingPollutantsOrPrograms => !IsClosed && (Pollutants.Count == 0 || AirPrograms.Count == 0);
-    public bool LacksPollutantsOrPrograms => HasReportableEnforcement && MissingPollutantsOrPrograms;
-    public bool WillRequirePollutantsOrPrograms => WillHaveReportableEnforcement && MissingPollutantsOrPrograms;
+    public bool MissingPollutantsOrPrograms => Pollutants.Count == 0 || AirPrograms.Count == 0;
+    public bool LacksPollutantsOrPrograms => !IsClosed && HasReportableEnforcement && MissingPollutantsOrPrograms;
 
-    public bool MissingData => MissingLinkedCompliance || MissingPollutantsOrPrograms;
+    public bool MissingData => MissingLinkedCompliance || MissingPollutantsOrPrograms || MissingViolationType;
 
     // Properties: Closure
     [Display(Name = "Completed By")]

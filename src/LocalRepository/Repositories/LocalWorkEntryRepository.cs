@@ -47,29 +47,4 @@ public sealed class LocalWorkEntryRepository()
 
         return Task.CompletedTask;
     }
-
-    public new Task UpdateAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
-    {
-        SetEventDate(entity);
-        return base.UpdateAsync(entity, autoSave, token);
-    }
-
-    public new Task InsertAsync(WorkEntry entity, bool autoSave = true, CancellationToken token = default)
-    {
-        SetEventDate(entity);
-        return base.InsertAsync(entity, autoSave, token);
-    }
-
-    private static void SetEventDate(WorkEntry entry) =>
-        entry.EventDate = entry.WorkEntryType switch
-        {
-            WorkEntryType.AnnualComplianceCertification => (entry as AnnualComplianceCertification)!.ReceivedDate,
-            WorkEntryType.Inspection => DateOnly.FromDateTime((entry as Inspection)!.InspectionStarted),
-            WorkEntryType.Notification => (entry as Notification)!.ReceivedDate,
-            WorkEntryType.PermitRevocation => (entry as PermitRevocation)!.ReceivedDate,
-            WorkEntryType.Report => (entry as Report)!.ReceivedDate,
-            WorkEntryType.RmpInspection => DateOnly.FromDateTime((entry as RmpInspection)!.InspectionStarted),
-            WorkEntryType.SourceTestReview => (entry as SourceTestReview)!.ReceivedByComplianceDate,
-            _ => DateOnly.FromDateTime(entry.CreatedAt?.Date ?? DateTime.MinValue),
-        };
 }
