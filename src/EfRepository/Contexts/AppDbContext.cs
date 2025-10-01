@@ -19,7 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     internal const string SqlServerProvider = "Microsoft.EntityFrameworkCore.SqlServer";
     internal const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
-    // Maintenance items (These are stored in the `SelectLists` table.)
+    // Maintenance items (These are stored in the `Lookups` table.)
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
 

@@ -222,7 +222,7 @@ internal static class AppDbContextConfiguration
         // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.
         builder.Entity<AuditPoint>().ToTable("AuditPoints");
         builder.Entity<Comment>().ToTable("Comments");
-        builder.Entity<StandardNamedEntity>().ToTable("SelectLists");
+        builder.Entity<StandardNamedEntity>().ToTable("Lookups");
 
         return builder;
     }
