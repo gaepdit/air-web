@@ -47,6 +47,11 @@ from AIRBRANCH.dbo.EPDUSERPROFILES u
                 when u.NUMUNIT = 41 then N'Northeast District (Athens)'
                 when u.NUMUNIT = 42 then N'Southwest District (Albany)'
                 when u.NUMUNIT = 43 then N'West Central District (Macon)'
+                when u.NUMUNIT = 18 then N'APB Permitting Program: Chemical Permitting'
+                when u.NUMUNIT = 19 then N'APB Permitting Program: Combustion Permitting'
+                when u.NUMUNIT = 20 then N'APB Permitting Program: Minerals Permitting'
+                when u.NUMUNIT = 33 then N'APB Permitting Program: NOx Permitting'
+                when u.NUMUNIT = 34 then N'APB Permitting Program: VOC Permitting'
                 end;
 
 select *

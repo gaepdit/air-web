@@ -46,3 +46,13 @@ INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 SELECT newid(), N'West Central District (Macon)', convert(bit, 1), 'Office', sysdatetimeoffset();
 INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 SELECT newid(), N'Other', convert(bit, 1), 'Office', sysdatetimeoffset();
+INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+SELECT newid(),N'APB Permitting Program: Chemical Permitting', convert(bit, 1), 'Office', sysdatetimeoffset();
+INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+SELECT newid(),N'APB Permitting Program: Combustion Permitting', convert(bit, 1), 'Office', sysdatetimeoffset();
+INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+SELECT newid(),N'APB Permitting Program: Minerals Permitting', convert(bit, 1), 'Office', sysdatetimeoffset();
+INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+SELECT newid(),N'APB Permitting Program: NOx Permitting', convert(bit, 1), 'Office', sysdatetimeoffset();
+INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+SELECT newid(),N'APB Permitting Program: VOC Permitting', convert(bit, 1), 'Office', sysdatetimeoffset();
