@@ -2,18 +2,21 @@
 
 ## New tables
 
-* `AuditPoints`
-* `CaseFileComplianceEvents`
-* `CaseFiles`
-* `Comments`
-* `EmailLogs`
-* `EnforcementActionReviews`
-* `EnforcementActions`
-* `Fces`
-* `SelectLists`
-* `StipulatedPenalties`
-* `ViolationTypes`
-* `WorkEntries`
+* [x] `AspNetRoles` (automatically populated)
+* [x] `AspNetUsers`
+* [x] `AspNetUserRoles`
+* [ ] `AuditPoints`
+* [ ] `CaseFileComplianceEvents`
+* [ ] `CaseFiles`
+* [ ] `Comments`
+* [ ] `EmailLogs`
+* [ ] `EnforcementActionReviews`
+* [ ] `EnforcementActions`
+* [ ] `Fces`
+* [x] `Lookups`
+* [ ] `StipulatedPenalties`
+* [x] `ViolationTypes`
+* [ ] `WorkEntries`
 
 ## Old tables
 
@@ -39,7 +42,8 @@ title: Lookup tables
 ---
 flowchart LR
     LK_VIOLATION_TYPE --> ViolationTypes
-    LOOKUPSSCPNOTIFICATIONS --> SelectLists:NotificationType
+    LOOKUPSSCPNOTIFICATIONS --> Lookups:NotificationType
+    LOOKUPEPDPROGRAMS/LOOKUPEPDUNITS --> Lookups:Office
 ```
 
 ```mermaid
