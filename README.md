@@ -92,12 +92,14 @@ To work with these settings, add an `appsettings.Development.json` file in the r
 ### Dev database settings
 
 - *BuildDatabase*
-    - When `true`, the `EfRepository` project is used. A SQL Server database is created, and data is seeded from the
-      `TestData` project.
-    - When `false`, the `LocalRepository` project is used. In-memory data is initialized from the `TestData` project.
-- *UseEfMigrations* — Applies Entity Framework database migrations when `true`. When `false`, the database is created
-  directly based on the `DbContext`. (Only applies if `BuildDatabase` is `true`.)
-- *ConnectToIaipDatabase* —
+    - When `true`, the `EfRepository` data store is used. A SQL Server database is created, and data is seeded from the
+      `TestData` project (unless Entity Framework migrations are enabled).
+    - When `false`, the `LocalRepository` data store is used. In-memory data is initialized from the `TestData` project.
+- *UseEfMigrations* — (Only applies if `BuildDatabase` is `true`.)
+    - When `true`, applies Entity Framework database migrations as needed. Test data is not seeded.
+    - When `false`, the database is deleted and recreated based on the `DbContext`. Data is seeded from the `TestData`
+      project.
+- *ConnectToIaipDatabase*
     - When `true`, the IAIP data services will connect to an existing SQL Server database defined by the
       `IaipConnection` connection string. (A new database will not be created or seeded with data.)
     - When `false`, test IAIP data is used (located in `src/IaipDataService/TestData`).

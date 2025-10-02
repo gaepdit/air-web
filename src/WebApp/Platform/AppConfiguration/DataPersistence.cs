@@ -28,7 +28,11 @@ public static class DataPersistence
         }
 
         builder.ConfigureDatabaseServices();
+        await builder.ApplyEfMigrations();
+    }
 
+    private static async Task ApplyEfMigrations(this IHostApplicationBuilder builder)
+    {
         await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
         await migrationContext.Database.MigrateAsync();
         await migrationContext.CreateMissingRolesAsync(builder.Services);
@@ -88,15 +92,18 @@ public static class DataPersistence
         {
             builder.ConfigureDatabaseServices();
 
-            await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
-            await migrationContext.Database.EnsureDeletedAsync();
-
             if (AppSettings.DevSettings.UseEfMigrations)
-                await migrationContext.Database.MigrateAsync();
+            {
+                await builder.ApplyEfMigrations();
+            }
             else
+            {
+                await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
+                await migrationContext.Database.EnsureDeletedAsync();
                 await migrationContext.Database.EnsureCreatedAsync();
 
-            DbSeedDataHelpers.SeedAllData(migrationContext);
+                DbSeedDataHelpers.SeedAllData(migrationContext);
+            }
         }
         else
         {
