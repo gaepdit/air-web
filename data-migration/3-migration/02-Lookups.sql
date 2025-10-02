@@ -2,6 +2,7 @@
 go
 
 -- Notification Types
+-- Original values from airbranch.dbo.LOOKUPSSCPNOTIFICATIONS
 INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 SELECT newid(), N'Other', convert(bit, 1), 'NotificationType', sysdatetimeoffset();
 INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
@@ -16,6 +17,7 @@ INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 SELECT newid(), N'Permit Revocation', convert(bit, 0), 'NotificationType', sysdatetimeoffset();
 
 -- Offices
+-- Original values modified from airbranch.dbo.LOOKUPEPDPROGRAMS and airbranch.dbo.LOOKUPEPDUNITS
 INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 SELECT newid(), N'Air Protection Branch', convert(bit, 1), 'Office', sysdatetimeoffset();
 INSERT INTO dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)

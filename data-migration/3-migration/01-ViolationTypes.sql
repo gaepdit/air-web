@@ -1,7 +1,7 @@
 ﻿use [air-web]
 go
 
--- Data pulled from airbranch.dbo.LK_VIOLATION_TYPE
+-- Original data from airbranch.dbo.LK_VIOLATION_TYPE
 
 INSERT INTO dbo.ViolationTypes (Code, Description, SeverityCode, Deprecated) VALUES (N'FCIO', N'Failure to construct, install or operate facility/equipment in accordance with permit or regulation', N'FRV', 0);
 INSERT INTO dbo.ViolationTypes (Code, Description, SeverityCode, Deprecated) VALUES (N'FMPR', N'Failure to maintain records as required by permit or regulation', N'FRV', 0);
