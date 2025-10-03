@@ -6,9 +6,15 @@
 * [x] `AspNetUsers`
 * [x] `AspNetUserRoles`
 * [ ] `AuditPoints`
+    * [ ] FCE
+    * [ ] Case File
+    * [ ] Work Entry
 * [ ] `CaseFileComplianceEvents`
 * [ ] `CaseFiles`
 * [ ] `Comments`
+    * [ ] FCE
+    * [ ] Case File
+    * [ ] Work Entry
 * [ ] `EmailLogs`
 * [ ] `EnforcementActionReviews`
 * [ ] `EnforcementActions`
