@@ -113,6 +113,11 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DataExchangeStatus")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
                     b.Property<string>("DeleteComments")
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");

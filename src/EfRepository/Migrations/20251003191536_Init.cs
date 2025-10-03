@@ -286,6 +286,7 @@ namespace AirWeb.EfRepository.Migrations
                     CompletedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     OnsiteInspection = table.Column<bool>(type: "bit", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
+                    DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251001212836_Init")]
+    [Migration("20251003191536_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -115,6 +115,11 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataExchangeStatus")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("DeleteComments")
                         .HasMaxLength(7000)
