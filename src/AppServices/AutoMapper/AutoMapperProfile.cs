@@ -48,11 +48,11 @@ public class AutoMapperProfile : Profile
         Comments();
         AuditPoints();
         Fces();
-        WorkEntries();
+        ComplianceWork();
         Enforcement();
     }
 
-    private void WorkEntries()
+    private void ComplianceWork()
     {
         CreateMap<WorkEntry, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());

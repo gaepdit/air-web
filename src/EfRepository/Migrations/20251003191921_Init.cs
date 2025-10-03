@@ -275,44 +275,7 @@ namespace AirWeb.EfRepository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Fces",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FacilityId = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    ReviewedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CompletedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    OnsiteInspection = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
-                    DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DeleteComments = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fces", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Fces_AspNetUsers_DeletedById",
-                        column: x => x.DeletedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Fces_AspNetUsers_ReviewedById",
-                        column: x => x.ReviewedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WorkEntries",
+                name: "ComplianceWork",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -372,28 +335,65 @@ namespace AirWeb.EfRepository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkEntries", x => x.Id);
+                    table.PrimaryKey("PK_ComplianceWork", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkEntries_AspNetUsers_ClosedById",
+                        name: "FK_ComplianceWork_AspNetUsers_ClosedById",
                         column: x => x.ClosedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkEntries_AspNetUsers_DeletedById",
+                        name: "FK_ComplianceWork_AspNetUsers_DeletedById",
                         column: x => x.DeletedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkEntries_AspNetUsers_ResponsibleStaffId",
+                        name: "FK_ComplianceWork_AspNetUsers_ResponsibleStaffId",
                         column: x => x.ResponsibleStaffId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkEntries_Lookups_NotificationTypeId",
+                        name: "FK_ComplianceWork_Lookups_NotificationTypeId",
                         column: x => x.NotificationTypeId,
                         principalTable: "Lookups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FacilityId = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    ReviewedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CompletedDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    OnsiteInspection = table.Column<bool>(type: "bit", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
+                    DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DeleteComments = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fces", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fces_AspNetUsers_DeletedById",
+                        column: x => x.DeletedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Fces_AspNetUsers_ReviewedById",
+                        column: x => x.ReviewedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -465,6 +465,30 @@ namespace AirWeb.EfRepository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CaseFileComplianceEvents",
+                columns: table => new
+                {
+                    CaseFilesId = table.Column<int>(type: "int", nullable: false),
+                    ComplianceEventsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseFileComplianceEvents", x => new { x.CaseFilesId, x.ComplianceEventsId });
+                    table.ForeignKey(
+                        name: "FK_CaseFileComplianceEvents_CaseFiles_CaseFilesId",
+                        column: x => x.CaseFilesId,
+                        principalTable: "CaseFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CaseFileComplianceEvents_ComplianceWork_ComplianceEventsId",
+                        column: x => x.ComplianceEventsId,
+                        principalTable: "ComplianceWork",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AuditPoints",
                 columns: table => new
                 {
@@ -493,39 +517,15 @@ namespace AirWeb.EfRepository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_AuditPoints_ComplianceWork_WorkEntryId",
+                        column: x => x.WorkEntryId,
+                        principalTable: "ComplianceWork",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_AuditPoints_Fces_FceId",
                         column: x => x.FceId,
                         principalTable: "Fces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuditPoints_WorkEntries_WorkEntryId",
-                        column: x => x.WorkEntryId,
-                        principalTable: "WorkEntries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CaseFileComplianceEvents",
-                columns: table => new
-                {
-                    CaseFilesId = table.Column<int>(type: "int", nullable: false),
-                    ComplianceEventsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseFileComplianceEvents", x => new { x.CaseFilesId, x.ComplianceEventsId });
-                    table.ForeignKey(
-                        name: "FK_CaseFileComplianceEvents_CaseFiles_CaseFilesId",
-                        column: x => x.CaseFilesId,
-                        principalTable: "CaseFiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CaseFileComplianceEvents_WorkEntries_ComplianceEventsId",
-                        column: x => x.ComplianceEventsId,
-                        principalTable: "WorkEntries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -560,15 +560,15 @@ namespace AirWeb.EfRepository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Fces_FceId",
-                        column: x => x.FceId,
-                        principalTable: "Fces",
+                        name: "FK_Comments_ComplianceWork_WorkEntryId",
+                        column: x => x.WorkEntryId,
+                        principalTable: "ComplianceWork",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_WorkEntries_WorkEntryId",
-                        column: x => x.WorkEntryId,
-                        principalTable: "WorkEntries",
+                        name: "FK_Comments_Fces_FceId",
+                        column: x => x.FceId,
+                        principalTable: "Fces",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -755,6 +755,26 @@ namespace AirWeb.EfRepository.Migrations
                 column: "WorkEntryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ComplianceWork_ClosedById",
+                table: "ComplianceWork",
+                column: "ClosedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplianceWork_DeletedById",
+                table: "ComplianceWork",
+                column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplianceWork_NotificationTypeId",
+                table: "ComplianceWork",
+                column: "NotificationTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplianceWork_ResponsibleStaffId",
+                table: "ComplianceWork",
+                column: "ResponsibleStaffId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EnforcementActionReviews_EnforcementActionId",
                 table: "EnforcementActionReviews",
                 column: "EnforcementActionId");
@@ -808,26 +828,6 @@ namespace AirWeb.EfRepository.Migrations
                 name: "IX_StipulatedPenalties_ConsentOrderId",
                 table: "StipulatedPenalties",
                 column: "ConsentOrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkEntries_ClosedById",
-                table: "WorkEntries",
-                column: "ClosedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkEntries_DeletedById",
-                table: "WorkEntries",
-                column: "DeletedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkEntries_NotificationTypeId",
-                table: "WorkEntries",
-                column: "NotificationTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkEntries_ResponsibleStaffId",
-                table: "WorkEntries",
-                column: "ResponsibleStaffId");
         }
 
         /// <inheritdoc />
@@ -870,10 +870,10 @@ namespace AirWeb.EfRepository.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Fces");
+                name: "ComplianceWork");
 
             migrationBuilder.DropTable(
-                name: "WorkEntries");
+                name: "Fces");
 
             migrationBuilder.DropTable(
                 name: "EnforcementActions");

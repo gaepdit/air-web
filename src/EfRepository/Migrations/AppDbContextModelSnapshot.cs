@@ -240,7 +240,7 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.HasIndex("ResponsibleStaffId");
 
-                    b.ToTable("WorkEntries", (string)null);
+                    b.ToTable("ComplianceWork", (string)null);
 
                     b.HasDiscriminator<string>("WorkEntryType");
 

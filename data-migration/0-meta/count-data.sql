@@ -77,6 +77,10 @@ select 'Comments' as [table_name],
        count(*)   as [count]
 from [air-web].dbo.Comments
 union
+select 'ComplianceWork' as [table_name],
+       count(*)         as [count]
+from [air-web].dbo.ComplianceWork
+union
 select 'EmailLogs' as [table_name],
        count(*)    as [count]
 from [air-web].dbo.EmailLogs
@@ -104,8 +108,4 @@ union
 select 'ViolationTypes' as [table_name],
        count(*)         as [count]
 from [air-web].dbo.ViolationTypes
-union
-select 'WorkEntries' as [table_name],
-       count(*)      as [count]
-from [air-web].dbo.WorkEntries
 ;
