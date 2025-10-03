@@ -5,7 +5,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
-internal static partial class WorkEntries
+internal static partial class ComplianceWork
 {
     internal static IEnumerable<AnnualComplianceCertification> AccData =>
     [

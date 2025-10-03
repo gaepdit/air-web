@@ -61,7 +61,7 @@ internal static class AppDbContextConfiguration
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<WorkEntry>()
-            .ToTable("WorkEntries")
+            .ToTable("ComplianceWork")
             .HasDiscriminator(entry => entry.WorkEntryType)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
             .HasValue<Inspection>(WorkEntryType.Inspection)

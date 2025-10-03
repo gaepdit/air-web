@@ -2,7 +2,7 @@ using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
-using static AirWeb.TestData.Compliance.WorkEntries;
+using static AirWeb.TestData.Compliance.ComplianceWork;
 
 namespace AirWeb.TestData.Compliance;
 

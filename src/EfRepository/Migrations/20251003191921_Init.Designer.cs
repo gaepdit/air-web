@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251003191536_Init")]
+    [Migration("20251003191921_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -243,7 +243,7 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.HasIndex("ResponsibleStaffId");
 
-                    b.ToTable("WorkEntries", (string)null);
+                    b.ToTable("ComplianceWork", (string)null);
 
                     b.HasDiscriminator<string>("WorkEntryType");
 
