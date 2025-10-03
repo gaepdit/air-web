@@ -1,5 +1,5 @@
 ﻿use [AIRBRANCH]
 go
 
-drop table air.ComplianceUserIds;
+drop table AIRBRANCH.air.ComplianceUserIds;
 go

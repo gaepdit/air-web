@@ -1,17 +1,14 @@
-﻿USE
-[AIRBRANCH];
+﻿USE [AIRBRANCH]
 GO
-SET ANSI_NULLS ON;
+SET ANSI_NULLS ON
 GO
 
-CREATE
-OR
-ALTER FUNCTION air.FormatAirsNumber
-    (
-    @input varchar (12)
-    )
-    RETURNS varchar (9)
-    AS
+CREATE OR ALTER FUNCTION air.FormatAirsNumber
+(
+    @input varchar(12)
+)
+    RETURNS varchar(9)
+AS
 
 /**************************************************************************************************
 
@@ -34,7 +31,7 @@ When        Who                 What
 
 BEGIN
 
-RETURN concat_ws('-', substring(@input, 5, 3), right(@input, 5));
+    RETURN concat_ws('-', substring(@input, 5, 3), right(@input, 5));
 
 END
 GO

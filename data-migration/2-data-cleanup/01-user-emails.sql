@@ -12,11 +12,12 @@ where substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILAD
 
 -- Update malformed email addresses
 update dbo.EPDUSERPROFILES
-set STREMAILADDRESS = replace(STREMAILADDRESS, '@dne.state.ga.us', '@dnr.ga.gov')
+set STREMAILADDRESS = replace(STREMAILADDRESS, '@dne.state.ga.us', '@dnr.state.ga.us')
+where STREMAILADDRESS like '%@dne.state.ga.us';
 
 update dbo.EPDUSERPROFILES
 set STREMAILADDRESS = replace(STREMAILADDRESS, '@dnr.state.ga.u', '@dnr.state.ga.us')
-where STREMAILADDRESS like '%@dnr.state.ga.u'
+where STREMAILADDRESS like '%@dnr.state.ga.u';
 
 update dbo.EPDUSERPROFILES
 set STREMAILADDRESS = null

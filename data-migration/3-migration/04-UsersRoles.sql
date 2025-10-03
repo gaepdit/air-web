@@ -83,7 +83,8 @@ with roleX(IaipRole, AirWebRole) as
             and a.Active = 1
             and convert(int, l.value) in (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140))
 
--- insert into AspNetUserRoles (UserId, RoleId)
+-- insert
+-- into [air-web].dbo.AspNetUserRoles (UserId, RoleId)
 
 select distinct u.Id as UserId,
                 r.Id as RoleId
@@ -99,9 +100,10 @@ from [air-web].dbo.AspNetUsers u
     inner join [air-web].dbo.AspNetRoles r
         on roleX.AirWebRole = r.Name;
 
-select *
+select u.Email,
+       r.Name
 from [air-web].dbo.AspNetUsers u
-    inner join dbo.AspNetUserRoles ur
+    inner join [air-web].dbo.AspNetUserRoles ur
         on u.Id = ur.UserId
-    inner join dbo.AspNetRoles r
+    inner join [air-web].dbo.AspNetRoles r
         on r.Id = ur.RoleId
