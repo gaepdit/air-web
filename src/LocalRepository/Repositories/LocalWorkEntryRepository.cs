@@ -1,5 +1,5 @@
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Lookups.NotificationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Lookups;

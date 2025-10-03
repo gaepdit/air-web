@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;

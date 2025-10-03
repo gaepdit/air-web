@@ -96,75 +96,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("CompletedDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DataExchangeStatus")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
-
-                    b.Property<string>("DeleteComments")
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("DeletedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("DeletedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FacilityId")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("OnsiteInspection")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ReviewedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UpdatedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("ReviewedById");
-
-                    b.ToTable("Fces");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,6 +177,74 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator<string>("WorkEntryType");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("CompletedDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataExchangeStatus")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("DeleteComments")
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FacilityId")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("OnsiteInspection")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReviewedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("ReviewedById");
+
+                    b.ToTable("Fces");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.EmailLog.EmailLog", b =>
@@ -922,6 +922,18 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("WorkEntryAuditPoint");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntryComment", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Comments.Comment");
+
+                    b.Property<int>("WorkEntryId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("WorkEntryId");
+
+                    b.HasDiscriminator().HasValue("WorkEntryComment");
+                });
+
             modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.FceComment", b =>
                 {
                     b.HasBaseType("AirWeb.Domain.Comments.Comment");
@@ -932,18 +944,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasIndex("FceId");
 
                     b.HasDiscriminator().HasValue("FceComment");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryComment", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.Comments.Comment");
-
-                    b.Property<int>("WorkEntryId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("WorkEntryId");
-
-                    b.HasDiscriminator().HasValue("WorkEntryComment");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFileComment", b =>
@@ -958,9 +958,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("CaseFileComment");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry");
 
                     b.Property<string>("DataExchangeStatus")
                         .IsRequired()
@@ -968,9 +968,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(1)");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.Notification", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.Notification", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1000,9 +1000,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Notification");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.PermitRevocation", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.PermitRevocation", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry");
 
                     b.Property<bool>("FollowupTaken")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1237,9 +1237,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Office");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.AnnualComplianceCertification", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.AnnualComplianceCertification", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent");
 
                     b.Property<int>("AccReportingYear")
                         .HasColumnType("int");
@@ -1289,9 +1289,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("AnnualComplianceCertification");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.BaseInspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.BaseInspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent");
 
                     b.Property<bool>("DeviationsNoted")
                         .HasColumnType("bit")
@@ -1330,9 +1330,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnName("WeatherConditions");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.Report", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.Report", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1380,9 +1380,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Report");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.SourceTestReview", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.SourceTestReview", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1403,16 +1403,16 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("SourceTestReview");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.Inspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.Inspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.BaseInspection");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.BaseInspection");
 
                     b.HasDiscriminator().HasValue("Inspection");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.RmpInspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.RmpInspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.WorkEntries.BaseInspection");
+                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.BaseInspection");
 
                     b.HasDiscriminator().HasValue("RmpInspection");
                 });
@@ -1435,22 +1435,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("CommentBy");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
-                {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("DeletedById");
-
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ReviewedBy")
-                        .WithMany()
-                        .HasForeignKey("ReviewedById");
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("ReviewedBy");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry", b =>
                 {
                     b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ClosedBy")
                         .WithMany()
@@ -1469,6 +1454,21 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("DeletedBy");
 
                     b.Navigation("ResponsibleStaff");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ReviewedBy")
+                        .WithMany()
+                        .HasForeignKey("ReviewedById");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("ReviewedBy");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", b =>
@@ -1584,7 +1584,7 @@ namespace AirWeb.EfRepository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.WorkEntries.ComplianceEvent", null)
+                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent", null)
                         .WithMany()
                         .HasForeignKey("ComplianceEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1662,8 +1662,17 @@ namespace AirWeb.EfRepository.Migrations
 
             modelBuilder.Entity("AirWeb.Domain.AuditPoints.WorkEntryAuditPoint", b =>
                 {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry", null)
+                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry", null)
                         .WithMany("AuditPoints")
+                        .HasForeignKey("WorkEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntryComment", b =>
+                {
+                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry", null)
+                        .WithMany("Comments")
                         .HasForeignKey("WorkEntryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1678,15 +1687,6 @@ namespace AirWeb.EfRepository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntryComment", b =>
-                {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("WorkEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFileComment", b =>
                 {
                     b.HasOne("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", null)
@@ -1696,7 +1696,7 @@ namespace AirWeb.EfRepository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.Notification", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.Notification", b =>
                 {
                     b.HasOne("AirWeb.Domain.Lookups.NotificationTypes.NotificationType", "NotificationType")
                         .WithMany()
@@ -1707,14 +1707,14 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("NotificationType");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.WorkEntry", b =>
                 {
                     b.Navigation("AuditPoints");
 
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.WorkEntries.WorkEntry", b =>
+            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
                 {
                     b.Navigation("AuditPoints");
 

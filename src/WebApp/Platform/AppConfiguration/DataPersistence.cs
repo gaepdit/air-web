@@ -1,5 +1,5 @@
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
