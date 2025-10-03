@@ -1,5 +1,5 @@
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Accs;
+using AirWeb.AppServices.Compliance.ComplianceWork;
+using AirWeb.AppServices.Compliance.ComplianceWork.Accs;
 using AirWeb.WebApp.Platform.PrintoutModels;
 using IaipDataService.Facilities;
 

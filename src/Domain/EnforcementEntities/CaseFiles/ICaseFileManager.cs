@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;

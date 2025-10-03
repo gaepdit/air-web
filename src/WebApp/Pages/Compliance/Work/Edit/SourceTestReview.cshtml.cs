@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.ComplianceWork;
+using AirWeb.AppServices.Compliance.ComplianceWork.SourceTestReviews;
 using AirWeb.AppServices.Staff;
 using AutoMapper;
 using FluentValidation;

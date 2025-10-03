@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
+﻿using AirWeb.AppServices.Compliance.ComplianceWork;
+using AirWeb.AppServices.Compliance.ComplianceWork.Inspections;
 using AirWeb.AppServices.Staff;
 using AutoMapper;
 using FluentValidation;

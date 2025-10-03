@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceWork;
+using AirWeb.AppServices.Compliance.ComplianceWork.WorkEntryDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
