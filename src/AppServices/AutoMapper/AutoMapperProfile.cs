@@ -114,7 +114,12 @@ public class AutoMapperProfile : Profile
 
     private void Accs()
     {
-        CreateMap<AccViewDto, AccUpdateDto>();
+        CreateMap<AccViewDto, AccUpdateDto>()
+            .ForMember(dto => dto.AccReportingYear,
+                expression => expression.MapFrom(src => src.AccReportingYear ?? src.ReceivedDate.Year - 1))
+            .ForMember(dto => dto.PostmarkDate,
+                expression => expression.MapFrom(src => src.PostmarkDate ?? DateOnly.FromDateTime(DateTime.Now)));
+
         CreateMap<AnnualComplianceCertification, AccViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }

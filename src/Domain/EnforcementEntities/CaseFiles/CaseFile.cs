@@ -30,7 +30,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     [StringLength(9)]
     public string FacilityId { get; init; } = null!;
 
-    // Required for new cases but nullable for historical data.
+    // Required for new data but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(7000)]
@@ -72,7 +72,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
         }
     }
 
-    // Required for new cases but nullable for historical data.
+    // Required for new data but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
 
     // Computed dates

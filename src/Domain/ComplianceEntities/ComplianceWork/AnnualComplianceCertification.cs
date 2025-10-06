@@ -28,16 +28,17 @@ public class AnnualComplianceCertification : ComplianceEvent
         }
     }
 
-    public int AccReportingYear { get; set; }
-    public DateOnly PostmarkDate { get; set; }
-    public bool PostmarkedOnTime { get; set; }
-    public bool SignedByRo { get; set; }
-    public bool OnCorrectForms { get; set; }
-    public bool IncludesAllTvConditions { get; set; }
-    public bool CorrectlyCompleted { get; set; }
-    public bool ReportsDeviations { get; set; }
-    public bool IncludesPreviouslyUnreportedDeviations { get; set; }
-    public bool ReportsAllKnownDeviations { get; set; }
-    public bool ResubmittalRequired { get; set; }
-    public bool EnforcementNeeded { get; set; }
+    // The following are required for new data but nullable for historical data.
+    public int? AccReportingYear { get; set; }
+    public DateOnly? PostmarkDate { get; set; }
+    public bool? PostmarkedOnTime { get; set; }
+    public bool? SignedByRo { get; set; }
+    public bool? OnCorrectForms { get; set; }
+    public bool? IncludesAllTvConditions { get; set; }
+    public bool? CorrectlyCompleted { get; set; }
+    public bool? ReportsDeviations { get; set; }
+    public bool? IncludesPreviouslyUnreportedDeviations { get; set; }
+    public bool? ReportsAllKnownDeviations { get; set; }
+    public bool? ResubmittalRequired { get; set; }
+    public bool? EnforcementNeeded { get; set; }
 }

@@ -138,7 +138,11 @@
             @if (caseFile.IsClosed)
             {
                 <div class="mt-1">
-                    Closed by @Html.DisplayFor(_ => caseFile.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                    Closed
+                    @if (caseFile.ClosedBy is not null)
+                    {
+                        @:by @caseFile.ClosedBy.Name
+                    }
                     on @Html.DisplayFor(_ => caseFile.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
                 </div>
             }

@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Compliance.ComplianceWork;
 using AirWeb.AppServices.Compliance.ComplianceWork.Accs;
+using AirWeb.AppServices.Utilities;
 using AirWeb.WebApp.Platform.PrintoutModels;
 using IaipDataService.Facilities;
 
@@ -26,7 +27,9 @@ public class IndexModel : PageModel
         {
             MemoDate = Report.ClosedDate,
             From = Report.ResponsibleStaff?.Name,
-            Subject = $"Title V Annual Certification for {Report.AccReportingYear}" + Environment.NewLine +
+            Subject = (Report.AccReportingYear is null
+                          ? $"Title V Annual Certification received {Report.ReceivedDate.ToString(DateTimeFormats.ShortDate)}"
+                          : $"Title V Annual Certification for {Report.AccReportingYear}") + Environment.NewLine +
                       $"{Facility.Name}, {Facility.FacilityAddress?.City}" + Environment.NewLine +
                       $"AIRS # {Facility.Id}",
         };
