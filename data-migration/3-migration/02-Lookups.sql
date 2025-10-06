@@ -9,9 +9,8 @@ VALUES
 (newid(), N'Other', convert(bit, 1), 'NotificationType', sysdatetimeoffset()),
 (newid(), N'Startup', convert(bit, 1), 'NotificationType', sysdatetimeoffset()),
 (newid(), N'Response Letter', convert(bit, 1), 'NotificationType', sysdatetimeoffset()),
-(newid(), N'Malfunction', convert(bit, 1), 'NotificationType', sysdatetimeoffset()),
-(newid(), N'Deviation', convert(bit, 1), 'NotificationType', sysdatetimeoffset()),
-(newid(), N'Permit Revocation', convert(bit, 0), 'NotificationType', sysdatetimeoffset()),
+(newid(), N'Malfunction', convert(bit, 0), 'NotificationType', sysdatetimeoffset()),
+(newid(), N'Deviation', convert(bit, 0), 'NotificationType', sysdatetimeoffset()),
 
 -- Offices
 -- Original values modified from airbranch.dbo.LOOKUPEPDPROGRAMS and airbranch.dbo.LOOKUPEPDUNITS

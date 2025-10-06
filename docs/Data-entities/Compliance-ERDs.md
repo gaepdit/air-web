@@ -149,9 +149,9 @@ erDiagram
 |--------------------------------------------|---------------|:-------:|-------------------------|
 | SSCPITEMMASTER.DATRECEIVEDDATE             | datetime2(0)  |    ✓    | ReceivedDate, EventDate |
 | SSCPNOTIFICATIONS.DATNOTIFICATIONDUE       | datetime2(0)  |    ✓    | DueDate                 |
-| SSCPNOTIFICATIONS.STRNOTIFICATIONDUE       | varchar(5)    |    ✓    | DueDate                 |
+| SSCPNOTIFICATIONS.STRNOTIFICATIONDUE       | varchar(5)    |    ✗    | *none*                  |
 | SSCPNOTIFICATIONS.DATNOTIFICATIONSENT      | datetime2(0)  |    ✓    | SentDate                |
-| SSCPNOTIFICATIONS.STRNOTIFICATIONSENT      | varchar(10)   |    ✓    | SentDate                |
+| SSCPNOTIFICATIONS.STRNOTIFICATIONSENT      | varchar(10)   |    ✗    | *none*                  |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONTYPE      | varchar(2)    |    ✓    | NotificationType        |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONTYPEOTHER | varchar(100)  |    ✓    | Notes                   |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONCOMMENT   | varchar(4000) |    ✓    | Notes                   |
