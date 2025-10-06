@@ -1,9 +1,9 @@
-use [air-web]
+use AirWeb
 go
 
-SET IDENTITY_INSERT [air-web].dbo.Fces ON;
+SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
 
--- insert into [air-web].dbo.Fces
+-- insert into AirWeb.dbo.Fces
 -- (Id, FacilityId, Year, ReviewedById, CompletedDate, OnsiteInspection, Notes, DataExchangeStatus,
 --  CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments)
 
@@ -26,12 +26,12 @@ select f.STRFCENUMBER                                         as Id,
 from AIRBRANCH.dbo.SSCPFCEMASTER f
     inner join AIRBRANCH.dbo.SSCPFCE d
         on f.STRFCENUMBER = d.STRFCENUMBER
-    inner join [air-web].dbo.AspNetUsers ur
+    inner join AirWeb.dbo.AspNetUsers ur
         on ur.AirbranchUserId = d.STRREVIEWER
-    inner join [air-web].dbo.AspNetUsers um
+    inner join AirWeb.dbo.AspNetUsers um
         on um.AirbranchUserId = f.STRMODIFINGPERSON;
 
-SET IDENTITY_INSERT [air-web].dbo.Fces OFF;
+SET IDENTITY_INSERT AirWeb.dbo.Fces OFF;
 
 select *
-from [air-web].dbo.Fces;
+from AirWeb.dbo.Fces;

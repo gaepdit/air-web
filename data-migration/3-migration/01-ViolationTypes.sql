@@ -1,7 +1,7 @@
-﻿use [air-web]
+﻿use AirWeb
 go
 
-INSERT INTO [air-web].dbo.ViolationTypes (Code, Description, SeverityCode, Deprecated)
+INSERT INTO AirWeb.dbo.ViolationTypes (Code, Description, SeverityCode, Deprecated)
 VALUES
 
 -- Original data from airbranch.dbo.LK_VIOLATION_TYPE

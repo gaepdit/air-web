@@ -1,4 +1,4 @@
-use [air-web]
+use AirWeb
 go
 
 -- IAIP roles to Air Web App roles:
@@ -22,7 +22,7 @@ go
 -- Roles derived from these queries:
 --
 -- select Id, Name
--- from [air-web].dbo.AspNetRoles
+-- from AirWeb.dbo.AspNetRoles
 -- order by Name;
 --
 -- select distinct convert(int, l.value) as RoleId,
@@ -84,7 +84,7 @@ with roleX(IaipRole, AirWebRole) as
             and convert(int, l.value) in (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140))
 
 -- insert
--- into [air-web].dbo.AspNetUserRoles (UserId, RoleId)
+-- into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
 
 select distinct u.Id as UserId,
                 r.Id as RoleId
@@ -92,18 +92,18 @@ select distinct u.Id as UserId,
 --                 u.Email,
 --                 iaipRoles.IaipRoleName,
 --                 r.Name
-from [air-web].dbo.AspNetUsers u
+from AirWeb.dbo.AspNetUsers u
     inner join iaipRoles
         on iaipRoles.AirbranchUserId = u.AirbranchUserId
     inner join roleX
         on roleX.IaipRole = iaipRoles.IaipRoleName
-    inner join [air-web].dbo.AspNetRoles r
+    inner join AirWeb.dbo.AspNetRoles r
         on roleX.AirWebRole = r.Name;
 
 select u.Email,
        r.Name
-from [air-web].dbo.AspNetUsers u
-    inner join [air-web].dbo.AspNetUserRoles ur
+from AirWeb.dbo.AspNetUsers u
+    inner join AirWeb.dbo.AspNetUserRoles ur
         on u.Id = ur.UserId
-    inner join [air-web].dbo.AspNetRoles r
+    inner join AirWeb.dbo.AspNetRoles r
         on r.Id = ur.RoleId

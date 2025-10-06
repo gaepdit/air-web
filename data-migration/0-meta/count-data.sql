@@ -59,53 +59,53 @@ from AIRBRANCH.dbo.SSCP_EnforcementEvents
 
 select 'AspNetUsers' as [table_name],
        count(*)      as [count]
-from [air-web].dbo.AspNetUsers
+from AirWeb.dbo.AspNetUsers
 union
 select 'AuditPoints' as [table_name],
        count(*)      as [count]
-from [air-web].dbo.AuditPoints
+from AirWeb.dbo.AuditPoints
 union
 select 'CaseFileComplianceEvents' as [table_name],
        count(*)                   as [count]
-from [air-web].dbo.CaseFileComplianceEvents
+from AirWeb.dbo.CaseFileComplianceEvents
 union
 select 'CaseFiles' as [table_name],
        count(*)    as [count]
-from [air-web].dbo.CaseFiles
+from AirWeb.dbo.CaseFiles
 union
 select 'Comments' as [table_name],
        count(*)   as [count]
-from [air-web].dbo.Comments
+from AirWeb.dbo.Comments
 union
 select 'ComplianceWork' as [table_name],
        count(*)         as [count]
-from [air-web].dbo.ComplianceWork
+from AirWeb.dbo.ComplianceWork
 union
 select 'EmailLogs' as [table_name],
        count(*)    as [count]
-from [air-web].dbo.EmailLogs
+from AirWeb.dbo.EmailLogs
 union
 select 'EnforcementActionReviews' as [table_name],
        count(*)                   as [count]
-from [air-web].dbo.EnforcementActionReviews
+from AirWeb.dbo.EnforcementActionReviews
 union
 select 'EnforcementActions' as [table_name],
        count(*)             as [count]
-from [air-web].dbo.EnforcementActions
+from AirWeb.dbo.EnforcementActions
 union
 select 'Fces'   as [table_name],
        count(*) as [count]
-from [air-web].dbo.Fces
+from AirWeb.dbo.Fces
 union
 select 'Lookups' as [table_name],
        count(*)  as [count]
-from [air-web].dbo.Lookups
+from AirWeb.dbo.Lookups
 union
 select 'StipulatedPenalties' as [table_name],
        count(*)              as [count]
-from [air-web].dbo.StipulatedPenalties
+from AirWeb.dbo.StipulatedPenalties
 union
 select 'ViolationTypes' as [table_name],
        count(*)         as [count]
-from [air-web].dbo.ViolationTypes
+from AirWeb.dbo.ViolationTypes
 ;

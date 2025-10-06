@@ -1,7 +1,7 @@
--- This script will delete all data from the [air-web] tables
+-- This script will delete all data from the AirWeb tables
 -- (not including `__EFMigrationsHistory`).
 
-use [air-web]
+use AirWeb
 go
 
 delete from dbo.AspNetRoleClaims;

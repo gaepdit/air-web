@@ -1,7 +1,7 @@
-﻿use [air-web]
+﻿use AirWeb
 go
 
-INSERT INTO [air-web].dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
+INSERT INTO AirWeb.dbo.Lookups (Id, Name, Active, Discriminator, CreatedAt)
 VALUES
 
 -- Notification Types

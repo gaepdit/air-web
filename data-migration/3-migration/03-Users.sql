@@ -1,7 +1,7 @@
-use [air-web]
+use AirWeb
 go
 
--- insert into [air-web].dbo.AspNetUsers
+-- insert into AirWeb.dbo.AspNetUsers
 -- (Id, GivenName, FamilyName, OfficeId, Active, AccountCreatedAt, AccountUpdatedAt, ProfileUpdatedAt, MostRecentLogin,
 --  UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp,
 --  PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, AirbranchUserId)
@@ -33,7 +33,7 @@ select newid()                  as Id,
 from AIRBRANCH.dbo.EPDUSERPROFILES u
     inner join AIRBRANCH.air.ComplianceUserIds c
         on c.UserId = u.NUMUSERID
-    left join [air-web].dbo.Lookups l
+    left join AirWeb.dbo.Lookups l
         on l.Discriminator = 'Office'
         and l.Name =
             case
@@ -55,4 +55,4 @@ from AIRBRANCH.dbo.EPDUSERPROFILES u
                 end;
 
 select *
-from [air-web].dbo.AspNetUsers;
+from AirWeb.dbo.AspNetUsers;
