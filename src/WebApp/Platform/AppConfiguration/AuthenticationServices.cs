@@ -13,6 +13,8 @@ public static class AuthenticationServices
         var authenticationBuilder = builder.Services
             .ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Name = ".AirWeb.Identity";
+                options.Cookie.Path = "/";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             })
