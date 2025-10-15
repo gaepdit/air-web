@@ -16,6 +16,10 @@ public static class AppUrlRedirects
 
         // Order rewrite rules from the most frequently matched rule to the least frequently matched rule.
         var options = new RewriteOptions()
+                // Original test deployment location
+                // FUTURE: Remove this after UAT period.
+                .AddRedirect(regex: "^new$", replacement: "/").AddRedirect(regex: "^new/(.*)$", replacement: "$1")
+                
                 // Old report pages
                 .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/acc-report/{IntPattern}$",
                     replacement: "print/acc/$1",
