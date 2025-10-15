@@ -109,7 +109,7 @@ public partial record FacilityId : IComparable<FacilityId>
 
     // Test at https://regex101.com/r/2uYyHl/9
     // language:regex
-    public const string FacilityIdPattern =
+    private const string FacilityIdPattern =
         @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)\d{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)\d{1,5})";
 
     public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
@@ -127,4 +127,7 @@ public partial record FacilityId : IComparable<FacilityId>
 
     // language:regex
     private const string ShortFormat = @"^\d{8}$";
+
+    // language:regex
+    public const string SimplifiedFormat = @"\d{3}-?\d{5}";
 }
