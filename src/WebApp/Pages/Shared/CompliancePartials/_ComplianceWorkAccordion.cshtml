@@ -17,7 +17,7 @@ else
 {
     <div id="@parentId" class="accordion">
         <div class="accordion-item">
-            <h3 class="accordion-header no-anchor">
+            <h4 class="accordion-header no-anchor">
                 <button class="accordion-button @(expanded ? "" : "collapsed")" type="button" data-bs-toggle="collapse"
                         data-bs-target="#@bodyId" aria-expanded="@expanded.ToString()" aria-controls="@bodyId">
                     @if (Model.TotalCount > SearchDefaults.SummaryTableSize)
@@ -27,7 +27,7 @@ else
                     }
                     @Model.TotalCount.ToString() total
                 </button>
-            </h3>
+            </h4>
             <div id="@bodyId" class="accordion-collapse collapse @(expanded ? "show" : "")" data-bs-parent="@parentId">
                 <div class="accordion-body pb-2">
                     <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="Model.Items" view-data="ViewData" />

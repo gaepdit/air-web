@@ -1,7 +1,10 @@
-﻿namespace AirWeb.WebApp.Pages.Dev;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AirWeb.WebApp.Pages.Dev;
 
 // FUTURE: Remove this page once testing of error handling is complete.
 [AllowAnonymous]
+[SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don\'t access instance data should be static")]
 public class ThrowErrorModel : PageModel
 {
     public void OnGet()

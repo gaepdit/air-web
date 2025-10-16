@@ -16,16 +16,20 @@ public static class AppUrlRedirects
 
         // Order rewrite rules from the most frequently matched rule to the least frequently matched rule.
         var options = new RewriteOptions()
-                // Report pages
-                .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdPattern}/acc-report/{IntPattern}$",
+                // Original test deployment location
+                // FUTURE: Remove this after UAT period.
+                .AddRedirect(regex: "^new$", replacement: "/").AddRedirect(regex: "^new/(.*)$", replacement: "$1")
+                
+                // Old report pages
+                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/acc-report/{IntPattern}$",
                     replacement: "print/acc/$1",
-                    statusCode: StatusCodes.Status302Found)
-                .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdPattern}/stack-test/{IntPattern}$",
+                    statusCode: StatusCodes.Status301MovedPermanently)
+                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/stack-test/{IntPattern}$",
                     replacement: "print/source-test/$1",
-                    statusCode: StatusCodes.Status302Found)
-                .AddRedirect(regex: $"^facility/{FacilityId.FacilityIdPattern}/fce/{IntPattern}$",
+                    statusCode: StatusCodes.Status301MovedPermanently)
+                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/fce/{IntPattern}$",
                     replacement: "print/fce/$1",
-                    statusCode: StatusCodes.Status302Found)
+                    statusCode: StatusCodes.Status301MovedPermanently)
 
                 // Incomplete URLs (that can't be handled within the page itself)
                 .AddRedirect(regex: "^Enforcement/Edit/?$",

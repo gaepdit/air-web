@@ -9,7 +9,7 @@ public record StipulatedPenaltyAddDto
 {
     [PositiveDecimal(ErrorMessage = "The stipulated penalty amount must be a positive number.")]
     [Display(Name = "Penalty Amount")]
-    public decimal Amount { get; init; } = 1;
+    public decimal Amount { get; init; }
 
     [Required]
     [DataType(DataType.Date)]

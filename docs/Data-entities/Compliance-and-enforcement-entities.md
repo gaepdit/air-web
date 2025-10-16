@@ -14,11 +14,11 @@
     - Compliance Event (a subset of Work Entries)
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
-        - RMP: RMP Inspection
+      - RMP: Risk Management Plan Inspection
         - STR: Source Test Compliance Review
         - REP: Report
     - NOT: Notification
-    - REV: Permit revocation (previously a type of Notification)
+    - REV: Permit revocation (formerly a type of Notification)
 - ENF: Enforcement Case File
 
 ## Entity Relationship Diagrams

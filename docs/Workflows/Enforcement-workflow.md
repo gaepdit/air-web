@@ -1,7 +1,7 @@
 # Enforcement Case Workflow
 
-Case Files address non-compliance. They are linked to a single facility and may be linked to one or more compliance
-events. One or more Enforcement Actions will be issued for a Case File, some of which can be considered to resolve the
+Case Files address non-compliance. They are linked to a single facility and may be linked to one or more Compliance
+Events. One or more Enforcement Actions will be issued for a Case File, some of which can be considered to resolve the
 Case File. Once all work on a Case File is complete, it can be closed.
 
 ## Case File
@@ -11,7 +11,7 @@ Case File. Once all work on a Case File is complete, it can be closed.
 * The Case File can be edited while open.
 * Closing/finalizing a Case File disables all editing.
 * Reopening a Case File re-enables all editing.
-* Comments can be added and edited.
+* Comments can be added.
 * A Comment can be deleted *(not shown in diagram)*.
 * A Case File can be deleted *(not shown in diagram)*.
 
@@ -40,7 +40,8 @@ flowchart LR
 * An Enforcement Action can be edited while the Case File is open.
 * An Enforcement Action can be submitted for review, creating an Enforcement Action Review.
 * An Enforcement Action Review can be completed, updating the Enforcement Action status.
-* An Enforcement Action can be issued (closed as sent) or canceled (closed as unsent), both of which disable the review
+* An Enforcement Action can be issued (sent to facility) or canceled (closed as unsent), both of which disable the
+  review
   process.
 * An Enforcement Action can be deleted *(not shown in diagram)*.
 
@@ -59,10 +60,9 @@ flowchart LR
 
 * An LON or a Combined NOV/NFA letter cannot be added if a reportable Enforcement Action (see Data Exchange table below)
   has already been issued.
-* An NFA cannot be added directly to a Case File. It can only be generated from an existing NOV.
-* A CO cannot be added directly to a Case File. It can only be generated from an existing PCO (using the "Signed Order
-  received" action).
-* If the Enforcement Action is a Consent Order, Stipulated Penalties can be added.
+* An NFA cannot be added directly to a Case File. It can only be generated from an existing NOV from the Actions menu.
+* A CO cannot be added directly to a Case File. It can only be generated from an existing PCO from the Actions menu.
+* Stipulated Penalties can be added to a Consent Order.
 * A Stipulated Penalty can be deleted *(not shown in diagram)*.
 
 ### Enforcement Action Status
@@ -154,8 +154,8 @@ flowchart
 flowchart
     ACT{{"`**Enforcement Action**`"}}
     REV{{"Enforcement Action Review"}}
-    review([Submit for Review])
-    respond([Respond])
+    review([Request Review])
+    respond([Submit Review])
     issue([Issue or Cancel])
     ACT -.-> review
     ACT -.-> issue
