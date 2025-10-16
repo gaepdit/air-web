@@ -5,7 +5,7 @@
 * Saving an FCE updates the Data Exchange.
 * An FCE report can be printed.
 * An FCE can be deleted/restored *(not shown in diagram)*.
-* Comments can be added and edited.
+* Comments can be added.
 * A Comment can be deleted *(not shown)*.
 
 ## Flowchart
