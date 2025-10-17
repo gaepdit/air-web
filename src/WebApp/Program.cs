@@ -18,39 +18,27 @@ AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMill
 builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
 builder.Services.AddDataProtection();
 
-// Configure Identity stores.
-builder.Services.AddIdentityStores();
-
 // Configure authentication and authorization.
 builder.ConfigureAuthentication();
 
-// Add app services.
-builder.Services.AddAppServices().AddAutoMapperProfiles().AddEmailService();
-
-// Configure UI services.
+// Add UI services.
 builder.Services.AddRazorPages();
 
 // Add data stores and initialize the database.
+builder.Services.AddIdentityStores();
 await builder.ConfigureDataPersistence();
 
-// Add IAIP data service.
-builder.Services.AddIaipDataServices(AppSettings.DevSettings.ConnectToIaipDatabase,
-    builder.Configuration.GetConnectionString("IaipConnection"));
-
-// Add file storage.
-builder.Services.AddFileServices(builder.Configuration);
-
-// Add API documentation.
-builder.Services.AddApiDocumentation();
-
-// Configure bundling and minification.
-builder.AddWebOptimizer();
-
-//Add simple cache.
-builder.Services.AddMemoryCache();
-
-// Add organizational notifications.
-builder.Services.AddOrgNotifications();
+// Add various services.
+builder.Services
+    .AddAppServices()
+    .AddAutoMapperProfiles()
+    .AddEmailService()
+    .AddApiDocumentation()
+    .AddWebOptimizer()
+    .AddMemoryCache()
+    .AddIaipDataServices(AppSettings.ConnectToIaip, builder.Configuration.GetConnectionString("IaipConnection"))
+    .AddFileServices(builder.Configuration)
+    .AddOrgNotifications();
 
 // Configure Aspire.
 builder.AddServiceDefaults();

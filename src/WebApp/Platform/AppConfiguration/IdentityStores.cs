@@ -13,16 +13,16 @@ public static class IdentityStores
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
         services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
-        if (AppSettings.DevSettings.BuildDatabase)
-        {
-            // Add EF identity stores.
-            identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-        }
-        else
+        if (AppSettings.DevSettings.UseDevSettings && !AppSettings.DevSettings.BuildDatabase)
         {
             // Add local UserStore and RoleStore.
             services.AddSingleton<IUserStore<ApplicationUser>, LocalUserStore>();
             services.AddSingleton<IRoleStore<IdentityRole>, LocalRoleStore>();
+        }
+        else
+        {
+            // Add EF identity stores.
+            identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
         }
     }
 }

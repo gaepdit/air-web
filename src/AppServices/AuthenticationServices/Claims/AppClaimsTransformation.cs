@@ -5,6 +5,12 @@ using System.Security.Claims;
 
 namespace AirWeb.AppServices.AuthenticationServices.Claims;
 
+public static class AppClaimTypes
+{
+    public const string ActiveUser = nameof(ActiveUser);
+    public const string OfficeId = nameof(OfficeId);
+}
+
 public class AppClaimsTransformation(UserManager<ApplicationUser> userManager) : IClaimsTransformation
 {
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)

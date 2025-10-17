@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+
 namespace AirWeb.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
@@ -5,19 +7,9 @@ internal static partial class AppSettings
     // DEV configuration settings
     public static DevSettingsSection DevSettings { get; private set; } = new();
 
-    // PROD configuration settings
-    private static readonly DevSettingsSection ProductionDefault = new()
-    {
-        UseDevSettings = false,
-        BuildDatabase = true,
-        UseEfMigrations = true,
-        EnableTestUser = false,
-        TestUserIsAuthenticated = false,
-        TestUserRoles = [],
-        UseSecurityHeadersInDev = false,
-        EnableWebOptimizerInDev = false,
-    };
+    private static void DisableDevSettings() => DevSettings = new DevSettingsSection { UseDevSettings = false };
 
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public record DevSettingsSection
     {
         /// <summary>
@@ -61,12 +53,12 @@ internal static partial class AppSettings
         /// <summary>
         /// Include HTTP security headers when running in a Development environment (`true`).
         /// </summary>
-        public bool UseSecurityHeadersInDev { get; init; }
+        public bool EnableSecurityHeaders { get; init; }
 
         /// <summary>
         /// Use WebOptimizer to bundle and minify CSS and JS files (`true`).
         /// </summary>
-        public bool EnableWebOptimizerInDev { get; init; }
+        public bool EnableWebOptimizer { get; init; }
     }
 
     private static IHostApplicationBuilder BindDevAppSettings(this IHostApplicationBuilder builder)
@@ -77,7 +69,7 @@ internal static partial class AppSettings
                            Convert.ToBoolean(devConfig[nameof(DevSettings.UseDevSettings)]);
 
         if (useDevConfig) devConfig.Bind(DevSettings);
-        else DevSettings = ProductionDefault;
+        else DisableDevSettings();
 
         return builder;
     }

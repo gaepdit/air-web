@@ -30,8 +30,11 @@ internal static class SecurityHeaders
 
     public static WebApplication UseSecurityHeaders(this WebApplication app)
     {
-        if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
-            app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
+        if (!app.Environment.IsDevelopment())
+            app.UseHsts();
+
+        if (AppSettings.UseSecurityHeaders)
+            app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 
         return app;
     }

@@ -9,7 +9,7 @@ namespace IaipDataService;
 
 public static class IaipServiceRegistration
 {
-    public static void AddIaipDataServices(this IServiceCollection services, bool connectToIaipDatabase,
+    public static IServiceCollection AddIaipDataServices(this IServiceCollection services, bool connectToIaipDatabase,
         string? connectionString)
     {
         if (connectToIaipDatabase)
@@ -32,5 +32,7 @@ public static class IaipServiceRegistration
                 .AddSingleton<ISourceTestService, TestSourceTestService>()
                 .AddSingleton<IPermitFeesService, TestPermitFeesService>();
         }
+
+        return services;
     }
 }

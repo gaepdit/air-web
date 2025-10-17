@@ -179,7 +179,7 @@
 }
 
 @section Footer {
-    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
+    @if (AppSettings.ConnectToIaip)
     {
         <div class="bg-info-subtle py-2 border-bottom d-print-none">
             <div class="container">

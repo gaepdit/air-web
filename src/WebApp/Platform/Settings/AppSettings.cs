@@ -15,6 +15,11 @@ internal static partial class AppSettings
     {
         public string? ApiKey { get; [UsedImplicitly] init; }
     }
+
+    // Dev-related settings
+    public static bool ConnectToIaip => DevSettings is not { UseDevSettings: true, ConnectToIaipDatabase: false };
+    public static bool TestUserEnabled => DevSettings is { UseDevSettings: true, EnableTestUser: true };
+    public static bool UseSecurityHeaders => DevSettings is not { UseDevSettings: true, EnableSecurityHeaders: false };
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
