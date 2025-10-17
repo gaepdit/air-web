@@ -8,21 +8,23 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public static class IdentityStores
 {
-    public static void AddIdentityStores(this IServiceCollection services)
+    public static IServiceCollection AddIdentityStores(this IServiceCollection services)
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
         services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
-        if (AppSettings.DevSettings.BuildDatabase)
-        {
-            // Add EF identity stores.
-            identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-        }
-        else
+        if (AppSettings.DevSettings.UseDevSettings && !AppSettings.DevSettings.BuildDatabase)
         {
             // Add local UserStore and RoleStore.
             services.AddSingleton<IUserStore<ApplicationUser>, LocalUserStore>();
             services.AddSingleton<IRoleStore<IdentityRole>, LocalRoleStore>();
         }
+        else
+        {
+            // Add EF identity stores.
+            identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+        }
+
+        return services;
     }
 }

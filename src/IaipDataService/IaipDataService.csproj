@@ -9,5 +9,6 @@
         <PackageReference Include="Microsoft.Data.SqlClient"/>
         <PackageReference Include="Microsoft.Extensions.Caching.Memory"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
     </ItemGroup>
 </Project>

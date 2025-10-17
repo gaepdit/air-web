@@ -8,6 +8,8 @@ program for the State of Georgia Environmental Protection Division (EPD) Air Pro
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/0d617fbf6e5f7047c179cd2ff3a8ff4d2d88ed46.svg)
+
 ## Background and project requirements
 
 The application is under active development to replace similar functionality currently housed in

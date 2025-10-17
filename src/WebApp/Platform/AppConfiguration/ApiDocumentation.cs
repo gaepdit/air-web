@@ -8,7 +8,7 @@ public static class ApiDocumentation
     private const string ApiVersion = "v1";
     private const string ApiTitle = "Air Protection Branch Web App API";
 
-    public static void AddApiDocumentation(this IServiceCollection services)
+    public static IServiceCollection AddApiDocumentation(this IServiceCollection services)
     {
         services.AddMvcCore().AddApiExplorer();
         services.AddSwaggerGen(options =>
@@ -25,6 +25,8 @@ public static class ApiDocumentation
                 },
             });
         });
+
+        return services;
     }
 
     public static void UseApiDocumentation(this IApplicationBuilder app) => app

@@ -24,6 +24,7 @@ namespace AirWeb.AppServices.ServiceRegistration;
 public static class AppServiceRegistration
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services) => services
+
         // Work Entries
         .AddScoped<IWorkEntryManager, WorkEntryManager>()
         .AddScoped<IWorkEntryService, WorkEntryService>()
