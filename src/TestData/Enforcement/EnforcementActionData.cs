@@ -268,7 +268,7 @@ public static class EnforcementActionData
     {
         var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
         return new EnforcementActionReview(Guid.NewGuid(), enforcementAction,
-            incomplete ? UserData.GetData[0] : UserData.GetRandomUser(),
+            incomplete ? UserData.Users[0] : UserData.GetRandomUser(),
             UserData.GetRandomUser())
         {
             RequestedDate = requestedDate,

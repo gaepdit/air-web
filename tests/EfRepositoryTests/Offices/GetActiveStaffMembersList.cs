@@ -16,7 +16,7 @@ public class GetActiveStaffMembersList
     [Test]
     public async Task WhenStaffExist_ReturnsList()
     {
-        var item = UserData.GetData.First(e => e.Active).Office?.Id;
+        var item = UserData.Users.First(e => e.Active).Office?.Id;
         var result = await _repository.GetStaffMembersListAsync(item!.Value, true);
         result.Should().NotBeEmpty();
     }
