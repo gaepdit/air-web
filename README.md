@@ -65,6 +65,10 @@ The solution contains the following projects:
 
 There are also corresponding unit test projects for each (not counting the `TestData` project).
 
+The project dependency diagram:
+
+![Project dependency diagram](docs/project-dependency-diagram.png)
+
 ## Development settings
 
 The following settings section configures the data stores, authentication, and other settings for development purposes.
