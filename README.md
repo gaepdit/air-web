@@ -65,9 +65,20 @@ The solution contains the following projects:
 
 There are also corresponding unit test projects for each (not counting the `TestData` project).
 
-The project dependency diagram:
+### Project dependency diagram
 
-![Project dependency diagram](docs/project-dependency-diagram.png)
+```mermaid
+flowchart BT
+    I[IaipDataServices]
+    D[Domain] --> I
+    A[AppServices] ----> D
+    T[TestData] --> D
+    E[EfRepository] --> T
+    L[LocalRepository] --> T
+    W[WebApp] ---> L
+    W ---> E
+    W --> A
+```
 
 ## Development settings
 
@@ -81,14 +92,14 @@ To work with these settings, add an `appsettings.Development.json` file in the r
         "UseDevSettings": true,
         "BuildDatabase": false,
         "UseEfMigrations": false,
+        "ConnectToIaipDatabase": false,
         "EnableTestUser": true,
-        "LocalUserIsAuthenticated": true,
+        "TestUserIsAuthenticated": true,
         "TestUserRoles": [
-            "Staff",
-            "SiteMaintenance"
+            "GeneralStaff"
         ],
-        "UseSecurityHeadersInDev": false,
-        "EnableWebOptimizerInDev": false
+        "EnableSecurityHeaders": false,
+        "EnableWebOptimizer": false
     }
 }
 ```
@@ -118,9 +129,9 @@ To work with these settings, add an `appsettings.Development.json` file in the r
 
 ### Miscellaneous dev settings
 
-- *UseSecurityHeadersInDev* — Sets whether to include HTTP security headers when running in the Development environment.
-- *EnableWebOptimizerInDev* — Sets whether to enable the WebOptimizer middleware for bundling and minification of CSS
-  and JavaScript files when running in the Development environment.
+- *EnableSecurityHeaders* — Sets whether to include HTTP security headers.
+- *EnableWebOptimizer* — Sets whether to enable the WebOptimizer middleware for bundling and minification of CSS
+  and JavaScript files.
 
 ## Production settings
 
