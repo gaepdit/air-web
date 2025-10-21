@@ -11,10 +11,7 @@ public sealed class LocalUserStore :
     IQueryableUserStore<ApplicationUser>,
     IUserEmailStore<ApplicationUser>
 {
-    public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
-    internal ICollection<ApplicationUser> UserStore { get; } = UserData.GetData.ToList();
-    internal ICollection<IdentityRole> Roles { get; } = UserData.GetRoles.ToList();
-    private List<IdentityUserRole<string>> UserRoles { get; } = [];
+    public IQueryable<ApplicationUser> Users => UserData.Users.AsQueryable();
     private List<UserLogin> UserLogins { get; } = [];
 
     // IUserStore
@@ -42,7 +39,7 @@ public sealed class LocalUserStore :
 
     public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        UserStore.Add(user);
+        UserData.Users.Add(user);
         return Task.FromResult(IdentityResult.Success);
     }
 
@@ -50,56 +47,56 @@ public sealed class LocalUserStore :
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken).ConfigureAwait(false)
                            ?? throw new EntityNotFoundException<ApplicationUser>(user.Id);
-        UserStore.Remove(existingUser);
-        UserStore.Add(user);
+        UserData.Users.Remove(existingUser);
+        UserData.Users.Add(user);
         return IdentityResult.Success;
     }
 
     public async Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken).ConfigureAwait(false);
-        if (existingUser is not null) UserStore.Remove(existingUser);
+        if (existingUser is not null) UserData.Users.Remove(existingUser);
         return IdentityResult.Success;
     }
 
     public Task<ApplicationUser?> FindByIdAsync(string userId, CancellationToken cancellationToken) =>
-        Task.FromResult(UserStore.SingleOrDefault(u => u.Id == userId));
+        Task.FromResult(UserData.Users.SingleOrDefault(u => u.Id == userId));
 
     public Task<ApplicationUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken) =>
-        Task.FromResult(UserStore.SingleOrDefault(u =>
+        Task.FromResult(UserData.Users.SingleOrDefault(u =>
             string.Equals(u.NormalizedUserName, normalizedUserName, StringComparison.InvariantCultureIgnoreCase)));
 
     // IUserRoleStore
     public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
     {
-        var roleId = Roles.SingleOrDefault(r =>
+        var roleId = UserData.Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
         if (roleId is null) return Task.CompletedTask;
 
-        var exists = UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId);
-        if (!exists) UserRoles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = user.Id });
+        var exists = UserData.UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId);
+        if (!exists) UserData.UserRoles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = user.Id });
 
         return Task.CompletedTask;
     }
 
     public Task RemoveFromRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
     {
-        var roleId = Roles.SingleOrDefault(r =>
+        var roleId = UserData.Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
         if (roleId is null) return Task.CompletedTask;
 
-        var userRole = UserRoles.SingleOrDefault(e => e.UserId == user.Id && e.RoleId == roleId);
-        if (userRole is not null) UserRoles.Remove(userRole);
+        var userRole = UserData.UserRoles.SingleOrDefault(e => e.UserId == user.Id && e.RoleId == roleId);
+        if (userRole is not null) UserData.UserRoles.Remove(userRole);
 
         return Task.CompletedTask;
     }
 
     public Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        var roleIdsForUser = UserRoles
+        var roleIdsForUser = UserData.UserRoles
             .Where(e => e.UserId == user.Id)
             .Select(e => e.RoleId);
-        var rolesForUser = Roles
+        var rolesForUser = UserData.Roles
             .Where(r => roleIdsForUser.Contains(r.Id))
             .Select(r => r.Name ?? "").ToList();
         return Task.FromResult<IList<string>>(rolesForUser);
@@ -107,19 +104,19 @@ public sealed class LocalUserStore :
 
     public Task<bool> IsInRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
     {
-        var roleId = Roles.SingleOrDefault(r =>
+        var roleId = UserData.Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
-        return Task.FromResult(UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId));
+        return Task.FromResult(UserData.UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId));
     }
 
     public Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
     {
-        var roleId = Roles.SingleOrDefault(r =>
+        var roleId = UserData.Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
-        var userIdsInRole = UserRoles
+        var userIdsInRole = UserData.UserRoles
             .Where(e => e.RoleId == roleId)
             .Select(e => e.UserId);
-        var usersInRole = UserStore
+        var usersInRole = UserData.Users
             .Where(u => userIdsInRole.Contains(u.Id)).ToList();
         return Task.FromResult<IList<ApplicationUser>>(usersInRole);
     }
@@ -161,7 +158,7 @@ public sealed class LocalUserStore :
     {
         var userId = UserLogins
             .SingleOrDefault(ul => ul.LoginProvider == loginProvider && ul.ProviderKey == providerKey)?.UserId;
-        return Task.FromResult(UserStore.SingleOrDefault(user => user.Id == userId));
+        return Task.FromResult(UserData.Users.SingleOrDefault(user => user.Id == userId));
     }
 
     private sealed class UserLogin

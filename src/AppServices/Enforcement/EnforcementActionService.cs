@@ -258,7 +258,7 @@ public sealed class EnforcementActionService(
             .ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
 
-        if (!await userService.UserIsInRoleAsync(reviewer, RoleName.EnforcementManager).ConfigureAwait(false))
+        if (!await userService.UserIsInRoleAsync(reviewer, RoleName.EnforcementReviewer).ConfigureAwait(false))
         {
             logger.LogError(
                 "User {UserId} does not have the Enforcement Manager role and cannot review action {ActionId}.",

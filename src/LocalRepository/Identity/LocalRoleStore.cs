@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using AirWeb.TestData.Identity;
+﻿using AirWeb.TestData.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.LocalRepository.Identity;
 
@@ -8,8 +8,6 @@ namespace AirWeb.LocalRepository.Identity;
 /// </summary>
 public sealed class LocalRoleStore : IRoleStore<IdentityRole>
 {
-    internal IEnumerable<IdentityRole> Roles { get; } = UserData.GetRoles;
-
     public Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken) =>
         Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
 
@@ -39,10 +37,10 @@ public sealed class LocalRoleStore : IRoleStore<IdentityRole>
     }
 
     public Task<IdentityRole?> FindByIdAsync(string roleId, CancellationToken cancellationToken) =>
-        Task.FromResult(Roles.SingleOrDefault(r => r.Id == roleId));
+        Task.FromResult(UserData.Roles.SingleOrDefault(r => r.Id == roleId));
 
     public Task<IdentityRole?> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken) =>
-        Task.FromResult(Roles.SingleOrDefault(r =>
+        Task.FromResult(UserData.Roles.SingleOrDefault(r =>
             string.Equals(r.NormalizedName, normalizedRoleName, StringComparison.InvariantCultureIgnoreCase)));
 
     public void Dispose()

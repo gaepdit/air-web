@@ -30,7 +30,7 @@ public class LoginModel(
 
     public async Task<IActionResult> OnPostTestUserAsync(string? returnUrl = null)
     {
-        if (!AppSettings.DevSettings.EnableTestUser) return BadRequest();
+        if (!AppSettings.TestUserEnabled) return BadRequest();
         if (!AppSettings.DevSettings.TestUserIsAuthenticated) return Forbid();
 
         ReturnUrl = returnUrl;

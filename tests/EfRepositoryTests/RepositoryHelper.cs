@@ -49,8 +49,10 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(builder: builder =>
             {
                 builder.UseSqlServer();
+#pragma warning disable S125
                 // Uncomment the following line to log SQL statements:
                 // builder.LogTo(Console.WriteLine, events: [RelationalEventId.CommandExecuted]);
+#pragma warning restore S125
             },
             callingMember);
         using var context = new AppDbContext(_options);

@@ -1,15 +1,6 @@
-using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.EmailLog;
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.NamedEntities.Offices;
 using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;
-using AirWeb.EfRepository.Repositories;
-using AirWeb.LocalRepository.Repositories;
 using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
-public static class DataPersistence
+internal static partial class DataPersistence
 {
-    public static async Task ConfigureDataPersistence(this IHostApplicationBuilder builder)
+    public static async Task ConfigureDataPersistenceAsync(this IHostApplicationBuilder builder)
     {
         if (AppSettings.DevSettings.UseDevSettings)
         {
@@ -52,14 +43,7 @@ public static class DataPersistence
         );
 
         // Repositories
-        builder.Services
-            .AddScoped<IEmailLogRepository, EmailLogRepository>()
-            .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
-            .AddScoped<IOfficeRepository, OfficeRepository>()
-            .AddScoped<IFceRepository, FceRepository>()
-            .AddScoped<IWorkEntryRepository, WorkEntryRepository>()
-            .AddScoped<IEnforcementActionRepository, EnforcementActionRepository>()
-            .AddScoped<ICaseFileRepository, CaseFileRepository>();
+        builder.Services.AddEntityFrameworkRepositories();
     }
 
     private static DbContextOptionsBuilder<AppDbContext> GetMigrationDbOpts(IConfiguration configuration)
@@ -100,14 +84,7 @@ public static class DataPersistence
         }
         else
         {
-            builder.Services
-                .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
-                .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
-                .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
-                .AddSingleton<IFceRepository, LocalFceRepository>()
-                .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>()
-                .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
-                .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
+            builder.Services.AddInMemoryRepositories();
         }
     }
 }
