@@ -150,54 +150,10 @@ public class FacilityIdTests
     }
 
     [Test]
-    public void IsStandardFormat_StandardFormat_ReturnsTrue()
-    {
-        var result = FacilityId.IsStandardFormat("001-00001");
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    [TestCase("00100001")]
-    [TestCase("001-0001")]
-    public void IsStandardFormat_NonstandardFormat_ReturnsFalse(string input)
-    {
-        var result = FacilityId.IsStandardFormat(input);
-        result.Should().BeFalse();
-    }
-
-    [Test]
     public void TryParse_NullInput_Fails()
     {
         var result = FacilityId.TryParse(null, out var facilityId);
         result.Should().BeFalse();
         facilityId.Should().BeNull();
-    }
-
-    [Test]
-    [TestCase("1-1", "1-1")]
-    [TestCase("11", "11")]
-    [TestCase("a", "")]
-    [TestCase("a1-", "1-")]
-    [TestCase("001-00001", "001-00001")]
-    public void CleanFacilityId_PartialId_ReturnsCleanedValue(string input, string expected)
-    {
-        FacilityId.CleanPartialFacilityId(input).Should().Be(expected);
-    }
-
-    [Test]
-    [TestCase("00100001", "001-00001")]
-    [TestCase("00000000", "000-00000")]
-    public void CleanFacilityId_FullId_ReturnsFormattedValue(string input, string expected)
-    {
-        FacilityId.CleanPartialFacilityId(input).Should().Be(expected);
-    }
-
-    [Test]
-    [TestCase("")]
-    [TestCase(null)]
-    public void CleanFacilityId_EmptyId_ReturnsEmptyString(string? input)
-    {
-        var result = FacilityId.CleanPartialFacilityId(input);
-        result.Should().Be(string.Empty);
     }
 }

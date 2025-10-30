@@ -58,11 +58,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void PartialMatch_WithHyphen()
+    public void SimplifiedMatch()
     {
         // Arrange
-        const string? spec = "001-0";
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
+        const string? spec = "1-1";
+        var expected = SearchData.Where(entity => entity.FacilityId.Equals("001-00001"));
 
         // Act
         var result = SearchData.Where(GetPredicate(spec)).ToList();
@@ -88,6 +88,10 @@ public class FacilityIdFilterTests
         result.Should().NotBeEmpty();
         result.Should().BeEquivalentTo(expected);
     }
+
+    // TODO: These tests are failing because I've changed how the forms handle partial matches.
+    //       The forms need to be updated to gracefully inform the user of invalid AIRS numbers,
+    //       and these unit tests need to be updated to match the expected results.
 
     [Test]
     public void PartialMatch_WithoutHyphen()

@@ -91,18 +91,6 @@ public partial record FacilityId : IComparable<FacilityId>
         return countyPart + restPart;
     }
 
-    // FUTURE: `CleanPartialFacilityId` is used to clean up search form entries.
-    //       Instead of just replacing the entry, though, model validation should be 
-    //       used to notify the user of invalid entries.
-    public static string CleanPartialFacilityId(string? input)
-    {
-        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
-        var cleanFacilityId = new string(input.Where(c => c == '-' || char.IsDigit(c)).ToArray());
-        return ShortFormatRegex().IsMatch(cleanFacilityId)
-            ? cleanFacilityId.Insert(3, "-")
-            : cleanFacilityId;
-    }
-
     // Regex
     [GeneratedRegex(FacilityIdEnclosedPattern)]
     private static partial Regex FacilityIdRegex();
@@ -114,19 +102,6 @@ public partial record FacilityId : IComparable<FacilityId>
 
     public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
     public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
-
-    [GeneratedRegex(StandardFormat)]
-    private static partial Regex StandardFormatRegex();
-
-    // language:regex
-    private const string StandardFormat = @"^\d{3}-\d{5}$";
-    public static bool IsStandardFormat(string id) => StandardFormatRegex().IsMatch(id);
-
-    [GeneratedRegex(ShortFormat)]
-    private static partial Regex ShortFormatRegex();
-
-    // language:regex
-    private const string ShortFormat = @"^\d{8}$";
 
     // language:regex
     public const string SimplifiedFormat = @"\d{3}-?\d{5}";

@@ -30,14 +30,10 @@ internal static class CommonFilters
 
     public static Expression<Func<TEntity, bool>> ByFacilityId<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
-        string? input) where TEntity : IFacilityId
-    {
-        var cleanInput = FacilityId.CleanPartialFacilityId(input);
-        if (string.IsNullOrWhiteSpace(cleanInput)) return predicate;
-        return FacilityId.IsStandardFormat(cleanInput)
-            ? predicate.And(entry => entry.FacilityId == cleanInput)
-            : predicate.And(entry => entry.FacilityId.Contains(cleanInput));
-    }
+        string? input) where TEntity : IFacilityId =>
+        string.IsNullOrWhiteSpace(input) || !FacilityId.IsValidFormat(input)
+            ? predicate
+            : predicate.And(entry => entry.FacilityId == new FacilityId(input).FormattedId);
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
