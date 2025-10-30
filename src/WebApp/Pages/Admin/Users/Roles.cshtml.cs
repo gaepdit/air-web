@@ -1,8 +1,6 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿namespace AirWeb.WebApp.Pages.Admin.Users;
 
-namespace AirWeb.WebApp.Pages.Admin.Users;
-
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[AllowAnonymous]
 public class RolesModel : PageModel
 {
     public void OnGet()
