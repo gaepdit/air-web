@@ -10,7 +10,7 @@ internal static class FceFilters
     public static Expression<Func<Fce, bool>> SearchPredicate(FceSearchDto spec) =>
         PredicateBuilder.True<Fce>()
             .ByDeletedStatus(spec.DeleteStatus)
-            .ByFacilityId(spec.PartialFacilityId)
+            .ByFacilityId(spec.FacilityId)
             .ByYear(spec.Year)
             .ByStaff(spec.ReviewedBy)
             .ByOffice(spec.Office)

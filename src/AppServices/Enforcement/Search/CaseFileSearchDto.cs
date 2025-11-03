@@ -2,7 +2,6 @@
 using AirWeb.AppServices.Utilities;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using GaEpd.AppLibrary.Extensions;
-using IaipDataService.Facilities;
 using System.ComponentModel;
 
 namespace AirWeb.AppServices.Enforcement.Search;
@@ -26,9 +25,11 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Facility ==
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    public string? PartialFacilityId { get; init; }
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
+    public string? FacilityId { get; init; }
 
     // == Staff ==
 
@@ -79,7 +80,7 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
         { nameof(Closed), Closed?.ToString() },
         { nameof(DeleteStatus), DeleteStatus?.ToString() },
         { nameof(CaseFileStatus), CaseFileStatus?.ToString() },
-        { nameof(PartialFacilityId), PartialFacilityId },
+        { nameof(FacilityId), FacilityId },
         { nameof(Staff), Staff },
         { nameof(Office), Office.ToString() },
         { nameof(Notes), Notes },
@@ -92,7 +93,7 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     public CaseFileSearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
+        FacilityId = FacilityId?.Trim(),
         Notes = Notes?.Trim(),
     };
 }

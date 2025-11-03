@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Utilities;
 using GaEpd.AppLibrary.Extensions;
-using IaipDataService.Facilities;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
@@ -29,7 +28,9 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    public string? PartialFacilityId { get; init; }
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
+    public string? FacilityId { get; init; }
 
     // == Staff ==
 
@@ -74,7 +75,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
             { nameof(Sort), Sort.ToString() },
             { nameof(Closed), Closed?.ToString() },
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
-            { nameof(PartialFacilityId), PartialFacilityId },
+            { nameof(FacilityId), FacilityId },
             { nameof(Staff), Staff },
             { nameof(Office), Office.ToString() },
             { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
@@ -95,7 +96,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
 
     public WorkEntrySearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
+        FacilityId = FacilityId?.Trim(),
         Notes = Notes?.Trim(),
     };
 }

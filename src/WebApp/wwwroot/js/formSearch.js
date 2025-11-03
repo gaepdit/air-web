@@ -7,7 +7,18 @@ $(document).ready(function () {
             $input.attr('disabled', 'disabled');
     }
 
-    $('#SearchButton').click(function DisableEmptyInputs() {
+    $('#SearchButton').click(function DisableEmptyInputs(e) {
+        const $form = $(this).closest('form');
+        // Check if the jQuery validator exists
+        if ($form.data('validator') || typeof $form.validate === "function") {
+            // If validator is present, check if the form is valid
+            if (!$form.valid()) {
+                // Prevent disabling inputs and form submission
+                e.preventDefault();
+                return false;
+            }
+        }
+        // Only disable inputs if form is valid (or if no validator)
         $('input').each(disableEmptyInput);
         $('select').each(disableEmptyInput);
         return true;

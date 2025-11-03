@@ -19,15 +19,15 @@ public static class AppUrlRedirects
                 // Original test deployment location
                 // FUTURE: Remove this after UAT period.
                 .AddRedirect(regex: "^new$", replacement: "/").AddRedirect(regex: "^new/(.*)$", replacement: "$1")
-                
+
                 // Old report pages
-                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/acc-report/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/acc-report/{IntPattern}$",
                     replacement: "print/acc/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/stack-test/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/stack-test/{IntPattern}$",
                     replacement: "print/source-test/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.SimplifiedFormat}/fce/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/fce/{IntPattern}$",
                     replacement: "print/fce/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
 

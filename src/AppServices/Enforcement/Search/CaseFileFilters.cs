@@ -12,7 +12,7 @@ internal static class CaseFileFilters
             .ByDeletedStatus(spec.DeleteStatus)
             .ByClosedStatus(spec.Closed)
             .ByCaseFileStatus(spec.CaseFileStatus)
-            .ByFacilityId(spec.PartialFacilityId)
+            .ByFacilityId(spec.FacilityId)
             .ByStaff(spec.Staff)
             .ByOffice(spec.Office)
             .ByNotesText(spec.Notes)

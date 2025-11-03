@@ -11,13 +11,13 @@ internal static class SearchDefaults
     public const int SummaryTableSize = 15;
 
     public static WorkEntrySearchDto FacilityCompliance(string facilityId) =>
-        new() { PartialFacilityId = facilityId };
+        new() { FacilityId = facilityId };
 
     public static FceSearchDto FacilityFces(string facilityId) =>
-        new() { PartialFacilityId = facilityId };
+        new() { FacilityId = facilityId };
 
     public static CaseFileSearchDto FacilityEnforcement(string facilityId) =>
-        new() { PartialFacilityId = facilityId };
+        new() { FacilityId = facilityId };
 
     public static WorkEntrySearchDto StaffOpenCompliance(string userId) =>
         new() { Staff = userId, Closed = ClosedOpenAny.Open };

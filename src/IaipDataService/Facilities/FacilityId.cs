@@ -91,18 +91,6 @@ public partial record FacilityId : IComparable<FacilityId>
         return countyPart + restPart;
     }
 
-    // FUTURE: `CleanPartialFacilityId` is used to clean up search form entries.
-    //       Instead of just replacing the entry, though, model validation should be 
-    //       used to notify the user of invalid entries.
-    public static string CleanPartialFacilityId(string? input)
-    {
-        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
-        var cleanFacilityId = new string(input.Where(c => c == '-' || char.IsDigit(c)).ToArray());
-        return ShortFormatRegex().IsMatch(cleanFacilityId)
-            ? cleanFacilityId.Insert(3, "-")
-            : cleanFacilityId;
-    }
-
     // Regex
     [GeneratedRegex(FacilityIdEnclosedPattern)]
     private static partial Regex FacilityIdRegex();
@@ -110,24 +98,15 @@ public partial record FacilityId : IComparable<FacilityId>
     // Test at https://regex101.com/r/2uYyHl/9
     // language:regex
     private const string FacilityIdPattern =
-        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)\d{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)\d{1,5})";
+        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})";
 
     public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
     public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
 
-    [GeneratedRegex(StandardFormat)]
-    private static partial Regex StandardFormatRegex();
+    // language:regex
+    public const string StandardFormat = "[0-9]{3}-?[0-9]{5}";
 
     // language:regex
-    private const string StandardFormat = @"^\d{3}-\d{5}$";
-    public static bool IsStandardFormat(string id) => StandardFormatRegex().IsMatch(id);
-
-    [GeneratedRegex(ShortFormat)]
-    private static partial Regex ShortFormatRegex();
-
-    // language:regex
-    private const string ShortFormat = @"^\d{8}$";
-
-    // language:regex
-    public const string SimplifiedFormat = @"\d{3}-?\d{5}";
+    public const string SimplifiedFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
+    public const string SimplifiedFormatError = "Invalid AIRS Number format.";
 }

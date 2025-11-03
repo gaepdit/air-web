@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Utilities;
 using GaEpd.AppLibrary.Extensions;
-using IaipDataService.Facilities;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
@@ -16,9 +15,11 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    public string? PartialFacilityId { get; init; }
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
+    public string? FacilityId { get; init; }
 
     [Display(Name = "FCE Year")]
     public int? Year { get; init; }
@@ -51,7 +52,7 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     {
         { nameof(Sort), Sort.ToString() },
         { nameof(DeleteStatus), DeleteStatus?.ToString() },
-        { nameof(PartialFacilityId), PartialFacilityId },
+        { nameof(FacilityId), FacilityId },
         { nameof(Year), Year.ToString() },
         { nameof(ReviewedBy), ReviewedBy },
         { nameof(Office), Office.ToString() },
@@ -63,7 +64,7 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
 
     public FceSearchDto TrimAll() => this with
     {
-        PartialFacilityId = FacilityId.CleanPartialFacilityId(PartialFacilityId),
+        FacilityId = FacilityId?.Trim(),
         Notes = Notes?.Trim(),
     };
 }

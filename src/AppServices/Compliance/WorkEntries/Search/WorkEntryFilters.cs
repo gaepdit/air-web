@@ -12,7 +12,7 @@ internal static class WorkEntryFilters
             .ByDeletedStatus(spec.DeleteStatus)
             .ByClosedStatus(spec.Closed)
             .ByWorkType(spec.Include)
-            .ByFacilityId(spec.PartialFacilityId)
+            .ByFacilityId(spec.FacilityId)
             .ByOffice(spec.Office)
             .ByStaff(spec.Staff)
             .MinEventDate(spec.EventDateFrom)

@@ -32,11 +32,13 @@ internal static class CommonFilters
         this Expression<Func<TEntity, bool>> predicate,
         string? input) where TEntity : IFacilityId
     {
-        var cleanInput = FacilityId.CleanPartialFacilityId(input);
-        if (string.IsNullOrWhiteSpace(cleanInput)) return predicate;
-        return FacilityId.IsStandardFormat(cleanInput)
-            ? predicate.And(entry => entry.FacilityId == cleanInput)
-            : predicate.And(entry => entry.FacilityId.Contains(cleanInput));
+        if (string.IsNullOrWhiteSpace(input))
+            return predicate;
+
+        if (!FacilityId.IsValidFormat(input))
+            return PredicateBuilder.False<TEntity>();
+
+        return predicate.And(entry => entry.FacilityId == new FacilityId(input).FormattedId);
     }
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
