@@ -28,6 +28,8 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
     public string? FacilityId { get; init; }
 
     // == Staff ==

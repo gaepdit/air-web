@@ -25,8 +25,10 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     // == Facility ==
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
     public string? FacilityId { get; init; }
 
     // == Staff ==

@@ -46,12 +46,12 @@
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
-                                       class="form-control"/>
+                                       class="form-control" />
                                 <label asp-for="Spec.EventDateFrom" class="form-label"></label>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
-                                       class="form-control"/>
+                                       class="form-control" />
                                 <label asp-for="Spec.EventDateTo" class="form-label"></label>
                             </div>
                         </div>
@@ -63,12 +63,12 @@
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateFrom" name="@nameof(Model.Spec.ClosedDateFrom)"
-                                       class="form-control"/>
+                                       class="form-control" />
                                 <label asp-for="Spec.ClosedDateFrom" class="form-label"></label>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateTo" name="@nameof(Model.Spec.ClosedDateTo)"
-                                       class="form-control"/>
+                                       class="form-control" />
                                 <label asp-for="Spec.ClosedDateTo" class="form-label"></label>
                             </div>
                         </div>
@@ -78,14 +78,15 @@
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
-                            <input asp-for="Spec.FacilityId" name="@nameof(Model.Spec.FacilityId)" class="form-control" />
+                            <input asp-for="Spec.FacilityId" class="form-control" />
                             <label asp-for="Spec.FacilityId" class="form-label"></label>
+                            <span asp-validation-for="Spec.FacilityId" class="invalid-feedback"></span>
                         </div>
                     </div>
                     <div class="col-md mb-3">
                         <div class="form-floating">
                             <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
-                                   aria-describedby="NotesHelpBlock"/>
+                                   aria-describedby="NotesHelpBlock" />
                             <label asp-for="Spec.Notes" class="form-label"></label>
                         </div>
                         <small id="NotesHelpBlock" class="form-text text-body-secondary d-block px-2">
@@ -99,7 +100,7 @@
                             <legend class="h5">Work Type</legend>
                             <div class="form-check border-bottom mb-3 pb-3">
                                 <input class="form-check-input" type="checkbox" id="Include_All"
-                                       @(Model.Spec.Include.Any() ? "" : "checked")/>
+                                       @(Model.Spec.Include.Any() ? "" : "checked") />
                                 <label class="form-check-label" for="Include_All">All</label>
                             </div>
                             <div class="row row-cols-auto" id="Include_Others">
@@ -109,7 +110,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" name="Include" type="checkbox"
                                                    value="@workEntryType" id="Include_@workEntryType"
-                                                   checked="@Model.Spec.Include.Contains(workEntryType)"/>
+                                                   checked="@Model.Spec.Include.Contains(workEntryType)" />
                                             <label class="form-check-label"
                                                    for="Include_@workEntryType">@workEntryType.GetDisplayName()</label>
                                         </div>
@@ -180,10 +181,10 @@
         }
         else
         {
-            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay"/>
+            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="Model.SearchResults.Items"
                      view-data="new ViewDataDictionary(ViewData)" view-data-SearchSpec="Model.Spec" />
-            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay"/>
+            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
         }
     </div>
 }
@@ -191,4 +192,5 @@
 @section Scripts {
     <script src="~/js/formSearch.js"></script>
     <script src="~/js/handleCheckboxAll.js"></script>
+    <partial name="Shared/_ValidationScriptsPartial" />
 }

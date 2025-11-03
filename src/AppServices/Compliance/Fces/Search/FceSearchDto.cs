@@ -15,8 +15,10 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }
 
-    [Display(Name = "AIRS Number")]
+    [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
+    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
     public string? FacilityId { get; init; }
 
     [Display(Name = "FCE Year")]
