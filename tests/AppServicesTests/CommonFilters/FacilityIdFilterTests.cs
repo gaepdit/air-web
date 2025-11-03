@@ -58,6 +58,22 @@ public class FacilityIdFilterTests
     }
 
     [Test]
+    public void FullMatch_WithoutHyphen()
+    {
+        // Arrange
+        const string? spec = "00100001";
+        var expected = SearchData.Where(entity => entity.FacilityId.Replace("-", "") == spec);
+
+        // Act
+        var result = SearchData.Where(GetPredicate(spec)).ToList();
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.Should().NotBeEmpty();
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
     public void SimplifiedMatch()
     {
         // Arrange
@@ -74,43 +90,20 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void FullMatch_WithoutHyphen()
-    {
-        // Arrange
-        const string? spec = "00100001";
-        var expected = SearchData.Where(entity => entity.FacilityId.Replace("-", "") == spec);
-
-        // Act
-        var result = SearchData.Where(GetPredicate(spec)).ToList();
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.Should().NotBeEmpty();
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    // TODO: These tests are failing because I've changed how the forms handle partial matches.
-    //       The forms need to be updated to gracefully inform the user of invalid AIRS numbers,
-    //       and these unit tests need to be updated to match the expected results.
-
-    [Test]
-    public void PartialMatch_WithoutHyphen()
-    {
-        // Arrange
-        const string? spec = "003";
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
-
-        // Act
-        var result = SearchData.Where(GetPredicate(spec)).ToList();
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.Should().NotBeEmpty();
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
     public void NoMatch()
+    {
+        // Arrange
+        const string? spec = "999-99999";
+
+        // Act
+        var result = SearchData.Where(GetPredicate(spec));
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Test]
+    public void IncompleteFacilityId()
     {
         // Arrange
         const string? spec = "999";
