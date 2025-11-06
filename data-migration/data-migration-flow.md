@@ -15,6 +15,7 @@
     * [ ] FCE
     * [ ] Case File
     * [ ] Work Entry
+* [ ] `ComplianceWork` ("WorkEntry" entity)
 * [ ] `EmailLogs`
 * [ ] `EnforcementActionReviews`
 * [ ] `EnforcementActions`
@@ -22,7 +23,6 @@
 * [x] `Lookups`
 * [ ] `StipulatedPenalties`
 * [x] `ViolationTypes`
-* [ ] `WorkEntries`
 
 ## Old tables
 
@@ -68,12 +68,12 @@ flowchart LR
 title: Compliance Work
 ---
 flowchart LR
-    SSCPACCS --> WorkEntries
-    SSCPINSPECTIONS --> WorkEntries
-    SSCPITEMMASTER --> WorkEntries
-    SSCPNOTIFICATIONS --> WorkEntries
-    SSCPREPORTS --> WorkEntries
-    SSCPTESTREPORTS --> WorkEntries
+    SSCPACCS --> ComplianceWork
+    SSCPINSPECTIONS --> ComplianceWork
+    SSCPITEMMASTER --> ComplianceWork
+    SSCPNOTIFICATIONS --> ComplianceWork
+    SSCPREPORTS --> ComplianceWork
+    SSCPTESTREPORTS --> ComplianceWork
 ```
 
 ```mermaid

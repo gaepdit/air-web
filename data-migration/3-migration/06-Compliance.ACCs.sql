@@ -1,7 +1,7 @@
 use AirWeb
 go
 
-SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+-- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
 
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
@@ -77,7 +77,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
 where i.STRDELETE is null
   and i.STREVENTTYPE = '04';
 
-SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
+-- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 select *
 from AirWeb.dbo.ComplianceWork
