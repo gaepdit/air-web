@@ -58,22 +58,6 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void PartialMatch_WithHyphen()
-    {
-        // Arrange
-        const string? spec = "001-0";
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
-
-        // Act
-        var result = SearchData.Where(GetPredicate(spec)).ToList();
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.Should().NotBeEmpty();
-        result.Should().BeEquivalentTo(expected);
-    }
-
-    [Test]
     public void FullMatch_WithoutHyphen()
     {
         // Arrange
@@ -90,11 +74,11 @@ public class FacilityIdFilterTests
     }
 
     [Test]
-    public void PartialMatch_WithoutHyphen()
+    public void SimplifiedMatch()
     {
         // Arrange
-        const string? spec = "003";
-        var expected = SearchData.Where(entity => entity.FacilityId.Contains(spec));
+        const string? spec = "1-1";
+        var expected = SearchData.Where(entity => entity.FacilityId.Equals("001-00001"));
 
         // Act
         var result = SearchData.Where(GetPredicate(spec)).ToList();
@@ -107,6 +91,19 @@ public class FacilityIdFilterTests
 
     [Test]
     public void NoMatch()
+    {
+        // Arrange
+        const string? spec = "999-99999";
+
+        // Act
+        var result = SearchData.Where(GetPredicate(spec));
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Test]
+    public void IncompleteFacilityId()
     {
         // Arrange
         const string? spec = "999";

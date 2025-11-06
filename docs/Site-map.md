@@ -1,6 +1,6 @@
 # Site Map
 
-* `/` Home page with application description/welcome portal/public search.
+* `/` Home page with application description and sign-in options.
 * `/Support` Help/support page.
 
 ---
@@ -11,7 +11,7 @@ These pages are available to the public.
 
 ### Report Printouts
 
-*Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) should be implemented.*
+*Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) have been implemented.*
 
 * `/print/acc/{accId}` Printable ACC report page.
 * `/print/fce/{fcdId}` Printable FCE report page.
@@ -23,18 +23,16 @@ These pages are available to the public.
 
 These pages are only available to logged-in staff.
 
-* `/Home` Staff dashboard.
+* `/` Staff dashboard.
 
 ### Facility
 
-* `/Facility` Facility quick-find form.
-* `/Facility/Details/{facilityId}` Facility details page (retrieved from IAIP database).
+* `/Facility` Facility list and quick-find form.
+* `/Facility/Details/{facilityId}` Facility details page (some data retrieved from IAIP database).
 
 ### Compliance
 
-* `/Compliance` Compliance dashboard.
-
-#### FCE Workflow
+#### FCEs
 
 * `/Compliance/FCE` FCE search form.
 * `/Compliance/FCE/Details/{fceId}` FCE details page.
@@ -42,65 +40,69 @@ These pages are only available to logged-in staff.
 * `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
 * `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
 
-#### Compliance Work Entry Workflow
+#### Compliance Monitoring
 
-* `/Compliance/Work` Compliance Work Entry search form.
-* `/Compliance/Work/Details/{entryId}` Compliance Work Entry details page.
-* `/Compliance/Work/{workEntryType}/Add/{facilityId}` Add a new Work Entry of the specified type for the
-  specified Facility.
-* `/Compliance/Work/{workEntryType}/Edit/{entryId}` Edit a Work Entry.
-* `/Compliance/Work/Edit/{entryId}` Redirect to appropriate Work Entry edit page.
-* `/Compliance/Work/[Close|Reopen]/{entryId}` Close/reopen a Work Entry (applies to ACCs and Permit Revocations only).
-* `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a Work Entry.
+* `/Compliance/Work` Compliance monitoring search form.
+* `/Compliance/Work/Details/{entryId}` Compliance monitoring details page.
+* `/Compliance/Work/{workEntryType}/Add/{facilityId}` Add a new compliance monitoring record of the specified type for
+  the specified Facility.
+* `/Compliance/Work/{workEntryType}/Edit/{entryId}` Edit a compliance monitoring record.
+* `/Compliance/Work/Edit/{entryId}` Redirect to the appropriate compliance monitoring record edit page.
+* `/Compliance/Work/[Close|Reopen]/{entryId}` Close/reopen a compliance monitoring record.
+* `/Compliance/Work/[Delete|Restore]/{entryId}` Delete/restore a compliance monitoring record.
 
 ### Source Tests
 
-* `/Compliance/TestReport/{referenceNumber}` Source Test report details page (retrieved from IAIP database).
-* `/Compliance/TestReport/{referenceNumber}#compliance-review` Embedded form for adding a Source Test Compliance
-  Review.
+* `/Compliance/SourceTest` List of source tests needing compliance review.
+* `/Compliance/SourceTest/Details/{referenceNumber}` Source test report details page (data retrieved from IAIP
+  database).
+* `/Compliance/SourceTest/Details/{referenceNumber}#compliance-review` Source test compliance review or embedded form
+  for adding a review.
 
-### Enforcement Case File
+### Enforcement Cases
 
-* `/Enforcement` Enforcement search form.
-* `/Enforcement/Details/{caseFileId}` Enforcement Case File details.
+* `/Enforcement` Enforcement case search form.
+* `/Enforcement/Details/{caseFileId}` Enforcement case details page.
 
 #### Case File Workflow
 
 * `/Enforcement/Begin/{facilityId}/{eventId?}` Start a new case file for the specified facility and, if included, the
   specified compliance event.
-* `/Enforcement/Edit/{caseFileId}` Edit details.
+* `/Enforcement/Edit/{caseFileId}` Edit case file details.
 * `/Enforcement/[Close|Reopen]/{caseFileId}` Close/reopen a case file.
 * `/Enforcement/LinkedEvents/{caseFileId}` Link a case file to a compliance event.
-* `/Enforcement/PollutantsPrograms/{caseFileId}` Link a case file to facility pollutants and air programs.
+* `/Enforcement/PollutantsPrograms/{caseFileId}` Edit the associated pollutants and air programs and the violation type.
 * `/Enforcement/[Delete|Restore]/{caseFileId}` Delete/restore a case file.
 
 #### Enforcement Action Workflow
 
-* `/Enforcement/Details/{caseFileId}#enforcement-actions` Enforcement action details.
+* `/Enforcement/Details/{caseFileId}#enforcement-actions` List of enforcement actions with details.
 * `/Enforcement/Details/{caseFileId}` `[modal dialog]` Add a simple enforcement action to a case file.
-* `/Enforcement/Details/{caseFileId}/Add/{action-type}` Add a complex enforcement action to a case file.
-* `/Enforcement/Details/{caseFileId}/Edit/{actionId}` Edit enforcement action details.
-* `/Enforcement/Details/{caseFileId}/RequestReview/{actionId}` Request review for an enforcement action.
-* `/Enforcement/Details/{caseFileId}/[Approve/Return]/{actionId}` Approve or return an enforcement
-  action review.
-* `/Enforcement/Details/{caseFileId}` `[modal dialog]` Issue/cancel/add response/resolve/execute/delete an enforcement
+* `/Enforcement/Add/{action-type}/{caseFileId}` Add a complex enforcement action to a case file.
+* `/Enforcement/Edit/{actionId}` Edit enforcement action details.
+* `/Enforcement/RequestReview/{actionId}` Request review for an enforcement action.
+* `/Enforcement/SubmitReview/{actionId}` Submit review for an enforcement action.
+* `/Enforcement/StipulatedPenalties/{actionId}` Edit stipulated penalties for a Consent Order.
+* `/Enforcement/Details/{caseFileId}` `[modal dialogs]` Issue/cancel/add response/resolve/execute/delete an enforcement
   action.
+
+**NOTE:** `/Enforcement/Edit/{id}` can result in editing either a case file or enforcement action depending on whether
+the ID is an integer or GUID.
 
 ## User Account
 
 * `/Account` View profile.
 * `/Account/Login` Work account login form.
 * `/Account/Edit` Edit contact info.
-* `/Account/Settings` Potential location for a personal settings page.
 
 ## Admin pages
 
-### Reports
+### User Management
 
-Pages must be named "Reporting" because "Reports" is reserved by the ArcGIS application.
-
-* `/Admin/Reporting` Management & error reports.
-* `/Admin/Reporting/[report type]` View report.
+* `/Admin/Users` User search page.
+* `/Admin/Users/Details/{userId}` View user profile.
+* `/Admin/Users/Edit/{userId}` Edit contact info.
+* `/Admin/Users/EditRoles/{userId}` Edit roles.
 
 ### Site Maintenance
 
@@ -109,11 +111,4 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 * `/Admin/Maintenance` List of maintenance item types.
 * `/Admin/Maintenance/[type]` List of items of given type.
 * `/Admin/Maintenance/[type]/Add` Add new item.
-* `/Admin/Maintenance/[type]/Edit/{id}` Edit item.
-
-### User Management
-
-* `/Admin/Users` User search.
-* `/Admin/Users/Details/{id}` View user profile.
-* `/Admin/Users/EditProfile/{id}` Edit contact info.
-* `/Admin/Users/EditRoles/{id}` Edit roles.
+* `/Admin/Maintenance/[type]/Edit/{itemId}` Edit item.

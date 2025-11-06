@@ -4,11 +4,13 @@ namespace IaipDataService.SourceTests.Models.TestRun;
 
 public record TwoStackTestRun : BaseTestRun
 {
+#pragma warning disable S125
     // `BaseTestRun` includes the `RunNumber` property.
     // The database and IAIP allow each stack to have different run numbers,
     // but only the Stack One run numbers are displayed in the report.
     // Stack Two run numbers are not used:
-    // `public string StackTwoRunNumber { get; init; } = null!;
+    // public string StackTwoRunNumber { get; init; } = null!;
+#pragma warning restore S125
 
     [Display(Name = "Gas temperature")]
     public string StackOneGasTemperature { get; init; } = null!;

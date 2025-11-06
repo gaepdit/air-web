@@ -22,7 +22,7 @@ internal static partial class ComplianceWork
             DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new(11002, SourceTestData.GetData[0].Facility!.Id, UserData.GetRandomUser())
+        new(11002, SourceTestData.GetData[1].Facility!.Id, UserData.GetRandomUser())
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[1].ReferenceNumber,
@@ -35,7 +35,7 @@ internal static partial class ComplianceWork
             DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new(11003, SourceTestData.GetData[0].Facility!.Id)
+        new(11003, SourceTestData.GetData[2].Facility!.Id)
         {
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[2].ReferenceNumber,

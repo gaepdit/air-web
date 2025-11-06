@@ -43,11 +43,13 @@ public class FceIndexModel(
         UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.ComplianceManager);
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
+        await PopulateSelectListsAsync(token);
+
+        if (!ModelState.IsValid) return;
+
         var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
         SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
-
         ShowResults = true;
-        await PopulateSelectListsAsync(token);
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token)

@@ -8,6 +8,8 @@ program for the State of Georgia Environmental Protection Division (EPD) Air Pro
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_air-web&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_air-web)
 
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/0d617fbf6e5f7047c179cd2ff3a8ff4d2d88ed46.svg)
+
 ## Background and project requirements
 
 The application is under active development to replace similar functionality currently housed in
@@ -63,6 +65,21 @@ The solution contains the following projects:
 
 There are also corresponding unit test projects for each (not counting the `TestData` project).
 
+### Project dependency diagram
+
+```mermaid
+flowchart BT
+    I[IaipDataServices]
+    D[Domain] --> I
+    A[AppServices] ----> D
+    T[TestData] --> D
+    E[EfRepository] --> T
+    L[LocalRepository] --> T
+    W[WebApp] ---> L
+    W ---> E
+    W --> A
+```
+
 ## Development settings
 
 The following settings section configures the data stores, authentication, and other settings for development purposes.
@@ -75,14 +92,14 @@ To work with these settings, add an `appsettings.Development.json` file in the r
         "UseDevSettings": true,
         "BuildDatabase": false,
         "UseEfMigrations": false,
+        "ConnectToIaipDatabase": false,
         "EnableTestUser": true,
-        "LocalUserIsAuthenticated": true,
+        "TestUserIsAuthenticated": true,
         "TestUserRoles": [
-            "Staff",
-            "SiteMaintenance"
+            "GeneralStaff"
         ],
-        "UseSecurityHeadersInDev": false,
-        "EnableWebOptimizerInDev": false
+        "EnableSecurityHeaders": false,
+        "EnableWebOptimizer": false
     }
 }
 ```
@@ -114,9 +131,9 @@ To work with these settings, add an `appsettings.Development.json` file in the r
 
 ### Miscellaneous dev settings
 
-- *UseSecurityHeadersInDev* — Sets whether to include HTTP security headers when running in the Development environment.
-- *EnableWebOptimizerInDev* — Sets whether to enable the WebOptimizer middleware for bundling and minification of CSS
-  and JavaScript files when running in the Development environment.
+- *EnableSecurityHeaders* — Sets whether to include HTTP security headers.
+- *EnableWebOptimizer* — Sets whether to enable the WebOptimizer middleware for bundling and minification of CSS
+  and JavaScript files.
 
 ## Production settings
 

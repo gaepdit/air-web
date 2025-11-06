@@ -1,39 +1,39 @@
-# Compliance Work Entry Workflows
+# Compliance Monitoring Workflows
 
-## Work Entry Types
+## Compliance Monitoring Types
 
-| Work entry type                       | Automatic Closure * | Compliance Event † | Data Exchange ‡ |
-|---------------------------------------|:-------------------:|:------------------:|:---------------:|
-| Annual Compliance Certification (ACC) |                     |         ✓          |        ✓        |
-| Inspection                            |          ✓          |         ✓          |        ✓        |
-| Notification                          |          ✓          |                    |                 |
-| Permit revocation                     |                     |                    |                 |
-| Report                                |          ✓          |         ✓          |        ✓        |
-| RMP Inspection                        |          ✓          |         ✓          |                 |
-| Source Test Compliance Review         |          ✓          |         ✓          |        ✓        |
+| Compliance Monitoring Type            | Automatically Closed * | Compliance Event † | Data Exchange ‡ |
+|---------------------------------------|:----------------------:|:------------------:|:---------------:|
+| Annual Compliance Certification (ACC) |                        |         ✓          |        ✓        |
+| Inspection                            |           ✓            |         ✓          |        ✓        |
+| Notification                          |           ✓            |                    |                 |
+| Permit revocation                     |                        |                    |                 |
+| Report                                |           ✓            |         ✓          |        ✓        |
+| Risk Management Plan (RMP) Inspection |           ✓            |         ✓          |                 |
+| Source Test Compliance Review         |           ✓            |         ✓          |        ✓        |
 
 <small>
-* Indicates the Work Entry is automatically closed when created.<br>
-† Indicates the Work Entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
+* Indicates the Compliance Monitoring Entry is automatically closed when created (but can be reopened).<br>
+† Indicates the Compliance Monitoring Entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
 ‡ Indicates a Compliance Event that is shared with the ICIS-Air Data Exchange.
 </small>
 
-### General Workflow
+### General Compliance Monitoring Workflow
 
-* A new Work Entry can be entered from a Facility.
-* The Work Entry can be edited if open.
-    * Closing a Work Entry disables editing.
-    * Reopening a Work Entry enables editing.
-    * Some Work Entries are automatically closed when they are first created.
-* A Work Entry can be deleted/restored *(not shown in diagrams)*.
-* Comments can be added and edited.
+* A new Compliance Monitoring Entry can be entered from a Facility.
+* The Entry can be edited if open.
+    * Closing an Entry disables editing.
+    * Reopening an Entry enables editing.
+    * Some Entries are automatically closed when they are first created.
+* An Entry can be deleted/restored *(not shown in diagrams)*.
+* Comments can be added.
 * A Comment can be deleted *(not shown)*.
 
 ### Compliance Event Workflow
 
-* Some Work Entry types are categorized as "Compliance Events."
+* Some Compliance Monitoring types are categorized as *Compliance Events.*
 * Enforcement can be started from a Compliance Event.
-* Closing a Compliance Event updates the Data Exchange (not including an RMP Inspection).
+* Compliance Events are shared with the Data Exchange (excluding RMP Inspections).
 
 ## Annual Compliance Certification (ACC) Workflow
 

@@ -179,12 +179,16 @@ public static class DbSeedDataHelpers
     private static void SeedIdentityData(AppDbContext context)
     {
         // Seed Users
-        var users = UserData.GetData.ToList();
-        if (!context.Users.Any()) context.Users.AddRange(users);
+        if (!context.Users.Any())
+            context.Users.AddRange(UserData.Users);
 
         // Seed Roles
-        var roles = UserData.GetRoles.ToList();
-        if (!context.Roles.Any()) context.Roles.AddRange(roles);
+        if (!context.Roles.Any())
+            context.Roles.AddRange(UserData.Roles);
+
+        // Seed User Roles
+        if (!context.UserRoles.Any())
+            context.UserRoles.AddRange(UserData.UserRoles);
 
         context.SaveChanges();
     }

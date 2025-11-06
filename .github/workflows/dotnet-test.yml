@@ -29,12 +29,19 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
+      - name: Configure Datadog Test Optimization
+        uses: datadog/test-visibility-github-action@f4b026bb8b8b53f323960cf86a849a0231ff93b9
+        with:
+          languages: dotnet
+          api_key: ${{secrets.DD_API_KEY}}
+          site: us3.datadoghq.com
+
       - name: Test
         run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --logger:nunit
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           path: tests/**/TestResults.xml
 
@@ -50,11 +57,11 @@ jobs:
 
     steps:
       - name: Download test result artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
           path: test-results # destination folder
 
       - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@3a74b2957438d0b6e2e61d67b05318aa25c9e6c6
+        uses: EnricoMi/publish-unit-test-result-action@34d7c956a59aed1bfebf31df77b8de55db9bbaaf
         with:
           files: test-results/**/TestResults.xml

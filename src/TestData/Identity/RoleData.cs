@@ -5,9 +5,38 @@ namespace AirWeb.TestData.Identity;
 
 internal static partial class UserData
 {
-    private static IEnumerable<IdentityRole>? _roles;
+    public static List<IdentityUserRole<string>> UserRoles { get; } =
+    [
+        new()
+        {
+            UserId = Users[1].Id,
+            RoleId = GetRoleId(RoleName.ComplianceManager),
+        },
+        new()
+        {
+            UserId = Users[1].Id,
+            RoleId = GetRoleId(RoleName.EnforcementManager),
+        },
+        new()
+        {
+            UserId = Users[3].Id,
+            RoleId = GetRoleId(RoleName.ComplianceStaff),
+        },
+        new()
+        {
+            UserId = Users[3].Id,
+            RoleId = GetRoleId(RoleName.EnforcementReviewer),
+        },
+        new()
+        {
+            UserId = Users[4].Id,
+            RoleId = GetRoleId(RoleName.ComplianceStaff),
+        },
+    ];
 
-    public static IEnumerable<IdentityRole> GetRoles
+    private static List<IdentityRole>? _roles;
+
+    public static List<IdentityRole> Roles
     {
         get
         {
@@ -18,4 +47,6 @@ internal static partial class UserData
             return _roles;
         }
     }
+
+    private static string GetRoleId(string roleName) => Roles.Single(e => e.Name == roleName).Id;
 }

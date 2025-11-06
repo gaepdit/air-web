@@ -119,7 +119,7 @@ public class DetailsModel(
     {
         var spec = new WorkEntrySearchDto
         {
-            PartialFacilityId = Item!.FacilityId,
+            FacilityId = Item!.FacilityId,
             EventDateTo = Item.CompletedDate,
             EventDateFrom = Item.SupportingDataStartDate,
         };
@@ -132,7 +132,7 @@ public class DetailsModel(
     {
         var spec = new CaseFileSearchDto
         {
-            PartialFacilityId = Item!.FacilityId,
+            FacilityId = Item!.FacilityId,
             EnforcementDateTo = Item.CompletedDate,
             EnforcementDateFrom = Item.ExtendedDataStartDate,
         };

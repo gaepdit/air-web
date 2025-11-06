@@ -17,15 +17,17 @@
     <span asp-validation-for="Id" class="text-danger-emphasis"></span>
 </form>
 
-@if (AppSettings.DevSettings.UseDevSettings && !AppSettings.DevSettings.ConnectToIaipDatabase)
+@if (AppSettings.ConnectToIaip)
 {
-    <p>Here is a short list of facilities for testing purposes.</p>
+    <h2 class="h3">All Facilities</h2>
+    <p>
+        The following list includes all facilities in the IAIP that have been approved within the IAIP facility creator
+        tool.
+    </p>
 }
 else
 {
-    <h2 class="h3">All Facilities</h2>
-    <p>The following list includes all facilities in the IAIP that have been approved within the IAIP facility creator
-        tool.</p>
+    <p>Here is a short list of facilities for testing purposes.</p>
 }
 
 <form class="container my-3">
@@ -52,7 +54,7 @@ else
 <ul id="filtered-facility-list"></ul>
 
 @section Footer {
-    @if (!AppSettings.DevSettings.UseDevSettings || AppSettings.DevSettings.ConnectToIaipDatabase)
+    @if (AppSettings.ConnectToIaip)
     {
         <div class="bg-info-subtle py-2 border-bottom d-print-none">
             <div class="container">
