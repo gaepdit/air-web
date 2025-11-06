@@ -17,6 +17,7 @@ When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2025-09-11  DWaldron            Initial version (#355)
 2025-09-25  DWaldron            Use the new source test compliance assignment columns in IAIP (#359)
+2025-11-03  DWaldron            IAIP compliance assignment is saved as email instead of User ID (iaip#1334)
 
 ***************************************************************************************************/
 
@@ -31,7 +32,7 @@ select convert(int, r.STRREFERENCENUMBER)                      as ReferenceNumbe
        convert(date, r.DATRECEIVEDDATE)                        as DateReceivedByApb,
        IIF(r.DATCOMPLETEDATE = '1776-07-04', null, convert(date, r.DATCOMPLETEDATE))
                                                                as DateTestReviewComplete,
-       pc.STREMAILADDRESS                                      as IaipComplianceAssignment,
+       r.ComplianceAssignment                                  as IaipComplianceAssignment,
        convert(bit, IIF(r.ComplianceReviewDate is null, 0, 1)) as IaipComplianceComplete,
 
        -- Facility Summary
@@ -56,9 +57,6 @@ from dbo.ISMPREPORTINFORMATION r
 
     left join dbo.EPDUSERPROFILES pr
         on pr.NUMUSERID = r.STRREVIEWINGENGINEER
-
-    left join dbo.EPDUSERPROFILES pc
-        on pc.NUMUSERID = r.ComplianceAssignment
 
     inner join dbo.ISMPMASTER i
         on i.STRREFERENCENUMBER = r.STRREFERENCENUMBER

@@ -21,22 +21,16 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2025-09-25  DWaldron            Initial version (#359)
+2025-11-03  DWaldron            Save email instead of IAIP User ID (iaip#1334)
 
 ***************************************************************************************************/
 
     SET XACT_ABORT, NOCOUNT ON
 BEGIN TRY
-
-    declare @userId int;
-
     BEGIN TRANSACTION;
 
-    select @userId = NUMUSERID
-    from AIRBRANCH.dbo.EPDUSERPROFILES
-    where STREMAILADDRESS = @ComplianceAssignmentEmail;
-
     update dbo.ISMPREPORTINFORMATION
-    set ComplianceAssignment = @userId,
+    set ComplianceAssignment = @ComplianceAssignmentEmail,
         ComplianceReviewDate = @ComplianceReviewDate
     where STRREFERENCENUMBER = @ReferenceNumber;
 
