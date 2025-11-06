@@ -8,7 +8,7 @@ from AIRBRANCH.dbo.EPDUSERPROFILES;
 select *
 from AIRBRANCH.dbo.EPDUSERPROFILES
 where substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS))
-          not in (N'@dnr.ga.gov', N'@dnr.state.ga.us');
+          not in ('@dnr.ga.gov', '@dnr.state.ga.us');
 
 -- Update malformed email addresses
 update dbo.EPDUSERPROFILES
@@ -21,6 +21,6 @@ where STREMAILADDRESS like '%@dnr.state.ga.u';
 
 update dbo.EPDUSERPROFILES
 set STREMAILADDRESS = null
-where STREMAILADDRESS like N'%@no.email'
-   or STREMAILADDRESS like N'%@yahoo.com'
-   or STREMAILADDRESS in (N'Sam.Stevens', N'Tom.Atkinson', N'douglas.waldron@gaepd.org');
+where STREMAILADDRESS like '%@no.email'
+   or STREMAILADDRESS like '%@yahoo.com'
+   or STREMAILADDRESS in ('Sam.Stevens', 'Tom.Atkinson', 'douglas.waldron@gaepd.org');
