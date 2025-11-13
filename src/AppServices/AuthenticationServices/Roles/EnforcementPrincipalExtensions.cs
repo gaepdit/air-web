@@ -5,9 +5,11 @@ namespace AirWeb.AppServices.AuthenticationServices.Roles;
 
 public static class EnforcementPrincipalExtensions
 {
-    internal static bool IsEnforcementReviewer(this IPrincipal principal) =>
-        principal.IsInOneOfRoles(RoleName.EnforcementReviewer, RoleName.EnforcementManager);
+    extension(IPrincipal principal)
+    {
+        internal bool IsEnforcementReviewer() =>
+            principal.IsInOneOfRoles(RoleName.EnforcementReviewer, RoleName.EnforcementManager);
 
-    internal static bool IsEnforcementManager(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.EnforcementManager);
+        internal bool IsEnforcementManager() => principal.IsInRole(RoleName.EnforcementManager);
+    }
 }
