@@ -4,26 +4,20 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.AppServices.Caching;
 
-internal static class CacheLoggingHelpers
+internal static partial class CacheLoggingHelpers
 {
-    private static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
-    private static readonly EventId AirWebCacheRefresh = new(2504, nameof(AirWebCacheRefresh));
+    [LoggerMessage(EventId = 2503, Level = LogLevel.Information, Message = "Cache hit for key: {CacheKey}")]
+    private static partial void LogCacheHit(ILogger logger, string cacheKey);
 
-    extension(ILogger logger)
-    {
-        private void LogCacheHit(string cacheKey) =>
-            logger.LogInformation(AirWebCacheHit, "Cache hit for key: {CacheKey}", cacheKey);
-
-        private void LogCacheRefresh(string cacheKey) =>
-            logger.LogInformation(AirWebCacheRefresh, "Cache miss for key: {CacheKey}", cacheKey);
-    }
+    [LoggerMessage(EventId = 2504, Level = LogLevel.Information, Message = "Cache miss for key: {CacheKey}")]
+    private static partial void LogCacheRefresh(ILogger logger, string cacheKey);
 
     extension(IMemoryCache cache)
     {
         public TItem Set<TItem>(string key, TItem value, TimeSpan timeSpan, ILogger logger)
         {
             cache.Set(key, value, new MemoryCacheEntryOptions().SetAbsoluteExpiration(timeSpan));
-            logger.LogCacheRefresh(key);
+            LogCacheRefresh(logger, key);
             return value;
         }
 
@@ -36,7 +30,7 @@ internal static class CacheLoggingHelpers
             }
 
             value = result;
-            logger.LogCacheHit(key);
+            LogCacheHit(logger, key);
             return true;
         }
     }

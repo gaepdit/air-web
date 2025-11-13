@@ -4,22 +4,16 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace IaipDataService.Utilities;
 
-internal static class CacheLoggingHelpers
+internal static partial class CacheLoggingHelpers
 {
-    private static readonly EventId IaipDataCacheHit = new(2601, nameof(IaipDataCacheHit));
-    private static readonly EventId IaipDataCacheRefresh = new(2602, nameof(IaipDataCacheRefresh));
+    [LoggerMessage(EventId = 2601, Level = LogLevel.Information, Message = "Cache hit for key: {CacheKey}")]
+    private static partial void LogCacheHit(ILogger logger, string cacheKey);
 
-    extension(ILogger logger)
-    {
-        private void LogCacheHit(string cacheKey) =>
-            logger.LogInformation(IaipDataCacheHit, "Cache hit for key: {CacheKey}", cacheKey);
+    [LoggerMessage(EventId = 2602, Level = LogLevel.Information, Message = "Forcing cache refresh for key: {CacheKey}")]
+    private static partial void LogCacheRefresh(ILogger logger, string cacheKey);
 
-        private void LogCacheRefresh(string cacheKey) =>
-            logger.LogInformation(IaipDataCacheRefresh, "Forcing cache refresh for key: {CacheKey}", cacheKey);
-
-        private void LogCacheMiss(string cacheKey) =>
-            logger.LogInformation(IaipDataCacheRefresh, "Cache miss for key: {CacheKey}", cacheKey);
-    }
+    [LoggerMessage(EventId = 2603, Level = LogLevel.Information, Message = "Cache miss for key: {CacheKey}")]
+    private static partial void LogCacheMiss(ILogger logger, string cacheKey);
 
     extension(IMemoryCache cache)
     {
@@ -27,9 +21,9 @@ internal static class CacheLoggingHelpers
         {
             cache.Set(key, value, new MemoryCacheEntryOptions().SetAbsoluteExpiration(timeSpan));
             if (forceRefresh)
-                logger.LogCacheRefresh(key);
+                LogCacheRefresh(logger, key);
             else
-                logger.LogCacheMiss(key);
+                LogCacheMiss(logger, key);
             return value;
         }
 
@@ -42,7 +36,7 @@ internal static class CacheLoggingHelpers
             }
 
             value = result;
-            logger.LogCacheHit(key);
+            LogCacheHit(logger, key);
             return true;
         }
     }
