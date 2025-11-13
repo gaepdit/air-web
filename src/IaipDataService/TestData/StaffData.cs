@@ -46,15 +46,13 @@ public static class StaffData
         },
     ];
 
-    private static List<Staff>? _staff;
-
     public static List<Staff> GetData
     {
         get
         {
-            if (_staff is not null) return _staff;
-            _staff = StaffSeedItems.ToList();
-            return _staff;
+            if (field is not null) return field;
+            field = StaffSeedItems.ToList();
+            return field;
         }
     }
 }

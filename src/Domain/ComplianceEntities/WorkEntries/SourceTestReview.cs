@@ -20,14 +20,12 @@ public class SourceTestReview : ComplianceEvent
 
     public int ReferenceNumber { get; set; }
 
-    private DateOnly _receivedByComplianceDate;
-
     public DateOnly ReceivedByComplianceDate
     {
-        get => _receivedByComplianceDate;
+        get;
         set
         {
-            _receivedByComplianceDate = value;
+            field = value;
             EventDate = value;
         }
     }

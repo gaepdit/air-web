@@ -34,17 +34,15 @@ internal static partial class UserData
         },
     ];
 
-    private static List<IdentityRole>? _roles;
-
     public static List<IdentityRole> Roles
     {
         get
         {
-            if (_roles is not null) return _roles;
-            _roles = AppRole.AllRoles!
+            if (field is not null) return field;
+            field = AppRole.AllRoles!
                 .Select(pair => new IdentityRole(pair.Value.Name) { NormalizedName = pair.Key.ToUpperInvariant() })
                 .ToList();
-            return _roles;
+            return field;
         }
     }
 

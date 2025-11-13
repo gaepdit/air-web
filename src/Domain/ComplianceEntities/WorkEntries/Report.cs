@@ -17,14 +17,13 @@ public class Report : ComplianceEvent
     }
 
     // Properties
-    private DateOnly _receivedDate;
 
     public DateOnly ReceivedDate
     {
-        get => _receivedDate;
+        get;
         set
         {
-            _receivedDate = value;
+            field = value;
             EventDate = value;
         }
     }

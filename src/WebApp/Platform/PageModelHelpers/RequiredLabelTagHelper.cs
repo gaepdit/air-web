@@ -12,8 +12,6 @@ public class RequiredLabelTagHelper : TagHelper
 {
     private const string ForAttributeName = "asp-for";
 
-    private ModelExpression? _model;
-
     /// <summary>
     /// An expression to be evaluated against the current model.
     /// </summary>
@@ -21,8 +19,8 @@ public class RequiredLabelTagHelper : TagHelper
     [HtmlAttributeName(ForAttributeName)]
     public ModelExpression Model
     {
-        set => _model = value;
-        get => _model ?? throw new InvalidOperationException("Uninitialized Model.");
+        get => field ?? throw new InvalidOperationException("Uninitialized Model.");
+        set;
     }
 
     /// <inheritdoc />

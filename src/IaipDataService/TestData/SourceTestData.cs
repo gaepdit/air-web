@@ -951,15 +951,13 @@ public static class SourceTestData
         },
     ];
 
-    private static List<BaseSourceTestReport>? _testReports;
-
     public static List<BaseSourceTestReport> GetData
     {
         get
         {
-            if (_testReports is not null) return _testReports;
-            _testReports = StackTestReportSeedItems.ToList();
-            return _testReports;
+            if (field is not null) return field;
+            field = StackTestReportSeedItems.ToList();
+            return field;
         }
     }
 }

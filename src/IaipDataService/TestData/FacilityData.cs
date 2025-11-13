@@ -311,15 +311,13 @@ public static class FacilityData
         },
     ];
 
-    private static List<Facility>? _facilities;
-
     public static List<Facility> GetData
     {
         get
         {
-            if (_facilities is not null) return _facilities;
-            _facilities = FacilitySeedItems.ToList();
-            return _facilities;
+            if (field is not null) return field;
+            field = FacilitySeedItems.ToList();
+            return field;
         }
     }
 }
