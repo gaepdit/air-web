@@ -1,5 +1,5 @@
 ﻿using AirWeb.WebApp.Platform.Settings;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
