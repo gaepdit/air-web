@@ -24,8 +24,9 @@ When        Who                 What
 
 BEGIN
 
-    RETURN nullif(nullif(nullif(nullif(nullif(nullif(trim(CHAR(10) + CHAR(13) + ' -' from @input),
-                                                     ''), 'N/A'), 'NA'), 'N/A.'), 'None'), 'None.');
+    RETURN nullif(nullif(nullif(nullif(nullif(nullif(
+                                                      trim(CHAR(10) + CHAR(13) + ' -' from @input),
+                                                      ''), 'N/A'), 'NA'), 'N/A.'), 'None'), 'None.');
 
 END
 GO
