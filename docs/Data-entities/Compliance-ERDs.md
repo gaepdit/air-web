@@ -39,14 +39,14 @@ erDiagram
 
 ### Derived event types
 
-| Key | Event Type                      |
-|:----|:--------------------------------|
-| 01  | Report                          |
-| 02  | Inspection                      |
-| 03  | Performance Tests               |
-| 04  | Annual Compliance Certification |
-| 05  | Notification                    |
-| 07  | RMP Inspection                  |
+| Key | Event Type                      | Work Entry Enum               |
+|:----|:--------------------------------|:------------------------------|
+| 01  | Report                          | Report                        |
+| 02  | Inspection                      | Inspection                    |
+| 03  | Performance Tests               | SourceTestReview              |
+| 04  | Annual Compliance Certification | AnnualComplianceCertification |
+| 05  | Notification                    | Notification                  |
+| 07  | RMP Inspection                  | RmpInspection                 |
 
 ### Notification types
 
@@ -264,7 +264,7 @@ erDiagram
 |------------------------------------------|---------------|:-------:|---------------------------------|
 | SSCPITEMMASTER.DATRECEIVEDDATE           | datetime2(0)  |    ✓    | ReceivedByCompliance, EventDate |
 | SSCPTESTREPORTS.STRREFERENCENUMBER       | varchar(9)    |    ✓    | ReferenceNumber                 |
-| SSCPTESTREPORTS.DATTESTREPORTDUE         | datetime2(0)  |    ✓    | TestDue                         |
+| SSCPTESTREPORTS.DATTESTREPORTDUE         | datetime2(0)  |    ✓    | DueDate                         |
 | SSCPTESTREPORTS.STRTESTREPORTCOMMENTS    | varchar(4000) |    ✓    | Notes                           |
 | SSCPTESTREPORTS.STRTESTREPORTFOLLOWUP    | varchar(5)    |    ✓    | FollowupTaken                   |
 | SSCPTESTREPORTS.STRMODIFINGPERSON        | varchar(3)    |    ✓    | UpdatedById                     |

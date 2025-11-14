@@ -72,8 +72,8 @@ begin
            -- Given all of the above, it's simplest to just use the dates (replacing the null
            -- placeholder value) and ignore the flags.
 
-           nullif(d.DATNOTIFICATIONDUE, '1776-07-04')                                  as DueDate,
-           nullif(d.DATNOTIFICATIONSENT, '1776-07-04')                                 as SentDate,
+           AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)                                 as DueDate,
+           AIRBRANCH.air.FixDate(d.DATNOTIFICATIONSENT)                                as SentDate,
            isnull(lw.Id, @otherType)                                                   as NotificationTypeId,
 
            i.DATMODIFINGDATE at time zone 'Eastern Standard Time'                      as CreatedAt,
