@@ -27,12 +27,12 @@ SignedByRo,
 OnCorrectForms,
 IncludesAllTvConditions,
 CorrectlyCompleted,
-ReportsDeviations,
 IncludesPreviouslyUnreportedDeviations,
 ReportsAllKnownDeviations,
 ResubmittalRequired,
 
 -- AnnualComplianceCertification, Report
+ReportsDeviations,
 EnforcementNeeded,
 
 -- Inspection
@@ -101,11 +101,11 @@ from AirWeb.dbo.ComplianceWork;
 -- 
 --     -- AnnualComplianceCertification
 --     AccReportingYear, PostmarkDate, PostmarkedOnTime, SignedByRo, OnCorrectForms, IncludesAllTvConditions,
---     CorrectlyCompleted, ReportsDeviations, IncludesPreviouslyUnreportedDeviations, ReportsAllKnownDeviations,
+--     CorrectlyCompleted, IncludesPreviouslyUnreportedDeviations, ReportsAllKnownDeviations,
 --     ResubmittalRequired,
 -- 
 --     -- AnnualComplianceCertification, Report
---     EnforcementNeeded,
+--     ReportsDeviations, EnforcementNeeded,
 -- 
 --     -- Inspection
 --     InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide, FacilityOperating,

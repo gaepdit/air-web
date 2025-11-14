@@ -119,4 +119,4 @@ end
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'AnnualComplianceCertification';
+where WorkEntryType = 'Notification';

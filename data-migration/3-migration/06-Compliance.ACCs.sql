@@ -2,7 +2,7 @@ use AirWeb
 go
 
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
-
+-- 
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
 --     -- WorkEntry
@@ -27,12 +27,11 @@ go
 --     ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                    as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)
-                                                              as FacilityId,
+       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,
        'AnnualComplianceCertification'                        as WorkEntryType,
        ur.Id                                                  as ResponsibleStaffId,
        convert(date, i.DATACKNOLEDGMENTLETTERSENT)            as AcknowledgmentLetterDate,
-       nullif(nullif(d.STRCOMMENTS, 'N/A'), '') as Notes,
+       nullif(nullif(d.STRCOMMENTS, 'N/A'), '')        as Notes,
        convert(date, i.DATRECEIVEDDATE)                       as EventDate,
        convert(bit, 1)                                        as IsComplianceEvent,
        i.ICIS_STATUSIND                                       as DataExchangeStatus,
@@ -74,6 +73,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on uc.AirbranchUserId = i.STRMODIFINGPERSON
     left join AirWeb.dbo.AspNetUsers um
         on um.AirbranchUserId = d.STRMODIFINGPERSON
+
 where i.STRDELETE is null
   and i.STREVENTTYPE = '04';
 

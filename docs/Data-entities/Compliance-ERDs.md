@@ -37,6 +37,17 @@ erDiagram
 
 ```
 
+### Derived event types
+
+| Key | Event Type                      |
+|:----|:--------------------------------|
+| 01  | Report                          |
+| 02  | Inspection                      |
+| 03  | Performance Tests               |
+| 04  | Annual Compliance Certification |
+| 05  | Notification                    |
+| 07  | RMP Inspection                  |
+
 ### IAIP table column mapping
 
 | Column                                    | Type         | Migrate | Destination              |

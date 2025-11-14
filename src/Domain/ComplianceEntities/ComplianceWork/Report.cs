@@ -47,8 +47,11 @@ public class Report : ComplianceEvent
 
 // Enums
 
+[UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public enum ReportingPeriodType
 {
+    [Display(Name = "Other")] Other,
+    [Display(Name = "Monthly")] Monthly,
     [Display(Name = "First Quarter")] FirstQuarter,
     [Display(Name = "Second Quarter")] SecondQuarter,
     [Display(Name = "Third Quarter")] ThirdQuarter,
@@ -56,7 +59,5 @@ public enum ReportingPeriodType
     [Display(Name = "First Semiannual")] FirstSemiannual,
     [Display(Name = "Second Semiannual")] SecondSemiannual,
     [Display(Name = "Annual")] Annual,
-    [Display(Name = "Other")] Other,
-    [Display(Name = "Monthly")] Monthly,
     [Display(Name = "Malfunction/Deviation")] MalfunctionDeviation,
 }

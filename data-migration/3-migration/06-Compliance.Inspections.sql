@@ -24,12 +24,10 @@ go
 
 select i.STRTRACKINGNUMBER                                              as Id,
        AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                  as FacilityId,
-       i.STREVENTTYPE,
        iif(i.STREVENTTYPE = '02', 'Inspection', 'RmpInspection')        as WorkEntryType,
        ur.Id                                                            as ResponsibleStaffId,
        convert(date, i.DATACKNOLEDGMENTLETTERSENT)                      as AcknowledgmentLetterDate,
-       IIF(d.STRINSPECTIONCOMMENTS = 'N/A', null,
-           d.STRINSPECTIONCOMMENTS)                                     as Notes,
+       nullif(nullif(d.STRINSPECTIONCOMMENTS, 'N/A'), '') as Notes,
        convert(date, d.DATINSPECTIONDATESTART)                          as EventDate,
        convert(bit, 1)                                                  as IsComplianceEvent,
        i.ICIS_STATUSIND                                                 as DataExchangeStatus,
@@ -76,6 +74,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on uc.AirbranchUserId = i.STRMODIFINGPERSON
     inner join AirWeb.dbo.AspNetUsers um
         on um.AirbranchUserId = d.STRMODIFINGPERSON
+
 where i.STRDELETE is null
   and i.STREVENTTYPE in ('02', '07');
 
@@ -83,4 +82,4 @@ where i.STRDELETE is null
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'AnnualComplianceCertification';
+where WorkEntryType in ('Inspection', 'RmpInspection');
