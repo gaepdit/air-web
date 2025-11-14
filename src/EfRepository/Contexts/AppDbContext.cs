@@ -20,59 +20,59 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     internal const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
     // Maintenance items (These are stored in the `SelectLists` table.)
-    public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
-    public DbSet<Office> Offices => Set<Office>();
+    public DbSet<NotificationType> NotificationTypes { get; set; } = null!;
+    public DbSet<Office> Offices { get; set; } = null!;
 
     // Lookup tables
-    public DbSet<ViolationType> ViolationTypes => Set<ViolationType>();
+    public DbSet<ViolationType> ViolationTypes { get; set; } = null!;
 
     // FCEs
-    public DbSet<Fce> Fces => Set<Fce>();
+    public DbSet<Fce> Fces { get; set; } = null!;
 
-    // Work entries/compliance events
+    // Work entries/compliance events:
     //   By default, Entity Framework uses the TPH strategy for modeling inheritance. All work entries and compliance
     //   events will be stored in a single table with a discriminator column. Each subtype and each base type are all
     //   available as DbSets for querying.
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
     // Work entries (mapped to a single table)
-    public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
-    public DbSet<Inspection> Inspections => Set<Inspection>();
-    public DbSet<Notification> Notifications => Set<Notification>();
-    public DbSet<PermitRevocation> PermitRevocations => Set<PermitRevocation>();
-    public DbSet<Report> Reports => Set<Report>();
-    public DbSet<RmpInspection> RmpInspections => Set<RmpInspection>();
-    public DbSet<SourceTestReview> SourceTestReviews => Set<SourceTestReview>();
+    public DbSet<AnnualComplianceCertification> Accs { get; set; } = null!;
+    public DbSet<Inspection> Inspections { get; set; } = null!;
+    public DbSet<Notification> Notifications { get; set; } = null!;
+    public DbSet<PermitRevocation> PermitRevocations { get; set; } = null!;
+    public DbSet<Report> Reports { get; set; } = null!;
+    public DbSet<RmpInspection> RmpInspections { get; set; } = null!;
+    public DbSet<SourceTestReview> SourceTestReviews { get; set; } = null!;
 
     // Enforcement - Case Files
-    public DbSet<CaseFile> CaseFiles => Set<CaseFile>();
+    public DbSet<CaseFile> CaseFiles { get; set; } = null!;
 
     // Enforcement - Actions (mapped to a single table)
-    public DbSet<AdministrativeOrder> AdministrativeOrders => Set<AdministrativeOrder>();
-    public DbSet<ConsentOrder> ConsentOrders => Set<ConsentOrder>();
-    public DbSet<InformationalLetter> InformationalLetters => Set<InformationalLetter>();
-    public DbSet<LetterOfNoncompliance> LettersOfNoncompliance => Set<LetterOfNoncompliance>();
-    public DbSet<NoFurtherActionLetter> NoFurtherActionLetters => Set<NoFurtherActionLetter>();
-    public DbSet<NoticeOfViolation> NoticesOfViolation => Set<NoticeOfViolation>();
-    public DbSet<NovNfaLetter> NovNfaLetters => Set<NovNfaLetter>();
-    public DbSet<ProposedConsentOrder> ProposedConsentOrders => Set<ProposedConsentOrder>();
+    public DbSet<AdministrativeOrder> AdministrativeOrders { get; set; } = null!;
+    public DbSet<ConsentOrder> ConsentOrders { get; set; } = null!;
+    public DbSet<InformationalLetter> InformationalLetters { get; set; } = null!;
+    public DbSet<LetterOfNoncompliance> LettersOfNoncompliance { get; set; } = null!;
+    public DbSet<NoFurtherActionLetter> NoFurtherActionLetters { get; set; } = null!;
+    public DbSet<NoticeOfViolation> NoticesOfViolation { get; set; } = null!;
+    public DbSet<NovNfaLetter> NovNfaLetters { get; set; } = null!;
+    public DbSet<ProposedConsentOrder> ProposedConsentOrders { get; set; } = null!;
 
     // Enforcement - Action properties
-    public DbSet<EnforcementActionReview> EnforcementActionReviews => Set<EnforcementActionReview>();
-    public DbSet<StipulatedPenalty> StipulatedPenalties => Set<StipulatedPenalty>();
+    public DbSet<EnforcementActionReview> EnforcementActionReviews { get; set; } = null!;
+    public DbSet<StipulatedPenalty> StipulatedPenalties { get; set; } = null!;
 
     // Comments (mapped to a single table)
-    public DbSet<FceComment> FceComments => Set<FceComment>();
-    public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
-    public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();
+    public DbSet<FceComment> FceComments { get; set; } = null!;
+    public DbSet<WorkEntryComment> WorkEntryComments { get; set; } = null!;
+    public DbSet<CaseFileComment> CaseFileComments { get; set; } = null!;
 
     // Audit Points (mapped to a single table)
-    public DbSet<CaseFileAuditPoint> CaseFileAuditPoints => Set<CaseFileAuditPoint>();
-    public DbSet<FceAuditPoint> FceAuditPoints => Set<FceAuditPoint>();
-    public DbSet<WorkEntryAuditPoint> WorkEntryAuditPoints => Set<WorkEntryAuditPoint>();
+    public DbSet<CaseFileAuditPoint> CaseFileAuditPoints { get; set; } = null!;
+    public DbSet<FceAuditPoint> FceAuditPoints { get; set; } = null!;
+    public DbSet<WorkEntryAuditPoint> WorkEntryAuditPoints { get; set; } = null!;
 
     // Ancillary tables
-    public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
+    public DbSet<EmailLog> EmailLogs { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
