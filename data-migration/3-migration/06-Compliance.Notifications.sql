@@ -36,23 +36,22 @@ begin
 --         CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --         ClosedById, ClosedDate)
 
-    select i.STRTRACKINGNUMBER                                              as Id,
-           AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                  as FacilityId,
-           'Notification'                                                   as WorkEntryType,
-           ur.Id                                                            as ResponsibleStaffId,
-           convert(date, i.DATACKNOLEDGMENTLETTERSENT)                      as AcknowledgmentLetterDate,
+    select i.STRTRACKINGNUMBER                                                         as Id,
+           AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                             as FacilityId,
+           'Notification'                                                              as WorkEntryType,
+           ur.Id                                                                       as ResponsibleStaffId,
+           convert(date, i.DATACKNOLEDGMENTLETTERSENT)                                 as AcknowledgmentLetterDate,
 
            -- "Other" type notifications include an additional free text field.
-           concat_ws(': ' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
-                     IIF(d.STRNOTIFICATIONTYPE = '01',
-                         nullif(nullif(d.STRNOTIFICATIONTYPEOTHER, 'N/A'), ''),
-                         null),
-                     + nullif(nullif(d.STRNOTIFICATIONCOMMENT, 'N/A'), '')) as Notes,
-           convert(date, i.DATRECEIVEDDATE)                                 as EventDate,
-           convert(bit, 0)                                                  as IsComplianceEvent,
-           convert(date, i.DATRECEIVEDDATE)                                 as ReceivedDate,
+           nullif(concat_ws(': ' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
+                            IIF(d.STRNOTIFICATIONTYPE = '01',
+                                AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONTYPEOTHER), null),
+                            + AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONCOMMENT)), '') as Notes,
+           convert(date, i.DATRECEIVEDDATE)                                            as EventDate,
+           convert(bit, 0)                                                             as IsComplianceEvent,
+           convert(date, i.DATRECEIVEDDATE)                                            as ReceivedDate,
 
-           convert(bit, d.STRNOTIFICATIONFOLLOWUP)                          as FollowupTaken,
+           convert(bit, d.STRNOTIFICATIONFOLLOWUP)                                     as FollowupTaken,
 
            -- Due date and sent date behavior changed multiple times over the years.
            --
@@ -73,21 +72,21 @@ begin
            -- Given all of the above, it's simplest to just use the dates (replacing the null
            -- placeholder value) and ignore the flags.
 
-           nullif(d.DATNOTIFICATIONDUE, '1776-07-04')                       as DueDate,
-           nullif(d.DATNOTIFICATIONSENT, '1776-07-04')                      as SentDate,
-           isnull(lw.Id, @otherType)                                        as NotificationTypeId,
+           nullif(d.DATNOTIFICATIONDUE, '1776-07-04')                                  as DueDate,
+           nullif(d.DATNOTIFICATIONSENT, '1776-07-04')                                 as SentDate,
+           isnull(lw.Id, @otherType)                                                   as NotificationTypeId,
 
-           i.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as CreatedAt,
-           uc.Id                                                            as CreatedById,
-           d.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as UpdatedAt,
-           um.Id                                                            as UpdatedById,
-           convert(bit, isnull(i.STRDELETE, 'False'))                       as IsDeleted,
-           null                                                             as DeletedAt,
-           null                                                             as DeletedById,
-           null                                                             as DeleteComments,
-           IIF(i.DATCOMPLETEDATE is null, convert(bit, 0), convert(bit, 1)) as IsClosed,
-           IIF(i.DATCOMPLETEDATE is null, null, um.Id)                      as ClosedById,
-           convert(date, i.DATCOMPLETEDATE)                                 as ClosedDate
+           i.DATMODIFINGDATE at time zone 'Eastern Standard Time'                      as CreatedAt,
+           uc.Id                                                                       as CreatedById,
+           d.DATMODIFINGDATE at time zone 'Eastern Standard Time'                      as UpdatedAt,
+           um.Id                                                                       as UpdatedById,
+           convert(bit, isnull(i.STRDELETE, 'False'))                                  as IsDeleted,
+           null                                                                        as DeletedAt,
+           null                                                                        as DeletedById,
+           null                                                                        as DeleteComments,
+           IIF(i.DATCOMPLETEDATE is null, convert(bit, 0), convert(bit, 1))            as IsClosed,
+           IIF(i.DATCOMPLETEDATE is null, null, um.Id)                                 as ClosedById,
+           convert(date, i.DATCOMPLETEDATE)                                            as ClosedDate
 
     from AIRBRANCH.dbo.SSCPITEMMASTER i
         inner join AIRBRANCH.dbo.SSCPNOTIFICATIONS d

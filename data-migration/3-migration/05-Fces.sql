@@ -8,13 +8,12 @@ SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
 --  CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments)
 
 select i.STRFCENUMBER                                         as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)
-                                                              as FacilityId,
+       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)         as FacilityId,
        d.STRFCEYEAR                                           as Year,
        ur.Id                                                  as ReviewedById,
        convert(date, d.DATFCECOMPLETED)                       as CompletedDate,
        convert(bit, d.STRSITEINSPECTION)                      as OnsiteInspection,
-       IIF(d.STRFCECOMMENTS = 'N/A', null, d.STRFCECOMMENTS)  as Notes,
+       AIRBRANCH.air.ReduceText(d.STRFCECOMMENTS)             as Notes,
        i.ICIS_STATUSIND                                       as DataExchangeStatus,
        i.DATMODIFINGDATE at time zone 'Eastern Standard Time' as CreatedAt,
        uc.Id                                                  as CreatedById,

@@ -3,35 +3,29 @@ GO
 SET ANSI_NULLS ON
 GO
 
-CREATE OR ALTER FUNCTION air.FormatAirsNumber
+CREATE OR ALTER FUNCTION air.ReduceText
 (
-    @input varchar(12)
+    @input varchar(max)
 )
-    RETURNS varchar(9)
+    RETURNS varchar(max)
 AS
 
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:
-  Reformat the old DB AIRS numbers.
-
-Input Parameters:
-  @input - AIRS number in the form '041300100001'
-
-Returns:
-  AIRS number in the form '001-00001'
+Overview:   Converts placeholder text to null.
 
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2025-10-02  DWaldron            Initial version (#32)
+2025-11-14  DWaldron            Initial version (#32)
 
 ***************************************************************************************************/
 
 BEGIN
 
-    RETURN concat_ws('-', substring(@input, 5, 3), right(@input, 5));
+    RETURN nullif(nullif(nullif(nullif(nullif(nullif(trim(CHAR(10) + CHAR(13) + ' -' from @input),
+                                                     ''), 'N/A'), 'NA'), 'N/A.'), 'None'), 'None.');
 
 END
 GO
