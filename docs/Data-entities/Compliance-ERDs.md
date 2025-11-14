@@ -48,6 +48,17 @@ erDiagram
 | 05  | Notification                    |
 | 07  | RMP Inspection                  |
 
+### Notification types
+
+| Key | Notification Type |
+|:----|:------------------|
+| 01  | Other             |
+| 02  | Startup           |
+| 03  | Permit Revocation |
+| 06  | Response Letter   |
+| 07  | Malfunction       |
+| 08  | Deviation         |
+
 ### IAIP table column mapping
 
 | Column                                    | Type         | Migrate | Destination              |
@@ -190,9 +201,9 @@ erDiagram
 | SSCPNOTIFICATIONS.DATNOTIFICATIONDUE       | datetime2(0)  |    ✓    | PermitRevocationDate    |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONDUE       | varchar(5)    |    ✗    | *none*                  |
 | SSCPNOTIFICATIONS.DATNOTIFICATIONSENT      | datetime2(0)  |    ✓    | PhysicalShutdownDate    |
-| SSCPNOTIFICATIONS.STRNOTIFICATIONSENT      | varchar(10)   |    ✓    | PhysicalShutdownDate    |
+| SSCPNOTIFICATIONS.STRNOTIFICATIONSENT      | varchar(10)   |    ✗    | *none*                  |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONTYPE      | varchar(2)    |    ✗    | *none*                  |
-| SSCPNOTIFICATIONS.STRNOTIFICATIONTYPEOTHER | varchar(100)  |    ✓    | Notes                   |
+| SSCPNOTIFICATIONS.STRNOTIFICATIONTYPEOTHER | varchar(100)  |    ✗    | *none*                  |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONCOMMENT   | varchar(4000) |    ✓    | Notes                   |
 | SSCPNOTIFICATIONS.STRNOTIFICATIONFOLLOWUP  | varchar(5)    |    ✓    | FollowupTaken           |
 | SSCPNOTIFICATIONS.STRMODIFINGPERSON        | varchar(3)    |    ✓    | UpdatedById             |
