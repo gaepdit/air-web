@@ -4,7 +4,6 @@ using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.WebApp.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -38,8 +37,8 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
         await SetPermissionsAsync();
         if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
-        if (Item.WorkEntryType == WorkEntryType.SourceTestReview && !Item.IsDeleted)
-            return RedirectToPage("../SourceTest/Details", new { ((SourceTestReviewViewDto)Item).ReferenceNumber });
+        if (Item is SourceTestReviewViewDto { IsDeleted: false, ReferenceNumber: not null } str)
+            return RedirectToPage("../SourceTest/Details", new { str.ReferenceNumber });
 
         if (Item.IsComplianceEvent)
             CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
