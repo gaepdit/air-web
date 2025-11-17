@@ -37,28 +37,6 @@ erDiagram
 
 ```
 
-### Derived event types
-
-| Key | Event Type                      | Work Entry Enum               |
-|:----|:--------------------------------|:------------------------------|
-| 01  | Report                          | Report                        |
-| 02  | Inspection                      | Inspection                    |
-| 03  | Performance Tests               | SourceTestReview              |
-| 04  | Annual Compliance Certification | AnnualComplianceCertification |
-| 05  | Notification                    | Notification                  |
-| 07  | RMP Inspection                  | RmpInspection                 |
-
-### Notification types
-
-| Key | Notification Type |
-|:----|:------------------|
-| 01  | Other             |
-| 02  | Startup           |
-| 03  | Permit Revocation |
-| 06  | Response Letter   |
-| 07  | Malfunction       |
-| 08  | Deviation         |
-
 ### IAIP table column mapping
 
 | Column                                    | Type         | Migrate | Destination              |
@@ -75,6 +53,17 @@ erDiagram
 | SSCPITEMMASTER.DATACKNOLEDGMENTLETTERSENT | datetime2(0) |    ✓    | AcknowledgmentLetterDate |
 | SSCPITEMMASTER.DATINFORMATIONREQUESTDATE  | datetime2(0) |    ✗    | *none*                   |
 | SSCPITEMMASTER.ICIS_STATUSIND             | varchar      |    ✓    | DataExchangeStatus       |
+
+### Derived event types
+
+| Key | Event Type                      | Work Entry Enum               |
+|:----|:--------------------------------|:------------------------------|
+| 01  | Report                          | Report                        |
+| 02  | Inspection                      | Inspection                    |
+| 03  | Performance Tests               | SourceTestReview              |
+| 04  | Annual Compliance Certification | AnnualComplianceCertification |
+| 05  | Notification                    | Notification                  |
+| 07  | RMP Inspection                  | RmpInspection                 |
 
 ## ACC columns
 
@@ -145,7 +134,7 @@ erDiagram
 | SSCPINSPECTIONS.STRINSPECTIONREASON           | varchar(35)   |    ✓    | InspectionReason             |
 | SSCPINSPECTIONS.STRWEATHERCONDITIONS          | varchar(100)  |    ✓    | WeatherConditions            |
 | SSCPINSPECTIONS.STRINSPECTIONGUIDE            | varchar(100)  |    ✓    | InspectionGuide              |
-| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✓    | WasFacilityOperating         |
+| SSCPINSPECTIONS.STRFACILITYOPERATING          | varchar(5)    |    ✓    | FacilityOperating            |
 | SSCPINSPECTIONS.STRINSPECTIONCOMPLIANCESTATUS | varchar(35)   |    ✓    | DeviationsNoted              |
 | SSCPINSPECTIONS.STRINSPECTIONCOMMENTS         | varchar(4000) |    ✓    | Notes                        |
 | SSCPINSPECTIONS.STRINSPECTIONFOLLOWUP         | varchar(5)    |    ✓    | FollowupTaken                |
@@ -164,6 +153,21 @@ erDiagram
         bool FollowupTaken
     }
 ```
+
+### Notification types
+
+| Key | Notification Type   |
+|:----|:--------------------|
+| 01  | Other               |
+| 02  | Startup             |
+| 03  | Permit Revocation * |
+| 06  | Response Letter     |
+| 07  | Malfunction         |
+| 08  | Deviation           |
+
+<div>
+* Permit Revocations are migrated as a separate event type.
+</div>
 
 ### IAIP table column mapping
 
@@ -260,13 +264,13 @@ erDiagram
 
 ### IAIP table column mapping
 
-| Column                                   | Type          | Migrate | Destination                     |
-|------------------------------------------|---------------|:-------:|---------------------------------|
-| SSCPITEMMASTER.DATRECEIVEDDATE           | datetime2(0)  |    ✓    | ReceivedByCompliance, EventDate |
-| SSCPTESTREPORTS.STRREFERENCENUMBER       | varchar(9)    |    ✓    | ReferenceNumber                 |
-| SSCPTESTREPORTS.DATTESTREPORTDUE         | datetime2(0)  |    ✓    | DueDate                         |
-| SSCPTESTREPORTS.STRTESTREPORTCOMMENTS    | varchar(4000) |    ✓    | Notes                           |
-| SSCPTESTREPORTS.STRTESTREPORTFOLLOWUP    | varchar(5)    |    ✓    | FollowupTaken                   |
-| SSCPTESTREPORTS.STRMODIFINGPERSON        | varchar(3)    |    ✓    | UpdatedById                     |
-| SSCPTESTREPORTS.DATMODIFINGDATE          | datetime2(0)  |    ✓    | UpdatedAt                       |
-| APBSUPPLAMENTALDATA.DATSSCPTESTREPORTDUE | datetime2(0)  |    ✗    | *none*                          |
+| Column                                   | Type          | Migrate | Destination                         |
+|------------------------------------------|---------------|:-------:|-------------------------------------|
+| SSCPITEMMASTER.DATRECEIVEDDATE           | datetime2(0)  |    ✓    | ReceivedByComplianceDate, EventDate |
+| SSCPTESTREPORTS.STRREFERENCENUMBER       | varchar(9)    |    ✓    | ReferenceNumber                     |
+| SSCPTESTREPORTS.DATTESTREPORTDUE         | datetime2(0)  |    ✓    | DueDate                             |
+| SSCPTESTREPORTS.STRTESTREPORTCOMMENTS    | varchar(4000) |    ✓    | Notes                               |
+| SSCPTESTREPORTS.STRTESTREPORTFOLLOWUP    | varchar(5)    |    ✓    | FollowupTaken                       |
+| SSCPTESTREPORTS.STRMODIFINGPERSON        | varchar(3)    |    ✓    | UpdatedById                         |
+| SSCPTESTREPORTS.DATMODIFINGDATE          | datetime2(0)  |    ✓    | UpdatedAt                           |
+| APBSUPPLAMENTALDATA.DATSSCPTESTREPORTDUE | datetime2(0)  |    ✗    | *none*                              |

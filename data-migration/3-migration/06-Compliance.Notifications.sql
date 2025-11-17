@@ -42,7 +42,7 @@ begin
            ur.Id                                                                       as ResponsibleStaffId,
            convert(date, i.DATACKNOLEDGMENTLETTERSENT)                                 as AcknowledgmentLetterDate,
 
-           -- "Other" type notifications include an additional free text field.
+           -- "Other"-type notifications include an additional free text field.
            nullif(concat_ws(': ' + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
                             IIF(d.STRNOTIFICATIONTYPE = '01',
                                 AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONTYPEOTHER), null),
@@ -52,26 +52,6 @@ begin
            convert(date, i.DATRECEIVEDDATE)                                            as ReceivedDate,
 
            convert(bit, d.STRNOTIFICATIONFOLLOWUP)                                     as FollowupTaken,
-
-           -- Due date and sent date behavior changed multiple times over the years.
-           --
-           -- * Between 2008-09-11 and 2024-10-22, a flag (STRNOTIFICATIONDUE, STRNOTIFICATIONSENT)
-           --   was set to 'False' if the date (DATNOTIFICATIONDUE, DATNOTIFICATIONSENT) is NOT null,
-           --   while 'True' indicated the date IS null!
-           --
-           -- * Starting 2024-10-23 (based on d.DATMODIFINGDATE), the flags were always (mistakenly) set
-           --   to 'True', but date nullability can still be assumed to be correct. I plan to fix the
-           --   data before final migration.
-           --
-           -- * Before 2008-09-11, a placeholder date '1776-07-04' was used instead of null. During
-           --   this period, the flag values were inconsistently set when non-null dates were used
-           --   and so are unreliable. Therefore, we will have to make an assumption one way or the
-           --   other whether to use the date values. To me, the data look valid, so I plan to keep
-           --   them and ignore the flags.
-           --
-           -- Given all of the above, it's simplest to just use the dates (replacing the null
-           -- placeholder value) and ignore the flags.
-
            AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)                                 as DueDate,
            AIRBRANCH.air.FixDate(d.DATNOTIFICATIONSENT)                                as SentDate,
            isnull(lw.Id, @otherType)                                                   as NotificationTypeId,
@@ -91,10 +71,8 @@ begin
     from AIRBRANCH.dbo.SSCPITEMMASTER i
         inner join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
             on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
-            -- Notification type 03-Permit Revocation is excluded because it is migrated separately.
-            -- (Notification types 04 & 05 don't exist.)
-            -- TODO: Consider also excluding 07-Malfunction and 08-Deviation here and migrating them as Reports instead.
-            -- See https://github.com/gaepdit/air-web/issues/32#issuecomment-3378116272
+            -- Notification type 03 - "Permit Revocation" - is excluded here and migrated separately as its own event type.
+            -- Notification types 04 & 05 don't exist; they're excluded here for clarity.
             and d.STRNOTIFICATIONTYPE not in ('03', '04', '05')
 
         left join AIRBRANCH.dbo.LOOKUPSSCPNOTIFICATIONS li
