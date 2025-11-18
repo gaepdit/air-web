@@ -5,7 +5,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 public record SourceTestReviewViewDto : WorkEntryViewDto
 {
     [Display(Name = "Reference Number")]
-    public int ReferenceNumber { get; init; }
+    public int? ReferenceNumber { get; init; }
 
     [Display(Name = "Date Received")]
     public DateOnly ReceivedByComplianceDate { get; init; }

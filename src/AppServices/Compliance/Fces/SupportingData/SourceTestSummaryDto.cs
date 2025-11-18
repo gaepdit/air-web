@@ -8,7 +8,7 @@ public record SourceTestSummaryDto
     public int Id { get; init; }
 
     [Display(Name = "Test Reference #")]
-    public int ReferenceNumber { get; init; }
+    public int? ReferenceNumber { get; init; }
 
     [Display(Name = "Date Received by Compliance")]
     public DateOnly ReceivedByComplianceDate { get; init; }
