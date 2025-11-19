@@ -6,8 +6,12 @@ using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using IaipDataService;
 using ServiceDefaults;
+using ZLogger;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure logging
+builder.Logging.ClearProviders().AddZLoggerConsole(options => options.UseJsonFormatter());
 
 // Configure basic settings.
 builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
