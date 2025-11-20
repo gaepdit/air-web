@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
+using ZLogger;
 
 namespace AirWeb.AppServices.Caching;
 
@@ -10,10 +11,10 @@ internal static class CacheLoggingHelpers
     private static readonly EventId AirWebCacheRefresh = new(2504, nameof(AirWebCacheRefresh));
 
     private static void LogCacheHit(this ILogger logger, string cacheKey) =>
-        logger.LogInformation(AirWebCacheHit, "Cache hit for key: {CacheKey}", cacheKey);
+        logger.ZLogInformation(AirWebCacheHit, $"Cache hit for key: {cacheKey}");
 
     private static void LogCacheRefresh(this ILogger logger, string cacheKey) =>
-        logger.LogInformation(AirWebCacheRefresh, "Cache miss for key: {CacheKey}", cacheKey);
+        logger.ZLogInformation(AirWebCacheRefresh, $"Cache miss for key: {cacheKey}");
 
     public static TItem Set<TItem>(this IMemoryCache cache, string key, TItem value,
         TimeSpan timeSpan, ILogger logger)

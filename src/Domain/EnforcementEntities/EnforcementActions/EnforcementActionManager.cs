@@ -3,6 +3,7 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using Microsoft.Extensions.Logging;
+using ZLogger;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -153,7 +154,7 @@ public class EnforcementActionManager(
     {
         if (action.Reviews.Any(r => !r.IsCompleted))
         {
-            logger.LogError("Enforcement action {Id} already has an open review request.", action.Id);
+            logger.ZLogError($"Enforcement action {action.Id} already has an open review request.");
             return;
         }
 
@@ -168,7 +169,7 @@ public class EnforcementActionManager(
     {
         if (action.Reviews.All(r => r.IsCompleted))
         {
-            logger.LogError("Enforcement action {Id} does not have an open review request.", action.Id);
+            logger.ZLogError($"Enforcement action {action.Id} does not have an open review request.");
             return;
         }
 
