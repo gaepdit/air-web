@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
+using ZLogger;
 
 namespace IaipDataService.Utilities;
 
@@ -10,13 +11,13 @@ internal static class CacheLoggingHelpers
     private static readonly EventId IaipDataCacheRefresh = new(2602, nameof(IaipDataCacheRefresh));
 
     private static void LogCacheHit(this ILogger logger, string cacheKey) =>
-        logger.LogInformation(IaipDataCacheHit, "Cache hit for key: {CacheKey}", cacheKey);
+        logger.ZLogInformation(IaipDataCacheHit, $"Cache hit for key: {cacheKey}");
 
     private static void LogCacheRefresh(this ILogger logger, string cacheKey) =>
-        logger.LogInformation(IaipDataCacheRefresh, "Forcing cache refresh for key: {CacheKey}", cacheKey);
+        logger.ZLogInformation(IaipDataCacheRefresh, $"Forcing cache refresh for key: {cacheKey}");
 
     private static void LogCacheMiss(this ILogger logger, string cacheKey) =>
-        logger.LogInformation(IaipDataCacheRefresh, "Cache miss for key: {CacheKey}", cacheKey);
+        logger.ZLogInformation(IaipDataCacheRefresh, $"Cache miss for key: {cacheKey}");
 
     public static TItem Set<TItem>(this IMemoryCache cache, string key, TItem value,
         TimeSpan timeSpan, ILogger logger, bool forceRefresh = false)

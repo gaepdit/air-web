@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using ZLogger;
 
 namespace AirWeb.WebApp.Pages.Dev;
 
@@ -20,7 +21,7 @@ public class ThrowErrorModel : PageModel
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Handled exception message");
+            logger.ZLogError(ex, $"Handled exception message");
         }
     }
 
