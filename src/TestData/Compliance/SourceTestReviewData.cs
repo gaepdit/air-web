@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
+using IaipDataService.Facilities;
 using IaipDataService.TestData;
 
 namespace AirWeb.TestData.Compliance;
@@ -44,6 +45,18 @@ internal static partial class ComplianceWork
             Notes = "Deleted Source Test Review",
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
+        },
+        new(11004, (FacilityId)"001-00001")
+        {
+            WorkEntryType = WorkEntryType.SourceTestReview,
+            ReferenceNumber = null,
+            ResponsibleStaff = UserData.GetRandomUser(),
+            AcknowledgmentLetterDate = null,
+            Notes = "Historical Source Test Review with no Reference Number",
+            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-12)),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-12).AddDays(-12)),
+            DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-12).AddMonths(-12)),
+            FollowupTaken = true,
         },
     ];
 }

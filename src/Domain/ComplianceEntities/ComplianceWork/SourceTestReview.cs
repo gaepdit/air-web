@@ -18,7 +18,7 @@ public class SourceTestReview : ComplianceEvent
 
     // Properties
 
-    public int ReferenceNumber { get; set; }
+    public int? ReferenceNumber { get; set; }
 
     private DateOnly _receivedByComplianceDate;
 

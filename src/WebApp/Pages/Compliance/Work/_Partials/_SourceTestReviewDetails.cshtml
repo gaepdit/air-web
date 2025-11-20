@@ -4,9 +4,17 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">Source Test Reference Number</dt>
     <dd class="col-sm-8 col-lg-9">
-        <a asp-page="/Compliance/SourceTest/Details" asp-route-referenceNumber="@Model.ReferenceNumber.ToString()">
-            <strong>@Model.ReferenceNumber.ToString()</strong>
-        </a>
+        @if (Model.ReferenceNumber is null)
+        {
+            <span class="text-body-secondary fw-lighter">@DefaultText.NotAvailable</span>
+            <div class="text-info-emphasis fw-lighter">(Prior to 2007, compliance reviews were not linked to Reference Numbers.)</div>
+        }
+        else
+        {
+            <a asp-page="/Compliance/SourceTest/Details" asp-route-referenceNumber="@Model.ReferenceNumber.ToString()">
+                <strong>@Model.ReferenceNumber.ToString()</strong>
+            </a>
+        }
     </dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedByComplianceDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedByComplianceDate, DisplayTemplate.ShortDateOnly)</dd>

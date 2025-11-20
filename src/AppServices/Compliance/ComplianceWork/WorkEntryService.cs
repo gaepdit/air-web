@@ -101,7 +101,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, str.ClosedDate)
                 .ConfigureAwait(false);
         }
 
@@ -125,7 +125,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, str.ClosedDate)
                 .ConfigureAwait(false);
         }
 
@@ -148,7 +148,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, str.ClosedDate)
                 .ConfigureAwait(false);
         }
 
@@ -171,7 +171,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, reviewDate: null)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, reviewDate: null)
                 .ConfigureAwait(false);
         }
 
@@ -194,7 +194,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, reviewDate: null)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, reviewDate: null)
                 .ConfigureAwait(false);
         }
 
@@ -216,7 +216,7 @@ public sealed partial class WorkEntryService(
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
-            await testService.UpdateSourceTestAsync(str.ReferenceNumber, complianceEmail!, str.ClosedDate)
+            await testService.UpdateSourceTestAsync(str.ReferenceNumber!.Value, complianceEmail!, str.ClosedDate)
                 .ConfigureAwait(false);
         }
 

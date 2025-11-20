@@ -99,9 +99,9 @@ public sealed class FceService(
 
     private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
     {
-        foreach (var test in tests)
+        foreach (var test in tests.Where(test => test.ReferenceNumber != null))
         {
-            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber).ConfigureAwait(false);
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value).ConfigureAwait(false);
             test.AddDetails(summary);
         }
     }
