@@ -151,7 +151,11 @@ internal static class AppDbContextConfiguration
         builder.Entity<CaseFile>()
             .HasMany(caseFile => caseFile.ComplianceEvents)
             .WithMany(complianceEvent => complianceEvent.CaseFiles)
-            .UsingEntity("CaseFileComplianceEvents");
+            .UsingEntity("CaseFileComplianceEvents", j =>
+            {
+                j.Property("CaseFilesId").HasColumnName("CaseFileId");
+                j.Property("ComplianceEventsId").HasColumnName("ComplianceEventId");
+            });
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
         var aorEntity = builder.Entity<AdministrativeOrder>();
@@ -169,12 +173,14 @@ internal static class AppDbContextConfiguration
         // Resolved date
         aorEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(AdministrativeOrder.ResolvedDate));
         corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
+        lonEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(LetterOfNoncompliance.ResolvedDate));
 
         // Response requested
         infEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
         lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
         nnfEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
-        pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
+        novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NoticeOfViolation.ResponseRequested));
+        pcoEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(ProposedConsentOrder.ResponseRequested));
 
         // Response received
         infEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
@@ -212,7 +218,7 @@ internal static class AppDbContextConfiguration
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<ReportableEnforcement>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;
