@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class ConsentOrder : EnforcementAction, IFormalEnforcementAction
+public class ConsentOrder : ReportableEnforcement, IFormalEnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

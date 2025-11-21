@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class NovNfaLetter : EnforcementAction, IInformalEnforcementAction, IResponseRequested
+public class NovNfaLetter : ReportableEnforcement, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

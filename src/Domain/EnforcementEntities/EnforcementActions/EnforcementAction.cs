@@ -1,10 +1,8 @@
 ﻿using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -77,8 +75,8 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
-    public bool IsReportable => WillBeReportable && IsIssued;
-    public bool WillBeReportable => !IsDeleted && ActionTypeIsReportable(ActionType);
+    public bool IsReportableAction { get; internal init; }
+    public bool IsReportable => IsReportableAction && IsIssued && !IsDeleted;
 
     public static bool ActionTypeIsReportable(EnforcementActionType type) => type
         is EnforcementActionType.AdministrativeOrder
@@ -86,12 +84,6 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
         or EnforcementActionType.NoticeOfViolation
         or EnforcementActionType.NovNfaLetter
         or EnforcementActionType.ProposedConsentOrder;
-
-    public short? ActionNumber { get; set; }
-
-    [JsonIgnore]
-    [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 // The order of these enum values is used by the UI.
