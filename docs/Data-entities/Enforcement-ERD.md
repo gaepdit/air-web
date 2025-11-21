@@ -74,45 +74,45 @@ Columns from the `SSCP_AUDITEDENFORCEMENT` table:
 
 | Column                     | Type          | Migrate | Case File                 | Enforcement Action          |
 |----------------------------|---------------|:-------:|---------------------------|-----------------------------|
-| STRENFORCEMENTNUMBER       | numeric(10)   |    ✓    | Id                        | CaseFile                    |
+| STRENFORCEMENTNUMBER       | numeric(10)   |    ✓    | Id                        | CaseFileId                  |
 | STRTRACKINGNUMBER          | numeric(10)   |    ✗    |                           |                             |
 | STRAIRSNUMBER              | varchar(12)   |    ✓    | FacilityId                |                             |
 | STRENFORCEMENTFINALIZED    | varchar(5)    |    ✓    | IsClosed, CaseFileStatus  |                             |
 | DATENFORCEMENTFINALIZED    | datetime2(0)  |    ✓    | ClosedDate                |                             |
-| NUMSTAFFRESPONSIBLE        | float         |    ✓    | ResponsibleStaff          | ResponsibleStaff            |
+| NUMSTAFFRESPONSIBLE        | float         |    ✓    | ResponsibleStaff          |                             |
 | STRSTATUS                  | varchar(5)    |    ✗    |                           |                             |
 | STRACTIONTYPE              | varchar(15)   |    ✗    |                           |                             |
 | STRGENERALCOMMENTS         | varchar(4000) |    ✓    | Notes                     |                             |
-| STRDISCOVERYDATE           | varchar(5)    |    ✓    | DiscoveryDate             |                             |
+| STRDISCOVERYDATE           | varchar(5)    |    ✗    |                           |                             |
 | DATDISCOVERYDATE           | datetime2(0)  |    ✓    | DiscoveryDate             |                             |
-| STRDAYZERO                 | varchar(5)    |    ✓    | DayZero                   |                             |
+| STRDAYZERO                 | varchar(5)    |    ✗    |                           |                             |
 | DATDAYZERO                 | datetime2(0)  |    ✓    | DayZero                   |                             |
 | STRHPV                     | varchar(15)   |    ✓    | ViolationTypeCode         |                             |
 | STRPOLLUTANTS              | varchar(4000) |    ✓    | PollutantIds, AirPrograms |                             |
 | STRPOLLUTANTSTATUS         | varchar(2)    |    ✗    |                           |                             |
 | STRLONTOUC                 | varchar(5)    |    ✗    |                           |                             |
 | DATLONTOUC                 | datetime2(0)  |    ✓    |                           | (LON) Notes                 |
-| STRLONSENT                 | varchar(5)    |    ✓    | CaseFileStatus            |                             |
+| STRLONSENT                 | varchar(5)    |    ✓    | CaseFileStatus            | ActionType                  |
 | DATLONSENT                 | datetime2(0)  |    ✓    | EnforcementDate           | (LON) IssueDate             |
 | STRLONRESOLVED             | varchar(5)    |    ✗    |                           |                             |
-| DATLONRESOLVED             | datetime2(0)  |    ✓    | ClosedDate                |                             |
+| DATLONRESOLVED             | datetime2(0)  |    ✓    |                           | (LON) ResolvedDate          |
 | STRLONCOMMENTS             | varchar(4000) |    ✓    |                           | (LON) Notes                 |
 | STRLONRESOLVEDENFORCEMENT  | varchar(5)    |    ✗    |                           |                             |
-| STRNOVTOUC                 | varchar(5)    |    ✓    |                           |                             |
-| DATNOVTOUC                 | datetime2(0)  |    ✓    |                           |                             |
-| STRNOVTOPM                 | varchar(5)    |    ✓    |                           |                             |
-| DATNOVTOPM                 | datetime2(0)  |    ✓    |                           |                             |
+| STRNOVTOUC                 | varchar(5)    |    ✗    |                           |                             |
+| DATNOVTOUC                 | datetime2(0)  |    ✓    |                           | (NOV) Notes                 |
+| STRNOVTOPM                 | varchar(5)    |    ✗    |                           |                             |
+| DATNOVTOPM                 | datetime2(0)  |    ✓    |                           | (NOV) Notes                 |
 | STRNOVSENT                 | varchar(5)    |    ✓    | CaseFileStatus            |                             |
 | DATNOVSENT                 | datetime2(0)  |    ✓    | EnforcementDate           | (NOV, NOVNFA) IssueDate     |
-| STRNOVRESPONSERECEIVED     | varchar(5)    |    ✓    |                           | ResponseReceived            |
-| DATNOVRESPONSERECEIVED     | datetime2(0)  |    ✓    |                           | ResponseReceived            |
+| STRNOVRESPONSERECEIVED     | varchar(5)    |    ✓    |                           | (NOV) ResponseRequested     |
+| DATNOVRESPONSERECEIVED     | datetime2(0)  |    ✓    |                           | (NOV) ResponseReceived      |
 | STRNFATOUC                 | varchar(5)    |    ✓    |                           |                             |
 | DATNFATOUC                 | datetime2(0)  |    ✓    |                           |                             |
 | STRNFATOPM                 | varchar(5)    |    ✓    |                           |                             |
 | DATNFATOPM                 | datetime2(0)  |    ✓    |                           |                             |
 | STRNFALETTERSENT           | varchar(5)    |    ✓    |                           |                             |
 | DATNFALETTERSENT           | datetime2(0)  |    ✓    |                           | IssueDate                   |
-| STRNOVCOMMENT              | varchar(4000) |    ✓    |                           | Notes                       |
+| STRNOVCOMMENT              | varchar(4000) |    ✓    |                           | (NOV) Notes                 |
 | STRNOVRESOLVEDENFORCEMENT  | varchar(5)    |    ✗    |                           |                             |
 | STRCOTOUC                  | varchar(5)    |    ✓    |                           |                             |
 | DATCOTOUC                  | datetime2(0)  |    ✓    |                           |                             |
