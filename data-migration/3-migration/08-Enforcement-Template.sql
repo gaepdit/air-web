@@ -40,13 +40,13 @@ select newid()                                                as Id,
                         iif(null is null, null, 'Date LON to UC: ' + format(null, 'd-MMM-yyyy')),
                         AIRBRANCH.air.ReduceText(null)),
               '')                                             as Notes,
-       'Issued'                                               as Status,
+       iif(null = 'True', 'Issued', 'Draft')                  as Status,
        convert(date, null)                                    as IssueDate,
        convert(bit, null)                                     as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, null)                                as ActionNumber,
-       ICIS_STATUSIND                                         as DataExchangeStatus,
+       e.ICIS_STATUSIND                                       as DataExchangeStatus,
 
        -- AdministrativeOrder, ConsentOrder
        null                                                   as ExecutedDate,
@@ -82,3 +82,4 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
         on um.AirbranchUserId = e.STRMODIFINGPERSON
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
+  and e.STRACTIONTYPE = 'CASEFILE'
