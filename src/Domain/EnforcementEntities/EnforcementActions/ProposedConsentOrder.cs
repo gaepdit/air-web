@@ -15,7 +15,7 @@ public class ProposedConsentOrder : ReportableEnforcement, IInformalEnforcementA
         ActionType = EnforcementActionType.ProposedConsentOrder;
     }
 
-    public bool ResponseRequested { get; set; } = true;
+    public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 
     [StringLength(7000)]
