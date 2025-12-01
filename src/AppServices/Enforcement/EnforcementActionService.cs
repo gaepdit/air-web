@@ -10,6 +10,7 @@ using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;
 using Microsoft.Extensions.Logging;
+using ZLogger;
 
 namespace AirWeb.AppServices.Enforcement;
 
@@ -260,9 +261,8 @@ public sealed class EnforcementActionService(
 
         if (!await userService.UserIsInRoleAsync(reviewer, RoleName.EnforcementReviewer).ConfigureAwait(false))
         {
-            logger.LogError(
-                "User {UserId} does not have the Enforcement Manager role and cannot review action {ActionId}.",
-                reviewer.Id, action.Id);
+            logger.ZLogError(
+                $"User {reviewer.Id:@UserId} does not have the Enforcement Manager role and cannot review action {action.Id:@ActionId}.");
             return;
         }
 
