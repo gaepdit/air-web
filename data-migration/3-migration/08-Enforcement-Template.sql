@@ -49,7 +49,7 @@ select newid()                                                as Id,
        e.ICIS_STATUSIND                                       as DataExchangeStatus,
 
        -- AdministrativeOrder, ConsentOrder
-       null                                                   as ExecutedDate,
+       convert(date, null) as ExecutedDate,
 
        -- AdministrativeOrder
        null                                                   as AppealedDate,

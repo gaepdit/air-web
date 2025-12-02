@@ -114,32 +114,32 @@ Columns from the `SSCP_AUDITEDENFORCEMENT` table:
 | DATNFALETTERSENT           | datetime2(0)  |    ✓    |                           | (NFA) IssueDate                 |
 | STRNOVCOMMENT              | varchar(4000) |    ✓    |                           | (NOV) Notes                     |
 | STRNOVRESOLVEDENFORCEMENT  | varchar(5)    |    ✗    |                           |                                 |
-| STRCOTOUC                  | varchar(5)    |    ✓    |                           |                                 |
-| DATCOTOUC                  | datetime2(0)  |    ✓    |                           |                                 |
-| STRCOTOPM                  | varchar(5)    |    ✓    |                           |                                 |
-| DATCOTOPM                  | datetime2(0)  |    ✓    |                           |                                 |
+| STRCOTOUC                  | varchar(5)    |    ✗    |                           |                                 |
+| DATCOTOUC                  | datetime2(0)  |    ✓    |                           | (PCO) Notes                     |
+| STRCOTOPM                  | varchar(5)    |    ✗    |                           |                                 |
+| DATCOTOPM                  | datetime2(0)  |    ✓    |                           | (PCO) Notes                     |
 | STRCOPROPOSED              | varchar(5)    |    ✓    | CaseFileStatus            | Status                          |
 | DATCOPROPOSED              | datetime2(0)  |    ✓    | EnforcementDate           | IssueDate                       |
 | STRCORECEIVEDFROMCOMPANY   | varchar(5)    |    ✗    |                           |                                 |
 | DATCORECEIVEDFROMCOMPANY   | datetime2(0)  |    ✓    |                           | ReceivedFromFacility            |
 | STRCORECEIVEDFROMDIRECTOR  | varchar(5)    |    ✗    |                           |                                 |
 | DATCORECEIVEDFROMDIRECTOR  | datetime2(0)  |    ✓    |                           | ReceivedFromDirectorsOffice     |
-| STRCOEXECUTED              | varchar(5)    |    ✓    | CaseFileStatus            |                                 |
-| DATCOEXECUTED              | datetime2(0)  |    ✓    | EnforcementDate           | (CO) ExecutedDate               |
-| STRCONUMBER                | varchar(255)  |    ✓    |                           | OrderNumber                     |
-| STRCORESOLVED              | varchar(5)    |    ✓    |                           |                                 |
-| DATCORESOLVED              | datetime2(0)  |    ✓    |                           | OrderResolved                   |
+| STRCOEXECUTED              | varchar(5)    |    ✓    | CaseFileStatus            | Status                          |
+| DATCOEXECUTED              | datetime2(0)  |    ✓    | EnforcementDate           | ExecutedDate, IssueDate         |
+| STRCONUMBER                | varchar(255)  |    ✓    |                           | OrderId, OrderNumber            |
+| STRCORESOLVED              | varchar(5)    |    ✗    |                           |                                 |
+| DATCORESOLVED              | datetime2(0)  |    ✓    |                           | ResolvedDate                    |
 | STRCOPENALTYAMOUNT         | varchar(20)   |    ✓    |                           | PenaltyAmount                   |
 | STRCOPENALTYAMOUNTCOMMENTS | varchar(4000) |    ✓    |                           | PenaltyComment                  |
-| STRCOCOMMENT               | varchar(4000) |    ✓    |                           | Notes                           |
+| STRCOCOMMENT               | varchar(4000) |    ✓    |                           | (CO) Notes                      |
 | STRSTIPULATEDPENALTY       | varchar(3)    |    ✗    |                           |                                 |
 | STRCORESOLVEDENFORCEMENT   | varchar(5)    |    ✗    |                           |                                 |
 | STRAOEXECUTED              | varchar(5)    |    ✓    | CaseFileStatus            |                                 |
-| DATAOEXECUTED              | datetime2(0)  |    ✓    | EnforcementDate           | (AO) ExecutedDate               |
-| STRAOAPPEALED              | varchar(5)    |    ✓    |                           |                                 |
-| DATAOAPPEALED              | datetime2(0)  |    ✓    |                           |                                 |
-| STRAORESOLVED              | varchar(5)    |    ✓    |                           |                                 |
-| DATAORESOLVED              | datetime2(0)  |    ✓    |                           |                                 |
+| DATAOEXECUTED              | datetime2(0)  |    ✓    | EnforcementDate           | ExecutedDate, IssueDate         |
+| STRAOAPPEALED              | varchar(5)    |    ✗    |                           |                                 |
+| DATAOAPPEALED              | datetime2(0)  |    ✓    |                           | AppealedDate                    |
+| STRAORESOLVED              | varchar(5)    |    ✗    |                           |                                 |
+| DATAORESOLVED              | datetime2(0)  |    ✓    |                           | ResolvedDate                    |
 | STRAOCOMMENT               | varchar(4000) |    ✓    |                           | Notes                           |
 | STRAFSKEYACTIONNUMBER      | varchar(5)    |    ✓    | ActionNumber              |                                 |
 | STRAFSNOVSENTNUMBER        | varchar(5)    |    ✓    |                           | ActionNumber                    |
