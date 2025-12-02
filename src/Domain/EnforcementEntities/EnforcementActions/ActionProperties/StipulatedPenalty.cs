@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.DataAttributes;
+using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
@@ -21,7 +22,8 @@ public class StipulatedPenalty : AuditableSoftDeleteEntity<Guid>
 
     public ConsentOrder ConsentOrder { get; init; } = null!;
 
-    [Precision(precision: 12, scale: 2)]
+    [Precision(precision: 18, scale: 2)]
+    [PositiveDecimal]
     public decimal Amount { get; private init; }
 
     public DateOnly ReceivedDate { get; private init; }
