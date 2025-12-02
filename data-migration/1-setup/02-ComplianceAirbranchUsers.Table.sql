@@ -8,7 +8,7 @@ create table air.ComplianceUserIds
 )
 go
 
-insert into AIRBRANCH.air.ComplianceUserIds (UserId)
+-- insert into AIRBRANCH.air.ComplianceUserIds (UserId)
 select UserId
 from (select STRMODIFINGPERSON as UserId
       from AIRBRANCH.dbo.SSCPACCS

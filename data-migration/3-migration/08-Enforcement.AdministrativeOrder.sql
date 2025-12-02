@@ -56,4 +56,10 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
   and e.STRACTIONTYPE = 'CASEFILE'
-  and e.STRAOEXECUTED = 'True';
+  and e.STRAOEXECUTED = 'True'
+
+order by e.STRENFORCEMENTNUMBER;
+
+select *
+from AirWeb.dbo.EnforcementActions
+where ActionType = 'AdministrativeOrder';

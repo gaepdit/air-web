@@ -56,4 +56,10 @@ where isnull(e.IsDeleted, 0) = convert(bit, 0)
   and (e.STRNOVTOUC = 'True' or e.STRNOVTOPM = 'True' or e.STRNOVSENT = 'True')
 
   -- If NOV and NFA issued dates are the same, migrate as `NovNfaLetter`.
-  and (e.DATNFALETTERSENT is null or convert(date, e.DATNOVSENT) <> convert(date, e.DATNFALETTERSENT));
+  and (e.DATNFALETTERSENT is null or convert(date, e.DATNOVSENT) <> convert(date, e.DATNFALETTERSENT))
+
+order by e.STRENFORCEMENTNUMBER;
+
+select *
+from AirWeb.dbo.EnforcementActions
+where ActionType = 'NoticeOfViolation';

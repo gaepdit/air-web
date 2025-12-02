@@ -79,7 +79,8 @@ begin
             on li.STRNOTIFICATIONKEY = d.STRNOTIFICATIONTYPE
         left join AirWeb.dbo.Lookups lw
             on lw.Name = li.STRNOTIFICATIONDESC
-
+            and lw.Discriminator = 'NotificationType'
+        
         inner join AirWeb.dbo.AspNetUsers ur
             on ur.AirbranchUserId = i.STRRESPONSIBLESTAFF
         inner join AirWeb.dbo.AspNetUsers uc
@@ -88,7 +89,9 @@ begin
             on um.AirbranchUserId = d.STRMODIFINGPERSON
 
     where i.STRDELETE is null
-      and i.STREVENTTYPE = '05';
+      and i.STREVENTTYPE = '05'
+
+    order by i.STRTRACKINGNUMBER;
 
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 

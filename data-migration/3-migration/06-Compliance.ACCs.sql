@@ -74,7 +74,9 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on um.AirbranchUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null
-  and i.STREVENTTYPE = '04';
+  and i.STREVENTTYPE = '04'
+
+order by i.STRTRACKINGNUMBER;
 
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 

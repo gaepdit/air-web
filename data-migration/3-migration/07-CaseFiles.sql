@@ -71,7 +71,9 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
     left join AirWeb.dbo.AspNetUsers um
         on um.AirbranchUserId = e.STRMODIFINGPERSON
 
-where isnull(e.IsDeleted, 0) = convert(bit, 0);
+where isnull(e.IsDeleted, 0) = convert(bit, 0)
+
+order by e.STRENFORCEMENTNUMBER;
 
 -- SET IDENTITY_INSERT AirWeb.dbo.CaseFiles OFF;
 

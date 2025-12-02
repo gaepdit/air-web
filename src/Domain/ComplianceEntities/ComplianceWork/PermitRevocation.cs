@@ -28,7 +28,9 @@ public class PermitRevocation : WorkEntry
         }
     }
 
-    public DateOnly PermitRevocationDate { get; set; }
+    // Required for new data but nullable for historical data.
+    public DateOnly? PermitRevocationDate { get; set; }
+
     public DateOnly? PhysicalShutdownDate { get; set; }
     public bool FollowupTaken { get; set; }
 }

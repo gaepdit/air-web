@@ -8,7 +8,7 @@ SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
 --  CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments)
 
 select i.STRFCENUMBER                                         as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)         as FacilityId,
+       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
        d.STRFCEYEAR                                           as Year,
        ur.Id                                                  as ReviewedById,
        convert(date, d.DATFCECOMPLETED)                       as CompletedDate,
@@ -31,7 +31,12 @@ from AIRBRANCH.dbo.SSCPFCEMASTER i
     inner join AirWeb.dbo.AspNetUsers uc
         on uc.AirbranchUserId = i.STRMODIFINGPERSON
     inner join AirWeb.dbo.AspNetUsers um
-        on um.AirbranchUserId = d.STRMODIFINGPERSON;
+        on um.AirbranchUserId = d.STRMODIFINGPERSON
+
+where i.IsDeleted = 'False' or
+      i.IsDeleted is null
+
+order by i.STRFCENUMBER;
 
 SET IDENTITY_INSERT AirWeb.dbo.Fces OFF;
 

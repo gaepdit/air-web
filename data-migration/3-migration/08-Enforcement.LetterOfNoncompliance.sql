@@ -42,7 +42,10 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
   and e.STRACTIONTYPE = 'LON'
-  and (e.STRLONTOUC = 'True' or e.STRLONSENT = 'True' or e.STRLONCOMMENTS is not null);
+  and (e.STRLONTOUC = 'True' or e.STRLONSENT = 'True' or e.STRLONCOMMENTS is not null)
+
+order by e.STRENFORCEMENTNUMBER;
 
 select *
-from AirWeb.dbo.EnforcementActions;
+from AirWeb.dbo.EnforcementActions
+where ActionType = 'LetterOfNoncompliance';

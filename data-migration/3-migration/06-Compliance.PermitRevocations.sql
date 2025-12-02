@@ -34,7 +34,7 @@ select i.STRTRACKINGNUMBER                                              as Id,
        convert(date, i.DATRECEIVEDDATE)                                 as ReceivedDate,
        convert(bit, d.STRNOTIFICATIONFOLLOWUP)                          as FollowupTaken,
 
-       convert(date, d.DATNOTIFICATIONDUE)                              as PermitRevocationDate,
+       AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)                      as PermitRevocationDate,
        convert(date, d.DATNOTIFICATIONSENT)                             as PhysicalShutdownDate,
 
        i.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as CreatedAt,
@@ -58,6 +58,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on li.STRNOTIFICATIONKEY = d.STRNOTIFICATIONTYPE
     left join AirWeb.dbo.Lookups lw
         on lw.Name = li.STRNOTIFICATIONDESC
+        and lw.Discriminator = 'NotificationType'
 
     inner join AirWeb.dbo.AspNetUsers ur
         on ur.AirbranchUserId = i.STRRESPONSIBLESTAFF
@@ -67,7 +68,9 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on um.AirbranchUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null
-  and i.STREVENTTYPE = '05';
+  and i.STREVENTTYPE = '05'
+
+order by i.STRTRACKINGNUMBER;
 
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 

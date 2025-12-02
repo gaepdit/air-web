@@ -65,4 +65,10 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
   and e.STRACTIONTYPE = 'CASEFILE'
-  and (e.STRCORECEIVEDFROMCOMPANY = 'True' or e.STRCORECEIVEDFROMDIRECTOR = 'True' or e.STRCOEXECUTED = 'True');
+  and (e.STRCORECEIVEDFROMCOMPANY = 'True' or e.STRCORECEIVEDFROMDIRECTOR = 'True' or e.STRCOEXECUTED = 'True')
+
+order by e.STRENFORCEMENTNUMBER;
+
+select *
+from AirWeb.dbo.EnforcementActions
+where ActionType = 'ConsentOrder';
