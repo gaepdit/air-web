@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251003192110_Init")]
+    [Migration("20251203214405_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -453,8 +453,8 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasPrecision(12, 2)
-                        .HasColumnType("decimal(12,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ConsentOrderId")
                         .HasColumnType("uniqueidentifier");
@@ -500,9 +500,6 @@ namespace AirWeb.EfRepository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<short?>("ActionNumber")
-                        .HasColumnType("smallint");
-
                     b.Property<string>("ActionType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -528,11 +525,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<string>("CurrentReviewerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DataExchangeStatus")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
-
                     b.Property<string>("DeleteComments")
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
@@ -544,6 +536,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportableAction")
                         .HasColumnType("bit");
 
                     b.Property<DateOnly?>("IssueDate")
@@ -705,10 +700,12 @@ namespace AirWeb.EfRepository.Migrations
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
                     b.Property<int>("CaseFilesId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CaseFileId");
 
                     b.Property<int>("ComplianceEventsId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ComplianceEventId");
 
                     b.HasKey("CaseFilesId", "ComplianceEventsId");
 
@@ -1012,7 +1009,7 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("FollowupTaken");
 
-                    b.Property<DateOnly>("PermitRevocationDate")
+                    b.Property<DateOnly?>("PermitRevocationDate")
                         .HasColumnType("date");
 
                     b.Property<DateOnly?>("PhysicalShutdownDate")
@@ -1024,67 +1021,6 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnName("ReceivedDate");
 
                     b.HasDiscriminator().HasValue("PermitRevocation");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.AdministrativeOrder", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
-
-                    b.Property<DateOnly?>("AppealedDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("ExecutedDate")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ExecutedDate");
-
-                    b.Property<DateOnly?>("ResolvedDate")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ResolvedDate");
-
-                    b.HasDiscriminator().HasValue("AdministrativeOrder");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
-
-                    b.Property<DateOnly?>("ExecutedDate")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ExecutedDate");
-
-                    b.Property<short>("OrderId")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("OrderNumber")
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
-                    b.Property<decimal?>("PenaltyAmount")
-                        .HasPrecision(12, 2)
-                        .HasColumnType("decimal(12,2)");
-
-                    b.Property<string>("PenaltyComment")
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("ReceivedFromDirectorsOffice")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("ReceivedFromFacility")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("ResolvedDate")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ResolvedDate");
-
-                    b.Property<bool>("StipulatedPenaltiesDefined")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("ConsentOrder");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.InformationalLetter", b =>
@@ -1115,7 +1051,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
 
                     b.Property<DateOnly?>("ResolvedDate")
-                        .HasColumnType("date");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResolvedDate");
 
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1132,12 +1070,6 @@ namespace AirWeb.EfRepository.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("bit")
                         .HasColumnName("ResponseRequested");
-
-                    b.ToTable("EnforcementActions", t =>
-                        {
-                            t.Property("ResolvedDate")
-                                .HasColumnName("LetterOfNoncompliance_ResolvedDate");
-                        });
 
                     b.HasDiscriminator().HasValue("LetterOfNoncompliance");
                 });
@@ -1149,81 +1081,17 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("NoFurtherActionLetter");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NoticeOfViolation", b =>
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement", b =>
                 {
                     b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
 
-                    b.Property<string>("ResponseComment")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ResponseComment");
+                    b.Property<short>("ActionNumber")
+                        .HasColumnType("smallint");
 
-                    b.Property<DateOnly?>("ResponseReceived")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ResponseReceived");
-
-                    b.Property<bool>("ResponseRequested")
-                        .HasColumnType("bit");
-
-                    b.ToTable("EnforcementActions", t =>
-                        {
-                            t.Property("ResponseRequested")
-                                .HasColumnName("NoticeOfViolation_ResponseRequested");
-                        });
-
-                    b.HasDiscriminator().HasValue("NoticeOfViolation");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NovNfaLetter", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
-
-                    b.Property<string>("ResponseComment")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ResponseComment");
-
-                    b.Property<DateOnly?>("ResponseReceived")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ResponseReceived");
-
-                    b.Property<bool>("ResponseRequested")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("bit")
-                        .HasColumnName("ResponseRequested");
-
-                    b.HasDiscriminator().HasValue("NovNfaLetter");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ProposedConsentOrder", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
-
-                    b.Property<string>("ResponseComment")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasMaxLength(7000)
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ResponseComment");
-
-                    b.Property<DateOnly?>("ResponseReceived")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("date")
-                        .HasColumnName("ResponseReceived");
-
-                    b.Property<bool>("ResponseRequested")
-                        .HasColumnType("bit");
-
-                    b.ToTable("EnforcementActions", t =>
-                        {
-                            t.Property("ResponseRequested")
-                                .HasColumnName("ProposedConsentOrder_ResponseRequested");
-                        });
-
-                    b.HasDiscriminator().HasValue("ProposedConsentOrder");
+                    b.Property<string>("DataExchangeStatus")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Lookups.NotificationTypes.NotificationType", b =>
@@ -1244,30 +1112,30 @@ namespace AirWeb.EfRepository.Migrations
                 {
                     b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceEvent");
 
-                    b.Property<int>("AccReportingYear")
+                    b.Property<int?>("AccReportingYear")
                         .HasColumnType("int");
 
-                    b.Property<bool>("CorrectlyCompleted")
+                    b.Property<bool?>("CorrectlyCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EnforcementNeeded")
+                    b.Property<bool?>("EnforcementNeeded")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("bit")
                         .HasColumnName("EnforcementNeeded");
 
-                    b.Property<bool>("IncludesAllTvConditions")
+                    b.Property<bool?>("IncludesAllTvConditions")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IncludesPreviouslyUnreportedDeviations")
+                    b.Property<bool?>("IncludesPreviouslyUnreportedDeviations")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("OnCorrectForms")
+                    b.Property<bool?>("OnCorrectForms")
                         .HasColumnType("bit");
 
-                    b.Property<DateOnly>("PostmarkDate")
+                    b.Property<DateOnly?>("PostmarkDate")
                         .HasColumnType("date");
 
-                    b.Property<bool>("PostmarkedOnTime")
+                    b.Property<bool?>("PostmarkedOnTime")
                         .HasColumnType("bit");
 
                     b.Property<DateOnly>("ReceivedDate")
@@ -1275,18 +1143,18 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("date")
                         .HasColumnName("ReceivedDate");
 
-                    b.Property<bool>("ReportsAllKnownDeviations")
+                    b.Property<bool?>("ReportsAllKnownDeviations")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ReportsDeviations")
+                    b.Property<bool?>("ReportsDeviations")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("bit")
                         .HasColumnName("ReportsDeviations");
 
-                    b.Property<bool>("ResubmittalRequired")
+                    b.Property<bool?>("ResubmittalRequired")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("SignedByRo")
+                    b.Property<bool?>("SignedByRo")
                         .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("AnnualComplianceCertification");
@@ -1400,10 +1268,136 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateOnly>("ReceivedByComplianceDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("ReferenceNumber")
+                    b.Property<int?>("ReferenceNumber")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SourceTestReview");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.AdministrativeOrder", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement");
+
+                    b.Property<DateOnly?>("AppealedDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ExecutedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ExecutedDate");
+
+                    b.Property<DateOnly?>("ResolvedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResolvedDate");
+
+                    b.HasDiscriminator().HasValue("AdministrativeOrder");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement");
+
+                    b.Property<DateOnly?>("ExecutedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ExecutedDate");
+
+                    b.Property<short?>("OrderId")
+                        .HasColumnType("smallint");
+
+                    b.Property<decimal?>("PenaltyAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PenaltyComment")
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("ReceivedFromDirectorsOffice")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ReceivedFromFacility")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ResolvedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResolvedDate");
+
+                    b.Property<bool>("StipulatedPenaltiesDefined")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("ConsentOrder");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NoticeOfViolation", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement");
+
+                    b.Property<string>("ResponseComment")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ResponseComment");
+
+                    b.Property<DateOnly?>("ResponseReceived")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResponseReceived");
+
+                    b.Property<bool>("ResponseRequested")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit")
+                        .HasColumnName("ResponseRequested");
+
+                    b.HasDiscriminator().HasValue("NoticeOfViolation");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NovNfaLetter", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement");
+
+                    b.Property<string>("ResponseComment")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ResponseComment");
+
+                    b.Property<DateOnly?>("ResponseReceived")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResponseReceived");
+
+                    b.Property<bool>("ResponseRequested")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit")
+                        .HasColumnName("ResponseRequested");
+
+                    b.HasDiscriminator().HasValue("NovNfaLetter");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ProposedConsentOrder", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcement");
+
+                    b.Property<string>("ResponseComment")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ResponseComment");
+
+                    b.Property<DateOnly?>("ResponseReceived")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ResponseReceived");
+
+                    b.Property<bool>("ResponseRequested")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit")
+                        .HasColumnName("ResponseRequested");
+
+                    b.HasDiscriminator().HasValue("ProposedConsentOrder");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceWork.Inspection", b =>

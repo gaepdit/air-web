@@ -411,24 +411,21 @@ namespace AirWeb.EfRepository.Migrations
                     ApprovedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IssueDate = table.Column<DateOnly>(type: "date", nullable: true),
                     CanceledDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ActionNumber = table.Column<short>(type: "smallint", nullable: true),
-                    DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    ExecutedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    AppealedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    ResolvedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    ReceivedFromFacility = table.Column<DateOnly>(type: "date", nullable: true),
-                    ReceivedFromDirectorsOffice = table.Column<DateOnly>(type: "date", nullable: true),
-                    OrderId = table.Column<short>(type: "smallint", nullable: true),
-                    OrderNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
-                    PenaltyAmount = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: true),
-                    PenaltyComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
-                    StipulatedPenaltiesDefined = table.Column<bool>(type: "bit", nullable: true),
+                    IsReportableAction = table.Column<bool>(type: "bit", nullable: false),
                     ResponseRequested = table.Column<bool>(type: "bit", nullable: true),
                     ResponseReceived = table.Column<DateOnly>(type: "date", nullable: true),
                     ResponseComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
-                    LetterOfNoncompliance_ResolvedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    NoticeOfViolation_ResponseRequested = table.Column<bool>(type: "bit", nullable: true),
-                    ProposedConsentOrder_ResponseRequested = table.Column<bool>(type: "bit", nullable: true),
+                    ResolvedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    ActionNumber = table.Column<short>(type: "smallint", nullable: true),
+                    DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    ExecutedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    AppealedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    ReceivedFromFacility = table.Column<DateOnly>(type: "date", nullable: true),
+                    ReceivedFromDirectorsOffice = table.Column<DateOnly>(type: "date", nullable: true),
+                    OrderId = table.Column<short>(type: "smallint", nullable: true),
+                    PenaltyAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
+                    PenaltyComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
+                    StipulatedPenaltiesDefined = table.Column<bool>(type: "bit", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -468,21 +465,21 @@ namespace AirWeb.EfRepository.Migrations
                 name: "CaseFileComplianceEvents",
                 columns: table => new
                 {
-                    CaseFilesId = table.Column<int>(type: "int", nullable: false),
-                    ComplianceEventsId = table.Column<int>(type: "int", nullable: false)
+                    CaseFileId = table.Column<int>(type: "int", nullable: false),
+                    ComplianceEventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CaseFileComplianceEvents", x => new { x.CaseFilesId, x.ComplianceEventsId });
+                    table.PrimaryKey("PK_CaseFileComplianceEvents", x => new { x.CaseFileId, x.ComplianceEventId });
                     table.ForeignKey(
-                        name: "FK_CaseFileComplianceEvents_CaseFiles_CaseFilesId",
-                        column: x => x.CaseFilesId,
+                        name: "FK_CaseFileComplianceEvents_CaseFiles_CaseFileId",
+                        column: x => x.CaseFileId,
                         principalTable: "CaseFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CaseFileComplianceEvents_ComplianceWork_ComplianceEventsId",
-                        column: x => x.ComplianceEventsId,
+                        name: "FK_CaseFileComplianceEvents_ComplianceWork_ComplianceEventId",
+                        column: x => x.ComplianceEventId,
                         principalTable: "ComplianceWork",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -623,7 +620,7 @@ namespace AirWeb.EfRepository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ConsentOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     ReceivedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -710,9 +707,9 @@ namespace AirWeb.EfRepository.Migrations
                 column: "WorkEntryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CaseFileComplianceEvents_ComplianceEventsId",
+                name: "IX_CaseFileComplianceEvents_ComplianceEventId",
                 table: "CaseFileComplianceEvents",
-                column: "ComplianceEventsId");
+                column: "ComplianceEventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CaseFiles_ClosedById",

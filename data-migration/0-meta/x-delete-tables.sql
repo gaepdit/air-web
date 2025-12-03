@@ -1,4 +1,5 @@
 -- This script will delete all tables from AirWeb.
+use AirWeb
 
 -- drop table AirWeb.dbo.AspNetRoleClaims;
 -- drop table AirWeb.dbo.AspNetUserClaims;
