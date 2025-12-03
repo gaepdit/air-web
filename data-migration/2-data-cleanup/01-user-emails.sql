@@ -1,9 +1,7 @@
-﻿use [AIRBRANCH]
-go
-
--- Stats on malformed email addresses
-select distinct substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS)) as domain
-from AIRBRANCH.dbo.EPDUSERPROFILES;
+﻿-- Stats on malformed email addresses
+select substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS)) as domain, count(*)
+from AIRBRANCH.dbo.EPDUSERPROFILES
+group by substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS));
 
 select *
 from AIRBRANCH.dbo.EPDUSERPROFILES

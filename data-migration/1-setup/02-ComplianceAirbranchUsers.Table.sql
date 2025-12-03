@@ -1,7 +1,4 @@
-use [AIRBRANCH]
-go
-
-create table air.ComplianceUserIds
+create table AIRBRANCH.air.ComplianceUserIds
 (
     UserId int not null
         constraint ComplianceUserIds_pk primary key
@@ -9,6 +6,7 @@ create table air.ComplianceUserIds
 go
 
 -- insert into AIRBRANCH.air.ComplianceUserIds (UserId)
+
 select UserId
 from (select STRMODIFINGPERSON as UserId
       from AIRBRANCH.dbo.SSCPACCS
@@ -52,3 +50,6 @@ from (select STRMODIFINGPERSON as UserId
       select CreatedBy
       from AIRBRANCH.dbo.SSCP_EnforcementEvents) t
 where t.UserId is not null;
+
+select *
+from AIRBRANCH.air.ComplianceUserIds;

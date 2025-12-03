@@ -2,21 +2,21 @@
 -- (
 --     -- EnforcementAction (All)
 --     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
--- 
+--
 --     -- ReportableEnforcement
 --     -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
 --     ActionNumber, DataExchangeStatus,
--- 
+--
 --     -- AdministrativeOrder, ConsentOrder
 --     ExecutedDate,
--- 
+--
 --     -- AdministrativeOrder, ConsentOrder, LetterOfNoncompliance
 --     ResolvedDate,
--- 
+--
 --     -- ConsentOrder
---     ReceivedFromFacility, ReceivedFromDirectorsOffice, OrderId, OrderNumber,
+--     ReceivedFromFacility, ReceivedFromDirectorsOffice, OrderId,
 --     PenaltyAmount, PenaltyComment, StipulatedPenaltiesDefined,
--- 
+--
 --     -- EnforcementAction (All)
 --     UpdatedAt, UpdatedById, IsDeleted)
 
@@ -26,7 +26,7 @@ select newid()                                                            as Id,
        AIRBRANCH.air.ReduceText(e.STRCOCOMMENT)                           as Notes,
        iif(e.STRCOEXECUTED = 'True', 'Issued', 'Draft')                   as Status,
        convert(date, e.DATCOEXECUTED)                                     as IssueDate,
-       convert(bit, null)                                                 as IsReportableAction,
+       convert(bit, 1)                                                    as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSCOEXECUTEDNUMBER)                        as ActionNumber,

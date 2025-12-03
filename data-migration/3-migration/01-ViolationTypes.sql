@@ -66,3 +66,6 @@ VALUES
  N'HPV', 1),
 (N'M4E', N'Historic - Violation of opacity standards (0-20%) via Method 9 VE Readings', N'HPV', 1),
 (N'M4F', N'Historic - Violation of opacity standards (>20%) via Method 9 VE Readings', N'HPV', 1);
+
+select *
+from AirWeb.dbo.ViolationTypes;

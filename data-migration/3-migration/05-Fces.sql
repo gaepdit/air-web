@@ -1,4 +1,4 @@
-SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
+-- SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
 
 -- insert into AirWeb.dbo.Fces
 -- (Id, FacilityId, Year, ReviewedById, CompletedDate, OnsiteInspection, Notes, DataExchangeStatus,

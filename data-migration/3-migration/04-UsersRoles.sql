@@ -62,7 +62,15 @@ with roleX(IaipRole, AirWebRole) as
           union
           select N'SSCP Unit Manager', N'EnforcementReviewer'
           union
-          select N'SSCP Unit Manager', N'ComplianceManager'),
+          select N'SSCP Unit Manager', N'ComplianceManager'
+          union
+          select N'DMU Management', N'AppUserAdmin'
+          union
+          select N'DMU Management', N'ComplianceSiteMaintenance'
+          union
+          select N'DMU Management', N'GeneralStaff'
+          union
+          select N'DMU Management', N'SiteMaintenance'),
 
      iaipRoles(AirBranchUserId, Email, IaipRoleName) as
          (select u.NUMUSERID,
@@ -77,11 +85,12 @@ with roleX(IaipRole, AirWebRole) as
               left join AIRBRANCH.dbo.LOOKUPIAIPACCOUNTS a
                   on a.NUMACCOUNTCODE = l.value
           where u.NUMEMPLOYEESTATUS = 1
-            and a.Active = 1
-            and convert(int, l.value) in (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140))
+            and (a.Active = 1 or a.NUMACCOUNTCODE = 118)
+            and convert(int, l.value) in
+                (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140, 118))
 
--- insert
--- into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
+insert
+into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
 
 select distinct u.Id as UserId,
                 r.Id as RoleId
@@ -104,3 +113,4 @@ from AirWeb.dbo.AspNetUsers u
         on u.Id = ur.UserId
     inner join AirWeb.dbo.AspNetRoles r
         on r.Id = ur.RoleId
+order by u.Email;

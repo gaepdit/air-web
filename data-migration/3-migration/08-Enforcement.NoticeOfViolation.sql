@@ -2,14 +2,14 @@
 -- (
 --     -- EnforcementAction (All)
 --     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
---     
+--
 --     -- ReportableEnforcement
 --     -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
 --     ActionNumber, DataExchangeStatus,
--- 
+--
 --     -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
 --     ResponseRequested, ResponseReceived, ResponseComment,
--- 
+--
 --     -- EnforcementAction (All)
 --     UpdatedAt, UpdatedById, IsDeleted)
 

@@ -16,6 +16,7 @@ VALUES
 (newid(), N'APB Compliance Program: Air Toxics', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program: Chemicals/Minerals', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program: VOC/Combustion', convert(bit, 1), N'Office', sysdatetimeoffset()),
+(newid(), N'APB Compliance Program: Source Monitoring Unit', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'Director''s Office', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'Coastal District (Brunswick)', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'East Central District (Augusta)', convert(bit, 1), N'Office', sysdatetimeoffset()),
@@ -30,3 +31,6 @@ VALUES
 (newid(), N'APB Permitting Program: Minerals Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: NOx Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: VOC Permitting', convert(bit, 1), N'Office', sysdatetimeoffset());
+
+select *
+from AirWeb.dbo.Lookups;

@@ -1,22 +1,22 @@
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
+--
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
 --     -- WorkEntry
 --     Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate, IsComplianceEvent,
--- 
+--
 --     -- ComplianceEvent
 --     DataExchangeStatus,
--- 
+--
 --     -- Inspection, Notification, PermitRevocation, SourceTestReview
 --     FollowupTaken,
--- 
+--
 --     -- Notification, Report, SourceTestReview
 --     DueDate,
--- 
+--
 --     -- SourceTestReview
 --     ReferenceNumber, ReceivedByComplianceDate,
--- 
+--
 --     -- WorkEntry
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --     ClosedById, ClosedDate)
@@ -64,7 +64,7 @@ where i.STRDELETE is null
 
 order by i.STRTRACKINGNUMBER;
 
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
+SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 select *
 from AirWeb.dbo.ComplianceWork

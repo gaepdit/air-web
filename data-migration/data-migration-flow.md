@@ -2,27 +2,27 @@
 
 ## New tables
 
-* [x] `AspNetRoles` (automatically populated)
-* [x] `AspNetUsers`
-* [x] `AspNetUserRoles`
-* [ ] `AuditPoints`
-    * [ ] FCE
-    * [ ] Case File
-    * [ ] Work Entry
-* [ ] `CaseFileComplianceEvents`
-* [ ] `CaseFiles`
-* [ ] `Comments`
-    * [ ] FCE
-    * [ ] Case File
-    * [ ] Work Entry
-* [ ] `ComplianceWork` ("WorkEntry" entity)
-* [ ] `EmailLogs`
-* [ ] `EnforcementActionReviews`
-* [ ] `EnforcementActions`
-* [ ] `Fces`
-* [x] `Lookups`
-* [ ] `StipulatedPenalties`
-* [x] `ViolationTypes`
+* `AspNetRoles` (automatically populated)
+* `AspNetUsers`
+* `AspNetUserRoles`
+* `AuditPoints`
+    * FCE
+    * Case File
+    * Work Entry
+* `CaseFileComplianceEvents`
+* `CaseFiles`
+* `Comments`
+    * FCE
+    * Case File
+    * Work Entry
+* `ComplianceWork` ("WorkEntry" entity)
+* `EmailLogs`
+* `EnforcementActionReviews`
+* `EnforcementActions`
+* `Fces`
+* `Lookups`
+* `StipulatedPenalties`
+* `ViolationTypes`
 
 ## Old tables
 
@@ -82,9 +82,10 @@ title: Compliance Work
 ---
 flowchart LR
     SSCP_AUDITEDENFORCEMENT --> CaseFiles
-    SSCP_AUDITEDENFORCEMENT --> EnforcementActionReviews
     SSCP_AUDITEDENFORCEMENT --> EnforcementActions
+    SSCP_EnforcementEvents --> CaseFileComplianceEvents
     SSCPENFORCEMENTSTIPULATED --> StipulatedPenalties
+    none --> EnforcementActionReviews
 ```
 
 ```mermaid

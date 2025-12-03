@@ -6,29 +6,30 @@ begin
          where Discriminator = 'NotificationType'
            and Name = 'Other');
 
-    --     SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
+    --
+--     SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+--
 --     insert into AirWeb.dbo.ComplianceWork
 --     (
 --         -- WorkEntry
 --         Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
 --         IsComplianceEvent,
--- 
+--
 --         -- AnnualComplianceCertification, Notification, Report
 --         ReceivedDate,
--- 
+--
 --         -- Inspection, Notification, PermitRevocation, SourceTestReview
 --         FollowupTaken,
--- 
+--
 --         -- Notification, Report, SourceTestReview
 --         DueDate,
--- 
+--
 --         -- Notification, Report
 --         SentDate,
--- 
+--
 --         -- Notification
 --         NotificationTypeId,
--- 
+--
 --         -- WorkEntry
 --         CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --         ClosedById, ClosedDate)
@@ -77,7 +78,7 @@ begin
         left join AirWeb.dbo.Lookups lw
             on lw.Name = li.STRNOTIFICATIONDESC
             and lw.Discriminator = 'NotificationType'
-        
+
         inner join AirWeb.dbo.AspNetUsers ur
             on ur.AirBranchUserId = i.STRRESPONSIBLESTAFF
         inner join AirWeb.dbo.AspNetUsers uc
@@ -90,7 +91,7 @@ begin
 
     order by i.STRTRACKINGNUMBER;
 
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
+    SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 end
 

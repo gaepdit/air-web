@@ -2,7 +2,7 @@
 -- (
 --     -- EnforcementAction (All)
 --     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
---     
+--
 --     -- EnforcementAction (All)
 --     UpdatedAt, UpdatedById, IsDeleted)
 
