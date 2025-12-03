@@ -166,12 +166,12 @@ Columns from the `SSCP_EnforcementEvents` table:
 
 Columns from the `SSCPENFORCEMENTSTIPULATED` table:
 
-| Column                        | Type          | Migrate | Destination              |
-|-------------------------------|---------------|:-------:|--------------------------|
-| STRENFORCEMENTNUMBER          | varchar(10)   |    ✓    | ConsentOrder             |
-| STRENFORCEMENTKEY             | varchar(3)    |    ✓    | SortOrder                |
-| STRSTIPULATEDPENALTY          | varchar(10)   |    ✓    | StipulatedPenaltyAmount  |
-| STRSTIPULATEDPENALTYCOMMENTS  | varchar(4000) |    ✓    | StipulatedPenaltyComment |
-| STRAFSSTIPULATEDPENALTYNUMBER | varchar(5)    |    ✗    |                          |
-| STRMODIFINGPERSON             | varchar(3)    |    ✓    | UpdatedById              |
-| DATMODIFINGDATE               | datetime2(0)  |    ✓    | UpdatedAt                |
+| Column                        | Type          | Migrate | Destination               |
+|-------------------------------|---------------|:-------:|---------------------------|
+| STRENFORCEMENTNUMBER          | varchar(10)   |    ✓    | ConsentOrderId (indirect) |
+| STRENFORCEMENTKEY             | varchar(3)    |    ✗    |                           |
+| STRSTIPULATEDPENALTY          | varchar(10)   |    ✓    | StipulatedPenaltyAmount   |
+| STRSTIPULATEDPENALTYCOMMENTS  | varchar(4000) |    ✓    | StipulatedPenaltyComment  |
+| STRAFSSTIPULATEDPENALTYNUMBER | varchar(5)    |    ✗    |                           |
+| STRMODIFINGPERSON             | varchar(3)    |    ✓    | CreatedById               |
+| DATMODIFINGDATE               | datetime2(0)  |    ✓    | CreatedAt, ReceivedDate   |
