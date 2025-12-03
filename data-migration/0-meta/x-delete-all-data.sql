@@ -1,25 +1,22 @@
 -- This script will delete all data from the AirWeb tables
 -- (not including `__EFMigrationsHistory`).
 
-use AirWeb
-go
-
-delete from dbo.AspNetRoleClaims;
-delete from dbo.AspNetRoles;
-delete from dbo.AspNetUserClaims;
-delete from dbo.AspNetUserLogins;
-delete from dbo.AspNetUserRoles;
-delete from dbo.AspNetUsers;
-delete from dbo.AspNetUserTokens;
-delete from dbo.AuditPoints;
-delete from dbo.CaseFileComplianceEvents;
-delete from dbo.CaseFiles;
-delete from dbo.Comments;
-delete from dbo.ComplianceWork;
-delete from dbo.EmailLogs;
-delete from dbo.EnforcementActionReviews;
-delete from dbo.EnforcementActions;
-delete from dbo.Fces;
-delete from dbo.Lookups;
-delete from dbo.StipulatedPenalties;
-delete from dbo.ViolationTypes;
+-- delete from AirWeb.dbo.AspNetRoleClaims;
+-- delete from AirWeb.dbo.AspNetRoles;
+-- delete from AirWeb.dbo.AspNetUserClaims;
+-- delete from AirWeb.dbo.AspNetUserLogins;
+-- delete from AirWeb.dbo.AspNetUserRoles;
+-- delete from AirWeb.dbo.AspNetUsers;
+-- delete from AirWeb.dbo.AspNetUserTokens;
+-- delete from AirWeb.dbo.AuditPoints;
+-- delete from AirWeb.dbo.CaseFileComplianceEvents;
+-- delete from AirWeb.dbo.CaseFiles;
+-- delete from AirWeb.dbo.Comments;
+-- delete from AirWeb.dbo.ComplianceWork;
+-- delete from AirWeb.dbo.EmailLogs;
+-- delete from AirWeb.dbo.EnforcementActionReviews;
+-- delete from AirWeb.dbo.EnforcementActions;
+-- delete from AirWeb.dbo.Fces;
+-- delete from AirWeb.dbo.Lookups;
+-- delete from AirWeb.dbo.StipulatedPenalties;
+-- delete from AirWeb.dbo.ViolationTypes;
