@@ -1,4 +1,4 @@
 use AirWeb
 go
 
-alter table dbo.AspNetUsers add AirbranchUserId int;
+alter table dbo.AspNetUsers add AirBranchUserId int;

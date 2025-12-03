@@ -64,7 +64,7 @@ with roleX(IaipRole, AirWebRole) as
           union
           select N'SSCP Unit Manager', N'ComplianceManager'),
 
-     iaipRoles(AirbranchUserId, Email, IaipRoleName) as
+     iaipRoles(AirBranchUserId, Email, IaipRoleName) as
          (select u.NUMUSERID,
                  u.STREMAILADDRESS,
                  a.STRACCOUNTDESC
@@ -91,7 +91,7 @@ select distinct u.Id as UserId,
 --                 r.Name
 from AirWeb.dbo.AspNetUsers u
     inner join iaipRoles
-        on iaipRoles.AirbranchUserId = u.AirbranchUserId
+        on iaipRoles.AirBranchUserId = u.AirBranchUserId
     inner join roleX
         on roleX.IaipRole = iaipRoles.IaipRoleName
     inner join AirWeb.dbo.AspNetRoles r

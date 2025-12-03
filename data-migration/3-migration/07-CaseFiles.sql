@@ -64,9 +64,9 @@ select e.STRENFORCEMENTNUMBER                                                   
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
     left join AirWeb.dbo.AspNetUsers ur
-        on ur.AirbranchUserId = convert(int, nullif(e.NUMSTAFFRESPONSIBLE, 0))
+        on ur.AirBranchUserId = convert(int, nullif(e.NUMSTAFFRESPONSIBLE, 0))
     left join AirWeb.dbo.AspNetUsers um
-        on um.AirbranchUserId = e.STRMODIFINGPERSON
+        on um.AirBranchUserId = e.STRMODIFINGPERSON
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
 

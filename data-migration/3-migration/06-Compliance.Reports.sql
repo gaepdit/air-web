@@ -80,11 +80,11 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
-        on ur.AirbranchUserId = i.STRRESPONSIBLESTAFF
+        on ur.AirBranchUserId = i.STRRESPONSIBLESTAFF
     inner join AirWeb.dbo.AspNetUsers uc
-        on uc.AirbranchUserId = i.STRMODIFINGPERSON
+        on uc.AirBranchUserId = i.STRMODIFINGPERSON
     inner join AirWeb.dbo.AspNetUsers um
-        on um.AirbranchUserId = d.STRMODIFINGPERSON
+        on um.AirBranchUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null
   and i.STREVENTTYPE = '01'
