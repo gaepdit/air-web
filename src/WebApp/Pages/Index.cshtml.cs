@@ -6,7 +6,7 @@ using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Defaults;
+using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.Identity.Web;
 

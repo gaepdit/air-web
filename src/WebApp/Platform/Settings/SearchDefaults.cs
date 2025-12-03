@@ -4,10 +4,14 @@ using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Enforcement.Search;
 using GaEpd.AppLibrary.Pagination;
 
-namespace AirWeb.WebApp.Platform.Defaults;
+namespace AirWeb.WebApp.Platform.Settings;
 
 internal static class SearchDefaults
 {
+    // Default pagination size for search results, etc.
+    public const int PageSize = 25;
+
+    // Default pagination size for summary tables.
     public const int SummaryTableSize = 15;
 
     public static WorkEntrySearchDto FacilityCompliance(string facilityId) =>

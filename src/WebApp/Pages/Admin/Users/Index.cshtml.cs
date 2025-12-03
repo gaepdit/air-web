@@ -4,7 +4,7 @@ using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Defaults;
+using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 
@@ -27,7 +27,7 @@ public class UsersIndexModel(IOfficeService officeService, IStaffService staffSe
     {
         Spec = spec.TrimAll();
         await PopulateSelectListsAsync();
-        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
+        var paging = new PaginatedRequest(p, SearchDefaults.PageSize, Spec.Sort.GetDescription());
         SearchResults = await staffService.SearchAsync(Spec, paging);
         ShowResults = true;
         return Page();
