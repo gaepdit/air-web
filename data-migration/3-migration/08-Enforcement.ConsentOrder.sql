@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 -- insert into AirWeb.dbo.EnforcementActions
 -- (
 --     -- EnforcementAction (All)
@@ -56,7 +53,7 @@ select newid()                                                            as Id,
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
-    left join SSCPENFORCEMENTSTIPULATED s
+    left join AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED s
         on s.STRENFORCEMENTNUMBER = e.STRENFORCEMENTNUMBER
         and s.STRSTIPULATEDPENALTY <> '0'
 

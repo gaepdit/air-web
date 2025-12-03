@@ -1,8 +1,3 @@
-use AirWeb
-go
-
--- TODO: Decide what to do when `STRREFERENCENUMBER = 'N/A'`
-
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
 -- 
 -- insert into AirWeb.dbo.ComplianceWork

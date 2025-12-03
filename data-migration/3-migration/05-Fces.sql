@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
 
 -- insert into AirWeb.dbo.Fces

@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 -- insert into AirWeb.dbo.AspNetUsers
 -- (Id, GivenName, FamilyName, OfficeId, Active, AccountCreatedAt, AccountUpdatedAt, ProfileUpdatedAt, MostRecentLogin,
 --  UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp,

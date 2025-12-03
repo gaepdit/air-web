@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 -- IAIP roles to Air Web App roles:
 --
 -- | IAIP                    | Air Web                      |

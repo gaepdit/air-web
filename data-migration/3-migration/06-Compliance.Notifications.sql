@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 begin
 
     declare @otherType uniqueidentifier =

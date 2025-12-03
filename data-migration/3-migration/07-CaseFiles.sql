@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 -- SET IDENTITY_INSERT AirWeb.dbo.CaseFiles ON;
 -- 
 -- insert into AirWeb.dbo.CaseFiles

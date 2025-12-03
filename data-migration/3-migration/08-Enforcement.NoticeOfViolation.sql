@@ -1,6 +1,3 @@
-use AirWeb
-go
-
 -- insert into AirWeb.dbo.EnforcementActions
 -- (
 --     -- EnforcementAction (All)
