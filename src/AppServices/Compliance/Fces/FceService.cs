@@ -55,7 +55,7 @@ public sealed class FceService(
         CancellationToken token = default)
     {
         // Check the cache first.
-        var cacheKey = $"FceSupportingData.{facilityId}.{completedDate}";
+        var cacheKey = $"FceSupportingData.{facilityId}.{completedDate:yyyy-MM-dd}";
         if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? summary))
             return summary;
 
@@ -79,10 +79,13 @@ public sealed class FceService(
             SourceTests = await entryRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
                 For<SourceTestReview>(), mapper, token: token).ConfigureAwait(false),
 
-            EnforcementCases = await caseFileRepository.GetListAsync<EnforcementCaseSummaryDto>(caseFile =>
-                caseFile.HasIssuedEnforcement && caseFile.FacilityId == facilityId &&
-                caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
-                caseFile.EnforcementDate <= completedDate, mapper, token).ConfigureAwait(false),
+            EnforcementCases = mapper.Map<IEnumerable<EnforcementCaseSummaryDto>>(
+                await caseFileRepository.GetListAsync(caseFile =>
+                        caseFile.FacilityId == facilityId &&
+                        caseFile.EnforcementDate != null &&
+                        caseFile.EnforcementDate >= completedDate.AddYears(-Fce.ExtendedDataPeriod) &&
+                        caseFile.EnforcementDate <= completedDate,
+                    includeProperties: [nameof(CaseFile.EnforcementActions)], token).ConfigureAwait(false)),
 
             Fees = await permitFeesService.GetAnnualFeesAsync(facilityId, completedDate, Fce.ExtendedDataPeriod)
                 .ConfigureAwait(false),
