@@ -8,10 +8,10 @@
 
 <section>
     <h2 class="h4">@commentsTitle</h2>
-    <div class="border rounded-2 pt-3 bg-secondary-subtle mx-neg">
+    <div class="border rounded-2 bg-secondary-subtle p-2 pb-0 pt-sm-3 mx-0 mx-sm-neg">
         @if (!Model.Comments.Any())
         {
-            <div class="ps-3 mb-3">
+            <div class="rounded-1 p-3 mb-2 mb-sm-3 bg-light-subtle">
                 <em>None.</em>
             </div>
         }
@@ -52,7 +52,7 @@
                          model="new DisplayMessage(DisplayMessage.AlertContext.Warning, Model.NotificationFailureMessage)" />
             }
 
-            <div class="container bg-light-subtle border border-primary-subtle rounded-2 py-2 mb-3 d-print-none">
+            <div class="container bg-light-subtle border border-primary-subtle rounded-2 py-2 mt-3 mb-2 mb-sm-3 d-print-none">
                 <h3 id="new-comment" class="h5">Add a comment</h3>
                 <form method="post" asp-page-handler="NewComment">
                     <div class="mb-3">

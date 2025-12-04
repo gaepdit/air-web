@@ -264,6 +264,17 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     padding-right: .75rem !important;
 }
 
+/* Apply negative margin at the small breakpoint */
+@media (min-width: 576px) {
+    .mx-sm-neg {
+        margin-left: -.75rem !important;
+        margin-right: -.75rem !important;
+        padding-left: .75rem !important;
+        padding-right: .75rem !important;
+    }
+}
+
+
 /* External links
 -------------------------------------------------- */
 a[target]::after {
@@ -284,7 +295,7 @@ footer a[target]::after, a[target].no-external-link::after {
 
 /* Table hover background
 -------------------------------------------------- */
-.table-hover.table-borderless th:first-child, .table-hover td:first-child {
+.table-hover.table-borderless th:first-child, .table-hover.table-borderless td:first-child {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
