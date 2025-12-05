@@ -1,0 +1,15 @@
+﻿@model bool?
+@if (Model is null)
+{
+    <span class="text-body-secondary fw-lighter">
+        @((string?)ViewData["Placeholder"] ?? DefaultText.PlaceholderNotEntered)
+    </span>
+}
+else if (Model == true)
+{
+    @:Yes
+}
+else
+{
+    @:No
+}

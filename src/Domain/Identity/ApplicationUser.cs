@@ -1,4 +1,4 @@
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Lookups.Offices;
 using GaEpd.AppLibrary.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
@@ -48,4 +48,7 @@ public sealed class ApplicationUser : IdentityUser, IEntity<string>
             return sn.ToString();
         }
     }
+
+    // Historical IAIP User ID 
+    public int? IaipUserId { get; init; }
 }

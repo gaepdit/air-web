@@ -1,10 +1,12 @@
-﻿namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.Domain.DataExchange;
+
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 // Formal Enforcement Actions include:
 // * Consent Orders
 // * Administrative Orders
 
-public interface IFormalEnforcementAction : IResolvable, IIsExecuted
+public interface IFormalEnforcementAction : IResolvable, IIsExecuted, IReportable
 {
     internal void Execute(DateOnly executedDate);
 }

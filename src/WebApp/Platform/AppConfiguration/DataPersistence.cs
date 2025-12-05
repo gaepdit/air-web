@@ -1,3 +1,4 @@
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Identity;
 using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;
@@ -19,7 +20,11 @@ internal static partial class DataPersistence
         }
 
         builder.ConfigureDatabaseServices();
+        await builder.ApplyEfMigrations();
+    }
 
+    private static async Task ApplyEfMigrations(this IHostApplicationBuilder builder)
+    {
         await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
         await migrationContext.Database.MigrateAsync();
         await migrationContext.CreateMissingRolesAsync(builder.Services);
@@ -72,15 +77,18 @@ internal static partial class DataPersistence
         {
             builder.ConfigureDatabaseServices();
 
-            await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
-            await migrationContext.Database.EnsureDeletedAsync();
-
             if (AppSettings.DevSettings.UseEfMigrations)
-                await migrationContext.Database.MigrateAsync();
+            {
+                await builder.ApplyEfMigrations();
+            }
             else
+            {
+                await using var migrationContext = new AppDbContext(GetMigrationDbOpts(builder.Configuration).Options);
+                await migrationContext.Database.EnsureDeletedAsync();
                 await migrationContext.Database.EnsureCreatedAsync();
 
-            DbSeedDataHelpers.SeedAllData(migrationContext);
+                DbSeedDataHelpers.SeedAllData(migrationContext);
+            }
         }
         else
         {

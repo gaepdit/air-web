@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Enforcement.CaseFileCommand;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
 

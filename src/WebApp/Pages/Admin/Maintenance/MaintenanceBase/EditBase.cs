@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.NamedEntities.NamedEntitiesBase;
+﻿using AirWeb.AppServices.Lookups.LookupsBase;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 
@@ -23,10 +23,10 @@ public abstract class EditBase : PageModel, ISubmitCancelButtons
     public string RouteId => string.Empty;
 
     protected async Task<IActionResult> DoPostAsync<TViewDto, TUpdateDto>(
-        INamedEntityService<TViewDto, TUpdateDto> service,
+        ILookupService<TViewDto, TUpdateDto> service,
         IValidator<TUpdateDto> validator,
         TUpdateDto item)
-        where TUpdateDto : NamedEntityUpdateDto
+        where TUpdateDto : LookupUpdateDto
     {
         if (Id is null) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState, Id);

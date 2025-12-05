@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.ComplianceWork;
+using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Enforcement.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;

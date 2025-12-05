@@ -1,4 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Platform.Settings
 @model AirWeb.AppServices.Enforcement.EnforcementActionQuery.CoViewDto
 
 <dl class="row mt-3 mb-0">
@@ -28,6 +29,15 @@
     }
     else
     {
+        @if (Model.IsExecuted && Model.ExecutedDate < GlobalConstants.ComplianceDataMigrationDate)
+        {
+            <p>
+                Note: Dates listed for stipulated penalties received before
+                @Html.DisplayFor(_ => GlobalConstants.ComplianceDataMigrationDate, DisplayTemplate.ShortDateOnly)
+                are approximate.
+            </p>
+        }
+
         <ul>
             @foreach (var penalty in Model.StipulatedPenalties.OrderBy(dto => dto.ReceivedDate))
             {

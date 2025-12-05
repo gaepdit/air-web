@@ -15,7 +15,7 @@ public interface IActionViewDto : IDeletable
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
     public bool IsReportable { get; }
-    public bool WillBeReportable { get; }
+    public bool IsReportableAction { get; }
     public DateTimeOffset CreatedAt { get; }
 
     // -- Under Review
