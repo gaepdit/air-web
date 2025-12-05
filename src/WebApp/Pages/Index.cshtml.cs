@@ -87,15 +87,17 @@ public class IndexModel(
         await LoadStaffCaseFiles(token);
     }
 
-    private async Task LoadStaffComplianceWork(CancellationToken token) => StaffComplianceWork =
-        await complianceSearchService.SearchAsync(SearchDefaults.StaffOpenCompliance(UserId!),
+    private async Task LoadStaffComplianceWork(CancellationToken token) =>
+        StaffComplianceWork = await complianceSearchService.SearchAsync(SearchDefaults.StaffOpenCompliance(UserId!),
             PaginationDefaults.ComplianceSummary, token: token);
 
-    private async Task LoadStaffSourceTests() => StaffSourceTests = await sourceTestService
-        .GetOpenSourceTestsForComplianceAsync(UserEmail, PaginationDefaults.SourceTestSummary);
+    private async Task LoadStaffSourceTests() =>
+        StaffSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(UserEmail,
+            PaginationDefaults.SourceTestSummary);
 
-    private async Task LoadStaffCaseFiles(CancellationToken token) => StaffCaseFiles = await caseFileSearchService
-        .SearchAsync(SearchDefaults.StaffOpenEnforcement(UserId!), PaginationDefaults.EnforcementSummary, token: token);
+    private async Task LoadStaffCaseFiles(CancellationToken token) =>
+        StaffCaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults.StaffOpenEnforcement(UserId!),
+            PaginationDefaults.EnforcementSummary, token: token);
 
     // Load compliance manager tables
     private async Task LoadComplianceManagerTables(CancellationToken token)
@@ -108,8 +110,8 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeComplianceWork = await complianceSearchService.SearchAsync(
-            SearchDefaults.OfficeOpenCompliance(UserOfficeId!.Value), PaginationDefaults.ComplianceSummary,
-            token: token);
+            SearchDefaults.OfficeOpenCompliance(UserOfficeId!.Value),
+            PaginationDefaults.ComplianceSummary, token: token);
     }
 
     // FUTURE: This shows all open source tests, not just those limited to the user's office.
@@ -131,14 +133,15 @@ public class IndexModel(
     private async Task LoadReviewRequests(CancellationToken token)
     {
         if (UserId is null) return;
-        EnforcementReviews = await enforcementActionService
-            .GetReviewRequestsAsync(UserId, PaginationDefaults.EnforcementBulk, token);
+        EnforcementReviews = await enforcementActionService.GetReviewRequestsAsync(UserId,
+            PaginationDefaults.EnforcementBulk, token);
     }
 
     private async Task LoadOfficeEnforcementWork(CancellationToken token)
     {
         if (UserOfficeId is null) return;
-        OfficeCaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults
-            .OfficeOpenEnforcement(UserOfficeId!.Value), PaginationDefaults.EnforcementSummary, token: token);
+        OfficeCaseFiles = await caseFileSearchService.SearchAsync(
+            SearchDefaults.OfficeOpenEnforcement(UserOfficeId!.Value),
+            PaginationDefaults.EnforcementSummary, token: token);
     }
 }
