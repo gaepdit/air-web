@@ -23,6 +23,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
         if (id is null) return RedirectToPage("Index");
         var staff = await staffService.FindAsync(id);
         if (staff is null) return NotFound();
+        if (staff.Email is null) return BadRequest();
 
         DisplayStaff = staff;
         UserId = id;
@@ -46,7 +47,7 @@ public class EditRolesModel(IStaffService staffService) : PageModel
             ModelState.AddModelError(string.Empty, string.Concat(err.Code, ": ", err.Description));
 
         var staff = await staffService.FindAsync(UserId);
-        if (staff is null) return BadRequest();
+        if (staff?.Email is null) return BadRequest();
 
         DisplayStaff = staff;
 

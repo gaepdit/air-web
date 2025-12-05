@@ -27,6 +27,8 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
     public async Task<IActionResult> OnGetAsync()
     {
         DisplayStaff = await staffService.GetCurrentUserAsync();
+        if (DisplayStaff.Email is null) return BadRequest();
+
         UpdateStaff = DisplayStaff.AsUpdateDto();
 
         await PopulateSelectListsAsync();
