@@ -1,7 +1,4 @@
-﻿USE [AIRBRANCH]
-GO
-
-CREATE OR ALTER FUNCTION air.ReduceText
+﻿CREATE OR ALTER FUNCTION AIRBRANCH.air.ReduceText
 (
     @input varchar(max)
 )

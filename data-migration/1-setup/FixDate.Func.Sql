@@ -1,7 +1,4 @@
-﻿USE [AIRBRANCH]
-GO
-
-CREATE OR ALTER FUNCTION air.FixDate
+﻿CREATE OR ALTER FUNCTION AIRBRANCH.air.FixDate
 (
     @input datetime2
 )

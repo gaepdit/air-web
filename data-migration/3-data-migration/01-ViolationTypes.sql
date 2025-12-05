@@ -1,7 +1,7 @@
 ﻿INSERT INTO AirWeb.dbo.ViolationTypes (Code, Description, SeverityCode, Deprecated)
 VALUES
 
--- Original data from airbranch.dbo.LK_VIOLATION_TYPE
+-- Original data from AIRBRANCH.dbo.LK_VIOLATION_TYPE
 (N'FCIO', N'Failure to construct, install or operate facility/equipment in accordance with permit or regulation',
  N'FRV', 0),
 (N'FMPR', N'Failure to maintain records as required by permit or regulation', N'FRV', 0),

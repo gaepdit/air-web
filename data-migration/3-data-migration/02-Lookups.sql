@@ -2,7 +2,7 @@
 VALUES
 
 -- Notification Types
--- Original values from airbranch.dbo.LOOKUPSSCPNOTIFICATIONS
+-- Original values from AIRBRANCH.dbo.LOOKUPSSCPNOTIFICATIONS
 (newid(), N'Other', convert(bit, 1), N'NotificationType', sysdatetimeoffset()),
 (newid(), N'Startup', convert(bit, 1), N'NotificationType', sysdatetimeoffset()),
 (newid(), N'Response Letter', convert(bit, 1), N'NotificationType', sysdatetimeoffset()),
@@ -10,7 +10,7 @@ VALUES
 (newid(), N'Deviation', convert(bit, 0), N'NotificationType', sysdatetimeoffset()),
 
 -- Offices
--- Original values modified from airbranch.dbo.LOOKUPEPDPROGRAMS and airbranch.dbo.LOOKUPEPDUNITS
+-- Original values modified from AIRBRANCH.dbo.LOOKUPEPDPROGRAMS and AIRBRANCH.dbo.LOOKUPEPDUNITS
 (newid(), N'Air Protection Branch', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program: Air Toxics', convert(bit, 1), N'Office', sysdatetimeoffset()),
