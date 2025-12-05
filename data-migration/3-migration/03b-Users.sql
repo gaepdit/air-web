@@ -1,7 +1,7 @@
 -- insert into AirWeb.dbo.AspNetUsers
 -- (Id, GivenName, FamilyName, OfficeId, Active, AccountCreatedAt, AccountUpdatedAt, ProfileUpdatedAt, MostRecentLogin,
 --  UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp,
---  PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, AirbranchUserId)
+--  PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, IaipUserId)
 
 select newid()                                               as Id,
        iif(u.NUMUSERID in (0, 1), 'Unknown', u.STRFIRSTNAME) as GivenName,
@@ -27,10 +27,10 @@ select newid()                                               as Id,
        null                                                  as LockoutEnd,
        1                                                     as LockoutEnabled,
        0                                                     as AccessFailedCount,
-       u.NUMUSERID                                           as AirbranchUserId
+       u.NUMUSERID                                           as IaipUserId
 from AIRBRANCH.dbo.EPDUSERPROFILES u
     inner join AIRBRANCH.air.ComplianceUserIds c
-        on c.UserId = u.NUMUSERID
+        on c.IaipUserId = u.NUMUSERID
     left join AirWeb.dbo.Lookups l
         on l.Discriminator = 'Office'
         and l.Name =
@@ -52,9 +52,7 @@ from AIRBRANCH.dbo.EPDUSERPROFILES u
                 when u.NUMUNIT = 43 then N'West Central District (Macon)'
                 when u.NUMUNIT = 50 then N'APB Compliance Program: Source Monitoring Unit'
                 else N'Other'
-                end
-where NUMEMPLOYEESTATUS = 1
-  and l.id is null;
+                end;
 
 select *
 from AirWeb.dbo.AspNetUsers;

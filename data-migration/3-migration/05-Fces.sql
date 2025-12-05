@@ -24,11 +24,11 @@ from AIRBRANCH.dbo.SSCPFCEMASTER i
     inner join AIRBRANCH.dbo.SSCPFCE d
         on i.STRFCENUMBER = d.STRFCENUMBER
     inner join AirWeb.dbo.AspNetUsers ur
-        on ur.AirBranchUserId = d.STRREVIEWER
+        on ur.IaipUserId = d.STRREVIEWER
     inner join AirWeb.dbo.AspNetUsers uc
-        on uc.AirBranchUserId = i.STRMODIFINGPERSON
+        on uc.IaipUserId = i.STRMODIFINGPERSON
     inner join AirWeb.dbo.AspNetUsers um
-        on um.AirBranchUserId = d.STRMODIFINGPERSON
+        on um.IaipUserId = d.STRMODIFINGPERSON
 
 where i.IsDeleted = 'False' or
       i.IsDeleted is null

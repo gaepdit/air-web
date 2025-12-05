@@ -1,14 +1,7 @@
-create table AIRBRANCH.air.ComplianceUserIds
-(
-    UserId int not null
-        constraint ComplianceUserIds_pk primary key
-)
-go
+-- insert into AIRBRANCH.air.ComplianceUserIds (IaipUserId)
 
--- insert into AIRBRANCH.air.ComplianceUserIds (UserId)
-
-select UserId
-from (select STRMODIFINGPERSON as UserId
+select IaipUserId
+from (select STRMODIFINGPERSON as IaipUserId
       from AIRBRANCH.dbo.SSCPACCS
       union
       select STRMODIFINGPERSON
@@ -49,7 +42,7 @@ from (select STRMODIFINGPERSON as UserId
       union
       select CreatedBy
       from AIRBRANCH.dbo.SSCP_EnforcementEvents) t
-where t.UserId is not null;
+where t.IaipUserId is not null;
 
 select *
 from AIRBRANCH.air.ComplianceUserIds;

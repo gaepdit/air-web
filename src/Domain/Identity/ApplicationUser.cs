@@ -48,4 +48,7 @@ public sealed class ApplicationUser : IdentityUser, IEntity<string>
             return sn.ToString();
         }
     }
+
+    // Historical IAIP User ID 
+    public int? IaipUserId { get; init; }
 }

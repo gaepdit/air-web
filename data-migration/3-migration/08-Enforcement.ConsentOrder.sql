@@ -58,7 +58,7 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
         and s.STRSTIPULATEDPENALTY <> '0'
 
     left join AirWeb.dbo.AspNetUsers um
-        on um.AirBranchUserId = e.STRMODIFINGPERSON
+        on um.IaipUserId = e.STRMODIFINGPERSON
 
 where isnull(e.IsDeleted, 0) = convert(bit, 0)
   and e.STRACTIONTYPE = 'CASEFILE'

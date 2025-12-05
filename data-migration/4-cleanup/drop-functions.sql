@@ -1,8 +1,5 @@
-﻿use AIRBRANCH
-go
-
-drop function air.FixDate;
-drop function air.FormatAirsNumber;
-drop function air.ReduceText;
+﻿drop function AIRBRANCH.air.FixDate;
+drop function AIRBRANCH.air.FormatAirsNumber;
+drop function AIRBRANCH.air.ReduceText;
 
 go

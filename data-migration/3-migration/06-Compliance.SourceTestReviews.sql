@@ -53,11 +53,11 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
-        on ur.AirBranchUserId = i.STRRESPONSIBLESTAFF
+        on ur.IaipUserId = i.STRRESPONSIBLESTAFF
     inner join AirWeb.dbo.AspNetUsers uc
-        on uc.AirBranchUserId = i.STRMODIFINGPERSON
+        on uc.IaipUserId = i.STRMODIFINGPERSON
     inner join AirWeb.dbo.AspNetUsers um
-        on um.AirBranchUserId = d.STRMODIFINGPERSON
+        on um.IaipUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null
   and i.STREVENTTYPE = '03'

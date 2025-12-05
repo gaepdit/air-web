@@ -3,8 +3,8 @@
 ## New tables
 
 * `AspNetRoles` (automatically populated)
-* `AspNetUsers`
 * `AspNetUserRoles`
+* `AspNetUsers`
 * `AuditPoints`
     * FCE
     * Case File
@@ -15,7 +15,7 @@
     * FCE
     * Case File
     * Work Entry
-* `ComplianceWork` ("WorkEntry" entity)
+* `ComplianceWork` (`WorkEntry` entity)
 * `EmailLogs`
 * `EnforcementActionReviews`
 * `EnforcementActions`
@@ -78,7 +78,7 @@ flowchart LR
 
 ```mermaid
 ---
-title: Compliance Work
+title: Enforcement Work
 ---
 flowchart LR
     SSCP_AUDITEDENFORCEMENT --> CaseFiles

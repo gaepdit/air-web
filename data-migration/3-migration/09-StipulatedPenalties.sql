@@ -16,7 +16,7 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
     inner join AirWeb.dbo.EnforcementActions a
         on a.CaseFileId = e.STRENFORCEMENTNUMBER
     left join AirWeb.dbo.AspNetUsers um
-        on um.AirBranchUserId = s.STRMODIFINGPERSON
+        on um.IaipUserId = s.STRMODIFINGPERSON
         and a.ActionType = 'ConsentOrder';
 
 select *

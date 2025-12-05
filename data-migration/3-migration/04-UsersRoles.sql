@@ -72,10 +72,10 @@ with roleX(IaipRole, AirWebRole) as
           union
           select N'DMU Management', N'SiteMaintenance'),
 
-     iaipRoles(AirBranchUserId, Email, IaipRoleName) as
-         (select u.NUMUSERID,
-                 u.STREMAILADDRESS,
-                 a.STRACCOUNTDESC
+     iaipRoles(IaipUserId, Email, IaipRoleName) as
+         (select u.NUMUSERID as IaipUserId,
+                 u.STREMAILADDRESS as Email,
+                 a.STRACCOUNTDESC as IaipRoleName
           from AIRBRANCH.dbo.EPDUSERPROFILES u
               inner join AIRBRANCH.air.ComplianceUserIds c
                   on c.UserId = u.NUMUSERID
@@ -100,7 +100,7 @@ select distinct u.Id as UserId,
 --                 r.Name
 from AirWeb.dbo.AspNetUsers u
     inner join iaipRoles
-        on iaipRoles.AirBranchUserId = u.AirBranchUserId
+        on iaipRoles.IaipUserId = u.IaipUserId
     inner join roleX
         on roleX.IaipRole = iaipRoles.IaipRoleName
     inner join AirWeb.dbo.AspNetRoles r
