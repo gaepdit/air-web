@@ -1,7 +1,5 @@
 USE [AIRBRANCH]
 GO
-SET ANSI_NULLS ON
-GO
 
 create table air.ComplianceUserIds
 (
