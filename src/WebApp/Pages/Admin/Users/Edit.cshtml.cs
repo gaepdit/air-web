@@ -34,6 +34,7 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
 
         var staff = await staffService.FindAsync(id);
         if (staff is null) return NotFound();
+        if (staff.Email is null) return BadRequest();
 
         Id = guid;
         DisplayStaff = staff;
@@ -50,7 +51,7 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
         if (!ModelState.IsValid)
         {
             var staff = await staffService.FindAsync(Id.ToString());
-            if (staff is null) return BadRequest();
+            if (staff?.Email is null) return BadRequest();
 
             DisplayStaff = staff;
 

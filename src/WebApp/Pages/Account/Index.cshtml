@@ -18,7 +18,7 @@
 
 <dl class="row">
     <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Model.DisplayStaff.Email</dd>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
 
     <dt class="col-sm-3">Phone</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })</dd>
@@ -28,7 +28,7 @@
 </dl>
 
 <div class="mb-3">
-    @if (Model.DisplayStaff.Active)
+    @if (Model.DisplayStaff is { Active: true, Email: not null })
     {
         <a asp-page="Edit" class="btn btn-outline-primary me-2">Edit Profile</a>
     }

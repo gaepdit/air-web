@@ -14,7 +14,7 @@
         <em class="text-warning">Inactive:</em>
     }
     @Model.DisplayStaff.Name
-    @if (Model.DisplayStaff.Email!.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
+    @if (Model.DisplayStaff.Email?.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()) ?? false)
     {
         <a asp-page="/Account/Index">
             <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis text-uppercase rounded-pill">You</span>
@@ -22,7 +22,7 @@
     }
 </h2>
 
-@if (Model.IsUserAdministrator)
+@if (Model.CanEdit)
 {
     <p>
         <a asp-page="Edit" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit Profile</a>
@@ -31,7 +31,7 @@
 
 <dl class="row">
     <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Model.DisplayStaff.Email</dd>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
 
     <dt class="col-sm-3">Phone</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })</dd>
@@ -43,7 +43,7 @@
 
 <h3>Roles</h3>
 
-@if (Model.IsUserAdministrator)
+@if (Model.CanEdit)
 {
     <p>
         <a asp-page="EditRoles" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit User Roles</a>

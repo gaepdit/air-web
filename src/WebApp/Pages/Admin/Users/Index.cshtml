@@ -95,13 +95,13 @@
                 <tr class="@(item.Active ? "" : "bg-secondary-subtle")">
                     <td>
                         @item.SortableFullName
-                        @if (item.Email.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
+                        @if (item.Email?.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()) ?? false)
                         {
                             <span
                                 class="badge bg-info-subtle border border-info-subtle text-info-emphasis text-uppercase rounded-pill">You</span>
                         }
                     </td>
-                    <td>@item.Email</td>
+                    <td>@Html.DisplayFor(_ => item.Email, DisplayTemplate.TextOrPlaceholder)</td>
                     <td>@Html.DisplayFor(_ => item.OfficeName, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })</td>
                     <td>@Html.DisplayFor(_ => item.Active, DisplayTemplate.BoolActive)</td>
                     <td>
