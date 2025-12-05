@@ -7,6 +7,6 @@
 
 3. Run the data cleanup scripts in the `2-data-cleanup` folder.
 
-4. Run the migration scripts in the `3-migration` folder.
+4. Run the migration scripts in the `3-data-migration` folder.
 
 5. When ready, run the cleanup scripts in the `4-cleanup` folder to remove the temporary objects.
