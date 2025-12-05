@@ -94,7 +94,7 @@
             </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Compliance/Work/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
+            <a asp-page="/Compliance/Work/Index" asp-route-FacilityId="@Model.Item!.FacilityId"
                asp-route-EventDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
                asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
@@ -116,7 +116,7 @@
             </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Enforcement/Index" asp-route-PartialFacilityId="@Model.Item!.FacilityId"
+            <a asp-page="/Enforcement/Index" asp-route-FacilityId="@Model.Item!.FacilityId"
                asp-route-EnforcementDateFrom="@Model.Item!.ExtendedDataStartDate.ToShortDateString()"
                asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
