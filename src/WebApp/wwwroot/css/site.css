@@ -177,7 +177,7 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     left: .2rem;
     padding: 1rem 1.5rem;
     position: absolute;
-    top: -4.2rem;
+    top: -5rem;
     transition: all 0.2s ease-in-out;
     z-index: 2002;
 }
