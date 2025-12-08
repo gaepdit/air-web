@@ -65,6 +65,7 @@ internal static class SecurityHeaders
         builder.AddBaseUri().None();
         builder.AddObjectSrc().None();
         builder.AddScriptSrc().Self()
+            .From("https://www.datadoghq-browser-agent.com/us3/v6/datadog-rum.js")
             .From("https://cdn.raygun.io/raygun4js/raygun.min.js")
             .WithHashTagHelper()
             .WithNonce()
@@ -74,6 +75,7 @@ internal static class SecurityHeaders
             .ReportSample();
         builder.AddImgSrc().Self().Data();
         builder.AddConnectSrc().Self()
+            .From("https://browser-intake-us3-datadoghq.com")
             .From("https://api.raygun.com")
             .From("https://api.raygun.io");
         builder.AddFontSrc().Self().Data();
