@@ -6,7 +6,6 @@
 select newid()                                               as Id,
        iif(u.NUMUSERID in (0, 1), 'Unknown', u.STRFIRSTNAME) as GivenName,
        iif(u.NUMUSERID in (0, 1), 'User', u.STRLASTNAME)     as FamilyName,
-       u.NUMUNIT,
        l.Id                                                  as OfficeId,
        u.NUMEMPLOYEESTATUS                                   as Active,
        sysdatetimeoffset()                                   as AccountCreatedAt,

@@ -1,4 +1,7 @@
-﻿CREATE OR ALTER FUNCTION AIRBRANCH.air.FormatAirsNumber
+﻿use AIRBRANCH;
+go
+
+CREATE OR ALTER FUNCTION air.FormatAirsNumber
 (
     @input varchar(12)
 )

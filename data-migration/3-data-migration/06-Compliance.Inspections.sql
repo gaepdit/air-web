@@ -1,20 +1,20 @@
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
---
+-- 
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
 --     -- WorkEntry
 --     Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate, IsComplianceEvent,
---
+-- 
 --     -- ComplianceEvent
 --     DataExchangeStatus,
---
+-- 
 --     -- Inspection
 --     InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide, FacilityOperating,
 --     DeviationsNoted,
---
+-- 
 --     -- Inspection, Notification, PermitRevocation, SourceTestReview
 --     FollowupTaken,
---
+-- 
 --     -- WorkEntry
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --     ClosedById, ClosedDate)

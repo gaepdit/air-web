@@ -78,7 +78,7 @@ with roleX(IaipRole, AirWebRole) as
                  a.STRACCOUNTDESC as IaipRoleName
           from AIRBRANCH.dbo.EPDUSERPROFILES u
               inner join AIRBRANCH.air.ComplianceUserIds c
-                  on c.UserId = u.NUMUSERID
+                  on c.IaipUserId = u.NUMUSERID
               left join AIRBRANCH.dbo.IAIPPERMISSIONS p
                   on p.NUMUSERID = u.NUMUSERID
               outer apply STRING_SPLIT(replace(trim('()' from p.STRIAIPPERMISSIONS), ')(', ','), ',') l
@@ -89,8 +89,8 @@ with roleX(IaipRole, AirWebRole) as
             and convert(int, l.value) in
                 (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140, 118))
 
-insert
-into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
+-- insert
+-- into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
 
 select distinct u.Id as UserId,
                 r.Id as RoleId
