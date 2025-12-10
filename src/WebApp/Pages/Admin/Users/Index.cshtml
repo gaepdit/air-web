@@ -92,7 +92,7 @@
             <tbody>
             @foreach (var item in Model.SearchResults.Items)
             {
-                <tr class="@(item.Active ? "" : "bg-secondary-subtle")">
+                <tr class="@(item.Active ? "" : "bg-secondary-subtle border-secondary-subtle")">
                     <td>
                         @item.SortableFullName
                         @if (item.Email?.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()) ?? false)
