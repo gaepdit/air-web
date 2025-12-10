@@ -70,7 +70,6 @@ internal static class SecurityHeaders
             .WithNonce()
             .ReportSample();
         builder.AddStyleSrc().Self()
-            .From("https://cdn.jsdelivr.net/npm/sanitize.css@13.0.0/sanitize.css")
             .UnsafeInline()
             .ReportSample();
         builder.AddImgSrc().Self().Data();
