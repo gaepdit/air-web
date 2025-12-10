@@ -28,10 +28,10 @@
     {
         <tr>
             <th scope="row">@i.Id.ToString()</th>
-            <td>@i.AccReportingYear.ToString()</td>
+            <td>@Html.DisplayFor(_ => i.AccReportingYear, DisplayTemplate.IntOrPlaceholder)</td>
             <td>@Html.DisplayFor(_ => i.ReceivedDate, DisplayTemplate.LongDateOnly)</td>
             <td>@i.ResponsibleStaff?.SortableFullName</td>
-            <td>@Html.DisplayFor(_ => i.ReportsDeviations, DisplayTemplate.BoolYesNo)</td>
+            <td>@Html.DisplayFor(_ => i.ReportsDeviations, DisplayTemplate.BoolYesNoNull)</td>
         </tr>
     }
     </tbody>

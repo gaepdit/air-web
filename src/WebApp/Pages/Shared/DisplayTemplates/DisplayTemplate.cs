@@ -15,6 +15,7 @@ public static class DisplayTemplate
     public const string BoolClosed = nameof(BoolClosed);
     public const string BoolDeviationsNoted = nameof(BoolDeviationsNoted);
     public const string BoolYesNo = nameof(BoolYesNo);
+    public const string BoolYesNoNull = nameof(BoolYesNoNull);
     public const string County = nameof(County);
     public const string Currency = nameof(Currency);
     public const string DateRange = nameof(DateRange);

@@ -1,6 +1,6 @@
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.Lookups.NotificationTypes;
 using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;

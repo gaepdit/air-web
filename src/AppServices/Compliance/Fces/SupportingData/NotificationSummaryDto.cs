@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.NamedEntities.NotificationTypes;
+﻿using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Staff.Dto;
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;

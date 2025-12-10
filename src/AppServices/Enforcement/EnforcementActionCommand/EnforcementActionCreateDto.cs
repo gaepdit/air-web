@@ -9,5 +9,5 @@ public record EnforcementActionCreateDto : CommentDto
     public bool ResponseRequested { get; init; } = true;
 
     public EnforcementActionType ActionType { get; init; }
-    public bool WouldBeReportable => EnforcementAction.ActionTypeIsReportable(ActionType);
+    public bool IsReportableAction => EnforcementAction.ActionTypeIsReportable(ActionType);
 }

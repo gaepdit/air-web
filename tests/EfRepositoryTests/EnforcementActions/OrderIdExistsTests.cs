@@ -21,10 +21,10 @@ public class OrderIdExistsTests
         // Arrange
         var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
-            .First();
+            .First(e => e.OrderId != null);
 
         // Act
-        var results = await _repository.OrderIdExists(existingOrder.OrderId, Guid.NewGuid());
+        var results = await _repository.OrderIdExists(existingOrder.OrderId!.Value, Guid.NewGuid());
 
         // Assert
         results.Should().BeTrue();

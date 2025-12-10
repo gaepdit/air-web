@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.NamedEntities.Offices;
+﻿using AirWeb.AppServices.Lookups.Offices;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Extensions;
 using System.Text;

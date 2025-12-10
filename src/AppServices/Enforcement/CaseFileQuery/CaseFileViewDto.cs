@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.Compliance.ComplianceWork.Search;
 using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;
@@ -63,7 +63,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
-    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.WillBeReportable);
+    public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
     public bool MissingViolationType => ViolationType == null;
     public bool LacksViolationType => !IsClosed && HasReportableEnforcement && MissingViolationType;

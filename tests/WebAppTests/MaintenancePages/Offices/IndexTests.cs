@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.NamedEntities.Offices;
+﻿using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 using AirWeb.WebApp.Platform.PageModelHelpers;

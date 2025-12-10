@@ -1,10 +1,10 @@
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.Lookups.Offices;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.LocalRepository.Repositories;
 

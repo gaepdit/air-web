@@ -1,7 +1,9 @@
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
@@ -19,7 +21,7 @@ public class Fce : DeletableEntity<int>, IFacilityId, INotes
 
         //  Set Completed Date to today for FCEs within the current fiscal year
         // or September 30 for FCEs created after the selected fiscal year has ended.
-        var fiscalEndDate = new DateOnly(year, 9, 30);
+        var fiscalEndDate = new DateOnly(year, month: 9, day: 30);
         var today = DateOnly.FromDateTime(DateTime.Today);
         CompletedDate = today > fiscalEndDate ? fiscalEndDate : today;
 
@@ -72,4 +74,10 @@ public class Fce : DeletableEntity<int>, IFacilityId, INotes
             return yearList;
         }
     }
+
+    // Data exchange properties
+
+    [JsonIgnore]
+    [StringLength(1)]
+    public DataExchangeStatus DataExchangeStatus { get; init; }
 }

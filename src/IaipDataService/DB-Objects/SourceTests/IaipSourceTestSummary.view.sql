@@ -1,7 +1,5 @@
 USE airbranch;
 GO
-SET ANSI_NULLS ON;
-GO
 
 CREATE OR ALTER VIEW air.IaipSourceTestSummary
 AS
@@ -30,8 +28,7 @@ select convert(int, r.STRREFERENCENUMBER)                      as ReferenceNumbe
        s.STRCOMPLIANCESTATUS                                   as ComplianceStatus,
        convert(bit, r.STRCLOSED)                               as ReportClosed,
        convert(date, r.DATRECEIVEDDATE)                        as DateReceivedByApb,
-       IIF(r.DATCOMPLETEDATE = '1776-07-04', null, convert(date, r.DATCOMPLETEDATE))
-                                                               as DateTestReviewComplete,
+       convert(date, nullif(r.DATCOMPLETEDATE, '1776-07-04')) as DateTestReviewComplete,
        r.ComplianceAssignment                                  as IaipComplianceAssignment,
        convert(bit, IIF(r.ComplianceReviewDate is null, 0, 1)) as IaipComplianceComplete,
 

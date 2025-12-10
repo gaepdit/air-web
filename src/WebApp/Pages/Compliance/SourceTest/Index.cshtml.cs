@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.SourceTests;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Defaults;
+using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.SourceTests.Models;
 
@@ -27,7 +27,7 @@ public class SourceTestIndexModel(ISourceTestAppService sourceTestService) : Pag
         }
 
         PageNumber = p;
-        var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: "default");
+        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
         SearchResults = await sourceTestService.GetOpenSourceTestsForComplianceAsync(userEmail: null, paging,
             RefreshIaipData);
 

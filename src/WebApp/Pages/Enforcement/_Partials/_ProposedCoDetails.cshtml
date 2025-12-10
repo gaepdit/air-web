@@ -1,7 +1,18 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model AirWeb.AppServices.Enforcement.EnforcementActionQuery.ProposedCoViewDto
+@model AirWeb.AppServices.Enforcement.EnforcementActionQuery.ResponseRequestedViewDto
 
-<dl class="row mt-3 mb-0">
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ResponseReceived)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable)</dd>
-</dl>
+<div class="mt-2">
+    @if (Model.IsResponseReceived)
+    {
+        <div class="mb-1">
+            <em>
+                Response received
+                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):
+            </em>
+        </div>
+        if (Model.ResponseComment != null)
+        {
+            <blockquote class="ps-2 border-start border-3 text-break text-pre-line">@Model.ResponseComment</blockquote>
+        }
+    }
+</div>

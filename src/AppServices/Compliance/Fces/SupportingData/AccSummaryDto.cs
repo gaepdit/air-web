@@ -8,10 +8,10 @@ public record AccSummaryDto : BaseSummaryDto
     public DateOnly ReceivedDate { get; init; }
 
     [Display(Name = "Reporting Year")]
-    public int AccReportingYear { get; init; }
+    public int? AccReportingYear { get; init; }
 
     [Display(Name = "Deviations Reported")]
-    public bool ReportsDeviations { get; init; }
+    public bool? ReportsDeviations { get; init; }
 
     [Display(Name = "Reviewer")]
     public StaffViewDto? ResponsibleStaff { get; init; }

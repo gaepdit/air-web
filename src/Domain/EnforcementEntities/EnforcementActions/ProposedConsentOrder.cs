@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class ProposedConsentOrder : EnforcementAction, IInformalEnforcementAction, IResponseRequested
+public class ProposedConsentOrder : ReportableEnforcement, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -15,7 +15,7 @@ public class ProposedConsentOrder : EnforcementAction, IInformalEnforcementActio
         ActionType = EnforcementActionType.ProposedConsentOrder;
     }
 
-    public bool ResponseRequested { get; set; } = true;
+    public bool ResponseRequested { get; set; }
     public DateOnly? ResponseReceived { get; set; }
 
     [StringLength(7000)]
