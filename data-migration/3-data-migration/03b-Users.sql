@@ -50,6 +50,10 @@ from AIRBRANCH.dbo.EPDUSERPROFILES u
                 when u.NUMUNIT = 42 then N'Southwest District (Albany)'
                 when u.NUMUNIT = 43 then N'West Central District (Macon)'
                 when u.NUMUNIT = 50 then N'APB Compliance Program: Source Monitoring Unit'
+                when u.NUMUNIT = 14 then N'EPD-IT'
+                when u.NUMPROGRAM = 3 then N'APB Compliance Program: Source Monitoring Unit'
+                when u.NUMPROGRAM = 5 then N'APB Permitting Program'
+                when u.NUMBRANCH = 1 then N'Air Protection Branch'
                 else N'Other'
                 end;
 

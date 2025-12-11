@@ -17,7 +17,6 @@ VALUES
 (newid(), N'APB Compliance Program: Chemicals/Minerals', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program: VOC/Combustion', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Compliance Program: Source Monitoring Unit', convert(bit, 1), N'Office', sysdatetimeoffset()),
-(newid(), N'Director''s Office', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'Coastal District (Brunswick)', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'East Central District (Augusta)', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'Mountain District (Atlanta)', convert(bit, 1), N'Office', sysdatetimeoffset()),
@@ -25,12 +24,14 @@ VALUES
 (newid(), N'Northeast District (Athens)', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'Southwest District (Albany)', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'West Central District (Macon)', convert(bit, 1), N'Office', sysdatetimeoffset()),
-(newid(), N'Other', convert(bit, 1), N'Office', sysdatetimeoffset()),
+(newid(), N'APB Permitting Program', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: Chemical Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: Combustion Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: Minerals Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
 (newid(), N'APB Permitting Program: NOx Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
-(newid(), N'APB Permitting Program: VOC Permitting', convert(bit, 1), N'Office', sysdatetimeoffset());
+(newid(), N'APB Permitting Program: VOC Permitting', convert(bit, 1), N'Office', sysdatetimeoffset()),
+(newid(), N'EPD-IT', convert(bit, 1), N'Office', sysdatetimeoffset()),
+(newid(), N'Other', convert(bit, 1), N'Office', sysdatetimeoffset());
 
 select *
 from AirWeb.dbo.Lookups;
