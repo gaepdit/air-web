@@ -25,38 +25,38 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Added(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Added(user));
         return workEntry;
     }
 
     public void Update(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.SetUpdater(user?.Id);
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Edited(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Edited(user));
     }
 
     public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Close(user);
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Closed(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Closed(user));
     }
 
     public void Reopen(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Reopen(user);
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Reopened(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Reopened(user));
     }
 
     public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
     {
         workEntry.Delete(comment, user);
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Deleted(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Deleted(user));
     }
 
     public void Restore(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Undelete();
-        workEntry.AuditPoints.Add(WorkEntryAuditPoint.Restored(user));
+        workEntry.AuditPoints.Add(ComplianceWorkAuditPoint.Restored(user));
     }
 
     #region IDisposable,  IAsyncDisposable

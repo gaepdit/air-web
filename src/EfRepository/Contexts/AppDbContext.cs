@@ -69,7 +69,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // Audit Points (mapped to a single table)
     public DbSet<CaseFileAuditPoint> CaseFileAuditPoints => Set<CaseFileAuditPoint>();
     public DbSet<FceAuditPoint> FceAuditPoints => Set<FceAuditPoint>();
-    public DbSet<WorkEntryAuditPoint> WorkEntryAuditPoints => Set<WorkEntryAuditPoint>();
+    public DbSet<ComplianceWorkAuditPoint> ComplianceWorkAuditPoints => Set<ComplianceWorkAuditPoint>();
 
     // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
