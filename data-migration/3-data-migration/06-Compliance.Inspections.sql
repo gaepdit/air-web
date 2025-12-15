@@ -60,14 +60,14 @@ select i.STRTRACKINGNUMBER                                              as Id,
        convert(date, i.DATCOMPLETEDATE)                                 as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
-    inner join AIRBRANCH.dbo.SSCPINSPECTIONS d
+    left join AIRBRANCH.dbo.SSCPINSPECTIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
         on ur.IaipUserId = i.STRRESPONSIBLESTAFF
     inner join AirWeb.dbo.AspNetUsers uc
         on uc.IaipUserId = i.STRMODIFINGPERSON
-    inner join AirWeb.dbo.AspNetUsers um
+    left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null

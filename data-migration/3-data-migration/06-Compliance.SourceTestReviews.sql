@@ -49,7 +49,7 @@ select i.STRTRACKINGNUMBER                                              as Id,
        convert(date, i.DATCOMPLETEDATE)                                 as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
-    inner join AIRBRANCH.dbo.SSCPTESTREPORTS d
+    left join AIRBRANCH.dbo.SSCPTESTREPORTS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
