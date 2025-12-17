@@ -67,12 +67,12 @@ begin
            convert(date, i.DATCOMPLETEDATE)                                            as ClosedDate
 
     from AIRBRANCH.dbo.SSCPITEMMASTER i
-        inner join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
+        left join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
             on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
             -- Notification type 03 - "Permit Revocation" - is excluded here and migrated separately as its own event type.
             -- Notification types 04 & 05 don't exist; they're excluded here for clarity.
-            and d.STRNOTIFICATIONTYPE not in ('03', '04', '05')
-
+            and (d.STRNOTIFICATIONTYPE not in ('03', '04', '05')
+                or d.STRNOTIFICATIONTYPE is null)
         left join AIRBRANCH.dbo.LOOKUPSSCPNOTIFICATIONS li
             on li.STRNOTIFICATIONKEY = d.STRNOTIFICATIONTYPE
         left join AirWeb.dbo.Lookups lw
@@ -83,7 +83,7 @@ begin
             on ur.IaipUserId = i.STRRESPONSIBLESTAFF
         inner join AirWeb.dbo.AspNetUsers uc
             on uc.IaipUserId = i.STRMODIFINGPERSON
-        inner join AirWeb.dbo.AspNetUsers um
+        left join AirWeb.dbo.AspNetUsers um
             on um.IaipUserId = d.STRMODIFINGPERSON
 
     where i.STRDELETE is null

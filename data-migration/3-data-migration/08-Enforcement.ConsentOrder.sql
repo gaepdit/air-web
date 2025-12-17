@@ -53,9 +53,10 @@ select newid()                                                            as Id,
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
-    left join AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED s
+    left join (select distinct STRENFORCEMENTNUMBER
+               from AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED
+               where STRSTIPULATEDPENALTY <> '0') s
         on s.STRENFORCEMENTNUMBER = e.STRENFORCEMENTNUMBER
-        and s.STRSTIPULATEDPENALTY <> '0'
 
     left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = e.STRMODIFINGPERSON

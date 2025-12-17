@@ -56,7 +56,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
         on ur.IaipUserId = i.STRRESPONSIBLESTAFF
     inner join AirWeb.dbo.AspNetUsers uc
         on uc.IaipUserId = i.STRMODIFINGPERSON
-    inner join AirWeb.dbo.AspNetUsers um
+    left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = d.STRMODIFINGPERSON
 
 where i.STRDELETE is null
