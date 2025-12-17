@@ -26,7 +26,7 @@ select newid()                                                            as Id,
        AIRBRANCH.air.ReduceText(e.STRCOCOMMENT)                           as Notes,
        iif(e.STRCOEXECUTED = 'True', 'Issued', 'Draft')                   as Status,
        convert(date, e.DATCOEXECUTED)                                     as IssueDate,
-       convert(bit, 1)                                                    as IsReportableAction,
+       1                                                                  as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSCOEXECUTEDNUMBER)                        as ActionNumber,
@@ -44,12 +44,12 @@ select newid()                                                            as Id,
        convert(smallint, nullif(trim('EPD-AQC-' from e.STRCONUMBER), '')) as OrderId,
        convert(decimal(18, 2), e.STRCOPENALTYAMOUNT)                      as PenaltyAmount,
        AIRBRANCH.air.ReduceText(e.STRCOPENALTYAMOUNTCOMMENTS)             as PenaltyComment,
-       convert(bit, iif(s.STRENFORCEMENTNUMBER is null, 0, 1))            as StipulatedPenaltiesDefined,
+       iif(s.STRENFORCEMENTNUMBER is null, 0, 1)                          as StipulatedPenaltiesDefined,
 
        -- EnforcementAction (All)
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time'             as UpdatedAt,
        um.Id                                                              as UpdatedById,
-       isnull(e.IsDeleted, convert(bit, 0))                               as IsDeleted
+       isnull(e.IsDeleted, 0)                                             as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
@@ -61,7 +61,7 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
     left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = e.STRMODIFINGPERSON
 
-where isnull(e.IsDeleted, 0) = convert(bit, 0)
+where isnull(e.IsDeleted, 0) = 0
   and e.STRACTIONTYPE = 'CASEFILE'
   and (e.STRCORECEIVEDFROMCOMPANY = 'True' or e.STRCORECEIVEDFROMDIRECTOR = 'True' or e.STRCOEXECUTED = 'True')
 

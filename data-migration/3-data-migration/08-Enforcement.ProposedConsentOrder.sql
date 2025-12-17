@@ -23,28 +23,28 @@ select newid()                                                as Id,
         '')                                                   as Notes,
        iif(e.STRCOPROPOSED = 'True', 'Issued', 'Draft')       as Status,
        convert(date, e.DATCOPROPOSED)                         as IssueDate,
-       convert(bit, 1)                                        as IsReportableAction,
+       1                                                      as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSCOPROPOSEDNUMBER)            as ActionNumber,
        e.ICIS_STATUSIND                                       as DataExchangeStatus,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(bit, 0)                                        as ResponseRequested,
+       0                                                      as ResponseRequested,
        null                                                   as ResponseReceived,
        null                                                   as ResponseComment,
 
        -- EnforcementAction (All)
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
-       isnull(e.IsDeleted, convert(bit, 0))                   as IsDeleted
+       isnull(e.IsDeleted, 0)                                 as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
     left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = e.STRMODIFINGPERSON
 
-where isnull(e.IsDeleted, 0) = convert(bit, 0)
+where isnull(e.IsDeleted, 0) = 0
   and e.STRACTIONTYPE = 'CASEFILE'
   and (e.STRCOTOUC = 'True' or e.STRCOTOPM = 'True' or e.STRCOPROPOSED = 'True')
 

@@ -57,7 +57,7 @@ select e.STRENFORCEMENTNUMBER                                                   
 
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time'                                           as UpdatedAt,
        um.Id                                                                                            as UpdatedById,
-       isnull(e.IsDeleted, convert(bit, 0))                                                             as IsDeleted,
+       isnull(e.IsDeleted, 0)                                                                           as IsDeleted,
        convert(bit, e.STRENFORCEMENTFINALIZED)                                                          as IsClosed,
        convert(date, e.DATENFORCEMENTFINALIZED)                                                         as ClosedDate
 
@@ -68,7 +68,7 @@ from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
     left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = e.STRMODIFINGPERSON
 
-where isnull(e.IsDeleted, 0) = convert(bit, 0)
+where isnull(e.IsDeleted, 0) = 0
 
 order by e.STRENFORCEMENTNUMBER;
 

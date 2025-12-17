@@ -16,19 +16,19 @@ select newid()                                                as Id,
         '')                                                   as Notes,
        iif(e.STRNFALETTERSENT = 'True', 'Issued', 'Draft')    as Status,
        convert(date, e.DATNFALETTERSENT)                      as IssueDate,
-       convert(bit, 0)                                        as IsReportableAction,
+       0                                                      as IsReportableAction,
 
        -- EnforcementAction (All)
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
-       isnull(e.IsDeleted, convert(bit, 0))                   as IsDeleted
+       isnull(e.IsDeleted, 0)                                 as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
     left join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = e.STRMODIFINGPERSON
 
-where isnull(e.IsDeleted, 0) = convert(bit, 0)
+where isnull(e.IsDeleted, 0) = 0
   and e.STRACTIONTYPE = 'CASEFILE'
   and (e.STRNFATOUC = 'True' or e.STRNFATOPM = 'True' or e.STRNFALETTERSENT = 'True')
 

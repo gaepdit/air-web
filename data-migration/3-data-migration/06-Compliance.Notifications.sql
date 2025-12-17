@@ -46,7 +46,7 @@ begin
                                 AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONTYPEOTHER), null),
                             + AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONCOMMENT)), '') as Notes,
            convert(date, i.DATRECEIVEDDATE)                                            as EventDate,
-           convert(bit, 0)                                                             as IsComplianceEvent,
+           0                                                                           as IsComplianceEvent,
            convert(date, i.DATRECEIVEDDATE)                                            as ReceivedDate,
 
            convert(bit, d.STRNOTIFICATIONFOLLOWUP)                                     as FollowupTaken,
@@ -62,7 +62,7 @@ begin
            null                                                                        as DeletedAt,
            null                                                                        as DeletedById,
            null                                                                        as DeleteComments,
-           IIF(i.DATCOMPLETEDATE is null, convert(bit, 0), convert(bit, 1))            as IsClosed,
+           IIF(i.DATCOMPLETEDATE is null, 0, 1)                                        as IsClosed,
            IIF(i.DATCOMPLETEDATE is null, null, um.Id)                                 as ClosedById,
            convert(date, i.DATCOMPLETEDATE)                                            as ClosedDate
 

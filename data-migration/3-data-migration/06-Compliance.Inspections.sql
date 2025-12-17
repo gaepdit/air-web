@@ -19,15 +19,15 @@
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --     ClosedById, ClosedDate)
 
-select i.STRTRACKINGNUMBER                                              as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                  as FacilityId,
-       iif(i.STREVENTTYPE = '02', 'Inspection', 'RmpInspection')        as WorkEntryType,
-       ur.Id                                                            as ResponsibleStaffId,
-       convert(date, i.DATACKNOLEDGMENTLETTERSENT)                      as AcknowledgmentLetterDate,
-       AIRBRANCH.air.ReduceText(d.STRINSPECTIONCOMMENTS)                as Notes,
-       convert(date, d.DATINSPECTIONDATESTART)                          as EventDate,
-       convert(bit, 1)                                                  as IsComplianceEvent,
-       i.ICIS_STATUSIND                                                 as DataExchangeStatus,
+select i.STRTRACKINGNUMBER                                               as Id,
+       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                   as FacilityId,
+       iif(i.STREVENTTYPE = '02', 'Inspection', 'RmpInspection')         as WorkEntryType,
+       ur.Id                                                             as ResponsibleStaffId,
+       convert(date, i.DATACKNOLEDGMENTLETTERSENT)                       as AcknowledgmentLetterDate,
+       AIRBRANCH.air.ReduceText(d.STRINSPECTIONCOMMENTS)                 as Notes,
+       convert(date, d.DATINSPECTIONDATESTART)                           as EventDate,
+       1                                                                 as IsComplianceEvent,
+       i.ICIS_STATUSIND                                                  as DataExchangeStatus,
 
        case
            when d.STRINSPECTIONREASON = 'Planned Unannounced' then 'PlannedUnannounced'
@@ -37,27 +37,26 @@ select i.STRTRACKINGNUMBER                                              as Id,
            when d.STRINSPECTIONREASON = 'Joint EPD/EPA' then 'JointEpdEpa'
            when d.STRINSPECTIONREASON = 'Multimedia' then 'Multimedia'
            when d.STRINSPECTIONREASON = 'Follow Up' then 'FollowUp'
-           end                                                          as InspectionReason,
-       d.DATINSPECTIONDATESTART                                         as InspectionStarted,
-       d.DATINSPECTIONDATEEND                                           as InspectionEnded,
-       AIRBRANCH.air.ReduceText(d.STRWEATHERCONDITIONS)                 as WeatherConditions,
-       AIRBRANCH.air.ReduceText(d.STRINSPECTIONGUIDE)                   as InspectionGuide,
-       convert(bit, d.STRFACILITYOPERATING)                             as FacilityOperating,
-       iif(d.STRINSPECTIONCOMPLIANCESTATUS = 'Deviation(s) Noted',
-           convert(bit, 1), convert(bit, 0))                            as DeviationsNoted,
-       convert(bit, d.STRINSPECTIONFOLLOWUP)                            as FollowupTaken,
+           end                                                           as InspectionReason,
+       d.DATINSPECTIONDATESTART                                          as InspectionStarted,
+       d.DATINSPECTIONDATEEND                                            as InspectionEnded,
+       AIRBRANCH.air.ReduceText(d.STRWEATHERCONDITIONS)                  as WeatherConditions,
+       AIRBRANCH.air.ReduceText(d.STRINSPECTIONGUIDE)                    as InspectionGuide,
+       convert(bit, d.STRFACILITYOPERATING)                              as FacilityOperating,
+       iif(d.STRINSPECTIONCOMPLIANCESTATUS = 'Deviation(s) Noted', 1, 0) as DeviationsNoted,
+       convert(bit, d.STRINSPECTIONFOLLOWUP)                             as FollowupTaken,
 
-       i.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as CreatedAt,
-       uc.Id                                                            as CreatedById,
-       d.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as UpdatedAt,
-       um.Id                                                            as UpdatedById,
-       convert(bit, isnull(i.STRDELETE, 'False'))                       as IsDeleted,
-       null                                                             as DeletedAt,
-       null                                                             as DeletedById,
-       null                                                             as DeleteComments,
-       IIF(i.DATCOMPLETEDATE is null, convert(bit, 0), convert(bit, 1)) as IsClosed,
-       IIF(i.DATCOMPLETEDATE is null, null, um.Id)                      as ClosedById,
-       convert(date, i.DATCOMPLETEDATE)                                 as ClosedDate
+       i.DATMODIFINGDATE at time zone 'Eastern Standard Time'            as CreatedAt,
+       uc.Id                                                             as CreatedById,
+       d.DATMODIFINGDATE at time zone 'Eastern Standard Time'            as UpdatedAt,
+       um.Id                                                             as UpdatedById,
+       convert(bit, isnull(i.STRDELETE, 'False'))                        as IsDeleted,
+       null                                                              as DeletedAt,
+       null                                                              as DeletedById,
+       null                                                              as DeleteComments,
+       IIF(i.DATCOMPLETEDATE is null, 0, 1)                              as IsClosed,
+       IIF(i.DATCOMPLETEDATE is null, null, um.Id)                       as ClosedById,
+       convert(date, i.DATCOMPLETEDATE)                                  as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPINSPECTIONS d

@@ -9,7 +9,7 @@ select newid()                                                  as Id,
        AIRBRANCH.air.ReduceText(s.STRSTIPULATEDPENALTYCOMMENTS) as Notes,
        s.DATMODIFINGDATE at time zone 'Eastern Standard Time'   as CreatedAt,
        um.Id                                                    as CreatedById,
-       convert(bit, 0)                                          as IsDeleted
+       0                                                        as IsDeleted
 from AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED s
     inner join AirWeb.dbo.EnforcementActions a
         on a.CaseFileId = s.STRENFORCEMENTNUMBER

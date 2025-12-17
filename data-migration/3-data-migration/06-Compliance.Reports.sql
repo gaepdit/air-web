@@ -30,19 +30,19 @@
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
 --     ClosedById, ClosedDate)
 
-select i.STRTRACKINGNUMBER                                              as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                  as FacilityId,
-       'Report'                                                         as WorkEntryType,
-       ur.Id                                                            as ResponsibleStaffId,
-       convert(date, i.DATACKNOLEDGMENTLETTERSENT)                      as AcknowledgmentLetterDate,
-       AIRBRANCH.air.ReduceText(d.STRGENERALCOMMENTS)                   as Notes,
-       convert(date, i.DATRECEIVEDDATE)                                 as EventDate,
-       convert(bit, 1)                                                  as IsComplianceEvent,
-       i.ICIS_STATUSIND                                                 as DataExchangeStatus,
+select i.STRTRACKINGNUMBER                                    as Id,
+       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
+       'Report'                                               as WorkEntryType,
+       ur.Id                                                  as ResponsibleStaffId,
+       convert(date, i.DATACKNOLEDGMENTLETTERSENT)            as AcknowledgmentLetterDate,
+       AIRBRANCH.air.ReduceText(d.STRGENERALCOMMENTS)         as Notes,
+       convert(date, i.DATRECEIVEDDATE)                       as EventDate,
+       1                                                      as IsComplianceEvent,
+       i.ICIS_STATUSIND                                       as DataExchangeStatus,
 
-       convert(date, i.DATRECEIVEDDATE)                                 as ReceivedDate,
-       convert(bit, d.STRSHOWDEVIATION)                                 as ReportsDeviations,
-       convert(bit, d.STRENFORCEMENTNEEDED)                             as EnforcementNeeded,
+       convert(date, i.DATRECEIVEDDATE)                       as ReceivedDate,
+       convert(bit, d.STRSHOWDEVIATION)                       as ReportsDeviations,
+       convert(bit, d.STRENFORCEMENTNEEDED)                   as EnforcementNeeded,
        case
            when d.STRREPORTPERIOD = N'Monthly' then N'Monthly'
            when d.STRREPORTPERIOD = N'First Quarter' then N'FirstQuarter'
@@ -55,25 +55,25 @@ select i.STRTRACKINGNUMBER                                              as Id,
            when d.STRREPORTPERIOD in (N'Malfunction/Deviation', N'Malfunction', N'6.1.2')
                then N'MalfunctionDeviation'
            else N'Other'
-           end                                                          as ReportingPeriodType,
-       convert(date, d.DATREPORTINGPERIODSTART)                         as ReportingPeriodStart,
-       convert(date, d.DATREPORTINGPERIODEND)                           as ReportingPeriodEnd,
-       AIRBRANCH.air.ReduceText(d.STRREPORTINGPERIODCOMMENTS)           as ReportingPeriodComment,
-       convert(date, d.DATREPORTDUEDATE)                                as DueDate,
-       convert(date, d.DATSENTBYFACILITYDATE)                           as SentDate,
-       convert(bit, d.STRCOMPLETESTATUS)                                as ReportComplete,
+           end                                                as ReportingPeriodType,
+       convert(date, d.DATREPORTINGPERIODSTART)               as ReportingPeriodStart,
+       convert(date, d.DATREPORTINGPERIODEND)                 as ReportingPeriodEnd,
+       AIRBRANCH.air.ReduceText(d.STRREPORTINGPERIODCOMMENTS) as ReportingPeriodComment,
+       convert(date, d.DATREPORTDUEDATE)                      as DueDate,
+       convert(date, d.DATSENTBYFACILITYDATE)                 as SentDate,
+       convert(bit, d.STRCOMPLETESTATUS)                      as ReportComplete,
 
-       i.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as CreatedAt,
-       uc.Id                                                            as CreatedById,
-       d.DATMODIFINGDATE at time zone 'Eastern Standard Time'           as UpdatedAt,
-       um.Id                                                            as UpdatedById,
-       convert(bit, isnull(i.STRDELETE, 'False'))                       as IsDeleted,
-       null                                                             as DeletedAt,
-       null                                                             as DeletedById,
-       null                                                             as DeleteComments,
-       IIF(i.DATCOMPLETEDATE is null, convert(bit, 0), convert(bit, 1)) as IsClosed,
-       IIF(i.DATCOMPLETEDATE is null, null, um.Id)                      as ClosedById,
-       convert(date, i.DATCOMPLETEDATE)                                 as ClosedDate
+       i.DATMODIFINGDATE at time zone 'Eastern Standard Time' as CreatedAt,
+       uc.Id                                                  as CreatedById,
+       d.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
+       um.Id                                                  as UpdatedById,
+       convert(bit, isnull(i.STRDELETE, 'False'))             as IsDeleted,
+       null                                                   as DeletedAt,
+       null                                                   as DeletedById,
+       null                                                   as DeleteComments,
+       IIF(i.DATCOMPLETEDATE is null, 0, 1)                   as IsClosed,
+       IIF(i.DATCOMPLETEDATE is null, null, um.Id)            as ClosedById,
+       convert(date, i.DATCOMPLETEDATE)                       as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPREPORTS d
