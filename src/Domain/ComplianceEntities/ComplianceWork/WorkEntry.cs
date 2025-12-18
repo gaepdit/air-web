@@ -48,7 +48,7 @@ public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
     public List<WorkEntryComment> Comments { get; } = [];
 
     // Audit Points
-    public List<ComplianceWorkAuditPoint> AuditPoints { get; } = [];
+    public List<WorkEntryAuditPoint> AuditPoints { get; } = [];
 
     // Business logic
     public bool IsComplianceEvent { get; internal init; }
