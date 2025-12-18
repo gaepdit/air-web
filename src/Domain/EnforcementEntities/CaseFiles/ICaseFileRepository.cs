@@ -11,6 +11,7 @@ public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, IC
         nameof(CaseFile.ComplianceEvents),
         nameof(CaseFile.EnforcementActions),
         nameof(CaseFile.ViolationType),
+        nameof(CaseFile.AuditPoints),
         $"{nameof(CaseFile.EnforcementActions)}.{nameof(ConsentOrder.StipulatedPenalties)}",
         $"{nameof(CaseFile.EnforcementActions)}.{nameof(EnforcementAction.Reviews)}",
         $"{nameof(CaseFile.EnforcementActions)}.{nameof(EnforcementAction.Reviews)}.{nameof(EnforcementActionReview.RequestedOf)}",
