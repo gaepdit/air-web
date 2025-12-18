@@ -18,8 +18,6 @@ public record CaseFileAuditPoint : AuditPoint
     private static CaseFileAuditPoint Create(string what, string? moreInfo, ApplicationUser? user) =>
         new(CreateAuditPoint(what, user, moreInfo));
 
-    public int CaseFileId { get; init; }
-
     internal static CaseFileAuditPoint Added(ApplicationUser? user) => Create(user);
     internal static CaseFileAuditPoint Closed(ApplicationUser? user) => Create(user);
     internal static CaseFileAuditPoint Deleted(ApplicationUser? user) => Create(user);

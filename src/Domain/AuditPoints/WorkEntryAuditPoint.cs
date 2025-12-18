@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+using AirWeb.Domain.Identity;
 using System.Runtime.CompilerServices;
 
 namespace AirWeb.Domain.AuditPoints;
@@ -10,8 +10,6 @@ public record WorkEntryAuditPoint : AuditPoint
 
     private static WorkEntryAuditPoint Create(ApplicationUser? user, [CallerMemberName] string what = "") =>
         new(CreateAuditPoint(what, user));
-
-    public int WorkEntryId { get; init; }
 
     internal static WorkEntryAuditPoint Added(ApplicationUser? user) => Create(user);
     internal static WorkEntryAuditPoint Closed(ApplicationUser? user) => Create(user);
