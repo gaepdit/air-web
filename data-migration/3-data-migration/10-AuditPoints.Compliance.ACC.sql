@@ -30,6 +30,8 @@ select newid()                                  as Id,
        i.STRTRACKINGNUMBER   as WorkEntryId
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
+    left join AIRBRANCH.dbo.AFSSSCPRECORDS a
+        on a.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
     inner join AIRBRANCH.dbo.SSCPACCS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
     inner join AirWeb.dbo.AspNetUsers ud
@@ -37,7 +39,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
 
 where i.STRDELETE is null
   and i.STREVENTTYPE = '04'
-  and datediff(second, i.DATMODIFINGDATE, d.DATMODIFINGDATE) > 10
+  and datediff(second, isnull(a.DATMODIFINGDATE, i.DATMODIFINGDATE), d.DATMODIFINGDATE) > 10
 
 order by d.DATMODIFINGDATE, i.STRTRACKINGNUMBER;
 

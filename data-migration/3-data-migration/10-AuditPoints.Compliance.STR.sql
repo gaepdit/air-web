@@ -41,7 +41,7 @@ from AIRBRANCH.dbo.SSCPITEMMASTER i
 
 where i.STRDELETE is null
   and i.STREVENTTYPE = '03'
-  and datediff(second, a.DATMODIFINGDATE, d.DATMODIFINGDATE) > 10
+  and datediff(second, isnull(a.DATMODIFINGDATE, i.DATMODIFINGDATE), d.DATMODIFINGDATE) > 10
 
 order by i.DATMODIFINGDATE, i.STRTRACKINGNUMBER desc;
 
