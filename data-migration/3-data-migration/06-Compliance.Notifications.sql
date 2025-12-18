@@ -69,10 +69,6 @@ begin
     from AIRBRANCH.dbo.SSCPITEMMASTER i
         left join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
             on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
-            -- Notification type 03 - "Permit Revocation" - is excluded here and migrated separately as its own event type.
-            -- Notification types 04 & 05 don't exist; they're excluded here for clarity.
-            and (d.STRNOTIFICATIONTYPE not in ('03', '04', '05')
-                or d.STRNOTIFICATIONTYPE is null)
         left join AIRBRANCH.dbo.LOOKUPSSCPNOTIFICATIONS li
             on li.STRNOTIFICATIONKEY = d.STRNOTIFICATIONTYPE
         left join AirWeb.dbo.Lookups lw
@@ -88,6 +84,8 @@ begin
 
     where i.STRDELETE is null
       and i.STREVENTTYPE = '05'
+      -- Notification type 03 - "Permit Revocation" - is excluded here and migrated separately as its own event type.
+      and (d.STRNOTIFICATIONTYPE <> '03' or d.STRNOTIFICATIONTYPE is null)
 
     order by i.STRTRACKINGNUMBER;
 

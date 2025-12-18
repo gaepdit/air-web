@@ -1,11 +1,11 @@
--- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
+-- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, WorkEntryId)
 select newid()                                  as Id,
        'Added'                                  as What,
        isnull(ua.Id, ui.Id)                     as WhoId,
        isnull(a.DATMODIFINGDATE, i.DATMODIFINGDATE)
            at time zone 'Eastern Standard Time' as [When],
-       'ComplianceWorkAuditPoint'               as Discriminator,
-       i.STRTRACKINGNUMBER                      as ComplianceWorkId
+       'WorkEntryAuditPoint' as Discriminator,
+       i.STRTRACKINGNUMBER   as WorkEntryId
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.AFSSSCPRECORDS a
@@ -20,14 +20,14 @@ where i.STRDELETE is null
 
 order by i.DATMODIFINGDATE, i.STRTRACKINGNUMBER;
 
--- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
+-- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, WorkEntryId)
 select newid()                                  as Id,
        'Edited'                                 as What,
        ud.Id                                    as WhoId,
        d.DATMODIFINGDATE
            at time zone 'Eastern Standard Time' as [When],
-       'ComplianceWorkAuditPoint'               as Discriminator,
-       i.STRTRACKINGNUMBER                      as ComplianceWorkId
+       'WorkEntryAuditPoint' as Discriminator,
+       i.STRTRACKINGNUMBER   as WorkEntryId
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     inner join AIRBRANCH.dbo.SSCPREPORTS d
@@ -43,4 +43,4 @@ order by d.DATMODIFINGDATE, i.STRTRACKINGNUMBER;
 
 select *
 from AirWeb.dbo.AuditPoints
-where Discriminator = 'ComplianceWorkAuditPoint';
+where Discriminator = 'WorkEntryAuditPoint';

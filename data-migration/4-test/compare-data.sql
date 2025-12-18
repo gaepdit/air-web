@@ -57,9 +57,8 @@ select 'Notification'                         as [category],
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
-        and (d.STRNOTIFICATIONTYPE not in ('03', '04', '05')
-            or d.STRNOTIFICATIONTYPE is null)
 where i.STRDELETE is null
+  and (d.STRNOTIFICATIONTYPE <> '03' or d.STRNOTIFICATIONTYPE is null)
   and i.STREVENTTYPE = '05'
 
 union
@@ -202,8 +201,11 @@ select 'Stipulated penalties'                as [category],
        count(*)                              as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.StipulatedPenalties) as [AirWeb]
-from AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED
-where STRSTIPULATEDPENALTY <> '0'
+from AIRBRANCH.dbo.SSCPENFORCEMENTSTIPULATED t
+    inner join SSCP_AUDITEDENFORCEMENT e
+        on e.STRENFORCEMENTNUMBER = t.STRENFORCEMENTNUMBER
+where isnull(e.IsDeleted, 0) = 0
+  and t.STRSTIPULATEDPENALTY <> '0'
 
 union
 

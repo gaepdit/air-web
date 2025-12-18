@@ -8,6 +8,8 @@ select newid()                                  as Id,
        i.STRFCENUMBER                           as FceId
 
 from AIRBRANCH.dbo.SSCPFCEMASTER i
+    inner join AIRBRANCH.dbo.SSCPFCE d
+        on i.STRFCENUMBER = d.STRFCENUMBER
     left join AIRBRANCH.dbo.AFSSSCPFCERECORDS a
         on a.STRFCENUMBER = i.STRFCENUMBER
     left join AirWeb.dbo.AspNetUsers ua

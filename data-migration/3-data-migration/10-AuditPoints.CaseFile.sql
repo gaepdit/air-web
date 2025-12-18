@@ -74,24 +74,25 @@ with cte as
 select newid()                                  as Id,
        'Closed'                                 as What,
        ui.Id                                    as WhoId,
-       e.DATMODIFINGDATE
+       x.DATMODIFINGDATE
            at time zone 'Eastern Standard Time' as [When],
        'CaseFileAuditPoint'                     as Discriminator,
-       e.STRENFORCEMENTNUMBER                   as CaseFileId
+       x.STRENFORCEMENTNUMBER                   as CaseFileId
 
 from cte
     cross apply (select top (1) *
                  from SSCP_ENFORCEMENT t
                  where t.STRENFORCEMENTNUMBER = cte.STRENFORCEMENTNUMBER
-                   and t.DATMODIFINGDATE > cte.DATMODIFINGDATE) e
+                   and t.DATMODIFINGDATE > cte.DATMODIFINGDATE) x
     inner join AirWeb.dbo.AspNetUsers ui
-        on ui.IaipUserId = e.STRMODIFINGPERSON
-    inner join SSCP_AUDITEDENFORCEMENT a
-        on a.STRENFORCEMENTNUMBER = cte.STRENFORCEMENTNUMBER
+        on ui.IaipUserId = x.STRMODIFINGPERSON
+    inner join SSCP_AUDITEDENFORCEMENT e
+        on e.STRENFORCEMENTNUMBER = cte.STRENFORCEMENTNUMBER
 
 where isnull(e.IsDeleted, 0) = 0
   and cte.rn = 2
-order by e.DATMODIFINGDATE, e.STRENFORCEMENTNUMBER;
+
+order by x.DATMODIFINGDATE, x.STRENFORCEMENTNUMBER;
 
 -- insert
 -- into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], MoreInfo, Discriminator, CaseFileId)
