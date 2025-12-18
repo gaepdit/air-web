@@ -37,6 +37,12 @@ public sealed class WorkEntryRepository(AppDbContext context)
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
         Context.Set<SourceTestReview>().AsNoTracking()
+            .Include(entry => entry.Comments
+                .Where(comment => !comment.DeletedAt.HasValue)
+                .OrderBy(comment => comment.CommentedAt)
+                .ThenBy(comment => comment.Id))
+            .Include(entry => entry.AuditPoints
+                .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
