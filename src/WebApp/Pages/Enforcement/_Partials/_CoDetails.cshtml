@@ -36,7 +36,9 @@
                     received @Html.DisplayFor(_ => penalty.ReceivedDate, DisplayTemplate.ShortDateOnlyNullable)
                     @if (!string.IsNullOrWhiteSpace(penalty.Notes))
                     {
-                        <div class="mt-2">@Html.DisplayFor(dto => penalty.Notes, DisplayTemplate.TextWithLinebreaks)</div>
+                        <blockquote class="ps-2 m-0 my-2 border-start border-3 text-break">
+                            <div class="text-pre-line"><em>Comments:</em> @penalty.Notes</div>
+                        </blockquote>
                     }
                 </li>
             }
