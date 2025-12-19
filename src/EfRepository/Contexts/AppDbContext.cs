@@ -112,7 +112,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public override int SaveChanges()
     {
-        SetActionNumbersAsync(CancellationToken.None).GetAwaiter().GetResult();
+        SetActionNumbers();
         return base.SaveChanges();
     }
 
@@ -149,7 +149,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
                     .Select(f => f.ActionNumber)
                     .MaxAsync(cancellationToken)
                     .ConfigureAwait(false);
-                assignedFceNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedFceNumbers[facilityId] = (ushort)nextNumber;
             }
 
             entry.Property(nameof(Fce.ActionNumber)).CurrentValue = assignedFceNumbers[facilityId];
@@ -169,7 +175,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
                     .Select(c => c.ActionNumber)
                     .MaxAsync(cancellationToken)
                     .ConfigureAwait(false);
-                assignedCaseFileNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedCaseFileNumbers[facilityId] = (ushort)nextNumber;
             }
 
             entry.Property(nameof(CaseFile.ActionNumber)).CurrentValue = assignedCaseFileNumbers[facilityId];
@@ -189,7 +201,110 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
                     .Select(w => w.ActionNumber)
                     .MaxAsync(cancellationToken)
                     .ConfigureAwait(false);
-                assignedComplianceEventNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedComplianceEventNumbers[facilityId] = (ushort)nextNumber;
+            }
+
+            entry.Property(nameof(ComplianceEvent.ActionNumber)).CurrentValue = assignedComplianceEventNumbers[facilityId];
+            assignedComplianceEventNumbers[facilityId]++;
+        }
+    }
+
+    private void SetActionNumbers()
+    {
+        // Synchronous version for SaveChanges()
+        // Track assigned action numbers for this transaction to avoid duplicates
+        var assignedFceNumbers = new Dictionary<string, ushort>();
+        var assignedCaseFileNumbers = new Dictionary<string, ushort>();
+        var assignedComplianceEventNumbers = new Dictionary<string, ushort>();
+
+        // Get all added entities that need ActionNumber assignment
+        var addedFces = ChangeTracker.Entries<Fce>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        var addedCaseFiles = ChangeTracker.Entries<CaseFile>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        var addedComplianceEvents = ChangeTracker.Entries<ComplianceEvent>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        // Assign ActionNumbers for FCEs
+        foreach (var entry in addedFces)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedFceNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = Fces.AsNoTracking()
+                    .Where(f => f.FacilityId == facilityId && f.ActionNumber != null)
+                    .Select(f => f.ActionNumber)
+                    .Max();
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedFceNumbers[facilityId] = (ushort)nextNumber;
+            }
+
+            entry.Property(nameof(Fce.ActionNumber)).CurrentValue = assignedFceNumbers[facilityId];
+            assignedFceNumbers[facilityId]++;
+        }
+
+        // Assign ActionNumbers for Case Files
+        foreach (var entry in addedCaseFiles)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedCaseFileNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = CaseFiles.AsNoTracking()
+                    .Where(c => c.FacilityId == facilityId && c.ActionNumber != null)
+                    .Select(c => c.ActionNumber)
+                    .Max();
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedCaseFileNumbers[facilityId] = (ushort)nextNumber;
+            }
+
+            entry.Property(nameof(CaseFile.ActionNumber)).CurrentValue = assignedCaseFileNumbers[facilityId];
+            assignedCaseFileNumbers[facilityId]++;
+        }
+
+        // Assign ActionNumbers for Compliance Events (WorkEntries)
+        foreach (var entry in addedComplianceEvents)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedComplianceEventNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = Set<ComplianceEvent>().AsNoTracking()
+                    .Where(w => w.FacilityId == facilityId && w.ActionNumber != null)
+                    .Select(w => w.ActionNumber)
+                    .Max();
+                
+                var nextNumber = (maxActionNumber ?? 0) + 1;
+                if (nextNumber > ushort.MaxValue)
+                    throw new InvalidOperationException(
+                        $"Action number limit exceeded for facility {facilityId}. Maximum value is {ushort.MaxValue}.");
+                
+                assignedComplianceEventNumbers[facilityId] = (ushort)nextNumber;
             }
 
             entry.Property(nameof(ComplianceEvent.ActionNumber)).CurrentValue = assignedComplianceEventNumbers[facilityId];
