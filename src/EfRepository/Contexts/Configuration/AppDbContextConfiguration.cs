@@ -291,4 +291,27 @@ internal static class AppDbContextConfiguration
 
         return builder;
     }
+
+    internal static ModelBuilder ConfigureCompositeUniqueIndexes(this ModelBuilder builder)
+    {
+        // Configure composite unique indexes for FacilityId + ActionNumber
+        // These ensure that ActionNumber is sequential and unique per FacilityId
+
+        // ComplianceEvent (WorkEntry) - ActionNumber must be unique per FacilityId
+        builder.Entity<ComplianceEvent>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        // Fce - ActionNumber must be unique per FacilityId
+        builder.Entity<Fce>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        // CaseFile - ActionNumber must be unique per FacilityId
+        builder.Entity<CaseFile>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        return builder;
+    }
 }
