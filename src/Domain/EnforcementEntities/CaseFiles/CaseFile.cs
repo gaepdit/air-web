@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
+public class CaseFile : ClosableEntity<int>, IFacilityId, INotes, IDataExchange
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -155,12 +155,14 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public bool IsReportable => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
                                 EnforcementActions.Exists(action => action.IsReportable);
 
-    // Required if the data exchange is enabled.
-    public short? ActionNumber { get; set; }
+    public ushort? ActionNumber { get; init; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
+
+    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public bool DataExchangeExempt { get; init; }
 }
 
 public enum CaseFileStatus

@@ -1,5 +1,9 @@
 # Enforcement ERD
 
+## Enforcement Entities
+
+## Enforcement ERD
+
 ```mermaid
 erDiagram
     FAC["Facility"] {
@@ -53,20 +57,15 @@ erDiagram
 
 ### Enforcement Action Types
 
-| Enforcement Action       | ICIS-Air type |
-|--------------------------|---------------|
-| Informational Letter     | Non-reporting |
-| Letter of Noncompliance  | Non-reporting |
-| No Further Action Letter | Non-reporting |
-| Notice of Violation      | Informal      |
-| Combined NOV/NFA Letter  | Informal      |
-| Proposed Consent Order   | Informal      |
-| Consent Order            | Formal        |
-| Administrative Order     | Formal        |
-
-* "Non-reporting" actions are not reported to ICIS-Air.
-* "Informal" actions are reported to ICIS-Air as "Informal Enforcement Actions."
-* "Formal" actions are reported to ICIS-Air as "Formal Enforcement Actions."
+* Administrative Order      
+* Combined NOV/NFA Letter   
+* Consent Order             
+* Informational Letter      
+* Letter of Noncompliance   
+* No Further Action Letter  
+* Notice of Violation       
+* Order Resolved  (CO or AO)
+* Proposed Consent Order    
 
 ## IAIP table column mapping
 

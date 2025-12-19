@@ -86,12 +86,6 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
         or EnforcementActionType.NoticeOfViolation
         or EnforcementActionType.NovNfaLetter
         or EnforcementActionType.ProposedConsentOrder;
-
-    public short? ActionNumber { get; set; }
-
-    [JsonIgnore]
-    [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 // The order of these enum values is used by the UI.
