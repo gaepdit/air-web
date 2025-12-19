@@ -103,4 +103,97 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
     }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await SetActionNumbersAsync(cancellationToken).ConfigureAwait(false);
+        return await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public override int SaveChanges()
+    {
+        SetActionNumbersAsync(CancellationToken.None).GetAwaiter().GetResult();
+        return base.SaveChanges();
+    }
+
+    private async Task SetActionNumbersAsync(CancellationToken cancellationToken)
+    {
+        // Track assigned action numbers for this transaction to avoid duplicates
+        var assignedFceNumbers = new Dictionary<string, ushort>();
+        var assignedCaseFileNumbers = new Dictionary<string, ushort>();
+        var assignedComplianceEventNumbers = new Dictionary<string, ushort>();
+
+        // Get all added entities that need ActionNumber assignment
+        var addedFces = ChangeTracker.Entries<Fce>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        var addedCaseFiles = ChangeTracker.Entries<CaseFile>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        var addedComplianceEvents = ChangeTracker.Entries<ComplianceEvent>()
+            .Where(e => e.State == EntityState.Added && e.Entity.ActionNumber == null)
+            .ToList();
+
+        // Assign ActionNumbers for FCEs
+        foreach (var entry in addedFces)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedFceNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = await Fces.AsNoTracking()
+                    .Where(f => f.FacilityId == facilityId && f.ActionNumber != null)
+                    .Select(f => f.ActionNumber)
+                    .MaxAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                assignedFceNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+            }
+
+            entry.Property(nameof(Fce.ActionNumber)).CurrentValue = assignedFceNumbers[facilityId];
+            assignedFceNumbers[facilityId]++;
+        }
+
+        // Assign ActionNumbers for Case Files
+        foreach (var entry in addedCaseFiles)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedCaseFileNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = await CaseFiles.AsNoTracking()
+                    .Where(c => c.FacilityId == facilityId && c.ActionNumber != null)
+                    .Select(c => c.ActionNumber)
+                    .MaxAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                assignedCaseFileNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+            }
+
+            entry.Property(nameof(CaseFile.ActionNumber)).CurrentValue = assignedCaseFileNumbers[facilityId];
+            assignedCaseFileNumbers[facilityId]++;
+        }
+
+        // Assign ActionNumbers for Compliance Events (WorkEntries)
+        foreach (var entry in addedComplianceEvents)
+        {
+            var facilityId = entry.Entity.FacilityId;
+            
+            // Get the next action number for this facility
+            if (!assignedComplianceEventNumbers.ContainsKey(facilityId))
+            {
+                var maxActionNumber = await Set<ComplianceEvent>().AsNoTracking()
+                    .Where(w => w.FacilityId == facilityId && w.ActionNumber != null)
+                    .Select(w => w.ActionNumber)
+                    .MaxAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                assignedComplianceEventNumbers[facilityId] = (ushort)((maxActionNumber ?? 0) + 1);
+            }
+
+            entry.Property(nameof(ComplianceEvent.ActionNumber)).CurrentValue = assignedComplianceEventNumbers[facilityId];
+            assignedComplianceEventNumbers[facilityId]++;
+        }
+    }
 }

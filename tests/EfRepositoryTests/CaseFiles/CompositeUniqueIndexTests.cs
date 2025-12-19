@@ -67,25 +67,4 @@ public class CompositeUniqueIndexTests
         (await repositoryHelper.Context.Set<CaseFile>()
             .CountAsync(f => f.FacilityId == _facilityId.ToString())).Should().Be(2);
     }
-
-    [Test]
-    public async Task Insert_NullActionNumbers_Succeeds()
-    {
-        // Arrange
-        await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetCaseFileRepository();
-        await repositoryHelper.ClearTableAsync<CaseFile, int>();
-
-        var caseFile1 = new CaseFile(null, _facilityId, null) { ActionNumber = null };
-        var caseFile2 = new CaseFile(null, _facilityId, null) { ActionNumber = null };
-
-        // Act
-        await repository.InsertAsync(caseFile1);
-        await repository.InsertAsync(caseFile2);
-
-        // Assert - both should be saved successfully (null values don't violate unique constraint)
-        repositoryHelper.ClearChangeTracker();
-        (await repositoryHelper.Context.Set<CaseFile>()
-            .CountAsync(f => f.FacilityId == _facilityId.ToString() && f.ActionNumber == null)).Should().Be(2);
-    }
 }

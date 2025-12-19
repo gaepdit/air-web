@@ -67,25 +67,4 @@ public class ComplianceEventCompositeUniqueIndexTests
         (await repositoryHelper.Context.Set<Report>()
             .CountAsync(f => f.FacilityId == _facilityId.ToString())).Should().Be(2);
     }
-
-    [Test]
-    public async Task Insert_NullActionNumbers_Succeeds()
-    {
-        // Arrange
-        await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
-
-        var report1 = new Report(null, _facilityId, null) { ActionNumber = null };
-        var report2 = new Report(null, _facilityId, null) { ActionNumber = null };
-
-        // Act
-        await repository.InsertAsync(report1);
-        await repository.InsertAsync(report2);
-
-        // Assert - both should be saved successfully (null values don't violate unique constraint)
-        repositoryHelper.ClearChangeTracker();
-        (await repositoryHelper.Context.Set<Report>()
-            .CountAsync(f => f.FacilityId == _facilityId.ToString() && f.ActionNumber == null)).Should().Be(2);
-    }
 }
