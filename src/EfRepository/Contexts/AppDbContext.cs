@@ -139,7 +139,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         async Task<ushort> GetNextActionNumberAsync(string facilityId)
         {
             if (assignedNumbers.ContainsKey(facilityId))
-                return assignedNumbers[facilityId]++;
+            {
+                var current = assignedNumbers[facilityId];
+                assignedNumbers[facilityId]++;
+                return current;
+            }
 
             // Query max ActionNumber across ALL entity types for this facility
             var maxFce = await Fces.AsNoTracking()
@@ -222,7 +226,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         ushort GetNextActionNumber(string facilityId)
         {
             if (assignedNumbers.ContainsKey(facilityId))
-                return assignedNumbers[facilityId]++;
+            {
+                var current = assignedNumbers[facilityId];
+                assignedNumbers[facilityId]++;
+                return current;
+            }
 
             // Query max ActionNumber across ALL entity types for this facility
             var maxFce = Fces.AsNoTracking()
