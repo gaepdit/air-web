@@ -15,7 +15,7 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
 
     // Properties
     public ushort? ActionNumber { get; set; }
-    public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
     public bool DataExchangeExempt { get; init; }
 }

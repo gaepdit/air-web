@@ -25,8 +25,8 @@ public abstract class ComplianceEvent : WorkEntry, IDataExchange
 
     [JsonIgnore]
     [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
 
-    public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
     public bool DataExchangeExempt { get; init; }
 }

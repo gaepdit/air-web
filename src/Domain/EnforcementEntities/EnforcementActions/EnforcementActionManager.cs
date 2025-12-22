@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
@@ -34,6 +35,8 @@ public class EnforcementActionManager(
             var actionNumber = await facilityService.GetNextActionNumberAsync((FacilityId)caseFile.FacilityId)
                 .ConfigureAwait(false);
             reportableEnforcementAction.ActionNumber = actionNumber;
+            reportableEnforcementAction.DataExchangeStatus = DataExchangeStatus.I;
+            reportableEnforcementAction.DataExchangeStatusDate = DateTimeOffset.Now;
         }
 
         caseFile.EnforcementActions.Add(enforcementAction);

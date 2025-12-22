@@ -1,4 +1,5 @@
 using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -29,6 +30,8 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
         {
             var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
             complianceEvent.ActionNumber = actionNumber;
+            complianceEvent.DataExchangeStatus = DataExchangeStatus.I;
+            complianceEvent.DataExchangeStatusDate = DateTimeOffset.Now;
         }
 
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Added(user));

@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
@@ -12,7 +13,13 @@ public sealed class FceManager(IFceRepository repository, IFacilityService facil
 
         var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
 
-        var fce = new Fce(repository.GetNextId(), facilityId, year, user) { ActionNumber = actionNumber };
+        var fce = new Fce(repository.GetNextId(), facilityId, year, user)
+        {
+            ActionNumber = actionNumber,
+            DataExchangeStatus = DataExchangeStatus.I,
+            DataExchangeStatusDate = DateTimeOffset.Now,
+        };
+
         fce.AuditPoints.Add(FceAuditPoint.Added(user));
         return fce;
     }

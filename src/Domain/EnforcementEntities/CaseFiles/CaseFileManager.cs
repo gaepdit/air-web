@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -15,7 +16,13 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
 
         var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
 
-        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user) { ActionNumber = actionNumber };
+        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user)
+        {
+            ActionNumber = actionNumber,
+            DataExchangeStatus = DataExchangeStatus.I,
+            DataExchangeStatusDate = DateTimeOffset.Now,
+        };
+
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Added(user));
         return caseFile;
     }
