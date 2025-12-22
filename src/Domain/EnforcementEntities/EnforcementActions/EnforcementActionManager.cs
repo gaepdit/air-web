@@ -30,13 +30,13 @@ public class EnforcementActionManager(
             _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null),
         };
 
-        if (enforcementAction is ReportableEnforcementAction reportableEnforcementAction)
+        if (enforcementAction is ReportableEnforcementAction reportable)
         {
             var actionNumber = await facilityService.GetNextActionNumberAsync((FacilityId)caseFile.FacilityId)
                 .ConfigureAwait(false);
-            reportableEnforcementAction.ActionNumber = actionNumber;
-            reportableEnforcementAction.DataExchangeStatus = DataExchangeStatus.I;
-            reportableEnforcementAction.DataExchangeStatusDate = DateTimeOffset.Now;
+            reportable.ActionNumber = actionNumber;
+            reportable.DataExchangeStatus = DataExchangeStatus.I;
+            reportable.DataExchangeStatusDate = DateTimeOffset.Now;
         }
 
         caseFile.EnforcementActions.Add(enforcementAction);

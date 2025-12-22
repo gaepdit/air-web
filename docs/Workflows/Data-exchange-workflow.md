@@ -12,7 +12,7 @@
 | Risk Management Plan (RMP) Inspection |       ✓        |            |
 | Source Test Compliance Review         |                |     ✓      |
 
-## Case Files
+## Enforcement
 
 | Enforcement Action type    | Not reportable | Informal reportable | Formal reportable |
 |----------------------------|:--------------:|:-------------------:|:-----------------:|

@@ -3,6 +3,7 @@ using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
@@ -74,8 +75,13 @@ public class Fce : DeletableEntity<int>, IDataExchange, INotes
         }
     }
 
+    [JsonIgnore]
     public ushort? ActionNumber { get; init; }
+
+    [JsonIgnore]
+    [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
+
+    [JsonIgnore]
     public DateTimeOffset? DataExchangeStatusDate { get; init; }
-    public bool DataExchangeExempt { get; init; }
 }

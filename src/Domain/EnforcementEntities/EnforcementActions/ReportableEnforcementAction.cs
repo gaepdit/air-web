@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
+using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -14,8 +15,13 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
         : base(id, caseFile, user) { }
 
     // Properties
+    [JsonIgnore]
     public ushort? ActionNumber { get; set; }
+
+    [JsonIgnore]
+    [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; set; }
+
+    [JsonIgnore]
     public DateTimeOffset? DataExchangeStatusDate { get; set; }
-    public bool DataExchangeExempt { get; init; }
 }

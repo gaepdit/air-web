@@ -155,14 +155,15 @@ public class CaseFile : ClosableEntity<int>, IDataExchange, INotes
     public bool IsReportable => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
                                 EnforcementActions.Exists(action => action.IsReportable);
 
+    [JsonIgnore]
     public ushort? ActionNumber { get; init; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
 
+    [JsonIgnore]
     public DateTimeOffset? DataExchangeStatusDate { get; init; }
-    public bool DataExchangeExempt { get; init; }
 }
 
 public enum CaseFileStatus

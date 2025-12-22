@@ -26,7 +26,7 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
-        if (workEntry is ComplianceEvent complianceEvent)
+        if (workEntry is ComplianceEvent complianceEvent and not RmpInspection)
         {
             var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
             complianceEvent.ActionNumber = actionNumber;

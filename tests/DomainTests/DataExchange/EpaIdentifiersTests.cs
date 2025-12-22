@@ -12,7 +12,6 @@ public class IDataExchangeTests
         public ushort? ActionNumber { get; init; } = 1;
         public DataExchangeStatus DataExchangeStatus => DataExchangeStatus.N;
         public DateTimeOffset? DataExchangeStatusDate => null;
-        public bool DataExchangeExempt { get; init; }
     }
 
     [Test]
@@ -43,16 +42,6 @@ public class IDataExchangeTests
     {
         // Arrange
         var test = new DataExchange { ActionNumber = null };
-
-        // Assert
-        ((IDataExchange)test).EpaActionId.Should().BeNull();
-    }
-
-    [Test]
-    public void GivenDataExchangeExempt_ReturnsNull()
-    {
-        // Arrange
-        var test = new DataExchange { DataExchangeExempt = true };
 
         // Assert
         ((IDataExchange)test).EpaActionId.Should().BeNull();
