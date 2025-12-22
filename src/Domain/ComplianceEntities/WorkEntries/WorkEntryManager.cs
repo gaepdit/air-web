@@ -25,6 +25,12 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
+        if (workEntry is ComplianceEvent complianceEvent)
+        {
+            var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
+            complianceEvent.ActionNumber = actionNumber;
+        }
+
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Added(user));
         return workEntry;
     }

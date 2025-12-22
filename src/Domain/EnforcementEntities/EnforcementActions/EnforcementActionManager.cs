@@ -8,10 +8,12 @@ using ZLogger;
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager(
-    ILogger<EnforcementActionManager> logger,
-    ICaseFileManager caseFileManager) : IEnforcementActionManager
+    ICaseFileManager caseFileManager,
+    IFacilityService facilityService,
+    ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
 {
-    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user)
+    public async Task<EnforcementAction> CreateAsync(CaseFile caseFile, EnforcementActionType actionType,
+        ApplicationUser? user)
     {
         var id = Guid.NewGuid();
         EnforcementAction enforcementAction = actionType switch
@@ -26,6 +28,13 @@ public class EnforcementActionManager(
             EnforcementActionType.ProposedConsentOrder => new ProposedConsentOrder(id, caseFile, user),
             _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null),
         };
+
+        if (enforcementAction is ReportableEnforcementAction reportableEnforcementAction)
+        {
+            var actionNumber = await facilityService.GetNextActionNumberAsync((FacilityId)caseFile.FacilityId)
+                .ConfigureAwait(false);
+            reportableEnforcementAction.ActionNumber = actionNumber;
+        }
 
         caseFile.EnforcementActions.Add(enforcementAction);
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionAdded(actionType, user));

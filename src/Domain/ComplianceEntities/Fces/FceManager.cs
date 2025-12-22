@@ -5,13 +5,14 @@ namespace AirWeb.Domain.ComplianceEntities.Fces;
 
 public sealed class FceManager(IFceRepository repository, IFacilityService facilityService) : IFceManager
 {
-    public async Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user,
-        CancellationToken token = default)
+    public async Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user)
     {
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var fce = new Fce(repository.GetNextId(), facilityId, year, user);
+        var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
+
+        var fce = new Fce(repository.GetNextId(), facilityId, year, user) { ActionNumber = actionNumber };
         fce.AuditPoints.Add(FceAuditPoint.Added(user));
         return fce;
     }

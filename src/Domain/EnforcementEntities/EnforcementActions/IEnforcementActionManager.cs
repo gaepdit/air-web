@@ -6,7 +6,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IEnforcementActionManager
 {
-    EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user);
+    Task<EnforcementAction> CreateAsync(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user);
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);

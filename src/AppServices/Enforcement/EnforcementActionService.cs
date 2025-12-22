@@ -32,7 +32,8 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
+        var enforcementAction = await actionManager.CreateAsync(caseFile, resource.ActionType, currentUser)
+            .ConfigureAwait(false);
 
         enforcementAction.Notes = resource.Comment;
         if (enforcementAction is IResponseRequested responseRequestedAction)
@@ -52,7 +53,8 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.ConsentOrder, currentUser);
+        var enforcementAction = await actionManager
+            .CreateAsync(caseFile, EnforcementActionType.ConsentOrder, currentUser).ConfigureAwait(false);
 
         mapper.Map(resource, enforcementAction);
 
@@ -70,7 +72,8 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.AdministrativeOrder, currentUser);
+        var enforcementAction = await actionManager
+            .CreateAsync(caseFile, EnforcementActionType.AdministrativeOrder, currentUser).ConfigureAwait(false);
 
         mapper.Map(resource, enforcementAction);
 

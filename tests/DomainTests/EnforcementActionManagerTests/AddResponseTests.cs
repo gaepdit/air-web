@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Identity;
+using IaipDataService.Facilities;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 
@@ -11,9 +12,8 @@ namespace DomainTests.EnforcementActionManagerTests
         private EnforcementActionManager _manager;
 
         [SetUp]
-        public void SetUp() =>
-            _manager = new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>(),
-                Substitute.For<ICaseFileManager>());
+        public void SetUp() => _manager = new EnforcementActionManager(Substitute.For<ICaseFileManager>(),
+            Substitute.For<IFacilityService>(), Substitute.For<ILogger<EnforcementActionManager>>());
 
         [Test]
         public void AddResponse_ValidResponse_SetsResponseReceivedAndComment()

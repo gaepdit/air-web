@@ -76,6 +76,6 @@ public class Fce : DeletableEntity<int>, IDataExchange, INotes
 
     public ushort? ActionNumber { get; init; }
     public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
     public bool DataExchangeExempt { get; init; }
 }

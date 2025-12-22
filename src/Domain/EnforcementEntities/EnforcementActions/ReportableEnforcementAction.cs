@@ -11,15 +11,11 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
     private protected ReportableEnforcementAction() { }
 
     private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
-    {
-        Id = id;
-        CaseFile = caseFile;
-        SetCreator(user?.Id);
-    }
+        : base(id, caseFile, user) { }
 
     // Properties
-    public ushort? ActionNumber { get; init; }
+    public ushort? ActionNumber { get; set; }
     public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
     public bool DataExchangeExempt { get; init; }
 }

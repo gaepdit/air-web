@@ -10,9 +10,8 @@ public interface IFceManager : IDisposable, IAsyncDisposable
     /// <param name="facilityId">The <see cref="FacilityId"/> of the <see cref="Facility"/> to create the FCE for.</param>
     /// <param name="year">The year to create the FCE for.</param>
     /// <param name="user">The user creating the entity.</param>
-    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>The created FCE.</returns>
-    Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user, CancellationToken token = default);
+    Task<Fce> CreateAsync(FacilityId facilityId, int year, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="Fce"/> to indicate that it was edited.

@@ -13,7 +13,9 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user);
+        var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
+
+        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user) { ActionNumber = actionNumber };
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Added(user));
         return caseFile;
     }

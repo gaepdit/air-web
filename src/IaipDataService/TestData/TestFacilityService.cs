@@ -24,6 +24,14 @@ public sealed class TestFacilityService : IFacilityService
     public Task<bool> ExistsAsync(FacilityId id) =>
         Task.FromResult(Items.Any(facility => facility.Id == id));
 
+    public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
+    {
+        var facility = await FindFacilityDetailsAsync(id);
+        return facility is null
+            ? throw new ArgumentException($"Facility not found: {id}")
+            : facility.NextActionNumber++;
+    }
+
     public Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false) =>
         Task.FromResult(FacilityList);
 }

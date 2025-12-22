@@ -7,7 +7,7 @@ public interface IDataExchange : IFacilityId
 {
     public ushort? ActionNumber { get; }
     public DataExchangeStatus DataExchangeStatus { get; }
-    public DateTimeOffset DataExchangeStatusDate { get; }
+    public DateTimeOffset? DataExchangeStatusDate { get; }
     public bool DataExchangeExempt { get; }
 
     // EPA Compliance ID

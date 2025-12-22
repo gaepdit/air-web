@@ -31,12 +31,18 @@ public class CreateEnforcementActionTests
 
         var enforcementActionRepositoryMock = Substitute.For<IEnforcementActionRepository>();
 
-        var enforcementActionService = new EnforcementActionService(
-            new EnforcementActionManager(Substitute.For<ILogger<EnforcementActionManager>>(),
-                Substitute.For<ICaseFileManager>()),
+        var facilityServiceMock = Substitute.For<IFacilityService>();
+        facilityServiceMock.GetNextActionNumberAsync(Arg.Any<FacilityId>()).Returns<ushort>(1);
+
+        var enforcementActionManager = new EnforcementActionManager(Substitute.For<ICaseFileManager>(),
+            facilityServiceMock,
+            Substitute.For<ILogger<EnforcementActionManager>>());
+
+        var enforcementActionService = new EnforcementActionService(enforcementActionManager,
             enforcementActionRepositoryMock, caseFileRepositoryMock, Substitute.For<ICaseFileManager>(),
             AppServicesTestsSetup.Mapper!, userServiceMock, Substitute.For<ILogger<EnforcementActionService>>(),
             Substitute.For<IAppNotificationService>());
+
         var item = new EnforcementActionCreateDto { ActionType = EnforcementActionType.LetterOfNoncompliance };
 
         // Act

@@ -21,7 +21,7 @@ public class CaseFile : ClosableEntity<int>, IDataExchange, INotes
     internal CaseFile(int? id, FacilityId facilityId, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
-        FacilityId = facilityId;
+        FacilityId = facilityId.FormattedId;
         SetCreator(user?.Id);
     }
 
@@ -161,7 +161,7 @@ public class CaseFile : ClosableEntity<int>, IDataExchange, INotes
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
 
-    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
     public bool DataExchangeExempt { get; init; }
 }
 

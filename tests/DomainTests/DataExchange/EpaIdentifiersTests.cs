@@ -11,7 +11,7 @@ public class IDataExchangeTests
         public string FacilityId { get; init; } = "00100001";
         public ushort? ActionNumber { get; init; } = 1;
         public DataExchangeStatus DataExchangeStatus => DataExchangeStatus.N;
-        public DateTimeOffset DataExchangeStatusDate => new();
+        public DateTimeOffset? DataExchangeStatusDate => null;
         public bool DataExchangeExempt { get; init; }
     }
 

@@ -21,12 +21,12 @@ public abstract class ComplianceEvent : WorkEntry, IDataExchange
 
     // Data exchange properties
 
-    public ushort? ActionNumber { get; init; }
+    public ushort? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
 
-    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
     public bool DataExchangeExempt { get; init; }
 }
