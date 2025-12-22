@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
 
-public abstract class ComplianceEvent : WorkEntry
+public abstract class ComplianceEvent : WorkEntry, IDataExchange
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -21,7 +21,12 @@ public abstract class ComplianceEvent : WorkEntry
 
     // Data exchange properties
 
+    public ushort? ActionNumber { get; init; }
+
     [JsonIgnore]
     [StringLength(1)]
     public DataExchangeStatus DataExchangeStatus { get; init; }
+
+    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public bool DataExchangeExempt { get; init; }
 }

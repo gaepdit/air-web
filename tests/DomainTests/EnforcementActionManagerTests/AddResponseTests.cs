@@ -42,7 +42,7 @@ namespace DomainTests.EnforcementActionManagerTests
             var user = new ApplicationUser { Id = Guid.NewGuid().ToString() };
 
             // Act
-            Action act = () => _manager.AddResponse(enforcementAction, responseDate, comment, user);
+            var act = () => _manager.AddResponse(enforcementAction, responseDate, comment, user);
 
             // Assert
             act.Should().Throw<InvalidOperationException>();

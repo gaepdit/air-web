@@ -1,10 +1,8 @@
 ﻿using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -18,12 +16,16 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     {
         Id = id;
         CaseFile = caseFile;
+        FacilityId = caseFile.FacilityId;
         SetCreator(user?.Id);
     }
 
     // Basic data
     public CaseFile CaseFile { get; init; } = null!;
     public EnforcementActionType ActionType { get; protected init; }
+
+    [StringLength(9)]
+    public string FacilityId { get; init; } = null!;
 
     [StringLength(7000)]
     public string? Notes { get; set; }
@@ -86,12 +88,6 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
         or EnforcementActionType.NoticeOfViolation
         or EnforcementActionType.NovNfaLetter
         or EnforcementActionType.ProposedConsentOrder;
-
-    public short? ActionNumber { get; set; }
-
-    [JsonIgnore]
-    [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
 }
 
 // The order of these enum values is used by the UI.

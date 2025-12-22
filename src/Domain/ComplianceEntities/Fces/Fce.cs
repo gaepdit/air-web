@@ -1,11 +1,12 @@
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : DeletableEntity<int>, IFacilityId, INotes
+public class Fce : DeletableEntity<int>, IDataExchange, INotes
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -72,4 +73,9 @@ public class Fce : DeletableEntity<int>, IFacilityId, INotes
             return yearList;
         }
     }
+
+    public ushort? ActionNumber { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DateTimeOffset DataExchangeStatusDate { get; init; }
+    public bool DataExchangeExempt { get; init; }
 }
