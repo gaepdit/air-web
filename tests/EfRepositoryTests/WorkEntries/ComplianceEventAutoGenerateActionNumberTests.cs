@@ -1,4 +1,6 @@
+using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using IaipDataService.Facilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +14,9 @@ public class ComplianceEventAutoGenerateActionNumberTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
+        // Clear all entity types since ActionNumber is shared across all types
+        await repositoryHelper.ClearTableAsync<Fce, int>();
+        await repositoryHelper.ClearTableAsync<CaseFile, int>();
         await repositoryHelper.ClearTableAsync<WorkEntry, int>();
 
         var facilityId = (FacilityId)"00100001";
@@ -43,6 +48,9 @@ public class ComplianceEventAutoGenerateActionNumberTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
+        // Clear all entity types since ActionNumber is shared across all types
+        await repositoryHelper.ClearTableAsync<Fce, int>();
+        await repositoryHelper.ClearTableAsync<CaseFile, int>();
         await repositoryHelper.ClearTableAsync<WorkEntry, int>();
 
         var facilityA = (FacilityId)"00100001";
@@ -83,6 +91,9 @@ public class ComplianceEventAutoGenerateActionNumberTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
+        // Clear all entity types since ActionNumber is shared across all types
+        await repositoryHelper.ClearTableAsync<Fce, int>();
+        await repositoryHelper.ClearTableAsync<CaseFile, int>();
         await repositoryHelper.ClearTableAsync<WorkEntry, int>();
 
         var facilityId = (FacilityId)"00100001";
@@ -106,6 +117,9 @@ public class ComplianceEventAutoGenerateActionNumberTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
+        // Clear all entity types since ActionNumber is shared across all types
+        await repositoryHelper.ClearTableAsync<Fce, int>();
+        await repositoryHelper.ClearTableAsync<CaseFile, int>();
         await repositoryHelper.ClearTableAsync<WorkEntry, int>();
 
         var facilityId = (FacilityId)"00100001";
