@@ -13,8 +13,7 @@ public class EnforcementActionManager(
     IFacilityService facilityService,
     ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
 {
-    public async Task<EnforcementAction> CreateAsync(CaseFile caseFile, EnforcementActionType actionType,
-        ApplicationUser? user)
+    public EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user)
     {
         var id = Guid.NewGuid();
         EnforcementAction enforcementAction = actionType switch
@@ -30,15 +29,6 @@ public class EnforcementActionManager(
             _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null),
         };
 
-        if (enforcementAction is ReportableEnforcementAction reportable)
-        {
-            var actionNumber = await facilityService.GetNextActionNumberAsync((FacilityId)caseFile.FacilityId)
-                .ConfigureAwait(false);
-            reportable.ActionNumber = actionNumber;
-            reportable.DataExchangeStatus = DataExchangeStatus.I;
-            reportable.DataExchangeStatusDate = DateTimeOffset.Now;
-        }
-
         caseFile.EnforcementActions.Add(enforcementAction);
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionAdded(actionType, user));
         return enforcementAction;
@@ -53,20 +43,31 @@ public class EnforcementActionManager(
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssuedStatus(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public async Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         action.SetUpdater(user?.Id);
         action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+
+        if (action is not ReportableEnforcementAction ra) return;
+
+        if (!issueDate.HasValue) ra.RemoveFromDataExchange();
+        else
+            ra.AddToDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
+                .ConfigureAwait(false));
     }
 
-    public bool Issue(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
+    public async Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
         bool tryCloseCaseFile = false)
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
+
+        if (action is ReportableEnforcementAction ra)
+            ra.AddToDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
+                .ConfigureAwait(false));
 
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
@@ -119,6 +120,7 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
+        if (action is ReportableEnforcementAction ra) ra.DeleteDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
     }
 
@@ -130,6 +132,7 @@ public class EnforcementActionManager(
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
+        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
         if (!tryCloseCaseFile) return false;
@@ -142,12 +145,14 @@ public class EnforcementActionManager(
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
         ((EnforcementAction)action).SetUpdater(user?.Id);
+        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
         action.Execute(executedDate);
     }
 
     public void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user)
     {
         action.SetUpdater(user?.Id);
+        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
         action.Appeal(executedDate);
     }
 

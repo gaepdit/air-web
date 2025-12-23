@@ -32,8 +32,7 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = await actionManager.CreateAsync(caseFile, resource.ActionType, currentUser)
-            .ConfigureAwait(false);
+        var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
 
         enforcementAction.Notes = resource.Comment;
         if (enforcementAction is IResponseRequested responseRequestedAction)
@@ -53,8 +52,7 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = await actionManager
-            .CreateAsync(caseFile, EnforcementActionType.ConsentOrder, currentUser).ConfigureAwait(false);
+        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.ConsentOrder, currentUser);
 
         mapper.Map(resource, enforcementAction);
 
@@ -72,8 +70,7 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
-        var enforcementAction = await actionManager
-            .CreateAsync(caseFile, EnforcementActionType.AdministrativeOrder, currentUser).ConfigureAwait(false);
+        var enforcementAction = actionManager.Create(caseFile, EnforcementActionType.AdministrativeOrder, currentUser);
 
         mapper.Map(resource, enforcementAction);
 
@@ -146,7 +143,8 @@ public sealed class EnforcementActionService(
 
     private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
     {
-        actionManager.SetIssuedStatus(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
+        await actionManager.SetIssuedStatusAsync(entity, issueDate,
+            await userService.GetCurrentUserAsync().ConfigureAwait(false)).ConfigureAwait(false);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 
@@ -170,7 +168,8 @@ public sealed class EnforcementActionService(
             ],
             token: token).ConfigureAwait(false);
 
-        var caseFileClosed = actionManager.Issue(action, resource.Date, currentUser, resource.Option);
+        var caseFileClosed = await actionManager.IssueAsync(action, resource.Date, currentUser, resource.Option)
+            .ConfigureAwait(false);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)

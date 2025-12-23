@@ -11,15 +11,9 @@ public sealed class FceManager(IFceRepository repository, IFacilityService facil
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
+        var fce = new Fce(repository.GetNextId(), facilityId, year, user);
 
-        var fce = new Fce(repository.GetNextId(), facilityId, year, user)
-        {
-            ActionNumber = actionNumber,
-            DataExchangeStatus = DataExchangeStatus.I,
-            DataExchangeStatusDate = DateTimeOffset.Now,
-        };
-
+        fce.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
         fce.AuditPoints.Add(FceAuditPoint.Added(user));
         return fce;
     }
@@ -27,18 +21,21 @@ public sealed class FceManager(IFceRepository repository, IFacilityService facil
     public void Update(Fce fce, ApplicationUser? user)
     {
         fce.SetUpdater(user?.Id);
+        fce.UpdateDataExchange();
         fce.AuditPoints.Add(FceAuditPoint.Edited(user));
     }
 
     public void Delete(Fce fce, string? comment, ApplicationUser? user)
     {
         fce.Delete(comment, user);
+        fce.DeleteDataExchange();
         fce.AuditPoints.Add(FceAuditPoint.Deleted(user));
     }
 
     public void Restore(Fce fce, ApplicationUser? user)
     {
         fce.Undelete();
+        fce.UpdateDataExchange();
         fce.AuditPoints.Add(FceAuditPoint.Restored(user));
     }
 

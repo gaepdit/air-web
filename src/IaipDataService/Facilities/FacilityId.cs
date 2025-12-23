@@ -34,10 +34,8 @@ public partial record FacilityId : IComparable<FacilityId>
     public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
 
     /// <summary>
-    /// `EpaFacilityIdentifier` is the ID used by EPA.
+    /// The ID used by EPA.
     /// </summary>
-    // SQL version: 
-    // CONCAT('GA000000', SUBSTRING(STRAIRSNUMBER, 3, 10)) AS AirFacilityId,
     public string EpaFacilityIdentifier => $"GA00000013{Id}";
 
     // Operators

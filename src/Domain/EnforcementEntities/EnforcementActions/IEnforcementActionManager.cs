@@ -6,12 +6,15 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IEnforcementActionManager
 {
-    Task<EnforcementAction> CreateAsync(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user);
+    EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user);
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
-    void SetIssuedStatus(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
-    bool Issue(EnforcementAction action, DateOnly issueDate, ApplicationUser? user, bool tryCloseCaseFile = false);
+    Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+
+    Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
+        bool tryCloseCaseFile = false);
+
     void Cancel(EnforcementAction action, ApplicationUser? user);
     void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user);
 

@@ -14,15 +14,9 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
 
-        var actionNumber = await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false);
+        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user);
 
-        var caseFile = new CaseFile(repository.GetNextId(), facilityId, user)
-        {
-            ActionNumber = actionNumber,
-            DataExchangeStatus = DataExchangeStatus.I,
-            DataExchangeStatusDate = DateTimeOffset.Now,
-        };
-
+        caseFile.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Added(user));
         return caseFile;
     }
@@ -30,30 +24,35 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
     public void Close(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.Close(user);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Closed(user));
     }
 
     public void Reopen(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.Reopen(user);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Reopened(user));
     }
 
     public void Delete(CaseFile caseFile, string? comment, ApplicationUser? user)
     {
         caseFile.Delete(comment, user);
+        caseFile.DeleteDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Deleted(user));
     }
 
     public void Restore(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.Undelete();
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Restored(user));
     }
 
     public void Update(CaseFile caseFile, ApplicationUser? user)
     {
         caseFile.SetUpdater(user?.Id);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Edited(user));
     }
 
@@ -63,6 +62,7 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         entry.CaseFiles.Add(caseFile);
 
         caseFile.SetUpdater(user?.Id);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.ComplianceEventLinked(entry.Id, user));
     }
 
@@ -72,6 +72,7 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         entry.CaseFiles.Remove(caseFile);
 
         caseFile.SetUpdater(user?.Id);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.ComplianceEventUnlinked(entry.Id, user));
     }
 
@@ -85,6 +86,7 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         caseFile.AirPrograms.AddRange(airPrograms);
 
         caseFile.SetUpdater(user?.Id);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.PollutantsAndProgramsUpdated(user));
     }
 
