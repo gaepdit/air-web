@@ -11,10 +11,13 @@ public sealed class TestFacilityService : IFacilityService
         new(Items.ToDictionary(facility => facility.Id, facility => facility.Name));
 
     public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
-        Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
+        FindFacility(id);
 
     public Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false) =>
-        FindFacilityDetailsAsync(id, forceRefresh);
+        FindFacility(id);
+
+    private Task<Facility?> FindFacility(FacilityId id) =>
+        Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
 
     public Task<string> GetNameAsync(string id) =>
         FacilityList.TryGetValue((FacilityId)id, out var name)
@@ -26,7 +29,7 @@ public sealed class TestFacilityService : IFacilityService
 
     public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
     {
-        var facility = await FindFacilityDetailsAsync(id);
+        var facility = await FindFacility(id);
         return facility is null
             ? throw new ArgumentException($"Facility not found: {id}")
             : facility.NextActionNumber++;

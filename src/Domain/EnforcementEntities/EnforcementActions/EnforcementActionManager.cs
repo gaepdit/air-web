@@ -51,12 +51,24 @@ public class EnforcementActionManager(
         action.SetUpdater(user?.Id);
         action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
 
+        await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
+    }
+
+    private async Task UpdateDataExchangeStatusAsync(EnforcementAction action)
+    {
         if (action is not ReportableEnforcementAction ra) return;
 
-        if (!issueDate.HasValue) ra.RemoveFromDataExchange();
-        else
-            ra.AddToDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
+        if (action.Status != EnforcementActionStatus.Issued)
+        {
+            ra.DeleteDataExchange();
+            return;
+        }
+
+        if (ra.ActionNumber is null)
+            ra.InitiateDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
                 .ConfigureAwait(false));
+        else
+            ra.UpdateDataExchange();
     }
 
     public async Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
@@ -65,13 +77,11 @@ public class EnforcementActionManager(
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
-        if (action is ReportableEnforcementAction ra)
-            ra.AddToDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
-                .ConfigureAwait(false));
-
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
         action.Status = EnforcementActionStatus.Issued;
+
+        await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
 
         if (!tryCloseCaseFile || action is not
             {

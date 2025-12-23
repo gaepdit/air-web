@@ -25,17 +25,6 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
     [JsonIgnore]
     public DateTimeOffset? DataExchangeStatusDate { get; internal set; }
 
-    internal void RemoveFromDataExchange()
-    {
-        if (ActionNumber is not null) this.DeleteDataExchange();
-    }
-
-    internal void AddToDataExchange(ushort actionNumber)
-    {
-        if (ActionNumber is null) this.InitiateDataExchange(actionNumber);
-        else this.UpdateDataExchange();
-    }
-
     void IDataExchangeWrite.SetActionNumber(ushort actionNumber)
     {
         ActionNumber = actionNumber;
@@ -45,6 +34,7 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
 
     void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
     {
+        if (ActionNumber is null) return;
         DataExchangeStatus = status;
         DataExchangeStatusDate = DateTimeOffset.Now;
     }
