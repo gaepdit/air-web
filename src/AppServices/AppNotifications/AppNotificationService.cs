@@ -5,6 +5,7 @@ using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ZLogger;
 
 namespace AirWeb.AppServices.AppNotifications;
 
@@ -51,8 +52,8 @@ public sealed class AppNotificationService(
         }
         catch (Exception e)
         {
-            logger.LogError(AppNotificationServiceFailure, e, "Failure generating email message with subject {Subject}",
-                subject);
+            logger.ZLogError(AppNotificationServiceFailure, e,
+                $"Failure generating email message with subject {subject}");
             return AppNotificationResult.Failed($"{FailurePrefix} An error occurred when generating the email.");
         }
 
@@ -69,8 +70,7 @@ public sealed class AppNotificationService(
         }
         catch (Exception e)
         {
-            logger.LogError(AppNotificationServiceFailure, e, "Failure sending email message with subject {Subject}",
-                subject);
+            logger.ZLogError(AppNotificationServiceFailure, e, $"Failure sending email message with subject {subject}");
             return AppNotificationResult.Failed($"{FailurePrefix} An error occurred when sending the email.");
         }
 

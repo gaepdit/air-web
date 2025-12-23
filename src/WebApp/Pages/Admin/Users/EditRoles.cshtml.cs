@@ -9,8 +9,8 @@ namespace AirWeb.WebApp.Pages.Admin.Users;
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditRolesModel(IStaffService staffService) : PageModel
 {
-    [BindProperty]
-    public string UserId { get; set; } = string.Empty;
+    [FromRoute]
+    public Guid? Id { get; set; }
 
     [BindProperty]
     public List<RoleSetting> RoleSettings { get; set; } = [];
@@ -18,14 +18,14 @@ public class EditRolesModel(IStaffService staffService) : PageModel
     public StaffViewDto DisplayStaff { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
 
-    public async Task<IActionResult> OnGetAsync(string? id)
+    public async Task<IActionResult> OnGetAsync()
     {
-        if (id is null) return RedirectToPage("Index");
-        var staff = await staffService.FindAsync(id);
+        if (Id is null) return RedirectToPage("Index");
+        var staff = await staffService.FindAsync(Id.Value.ToString());
         if (staff is null) return NotFound();
+        if (staff.Email is null) return BadRequest();
 
         DisplayStaff = staff;
-        UserId = id;
 
         await PopulateRoleSettingsAsync();
         return Page();
@@ -33,20 +33,21 @@ public class EditRolesModel(IStaffService staffService) : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (Id is null) return BadRequest();
         var rolesDictionary = RoleSettings.ToDictionary(setting => setting.Name, setting => setting.IsSelected);
-        var result = await staffService.UpdateRolesAsync(UserId, rolesDictionary);
+        var result = await staffService.UpdateRolesAsync(Id.Value.ToString(), rolesDictionary);
 
         if (result.Succeeded)
         {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "User roles successfully updated.");
-            return RedirectToPage("Details", new { id = UserId });
+            return RedirectToPage("Details", new { id = Id });
         }
 
         foreach (var err in result.Errors)
             ModelState.AddModelError(string.Empty, string.Concat(err.Code, ": ", err.Description));
 
-        var staff = await staffService.FindAsync(UserId);
-        if (staff is null) return BadRequest();
+        var staff = await staffService.FindAsync(Id.Value.ToString());
+        if (staff?.Email is null) return BadRequest();
 
         DisplayStaff = staff;
 

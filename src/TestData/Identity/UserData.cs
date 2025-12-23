@@ -29,7 +29,7 @@ internal static partial class UserData
                     NormalizedEmail = staff.EmailAddress.ToUpperInvariant(),
                     NormalizedUserName = staff.EmailAddress.ToUpperInvariant(),
                     Office = OfficeData.GetRandomOffice(),
-                    Active = staff.Id != 3,
+                    Active = staff.Active,
                 }).ToList();
 
             return _users;

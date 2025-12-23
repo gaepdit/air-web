@@ -16,10 +16,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d
+        uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602
         with:
           global-json-file: global.json
 
@@ -29,20 +29,12 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Configure Datadog Test Optimization
-        uses: datadog/test-visibility-github-action@f4b026bb8b8b53f323960cf86a849a0231ff93b9
-        with:
-          languages: dotnet
-          api_key: ${{ secrets.DD_API_KEY }}
-          site: us3.datadoghq.com
-
       - name: Test
-        if: ${{ !cancelled() }}
         run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --logger:nunit
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           path: tests/**/TestResults.xml
 
@@ -58,7 +50,7 @@ jobs:
 
     steps:
       - name: Download test result artifacts
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           path: test-results # destination folder
 

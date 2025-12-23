@@ -3,12 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Staff.Dto;
 
-public record StaffSearchResultDto
-(
+public record StaffSearchResultDto(
     string Id,
     string GivenName,
     string FamilyName,
-    string Email,
+    string? Email,
     string? OfficeName,
     bool Active
 )

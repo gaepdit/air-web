@@ -110,6 +110,7 @@ public class DetailsModel(
 
     private async Task LoadSupportingData(CancellationToken token)
     {
+        // FUTURE: Should these be replaced by `IFceService.GetSupportingDataAsync`?
         await LoadComplianceData(token);
         await LoadEnforcementData(token);
         await LoadAnnualFeesData();

@@ -11,7 +11,7 @@ public class DetailsModel : PageModel
     public StaffViewDto DisplayStaff { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
     public IReadOnlyList<AppRole> Roles { get; private set; } = null!;
-    public bool IsUserAdministrator { get; private set; }
+    public bool CanEdit { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(
         [FromServices] IStaffService staffService,
@@ -24,7 +24,7 @@ public class DetailsModel : PageModel
 
         DisplayStaff = staff;
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-        IsUserAdministrator = await authorization.Succeeded(User, Policies.UserAdministrator);
+        CanEdit = DisplayStaff.Email != null && await authorization.Succeeded(User, Policies.UserAdministrator);
 
         return Page();
     }
