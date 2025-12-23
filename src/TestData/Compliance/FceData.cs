@@ -11,6 +11,7 @@ internal static class FceData
     [
         new(401, (FacilityId)"00100001", 2020)
         {
+            ActionNumber = 401,
             ReviewedBy = UserData.GetRandomUser(),
             CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             OnsiteInspection = true,
@@ -18,6 +19,7 @@ internal static class FceData
         },
         new(402, DomainData.GetRandomFacility().Id, 2021)
         {
+            ActionNumber = 402,
             ReviewedBy = UserData.Users[2],
             CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-12)),
             OnsiteInspection = false,
@@ -25,11 +27,13 @@ internal static class FceData
         },
         new(403, DomainData.GetRandomFacility().Id, 2022)
         {
+            ActionNumber = 403,
             CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-14)),
             Notes = "Deleted FCE",
         },
         new(404, DomainData.GetRandomFacility().Id, 2023)
         {
+            ActionNumber = 404,
             ReviewedBy = UserData.GetRandomUser(),
             CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-50)),
             OnsiteInspection = true,

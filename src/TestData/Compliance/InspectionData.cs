@@ -11,6 +11,7 @@ internal static partial class WorkEntries
     [
         new(6001, (FacilityId)"00100001")
         {
+            ActionNumber = 6001,
             WorkEntryType = WorkEntryType.Inspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
@@ -30,6 +31,7 @@ internal static partial class WorkEntries
         },
         new(6002, DomainData.GetRandomFacility().Id)
         {
+            ActionNumber = 6002,
             WorkEntryType = WorkEntryType.Inspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
@@ -49,6 +51,7 @@ internal static partial class WorkEntries
         },
         new(6003, DomainData.GetRandomFacility().Id)
         {
+            ActionNumber = 6003,
             WorkEntryType = WorkEntryType.Inspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
