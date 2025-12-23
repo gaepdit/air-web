@@ -155,14 +155,14 @@ public class EnforcementActionManager(
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
         ((EnforcementAction)action).SetUpdater(user?.Id);
-        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
+        ((ReportableEnforcementAction)action).UpdateDataExchange();
         action.Execute(executedDate);
     }
 
     public void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user)
     {
         action.SetUpdater(user?.Id);
-        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
+        action.UpdateDataExchange();
         action.Appeal(executedDate);
     }
 

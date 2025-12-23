@@ -98,9 +98,9 @@ public sealed class EnforcementActionService(
             EnforcementActionType.NoFurtherActionLetter => await actionRepository
                 .FindAsync<ActionViewDto, NoFurtherActionLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.NoticeOfViolation => await actionRepository
-                .FindAsync<ResponseRequestedViewDto, NoticeOfViolation>(id, mapper, token).ConfigureAwait(false),
+                .FindAsync<NovViewDto, NoticeOfViolation>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.NovNfaLetter => await actionRepository
-                .FindAsync<ResponseRequestedViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
+                .FindAsync<NovViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.ProposedConsentOrder => await actionRepository
                 .FindAsync<ProposedCoViewDto, ProposedConsentOrder>(id, mapper, token).ConfigureAwait(false),
             _ => throw new InvalidOperationException("Unknown enforcement action type")

@@ -103,4 +103,5 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public ushort? ActionNumber { get; init; }
     public DataExchangeStatus DataExchangeStatus { get; init; }
     public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public bool IsReportable { get; init; }
 }

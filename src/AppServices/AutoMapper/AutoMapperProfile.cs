@@ -176,6 +176,7 @@ public class AutoMapperProfile : Profile
 
     private void Enforcement()
     {
+        // Case files
         CreateMap<CaseFile, CaseFileViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore())
             .ForMember(dto => dto.EnforcementActions, expression => expression.Ignore())
@@ -187,9 +188,9 @@ public class AutoMapperProfile : Profile
 
         CreateMap<CaseFileViewDto, CaseFileSummaryDto>();
 
+        // Enforcement actions
         CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementAction, ActionTypeDto>();
-        CreateMap<EnforcementActionReview, ReviewDto>();
         CreateMap<ReportableEnforcementAction, ReportableActionViewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
@@ -208,13 +209,12 @@ public class AutoMapperProfile : Profile
         CreateMap<LetterOfNoncompliance, LonViewDto>();
 
         CreateMap<NoFurtherActionLetter, ActionViewDto>();
-        CreateMap<NoticeOfViolation, ResponseRequestedViewDto>();
-        CreateMap<NovNfaLetter, ResponseRequestedViewDto>();
+        CreateMap<NoticeOfViolation, NovViewDto>();
+        CreateMap<NovNfaLetter, NovViewDto>();
         CreateMap<ProposedConsentOrder, ProposedCoViewDto>();
 
+        // EA properties
+        CreateMap<EnforcementActionReview, ReviewDto>();
         CreateMap<StipulatedPenalty, StipulatedPenaltyViewDto>();
-
-        CreateMap<ResponseRequestedViewDto, EnforcementActionCreateDto>()
-            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
     }
 }

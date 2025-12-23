@@ -53,8 +53,8 @@ public sealed class CaseFileService(
                 InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
                 LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
                 NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
-                NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
-                NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+                NoticeOfViolation a => mapper.Map<NovViewDto>(a),
+                NovNfaLetter a => mapper.Map<NovViewDto>(a),
                 ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
                 _ => throw new InvalidOperationException("Unknown enforcement action type"),
             });

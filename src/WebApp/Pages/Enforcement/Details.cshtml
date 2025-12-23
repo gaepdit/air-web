@@ -926,7 +926,10 @@
                 <details>
                     <summary class="rounded-1 p-1"><span class="ps-1">Show EPA Data Exchange info</span></summary>
                     <h5 class="h6 mt-2">Case File</h5>
-                    <dl class="row mt-2 mb-0">
+                    <dl class="row mt-2 mb-0 ms-1">
+                        <dt class="col-sm-4">Is this a reportable Case File?</dt>
+                        <dd class="col-sm-6">@Html.DisplayFor(_ => caseFile.IsReportable, DisplayTemplate.BoolYesNo)</dd>
+
                         <dt class="col-sm-4">EPA Facility ID</dt>
                         <dd class="col-sm-6">@dx.EpaFacilityIdentifier</dd>
 
@@ -941,20 +944,23 @@
                                 additionalViewData: new { Placeholder = "none" })</dd>
                     </dl>
 
-                    @foreach (var action in caseFile.EnforcementActions.OfType<ReportableActionViewDto>()
-                                      .Where(dto => dto is { ActionNumber: not null, IsIssued: true }).OrderBy(dto => dto.CreatedAt))
+                    @foreach (var action in caseFile.EnforcementActions
+                                      .Where(dto => dto.IsIssued && dto is IDataExchange { ActionNumber: not null })
+                                      .OrderBy(dto => dto.CreatedAt))
                     {
+                        var edx = (IDataExchange)action;
+
                         <hr />
                         <h5 class="h6">@action.ActionType.GetDisplayName() issued @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)</h5>
-                        <dl class="row mt-2 mb-0">
+                        <dl class="row mt-2 mb-0 ms-1">
                             <dt class="col-sm-4">EPA Action ID</dt>
-                            <dd class="col-sm-6">@(((IDataExchange)action).EpaActionId)</dd>
+                            <dd class="col-sm-6">@edx.EpaActionId</dd>
 
                             <dt class="col-sm-4">Current Data Exchange Status</dt>
-                            <dd class="col-sm-6">@action.DataExchangeStatus.GetDescription()</dd>
+                            <dd class="col-sm-6">@edx.DataExchangeStatus.GetDescription()</dd>
 
                             <dt class="col-sm-4">Data Exchange Status Date</dt>
-                            <dd class="col-sm-6">@Html.DisplayFor(_ => action.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
+                            <dd class="col-sm-6">@Html.DisplayFor(_ => edx.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
                                     additionalViewData: new { Placeholder = "none" })</dd>
                         </dl>
                     }
