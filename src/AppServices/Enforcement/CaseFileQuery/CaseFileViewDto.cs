@@ -6,6 +6,7 @@ using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using GaEpd.AppLibrary.Extensions;
@@ -13,7 +14,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments
+public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments, IDataExchange
 {
     public int Id { get; init; }
     public bool IsClosed { get; init; }
@@ -97,4 +98,9 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
 
     // Calculated properties
     public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
+
+    // Data Exchange
+    public ushort? ActionNumber { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
 }

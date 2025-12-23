@@ -11,13 +11,14 @@
                     <dd class="col-sm-9">@Model.EpaFacilityIdentifier</dd>
 
                     <dt class="col-sm-3">EPA Action ID</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(m => m.EpaActionId, DisplayTemplate.TextOrPlaceholder)</dd>
+                    <dd class="col-sm-9">@Model.EpaActionId</dd>
 
                     <dt class="col-sm-3">Current Data Exchange Status</dt>
                     <dd class="col-sm-9">@Model.DataExchangeStatus.GetDescription()</dd>
 
                     <dt class="col-sm-3">Data Exchange Status Date</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(m => m.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable, new { Placeholder = "none" })</dd>
+                    <dd class="col-sm-9">@Html.DisplayFor(m => m.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
+                            additionalViewData: new { Placeholder = "none" })</dd>
                 </dl>
             </details>
         </div>

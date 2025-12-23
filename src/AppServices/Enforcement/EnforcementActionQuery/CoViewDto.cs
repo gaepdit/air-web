@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public record CoViewDto : ActionViewDto, IIsResolved, IIsExecuted
+public record CoViewDto : ReportableActionViewDto, IIsResolved, IIsExecuted
 {
     [Display(Name = "Signed Copy Received From Facility")]
     public DateOnly? ReceivedFromFacility { get; init; }

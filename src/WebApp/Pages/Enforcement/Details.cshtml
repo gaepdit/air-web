@@ -1,6 +1,7 @@
 @page "{id:int?}"
 @using AirWeb.AppServices.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Enforcement.Permissions
+@using AirWeb.Domain.DataExchange
 @using AirWeb.Domain.EnforcementEntities.EnforcementActions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
@@ -916,6 +917,54 @@
 }
 
 @section Footer {
+    @if (caseFile.ActionNumber != null)
+    {
+        IDataExchange dx = caseFile;
+
+        <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
+            <div class="container">
+                <details>
+                    <summary class="rounded-1 p-1"><span class="ps-1">Show EPA Data Exchange info</span></summary>
+                    <h5 class="h6 mt-2">Case File</h5>
+                    <dl class="row mt-2 mb-0">
+                        <dt class="col-sm-4">EPA Facility ID</dt>
+                        <dd class="col-sm-6">@dx.EpaFacilityIdentifier</dd>
+
+                        <dt class="col-sm-4">EPA Action ID</dt>
+                        <dd class="col-sm-6">@dx.EpaActionId</dd>
+
+                        <dt class="col-sm-4">Current Data Exchange Status</dt>
+                        <dd class="col-sm-6">@dx.DataExchangeStatus.GetDescription()</dd>
+
+                        <dt class="col-sm-4">Data Exchange Status Date</dt>
+                        <dd class="col-sm-6">@Html.DisplayFor(_ => dx.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
+                                additionalViewData: new { Placeholder = "none" })</dd>
+                    </dl>
+
+                    @foreach (var action in caseFile.EnforcementActions.OfType<ReportableActionViewDto>()
+                                      .Where(dto => dto is { ActionNumber: not null, IsIssued: true }).OrderBy(dto => dto.CreatedAt))
+                    {
+                        <hr />
+                        <h5 class="h6">@action.ActionType.GetDisplayName() issued @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)</h5>
+                        <dl class="row mt-2 mb-0">
+                            <dt class="col-sm-4">EPA Action ID</dt>
+                            <dd class="col-sm-6">@(((IDataExchange)action).EpaActionId)</dd>
+
+                            <dt class="col-sm-4">Current Data Exchange Status</dt>
+                            <dd class="col-sm-6">@action.DataExchangeStatus.GetDescription()</dd>
+
+                            <dt class="col-sm-4">Data Exchange Status Date</dt>
+                            <dd class="col-sm-6">@Html.DisplayFor(_ => action.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
+                                    additionalViewData: new { Placeholder = "none" })</dd>
+                        </dl>
+                    }
+
+                </details>
+            </div>
+        </div>
+    }
+
+
     <partial name="Shared/_AuditPointsPartial" model="caseFile.AuditPoints" />
 }
 

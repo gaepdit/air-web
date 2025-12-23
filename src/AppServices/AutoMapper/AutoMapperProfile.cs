@@ -190,6 +190,7 @@ public class AutoMapperProfile : Profile
         CreateMap<EnforcementAction, ActionViewDto>();
         CreateMap<EnforcementAction, ActionTypeDto>();
         CreateMap<EnforcementActionReview, ReviewDto>();
+        CreateMap<ReportableEnforcementAction, ReportableActionViewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
         CreateMap<AoViewDto, AdministrativeOrderCommandDto>()
