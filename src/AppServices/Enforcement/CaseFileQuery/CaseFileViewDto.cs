@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.ComplianceWork.Search;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;

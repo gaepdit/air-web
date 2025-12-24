@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceWork;
-using AirWeb.AppServices.Compliance.ComplianceWork.SourceTestReviews;
-using AirWeb.AppServices.Compliance.ComplianceWork.WorkEntryDto.Command;
+﻿using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 

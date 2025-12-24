@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Claims;
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.ComplianceWork.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
+using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;

@@ -1,5 +1,5 @@
-using AirWeb.AppServices.Compliance.ComplianceWork;
-using AirWeb.AppServices.Compliance.ComplianceWork.Notifications;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.ComplianceWork;

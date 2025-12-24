@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.ComplianceWork;
-using AirWeb.AppServices.Compliance.ComplianceWork.PermitRevocations;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;

@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceWork.Search;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Domain.Predicates;

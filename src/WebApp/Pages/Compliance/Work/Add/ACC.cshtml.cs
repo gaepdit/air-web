@@ -1,5 +1,5 @@
-using AirWeb.AppServices.Compliance.ComplianceWork;
-using AirWeb.AppServices.Compliance.ComplianceWork.Accs;
+using AirWeb.AppServices.Compliance.WorkEntries;
+using AirWeb.AppServices.Compliance.WorkEntries.Accs;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using FluentValidation;

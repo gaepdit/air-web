@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceWork.Inspections;
-using AirWeb.AppServices.Compliance.ComplianceWork.WorkEntryDto.Command;
+﻿using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
+using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
