@@ -12,6 +12,7 @@ internal static partial class WorkEntries
     [
         new(11001, SourceTestData.GetData[0].Facility!.Id, UserData.GetRandomUser())
         {
+            ActionNumber = 11001,
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[0].ReferenceNumber,
             ResponsibleStaff = UserData.GetRandomUser(),
@@ -25,6 +26,7 @@ internal static partial class WorkEntries
         },
         new(11002, SourceTestData.GetData[1].Facility!.Id, UserData.GetRandomUser())
         {
+            ActionNumber = 11002,
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[1].ReferenceNumber,
             ResponsibleStaff = UserData.GetRandomUser(),
@@ -38,6 +40,7 @@ internal static partial class WorkEntries
         },
         new(11003, SourceTestData.GetData[2].Facility!.Id)
         {
+            ActionNumber = 11003,
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = SourceTestData.GetData[2].ReferenceNumber,
             ResponsibleStaff = UserData.GetRandomUser(),
@@ -48,6 +51,7 @@ internal static partial class WorkEntries
         },
         new(11004, (FacilityId)"001-00001")
         {
+            ActionNumber = 11004,
             WorkEntryType = WorkEntryType.SourceTestReview,
             ReferenceNumber = null,
             ResponsibleStaff = UserData.GetRandomUser(),

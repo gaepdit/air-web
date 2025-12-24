@@ -214,7 +214,7 @@ internal static class AppDbContextConfiguration
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<ReportableEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;
     }
@@ -290,6 +290,29 @@ internal static class AppDbContextConfiguration
                     (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureCompositeUniqueIndexes(this ModelBuilder builder)
+    {
+        // Configure composite unique indexes for FacilityId + ActionNumber
+        // These ensure that ActionNumber is sequential and unique per FacilityId
+
+        // ComplianceEvent (WorkEntry) - ActionNumber must be unique per FacilityId
+        builder.Entity<ComplianceEvent>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        // Fce - ActionNumber must be unique per FacilityId
+        builder.Entity<Fce>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        // CaseFile - ActionNumber must be unique per FacilityId
+        builder.Entity<CaseFile>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
 
         return builder;
     }

@@ -43,12 +43,14 @@ public static class EnforcementActionData
         // 304 (4)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(4), null)
         {
+            ActionNumber = 801,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
         // 305 (5)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(5), null)
         {
+            ActionNumber = 802,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -56,6 +58,7 @@ public static class EnforcementActionData
         // 306 (6)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(6), null)
         {
+            ActionNumber = 803,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-85)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-75)),
@@ -64,6 +67,7 @@ public static class EnforcementActionData
         // 307 (7)
         new NovNfaLetter(Guid.NewGuid(), CaseFileData.GetData.ElementAt(7), null)
         {
+            ActionNumber = 804,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-75)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-65)),
@@ -72,6 +76,7 @@ public static class EnforcementActionData
         // 308 (8)
         new NoticeOfViolation(Guid.NewGuid(), CaseFileData.GetData.ElementAt(8), null)
         {
+            ActionNumber = 805,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(5)),
@@ -80,6 +85,7 @@ public static class EnforcementActionData
         // 309 (9)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(9), null)
         {
+            ActionNumber = 806,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(50)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -87,6 +93,7 @@ public static class EnforcementActionData
         // 310 (10)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(10), null)
         {
+            ActionNumber = 807,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-5)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -94,6 +101,7 @@ public static class EnforcementActionData
         // 311 (11)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(11), null)
         {
+            ActionNumber = 808,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(145)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -101,6 +109,7 @@ public static class EnforcementActionData
         // 312 (12)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(12), null)
         {
+            ActionNumber = 809,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-195)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
@@ -108,6 +117,7 @@ public static class EnforcementActionData
         // 313 (13)
         new AdministrativeOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(13), null)
         {
+            ActionNumber = 810,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-88)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-90)),
@@ -116,6 +126,7 @@ public static class EnforcementActionData
         // 314 (14)
         new AdministrativeOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(14), null)
         {
+            ActionNumber = 811,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-300)),
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-288)),
@@ -132,12 +143,14 @@ public static class EnforcementActionData
         // 308 (16)
         new ProposedConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(8), null)
         {
+            ActionNumber = 812,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
         },
 
         // 310 (17)
         new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(10), null)
         {
+            ActionNumber = 813,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(20)),
             OrderId = 310,
@@ -148,6 +161,7 @@ public static class EnforcementActionData
         // 311 (18)
         new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(11), null)
         {
+            ActionNumber = 814,
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(148)),
             ExecutedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(160)),
@@ -162,6 +176,7 @@ public static class EnforcementActionData
         // 312 (19)
         new ConsentOrder(Guid.NewGuid(), CaseFileData.GetData.ElementAt(12), null)
         {
+            ActionNumber = 815,
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-180)),
             Notes = SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),
             ReceivedFromFacility = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-183)),

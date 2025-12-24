@@ -19,7 +19,7 @@ public partial record FacilityId : IComparable<FacilityId>
 
 
     /// <summary>
-    /// `Id` is the short form of the Facility ID without a hyphen, e.g. "00123456".
+    /// The short form of the Facility ID without a hyphen, e.g. "00123456".
     /// </summary>
     [Key]
     public string Id
@@ -34,7 +34,7 @@ public partial record FacilityId : IComparable<FacilityId>
     public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
 
     /// <summary>
-    /// `EpaFacilityIdentifier` is the ID used by EPA.
+    /// The ID used by EPA.
     /// </summary>
     public string EpaFacilityIdentifier => $"GA00000013{Id}";
 

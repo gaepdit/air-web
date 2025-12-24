@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public record AoViewDto : ActionViewDto, IIsResolved, IIsExecuted, IIsAppealed
+public record AoViewDto : ReportableActionViewDto, IIsResolved, IIsExecuted, IIsAppealed
 {
     [Display(Name = "Executed")]
     public DateOnly? ExecutedDate { get; init; }

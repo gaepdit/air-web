@@ -10,6 +10,12 @@ public interface IFacilityService
     Task<bool> ExistsAsync(FacilityId id);
 
     /// <summary>
+    /// Gets the current value for the next EPA action number for the given facility and then increments the saved value.
+    /// </summary>
+    /// <param name="id">The Facility ID.</param>
+    Task<ushort> GetNextActionNumberAsync(FacilityId id);
+
+    /// <summary>
     /// Retrieves a list of facilities as a Dictionary of Facility IDs and Facility names.
     /// </summary>
     Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false);

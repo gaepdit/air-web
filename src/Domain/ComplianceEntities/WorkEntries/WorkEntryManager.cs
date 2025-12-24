@@ -1,4 +1,5 @@
 using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
@@ -25,6 +26,9 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 
+        if (workEntry is ComplianceEvent ce and not RmpInspection)
+            ce.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
+
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Added(user));
         return workEntry;
     }
@@ -32,30 +36,35 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
     public void Update(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.SetUpdater(user?.Id);
+        if (workEntry is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Edited(user));
     }
 
     public void Close(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Close(user);
+        if (workEntry is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Closed(user));
     }
 
     public void Reopen(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Reopen(user);
+        if (workEntry is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Reopened(user));
     }
 
     public void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user)
     {
         workEntry.Delete(comment, user);
+        if (workEntry is ComplianceEvent ce and not RmpInspection) ce.DeleteDataExchange();
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Deleted(user));
     }
 
     public void Restore(WorkEntry workEntry, ApplicationUser? user)
     {
         workEntry.Undelete();
+        if (workEntry is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
         workEntry.AuditPoints.Add(WorkEntryAuditPoint.Restored(user));
     }
 

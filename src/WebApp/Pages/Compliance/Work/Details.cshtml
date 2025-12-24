@@ -6,6 +6,7 @@
 @using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations
 @using AirWeb.AppServices.Compliance.WorkEntries.Reports
 @using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews
+@using AirWeb.Domain.DataExchange
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
 @{
@@ -177,6 +178,11 @@
 }
 
 @section Footer {
+    @if (report is IDataExchange)
+    {
+        <partial name="Shared/_DataExchangePartial" model="report" />
+    }
+
     <partial name="Shared/_AuditPointsPartial" model="report.AuditPoints" />
 }
 

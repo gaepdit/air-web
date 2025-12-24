@@ -7,7 +7,7 @@ namespace AppServicesTests.Fces.Validators;
 
 public class CreateValidatorTests
 {
-    private readonly FceCreateDto _model = new() { FacilityId = "001-00001", Year = DateTime.Now.Year };
+    private readonly FceCreateDto _model = new((FacilityId)"001-00001", "") { Year = DateTime.Now.Year };
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

@@ -83,7 +83,7 @@
             <form method="post" asp-page-handler="NewReview">
                 <div class="mb-3">
                     @Html.EditorFor(m => m.NewComplianceReview!.ResponsibleStaffId, EditorTemplate.Select,
-                            additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
+                        additionalViewData: new { Items = Model.StaffSelectList, Placeholder = DefaultText.SelectOptionRequired })
                 </div>
 
                 <div class="row">
@@ -260,7 +260,11 @@ else
         </div>
     }
 
-    <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview?.AuditPoints" />
+    @if (Model.ComplianceReview != null)
+    {
+        <partial name="Shared/_DataExchangePartial" model="Model.ComplianceReview" />
+        <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview.AuditPoints" />
+    }
 }
 
 @section Scripts {

@@ -4,7 +4,7 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 
-public record InspectionViewDto : WorkEntryViewDto
+public record InspectionViewDto : ComplianceEventViewDto
 {
     [Display(Name = "Start")]
     public DateTime InspectionStarted { get; init; }

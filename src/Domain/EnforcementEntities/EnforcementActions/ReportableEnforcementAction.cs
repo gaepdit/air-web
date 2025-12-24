@@ -3,24 +3,18 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.ComplianceEntities.WorkEntries;
+namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public abstract class ComplianceEvent : WorkEntry, IDataExchange, IDataExchangeWrite
+public abstract class ReportableEnforcementAction : EnforcementAction, IDataExchange, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected ComplianceEvent() { }
+    private protected ReportableEnforcementAction() { }
 
-    private protected ComplianceEvent(int? id, FacilityId facilityId, ApplicationUser? user)
-        : base(id, facilityId, user)
-    {
-        IsComplianceEvent = true;
-    }
+    private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user) { }
 
-    public ICollection<CaseFile> CaseFiles { get; } = [];
-
-    // Data exchange properties
-
+    // Properties
     [JsonIgnore]
     public ushort? ActionNumber { get; internal set; }
 
@@ -40,6 +34,7 @@ public abstract class ComplianceEvent : WorkEntry, IDataExchange, IDataExchangeW
 
     void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
     {
+        if (ActionNumber is null) return;
         DataExchangeStatus = status;
         DataExchangeStatusDate = DateTimeOffset.Now;
     }
