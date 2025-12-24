@@ -8,6 +8,7 @@ namespace AirWeb.AppServices.Compliance.Permissions;
 
 public static class CompliancePermissions
 {
+    // FUTURE: Move these common permissions elsewhere. --
     public static bool CanAddComment(this ClaimsPrincipal user, IIsDeleted item) =>
         !item.IsDeleted && user.IsComplianceStaff();
 
@@ -21,6 +22,7 @@ public static class CompliancePermissions
     public static bool CanDeleteComment<T>(this ClaimsPrincipal user, T item)
         where T : IIsDeleted, IHasOwner =>
         !item.IsDeleted && (user.CanManageDeletions() || user.IsOwner(item));
+    // -- end common permissions
 
     public static bool CanEdit<T>(this ClaimsPrincipal user, T item)
         where T : IIsClosed, IIsDeleted =>

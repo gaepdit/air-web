@@ -22,7 +22,7 @@ public static class EnforcementActionPermissions
         item is { IsCanceled: false, IsDeleted: false, IsUnderReview: false } and IIsExecuted { IsExecuted: false };
 
     public static bool CanDeleteAction(this ClaimsPrincipal user, IActionViewDto item) =>
-        !item.IsDeleted && user.IsEnforcementManager();
+        !item.IsDeleted && user.CanManageCaseFileDeletions();
 
     public static bool CanEdit(this ClaimsPrincipal user, IActionViewDto item) =>
         item is { IsCanceled: false, IsDeleted: false } && user.IsComplianceStaff();
