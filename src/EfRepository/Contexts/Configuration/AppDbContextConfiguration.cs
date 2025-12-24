@@ -40,6 +40,8 @@ internal static class AppDbContextConfiguration
 
         // Enforcement entities
         var caseFileEntity = builder.Entity<CaseFile>();
+        caseFileEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
+        caseFileEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
         caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
