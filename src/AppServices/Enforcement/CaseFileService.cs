@@ -66,8 +66,8 @@ public sealed class CaseFileService(
     public async Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
         var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository
-            .FindAsync(id, [nameof(CaseFile.ViolationType)], token: token)
-            .ConfigureAwait(false));
+            .FindAsync(id, includeProperties: [nameof(CaseFile.ViolationType), nameof(CaseFile.EnforcementActions)],
+                token: token).ConfigureAwait(false));
 
         if (caseFile != null)
         {

@@ -18,6 +18,15 @@ public record CaseFileSummaryDto : IIsClosed, IDeletable, IDeleteComments, IHasO
     [Display(Name = "Status")]
     public CaseFileStatus CaseFileStatus { get; init; }
 
+    public string CaseStatusClass => CaseFileStatus switch
+    {
+        CaseFileStatus.Open => "text-bg-warning",
+        CaseFileStatus.Draft => "text-bg-info",
+        CaseFileStatus.SubjectToComplianceSchedule => "text-bg-success",
+        CaseFileStatus.Closed => "text-bg-primary",
+        _ => "",
+    };
+
     public string? ViolationTypeCode { get; init; }
 
     [Display(Name = "Discovery Date")]
