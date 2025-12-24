@@ -31,11 +31,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.Id">
-                            New FCE
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-facilityId="@Model.Id">
                             New Inspection
                         </a>
@@ -58,6 +53,14 @@
                     <li>
                         <a class="dropdown-item" asp-page="/Compliance/Work/Add/PermitRevocation" asp-route-facilityId="@Model.Id">
                             New Permit Revocation
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/FCE/Add" asp-route-facilityId="@Model.Id">
+                            New FCE
                         </a>
                     </li>
                     <li>

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.NamedEntities.Offices;
 using AirWeb.AppServices.Staff;
@@ -14,8 +15,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 public class EnforcementIndexModel(
     ICaseFileSearchService searchService,
     IStaffService staff,
-    IOfficeService offices,
-    IAuthorizationService authorization) : PageModel
+    IOfficeService offices) : PageModel
 {
     public CaseFileSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
@@ -30,14 +30,14 @@ public class EnforcementIndexModel(
 
     public async Task OnGetAsync(CancellationToken token = default)
     {
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.EnforcementManager);
+        UserCanViewDeletedRecords = User.CanManageCaseFileDeletions();
         await PopulateSelectListsAsync(token);
     }
 
     public async Task OnGetSearchAsync(CaseFileSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
         Spec = spec.TrimAll();
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, Policies.EnforcementManager);
+        UserCanViewDeletedRecords = User.CanManageCaseFileDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         await PopulateSelectListsAsync(token);
