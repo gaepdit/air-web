@@ -207,7 +207,8 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, includeProperties: ["EnforcementActions"], token: token)
+            .ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Reopen(caseFile, currentUser);
