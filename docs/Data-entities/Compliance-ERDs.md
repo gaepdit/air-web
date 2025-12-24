@@ -294,3 +294,11 @@ erDiagram
 | SSCPTESTREPORTS.STRMODIFINGPERSON        | varchar(3)    |    ?    | base.UpdatedById     |
 | SSCPTESTREPORTS.DATMODIFINGDATE          | datetime2(0)  |    ?    | base.UpdatedAt       |
 | APBSUPPLAMENTALDATA.DATSSCPTESTREPORTDUE | datetime2(0)  |    ✗    | *none*               |
+
+## Data Exchange Action Numbers
+
+| Column                               | Type       | Migrate | Destination                   |
+|--------------------------------------|------------|:-------:|-------------------------------|
+| AFSSSCPFCERECORDS.STRAFSACTIONNUMBER | varchar(5) |    ✓    | Fce.ActionNumber              |
+| AFSSSCPRECORDS.STRAFSACTIONNUMBER    | varchar(5) |    ✓    | ComplianceEvent.ActionNumber  |
+| AFSISMPRECORDS.STRAFSACTIONNUMBER    | varchar(5) |    ✓    | SourceTestReview.ActionNumber |
