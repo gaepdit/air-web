@@ -2,8 +2,6 @@
 
 ## Enforcement Entities
 
-## Enforcement ERD
-
 ```mermaid
 erDiagram
     FAC["Facility"] {
