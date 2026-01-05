@@ -27,9 +27,9 @@ public sealed class WorkEntryRepository(AppDbContext context)
         return include.SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
     }
 
-    public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+    public Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceWork>().AsNoTracking()
-            .Where(entry => entry.Id.Equals(id)).Select(entry => entry.WorkEntryType).SingleAsync(token);
+            .Where(entry => entry.Id.Equals(id)).Select(entry => entry.ComplianceWorkType).SingleAsync(token);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         Context.Set<SourceTestReview>().AsNoTracking()

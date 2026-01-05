@@ -21,7 +21,7 @@ public class PermitRevocationAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.PermitRevocation;
+        EntryType = ComplianceWorkType.PermitRevocation;
 
         Item = new PermitRevocationCreateDto
         {
@@ -34,7 +34,7 @@ public class PermitRevocationAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.PermitRevocation;
+        EntryType = ComplianceWorkType.PermitRevocation;
         return await DoPostAsync(Item, entryService, validator, token);
     }
 }

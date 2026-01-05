@@ -31,31 +31,31 @@ internal static class WorkEntryFilters
 
         if (input.Contains(WorkTypeSearch.Acc))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.AnnualComplianceCertification);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.AnnualComplianceCertification);
 
         if (input.Contains(WorkTypeSearch.Inspection))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.Inspection);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Inspection);
 
         if (input.Contains(WorkTypeSearch.Notification))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.Notification);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Notification);
 
         if (input.Contains(WorkTypeSearch.PermitRevocation))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.PermitRevocation);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.PermitRevocation);
 
         if (input.Contains(WorkTypeSearch.Report))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.Report);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Report);
 
         if (input.Contains(WorkTypeSearch.Rmp))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.RmpInspection);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.RmpInspection);
 
         if (input.Contains(WorkTypeSearch.Str))
             includePredicate = includePredicate
-                .Or(entry => entry.WorkEntryType == WorkEntryType.SourceTestReview);
+                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.SourceTestReview);
 
         return predicate.And(includePredicate);
     }

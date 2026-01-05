@@ -12,6 +12,6 @@ public class Inspection : BaseInspection
     internal Inspection(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.Inspection;
+        ComplianceWorkType = ComplianceWorkType.Inspection;
     }
 }

@@ -12,7 +12,7 @@ internal static partial class ComplianceWork
         new(9001, (FacilityId)"00100001", UserData.GetRandomUser())
         {
             ActionNumber = 9001,
-            WorkEntryType = WorkEntryType.Report,
+            ComplianceWorkType = ComplianceWorkType.Report,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
@@ -33,7 +33,7 @@ internal static partial class ComplianceWork
         new(9002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
         {
             ActionNumber = 9002,
-            WorkEntryType = WorkEntryType.Report,
+            ComplianceWorkType = ComplianceWorkType.Report,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
@@ -54,7 +54,7 @@ internal static partial class ComplianceWork
         new(9003, DomainData.GetRandomFacility().Id)
         {
             ActionNumber = 9003,
-            WorkEntryType = WorkEntryType.Report,
+            ComplianceWorkType = ComplianceWorkType.Report,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted Report",

@@ -51,7 +51,7 @@
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.WorkEntryType.GetDisplayName()</td>
+                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
                             <td>
                                 <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                                 @item.EventDateName
@@ -111,7 +111,7 @@
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.WorkEntryType.GetDisplayName()</td>
+                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
                             <td>
                                 <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                                 @item.EventDateName

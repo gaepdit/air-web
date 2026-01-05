@@ -13,7 +13,7 @@ public class Notification : ComplianceWork
     internal Notification(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.Notification;
+        ComplianceWorkType = ComplianceWorkType.Notification;
         Close(user);
     }
 

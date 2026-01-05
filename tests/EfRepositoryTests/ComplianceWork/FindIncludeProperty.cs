@@ -19,7 +19,7 @@ public class FindIncludeProperty
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
-            entry is { WorkEntryType: WorkEntryType.Notification, Comments.Count: > 0 });
+            entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
@@ -36,7 +36,7 @@ public class FindIncludeProperty
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
-            entry is { WorkEntryType: WorkEntryType.Notification, Comments.Count: > 0 });
+            entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
@@ -53,7 +53,7 @@ public class FindIncludeProperty
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
-            entry is { WorkEntryType: WorkEntryType.Notification, Comments.Count: > 0 });
+            entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
@@ -70,7 +70,7 @@ public class FindIncludeProperty
     {
         // Arrange
         var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
-            entry is { WorkEntryType: WorkEntryType.Notification, Comments.Count: > 0 });
+            entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act

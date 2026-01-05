@@ -18,8 +18,8 @@ public sealed class LocalWorkEntryRepository()
         where TEntry : ComplianceWork =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
 
-    public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).WorkEntryType);
+    public Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+        Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).ComplianceWorkType);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         Task.FromResult(Items.OfType<SourceTestReview>()

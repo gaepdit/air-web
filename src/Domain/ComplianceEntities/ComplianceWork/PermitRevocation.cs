@@ -12,7 +12,7 @@ public class PermitRevocation : ComplianceWork
     internal PermitRevocation(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.PermitRevocation;
+        ComplianceWorkType = ComplianceWorkType.PermitRevocation;
     }
 
     // Properties

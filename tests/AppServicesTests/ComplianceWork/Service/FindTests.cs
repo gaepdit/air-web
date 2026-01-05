@@ -24,7 +24,7 @@ public class FindTests
         repoMock.FindAsync<PermitRevocation>(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
             .Returns(item);
         repoMock.GetWorkEntryTypeAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
-            .Returns(WorkEntryType.PermitRevocation);
+            .Returns(ComplianceWorkType.PermitRevocation);
 
         var facilityRepoMock = Substitute.For<IFacilityService>();
         facilityRepoMock.GetNameAsync(new FacilityId(item.FacilityId))

@@ -11,7 +11,7 @@ internal static partial class ComplianceWork
     [
         new(7001, (FacilityId)"00100001", UserData.GetRandomUser())
         {
-            WorkEntryType = WorkEntryType.Notification,
+            ComplianceWorkType = ComplianceWorkType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
@@ -26,7 +26,7 @@ internal static partial class ComplianceWork
         },
         new(7002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
         {
-            WorkEntryType = WorkEntryType.Notification,
+            ComplianceWorkType = ComplianceWorkType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
@@ -41,7 +41,7 @@ internal static partial class ComplianceWork
         },
         new(7003, DomainData.GetRandomFacility().Id)
         {
-            WorkEntryType = WorkEntryType.Notification,
+            ComplianceWorkType = ComplianceWorkType.Notification,
             NotificationType = DomainData.GetRandomNotificationType(),
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,

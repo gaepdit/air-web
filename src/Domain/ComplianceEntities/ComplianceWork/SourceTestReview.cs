@@ -12,7 +12,7 @@ public class SourceTestReview : ComplianceEvent
     internal SourceTestReview(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.SourceTestReview;
+        ComplianceWorkType = ComplianceWorkType.SourceTestReview;
         Close(user);
     }
 

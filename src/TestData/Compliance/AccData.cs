@@ -12,7 +12,7 @@ internal static partial class ComplianceWork
         new(5001, (FacilityId)"00100001")
         {
             ActionNumber = 5001,
-            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
+            ComplianceWorkType = ComplianceWorkType.AnnualComplianceCertification,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
@@ -35,7 +35,7 @@ internal static partial class ComplianceWork
         new(5002, DomainData.GetRandomFacility().Id)
         {
             ActionNumber = 5002,
-            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
+            ComplianceWorkType = ComplianceWorkType.AnnualComplianceCertification,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
@@ -60,7 +60,7 @@ internal static partial class ComplianceWork
         new(5003, DomainData.GetRandomFacility().Id)
         {
             ActionNumber = 5003,
-            WorkEntryType = WorkEntryType.AnnualComplianceCertification,
+            ComplianceWorkType = ComplianceWorkType.AnnualComplianceCertification,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted ACC",

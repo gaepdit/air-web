@@ -12,6 +12,6 @@ public class RmpInspection : BaseInspection
     internal RmpInspection(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.RmpInspection;
+        ComplianceWorkType = ComplianceWorkType.RmpInspection;
     }
 }

@@ -12,7 +12,7 @@ public class AnnualComplianceCertification : ComplianceEvent
     internal AnnualComplianceCertification(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.AnnualComplianceCertification;
+        ComplianceWorkType = ComplianceWorkType.AnnualComplianceCertification;
     }
 
     // Properties

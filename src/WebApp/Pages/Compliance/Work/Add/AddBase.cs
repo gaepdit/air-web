@@ -18,7 +18,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     [FromRoute]
     public string? FacilityId { get; set; }
 
-    public WorkEntryType EntryType { get; protected set; }
+    public ComplianceWorkType EntryType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = null!;
 

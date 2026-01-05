@@ -120,8 +120,8 @@ public enum WorkEntrySortBy
     [Description("Id desc")] IdDesc,
     [Description("FacilityId, Id")] FacilityIdAsc,
     [Description("FacilityId desc, Id")] FacilityIdDesc,
-    [Description("WorkEntryType, Id")] WorkTypeAsc,
-    [Description("WorkEntryType desc, Id")] WorkTypeDesc,
+    [Description("ComplianceWorkType, Id")] WorkTypeAsc,
+    [Description("ComplianceWorkType desc, Id")] WorkTypeDesc,
     [Description("EventDate, Id")] EventDateAsc,
     [Description("EventDate desc, Id")] EventDateDesc,
 }

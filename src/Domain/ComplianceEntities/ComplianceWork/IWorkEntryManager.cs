@@ -7,11 +7,11 @@ public interface IWorkEntryManager : IDisposable, IAsyncDisposable
     /// <summary>
     /// Creates a new <see cref="ComplianceWork"/>.
     /// </summary>
-    /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
+    /// <param name="type">The <see cref="ComplianceWorkType"/> of the Work Entry to create.</param>
     /// <param name="facilityId">The ID of the facility associated with the Work Entry.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The Work Entry that was created.</returns>
-    Task<ComplianceWork> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user);
+    Task<ComplianceWork> CreateAsync(ComplianceWorkType type, FacilityId facilityId, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="ComplianceWork"/> to indicate that it was edited.

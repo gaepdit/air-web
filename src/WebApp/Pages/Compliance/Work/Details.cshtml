@@ -11,7 +11,7 @@
 @model DetailsModel
 @{
     var report = Model.Item!;
-    var workEntryType = report.WorkEntryType;
+    var workEntryType = report.ComplianceWorkType;
     var workEntryName = workEntryType.GetDisplayName();
     ViewData["Title"] = $"{workEntryName} #{Model.Id} (Facility {report.FacilityId})";
 }

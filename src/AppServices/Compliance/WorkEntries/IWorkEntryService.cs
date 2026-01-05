@@ -12,7 +12,7 @@ public interface IWorkEntryService : IDisposable, IAsyncDisposable
     // Query
     Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
     Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
-    Task<WorkEntryType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    Task<ComplianceWorkType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
     // Enforcement Cases
     Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default);

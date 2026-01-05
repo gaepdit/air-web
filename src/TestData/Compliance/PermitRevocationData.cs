@@ -11,7 +11,7 @@ internal static partial class ComplianceWork
     [
         new(8001, (FacilityId)"00100001")
         {
-            WorkEntryType = WorkEntryType.PermitRevocation,
+            ComplianceWorkType = ComplianceWorkType.PermitRevocation,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
@@ -24,7 +24,7 @@ internal static partial class ComplianceWork
         },
         new(8002, DomainData.GetRandomFacility().Id)
         {
-            WorkEntryType = WorkEntryType.PermitRevocation,
+            ComplianceWorkType = ComplianceWorkType.PermitRevocation,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
@@ -39,7 +39,7 @@ internal static partial class ComplianceWork
         },
         new(8003, DomainData.GetRandomFacility().Id)
         {
-            WorkEntryType = WorkEntryType.PermitRevocation,
+            ComplianceWorkType = ComplianceWorkType.PermitRevocation,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted permit revocation",

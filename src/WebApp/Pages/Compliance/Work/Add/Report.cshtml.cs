@@ -21,7 +21,7 @@ public class ReportAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.Report;
+        EntryType = ComplianceWorkType.Report;
 
         Item = new ReportCreateDto
         {
@@ -34,7 +34,7 @@ public class ReportAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.Report;
+        EntryType = ComplianceWorkType.Report;
         return await DoPostAsync(Item, entryService, validator, token);
     }
 }

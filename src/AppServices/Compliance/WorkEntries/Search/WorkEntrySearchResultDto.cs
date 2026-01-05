@@ -7,7 +7,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 public record WorkEntrySearchResultDto : ISearchResult
 {
     public int Id { get; init; }
-    public WorkEntryType WorkEntryType { get; [UsedImplicitly] init; }
+    public ComplianceWorkType ComplianceWorkType { get; [UsedImplicitly] init; }
     public required string FacilityId { get; init; }
     public string? FacilityName { get; set; }
     public StaffViewDto? ResponsibleStaff { get; init; }

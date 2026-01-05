@@ -25,12 +25,12 @@ public interface IWorkEntryRepository : IRepositoryWithMapping<ComplianceWork, i
         where TEntry : ComplianceWork;
 
     /// <summary>
-    /// Gets the <see cref="WorkEntryType"/> for the <see cref="ComplianceWork"/> with the specified ID.
+    /// Gets the <see cref="ComplianceWorkType"/> for the <see cref="ComplianceWork"/> with the specified ID.
     /// </summary>
     /// <param name="id">The ID of the Entry to look up.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>The <see cref="WorkEntryType"/> of the Entry.</returns>
-    Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    /// <returns>The <see cref="ComplianceWorkType"/> of the Entry.</returns>
+    Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
 
     // Source test-specific
 

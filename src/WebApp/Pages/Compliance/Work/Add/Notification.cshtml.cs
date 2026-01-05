@@ -26,7 +26,7 @@ public class NotificationAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.Notification;
+        EntryType = ComplianceWorkType.Notification;
 
         Item = new NotificationCreateDto
         {
@@ -39,7 +39,7 @@ public class NotificationAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.Notification;
+        EntryType = ComplianceWorkType.Notification;
         return await DoPostAsync(Item, entryService, validator, token);
     }
 

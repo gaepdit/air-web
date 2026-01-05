@@ -33,7 +33,7 @@ public class WorkTypeFilterTests
         List<WorkTypeSearch> spec = [WorkTypeSearch.Acc];
 
         var expected = WorkEntryData.GetData.Where(e =>
-            e.WorkEntryType == WorkEntryType.AnnualComplianceCertification);
+            e.ComplianceWorkType == ComplianceWorkType.AnnualComplianceCertification);
 
         // Act
         var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
@@ -51,7 +51,7 @@ public class WorkTypeFilterTests
         List<WorkTypeSearch> spec = [WorkTypeSearch.Acc, WorkTypeSearch.Inspection];
 
         var expected = WorkEntryData.GetData.Where(e =>
-            e.WorkEntryType is WorkEntryType.AnnualComplianceCertification or WorkEntryType.Inspection);
+            e.ComplianceWorkType is ComplianceWorkType.AnnualComplianceCertification or ComplianceWorkType.Inspection);
 
         // Act
         var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();

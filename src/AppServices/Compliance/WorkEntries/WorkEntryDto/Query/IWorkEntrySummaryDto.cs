@@ -10,7 +10,7 @@ public interface IWorkEntrySummaryDto : IIsClosed, IHasOwner, IDeleteComments, I
     public string ItemName { get; }
     public string FacilityId { get; }
     public string? FacilityName { get; set; }
-    public WorkEntryType WorkEntryType { get; }
+    public ComplianceWorkType ComplianceWorkType { get; }
     public bool IsComplianceEvent { get; }
 
     [Display(Name = "Staff Responsible")]

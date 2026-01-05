@@ -70,7 +70,7 @@
                         <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                     </td>
                 }
-                <td>@item.WorkEntryType.GetDisplayName()</td>
+                <td>@item.ComplianceWorkType.GetDisplayName()</td>
                 <td class="text-nowrap">
                     @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                     @if (item.IsClosed)

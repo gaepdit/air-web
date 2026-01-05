@@ -15,13 +15,13 @@ public class EditRedirectModel(IWorkEntryService entryService) : PageModel
         if (entryType is null) return NotFound();
         return RedirectToPage(entryType switch
         {
-            WorkEntryType.AnnualComplianceCertification => "ACC",
-            WorkEntryType.Inspection => "Inspection",
-            WorkEntryType.Notification => "Notification",
-            WorkEntryType.PermitRevocation => "PermitRevocation",
-            WorkEntryType.Report => "Report",
-            WorkEntryType.RmpInspection => "Inspection",
-            WorkEntryType.SourceTestReview => "SourceTestReview",
+            ComplianceWorkType.AnnualComplianceCertification => "ACC",
+            ComplianceWorkType.Inspection => "Inspection",
+            ComplianceWorkType.Notification => "Notification",
+            ComplianceWorkType.PermitRevocation => "PermitRevocation",
+            ComplianceWorkType.Report => "Report",
+            ComplianceWorkType.RmpInspection => "Inspection",
+            ComplianceWorkType.SourceTestReview => "SourceTestReview",
             _ => "Index",
         }, new { Id });
     }

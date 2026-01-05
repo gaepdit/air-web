@@ -64,14 +64,14 @@ internal static class AppDbContextConfiguration
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<ComplianceWork>()
             .ToTable("ComplianceWork")
-            .HasDiscriminator(entry => entry.WorkEntryType)
-            .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
-            .HasValue<Inspection>(WorkEntryType.Inspection)
-            .HasValue<Notification>(WorkEntryType.Notification)
-            .HasValue<PermitRevocation>(WorkEntryType.PermitRevocation)
-            .HasValue<Report>(WorkEntryType.Report)
-            .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
-            .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
+            .HasDiscriminator(entry => entry.ComplianceWorkType)
+            .HasValue<AnnualComplianceCertification>(ComplianceWorkType.AnnualComplianceCertification)
+            .HasValue<Inspection>(ComplianceWorkType.Inspection)
+            .HasValue<Notification>(ComplianceWorkType.Notification)
+            .HasValue<PermitRevocation>(ComplianceWorkType.PermitRevocation)
+            .HasValue<Report>(ComplianceWorkType.Report)
+            .HasValue<RmpInspection>(ComplianceWorkType.RmpInspection)
+            .HasValue<SourceTestReview>(ComplianceWorkType.SourceTestReview);
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
         var accEntity = builder.Entity<AnnualComplianceCertification>();
@@ -207,7 +207,7 @@ internal static class AppDbContextConfiguration
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
 
         // Work entries
-        builder.Entity<ComplianceWork>().Property(e => e.WorkEntryType).HasConversion<string>();
+        builder.Entity<ComplianceWork>().Property(e => e.ComplianceWorkType).HasConversion<string>();
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
         builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();
 

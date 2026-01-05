@@ -19,16 +19,16 @@ public sealed partial class WorkEntryService
         var facilityId = (FacilityId)resource.FacilityId!;
         var workEntryTask = resource switch
         {
-            AccCreateDto => entryManager.CreateAsync(WorkEntryType.AnnualComplianceCertification, facilityId,
+            AccCreateDto => entryManager.CreateAsync(ComplianceWorkType.AnnualComplianceCertification, facilityId,
                 currentUser),
             InspectionCreateDto dto => dto.IsRmpInspection
-                ? entryManager.CreateAsync(WorkEntryType.RmpInspection, facilityId, currentUser)
-                : entryManager.CreateAsync(WorkEntryType.Inspection, facilityId, currentUser),
-            NotificationCreateDto => entryManager.CreateAsync(WorkEntryType.Notification, facilityId, currentUser),
-            PermitRevocationCreateDto => entryManager.CreateAsync(WorkEntryType.PermitRevocation, facilityId,
+                ? entryManager.CreateAsync(ComplianceWorkType.RmpInspection, facilityId, currentUser)
+                : entryManager.CreateAsync(ComplianceWorkType.Inspection, facilityId, currentUser),
+            NotificationCreateDto => entryManager.CreateAsync(ComplianceWorkType.Notification, facilityId, currentUser),
+            PermitRevocationCreateDto => entryManager.CreateAsync(ComplianceWorkType.PermitRevocation, facilityId,
                 currentUser),
-            ReportCreateDto => entryManager.CreateAsync(WorkEntryType.Report, facilityId, currentUser),
-            SourceTestReviewCreateDto => entryManager.CreateAsync(WorkEntryType.SourceTestReview, facilityId,
+            ReportCreateDto => entryManager.CreateAsync(ComplianceWorkType.Report, facilityId, currentUser),
+            SourceTestReviewCreateDto => entryManager.CreateAsync(ComplianceWorkType.SourceTestReview, facilityId,
                 currentUser),
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };

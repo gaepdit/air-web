@@ -7,7 +7,7 @@ namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityService facilityService)
     : IWorkEntryManager
 {
-    public async Task<ComplianceWork> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user)
+    public async Task<ComplianceWork> CreateAsync(ComplianceWorkType type, FacilityId facilityId, ApplicationUser? user)
     {
         if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false))
             throw new ArgumentException("Facility does not exist.", nameof(facilityId));
@@ -16,13 +16,13 @@ public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityS
 
         ComplianceWork complianceWork = type switch
         {
-            WorkEntryType.AnnualComplianceCertification => new AnnualComplianceCertification(id, facilityId, user),
-            WorkEntryType.Inspection => new Inspection(id, facilityId, user),
-            WorkEntryType.Notification => new Notification(id, facilityId, user),
-            WorkEntryType.PermitRevocation => new PermitRevocation(id, facilityId, user),
-            WorkEntryType.Report => new Report(id, facilityId, user),
-            WorkEntryType.RmpInspection => new RmpInspection(id, facilityId, user),
-            WorkEntryType.SourceTestReview => new SourceTestReview(id, facilityId, user),
+            ComplianceWorkType.AnnualComplianceCertification => new AnnualComplianceCertification(id, facilityId, user),
+            ComplianceWorkType.Inspection => new Inspection(id, facilityId, user),
+            ComplianceWorkType.Notification => new Notification(id, facilityId, user),
+            ComplianceWorkType.PermitRevocation => new PermitRevocation(id, facilityId, user),
+            ComplianceWorkType.Report => new Report(id, facilityId, user),
+            ComplianceWorkType.RmpInspection => new RmpInspection(id, facilityId, user),
+            ComplianceWorkType.SourceTestReview => new SourceTestReview(id, facilityId, user),
             _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
         };
 

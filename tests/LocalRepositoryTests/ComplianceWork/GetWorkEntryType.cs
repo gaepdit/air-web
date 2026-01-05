@@ -14,14 +14,14 @@ public class GetWorkEntryType
     [TearDown]
     public void TearDown() => _repository.Dispose();
 
-    [TestCase(WorkEntryType.AnnualComplianceCertification)]
-    [TestCase(WorkEntryType.Notification)]
-    [TestCase(WorkEntryType.PermitRevocation)]
-    [TestCase(WorkEntryType.SourceTestReview)]
-    public async Task GivenExistingItem_ReturnsValue(WorkEntryType type)
+    [TestCase(ComplianceWorkType.AnnualComplianceCertification)]
+    [TestCase(ComplianceWorkType.Notification)]
+    [TestCase(ComplianceWorkType.PermitRevocation)]
+    [TestCase(ComplianceWorkType.SourceTestReview)]
+    public async Task GivenExistingItem_ReturnsValue(ComplianceWorkType type)
     {
         // Arrange
-        var entry = WorkEntryData.GetData.First(entry => entry.WorkEntryType.Equals(type));
+        var entry = WorkEntryData.GetData.First(entry => entry.ComplianceWorkType.Equals(type));
 
         // Act
         var result = await _repository.GetWorkEntryTypeAsync(entry.Id);

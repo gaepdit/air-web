@@ -12,7 +12,7 @@ public class Report : ComplianceEvent
     internal Report(int? id, FacilityId facilityId, ApplicationUser? user = null)
         : base(id, facilityId, user)
     {
-        WorkEntryType = WorkEntryType.Report;
+        ComplianceWorkType = ComplianceWorkType.Report;
         Close(user);
     }
 

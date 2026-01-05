@@ -24,7 +24,7 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
     public string FacilityId { get; init; } = null!;
 
     [StringLength(29)]
-    public WorkEntryType WorkEntryType { get; internal init; }
+    public ComplianceWorkType ComplianceWorkType { get; internal init; }
 
     public ApplicationUser? ResponsibleStaff { get; set; }
     public DateOnly? AcknowledgmentLetterDate { get; set; }
@@ -35,12 +35,12 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
     public DateOnly EventDate { get; protected set; }
 
     [UsedImplicitly]
-    public string EventDateName => WorkEntryType switch
+    public string EventDateName => ComplianceWorkType switch
     {
-        WorkEntryType.Notification or WorkEntryType.PermitRevocation => "Date Received",
-        WorkEntryType.Report or WorkEntryType.AnnualComplianceCertification => "Date Received",
-        WorkEntryType.Inspection or WorkEntryType.RmpInspection => "Inspection Date",
-        WorkEntryType.SourceTestReview => "Received By Compliance",
+        ComplianceWorkType.Notification or ComplianceWorkType.PermitRevocation => "Date Received",
+        ComplianceWorkType.Report or ComplianceWorkType.AnnualComplianceCertification => "Date Received",
+        ComplianceWorkType.Inspection or ComplianceWorkType.RmpInspection => "Inspection Date",
+        ComplianceWorkType.SourceTestReview => "Received By Compliance",
         _ => "Error",
     };
 
@@ -54,11 +54,11 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
     public bool IsComplianceEvent { get; internal init; }
 
     // Data exchange properties
-    public bool IsReportable => IsComplianceEvent && !IsDeleted && WorkEntryType != WorkEntryType.RmpInspection;
+    public bool IsReportable => IsComplianceEvent && !IsDeleted && ComplianceWorkType != ComplianceWorkType.RmpInspection;
 }
 
 // Enums
-public enum WorkEntryType
+public enum ComplianceWorkType
 {
     [Display(Name = "Annual Compliance Certification")] AnnualComplianceCertification,
     [Display(Name = "Inspection")] Inspection,
