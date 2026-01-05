@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.DataExchange;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -7,4 +7,4 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Combined NOV/NFAs
 // * Proposed Consent Orders
 
-public interface IInformalEnforcementAction : IReportable;
+public interface IInformalEnforcementAction : IDataExchange;

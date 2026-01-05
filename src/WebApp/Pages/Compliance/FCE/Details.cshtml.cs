@@ -53,6 +53,9 @@ public class DetailsModel(
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
+
+        // FUTURE: Replace with ComplianceOperation.View? See Case File permissions for example. 
+        //   And see `CompliancePermissions.CanView` for use.
         if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         await LoadSupportingData(token);

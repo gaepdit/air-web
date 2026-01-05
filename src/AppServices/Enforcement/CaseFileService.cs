@@ -53,8 +53,8 @@ public sealed class CaseFileService(
                 InformationalLetter a => mapper.Map<ResponseRequestedViewDto>(a),
                 LetterOfNoncompliance a => mapper.Map<LonViewDto>(a),
                 NoFurtherActionLetter a => mapper.Map<ActionViewDto>(a),
-                NoticeOfViolation a => mapper.Map<ResponseRequestedViewDto>(a),
-                NovNfaLetter a => mapper.Map<ResponseRequestedViewDto>(a),
+                NoticeOfViolation a => mapper.Map<NovViewDto>(a),
+                NovNfaLetter a => mapper.Map<NovViewDto>(a),
                 ProposedConsentOrder a => mapper.Map<ProposedCoViewDto>(a),
                 _ => throw new InvalidOperationException("Unknown enforcement action type"),
             });
@@ -66,8 +66,8 @@ public sealed class CaseFileService(
     public async Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
         var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository
-            .FindAsync(id, [nameof(CaseFile.ViolationType)], token: token)
-            .ConfigureAwait(false));
+            .FindAsync(id, includeProperties: [nameof(CaseFile.ViolationType), nameof(CaseFile.EnforcementActions)],
+                token: token).ConfigureAwait(false));
 
         if (caseFile != null)
         {
@@ -207,7 +207,8 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, includeProperties: ["EnforcementActions"], token: token)
+            .ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Reopen(caseFile, currentUser);

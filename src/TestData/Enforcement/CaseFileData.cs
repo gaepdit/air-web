@@ -14,21 +14,25 @@ internal static class CaseFileData
     [
         new(300, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 300,
             Notes = "Unspecified enforcement case",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
         },
         new(301, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 301,
             Notes = "LON - draft",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
         },
         new(302, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 302,
             Notes = "LON - open",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-20)),
         },
         new(303, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 303,
             Notes = "LON - closed",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-20)),
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-3)),
@@ -36,24 +40,28 @@ internal static class CaseFileData
         },
         new(304, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 304,
             Notes = "Canceled LON + NOV - draft",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-9)),
         },
         new(305, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 305,
             Notes = "NOV - no response",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-19)),
         },
         new(306, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 306,
             Notes = "NOV + NFA",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-100)),
         },
         new(307, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 307,
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-60)),
             ClosedBy = UserData.GetRandomUser(),
             Notes = "Combined NOV/NFA",
@@ -62,30 +70,35 @@ internal static class CaseFileData
         },
         new(308, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 308,
             Notes = "NOV + Proposed Consent Order - draft",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-41)),
         },
         new(309, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 309,
             Notes = "Straight to Proposed CO - no response received",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(41)),
         },
         new(310, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 310,
             Notes = "Proposed CO + signed Consent Order received",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-12)),
         },
         new(311, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 311,
             Notes = "Consent Order + Stipulated Penalties - executed",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(141)),
         },
         new(312, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 312,
             Notes = "Consent Order - closed",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-210)),
@@ -93,12 +106,14 @@ internal static class CaseFileData
         },
         new(313, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 313,
             Notes = "Administrative Order - executed",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-200)),
         },
         new(314, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 314,
             Notes = "Administrative Order - closed",
             ViolationType = ViolationTypeData.GetRandomViolationType(),
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-320)),
@@ -106,6 +121,7 @@ internal static class CaseFileData
         },
         new(329, DomainData.GetRandomFacility().Id, null)
         {
+            ActionNumber = 329,
             Notes = "Deleted Enforcement Case",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-4)),
         },

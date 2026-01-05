@@ -4,7 +4,7 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Reports;
 
-public record ReportViewDto : WorkEntryViewDto
+public record ReportViewDto : ComplianceEventViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

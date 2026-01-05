@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Accs;
 
-public record AccViewDto : WorkEntryViewDto
+public record AccViewDto : ComplianceEventViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

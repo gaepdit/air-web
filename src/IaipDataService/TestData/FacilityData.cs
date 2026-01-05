@@ -319,6 +319,10 @@ public static class FacilityData
         {
             if (_facilities is not null) return _facilities;
             _facilities = FacilitySeedItems.ToList();
+
+            foreach (var facility in _facilities)
+                facility.NextActionNumber = (ushort)Random.Shared.Next(15_000, ushort.MaxValue / 2);
+
             return _facilities;
         }
     }

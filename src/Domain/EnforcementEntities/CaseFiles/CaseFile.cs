@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
+public class CaseFile : ClosableEntity<int>, INotes, IDataExchange, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -21,7 +21,7 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     internal CaseFile(int? id, FacilityId facilityId, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
-        FacilityId = facilityId;
+        FacilityId = facilityId.FormattedId;
         SetCreator(user?.Id);
     }
 
@@ -155,12 +155,28 @@ public class CaseFile : ClosableEntity<int>, IFacilityId, INotes
     public bool IsReportable => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
                                 EnforcementActions.Exists(action => action.IsReportable);
 
-    // Required if the data exchange is enabled.
-    public short? ActionNumber { get; set; }
+    [JsonIgnore]
+    public ushort? ActionNumber { get; internal set; }
 
     [JsonIgnore]
     [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; internal set; }
+
+    [JsonIgnore]
+    public DateTimeOffset? DataExchangeStatusDate { get; internal set; }
+
+    void IDataExchangeWrite.SetActionNumber(ushort actionNumber)
+    {
+        ActionNumber = actionNumber;
+        DataExchangeStatus = DataExchangeStatus.I;
+        DataExchangeStatusDate = DateTimeOffset.Now;
+    }
+
+    void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
+    {
+        DataExchangeStatus = status;
+        DataExchangeStatusDate = DateTimeOffset.Now;
+    }
 }
 
 public enum CaseFileStatus

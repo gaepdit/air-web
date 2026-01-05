@@ -6,7 +6,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Consent Orders
 // * Administrative Orders
 
-public interface IFormalEnforcementAction : IResolvable, IIsExecuted, IReportable
+public interface IFormalEnforcementAction : IResolvable, IIsExecuted, IDataExchange
 {
     internal void Execute(DateOnly executedDate);
 }

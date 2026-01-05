@@ -1,10 +1,9 @@
 ﻿using AirWeb.Domain.DataExchange;
 
-namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 
-public record ProposedCoViewDto : ResponseRequestedViewDto, IDataExchange
+public record ComplianceEventViewDto : WorkEntryViewDto, IDataExchange
 {
-    public string FacilityId { get; init; } = null!;
     public ushort? ActionNumber { get; init; }
     public DataExchangeStatus DataExchangeStatus { get; init; }
     public DateTimeOffset? DataExchangeStatusDate { get; init; }

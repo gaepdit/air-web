@@ -97,8 +97,7 @@
                         @item.SortableFullName
                         @if (item.Email?.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()) ?? false)
                         {
-                            <span
-                                class="badge bg-info-subtle border border-info-subtle text-info-emphasis text-uppercase rounded-pill">You</span>
+                            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis text-uppercase rounded-pill">You</span>
                         }
                     </td>
                     <td>@Html.DisplayFor(_ => item.Email, DisplayTemplate.TextOrPlaceholder)</td>

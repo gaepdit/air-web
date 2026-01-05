@@ -265,7 +265,11 @@ else
         </div>
     }
 
-    <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview?.AuditPoints" />
+    @if (Model.ComplianceReview != null)
+    {
+        <partial name="Shared/_DataExchangePartial" model="Model.ComplianceReview" />
+        <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview.AuditPoints" />
+    }
 }
 
 @section Scripts {

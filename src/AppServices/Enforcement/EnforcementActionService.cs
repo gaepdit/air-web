@@ -98,9 +98,9 @@ public sealed class EnforcementActionService(
             EnforcementActionType.NoFurtherActionLetter => await actionRepository
                 .FindAsync<ActionViewDto, NoFurtherActionLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.NoticeOfViolation => await actionRepository
-                .FindAsync<ResponseRequestedViewDto, NoticeOfViolation>(id, mapper, token).ConfigureAwait(false),
+                .FindAsync<NovViewDto, NoticeOfViolation>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.NovNfaLetter => await actionRepository
-                .FindAsync<ResponseRequestedViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
+                .FindAsync<NovViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.ProposedConsentOrder => await actionRepository
                 .FindAsync<ProposedCoViewDto, ProposedConsentOrder>(id, mapper, token).ConfigureAwait(false),
             _ => throw new InvalidOperationException("Unknown enforcement action type")
@@ -143,7 +143,8 @@ public sealed class EnforcementActionService(
 
     private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
     {
-        actionManager.SetIssuedStatus(entity, issueDate, await userService.GetCurrentUserAsync().ConfigureAwait(false));
+        await actionManager.SetIssuedStatusAsync(entity, issueDate,
+            await userService.GetCurrentUserAsync().ConfigureAwait(false)).ConfigureAwait(false);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 
@@ -167,7 +168,8 @@ public sealed class EnforcementActionService(
             ],
             token: token).ConfigureAwait(false);
 
-        var caseFileClosed = actionManager.Issue(action, resource.Date, currentUser, resource.Option);
+        var caseFileClosed = await actionManager.IssueAsync(action, resource.Date, currentUser, resource.Option)
+            .ConfigureAwait(false);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)

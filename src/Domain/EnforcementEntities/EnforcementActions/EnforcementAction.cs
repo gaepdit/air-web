@@ -16,12 +16,16 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     {
         Id = id;
         CaseFile = caseFile;
+        FacilityId = caseFile.FacilityId;
         SetCreator(user?.Id);
     }
 
     // Basic data
     public CaseFile CaseFile { get; init; } = null!;
     public EnforcementActionType ActionType { get; protected init; }
+
+    [StringLength(9)]
+    public string FacilityId { get; init; } = null!;
 
     [StringLength(7000)]
     public string? Notes { get; set; }

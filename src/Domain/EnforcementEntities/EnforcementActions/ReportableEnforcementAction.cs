@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
@@ -16,20 +16,37 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Consent Orders
 // * Administrative Orders
 
-public abstract class ReportableEnforcementAction : EnforcementAction, IReportable
+public abstract class ReportableEnforcementAction : EnforcementAction, IDataExchange, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
     private protected ReportableEnforcementAction() { }
 
-    private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user) :
-        base(id, caseFile, user) => IsReportableAction = true;
+    private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user) { }
 
     // Data exchange properties
-
-    public short ActionNumber { get; init; }
+    [JsonIgnore]
+    public ushort? ActionNumber { get; internal set; }
 
     [JsonIgnore]
     [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; internal set; }
+
+    [JsonIgnore]
+    public DateTimeOffset? DataExchangeStatusDate { get; internal set; }
+
+    void IDataExchangeWrite.SetActionNumber(ushort actionNumber)
+    {
+        ActionNumber = actionNumber;
+        DataExchangeStatus = DataExchangeStatus.I;
+        DataExchangeStatusDate = DateTimeOffset.Now;
+    }
+
+    void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
+    {
+        if (ActionNumber is null) return;
+        DataExchangeStatus = status;
+        DataExchangeStatusDate = DateTimeOffset.Now;
+    }
 }

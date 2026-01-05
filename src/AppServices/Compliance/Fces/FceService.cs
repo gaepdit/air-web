@@ -113,7 +113,7 @@ public sealed class FceService(
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser, token)
+        var fce = await fceManager.CreateAsync((FacilityId)resource.FacilityId!, resource.Year, currentUser)
             .ConfigureAwait(false);
 
         fce.ReviewedBy = await userService.FindUserAsync(resource.ReviewedById!).ConfigureAwait(false);

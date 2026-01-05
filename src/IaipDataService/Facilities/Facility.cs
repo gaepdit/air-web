@@ -40,4 +40,7 @@ public record Facility : IFacilityIdName
     // Regulatory data
 
     public RegulatoryData? RegulatoryData { get; set; }
+
+    // Data Exchange
+    public ushort NextActionNumber { get; set; } = 1;
 }

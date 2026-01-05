@@ -86,6 +86,13 @@ public sealed class IaipFacilityService(
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
     }
 
+    public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
+    {
+        using var db = dbf.Create();
+        return await db.ExecuteScalarAsync<ushort>("air.GetIaipFacilityNextActionNumber",
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+    }
+
     private const string FacilityListCacheKey = "IaipFacilityList";
 
     public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)

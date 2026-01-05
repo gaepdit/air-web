@@ -2,11 +2,12 @@ using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IFceBasicViewDto
+public record FceViewDto : IFceBasicViewDto, IDataExchange
 {
     [Display(Name = "FCE Tracking Number")]
     public int Id { get; init; }
@@ -51,4 +52,9 @@ public record FceViewDto : IFceBasicViewDto
     public DateRange SupportingDataDateRange => new(SupportingDataStartDate, CompletedDate);
     public DateOnly ExtendedDataStartDate => CompletedDate.AddYears(-Fce.ExtendedDataPeriod);
     public DateRange ExtendedDataDateRange => new(ExtendedDataStartDate, CompletedDate);
+
+    // Data exchange
+    public ushort? ActionNumber { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
 }

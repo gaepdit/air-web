@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
@@ -8,8 +9,9 @@ using ZLogger;
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public class EnforcementActionManager(
-    ILogger<EnforcementActionManager> logger,
-    ICaseFileManager caseFileManager) : IEnforcementActionManager
+    ICaseFileManager caseFileManager,
+    IFacilityService facilityService,
+    ILogger<EnforcementActionManager> logger) : IEnforcementActionManager
 {
     public EnforcementAction Create(CaseFile caseFile, EnforcementActionType actionType, ApplicationUser? user)
     {
@@ -41,16 +43,35 @@ public class EnforcementActionManager(
         responseRequested.ResponseComment = comment;
     }
 
-    public void SetIssuedStatus(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public async Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
         action.SetUpdater(user?.Id);
         action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
+
+        await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
     }
 
-    public bool Issue(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
+    private async Task UpdateDataExchangeStatusAsync(EnforcementAction action)
+    {
+        if (action is not ReportableEnforcementAction ra) return;
+
+        if (action.Status != EnforcementActionStatus.Issued)
+        {
+            ra.DeleteDataExchange();
+            return;
+        }
+
+        if (ra.ActionNumber is null)
+            ra.InitiateDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
+                .ConfigureAwait(false));
+        else
+            ra.UpdateDataExchange();
+    }
+
+    public async Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
         bool tryCloseCaseFile = false)
     {
         if (action.IsCanceled)
@@ -59,6 +80,8 @@ public class EnforcementActionManager(
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
         action.Status = EnforcementActionStatus.Issued;
+
+        await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
 
         if (!tryCloseCaseFile || action is not
             {
@@ -107,6 +130,7 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
+        if (action is ReportableEnforcementAction ra) ra.DeleteDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
     }
 
@@ -118,6 +142,7 @@ public class EnforcementActionManager(
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
+        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
         if (!tryCloseCaseFile) return false;
@@ -130,12 +155,14 @@ public class EnforcementActionManager(
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
         ((EnforcementAction)action).SetUpdater(user?.Id);
+        ((ReportableEnforcementAction)action).UpdateDataExchange();
         action.Execute(executedDate);
     }
 
     public void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user)
     {
         action.SetUpdater(user?.Id);
+        action.UpdateDataExchange();
         action.Appeal(executedDate);
     }
 
