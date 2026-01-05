@@ -3,18 +3,19 @@ using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Lookups.NotificationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Lookups;
+using ComplianceWork = AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork;
 
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalWorkEntryRepository()
-    : BaseRepositoryWithMapping<WorkEntry, int>(WorkEntryData.GetData), IWorkEntryRepository
+    : BaseRepositoryWithMapping<ComplianceWork, int>(WorkEntryData.GetData), IWorkEntryRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
 
     public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras,
         CancellationToken token = default)
-        where TEntry : WorkEntry =>
+        where TEntry : ComplianceWork =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>

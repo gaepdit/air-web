@@ -13,7 +13,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries;
 
 public sealed partial class WorkEntryService
 {
-    private async Task<WorkEntry> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
+    private async Task<ComplianceWork> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
         ApplicationUser? currentUser, CancellationToken token = default)
     {
         var facilityId = (FacilityId)resource.FacilityId!;
@@ -66,43 +66,43 @@ public sealed partial class WorkEntryService
         return workEntry;
     }
 
-    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryCommandDto resource, WorkEntry workEntry,
+    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryCommandDto resource, ComplianceWork complianceWork,
         CancellationToken token)
     {
-        workEntry.ResponsibleStaff = resource.ResponsibleStaffId == null
+        complianceWork.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
-        workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes ?? string.Empty;
+        complianceWork.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
+        complianceWork.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {
             case AccUpdateDto dto:
-                MapAcc(dto, (AnnualComplianceCertification)workEntry);
+                MapAcc(dto, (AnnualComplianceCertification)complianceWork);
                 break;
 
             case InspectionUpdateDto dto:
-                MapInspection(dto, (BaseInspection)workEntry);
+                MapInspection(dto, (BaseInspection)complianceWork);
                 break;
 
             case NotificationUpdateDto dto:
-                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
+                await MapNotificationAsync(dto, (Notification)complianceWork, token).ConfigureAwait(false);
                 break;
 
             case PermitRevocationUpdateDto dto:
-                MapPermitRevocation(dto, (PermitRevocation)workEntry);
+                MapPermitRevocation(dto, (PermitRevocation)complianceWork);
                 break;
 
             case ReportUpdateDto dto:
-                MapReport(dto, (Report)workEntry);
+                MapReport(dto, (Report)complianceWork);
                 break;
 
             case SourceTestReviewUpdateDto dto:
-                MapStr(dto, (SourceTestReview)workEntry);
+                MapStr(dto, (SourceTestReview)complianceWork);
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(nameof(workEntry), "Invalid work entry type.");
+                throw new ArgumentOutOfRangeException(nameof(complianceWork), "Invalid work entry type.");
         }
     }
 

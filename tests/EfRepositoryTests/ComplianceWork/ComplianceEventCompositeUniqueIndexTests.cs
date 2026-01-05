@@ -14,7 +14,7 @@ public class ComplianceEventCompositeUniqueIndexTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
+        await repositoryHelper.ClearTableAsync<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, int>();
 
         var report1 = new Report(null, (FacilityId)"00199998") { ActionNumber = 1 };
         var report2 = new Report(null, (FacilityId)"00199999") { ActionNumber = 1 };
@@ -34,7 +34,7 @@ public class ComplianceEventCompositeUniqueIndexTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         var repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
+        await repositoryHelper.ClearTableAsync<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = 1 };
         var report2 = new Report(null, _facilityId) { ActionNumber = 1 };
@@ -53,7 +53,7 @@ public class ComplianceEventCompositeUniqueIndexTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
+        await repositoryHelper.ClearTableAsync<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = 1 };
         var report2 = new Report(null, _facilityId) { ActionNumber = 2 };
@@ -74,7 +74,7 @@ public class ComplianceEventCompositeUniqueIndexTests
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         await using var repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
+        await repositoryHelper.ClearTableAsync<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = null };
         var report2 = new Report(null, _facilityId) { ActionNumber = null };

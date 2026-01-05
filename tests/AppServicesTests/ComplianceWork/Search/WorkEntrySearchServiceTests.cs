@@ -24,9 +24,9 @@ public class WorkEntrySearchServiceTests
             WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        repoMock.CountAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync<WorkEntrySearchResultDto>(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        repoMock.GetPagedListAsync<WorkEntrySearchResultDto>(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
@@ -54,9 +54,9 @@ public class WorkEntrySearchServiceTests
         var searchDto = new WorkEntrySearchDto();
 
         var repoMock = Substitute.For<IWorkEntryRepository>();
-        repoMock.CountAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(), Arg.Any<CancellationToken>())
+        repoMock.CountAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
-        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<WorkEntry, bool>>>(),
+        repoMock.GetPagedListAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>())
             .Returns([]);
 

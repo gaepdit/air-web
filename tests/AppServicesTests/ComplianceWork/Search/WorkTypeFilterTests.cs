@@ -7,8 +7,8 @@ namespace AppServicesTests.ComplianceWork.Search;
 
 public class WorkTypeFilterTests
 {
-    private static Func<WorkEntry, bool> GetPredicate(List<WorkTypeSearch> spec) =>
-        PredicateBuilder.True<WorkEntry>().ByWorkType(spec).Compile();
+    private static Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool> GetPredicate(List<WorkTypeSearch> spec) =>
+        PredicateBuilder.True<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork>().ByWorkType(spec).Compile();
 
     [Test]
     public void EmptySpec_ReturnsAll()

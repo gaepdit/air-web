@@ -33,7 +33,7 @@ internal static class AppDbContextConfiguration
         fceEntity.Navigation(fce => fce.ReviewedBy).AutoInclude();
 
         // Work Entries
-        var workEntryEntity = builder.Entity<WorkEntry>();
+        var workEntryEntity = builder.Entity<ComplianceWork>();
         workEntryEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
         workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
@@ -62,7 +62,7 @@ internal static class AppDbContextConfiguration
     internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
-        builder.Entity<WorkEntry>()
+        builder.Entity<ComplianceWork>()
             .ToTable("ComplianceWork")
             .HasDiscriminator(entry => entry.WorkEntryType)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
@@ -207,7 +207,7 @@ internal static class AppDbContextConfiguration
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
 
         // Work entries
-        builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
+        builder.Entity<ComplianceWork>().Property(e => e.WorkEntryType).HasConversion<string>();
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
         builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();
 
@@ -306,7 +306,7 @@ internal static class AppDbContextConfiguration
         // Configure composite unique indexes for FacilityId + ActionNumber
         // These ensure that ActionNumber is sequential and unique per FacilityId
 
-        // ComplianceEvent (WorkEntry) - ActionNumber must be unique per FacilityId
+        // ComplianceEvent (ComplianceWork) - ActionNumber must be unique per FacilityId
         builder.Entity<ComplianceEvent>()
             .HasIndex(e => new { e.FacilityId, e.ActionNumber })
             .IsUnique();

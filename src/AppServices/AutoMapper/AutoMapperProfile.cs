@@ -54,9 +54,9 @@ public class AutoMapperProfile : Profile
 
     private void ComplianceWork()
     {
-        CreateMap<WorkEntry, WorkEntrySummaryDto>()
+        CreateMap<ComplianceWork, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+        CreateMap<ComplianceWork, WorkEntrySearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         Accs();

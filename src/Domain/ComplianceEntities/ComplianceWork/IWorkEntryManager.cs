@@ -5,47 +5,47 @@ namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 public interface IWorkEntryManager : IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Creates a new <see cref="WorkEntry"/>.
+    /// Creates a new <see cref="ComplianceWork"/>.
     /// </summary>
     /// <param name="type">The <see cref="WorkEntryType"/> of the Work Entry to create.</param>
     /// <param name="facilityId">The ID of the facility associated with the Work Entry.</param>
     /// <param name="user">The user creating the entity.</param>
     /// <returns>The Work Entry that was created.</returns>
-    Task<WorkEntry> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user);
+    Task<ComplianceWork> CreateAsync(WorkEntryType type, FacilityId facilityId, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was edited.
+    /// Updates the properties of a <see cref="ComplianceWork"/> to indicate that it was edited.
     /// </summary>
-    /// <param name="workEntry">The Entry that was updated.</param>
+    /// <param name="complianceWork">The Entry that was updated.</param>
     /// <param name="user">The user committing the change.</param>
-    void Update(WorkEntry workEntry, ApplicationUser? user);
+    void Update(ComplianceWork complianceWork, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was reviewed and closed.
+    /// Updates the properties of a <see cref="ComplianceWork"/> to indicate that it was reviewed and closed.
     /// </summary>
-    /// <param name="workEntry">The Entry that was closed.</param>
+    /// <param name="complianceWork">The Entry that was closed.</param>
     /// <param name="user">The user committing the change.</param>
-    void Close(WorkEntry workEntry, ApplicationUser? user);
+    void Close(ComplianceWork complianceWork, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a closed <see cref="WorkEntry"/> to indicate that it was reopened.
+    /// Updates the properties of a closed <see cref="ComplianceWork"/> to indicate that it was reopened.
     /// </summary>
-    /// <param name="workEntry">The Entry that was reopened.</param>
+    /// <param name="complianceWork">The Entry that was reopened.</param>
     /// <param name="user">The user committing the change.</param>
-    void Reopen(WorkEntry workEntry, ApplicationUser? user);
+    void Reopen(ComplianceWork complianceWork, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a <see cref="WorkEntry"/> to indicate that it was deleted.
+    /// Updates the properties of a <see cref="ComplianceWork"/> to indicate that it was deleted.
     /// </summary>
-    /// <param name="workEntry">The Entry which was deleted.</param>
+    /// <param name="complianceWork">The Entry which was deleted.</param>
     /// <param name="comment">A comment entered by the user committing the change.</param>
     /// <param name="user">The user committing the change.</param>
-    void Delete(WorkEntry workEntry, string? comment, ApplicationUser? user);
+    void Delete(ComplianceWork complianceWork, string? comment, ApplicationUser? user);
 
     /// <summary>
-    /// Updates the properties of a deleted <see cref="WorkEntry"/> to indicate that it was restored.
+    /// Updates the properties of a deleted <see cref="ComplianceWork"/> to indicate that it was restored.
     /// </summary>
-    /// <param name="workEntry">The Entry which was restored.</param>
+    /// <param name="complianceWork">The Entry which was restored.</param>
     /// <param name="user"></param>
-    void Restore(WorkEntry workEntry, ApplicationUser? user);
+    void Restore(ComplianceWork complianceWork, ApplicationUser? user);
 }

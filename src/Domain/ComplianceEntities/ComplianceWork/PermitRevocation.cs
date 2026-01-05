@@ -2,7 +2,7 @@
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public class PermitRevocation : WorkEntry
+public class PermitRevocation : ComplianceWork
 {
     // Constructors
 

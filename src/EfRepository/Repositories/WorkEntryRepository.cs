@@ -6,13 +6,13 @@ using AirWeb.EfRepository.Contexts;
 namespace AirWeb.EfRepository.Repositories;
 
 public sealed class WorkEntryRepository(AppDbContext context)
-    : BaseRepositoryWithMapping<WorkEntry, int, AppDbContext>(context), IWorkEntryRepository
+    : BaseRepositoryWithMapping<ComplianceWork, int, AppDbContext>(context), IWorkEntryRepository
 {
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
     public Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)
-        where TEntry : WorkEntry
+        where TEntry : ComplianceWork
     {
         var query = Context.Set<TEntry>().AsNoTracking();
         var include = includeExtras
@@ -28,7 +28,7 @@ public sealed class WorkEntryRepository(AppDbContext context)
     }
 
     public Task<WorkEntryType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
-        Context.Set<WorkEntry>().AsNoTracking()
+        Context.Set<ComplianceWork>().AsNoTracking()
             .Where(entry => entry.Id.Equals(id)).Select(entry => entry.WorkEntryType).SingleAsync(token);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>

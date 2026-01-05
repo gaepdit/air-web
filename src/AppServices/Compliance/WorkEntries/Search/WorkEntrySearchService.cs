@@ -18,7 +18,7 @@ public sealed class WorkEntrySearchService(
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    : BaseSearchService<WorkEntry, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto,
+    : BaseSearchService<ComplianceWork, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto,
             IWorkEntryRepository>
         (repository, facilityService, mapper, userService, authorization),
         IWorkEntrySearchService

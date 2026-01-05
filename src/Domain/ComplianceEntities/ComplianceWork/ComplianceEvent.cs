@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public abstract class ComplianceEvent : WorkEntry, IDataExchange, IDataExchangeWrite
+public abstract class ComplianceEvent : ComplianceWork, IDataExchange, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

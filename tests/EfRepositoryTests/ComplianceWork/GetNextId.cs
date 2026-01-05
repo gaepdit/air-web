@@ -29,7 +29,7 @@ public class GetNextId
         // Arrange
         var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
         _repository = repositoryHelper.GetWorkEntryRepository();
-        await repositoryHelper.ClearTableAsync<WorkEntry, int>();
+        await repositoryHelper.ClearTableAsync<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, int>();
 
         // Act
         var result = _repository.GetNextId();

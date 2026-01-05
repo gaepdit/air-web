@@ -7,8 +7,8 @@ namespace AppServicesTests.ComplianceWork.Search;
 
 public class OfficeFilterTests
 {
-    private static Func<WorkEntry, bool> GetPredicate(Guid? spec) =>
-        PredicateBuilder.True<WorkEntry>().ByOffice(spec).Compile();
+    private static Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool> GetPredicate(Guid? spec) =>
+        PredicateBuilder.True<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork>().ByOffice(spec).Compile();
 
     [Test]
     public void NullSpec_ReturnsAll()

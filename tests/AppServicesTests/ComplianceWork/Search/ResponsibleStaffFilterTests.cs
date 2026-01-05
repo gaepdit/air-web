@@ -7,8 +7,8 @@ namespace AppServicesTests.ComplianceWork.Search;
 
 public class ResponsibleStaffFilterTests
 {
-    private static Func<WorkEntry, bool> GetPredicate(string? spec) =>
-        PredicateBuilder.True<WorkEntry>().ByStaff(spec).Compile();
+    private static Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool> GetPredicate(string? spec) =>
+        PredicateBuilder.True<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork>().ByStaff(spec).Compile();
 
     [Test]
     public void NullSpec_ReturnsAll()

@@ -3,7 +3,7 @@ using AirWeb.Domain.Lookups.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public class Notification : WorkEntry
+public class Notification : ComplianceWork
 {
     // Constructors
 

@@ -8,11 +8,11 @@ namespace AirWeb.TestData.Compliance;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<WorkEntry> WorkEntrySeedItems
+    private static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork> WorkEntrySeedItems
     {
         get
         {
-            var entries = new List<WorkEntry>();
+            var entries = new List<Domain.ComplianceEntities.ComplianceWork.ComplianceWork>();
             entries.AddRange(AccData);
             entries.AddRange(InspectionData);
             entries.AddRange(NotificationData);
@@ -24,14 +24,14 @@ internal static class WorkEntryData
         }
     }
 
-    private static IEnumerable<WorkEntry>? _workEntries;
+    private static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork>? _workEntries;
 
     public static ComplianceEvent? GetRandomComplianceEvent(FacilityId facilityId) =>
         (ComplianceEvent?)GetData
             .Where(entry => entry is ComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId)
             .OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
 
-    public static IEnumerable<WorkEntry> GetData
+    public static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork> GetData
     {
         get
         {

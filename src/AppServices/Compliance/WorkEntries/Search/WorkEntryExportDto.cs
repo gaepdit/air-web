@@ -8,18 +8,18 @@ namespace AirWeb.AppServices.Compliance.WorkEntries.Search;
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record WorkEntryExportDto : ISearchResult
 {
-    public WorkEntryExportDto(WorkEntry workEntry)
+    public WorkEntryExportDto(ComplianceWork complianceWork)
     {
-        WorkEntryId = workEntry.Id;
-        FacilityId = workEntry.FacilityId;
-        WorkEntryType = workEntry.WorkEntryType.GetDisplayName();
-        EventDate = workEntry.EventDate;
-        EventDateName = workEntry.EventDateName;
-        ResponsibleStaff = workEntry.ResponsibleStaff?.SortableFullName;
-        Closed = workEntry.IsClosed ? "Closed" : "Open";
-        ClosedDate = workEntry.ClosedDate;
-        Notes = workEntry.Notes;
-        Deleted = workEntry.IsDeleted ? "Deleted" : "No";
+        WorkEntryId = complianceWork.Id;
+        FacilityId = complianceWork.FacilityId;
+        WorkEntryType = complianceWork.WorkEntryType.GetDisplayName();
+        EventDate = complianceWork.EventDate;
+        EventDateName = complianceWork.EventDateName;
+        ResponsibleStaff = complianceWork.ResponsibleStaff?.SortableFullName;
+        Closed = complianceWork.IsClosed ? "Closed" : "Open";
+        ClosedDate = complianceWork.ClosedDate;
+        Notes = complianceWork.Notes;
+        Deleted = complianceWork.IsDeleted ? "Deleted" : "No";
     }
 
     [XLColumn(Header = "Work Entry ID")]

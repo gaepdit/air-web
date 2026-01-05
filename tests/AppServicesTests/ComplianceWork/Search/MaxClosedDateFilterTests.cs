@@ -7,8 +7,8 @@ namespace AppServicesTests.ComplianceWork.Search;
 
 public class MaxClosedDateFilterTests
 {
-    private static Func<WorkEntry, bool> GetPredicate(DateOnly? spec) =>
-        PredicateBuilder.True<WorkEntry>().MaxClosedDate(spec).Compile();
+    private static Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool> GetPredicate(DateOnly? spec) =>
+        PredicateBuilder.True<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork>().MaxClosedDate(spec).Compile();
 
     [Test]
     public void NullSpec_ReturnsAll()

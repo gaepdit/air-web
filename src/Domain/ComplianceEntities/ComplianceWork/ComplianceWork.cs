@@ -5,13 +5,13 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public abstract class WorkEntry : ClosableEntity<int>, IFacilityId, INotes
+public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected WorkEntry() { }
+    private protected ComplianceWork() { }
 
-    private protected WorkEntry(int? id, FacilityId facilityId, ApplicationUser? user)
+    private protected ComplianceWork(int? id, FacilityId facilityId, ApplicationUser? user)
     {
         if (id is not null) Id = id.Value;
         SetCreator(user?.Id);

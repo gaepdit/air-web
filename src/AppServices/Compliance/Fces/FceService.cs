@@ -95,7 +95,7 @@ public sealed class FceService(
 
         return cache.Set(cacheKey, summary, CacheConstants.FceSupportingData, logger);
 
-        Expression<Func<TSource, bool>> For<TSource>() where TSource : WorkEntry => source =>
+        Expression<Func<TSource, bool>> For<TSource>() where TSource : ComplianceWork => source =>
             source.FacilityId == facilityId && source.EventDate <= completedDate &&
             source.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
     }
