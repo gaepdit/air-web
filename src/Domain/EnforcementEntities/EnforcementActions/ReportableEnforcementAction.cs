@@ -16,13 +16,13 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Consent Orders
 // * Administrative Orders
 
-public abstract class ReportableEnforcement : EnforcementAction, IReportable
+public abstract class ReportableEnforcementAction : EnforcementAction, IReportable
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected ReportableEnforcement() { }
+    private protected ReportableEnforcementAction() { }
 
-    private protected ReportableEnforcement(Guid id, CaseFile caseFile, ApplicationUser? user) :
+    private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user) :
         base(id, caseFile, user) => IsReportableAction = true;
 
     // Data exchange properties
