@@ -4,8 +4,8 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public sealed class WorkEntryManager(IWorkEntryRepository repository, IFacilityService facilityService)
-    : IWorkEntryManager
+public sealed class ComplianceWorkManager(IWorkEntryRepository repository, IFacilityService facilityService)
+    : IComplianceWorkManager
 {
     public async Task<ComplianceWork> CreateAsync(ComplianceWorkType type, FacilityId facilityId, ApplicationUser? user)
     {

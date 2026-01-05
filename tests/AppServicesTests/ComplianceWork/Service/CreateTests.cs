@@ -22,7 +22,7 @@ public class CreateTests
         var facilityId = (FacilityId)"00100001";
         var workEntry = new PermitRevocation(id, facilityId);
 
-        var workEntryManagerMock = Substitute.For<IWorkEntryManager>();
+        var workEntryManagerMock = Substitute.For<IComplianceWorkManager>();
         workEntryManagerMock.CreateAsync(Arg.Any<ComplianceWorkType>(), Arg.Any<FacilityId>(), Arg.Any<ApplicationUser?>())
             .Returns(workEntry);
 

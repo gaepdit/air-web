@@ -31,7 +31,7 @@ public class FindTests
             .Returns(SampleText.ValidName);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
+            Substitute.For<IComplianceWorkManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
             Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
             Substitute.For<IAppNotificationService>());
 
@@ -54,7 +54,7 @@ public class FindTests
             .Returns(false);
 
         var appService = new WorkEntryService(AppServicesTestsSetup.Mapper!, repoMock,
-            Substitute.For<IWorkEntryManager>(), Substitute.For<IFacilityService>(),
+            Substitute.For<IComplianceWorkManager>(), Substitute.For<IFacilityService>(),
             Substitute.For<ISourceTestService>(), Substitute.For<ICommentService<int>>(),
             Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
 

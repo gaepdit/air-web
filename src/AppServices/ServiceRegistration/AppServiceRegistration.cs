@@ -26,7 +26,7 @@ public static class AppServiceRegistration
     public static IServiceCollection AddAppServices(this IServiceCollection services) => services
 
         // Work Entries
-        .AddScoped<IWorkEntryManager, WorkEntryManager>()
+        .AddScoped<IComplianceWorkManager, ComplianceWorkManager>()
         .AddScoped<IWorkEntryService, WorkEntryService>()
         .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
 

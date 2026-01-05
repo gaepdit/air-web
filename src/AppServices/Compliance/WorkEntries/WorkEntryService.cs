@@ -21,7 +21,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries;
 public sealed partial class WorkEntryService(
     IMapper mapper,
     IWorkEntryRepository entryRepository,
-    IWorkEntryManager entryManager,
+    IComplianceWorkManager manager,
     IFacilityService facilityService,
     ISourceTestService testService,
     ICommentService<int> commentService,
@@ -118,7 +118,7 @@ public sealed partial class WorkEntryService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
-        entryManager.Update(workEntry, currentUser);
+        manager.Update(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
@@ -141,7 +141,7 @@ public sealed partial class WorkEntryService(
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        entryManager.Close(workEntry, currentUser);
+        manager.Close(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
@@ -164,7 +164,7 @@ public sealed partial class WorkEntryService(
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        entryManager.Reopen(workEntry, currentUser);
+        manager.Reopen(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
@@ -187,7 +187,7 @@ public sealed partial class WorkEntryService(
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        entryManager.Delete(workEntry, resource.Comment, currentUser);
+        manager.Delete(workEntry, resource.Comment, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
@@ -209,7 +209,7 @@ public sealed partial class WorkEntryService(
         var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        entryManager.Restore(workEntry, currentUser);
+        manager.Restore(workEntry, currentUser);
         await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
