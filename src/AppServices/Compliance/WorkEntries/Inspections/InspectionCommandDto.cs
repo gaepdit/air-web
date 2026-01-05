@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Utilities;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.Inspections;
 

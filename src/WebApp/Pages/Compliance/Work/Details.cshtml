@@ -108,7 +108,12 @@
     <dd class="col-sm-8 col-lg-9">
         @if (report.IsClosed)
         {
-            @:Closed by @Html.DisplayFor(_ => report.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+            @:Closed
+            if (report.ClosedBy is not null)
+            {
+                @:by @report.ClosedBy.Name
+            }
+
             @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
         }
         else

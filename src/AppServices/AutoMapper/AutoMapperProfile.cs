@@ -15,19 +15,19 @@ using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.NamedEntities.NotificationTypes;
-using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.NotificationTypes;
+using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.Lookups.Offices;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,11 +48,11 @@ public class AutoMapperProfile : Profile
         Comments();
         AuditPoints();
         Fces();
-        WorkEntries();
+        ComplianceWork();
         Enforcement();
     }
 
-    private void WorkEntries()
+    private void ComplianceWork()
     {
         CreateMap<WorkEntry, WorkEntrySummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
@@ -114,7 +114,12 @@ public class AutoMapperProfile : Profile
 
     private void Accs()
     {
-        CreateMap<AccViewDto, AccUpdateDto>();
+        CreateMap<AccViewDto, AccUpdateDto>()
+            .ForMember(dto => dto.AccReportingYear,
+                expression => expression.MapFrom(src => src.AccReportingYear ?? src.ReceivedDate.Year - 1))
+            .ForMember(dto => dto.PostmarkDate,
+                expression => expression.MapFrom(src => src.PostmarkDate ?? DateOnly.FromDateTime(DateTime.Now)));
+
         CreateMap<AnnualComplianceCertification, AccViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }

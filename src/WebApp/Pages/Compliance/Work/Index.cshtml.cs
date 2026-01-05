@@ -1,10 +1,10 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.NamedEntities.Offices;
+using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
-using AirWeb.WebApp.Platform.Defaults;
+using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 
@@ -44,7 +44,7 @@ public class ComplianceIndexModel(
 
         if (!ModelState.IsValid) return;
 
-        var paging = new PaginatedRequest(pageNumber: p, GlobalConstants.PageSize, sorting: Spec.Sort.GetDescription());
+        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: Spec.Sort.GetDescription());
         SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
         ShowResults = true;
     }

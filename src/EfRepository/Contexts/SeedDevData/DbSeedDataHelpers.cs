@@ -1,10 +1,10 @@
-﻿using AirWeb.Domain.ComplianceEntities.WorkEntries;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
-using AirWeb.TestData.NamedEntities;
+using AirWeb.TestData.Lookups;
 
 namespace AirWeb.EfRepository.Contexts.SeedDevData;
 
@@ -122,7 +122,7 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
             context.Database.BeginTransaction();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries ON");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT ComplianceWork ON");
         }
 
         if (!context.Accs.Any())
@@ -164,7 +164,7 @@ public static class DbSeedDataHelpers
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT WorkEntries OFF");
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT ComplianceWork OFF");
             context.Database.CommitTransaction();
         }
     }

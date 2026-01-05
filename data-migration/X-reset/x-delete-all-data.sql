@@ -1,0 +1,28 @@
+-- -- This script will delete all data from the AirWeb tables
+-- -- (not including `__EFMigrationsHistory`).
+
+
+-- -- The following tables are populated by the data migration scripts.
+-- delete from AIRBRANCH.air.ComplianceUserIds;
+-- delete from AirWeb.dbo.AspNetRoleClaims;
+-- delete from AirWeb.dbo.AspNetUserClaims;
+-- delete from AirWeb.dbo.AspNetUserLogins;
+-- delete from AirWeb.dbo.AspNetUserRoles;
+-- delete from AirWeb.dbo.AspNetUserTokens;
+-- delete from AirWeb.dbo.AuditPoints;
+-- delete from AirWeb.dbo.CaseFileComplianceEvents;
+-- delete from AirWeb.dbo.Comments;
+-- delete from AirWeb.dbo.ComplianceWork;
+-- delete from AirWeb.dbo.EmailLogs;
+-- delete from AirWeb.dbo.EnforcementActionReviews;
+-- delete from AirWeb.dbo.Fces;
+-- delete from AirWeb.dbo.StipulatedPenalties;
+-- delete from AirWeb.dbo.EnforcementActions;
+-- delete from AirWeb.dbo.CaseFiles;
+-- delete from AirWeb.dbo.AspNetUsers;
+-- delete from AirWeb.dbo.Lookups;
+-- delete from AirWeb.dbo.ViolationTypes;
+
+
+-- -- The following table is populated by the application. 
+-- delete from AirWeb.dbo.AspNetRoles;

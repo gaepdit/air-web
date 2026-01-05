@@ -1,7 +1,5 @@
 ﻿USE airbranch;
 GO
-SET ANSI_NULLS ON;
-GO
 
 CREATE OR ALTER PROCEDURE air.GetIaipFacilityName
     @FacilityId varchar(8)

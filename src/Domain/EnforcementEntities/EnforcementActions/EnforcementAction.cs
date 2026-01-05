@@ -79,8 +79,8 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
     internal bool IsCanceled => CanceledDate.HasValue;
 
     // Data exchange properties
-    public bool IsReportable => WillBeReportable && IsIssued;
-    public bool WillBeReportable => !IsDeleted && ActionTypeIsReportable(ActionType);
+    public bool IsReportableAction { get; internal init; }
+    public bool IsReportable => IsReportableAction && IsIssued && !IsDeleted;
 
     public static bool ActionTypeIsReportable(EnforcementActionType type) => type
         is EnforcementActionType.AdministrativeOrder

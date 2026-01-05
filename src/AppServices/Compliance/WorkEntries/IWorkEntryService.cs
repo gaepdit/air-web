@@ -3,7 +3,7 @@ using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries;
 

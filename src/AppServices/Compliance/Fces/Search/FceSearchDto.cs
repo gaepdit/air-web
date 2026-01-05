@@ -77,5 +77,5 @@ public enum FceSortBy
     [Description("FacilityId, Id")] FacilityIdAsc,
     [Description("FacilityId desc, Id")] FacilityIdDesc,
     [Description("Year, Id")] YearAsc,
-    [Description("Year desc, Id")] YearDesc,
+    [Description("Year desc, Id desc")] YearDesc,
 }

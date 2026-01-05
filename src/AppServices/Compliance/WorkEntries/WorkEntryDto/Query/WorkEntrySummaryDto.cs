@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;

@@ -123,7 +123,7 @@
             }
             @if (caseFile.LacksViolationType)
             {
-                @:a <a href="#case-file">violation type</a>
+                @:a <a href="#violation-type">violation type</a>
             }
             .
         </p>
@@ -139,7 +139,11 @@
             @if (caseFile.IsClosed)
             {
                 <div class="mt-1">
-                    Closed by @Html.DisplayFor(_ => caseFile.ClosedBy, DisplayTemplate.NameOrPlaceholder)
+                    Closed
+                    @if (caseFile.ClosedBy is not null)
+                    {
+                        @:by @caseFile.ClosedBy.Name
+                    }
                     on @Html.DisplayFor(_ => caseFile.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
                 </div>
             }
@@ -157,7 +161,7 @@
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.ViolationType)</dt>
+            <dt class="col-sm-4 col-lg-3" id="violation-type">@Html.DisplayNameFor(_ => caseFile.ViolationType)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>

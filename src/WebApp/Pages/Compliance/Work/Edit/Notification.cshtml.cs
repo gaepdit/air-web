@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Staff;
 using AutoMapper;
 using FluentValidation;

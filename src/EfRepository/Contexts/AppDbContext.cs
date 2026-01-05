@@ -1,14 +1,14 @@
 using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
-using AirWeb.Domain.NamedEntities.NotificationTypes;
-using AirWeb.Domain.NamedEntities.Offices;
+using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.Lookups.Offices;
 using AirWeb.EfRepository.Contexts.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     internal const string SqlServerProvider = "Microsoft.EntityFrameworkCore.SqlServer";
     internal const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
-    // Maintenance items (These are stored in the `SelectLists` table.)
+    // Maintenance items (These are stored in the `Lookups` table.)
     public DbSet<NotificationType> NotificationTypes => Set<NotificationType>();
     public DbSet<Office> Offices => Set<Office>();
 
@@ -29,13 +29,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // FCEs
     public DbSet<Fce> Fces => Set<Fce>();
 
-    // Work entries/compliance events
+    // Compliance work entries/compliance events
     //   By default, Entity Framework uses the TPH strategy for modeling inheritance. All work entries and compliance
     //   events will be stored in a single table with a discriminator column. Each subtype and each base type are all
     //   available as DbSets for querying.
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
-    // Work entries (mapped to a single table)
+    // Compliance work entries (mapped to a single table)
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
     public DbSet<Notification> Notifications => Set<Notification>();

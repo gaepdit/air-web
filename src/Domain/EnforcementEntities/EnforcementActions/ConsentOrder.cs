@@ -3,7 +3,6 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -29,28 +28,15 @@ public class ConsentOrder : ReportableEnforcementAction, IFormalEnforcementActio
     public bool IsResolved => ResolvedDate.HasValue;
     public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 
-    [PositiveShort(ErrorMessage = "The Order ID must be a positive number.")]
-    public short OrderId { get; set; }
+    // Required for new data but nullable for historical data.
+    [PositiveShort]
+    public short? OrderId { get; set; }
 
-    public const string? OrderNumberPrefix = "EPD-AQC-";
+    public const string OrderNumberPrefix = "EPD-AQC-";
+    public string? OrderNumber => OrderId == null ? null : $"{OrderNumberPrefix}{OrderId}";
 
-    [StringLength(13)]
-    public string? OrderNumber
-    {
-        get => OrderId == 0 ? null : $"{OrderNumberPrefix}{OrderId}";
-
-        [UsedImplicitly]
-        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
-        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
-        private set
-        {
-            // Method intentionally left empty. This allows storing read-only properties in the database.
-            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
-        }
-    }
-
-    [Precision(precision: 12, scale: 2)]
-    [PositiveDecimal(ErrorMessage = "The penalty amount cannot be negative.")]
+    [Precision(precision: 18, scale: 2)]
+    [PositiveDecimal]
     public decimal? PenaltyAmount { get; init; }
 
     [StringLength(7000)]

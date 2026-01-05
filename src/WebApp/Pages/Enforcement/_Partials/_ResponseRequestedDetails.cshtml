@@ -4,20 +4,15 @@
 <div class="mt-2">
     @if (Model.IsResponseReceived)
     {
-        if (Model.ResponseComment != null)
-        {
+        <div class="mb-1">
             <em>
                 Response received
                 @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):
             </em>
-            <div>@Model.ResponseComment</div>
-        }
-        else
+        </div>
+        if (Model.ResponseComment != null)
         {
-            <em>
-                Response received
-                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable).
-            </em>
+            <blockquote class="ps-2 border-start border-3 text-break text-pre-line">@Model.ResponseComment</blockquote>
         }
     }
     else

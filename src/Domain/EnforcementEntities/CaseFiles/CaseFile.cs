@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -30,7 +30,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchange, IDataExchang
     [StringLength(9)]
     public string FacilityId { get; init; } = null!;
 
-    // Required for new cases but nullable for historical data.
+    // Required for new data but nullable for historical data.
     public ApplicationUser? ResponsibleStaff { get; set; }
 
     [StringLength(7000)]
@@ -72,7 +72,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchange, IDataExchang
         }
     }
 
-    // Required for new cases but nullable for historical data.
+    // Required for new data but nullable for historical data.
     public DateOnly? DiscoveryDate { get; set; }
 
     // Computed dates

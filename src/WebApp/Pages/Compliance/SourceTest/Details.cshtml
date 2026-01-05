@@ -178,8 +178,13 @@ else
         <dd class="col-sm-8 col-lg-9">
             @if (Model.ComplianceReview.IsClosed)
             {
-                @:Closed by @Html.DisplayFor(_ => review.ClosedBy, DisplayTemplate.NameOrPlaceholder)
-                @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
+                @:Closed
+                if (review.ClosedBy is not null)
+                {
+                    @:by @review.ClosedBy.Name
+                }
+
+            @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
             }
             else
             {

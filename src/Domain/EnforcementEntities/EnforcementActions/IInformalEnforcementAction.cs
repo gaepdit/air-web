@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.DataExchange;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 

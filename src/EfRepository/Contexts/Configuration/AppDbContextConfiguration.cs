@@ -1,7 +1,7 @@
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
@@ -63,7 +63,7 @@ internal static class AppDbContextConfiguration
     {
         // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
         builder.Entity<WorkEntry>()
-            .ToTable("WorkEntries")
+            .ToTable("ComplianceWork")
             .HasDiscriminator(entry => entry.WorkEntryType)
             .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
             .HasValue<Inspection>(WorkEntryType.Inspection)
@@ -153,7 +153,11 @@ internal static class AppDbContextConfiguration
         builder.Entity<CaseFile>()
             .HasMany(caseFile => caseFile.ComplianceEvents)
             .WithMany(complianceEvent => complianceEvent.CaseFiles)
-            .UsingEntity("CaseFileComplianceEvents");
+            .UsingEntity("CaseFileComplianceEvents", j =>
+            {
+                j.Property("CaseFilesId").HasColumnName("CaseFileId");
+                j.Property("ComplianceEventsId").HasColumnName("ComplianceEventId");
+            });
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
         var aorEntity = builder.Entity<AdministrativeOrder>();
@@ -171,12 +175,14 @@ internal static class AppDbContextConfiguration
         // Resolved date
         aorEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(AdministrativeOrder.ResolvedDate));
         corEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(ConsentOrder.ResolvedDate));
+        lonEntity.Property(e => e.ResolvedDate).HasColumnName(nameof(LetterOfNoncompliance.ResolvedDate));
 
         // Response requested
         infEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(InformationalLetter.ResponseRequested));
         lonEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(LetterOfNoncompliance.ResponseRequested));
         nnfEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NovNfaLetter.ResponseRequested));
-        pcoEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(ProposedConsentOrder.ResponseReceived));
+        novEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(NoticeOfViolation.ResponseRequested));
+        pcoEntity.Property(e => e.ResponseRequested).HasColumnName(nameof(ProposedConsentOrder.ResponseRequested));
 
         // Response received
         infEntity.Property(e => e.ResponseReceived).HasColumnName(nameof(InformationalLetter.ResponseReceived));
@@ -215,6 +221,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ReportableEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;
     }
@@ -224,7 +231,7 @@ internal static class AppDbContextConfiguration
         // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.
         builder.Entity<AuditPoint>().ToTable("AuditPoints");
         builder.Entity<Comment>().ToTable("Comments");
-        builder.Entity<StandardNamedEntity>().ToTable("SelectLists");
+        builder.Entity<StandardNamedEntity>().ToTable("Lookups");
 
         return builder;
     }

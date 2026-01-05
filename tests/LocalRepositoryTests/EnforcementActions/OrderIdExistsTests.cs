@@ -21,10 +21,10 @@ public class OrderIdExistsTests
         // Arrange
         var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
-            .First();
+            .First(e => e.OrderId != null);
 
         // Act
-        var results = await _repository.OrderIdExists(existingOrder.OrderId, ignoreActionId: Guid.NewGuid());
+        var results = await _repository.OrderIdExists(existingOrder.OrderId!.Value, ignoreActionId: Guid.NewGuid());
 
         // Assert
         results.Should().BeTrue();
@@ -49,10 +49,10 @@ public class OrderIdExistsTests
         // Arrange
         var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
-            .First();
+            .First(e => e.OrderId != null);
 
         // Act
-        var results = await _repository.OrderIdExists(existingOrder.OrderId, ignoreActionId: null);
+        var results = await _repository.OrderIdExists(existingOrder.OrderId!.Value, ignoreActionId: null);
 
         // Assert
         results.Should().BeTrue();
@@ -77,10 +77,10 @@ public class OrderIdExistsTests
         // Arrange
         var existingOrder = EnforcementActionData.GetData
             .OfType<ConsentOrder>()
-            .First();
+            .First(e => e.OrderId != null);
 
         // Act
-        var results = await _repository.OrderIdExists(existingOrder.OrderId, ignoreActionId: existingOrder.Id);
+        var results = await _repository.OrderIdExists(existingOrder.OrderId!.Value, ignoreActionId: existingOrder.Id);
 
         // Assert
         results.Should().BeFalse();

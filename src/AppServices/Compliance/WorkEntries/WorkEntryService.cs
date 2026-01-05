@@ -10,7 +10,7 @@ using AirWeb.AppServices.Compliance.WorkEntries.Reports;
 using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
 using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AutoMapper;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;

@@ -8,7 +8,7 @@ public record PermitRevocationViewDto : WorkEntryViewDto
     public DateOnly ReceivedDate { get; init; }
 
     [Display(Name = "Permit Revocation Date")]
-    public DateOnly PermitRevocationDate { get; init; }
+    public DateOnly? PermitRevocationDate { get; init; }
 
     [Display(Name = "Physical Shutdown Date")]
     public DateOnly? PhysicalShutdownDate { get; init; }

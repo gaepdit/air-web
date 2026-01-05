@@ -1,7 +1,11 @@
-﻿namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+﻿using AirWeb.Domain.DataExchange;
 
-public record ProposedCoViewDto : ReportableActionViewDto
+namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+
+public record ProposedCoViewDto : ResponseRequestedViewDto, IDataExchange
 {
-    [Display(Name = "Response Received")]
-    public DateOnly? ResponseReceived { get; init; }
+    public string FacilityId { get; init; } = null!;
+    public ushort? ActionNumber { get; init; }
+    public DataExchangeStatus DataExchangeStatus { get; init; }
+    public DateTimeOffset? DataExchangeStatusDate { get; init; }
 }

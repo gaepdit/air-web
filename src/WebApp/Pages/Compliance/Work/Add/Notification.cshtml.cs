@@ -1,8 +1,8 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-using AirWeb.AppServices.NamedEntities.NotificationTypes;
+using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.Facilities;

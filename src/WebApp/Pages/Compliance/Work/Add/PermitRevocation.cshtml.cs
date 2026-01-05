@@ -1,7 +1,7 @@
 using AirWeb.AppServices.Compliance.WorkEntries;
 using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.WorkEntries;
+using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using FluentValidation;
 using IaipDataService.Facilities;
 
