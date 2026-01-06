@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
 

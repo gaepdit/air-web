@@ -10,7 +10,7 @@ using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;

@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.Identity;
 

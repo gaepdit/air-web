@@ -1,4 +1,4 @@
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileCommand;

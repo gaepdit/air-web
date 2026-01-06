@@ -1,18 +1,18 @@
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
-using static AirWeb.TestData.Compliance.ComplianceWork;
+using static AirWeb.TestData.Compliance.ComplianceMonitoringData;
 
 namespace AirWeb.TestData.Compliance;
 
 internal static class WorkEntryData
 {
-    private static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork> WorkEntrySeedItems
+    private static IEnumerable<ComplianceWork> WorkEntrySeedItems
     {
         get
         {
-            var entries = new List<Domain.ComplianceEntities.ComplianceWork.ComplianceWork>();
+            var entries = new List<ComplianceWork>();
             entries.AddRange(AccData);
             entries.AddRange(InspectionData);
             entries.AddRange(NotificationData);
@@ -24,14 +24,14 @@ internal static class WorkEntryData
         }
     }
 
-    private static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork>? _workEntries;
+    private static IEnumerable<ComplianceWork>? _workEntries;
 
     public static ComplianceEvent? GetRandomComplianceEvent(FacilityId facilityId) =>
         (ComplianceEvent?)GetData
             .Where(entry => entry is ComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId)
             .OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
 
-    public static IEnumerable<Domain.ComplianceEntities.ComplianceWork.ComplianceWork> GetData
+    public static IEnumerable<ComplianceWork> GetData
     {
         get
         {

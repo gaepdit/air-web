@@ -1,5 +1,5 @@
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Lookups.NotificationTypes;
 using AirWeb.EfRepository.Contexts;
 

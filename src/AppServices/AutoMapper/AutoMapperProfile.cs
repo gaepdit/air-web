@@ -20,7 +20,7 @@ using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;

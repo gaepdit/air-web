@@ -1,11 +1,11 @@
-﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
-internal static partial class ComplianceWork
+internal static partial class ComplianceMonitoringData
 {
     internal static IEnumerable<Report> ReportData =>
     [
