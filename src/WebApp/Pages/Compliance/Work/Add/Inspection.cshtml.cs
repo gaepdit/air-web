@@ -21,7 +21,7 @@ public class InspectionAddModel(
 
     public async Task<IActionResult> OnGetAsync(bool isRmp = false)
     {
-        EntryType = isRmp ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
+        WorkType = isRmp ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
 
         Item = new InspectionCreateDto
         {
@@ -35,7 +35,7 @@ public class InspectionAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = Item.IsRmpInspection ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
+        WorkType = Item.IsRmpInspection ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
         return await DoPostAsync(Item, service, validator, token);
     }
 }

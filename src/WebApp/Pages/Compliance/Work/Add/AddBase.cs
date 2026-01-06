@@ -18,12 +18,12 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     [FromRoute]
     public string? FacilityId { get; set; }
 
-    public ComplianceWorkType EntryType { get; protected set; }
+    public ComplianceWorkType WorkType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = null!;
 
     // Form buttons
-    public string SubmitText => $"Add {EntryType.GetDisplayName()}";
+    public string SubmitText => $"Add {WorkType.GetDisplayName()}";
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
@@ -57,7 +57,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         var result = await service.CreateAsync(item, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{EntryType.GetDisplayName()} successfully created.");
+            $"{WorkType.GetDisplayName()} successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { result.Id });
     }

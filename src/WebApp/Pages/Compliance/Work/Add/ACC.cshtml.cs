@@ -21,7 +21,7 @@ public class AccAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = ComplianceWorkType.AnnualComplianceCertification;
+        WorkType = ComplianceWorkType.AnnualComplianceCertification;
 
         Item = new AccCreateDto
         {
@@ -34,7 +34,7 @@ public class AccAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = ComplianceWorkType.AnnualComplianceCertification;
+        WorkType = ComplianceWorkType.AnnualComplianceCertification;
         return await DoPostAsync(Item, service, validator, token);
     }
 }

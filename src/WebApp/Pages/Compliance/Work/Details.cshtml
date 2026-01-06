@@ -11,9 +11,9 @@
 @model DetailsModel
 @{
     var report = Model.Item!;
-    var workEntryType = report.ComplianceWorkType;
-    var workEntryName = workEntryType.GetDisplayName();
-    ViewData["Title"] = $"{workEntryName} #{Model.Id} (Facility {report.FacilityId})";
+    var workType = report.ComplianceWorkType;
+    var workTypeName = workType.GetDisplayName();
+    ViewData["Title"] = $"{workTypeName} #{Model.Id} (Facility {report.FacilityId})";
 }
 
 @if (report.IsDeleted)
@@ -45,7 +45,7 @@
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
-        <h1 class="mb-md-0">Compliance Monitoring: @workEntryName</h1>
+        <h1 class="mb-md-0">Compliance Monitoring: @workTypeName</h1>
     </div>
     @if (!report.IsDeleted)
     {
@@ -177,7 +177,7 @@
     <div class="mt-4 text-end d-print-none">
         <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
            class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
-            Delete @workEntryName
+            Delete @workTypeName
         </a>
     </div>
 }

@@ -11,9 +11,9 @@ public class EditRedirectModel(IComplianceWorkService service) : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         if (Id == 0) return RedirectToPage("Index");
-        var entryType = await service.GetComplianceWorkTypeAsync(Id);
-        if (entryType is null) return NotFound();
-        return RedirectToPage(entryType switch
+        var workType = await service.GetComplianceWorkTypeAsync(Id);
+        if (workType is null) return NotFound();
+        return RedirectToPage(workType switch
         {
             ComplianceWorkType.AnnualComplianceCertification => "ACC",
             ComplianceWorkType.Inspection => "Inspection",
