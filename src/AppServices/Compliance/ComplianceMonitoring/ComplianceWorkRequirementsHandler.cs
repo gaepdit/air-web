@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
-internal class WorkEntryRequirementsHandler(IComplianceWorkService service) :
+internal class ComplianceWorkRequirementsHandler(IComplianceWorkService service) :
     AuthorizationHandler<ComplianceOperation, IWorkEntrySummaryDto>
 {
     protected override async Task HandleRequirementAsync(

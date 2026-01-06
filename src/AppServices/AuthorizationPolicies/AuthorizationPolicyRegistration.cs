@@ -22,7 +22,7 @@ public static class AuthorizationPolicyRegistration
             .AddSingleton<IAuthorizationHandler, CaseFileViewRequirementsHandler>()
             .AddSingleton<IAuthorizationHandler, CaseFileSummaryRequirementsHandler>()
             .AddScoped<IAuthorizationHandler, FceRequirementsHandler>()
-            .AddScoped<IAuthorizationHandler, WorkEntryRequirementsHandler>();
+            .AddScoped<IAuthorizationHandler, ComplianceWorkRequirementsHandler>();
 
         return services;
     }
