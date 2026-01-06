@@ -36,7 +36,7 @@ public sealed partial class WorkEntryService(
         if (!await repository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
         IWorkEntryViewDto entry =
-            await repository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+            await repository.GetComplianceWorkTypeAsync(id, token).ConfigureAwait(false) switch
             {
                 ComplianceWorkType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await repository
                     .FindAsync<AnnualComplianceCertification>(id, includeComments, token).ConfigureAwait(false)),
@@ -71,7 +71,7 @@ public sealed partial class WorkEntryService(
 
     public async Task<ComplianceWorkType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
         await repository.ExistsAsync(id, token).ConfigureAwait(false)
-            ? await repository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
+            ? await repository.GetComplianceWorkTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
     // Enforcement Cases

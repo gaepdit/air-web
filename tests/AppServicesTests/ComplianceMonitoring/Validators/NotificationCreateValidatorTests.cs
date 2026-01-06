@@ -82,7 +82,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -146,7 +146,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            SentDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            SentDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -188,7 +188,7 @@ public class NotificationCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             NotificationTypeId = SampleText.UnassignedGuid,
-            DueDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            DueDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act

@@ -17,7 +17,7 @@ public sealed class LocalComplianceWorkRepository()
         where TEntry : ComplianceWork =>
         (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
 
-    public Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+    public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).ComplianceWorkType);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>

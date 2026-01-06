@@ -38,7 +38,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            AccReportingYear = ComplianceConstants.EarliestWorkEntryYear - 1,
+            AccReportingYear = ComplianceConstants.EarliestComplianceWorkYear - 1,
         };
 
         // Act
@@ -98,7 +98,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -159,7 +159,7 @@ public class AccCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PostmarkDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            PostmarkDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act

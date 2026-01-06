@@ -60,7 +60,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -118,7 +118,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PermitRevocationDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            PermitRevocationDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -176,7 +176,7 @@ public class PermitRevocationCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            PhysicalShutdownDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            PhysicalShutdownDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act

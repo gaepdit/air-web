@@ -12,15 +12,15 @@ public class InspectionCommandValidator : AbstractValidator<InspectionCommandDto
         RuleFor(dto => dto.InspectionStartedDate)
             .Must(date => date <= today)
             .WithMessage("The Inspection Started Date cannot be in the future.")
-            .Must(date => date.Year >= ComplianceConstants.EarliestWorkEntryYear)
+            .Must(date => date.Year >= ComplianceConstants.EarliestComplianceWorkYear)
             .WithMessage(
-                $"The Inspection Started Date cannot be earlier than {ComplianceConstants.EarliestWorkEntryYear}.");
+                $"The Inspection Started Date cannot be earlier than {ComplianceConstants.EarliestComplianceWorkYear}.");
 
         RuleFor(dto => dto.InspectionEndedDate)
             .Must(date => date <= today)
             .WithMessage("The Inspection End Date cannot be in the future.")
-            .Must(date => date.Year >= ComplianceConstants.EarliestWorkEntryYear)
-            .WithMessage($"The Inspection End Date cannot be earlier than {ComplianceConstants.EarliestWorkEntryYear}.")
+            .Must(date => date.Year >= ComplianceConstants.EarliestComplianceWorkYear)
+            .WithMessage($"The Inspection End Date cannot be earlier than {ComplianceConstants.EarliestComplianceWorkYear}.")
             .Must((dto, date) => date.ToDateTime(dto.InspectionEndedTime) >=
                                  dto.InspectionStartedDate.ToDateTime(dto.InspectionStartedTime))
             .WithMessage("The Inspection End Date must be later than the Start Date.");

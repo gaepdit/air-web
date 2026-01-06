@@ -13,24 +13,24 @@ public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWo
 
     /// <summary>
     /// Returns the <see cref="ComplianceWork"/> with the given <paramref name="id"/> converted to the specified
-    /// <see cref="TEntry"/> type. Returns null if no entity exists with the given ID.
+    /// <see cref="TWork"/> type. Returns null if no entity exists with the given ID.
     /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the ComplianceWork.</param>
     /// <param name="includeExtras">Whether to include the <see cref="ComplianceWorkComment"/> and
     /// <see cref="ComplianceWorkAuditPoint"/> navigation properties with the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>A Work Entry of type TEntry or null.</returns>
-    Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)
-        where TEntry : ComplianceWork;
+    /// <returns>A ComplianceWork entry of type TWork or null.</returns>
+    Task<TWork?> FindAsync<TWork>(int id, bool includeExtras, CancellationToken token = default)
+        where TWork : ComplianceWork;
 
     /// <summary>
     /// Gets the <see cref="ComplianceWorkType"/> for the <see cref="ComplianceWork"/> with the specified ID.
     /// </summary>
-    /// <param name="id">The ID of the Entry to look up.</param>
+    /// <param name="id">The ID of the entry to look up.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <returns>The <see cref="ComplianceWorkType"/> of the Entry.</returns>
-    Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    /// <returns>The <see cref="ComplianceWorkType"/> of the entry.</returns>
+    Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default);
 
     // Source test-specific
 

@@ -58,7 +58,7 @@ public class InspectionCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            InspectionStartedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            InspectionStartedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -98,7 +98,7 @@ public class InspectionCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            InspectionEndedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            InspectionEndedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act

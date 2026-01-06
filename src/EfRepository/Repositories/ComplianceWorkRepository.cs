@@ -27,7 +27,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
         return include.SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
     }
 
-    public Task<ComplianceWorkType> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+    public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceWork>().AsNoTracking()
             .Where(entry => entry.Id.Equals(id)).Select(entry => entry.ComplianceWorkType).SingleAsync(token);
 

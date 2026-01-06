@@ -24,7 +24,7 @@ public class GetWorkEntryType
         var entry = WorkEntryData.GetData.First(entry => entry.ComplianceWorkType.Equals(type));
 
         // Act
-        var result = await _repository.GetWorkEntryTypeAsync(entry.Id);
+        var result = await _repository.GetComplianceWorkTypeAsync(entry.Id);
 
         // Assert
         result.Should().Be(type);
@@ -34,7 +34,7 @@ public class GetWorkEntryType
     public async Task GivenNonexistentId_Throws()
     {
         // Act
-        var func = async () => await _repository.GetWorkEntryTypeAsync(id: 0);
+        var func = async () => await _repository.GetComplianceWorkTypeAsync(id: 0);
 
         // Assert
         await func.Should().ThrowAsync<InvalidOperationException>();

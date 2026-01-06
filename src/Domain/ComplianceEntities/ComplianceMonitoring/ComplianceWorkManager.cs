@@ -23,7 +23,7 @@ public sealed class ComplianceWorkManager(IComplianceWorkRepository repository, 
             ComplianceWorkType.Report => new Report(id, facilityId, user),
             ComplianceWorkType.RmpInspection => new RmpInspection(id, facilityId, user),
             ComplianceWorkType.SourceTestReview => new SourceTestReview(id, facilityId, user),
-            _ => throw new ArgumentException("Invalid work entry type.", nameof(type)),
+            _ => throw new ArgumentException("Invalid compliance work type.", nameof(type)),
         };
 
         if (complianceWork is ComplianceEvent ce and not RmpInspection)

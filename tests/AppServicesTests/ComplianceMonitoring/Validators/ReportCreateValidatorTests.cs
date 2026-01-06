@@ -60,7 +60,7 @@ public class ReportCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReceivedDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -101,7 +101,7 @@ public class ReportCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            ReportingPeriodStart = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            ReportingPeriodStart = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -182,7 +182,7 @@ public class ReportCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            DueDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            DueDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
@@ -222,7 +222,7 @@ public class ReportCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            SentDate = new DateOnly(ComplianceConstants.EarliestWorkEntryYear - 1, 1, 1),
+            SentDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
         };
 
         // Act
