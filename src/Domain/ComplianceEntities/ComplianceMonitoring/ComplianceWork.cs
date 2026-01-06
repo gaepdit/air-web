@@ -45,7 +45,7 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
     };
 
     // Comments
-    public List<WorkEntryComment> Comments { get; } = [];
+    public List<ComplianceWorkComment> Comments { get; } = [];
 
     // Audit Points
     public List<WorkEntryAuditPoint> AuditPoints { get; } = [];

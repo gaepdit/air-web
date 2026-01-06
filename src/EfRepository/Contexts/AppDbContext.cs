@@ -63,7 +63,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     // Comments (mapped to a single table)
     public DbSet<FceComment> FceComments => Set<FceComment>();
-    public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
+    public DbSet<ComplianceWorkComment> ComplianceWorkComments => Set<ComplianceWorkComment>();
     public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();
 
     // Audit Points (mapped to a single table)

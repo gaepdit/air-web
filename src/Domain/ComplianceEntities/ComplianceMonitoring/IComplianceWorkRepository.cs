@@ -17,7 +17,7 @@ public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWo
     /// The returned entity will include the Comments navigation property.
     /// </summary>
     /// <param name="id">The ID of the ComplianceWork.</param>
-    /// <param name="includeExtras">Whether to include the <see cref="WorkEntryComment"/> and
+    /// <param name="includeExtras">Whether to include the <see cref="ComplianceWorkComment"/> and
     /// <see cref="WorkEntryAuditPoint"/> navigation properties with the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Work Entry of type TEntry or null.</returns>

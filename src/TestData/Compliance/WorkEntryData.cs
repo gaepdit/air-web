@@ -50,12 +50,12 @@ internal static class WorkEntryData
                     case Notification:
                         // Add at least one comment to each Notification.
                         workEntry.Comments.AddRange(CommentData.GetRandomCommentsList(1)
-                            .Select(comment => new WorkEntryComment(comment, workEntry.Id)));
+                            .Select(comment => new ComplianceWorkComment(comment, workEntry.Id)));
                         break;
                     default:
                         // All others get zero or more comments.
                         workEntry.Comments.AddRange(CommentData.GetRandomCommentsList()
-                            .Select(comment => new WorkEntryComment(comment, workEntry.Id)));
+                            .Select(comment => new ComplianceWorkComment(comment, workEntry.Id)));
                         break;
                 }
             }

@@ -51,13 +51,13 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        Context.WorkEntryComments.Add(new WorkEntryComment(comment, itemId));
+        Context.ComplianceWorkComments.Add(new ComplianceWorkComment(comment, itemId));
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 
     public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
-        var comment = await Context.WorkEntryComments.FindAsync([commentId], token).ConfigureAwait(false);
+        var comment = await Context.ComplianceWorkComments.FindAsync([commentId], token).ConfigureAwait(false);
         if (comment != null)
         {
             comment.SetDeleted(userId);
