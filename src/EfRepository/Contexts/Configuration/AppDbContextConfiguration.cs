@@ -32,16 +32,16 @@ internal static class AppDbContextConfiguration
         fceEntity.Navigation(fce => fce.DeletedBy).AutoInclude();
         fceEntity.Navigation(fce => fce.ReviewedBy).AutoInclude();
 
-        // Work Entries
-        var workEntryEntity = builder.Entity<ComplianceWork>();
-        workEntryEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
-        workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
-        workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
+        // Compliance Work
+        var complianceWorkEntity = builder.Entity<ComplianceWork>();
+        complianceWorkEntity.Navigation(work => work.ClosedBy).AutoInclude();
+        complianceWorkEntity.Navigation(work => work.DeletedBy).AutoInclude();
+        complianceWorkEntity.Navigation(work => work.ResponsibleStaff).AutoInclude();
 
         // Enforcement entities
         var caseFileEntity = builder.Entity<CaseFile>();
-        caseFileEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
-        caseFileEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
+        caseFileEntity.Navigation(caseFile => caseFile.ClosedBy).AutoInclude();
+        caseFileEntity.Navigation(caseFile => caseFile.DeletedBy).AutoInclude();
         caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
@@ -59,12 +59,11 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureComplianceWorkMapping(this ModelBuilder builder)
     {
-        // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
+        // Compliance Work entries use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<ComplianceWork>()
-            .ToTable("ComplianceWork")
-            .HasDiscriminator(entry => entry.ComplianceWorkType)
+            .HasDiscriminator(work => work.ComplianceWorkType)
             .HasValue<AnnualComplianceCertification>(ComplianceWorkType.AnnualComplianceCertification)
             .HasValue<Inspection>(ComplianceWorkType.Inspection)
             .HasValue<Notification>(ComplianceWorkType.Notification)
@@ -206,7 +205,7 @@ internal static class AppDbContextConfiguration
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
 
-        // Work entries
+        // Compliance Work
         builder.Entity<ComplianceWork>().Property(e => e.ComplianceWorkType).HasConversion<string>();
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
         builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();

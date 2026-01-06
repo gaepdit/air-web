@@ -10,15 +10,15 @@ public sealed class LocalComplianceWorkRepository()
     : BaseRepositoryWithMapping<ComplianceWork, int>(ComplianceWorkData.GetData), IComplianceWorkRepository
 {
     // Local repository requires ID to be manually set.
-    public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;
+    public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(work => work.Id).Max() + 1;
 
-    public async Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras,
+    public async Task<TWork?> FindAsync<TWork>(int id, bool includeExtras,
         CancellationToken token = default)
-        where TEntry : ComplianceWork =>
-        (TEntry?)await FindAsync(id, token: token).ConfigureAwait(false);
+        where TWork : ComplianceWork =>
+        (TWork?)await FindAsync(id, token: token).ConfigureAwait(false);
 
     public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
-        Task.FromResult(Items.Single(entry => entry.Id.Equals(id)).ComplianceWorkType);
+        Task.FromResult(Items.Single(work => work.Id.Equals(id)).ComplianceWorkType);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         Task.FromResult(Items.OfType<SourceTestReview>()
@@ -37,11 +37,11 @@ public sealed class LocalComplianceWorkRepository()
 
     public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
-        var comment = Items.SelectMany(entry => entry.Comments).FirstOrDefault(comment => comment.Id == commentId);
+        var comment = Items.SelectMany(work => work.Comments).FirstOrDefault(comment => comment.Id == commentId);
 
         if (comment != null)
         {
-            var fce = Items.First(entry => entry.Comments.Contains(comment));
+            var fce = Items.First(work => work.Comments.Contains(comment));
             fce.Comments.Remove(comment);
         }
 

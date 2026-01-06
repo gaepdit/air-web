@@ -11,25 +11,25 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
     // Entity Framework will set the ID automatically.
     public int? GetNextId() => null;
 
-    public Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)
-        where TEntry : ComplianceWork
+    public Task<TWork?> FindAsync<TWork>(int id, bool includeExtras, CancellationToken token = default)
+        where TWork : ComplianceWork
     {
-        var query = Context.Set<TEntry>().AsNoTracking();
+        var query = Context.Set<TWork>().AsNoTracking();
         var include = includeExtras
             ? query
-                .Include(entry => entry.Comments
+                .Include(work => work.Comments
                     .Where(comment => !comment.DeletedAt.HasValue)
                     .OrderBy(comment => comment.CommentedAt)
                     .ThenBy(comment => comment.Id))
-                .Include(entry => entry.AuditPoints
+                .Include(work => work.AuditPoints
                     .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             : query;
-        return include.SingleOrDefaultAsync(entry => entry.Id.Equals(id), token);
+        return include.SingleOrDefaultAsync(work => work.Id.Equals(id), token);
     }
 
     public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceWork>().AsNoTracking()
-            .Where(entry => entry.Id.Equals(id)).Select(entry => entry.ComplianceWorkType).SingleAsync(token);
+            .Where(work => work.Id.Equals(id)).Select(work => work.ComplianceWorkType).SingleAsync(token);
 
     public Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
         Context.Set<SourceTestReview>().AsNoTracking()
@@ -37,11 +37,11 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
         Context.Set<SourceTestReview>().AsNoTracking()
-            .Include(entry => entry.Comments
+            .Include(review => review.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt)
                 .ThenBy(comment => comment.Id))
-            .Include(entry => entry.AuditPoints
+            .Include(review => review.AuditPoints
                 .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             .SingleOrDefaultAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
