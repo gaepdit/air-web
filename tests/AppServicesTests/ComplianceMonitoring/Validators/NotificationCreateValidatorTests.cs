@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
 using AirWeb.Domain;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;

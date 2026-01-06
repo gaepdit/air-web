@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.WebApp.Models;
 using System.ComponentModel.DataAnnotations;
 
