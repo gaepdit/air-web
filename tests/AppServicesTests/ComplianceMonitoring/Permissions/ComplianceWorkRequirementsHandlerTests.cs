@@ -70,7 +70,7 @@ public class ComplianceWorkRequirementsHandlerTests
     }
 
     [Test]
-    public async Task EditEntry_WhenDeleted_IsForbidden()
+    public async Task EditWork_WhenDeleted_IsForbidden()
     {
         // Arrange
         var requirements = new[] { ComplianceOperation.Edit };
@@ -78,7 +78,7 @@ public class ComplianceWorkRequirementsHandlerTests
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceManager) },
+            [new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new PermitRevocationViewDto { IsDeleted = true };
@@ -93,7 +93,7 @@ public class ComplianceWorkRequirementsHandlerTests
     }
 
     [Test]
-    public async Task EditEntry_WhenNotDeleted_IsAllowed()
+    public async Task EditWork_WhenNotDeleted_IsAllowed()
     {
         // Arrange
         var requirements = new[] { ComplianceOperation.Edit };
@@ -101,7 +101,7 @@ public class ComplianceWorkRequirementsHandlerTests
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(ClaimTypes.Role, RoleName.ComplianceManager) },
+            [new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new PermitRevocationViewDto();

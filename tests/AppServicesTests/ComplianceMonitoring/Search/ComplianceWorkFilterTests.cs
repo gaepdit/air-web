@@ -5,7 +5,7 @@ using GaEpd.AppLibrary.Domain.Predicates;
 
 namespace AppServicesTests.ComplianceMonitoring.Search;
 
-public class WorkTypeFilterTests
+public class ComplianceWorkFilterTests
 {
     private static Func<ComplianceWork, bool> GetPredicate(List<WorkTypeSearch> spec) =>
         PredicateBuilder.True<ComplianceWork>().ByWorkType(spec).Compile();

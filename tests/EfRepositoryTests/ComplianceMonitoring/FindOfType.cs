@@ -9,7 +9,7 @@ public class FindOfType
     private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetComplianceWorkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -18,14 +18,14 @@ public class FindOfType
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var expected = ComplianceWorkData.GetData.First(entry => entry.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
+        var expected = ComplianceWorkData.GetData.First(work => work.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
 
         // Act
         var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: false);
 
         // Assert
         using var scope = new AssertionScope();
-        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(work => work.Comments));
         result!.ComplianceWorkType.Should().Be(ComplianceWorkType.Notification);
         result.Should().BeOfType<Notification>();
     }

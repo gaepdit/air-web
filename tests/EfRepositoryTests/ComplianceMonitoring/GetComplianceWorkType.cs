@@ -1,15 +1,15 @@
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.LocalRepository.Repositories;
+using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Compliance;
 
-namespace LocalRepositoryTests.ComplianceMonitoring;
+namespace EfRepositoryTests.ComplianceMonitoring;
 
-public class GetWorkEntryType
+public class GetComplianceWorkType
 {
-    private LocalComplianceWorkRepository _repository = null!;
+    private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetComplianceWorkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -21,10 +21,10 @@ public class GetWorkEntryType
     public async Task GivenExistingItem_ReturnsValue(ComplianceWorkType type)
     {
         // Arrange
-        var entry = ComplianceWorkData.GetData.First(entry => entry.ComplianceWorkType.Equals(type));
+        var work = ComplianceWorkData.GetData.First(complianceWork => complianceWork.ComplianceWorkType.Equals(type));
 
         // Act
-        var result = await _repository.GetComplianceWorkTypeAsync(entry.Id);
+        var result = await _repository.GetComplianceWorkTypeAsync(work.Id);
 
         // Assert
         result.Should().Be(type);

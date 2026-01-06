@@ -3,12 +3,12 @@ using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.ComplianceMonitoring;
 
-public class FindWorkEntry
+public class FindComplianceWork
 {
     private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetComplianceWorkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -23,7 +23,7 @@ public class FindWorkEntry
         var result = await _repository.FindAsync(expected.Id);
 
         // Assert
-        result.Should().BeEquivalentTo(expected, options => options.Excluding(entry => entry.Comments));
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(work => work.Comments));
     }
 
     [Test]

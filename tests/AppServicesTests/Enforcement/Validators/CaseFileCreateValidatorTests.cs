@@ -50,11 +50,11 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IComplianceWorkRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        var workRepoMock = Substitute.For<IComplianceWorkRepository>();
+        workRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
-        var validator = new CaseFileCreateValidator(entryRepoMock);
+        var validator = new CaseFileCreateValidator(workRepoMock);
         var model = new CaseFileCreateDto
         {
             EventId = report.Id,
@@ -76,11 +76,11 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IComplianceWorkRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        var workRepoMock = Substitute.For<IComplianceWorkRepository>();
+        workRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
-        var validator = new CaseFileCreateValidator(entryRepoMock);
+        var validator = new CaseFileCreateValidator(workRepoMock);
         var model = new CaseFileCreateDto
         {
             EventId = report.Id,

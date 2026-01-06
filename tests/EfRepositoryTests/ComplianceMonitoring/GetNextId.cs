@@ -14,7 +14,7 @@ public class GetNextId
     public void GivenExistingItems_ReturnsNull()
     {
         // Arrange
-        _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
+        _repository = RepositoryHelper.CreateRepositoryHelper().GetComplianceWorkRepository();
 
         // Act
         var result = _repository.GetNextId();
@@ -28,7 +28,7 @@ public class GetNextId
     {
         // Arrange
         var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        _repository = repositoryHelper.GetWorkEntryRepository();
+        _repository = repositoryHelper.GetComplianceWorkRepository();
         await repositoryHelper.ClearTableAsync<ComplianceWork, int>();
 
         // Act

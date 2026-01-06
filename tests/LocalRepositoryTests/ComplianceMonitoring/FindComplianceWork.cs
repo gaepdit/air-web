@@ -3,12 +3,12 @@ using AirWeb.TestData.Compliance;
 
 namespace LocalRepositoryTests.ComplianceMonitoring;
 
-public class FindWorkEntry
+public class FindComplianceWork
 {
     private LocalComplianceWorkRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetComplianceWorkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -17,13 +17,13 @@ public class FindWorkEntry
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var entry = ComplianceWorkData.GetData.First();
+        var work = ComplianceWorkData.GetData.First();
 
         // Act
-        var result = await _repository.FindAsync(entry.Id);
+        var result = await _repository.FindAsync(work.Id);
 
         // Assert
-        result.Should().BeEquivalentTo(entry);
+        result.Should().BeEquivalentTo(work);
     }
 
     [Test]

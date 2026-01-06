@@ -151,7 +151,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// Seeds data and returns an instance of <see cref="ComplianceWorkRepository"/>.
     /// </summary>
     /// <returns>An ComplianceWorkRepository.</returns>
-    public ComplianceWorkRepository GetWorkEntryRepository()
+    public ComplianceWorkRepository GetComplianceWorkRepository()
     {
         Context = new AppDbContext(_options);
         return new ComplianceWorkRepository(Context);

@@ -13,7 +13,7 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetComplianceWorkRepository();
 
         var id = ComplianceWorkData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
@@ -33,7 +33,7 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetComplianceWorkRepository();
 
         var id = ComplianceWorkData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);

@@ -13,7 +13,7 @@ public class ComplianceEventCompositeUniqueIndexTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetComplianceWorkRepository();
         await repositoryHelper.ClearTableAsync<ComplianceWork, int>();
 
         var report1 = new Report(null, (FacilityId)"00199998") { ActionNumber = 1 };
@@ -33,7 +33,7 @@ public class ComplianceEventCompositeUniqueIndexTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        var repository = repositoryHelper.GetWorkEntryRepository();
+        var repository = repositoryHelper.GetComplianceWorkRepository();
         await repositoryHelper.ClearTableAsync<ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = 1 };
@@ -52,7 +52,7 @@ public class ComplianceEventCompositeUniqueIndexTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetComplianceWorkRepository();
         await repositoryHelper.ClearTableAsync<ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = 1 };
@@ -73,7 +73,7 @@ public class ComplianceEventCompositeUniqueIndexTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetWorkEntryRepository();
+        await using var repository = repositoryHelper.GetComplianceWorkRepository();
         await repositoryHelper.ClearTableAsync<ComplianceWork, int>();
 
         var report1 = new Report(null, _facilityId) { ActionNumber = null };

@@ -10,7 +10,7 @@ public class AddCommentTests
     public async Task AddComment_AddsComment()
     {
         // Arrange
-        await using var repository = RepositoryHelper.GetWorkEntryRepository();
+        await using var repository = RepositoryHelper.GetComplianceWorkRepository();
 
         var id = ComplianceWorkData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);

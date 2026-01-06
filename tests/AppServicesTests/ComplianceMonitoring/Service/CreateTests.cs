@@ -20,11 +20,12 @@ public class CreateTests
         const int id = 901;
         var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), Email = SampleText.ValidEmail };
         var facilityId = (FacilityId)"00100001";
-        var workEntry = new PermitRevocation(id, facilityId);
+        var work = new PermitRevocation(id, facilityId);
 
-        var workEntryManagerMock = Substitute.For<IComplianceWorkManager>();
-        workEntryManagerMock.CreateAsync(Arg.Any<ComplianceWorkType>(), Arg.Any<FacilityId>(), Arg.Any<ApplicationUser?>())
-            .Returns(workEntry);
+        var complianceWorkManagerMock = Substitute.For<IComplianceWorkManager>();
+        complianceWorkManagerMock.CreateAsync(Arg.Any<ComplianceWorkType>(), Arg.Any<FacilityId>(),
+                Arg.Any<ApplicationUser?>())
+            .Returns(work);
 
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync()
@@ -40,8 +41,9 @@ public class CreateTests
                 Arg.Any<object?[]>())
             .Returns(AppNotificationResult.Success());
 
-        var entryService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, Substitute.For<IComplianceWorkRepository>(),
-            workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
+        var service = new ComplianceWorkService(AppServicesTestsSetup.Mapper!,
+            Substitute.For<IComplianceWorkRepository>(),
+            complianceWorkManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
             Substitute.For<ICommentService<int>>(), userServiceMock, notificationMock);
 
         var item = new PermitRevocationCreateDto
@@ -52,7 +54,7 @@ public class CreateTests
         };
 
         // Act
-        var result = await entryService.CreateAsync(item, CancellationToken.None);
+        var result = await service.CreateAsync(item, CancellationToken.None);
 
         // Assert
         using var scope = new AssertionScope();

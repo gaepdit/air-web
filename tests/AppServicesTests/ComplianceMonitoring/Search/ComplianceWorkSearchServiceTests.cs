@@ -21,7 +21,7 @@ public class ComplianceWorkSearchServiceTests
         // Arrange
         var searchDto = new ComplianceWorkSearchDto();
         var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<ComplianceWorkSearchResultDto>>(
-            ComplianceWorkData.GetData.Where(entry => !entry.IsDeleted).ToList());
+            ComplianceWorkData.GetData.Where(work => !work.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())

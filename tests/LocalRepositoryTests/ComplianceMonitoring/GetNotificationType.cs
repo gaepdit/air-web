@@ -8,7 +8,7 @@ public class GetNotificationType
     private LocalComplianceWorkRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetComplianceWorkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
