@@ -10,8 +10,8 @@
 ### Migrated into the Air Web app
 
 - FCE: Full Compliance Evaluation (FCE)
-- WRK: Work Entry
-    - CME: Compliance Event (a subset of Work Entries)
+- WRK: Compliance Work
+    - CME: Compliance Event (a subset of Compliance Work)
         - ACC: Annual Compliance Certification (ACC)
         - INS: Inspection
         - RMP: Risk Management Plan Inspection
@@ -44,7 +44,7 @@ erDiagram
 
     CME["Compliance Event"]
 
-    WRK["Work Entry ⚓"] {
+    WRK["Compliance Work ⚓"] {
         int Id PK
         bool IsComplianceEvent
     }

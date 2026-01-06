@@ -1,4 +1,4 @@
-# Compliance Work Entry ERDs
+# Compliance Monitoring ERDs
 
 ## Compliance Work Entities
 
@@ -16,7 +16,7 @@ erDiagram
         int Id PK
     }
 
-    WRK["Work Entry ⚓"] {
+    WRK["Compliance Work ⚓"] {
         int Id PK
         bool IsComplianceEvent
     }
@@ -54,10 +54,10 @@ erDiagram
         string facilityId PK
     }
 
-    WRK["Work Entry"] {
+    WRK["Compliance Work"] {
         int Id PK
         string FacilityId FK
-        enum WorkEntryType
+        enum ComplianceWorkType
         string ResponsibleStaffId FK
         bool Closed
         date ClosedDate
@@ -90,7 +90,7 @@ erDiagram
 | SSCPITEMMASTER.STRTRACKINGNUMBER          | numeric(10)  |    ✓    | Id                       |
 | SSCPITEMMASTER.STRAIRSNUMBER              | varchar(12)  |    ✓    | FacilityId               |
 | SSCPITEMMASTER.DATRECEIVEDDATE            | datetime2(0) |    ✓    | *see subtypes*           |
-| SSCPITEMMASTER.STREVENTTYPE               | varchar(3)   |    ✓    | WorkEntryType            |
+| SSCPITEMMASTER.STREVENTTYPE               | varchar(3)   |    ✓    | ComplianceWorkType       |
 | SSCPITEMMASTER.STRRESPONSIBLESTAFF        | varchar(3)   |    ✓    | ResponsibleStaffId       |
 | SSCPITEMMASTER.DATCOMPLETEDATE            | datetime2(0) |    ✓    | Closed, ClosedDate       |
 | SSCPITEMMASTER.STRMODIFINGPERSON          | varchar(3)   |    ✓    | CreatedById              |
@@ -102,7 +102,7 @@ erDiagram
 
 ### Derived event types
 
-| Key | Event Type                      | Work Entry Enum               |
+| Key | Event Type                      | Compliance Work Type Enum     |
 |:----|:--------------------------------|:------------------------------|
 | 01  | Report                          | Report                        |
 | 02  | Inspection                      | Inspection                    |
