@@ -2,60 +2,60 @@ namespace AirWeb.AppServices.AppNotifications;
 
 public partial class Template
 {
-    // Work Entry email templates
-    public static readonly Template EntryCreated = new()
+    // Compliance Work email templates
+    public static readonly Template WorkCreated = new()
     {
-        Subject = "New Work Entry Added",
-        TextBody = "Work Entry ID {0} has been added.",
-        HtmlBody = "<p>Work Entry ID {0} has been added.</p>",
+        Subject = "New Compliance Work Added",
+        TextBody = "Compliance Work ID {0} has been added.",
+        HtmlBody = "<p>Compliance Work ID {0} has been added.</p>",
     };
 
-    public static readonly Template EntryUpdated = new()
+    public static readonly Template WorkUpdated = new()
     {
-        Subject = "Work Entry Updated",
-        TextBody = "Work Entry ID {0} has been updated.",
-        HtmlBody = "<p>Work Entry ID {0} has been updated.</p>",
+        Subject = "Compliance Work Updated",
+        TextBody = "Compliance Work ID {0} has been updated.",
+        HtmlBody = "<p>Compliance Work ID {0} has been updated.</p>",
     };
 
-    public static readonly Template EntryCommentAdded = new()
+    public static readonly Template WorkCommentAdded = new()
     {
-        Subject = "New Comment on Work Entry",
+        Subject = "New Comment on Compliance Work",
         TextBody =
             """
-            Work Entry ID {0} has a new comment by {2}:
+            Compliance Work ID {0} has a new comment by {2}:
 
             {1}
 
             """,
-        HtmlBody = "<p>Work Entry ID {0} has a new comment by {2}:</p>" +
+        HtmlBody = "<p>Compliance Work ID {0} has a new comment by {2}:</p>" +
                    "<blockquote style='white-space:pre-line'>{1}</blockquote>",
     };
 
-    public static readonly Template EntryClosed = new()
+    public static readonly Template WorkClosed = new()
     {
-        Subject = "Work Entry Closed",
-        TextBody = "Work Entry ID {0} has been closed.",
-        HtmlBody = "<p>Work Entry ID {0} has been closed.</p>",
+        Subject = "Compliance Work Closed",
+        TextBody = "Compliance Work ID {0} has been closed.",
+        HtmlBody = "<p>Compliance Work ID {0} has been closed.</p>",
     };
 
-    public static readonly Template EntryReopened = new()
+    public static readonly Template WorkReopened = new()
     {
-        Subject = "Work Entry Reopened",
-        TextBody = "Work Entry ID {0} has been reopened.",
-        HtmlBody = "<p>Work Entry ID {0} has been reopened.</p>",
+        Subject = "Compliance Work Reopened",
+        TextBody = "Compliance Work ID {0} has been reopened.",
+        HtmlBody = "<p>Compliance Work ID {0} has been reopened.</p>",
     };
 
-    public static readonly Template EntryDeleted = new()
+    public static readonly Template WorkDeleted = new()
     {
-        Subject = "Work Entry Deleted",
-        TextBody = "Work Entry ID {0} has been deleted.",
-        HtmlBody = "<p>Work Entry ID {0} has been deleted.</p>",
+        Subject = "Compliance Work Deleted",
+        TextBody = "Compliance Work ID {0} has been deleted.",
+        HtmlBody = "<p>Compliance Work ID {0} has been deleted.</p>",
     };
 
-    public static readonly Template EntryRestored = new()
+    public static readonly Template WorkRestored = new()
     {
-        Subject = "Work Entry Restored",
-        TextBody = "Work Entry ID {0} has been restored.",
-        HtmlBody = "<p>Work Entry ID {0} has been restored.</p>",
+        Subject = "Compliance Work Restored",
+        TextBody = "Compliance Work ID {0} has been restored.",
+        HtmlBody = "<p>Compliance Work ID {0} has been restored.</p>",
     };
 }

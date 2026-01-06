@@ -14,8 +14,8 @@ internal static class CommonFilters
         input switch
         {
             DeleteStatus.All => predicate,
-            DeleteStatus.Deleted => predicate.And(entry => entry.IsDeleted),
-            _ => predicate.And(entry => !entry.IsDeleted),
+            DeleteStatus.Deleted => predicate.And(entity => entity.IsDeleted),
+            _ => predicate.And(entity => !entity.IsDeleted),
         };
 
     public static Expression<Func<TEntity, bool>> ByClosedStatus<TEntity>(
@@ -23,8 +23,8 @@ internal static class CommonFilters
         ClosedOpenAny? input) where TEntity : IIsClosed =>
         input switch
         {
-            ClosedOpenAny.Closed => predicate.And(entry => entry.IsClosed),
-            ClosedOpenAny.Open => predicate.And(entry => !entry.IsClosed),
+            ClosedOpenAny.Closed => predicate.And(entity => entity.IsClosed),
+            ClosedOpenAny.Open => predicate.And(entity => !entity.IsClosed),
             _ => predicate,
         };
 
@@ -38,7 +38,7 @@ internal static class CommonFilters
         if (!FacilityId.IsValidFormat(input))
             return PredicateBuilder.False<TEntity>();
 
-        return predicate.And(entry => entry.FacilityId == new FacilityId(input).FormattedId);
+        return predicate.And(entity => entity.FacilityId == new FacilityId(input).FormattedId);
     }
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
@@ -46,5 +46,5 @@ internal static class CommonFilters
         string? input) where TEntity : INotes =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
-            : predicate.And(entry => entry.Notes != null && entry.Notes.Contains(input));
+            : predicate.And(entity => entity.Notes != null && entity.Notes.Contains(input));
 }

@@ -23,8 +23,8 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<IEnumerable<ComplianceWorkSearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<ComplianceWorkSearchResultDto> linkedEvents, CancellationToken token = default);
 
-    Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);
-    Task<bool> UnLinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);
+    Task<bool> LinkComplianceEventAsync(int id, int eventId, CancellationToken token = default);
+    Task<bool> UnLinkComplianceEventAsync(int id, int eventId, CancellationToken token = default);
 
     // Pollutants & Air Programs
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);

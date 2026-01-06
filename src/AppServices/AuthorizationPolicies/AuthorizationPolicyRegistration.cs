@@ -15,9 +15,9 @@ public static class AuthorizationPolicyRegistration
         services.AddPolicies();
 
         // Resource/operation-based permission handlers, e.g.:
-        // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
+        // var canAssign = await authorization.Succeeded(User, Item, Operation);
 
-        // ViewRequirements are added as scoped if they consume scoped services; otherwise as singletons.
+        // Requirements are added as scoped if they consume scoped services; otherwise as singletons.
         services
             .AddSingleton<IAuthorizationHandler, CaseFileViewRequirementsHandler>()
             .AddSingleton<IAuthorizationHandler, CaseFileSummaryRequirementsHandler>()

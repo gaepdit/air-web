@@ -91,9 +91,9 @@ public sealed class CaseFileService(
 
         if (resource.EventId != null &&
             await repository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false)
-                is ComplianceEvent entry)
+                is ComplianceEvent complianceEvent)
         {
-            caseFileManager.LinkComplianceEvent(caseFile, entry, currentUser);
+            caseFileManager.LinkComplianceEvent(caseFile, complianceEvent, currentUser);
         }
 
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);
@@ -132,42 +132,42 @@ public sealed class CaseFileService(
     public async Task<IEnumerable<ComplianceWorkSearchResultDto>> GetLinkedEventsAsync(int id,
         CancellationToken token = default) =>
         mapper.Map<ICollection<ComplianceWorkSearchResultDto>>(await repository
-            .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
-                                   ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
+            .GetListAsync(work => work.IsComplianceEvent && !work.IsDeleted &&
+                                   ((ComplianceEvent)work).CaseFiles.Any(caseFile => caseFile.Id == id),
                 ComplianceWorkSortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
     public async Task<IEnumerable<ComplianceWorkSearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<ComplianceWorkSearchResultDto> linkedEvents, CancellationToken token = default) =>
         mapper.Map<ICollection<ComplianceWorkSearchResultDto>>(await repository
-            .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
+            .GetListAsync(work => work.IsComplianceEvent && !work.IsDeleted && work.FacilityId == facilityId,
                 ComplianceWorkSortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
 
-    public async Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default)
+    public async Task<bool> LinkComplianceEventAsync(int id, int eventId, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        if (await repository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
+        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent complianceEvent)
             return false;
-        if (entry.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(entry))
+        if (complianceEvent.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(complianceEvent))
             return false;
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        caseFileManager.LinkComplianceEvent(caseFile, entry, currentUser);
+        caseFileManager.LinkComplianceEvent(caseFile, complianceEvent, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
         return true;
     }
 
-    public async Task<bool> UnLinkComplianceEventAsync(int id, int entryId, CancellationToken token = default)
+    public async Task<bool> UnLinkComplianceEventAsync(int id, int eventId, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, [nameof(CaseFile.ComplianceEvents)], token: token)
             .ConfigureAwait(false);
-        if (await repository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
+        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent complianceEvent)
             return false;
-        if (!caseFile.ComplianceEvents.Contains(entry))
+        if (!caseFile.ComplianceEvents.Contains(complianceEvent))
             return false;
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        caseFileManager.UnlinkComplianceEvent(caseFile, entry, currentUser);
+        caseFileManager.UnlinkComplianceEvent(caseFile, complianceEvent, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
         return true;
     }
@@ -239,14 +239,14 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.Restore(workEntry, currentUser);
-        await caseFileRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        caseFileManager.Restore(caseFile, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EnforcementRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EnforcementRestored, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
