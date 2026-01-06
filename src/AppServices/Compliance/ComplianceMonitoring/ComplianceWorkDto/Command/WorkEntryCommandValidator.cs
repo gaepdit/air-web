@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
+namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
 // Used by both work entry create and update validators.
 public class WorkEntryCommandValidator : AbstractValidator<IWorkEntryCommandDto>

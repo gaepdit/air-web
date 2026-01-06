@@ -1,13 +1,13 @@
 ﻿using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;

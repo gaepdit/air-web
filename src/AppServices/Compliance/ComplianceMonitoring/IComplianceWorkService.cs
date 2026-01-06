@@ -1,8 +1,8 @@
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;

@@ -2,7 +2,7 @@
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using GaEpd.AppLibrary.Extensions;
 
-namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
 public record WorkEntrySummaryDto : IWorkEntrySummaryDto
 {

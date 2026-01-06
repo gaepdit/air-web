@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 

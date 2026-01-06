@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
 
-namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
 public interface IWorkEntryViewDto : IWorkEntrySummaryDto
 {

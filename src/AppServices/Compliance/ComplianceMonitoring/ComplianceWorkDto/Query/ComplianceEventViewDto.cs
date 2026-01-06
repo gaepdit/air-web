@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.DataExchange;
 
-namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
 public record ComplianceEventViewDto : WorkEntryViewDto, IDataExchange
 {

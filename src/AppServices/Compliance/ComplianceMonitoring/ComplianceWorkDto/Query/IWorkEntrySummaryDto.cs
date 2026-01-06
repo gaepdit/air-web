@@ -3,7 +3,7 @@ using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
-namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
 public interface IWorkEntrySummaryDto : IIsClosed, IHasOwner, IDeleteComments, IDeletable
 {

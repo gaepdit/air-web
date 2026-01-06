@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Identity;

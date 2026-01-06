@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 

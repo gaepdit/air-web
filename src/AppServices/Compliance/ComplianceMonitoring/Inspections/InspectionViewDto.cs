@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Query;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ValueObjects;
 

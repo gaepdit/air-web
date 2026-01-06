@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.WorkEntryDto.Command;
+﻿namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
 public interface IWorkEntryCommandDto
 {
