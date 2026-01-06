@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
@@ -13,8 +13,8 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     [FromRoute]
     public int Id { get; set; } // Case File ID
 
-    public IEnumerable<WorkEntrySearchResultDto> LinkedComplianceEvents { get; private set; } = [];
-    public IEnumerable<WorkEntrySearchResultDto> AvailableComplianceEvents { get; private set; } = [];
+    public IEnumerable<ComplianceWorkSearchResultDto> LinkedComplianceEvents { get; private set; } = [];
+    public IEnumerable<ComplianceWorkSearchResultDto> AvailableComplianceEvents { get; private set; } = [];
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
@@ -31,45 +31,45 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostLinkEventAsync(int entryId, CancellationToken token)
+    public async Task<IActionResult> OnPostLinkEventAsync(int eventId, CancellationToken token)
     {
-        if (Id == 0 || entryId == 0) return BadRequest();
+        if (Id == 0 || eventId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
-        var result = await service.LinkComplianceEventAsync(Id, entryId, token);
+        var result = await service.LinkComplianceEventAsync(Id, eventId, token);
 
         if (result)
         {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-                $"Compliance Event #{entryId} successfully linked.");
+                $"Compliance Event #{eventId} successfully linked.");
         }
         else
         {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
-                $"There was an error linking Compliance Event #{entryId}.");
+                $"There was an error linking Compliance Event #{eventId}.");
         }
 
         return RedirectToPage("LinkedEvents", null, new { Id });
     }
 
-    public async Task<IActionResult> OnPostUnlinkEventAsync(int entryId, CancellationToken token)
+    public async Task<IActionResult> OnPostUnlinkEventAsync(int eventId, CancellationToken token)
     {
-        if (Id == 0 || entryId == 0) return BadRequest();
+        if (Id == 0 || eventId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
-        var result = await service.UnLinkComplianceEventAsync(Id, entryId, token);
+        var result = await service.UnLinkComplianceEventAsync(Id, eventId, token);
 
         if (result)
         {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-                $"Compliance Event #{entryId} successfully unlinked.");
+                $"Compliance Event #{eventId} successfully unlinked.");
         }
         else
         {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
-                $"There was an error unlinking Compliance Event #{entryId}.");
+                $"There was an error unlinking Compliance Event #{eventId}.");
         }
 
         return RedirectToPage("LinkedEvents", null, new { Id });

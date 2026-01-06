@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
@@ -15,7 +15,7 @@ namespace AirWeb.WebApp.Pages.Compliance.FCE;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     IFceService fceService,
-    IWorkEntrySearchService workEntrySearchService,
+    IComplianceWorkSearchService complianceWorkSearchService,
     ICaseFileSearchService caseFileSearchService,
     IPermitFeesService permitFeesService,
     IAuthorizationService authorization) : PageModel
@@ -24,7 +24,7 @@ public class DetailsModel(
     public int Id { get; set; }
 
     public FceViewDto? Item { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceSummary { get; private set; } = null!;
+    public IPaginatedResult<ComplianceWorkSearchResultDto> ComplianceSummary { get; private set; } = null!;
     public IPaginatedResult<CaseFileSearchResultDto> CaseFileSummary { get; private set; } = null!;
     public List<AnnualFeeSummary> AnnualFeesSummary { get; private set; } = null!;
     public CommentsSectionModel CommentSection { get; set; } = null!;
@@ -121,15 +121,15 @@ public class DetailsModel(
 
     private async Task LoadComplianceData(CancellationToken token)
     {
-        var spec = new WorkEntrySearchDto
+        var spec = new ComplianceWorkSearchDto
         {
             FacilityId = Item!.FacilityId,
             EventDateTo = Item.CompletedDate,
             EventDateFrom = Item.SupportingDataStartDate,
         };
         var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
-            sorting: WorkEntrySortBy.WorkTypeAsc.GetDescription());
-        ComplianceSummary = await workEntrySearchService.SearchAsync(spec, paging, token: token);
+            sorting: ComplianceWorkSortBy.WorkTypeAsc.GetDescription());
+        ComplianceSummary = await complianceWorkSearchService.SearchAsync(spec, paging, token: token);
     }
 
     private async Task LoadEnforcementData(CancellationToken token)

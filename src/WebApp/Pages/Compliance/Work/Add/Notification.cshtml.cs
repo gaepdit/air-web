@@ -1,8 +1,8 @@
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.Facilities;
@@ -10,7 +10,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class NotificationAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     INotificationTypeService notificationTypeService,
     IStaffService staffService,
@@ -26,7 +26,7 @@ public class NotificationAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.Notification;
+        WorkType = ComplianceWorkType.Notification;
 
         Item = new NotificationCreateDto
         {
@@ -39,8 +39,8 @@ public class NotificationAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.Notification;
-        return await DoPostAsync(Item, entryService, validator, token);
+        WorkType = ComplianceWorkType.Notification;
+        return await DoPostAsync(Item, service, validator, token);
     }
 
     protected override async Task PopulateSelectListsAsync()

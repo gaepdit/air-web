@@ -1,17 +1,17 @@
-﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
 
 namespace AirWeb.TestData.Compliance;
 
-internal static partial class ComplianceWork
+internal static partial class ComplianceMonitoringData
 {
     internal static IEnumerable<RmpInspection> RmpInspectionData =>
     [
         new(10001, (FacilityId)"00100001", UserData.GetRandomUser())
         {
-            WorkEntryType = WorkEntryType.RmpInspection,
+            ComplianceWorkType = ComplianceWorkType.RmpInspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
@@ -29,7 +29,7 @@ internal static partial class ComplianceWork
         },
         new(10002, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
         {
-            WorkEntryType = WorkEntryType.RmpInspection,
+            ComplianceWorkType = ComplianceWorkType.RmpInspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
@@ -47,7 +47,7 @@ internal static partial class ComplianceWork
         },
         new(10003, DomainData.GetRandomFacility().Id)
         {
-            WorkEntryType = WorkEntryType.RmpInspection,
+            ComplianceWorkType = ComplianceWorkType.RmpInspection,
             ResponsibleStaff = UserData.GetRandomUser(),
             AcknowledgmentLetterDate = null,
             Notes = "Deleted RMP Inspection",

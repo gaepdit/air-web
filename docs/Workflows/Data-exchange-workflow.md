@@ -2,7 +2,7 @@
 
 ## Compliance Monitoring
 
-| Compliance Monitoring Type            | Not reportable | Reportable |
+| Compliance Work Type                  | Not reportable | Reportable |
 |---------------------------------------|:--------------:|:----------:|
 | Annual Compliance Certification (ACC) |                |     ✓      |
 | Inspection                            |                |     ✓      |

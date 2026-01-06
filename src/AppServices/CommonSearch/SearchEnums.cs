@@ -22,9 +22,9 @@ public enum ClosedOpenAny
     Open = 0,
 }
 
-// "Not Deleted" (null) = only non-deleted entries
-// "Deleted" = only deleted entries
-// "All" = both deleted and not-deleted entries
+// "Not Deleted" (null) = only non-deleted records
+// "Deleted" = only deleted records
+// "All" = both deleted and not-deleted records
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum DeleteStatus
 {

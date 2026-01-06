@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
 using AirWeb.WebApp.Models;
@@ -12,14 +12,14 @@ namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class ComplianceIndexModel(
-    IWorkEntrySearchService searchService,
+    IComplianceWorkSearchService searchService,
     IStaffService staff,
     IOfficeService offices) : PageModel
 {
-    public WorkEntrySearchDto Spec { get; set; } = null!;
+    public ComplianceWorkSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
-    public IPaginatedResult<WorkEntrySearchResultDto> SearchResults { get; private set; } = null!;
+    public IPaginatedResult<ComplianceWorkSearchResultDto> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     // Select lists
@@ -28,12 +28,12 @@ public class ComplianceIndexModel(
 
     public async Task OnGetAsync(CancellationToken token = default)
     {
-        Spec = new WorkEntrySearchDto();
+        Spec = new ComplianceWorkSearchDto();
         UserCanViewDeletedRecords = User.CanManageDeletions();
         await PopulateSelectListsAsync(token);
     }
 
-    public async Task OnGetSearchAsync(WorkEntrySearchDto spec, [FromQuery] int p = 1,
+    public async Task OnGetSearchAsync(ComplianceWorkSearchDto spec, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Spec = spec.TrimAll();

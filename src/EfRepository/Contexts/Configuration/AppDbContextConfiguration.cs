@@ -1,6 +1,6 @@
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -32,16 +32,16 @@ internal static class AppDbContextConfiguration
         fceEntity.Navigation(fce => fce.DeletedBy).AutoInclude();
         fceEntity.Navigation(fce => fce.ReviewedBy).AutoInclude();
 
-        // Work Entries
-        var workEntryEntity = builder.Entity<WorkEntry>();
-        workEntryEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
-        workEntryEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
-        workEntryEntity.Navigation(entry => entry.ResponsibleStaff).AutoInclude();
+        // Compliance Work
+        var complianceWorkEntity = builder.Entity<ComplianceWork>();
+        complianceWorkEntity.Navigation(work => work.ClosedBy).AutoInclude();
+        complianceWorkEntity.Navigation(work => work.DeletedBy).AutoInclude();
+        complianceWorkEntity.Navigation(work => work.ResponsibleStaff).AutoInclude();
 
         // Enforcement entities
         var caseFileEntity = builder.Entity<CaseFile>();
-        caseFileEntity.Navigation(entry => entry.ClosedBy).AutoInclude();
-        caseFileEntity.Navigation(entry => entry.DeletedBy).AutoInclude();
+        caseFileEntity.Navigation(caseFile => caseFile.ClosedBy).AutoInclude();
+        caseFileEntity.Navigation(caseFile => caseFile.DeletedBy).AutoInclude();
         caseFileEntity.Navigation(enforcementCase => enforcementCase.ResponsibleStaff).AutoInclude();
 
         var enforcementActionEntity = builder.Entity<EnforcementAction>();
@@ -59,19 +59,18 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureWorkEntryMapping(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureComplianceWorkMapping(this ModelBuilder builder)
     {
-        // Work Entries use Table Per Hierarchy (TPH) mapping strategy.
-        builder.Entity<WorkEntry>()
-            .ToTable("ComplianceWork")
-            .HasDiscriminator(entry => entry.WorkEntryType)
-            .HasValue<AnnualComplianceCertification>(WorkEntryType.AnnualComplianceCertification)
-            .HasValue<Inspection>(WorkEntryType.Inspection)
-            .HasValue<Notification>(WorkEntryType.Notification)
-            .HasValue<PermitRevocation>(WorkEntryType.PermitRevocation)
-            .HasValue<Report>(WorkEntryType.Report)
-            .HasValue<RmpInspection>(WorkEntryType.RmpInspection)
-            .HasValue<SourceTestReview>(WorkEntryType.SourceTestReview);
+        // Compliance Work entries use "Table Per Hierarchy" (TPH) mapping strategy.
+        builder.Entity<ComplianceWork>()
+            .HasDiscriminator(work => work.ComplianceWorkType)
+            .HasValue<AnnualComplianceCertification>(ComplianceWorkType.AnnualComplianceCertification)
+            .HasValue<Inspection>(ComplianceWorkType.Inspection)
+            .HasValue<Notification>(ComplianceWorkType.Notification)
+            .HasValue<PermitRevocation>(ComplianceWorkType.PermitRevocation)
+            .HasValue<Report>(ComplianceWorkType.Report)
+            .HasValue<RmpInspection>(ComplianceWorkType.RmpInspection)
+            .HasValue<SourceTestReview>(ComplianceWorkType.SourceTestReview);
 
         // TPH column sharing https://learn.microsoft.com/en-us/ef/core/modeling/inheritance#shared-columns
         var accEntity = builder.Entity<AnnualComplianceCertification>();
@@ -206,8 +205,8 @@ internal static class AppDbContextConfiguration
         // == Let's save enums in the database as strings.
         // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
 
-        // Work entries
-        builder.Entity<WorkEntry>().Property(e => e.WorkEntryType).HasConversion<string>();
+        // Compliance Work
+        builder.Entity<ComplianceWork>().Property(e => e.ComplianceWorkType).HasConversion<string>();
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
         builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();
 
@@ -306,7 +305,7 @@ internal static class AppDbContextConfiguration
         // Configure composite unique indexes for FacilityId + ActionNumber
         // These ensure that ActionNumber is sequential and unique per FacilityId
 
-        // ComplianceEvent (WorkEntry) - ActionNumber must be unique per FacilityId
+        // ComplianceEvent (ComplianceWork) - ActionNumber must be unique per FacilityId
         builder.Entity<ComplianceEvent>()
             .HasIndex(e => new { e.FacilityId, e.ActionNumber })
             .IsUnique();

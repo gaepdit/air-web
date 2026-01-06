@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.WorkEntries;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Enforcement.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,14 +15,14 @@ public static class AuthorizationPolicyRegistration
         services.AddPolicies();
 
         // Resource/operation-based permission handlers, e.g.:
-        // var canAssign = await authorization.Succeeded(User, entryView, WorkEntryOperation.EditWorkEntry);
+        // var canAssign = await authorization.Succeeded(User, Item, Operation);
 
-        // ViewRequirements are added as scoped if they consume scoped services; otherwise as singletons.
+        // Requirements are added as scoped if they consume scoped services; otherwise as singletons.
         services
             .AddSingleton<IAuthorizationHandler, CaseFileViewRequirementsHandler>()
             .AddSingleton<IAuthorizationHandler, CaseFileSummaryRequirementsHandler>()
             .AddScoped<IAuthorizationHandler, FceRequirementsHandler>()
-            .AddScoped<IAuthorizationHandler, WorkEntryRequirementsHandler>();
+            .AddScoped<IAuthorizationHandler, ComplianceWorkRequirementsHandler>();
 
         return services;
     }

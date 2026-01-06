@@ -3,7 +3,7 @@
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AccAddModel
 @{
-    ViewData["Title"] = $"Add a new {Model.EntryType.GetDisplayName()}";
+    ViewData["Title"] = $"Add a new {Model.WorkType.GetDisplayName()}";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.AccReportingYear, EditorTemplate.InputNumber,
-                    additionalViewData: new { Min = ComplianceConstants.EarliestWorkEntryYear, Max = DateTime.Now.Year })
+                    additionalViewData: new { Min = ComplianceConstants.EarliestComplianceWorkYear, Max = DateTime.Now.Year })
             </div>
             <div class="col-md mb-3">
                 @Html.EditorFor(m => m.Item.PostmarkDate, EditorTemplate.InputDateOnly)

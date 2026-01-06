@@ -51,7 +51,7 @@
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.WorkEntryType.GetDisplayName()</td>
+                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
                             <td>
                                 <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                                 @item.EventDateName
@@ -65,7 +65,7 @@
                                 }
                             </td>
                             <td class="text-center align-middle">
-                                <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
+                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
                                         title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink Event
                                 </button>
                             </td>
@@ -111,7 +111,7 @@
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.WorkEntryType.GetDisplayName()</td>
+                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
                             <td>
                                 <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                                 @item.EventDateName
@@ -125,7 +125,7 @@
                                 }
                             </td>
                             <td class="text-center align-middle">
-                                <button type="submit" name="entryId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
+                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
                                         title="Link Event to Enforcement Case">🡱&nbsp;Link Event
                                 </button>
                             </td>

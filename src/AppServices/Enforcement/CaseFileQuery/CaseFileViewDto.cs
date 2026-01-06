@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Staff.Dto;
@@ -53,7 +53,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public IEnumerable<string> AirProgramsAsStrings =>
         AirPrograms.Select(program => program.GetDisplayName());
 
-    public IList<WorkEntrySearchResultDto> ComplianceEvents { get; } = [];
+    public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];

@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Staff;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
@@ -13,7 +13,7 @@ using GaEpd.AppLibrary.ListItems;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public abstract class EditBase(IWorkEntryService entryService, IStaffService staffService, IMapper mapper)
+public abstract class EditBase(IComplianceWorkService service, IStaffService staffService, IMapper mapper)
     : PageModel, ISubmitCancelButtons
 {
     protected readonly IMapper Mapper = mapper;
@@ -21,7 +21,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
     [FromRoute]
     public int Id { get; set; }
 
-    public IWorkEntrySummaryDto ItemView { get; protected set; } = null!;
+    public IComplianceWorkSummaryDto ItemView { get; protected set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
 
     // Form buttons
@@ -33,7 +33,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
     {
         if (Id == 0) return RedirectToPage("../Index");
 
-        var itemView = await entryService.FindAsync(Id, false, token);
+        var itemView = await service.FindAsync(Id, false, token);
         if (itemView is null) return NotFound();
         if (!User.CanEdit(itemView)) return Forbid();
 
@@ -45,9 +45,9 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
 
     protected async Task<IActionResult> DoPostAsync<TDto>(
         TDto item, IValidator<TDto> validator, CancellationToken token)
-        where TDto : IWorkEntryCommandDto
+        where TDto : IComplianceWorkCommandDto
     {
-        var itemView = await entryService.FindSummaryAsync(Id, token);
+        var itemView = await service.FindSummaryAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
@@ -58,15 +58,15 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
             return Page();
         }
 
-        var result = await entryService.UpdateAsync(Id, item, token);
-        var entryType = await entryService.GetWorkEntryTypeAsync(Id, token);
+        var result = await service.UpdateAsync(Id, item, token);
+        var workType = await service.GetComplianceWorkTypeAsync(Id, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{entryType!.Value.GetDisplayName()} successfully updated.");
+            $"{workType!.Value.GetDisplayName()} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { Id });
     }
 
-    // FUTURE: Allow for editing a Work Entry previously reviewed by a currently inactive user.
+    // FUTURE: Allow for editing a Compliance Work entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
         StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
 }

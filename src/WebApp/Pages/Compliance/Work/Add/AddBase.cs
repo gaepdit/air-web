@@ -1,8 +1,8 @@
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Command;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Identity;
 using AirWeb.WebApp.Models;
 using FluentValidation;
@@ -18,12 +18,12 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     [FromRoute]
     public string? FacilityId { get; set; }
 
-    public WorkEntryType EntryType { get; protected set; }
+    public ComplianceWorkType WorkType { get; protected set; }
     public IaipDataService.Facilities.Facility? Facility { get; protected set; }
     public SelectList StaffSelectList { get; private set; } = null!;
 
     // Form buttons
-    public string SubmitText => $"Add {EntryType.GetDisplayName()}";
+    public string SubmitText => $"Add {WorkType.GetDisplayName()}";
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
@@ -38,9 +38,9 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     }
 
     protected async Task<IActionResult> DoPostAsync<TDto>(
-        TDto item, IWorkEntryService entryService,
+        TDto item, IComplianceWorkService service,
         IValidator<TDto> validator, CancellationToken token)
-        where TDto : IWorkEntryCreateDto
+        where TDto : IComplianceWorkCreateDto
     {
         if (item.FacilityId == null || FacilityId != item.FacilityId) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
@@ -54,10 +54,10 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
             return Page();
         }
 
-        var result = await entryService.CreateAsync(item, token);
+        var result = await service.CreateAsync(item, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{EntryType.GetDisplayName()} successfully created.");
+            $"{WorkType.GetDisplayName()} successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { result.Id });
     }

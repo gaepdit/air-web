@@ -1,16 +1,16 @@
 ﻿using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -25,10 +25,10 @@ public static class AppServiceRegistration
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services) => services
 
-        // Work Entries
-        .AddScoped<IWorkEntryManager, WorkEntryManager>()
-        .AddScoped<IWorkEntryService, WorkEntryService>()
-        .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
+        // Compliance Work
+        .AddScoped<IComplianceWorkManager, ComplianceWorkManager>()
+        .AddScoped<IComplianceWorkService, ComplianceWorkService>()
+        .AddScoped<IComplianceWorkSearchService, ComplianceWorkSearchService>()
 
         // Source Tests
         .AddScoped<ISourceTestAppService, SourceTestAppService>()

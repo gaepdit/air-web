@@ -1,6 +1,6 @@
 @page "{handler?}"
 @using AirWeb.AppServices.CommonSearch
-@using AirWeb.AppServices.Compliance.WorkEntries.Search
+@using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search
 @model ComplianceIndexModel
 @{
     ViewData["Title"] = "Compliance Monitoring Search";
@@ -42,7 +42,7 @@
 
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label asp-for="Spec.EventDateFrom" class="form-label px-2 mb-0">Date of Work Entry</label>
+                        <label asp-for="Spec.EventDateFrom" class="form-label px-2 mb-0">Date of Compliance Work</label>
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
@@ -59,7 +59,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md mb-3">
-                        <label asp-for="Spec.ClosedDateFrom" class="form-label px-2 mb-0">Date Work Entry Closed</label>
+                        <label asp-for="Spec.ClosedDateFrom" class="form-label px-2 mb-0">Date Compliance Work Closed</label>
                         <div class="input-group">
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateFrom" name="@nameof(Model.Spec.ClosedDateFrom)"
@@ -105,14 +105,14 @@
                             </div>
                             <div class="row row-cols-auto" id="Include_Others">
                                 <div class="col columns-md-2">
-                                    @foreach (var workEntryType in Enum.GetValues(typeof(WorkTypeSearch)).Cast<WorkTypeSearch>().ToList())
+                                    @foreach (var workType in Enum.GetValues(typeof(WorkTypeSearch)).Cast<WorkTypeSearch>().ToList())
                                     {
                                         <div class="form-check">
                                             <input class="form-check-input" name="Include" type="checkbox"
-                                                   value="@workEntryType" id="Include_@workEntryType"
-                                                   checked="@Model.Spec.Include.Contains(workEntryType)" />
+                                                   value="@workType" id="Include_@workType"
+                                                   checked="@Model.Spec.Include.Contains(workType)" />
                                             <label class="form-check-label"
-                                                   for="Include_@workEntryType">@workEntryType.GetDisplayName()</label>
+                                                   for="Include_@workType">@workType.GetDisplayName()</label>
                                         </div>
                                     }
                                 </div>

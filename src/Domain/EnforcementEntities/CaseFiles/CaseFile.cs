@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;

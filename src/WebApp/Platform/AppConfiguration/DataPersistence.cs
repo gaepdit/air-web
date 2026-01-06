@@ -1,4 +1,3 @@
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
 using AirWeb.Domain.Identity;
 using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;

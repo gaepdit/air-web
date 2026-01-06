@@ -1,14 +1,14 @@
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Accs;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class AccAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<AccCreateDto> validator)
@@ -21,7 +21,7 @@ public class AccAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.AnnualComplianceCertification;
+        WorkType = ComplianceWorkType.AnnualComplianceCertification;
 
         Item = new AccCreateDto
         {
@@ -34,7 +34,7 @@ public class AccAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.AnnualComplianceCertification;
-        return await DoPostAsync(Item, entryService, validator, token);
+        WorkType = ComplianceWorkType.AnnualComplianceCertification;
+        return await DoPostAsync(Item, service, validator, token);
     }
 }

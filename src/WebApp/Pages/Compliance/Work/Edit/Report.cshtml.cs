@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Reports;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.AppServices.Staff;
 using AutoMapper;
 using FluentValidation;
@@ -7,11 +7,11 @@ using FluentValidation;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 public class ReportEditModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IStaffService staffService,
     IMapper mapper,
     IValidator<ReportUpdateDto> validator)
-    : EditBase(entryService, staffService, mapper)
+    : EditBase(service, staffService, mapper)
 {
     [BindProperty]
     public ReportUpdateDto Item { get; set; } = null!;

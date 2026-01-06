@@ -1,21 +1,21 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.WebApp.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(IWorkEntryService entryService, IAuthorizationService authorization) : PageModel
+public class DetailsModel(IComplianceWorkService service, IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
-    public IWorkEntryViewDto? Item { get; private set; }
+    public IComplianceWorkViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -31,7 +31,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
-        Item = await entryService.FindAsync(Id, true, token);
+        Item = await service.FindAsync(Id, true, token);
         if (Item is null) return NotFound();
 
         await SetPermissionsAsync();
@@ -41,7 +41,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             return RedirectToPage("../SourceTest/Details", new { str.ReferenceNumber });
 
         if (Item.IsComplianceEvent)
-            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
+            CaseFileIds = await service.GetCaseFileIdsAsync(Id, token);
 
         CommentSection = new CommentsSectionModel
         {
@@ -59,7 +59,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        Item = await entryService.FindAsync(Id, true, token);
+        Item = await service.FindAsync(Id, true, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
@@ -67,7 +67,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
         if (!ModelState.IsValid)
         {
-            CaseFileIds = await entryService.GetCaseFileIdsAsync(Id, token);
+            CaseFileIds = await service.GetCaseFileIdsAsync(Id, token);
 
             CommentSection = new CommentsSectionModel
             {
@@ -80,7 +80,7 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
             return Page();
         }
 
-        var result = await entryService.AddCommentAsync(Id, newComment, token);
+        var result = await service.AddCommentAsync(Id, newComment, token);
         NewCommentId = result.Id;
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", pageHandler: null, fragment: NewCommentId.ToString());
@@ -88,13 +88,13 @@ public class DetailsModel(IWorkEntryService entryService, IAuthorizationService 
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await entryService.FindAsync(Id, true, token);
+        Item = await service.FindAsync(Id, true, token);
         if (Item is null || Item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
-        await entryService.DeleteCommentAsync(commentId, token);
+        await service.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
 

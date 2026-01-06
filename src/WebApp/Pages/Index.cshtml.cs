@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Claims;
 using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
@@ -14,7 +14,7 @@ namespace AirWeb.WebApp.Pages;
 
 [AllowAnonymous]
 public class IndexModel(
-    IWorkEntrySearchService complianceSearchService,
+    IComplianceWorkSearchService complianceSearchService,
     ICaseFileSearchService caseFileSearchService,
     IEnforcementActionService enforcementActionService,
     ISourceTestAppService sourceTestService,
@@ -32,12 +32,12 @@ public class IndexModel(
     // Dashboard cards
 
     // -- Compliance staff
-    public IPaginatedResult<WorkEntrySearchResultDto> StaffComplianceWork { get; private set; } = null!;
+    public IPaginatedResult<ComplianceWorkSearchResultDto> StaffComplianceWork { get; private set; } = null!;
     public IPaginatedResult StaffSourceTests { get; private set; } = null!;
     public IPaginatedResult<CaseFileSearchResultDto> StaffCaseFiles { get; private set; } = null!;
 
     // -- Compliance manager
-    public IPaginatedResult<WorkEntrySearchResultDto> OfficeComplianceWork { get; private set; } = null!;
+    public IPaginatedResult<ComplianceWorkSearchResultDto> OfficeComplianceWork { get; private set; } = null!;
     public IPaginatedResult OfficeSourceTests { get; private set; } = null!;
 
     // -- Enforcement reviewer/manager

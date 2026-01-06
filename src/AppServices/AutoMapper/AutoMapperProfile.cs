@@ -1,16 +1,16 @@
 ﻿using AirWeb.AppServices.AuditPoints;
 using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
-using AirWeb.AppServices.Compliance.WorkEntries.Accs;
-using AirWeb.AppServices.Compliance.WorkEntries.Inspections;
-using AirWeb.AppServices.Compliance.WorkEntries.Notifications;
-using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
-using AirWeb.AppServices.Compliance.WorkEntries.Reports;
-using AirWeb.AppServices.Compliance.WorkEntries.Search;
-using AirWeb.AppServices.Compliance.WorkEntries.SourceTestReviews;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
@@ -20,7 +20,7 @@ using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
@@ -54,9 +54,9 @@ public class AutoMapperProfile : Profile
 
     private void ComplianceWork()
     {
-        CreateMap<WorkEntry, WorkEntrySummaryDto>()
+        CreateMap<ComplianceWork, ComplianceWorkSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<WorkEntry, WorkEntrySearchResultDto>()
+        CreateMap<ComplianceWork, ComplianceWorkSearchResultDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
 
         Accs();

@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.WorkEntryDto.Query;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Staff;
@@ -16,7 +16,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class BeginModel(
     IFacilityService facilityService,
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<CaseFileCreateDto> validator) : PageModel, ISubmitCancelButtons
@@ -31,7 +31,7 @@ public class BeginModel(
     public CaseFileCreateDto NewCaseFile { get; set; } = null!;
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
-    public IWorkEntrySummaryDto? ComplianceEvent { get; private set; }
+    public IComplianceWorkSummaryDto? ComplianceEvent { get; private set; }
     public SelectList StaffSelectList { get; private set; } = null!;
     private const string FacilityIdNotFound = "Facility not found.";
 
@@ -50,7 +50,7 @@ public class BeginModel(
 
         if (EventId != null)
         {
-            ComplianceEvent = await entryService.FindAsync(EventId!.Value, includeComments: false, token);
+            ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
             if (ComplianceEvent is null) return NotFound("Compliance event not found.");
             if (ComplianceEvent.FacilityId != FacilityId) return BadRequest();
             if (!User.CanBeginEnforcement(ComplianceEvent)) return Forbid();
@@ -83,7 +83,7 @@ public class BeginModel(
 
             if (EventId != null)
             {
-                ComplianceEvent = await entryService.FindAsync(EventId!.Value, includeComments: false, token);
+                ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
 
                 if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
                     !User.CanBeginEnforcement(ComplianceEvent))

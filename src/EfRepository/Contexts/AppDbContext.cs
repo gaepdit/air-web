@@ -1,5 +1,5 @@
 using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -29,13 +29,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     // FCEs
     public DbSet<Fce> Fces => Set<Fce>();
 
-    // Compliance work entries/compliance events
-    //   By default, Entity Framework uses the TPH strategy for modeling inheritance. All work entries and compliance
+    // Compliance work/compliance events
+    //   By default, Entity Framework uses the TPH strategy for modeling inheritance. All compliance work and compliance
     //   events will be stored in a single table with a discriminator column. Each subtype and each base type are all
     //   available as DbSets for querying.
     //   See: [Inheritance - EF Core | Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 
-    // Compliance work entries (mapped to a single table)
+    // Compliance work (mapped to a single table)
     public DbSet<AnnualComplianceCertification> Accs => Set<AnnualComplianceCertification>();
     public DbSet<Inspection> Inspections => Set<Inspection>();
     public DbSet<Notification> Notifications => Set<Notification>();
@@ -63,13 +63,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     // Comments (mapped to a single table)
     public DbSet<FceComment> FceComments => Set<FceComment>();
-    public DbSet<WorkEntryComment> WorkEntryComments => Set<WorkEntryComment>();
+    public DbSet<ComplianceWorkComment> ComplianceWorkComments => Set<ComplianceWorkComment>();
     public DbSet<CaseFileComment> CaseFileComments => Set<CaseFileComment>();
 
     // Audit Points (mapped to a single table)
     public DbSet<CaseFileAuditPoint> CaseFileAuditPoints => Set<CaseFileAuditPoint>();
     public DbSet<FceAuditPoint> FceAuditPoints => Set<FceAuditPoint>();
-    public DbSet<WorkEntryAuditPoint> WorkEntryAuditPoints => Set<WorkEntryAuditPoint>();
+    public DbSet<ComplianceWorkAuditPoint> ComplianceWorkAuditPoints => Set<ComplianceWorkAuditPoint>();
 
     // Ancillary tables
     public DbSet<EmailLog> EmailLogs => Set<EmailLog>();
@@ -81,7 +81,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Configure Model Builder
         builder
             .ConfigureNavigationAutoIncludes()
-            .ConfigureWorkEntryMapping()
+            .ConfigureComplianceWorkMapping()
             .ConfigureEnforcementActionMapping()
             .ConfigureInheritanceMapping()
             .ConfigureImpliedAddedChildEntities()

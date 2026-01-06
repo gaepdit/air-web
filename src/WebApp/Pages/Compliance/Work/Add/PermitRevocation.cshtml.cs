@@ -1,14 +1,14 @@
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class PermitRevocationAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<PermitRevocationCreateDto> validator)
@@ -21,7 +21,7 @@ public class PermitRevocationAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.PermitRevocation;
+        WorkType = ComplianceWorkType.PermitRevocation;
 
         Item = new PermitRevocationCreateDto
         {
@@ -34,7 +34,7 @@ public class PermitRevocationAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.PermitRevocation;
-        return await DoPostAsync(Item, entryService, validator, token);
+        WorkType = ComplianceWorkType.PermitRevocation;
+        return await DoPostAsync(Item, service, validator, token);
     }
 }

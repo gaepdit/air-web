@@ -10,7 +10,7 @@ public static class AppConstants
 public static class ComplianceConstants
 {
     // Compliance program dates
-    public const int EarliestWorkEntryYear = 2000;
-    private static DateOnly EarliestComplianceDate => new(year: EarliestWorkEntryYear, month: 1, day: 1);
+    public const int EarliestComplianceWorkYear = 2000;
+    private static DateOnly EarliestComplianceDate => new(year: EarliestComplianceWorkYear, month: 1, day: 1);
     public static string EarliestComplianceDateHtmlString => EarliestComplianceDate.ToString("yyyy-MM-dd");
 }

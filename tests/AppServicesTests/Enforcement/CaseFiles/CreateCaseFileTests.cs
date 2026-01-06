@@ -3,7 +3,7 @@ using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
@@ -42,7 +42,7 @@ public class CreateCaseFileTests
 
         var caseFileService = new CaseFileService(
             Substitute.For<IMapper>(), caseFileRepositoryMock, caseFileManager,
-            Substitute.For<IWorkEntryRepository>(), Substitute.For<ICommentService<int>>(),
+            Substitute.For<IComplianceWorkRepository>(), Substitute.For<ICommentService<int>>(),
             Substitute.For<IFacilityService>(), userServiceMock, notificationMock);
         var item = new CaseFileCreateDto
         {

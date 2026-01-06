@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.PermitRevocations;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Staff;
 using AutoMapper;
 using FluentValidation;
@@ -7,11 +7,11 @@ using FluentValidation;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 public class PermitRevocationEditModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IStaffService staffService,
     IMapper mapper,
     IValidator<PermitRevocationUpdateDto> validator)
-    : EditBase(entryService, staffService, mapper)
+    : EditBase(service, staffService, mapper)
 {
     [BindProperty]
     public PermitRevocationUpdateDto Item { get; set; } = null!;

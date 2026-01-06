@@ -144,7 +144,7 @@ internal static class CaseFileData
 
                 if (caseFile is not { Id: > 302 }) continue;
 
-                var randomComplianceEvent = WorkEntryData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
+                var randomComplianceEvent = ComplianceWorkData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
                 if (randomComplianceEvent != null)
                 {
                     caseFile.ComplianceEvents.Add(randomComplianceEvent);

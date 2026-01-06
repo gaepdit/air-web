@@ -1,8 +1,8 @@
 # Compliance Monitoring Workflows
 
-## Compliance Monitoring Types
+## Compliance Work Types
 
-| Compliance Monitoring Type            | Automatically Closed * | Compliance Event † | Data Exchange ‡ |
+| Compliance Work Type                  | Automatically Closed * | Compliance Event † | Data Exchange ‡ |
 |---------------------------------------|:----------------------:|:------------------:|:---------------:|
 | Annual Compliance Certification (ACC) |                        |         ✓          |        ✓        |
 | Inspection                            |           ✓            |         ✓          |        ✓        |
@@ -12,26 +12,24 @@
 | Risk Management Plan (RMP) Inspection |           ✓            |         ✓          |                 |
 | Source Test Compliance Review         |           ✓            |         ✓          |        ✓        |
 
-<small>
-* Indicates the Compliance Monitoring Entry is automatically closed when created (but can be reopened).<br>
-† Indicates the Compliance Monitoring Entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
-‡ Indicates a Compliance Event that is shared with the ICIS-Air Data Exchange.
-</small>
+* Indicates the Compliance Work entry is automatically closed when created (but can be reopened).<br>
+† Indicates the Compliance Work entry is a Compliance Event (i.e., available as an enforcement discovery event).<br>
+‡ Indicates a Compliance Event which is shared with the ICIS-Air Data Exchange.
 
 ### General Compliance Monitoring Workflow
 
-* A new Compliance Monitoring Entry can be entered from a Facility.
-* The Entry can be edited if open.
-    * Closing an Entry disables editing.
-    * Reopening an Entry enables editing.
-    * Some Entries are automatically closed when they are first created.
-* An Entry can be deleted/restored *(not shown in diagrams)*.
+* A new Compliance Work entry can be entered from a Facility.
+* The entry can be edited if open.
+    * Closing an entry disables editing.
+    * Reopening an entry enables editing.
+    * Some entries are automatically closed when they are first created.
+* An entry can be deleted/restored *(not shown in diagrams)*.
 * Comments can be added.
 * A Comment can be deleted *(not shown)*.
 
 ### Compliance Event Workflow
 
-* Some Compliance Monitoring types are categorized as *Compliance Events.*
+* Some Compliance Work types are categorized as *Compliance Events.*
 * Enforcement can be started from a Compliance Event.
 * Compliance Events are shared with the Data Exchange (excluding RMP Inspections).
 

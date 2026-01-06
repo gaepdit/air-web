@@ -1,14 +1,14 @@
-using AirWeb.AppServices.Compliance.WorkEntries;
-using AirWeb.AppServices.Compliance.WorkEntries.Reports;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class ReportAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<ReportCreateDto> validator)
@@ -21,7 +21,7 @@ public class ReportAddModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        EntryType = WorkEntryType.Report;
+        WorkType = ComplianceWorkType.Report;
 
         Item = new ReportCreateDto
         {
@@ -34,7 +34,7 @@ public class ReportAddModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        EntryType = WorkEntryType.Report;
-        return await DoPostAsync(Item, entryService, validator, token);
+        WorkType = ComplianceWorkType.Report;
+        return await DoPostAsync(Item, service, validator, token);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Enforcement.CaseFileCommand;
-using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
 
@@ -11,7 +11,7 @@ public class CaseFileCreateValidatorTests
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = "1",
@@ -29,7 +29,7 @@ public class CaseFileCreateValidatorTests
     public async Task DiscoveryDateInFuture_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = "1",
@@ -50,11 +50,11 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IWorkEntryRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        var workRepoMock = Substitute.For<IComplianceWorkRepository>();
+        workRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
-        var validator = new CaseFileCreateValidator(entryRepoMock);
+        var validator = new CaseFileCreateValidator(workRepoMock);
         var model = new CaseFileCreateDto
         {
             EventId = report.Id,
@@ -76,11 +76,11 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IWorkEntryRepository>();
-        entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+        var workRepoMock = Substitute.For<IComplianceWorkRepository>();
+        workRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
-        var validator = new CaseFileCreateValidator(entryRepoMock);
+        var validator = new CaseFileCreateValidator(workRepoMock);
         var model = new CaseFileCreateDto
         {
             EventId = report.Id,
@@ -99,7 +99,7 @@ public class CaseFileCreateValidatorTests
     public async Task MissingStaff_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = null,

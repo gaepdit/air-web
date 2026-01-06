@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ComplianceEntities.ComplianceWork;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
@@ -18,7 +18,7 @@ public static class DbSeedDataHelpers
         SeedIdentityData(context);
         SeedFceData(context);
         SeedNotificationTypeData(context);
-        SeedWorkEntryData(context);
+        SeedComplianceWorkData(context);
         SeedCaseFileData(context);
         SeedEnforcementActionData(context);
     }
@@ -31,7 +31,7 @@ public static class DbSeedDataHelpers
         NotificationTypeData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
-        WorkEntryData.ClearData();
+        ComplianceWorkData.ClearData();
     }
 
     private static void SeedLookupTables(AppDbContext context)
@@ -117,7 +117,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    private static void SeedWorkEntryData(AppDbContext context)
+    private static void SeedComplianceWorkData(AppDbContext context)
     {
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
@@ -126,38 +126,38 @@ public static class DbSeedDataHelpers
         }
 
         if (!context.Accs.Any())
-            context.Accs.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is AnnualComplianceCertification)
+            context.Accs.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is AnnualComplianceCertification)
                 .Cast<AnnualComplianceCertification>());
 
         if (!context.Inspections.Any())
-            context.Inspections.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is Inspection)
+            context.Inspections.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is Inspection)
                 .Cast<Inspection>());
 
         if (!context.Notifications.Any())
-            context.Notifications.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is Notification)
+            context.Notifications.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is Notification)
                 .Cast<Notification>());
 
         if (!context.PermitRevocations.Any())
-            context.PermitRevocations.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is PermitRevocation)
+            context.PermitRevocations.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is PermitRevocation)
                 .Cast<PermitRevocation>());
 
         if (!context.Reports.Any())
-            context.Reports.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is Report)
+            context.Reports.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is Report)
                 .Cast<Report>());
 
         if (!context.RmpInspections.Any())
-            context.RmpInspections.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is RmpInspection)
+            context.RmpInspections.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is RmpInspection)
                 .Cast<RmpInspection>());
 
         if (!context.SourceTestReviews.Any())
-            context.SourceTestReviews.AddRange(WorkEntryData.GetData
-                .Where(entry => entry is SourceTestReview)
+            context.SourceTestReviews.AddRange(ComplianceWorkData.GetData
+                .Where(work => work is SourceTestReview)
                 .Cast<SourceTestReview>());
 
         context.SaveChanges();
