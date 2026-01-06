@@ -8,7 +8,7 @@ using AirWeb.WebApp.Models;
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class DeleteModel(IWorkEntryService entryService) : PageModel
+public class DeleteModel(IComplianceWorkService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -22,7 +22,7 @@ public class DeleteModel(IWorkEntryService entryService) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await entryService.FindSummaryAsync(Id);
+        var item = await service.FindSummaryAsync(Id);
         if (item is null) return NotFound();
         if (!User.CanDelete(item)) return Forbid();
 
@@ -34,11 +34,11 @@ public class DeleteModel(IWorkEntryService entryService) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await entryService.FindSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var result = await entryService.DeleteAsync(Id, Comment, token);
+        var result = await service.DeleteAsync(Id, Comment, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"{item.ItemName} successfully deleted.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });

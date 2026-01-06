@@ -13,7 +13,7 @@ using GaEpd.AppLibrary.ListItems;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public abstract class EditBase(IWorkEntryService entryService, IStaffService staffService, IMapper mapper)
+public abstract class EditBase(IComplianceWorkService service, IStaffService staffService, IMapper mapper)
     : PageModel, ISubmitCancelButtons
 {
     protected readonly IMapper Mapper = mapper;
@@ -33,7 +33,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
     {
         if (Id == 0) return RedirectToPage("../Index");
 
-        var itemView = await entryService.FindAsync(Id, false, token);
+        var itemView = await service.FindAsync(Id, false, token);
         if (itemView is null) return NotFound();
         if (!User.CanEdit(itemView)) return Forbid();
 
@@ -47,7 +47,7 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
         TDto item, IValidator<TDto> validator, CancellationToken token)
         where TDto : IWorkEntryCommandDto
     {
-        var itemView = await entryService.FindSummaryAsync(Id, token);
+        var itemView = await service.FindSummaryAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);
 
@@ -58,8 +58,8 @@ public abstract class EditBase(IWorkEntryService entryService, IStaffService sta
             return Page();
         }
 
-        var result = await entryService.UpdateAsync(Id, item, token);
-        var entryType = await entryService.GetWorkEntryTypeAsync(Id, token);
+        var result = await service.UpdateAsync(Id, item, token);
+        var entryType = await service.GetWorkEntryTypeAsync(Id, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{entryType!.Value.GetDisplayName()} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);

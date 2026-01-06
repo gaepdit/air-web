@@ -11,7 +11,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
-public sealed partial class WorkEntryService
+public sealed partial class ComplianceWorkService
 {
     private async Task<ComplianceWork> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
         ApplicationUser? currentUser, CancellationToken token = default)

@@ -13,11 +13,11 @@ public class IndexModel : PageModel
     public MemoHeader MemoHeader { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
-        [FromServices] IWorkEntryService workEntryService,
+        [FromServices] IComplianceWorkService complianceWorkService,
         [FromServices] IFacilityService facilityService,
         [FromRoute] int id)
     {
-        Report = await workEntryService.FindAsync(id, false) as AccViewDto;
+        Report = await complianceWorkService.FindAsync(id, false) as AccViewDto;
         if (Report == null || Report.IsDeleted) return NotFound();
 
         Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)Report.FacilityId);

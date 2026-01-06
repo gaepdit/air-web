@@ -11,12 +11,12 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class NotificationEditModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     INotificationTypeService notificationTypeService,
     IStaffService staffService,
     IMapper mapper,
     IValidator<NotificationUpdateDto> validator)
-    : EditBase(entryService, staffService, mapper)
+    : EditBase(service, staffService, mapper)
 {
     [BindProperty]
     public NotificationUpdateDto Item { get; set; } = null!;

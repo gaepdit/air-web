@@ -8,7 +8,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class ReportAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<ReportCreateDto> validator)
@@ -35,6 +35,6 @@ public class ReportAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         EntryType = ComplianceWorkType.Report;
-        return await DoPostAsync(Item, entryService, validator, token);
+        return await DoPostAsync(Item, service, validator, token);
     }
 }

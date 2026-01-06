@@ -5,14 +5,14 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 
 public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestReviewCreateDto>
 {
-    private readonly IWorkEntryService _entryService;
+    private readonly IComplianceWorkService _service;
 
     public SourceTestReviewCreateValidator(
-        IWorkEntryService entryService,
+        IComplianceWorkService service,
         IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
         IValidator<SourceTestReviewCommandDto> sourceTestReviewCommandValidator)
     {
-        _entryService = entryService;
+        _service = service;
 
         RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
         RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
@@ -24,5 +24,5 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
     }
 
     private async Task<bool> NotExist(int referenceNumber, CancellationToken token) =>
-        !await _entryService.SourceTestReviewExistsAsync(referenceNumber, token).ConfigureAwait(false);
+        !await _service.SourceTestReviewExistsAsync(referenceNumber, token).ConfigureAwait(false);
 }

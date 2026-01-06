@@ -27,7 +27,7 @@ public static class AppServiceRegistration
 
         // Work Entries
         .AddScoped<IComplianceWorkManager, ComplianceWorkManager>()
-        .AddScoped<IWorkEntryService, WorkEntryService>()
+        .AddScoped<IComplianceWorkService, ComplianceWorkService>()
         .AddScoped<IWorkEntrySearchService, WorkEntrySearchService>()
 
         // Source Tests

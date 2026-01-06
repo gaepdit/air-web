@@ -11,12 +11,12 @@ namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
 public class SourceTestReviewEditModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     ISourceTestService sourceTestService,
     IStaffService staffService,
     IMapper mapper,
     IValidator<SourceTestReviewUpdateDto> validator)
-    : EditBase(entryService, staffService, mapper)
+    : EditBase(service, staffService, mapper)
 {
     [BindProperty]
     public SourceTestReviewUpdateDto Item { get; set; } = null!;

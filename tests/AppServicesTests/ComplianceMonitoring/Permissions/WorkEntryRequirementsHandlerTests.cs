@@ -22,7 +22,7 @@ public class WorkEntryRequirementsHandlerTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IComplianceWorkService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -43,7 +43,7 @@ public class WorkEntryRequirementsHandlerTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IComplianceWorkService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -60,7 +60,7 @@ public class WorkEntryRequirementsHandlerTests
         var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IComplianceWorkService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -83,7 +83,7 @@ public class WorkEntryRequirementsHandlerTests
 
         var resource = new PermitRevocationViewDto { IsDeleted = true };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IComplianceWorkService>());
 
         // Act
         await handler.HandleAsync(context);
@@ -106,7 +106,7 @@ public class WorkEntryRequirementsHandlerTests
 
         var resource = new PermitRevocationViewDto();
         var context = new AuthorizationHandlerContext(requirements, user, resource);
-        var handler = new WorkEntryRequirementsHandler(Substitute.For<IWorkEntryService>());
+        var handler = new WorkEntryRequirementsHandler(Substitute.For<IComplianceWorkService>());
 
         // Act
         await handler.HandleAsync(context);

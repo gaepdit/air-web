@@ -8,7 +8,7 @@ using IaipDataService.Facilities;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class InspectionAddModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<InspectionCreateDto> validator)
@@ -36,6 +36,6 @@ public class InspectionAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         EntryType = Item.IsRmpInspection ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
-        return await DoPostAsync(Item, entryService, validator, token);
+        return await DoPostAsync(Item, service, validator, token);
     }
 }

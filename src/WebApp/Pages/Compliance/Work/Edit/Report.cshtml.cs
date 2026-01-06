@@ -7,11 +7,11 @@ using FluentValidation;
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
 public class ReportEditModel(
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IStaffService staffService,
     IMapper mapper,
     IValidator<ReportUpdateDto> validator)
-    : EditBase(entryService, staffService, mapper)
+    : EditBase(service, staffService, mapper)
 {
     [BindProperty]
     public ReportUpdateDto Item { get; set; } = null!;

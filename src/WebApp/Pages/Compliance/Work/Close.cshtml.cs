@@ -7,7 +7,7 @@ using AirWeb.WebApp.Models;
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.ComplianceStaff))]
-public class CloseModel(IWorkEntryService entryService) : PageModel
+public class CloseModel(IComplianceWorkService service) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
@@ -18,7 +18,7 @@ public class CloseModel(IWorkEntryService entryService) : PageModel
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await entryService.FindSummaryAsync(Id);
+        var item = await service.FindSummaryAsync(Id);
         if (item is null) return NotFound();
         if (item.IsClosed) return BadRequest();
         if (!User.CanClose(item)) return Forbid();
@@ -31,11 +31,11 @@ public class CloseModel(IWorkEntryService entryService) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await entryService.FindSummaryAsync(Id, token);
+        var item = await service.FindSummaryAsync(Id, token);
         if (item is null || !User.CanClose(item))
             return BadRequest();
 
-        var result = await entryService.CloseAsync(Id, token);
+        var result = await service.CloseAsync(Id, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });

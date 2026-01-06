@@ -12,8 +12,8 @@ public class SourceTestReviewCreateValidatorTests
     private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
     private static readonly SourceTestReviewCommandValidator SourceTestReviewCommandValidator = new();
 
-    private static SourceTestReviewCreateValidator GetCreateValidator(IWorkEntryService entryService) =>
-        new(entryService, WorkEntryCreateValidator, SourceTestReviewCommandValidator);
+    private static SourceTestReviewCreateValidator GetCreateValidator(IComplianceWorkService service) =>
+        new(service, WorkEntryCreateValidator, SourceTestReviewCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -27,7 +27,7 @@ public class SourceTestReviewCreateValidatorTests
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
-        var entryService = Substitute.For<IWorkEntryService>();
+        var entryService = Substitute.For<IComplianceWorkService>();
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
@@ -52,7 +52,7 @@ public class SourceTestReviewCreateValidatorTests
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
-        var entryService = Substitute.For<IWorkEntryService>();
+        var entryService = Substitute.For<IComplianceWorkService>();
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
@@ -79,7 +79,7 @@ public class SourceTestReviewCreateValidatorTests
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
-        var entryService = Substitute.For<IWorkEntryService>();
+        var entryService = Substitute.For<IComplianceWorkService>();
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
 
@@ -108,7 +108,7 @@ public class SourceTestReviewCreateValidatorTests
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
-        var entryService = Substitute.For<IWorkEntryService>();
+        var entryService = Substitute.For<IComplianceWorkService>();
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
@@ -134,7 +134,7 @@ public class SourceTestReviewCreateValidatorTests
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
 
-        var entryService = Substitute.For<IWorkEntryService>();
+        var entryService = Substitute.For<IComplianceWorkService>();
         entryService.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 

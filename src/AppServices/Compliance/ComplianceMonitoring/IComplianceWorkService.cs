@@ -7,7 +7,7 @@ using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
-public interface IWorkEntryService : IDisposable, IAsyncDisposable
+public interface IComplianceWorkService : IDisposable, IAsyncDisposable
 {
     // Query
     Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);

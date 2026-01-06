@@ -18,7 +18,7 @@ using IaipDataService.SourceTests;
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
 #pragma warning disable S107 // Methods should not have too many parameters
-public sealed partial class WorkEntryService(
+public sealed partial class ComplianceWorkService(
     IMapper mapper,
     IComplianceWorkRepository repository,
     IComplianceWorkManager manager,
@@ -27,7 +27,7 @@ public sealed partial class WorkEntryService(
     ICommentService<int> commentService,
     IUserService userService,
     IAppNotificationService appNotificationService)
-    : IWorkEntryService
+    : IComplianceWorkService
 #pragma warning restore S107
 {
     // Query

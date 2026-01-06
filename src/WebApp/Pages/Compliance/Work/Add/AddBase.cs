@@ -38,7 +38,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     }
 
     protected async Task<IActionResult> DoPostAsync<TDto>(
-        TDto item, IWorkEntryService entryService,
+        TDto item, IComplianceWorkService service,
         IValidator<TDto> validator, CancellationToken token)
         where TDto : IWorkEntryCreateDto
     {
@@ -54,7 +54,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
             return Page();
         }
 
-        var result = await entryService.CreateAsync(item, token);
+        var result = await service.CreateAsync(item, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{EntryType.GetDisplayName()} successfully created.");

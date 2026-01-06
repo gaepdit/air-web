@@ -17,7 +17,7 @@ namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     ISourceTestService testService,
-    IWorkEntryService entryService,
+    IComplianceWorkService service,
     IStaffService staffService,
     IAuthorizationService authorization,
     IValidator<SourceTestReviewCreateDto> validator)
@@ -68,7 +68,7 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
         if (TestSummary is null) return NotFound();
 
-        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
         await SetPermissionsAsync(token);
 
         if (ComplianceReview is null)
@@ -97,7 +97,7 @@ public class DetailsModel(
         }
         else
         {
-            CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            CaseFileIds = await service.GetCaseFileIdsAsync(ComplianceReview.Id, token);
 
             CommentSection = new CommentsSectionModel
             {
@@ -135,7 +135,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await entryService.CreateAsync(newComplianceReview, token);
+        var result = await service.CreateAsync(newComplianceReview, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
@@ -149,7 +149,7 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
-        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(token);
@@ -157,7 +157,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            CaseFileIds = await entryService.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            CaseFileIds = await service.GetCaseFileIdsAsync(ComplianceReview.Id, token);
 
             CommentSection = new CommentsSectionModel
             {
@@ -170,7 +170,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await entryService.AddCommentAsync(ComplianceReview.Id, newComment, token);
+        var result = await service.AddCommentAsync(ComplianceReview.Id, newComment, token);
         NewCommentId = result.Id;
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
@@ -182,13 +182,13 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
-        ComplianceReview = await entryService.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(token);
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
-        await entryService.DeleteCommentAsync(commentId, token);
+        await service.DeleteCommentAsync(commentId, token);
         return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "comments");
     }
@@ -199,7 +199,7 @@ public class DetailsModel(
         CanAddNewReview = ComplianceReview is null &&
                           await authorization.Succeeded(User, Policies.ComplianceStaff) &&
                           TestSummary is { ReportClosed: true } &&
-                          !await entryService.SourceTestReviewExistsAsync(ReferenceNumber, token);
+                          !await service.SourceTestReviewExistsAsync(ReferenceNumber, token);
         if (ComplianceReview is not null)
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
