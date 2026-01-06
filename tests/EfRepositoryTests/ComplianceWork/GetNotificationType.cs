@@ -5,7 +5,7 @@ namespace EfRepositoryTests.ComplianceWork;
 
 public class GetNotificationType
 {
-    private WorkEntryRepository _repository = null!;
+    private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();

@@ -18,7 +18,7 @@ public class FindTests
         // Arrange
         var item = new PermitRevocation(902, new FacilityId(SampleText.ValidFacilityId));
 
-        var repoMock = Substitute.For<IWorkEntryRepository>();
+        var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(true);
         repoMock.FindAsync<PermitRevocation>(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
@@ -49,7 +49,7 @@ public class FindTests
     public async Task WhenNoItemExists_ReturnsNull()
     {
         // Arrange
-        var repoMock = Substitute.For<IWorkEntryRepository>();
+        var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 

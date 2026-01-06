@@ -11,7 +11,7 @@ public class CaseFileCreateValidatorTests
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = "1",
@@ -29,7 +29,7 @@ public class CaseFileCreateValidatorTests
     public async Task DiscoveryDateInFuture_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = "1",
@@ -50,7 +50,7 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IWorkEntryRepository>();
+        var entryRepoMock = Substitute.For<IComplianceWorkRepository>();
         entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
@@ -76,7 +76,7 @@ public class CaseFileCreateValidatorTests
         var date = DateOnly.FromDateTime(DateTime.Today);
         var report = new Report(1, (FacilityId)"00100001") { ReceivedDate = date };
 
-        var entryRepoMock = Substitute.For<IWorkEntryRepository>();
+        var entryRepoMock = Substitute.For<IComplianceWorkRepository>();
         entryRepoMock.GetAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(report);
 
@@ -99,7 +99,7 @@ public class CaseFileCreateValidatorTests
     public async Task MissingStaff_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new CaseFileCreateValidator(Substitute.For<IWorkEntryRepository>());
+        var validator = new CaseFileCreateValidator(Substitute.For<IComplianceWorkRepository>());
         var model = new CaseFileCreateDto
         {
             ResponsibleStaffId = null,

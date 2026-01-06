@@ -42,7 +42,7 @@ public class CreateCaseFileTests
 
         var caseFileService = new CaseFileService(
             Substitute.For<IMapper>(), caseFileRepositoryMock, caseFileManager,
-            Substitute.For<IWorkEntryRepository>(), Substitute.For<ICommentService<int>>(),
+            Substitute.For<IComplianceWorkRepository>(), Substitute.For<ICommentService<int>>(),
             Substitute.For<IFacilityService>(), userServiceMock, notificationMock);
         var item = new CaseFileCreateDto
         {

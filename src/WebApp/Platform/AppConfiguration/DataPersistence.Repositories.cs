@@ -17,7 +17,7 @@ internal static partial class DataPersistence
         .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
         .AddScoped<IOfficeRepository, OfficeRepository>()
         .AddScoped<IFceRepository, FceRepository>()
-        .AddScoped<IWorkEntryRepository, WorkEntryRepository>()
+        .AddScoped<IComplianceWorkRepository, ComplianceWorkRepository>()
         .AddScoped<IEnforcementActionRepository, EnforcementActionRepository>()
         .AddScoped<ICaseFileRepository, CaseFileRepository>();
 
@@ -26,7 +26,7 @@ internal static partial class DataPersistence
         .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
         .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
         .AddSingleton<IFceRepository, LocalFceRepository>()
-        .AddSingleton<IWorkEntryRepository, LocalWorkEntryRepository>()
+        .AddSingleton<IComplianceWorkRepository, LocalComplianceWorkRepository>()
         .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
         .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
 }

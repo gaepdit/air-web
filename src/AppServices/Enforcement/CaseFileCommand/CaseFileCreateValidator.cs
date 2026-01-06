@@ -5,11 +5,11 @@ namespace AirWeb.AppServices.Enforcement.CaseFileCommand;
 
 public class CaseFileCreateValidator : AbstractValidator<CaseFileCreateDto>
 {
-    private readonly IWorkEntryRepository _entryRepository;
+    private readonly IComplianceWorkRepository _repository;
 
-    public CaseFileCreateValidator(IWorkEntryRepository entryRepository)
+    public CaseFileCreateValidator(IComplianceWorkRepository repository)
     {
-        _entryRepository = entryRepository;
+        _repository = repository;
 
         RuleFor(dto => dto.ResponsibleStaffId).NotEmpty();
         RuleFor(dto => dto.DiscoveryDate)
@@ -23,6 +23,6 @@ public class CaseFileCreateValidator : AbstractValidator<CaseFileCreateDto>
     private async Task<bool> MustNotPrecedeDiscoveryEvent(CaseFileCreateDto dto, CancellationToken token) =>
         dto.EventId is null ||
         // FUTURE: Replace with FindAsync using a query projection (anonymous type with only executed date as a single property).
-        (await _entryRepository.GetAsync(dto.EventId.Value, token: token).ConfigureAwait(false))
+        (await _repository.GetAsync(dto.EventId.Value, token: token).ConfigureAwait(false))
         .EventDate <= dto.DiscoveryDate;
 }

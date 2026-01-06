@@ -20,7 +20,7 @@ namespace AirWeb.AppServices.Compliance.WorkEntries;
 #pragma warning disable S107 // Methods should not have too many parameters
 public sealed partial class WorkEntryService(
     IMapper mapper,
-    IWorkEntryRepository entryRepository,
+    IComplianceWorkRepository repository,
     IComplianceWorkManager manager,
     IFacilityService facilityService,
     ISourceTestService testService,
@@ -33,24 +33,24 @@ public sealed partial class WorkEntryService(
     // Query
     public async Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default)
     {
-        if (!await entryRepository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
+        if (!await repository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
         IWorkEntryViewDto entry =
-            await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
+            await repository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false) switch
             {
-                ComplianceWorkType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await entryRepository
+                ComplianceWorkType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await repository
                     .FindAsync<AnnualComplianceCertification>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.Inspection => mapper.Map<InspectionViewDto>(await entryRepository
+                ComplianceWorkType.Inspection => mapper.Map<InspectionViewDto>(await repository
                     .FindAsync<Inspection>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.Notification => mapper.Map<NotificationViewDto>(await entryRepository
+                ComplianceWorkType.Notification => mapper.Map<NotificationViewDto>(await repository
                     .FindAsync<Notification>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.PermitRevocation => mapper.Map<PermitRevocationViewDto>(await entryRepository
+                ComplianceWorkType.PermitRevocation => mapper.Map<PermitRevocationViewDto>(await repository
                     .FindAsync<PermitRevocation>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.Report => mapper.Map<ReportViewDto>(await entryRepository
+                ComplianceWorkType.Report => mapper.Map<ReportViewDto>(await repository
                     .FindAsync<Report>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.RmpInspection => mapper.Map<InspectionViewDto>(await entryRepository
+                ComplianceWorkType.RmpInspection => mapper.Map<InspectionViewDto>(await repository
                     .FindAsync<RmpInspection>(id, includeComments, token).ConfigureAwait(false)),
-                ComplianceWorkType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(await entryRepository
+                ComplianceWorkType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(await repository
                     .FindAsync<SourceTestReview>(id, includeComments, token).ConfigureAwait(false)),
 
                 _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
@@ -62,7 +62,7 @@ public sealed partial class WorkEntryService(
 
     public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var entry = mapper.Map<WorkEntrySummaryDto?>(await entryRepository.FindAsync(id, token: token)
+        var entry = mapper.Map<WorkEntrySummaryDto?>(await repository.FindAsync(id, token: token)
             .ConfigureAwait(false));
         if (entry is null) return entry;
         entry.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
@@ -70,23 +70,23 @@ public sealed partial class WorkEntryService(
     }
 
     public async Task<ComplianceWorkType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
-        await entryRepository.ExistsAsync(id, token).ConfigureAwait(false)
-            ? await entryRepository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
+        await repository.ExistsAsync(id, token).ConfigureAwait(false)
+            ? await repository.GetWorkEntryTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
-        (await entryRepository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent,
+        (await repository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent,
                 [nameof(ComplianceEvent.CaseFiles)], token: token)
             .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
 
     // Source test-specific
     public async Task<bool> SourceTestReviewExistsAsync(int referenceNumber, CancellationToken token = default) =>
-        await entryRepository.SourceTestReviewExistsAsync(referenceNumber, token).ConfigureAwait(false);
+        await repository.SourceTestReviewExistsAsync(referenceNumber, token).ConfigureAwait(false);
 
     public async Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber,
         CancellationToken token = default) =>
-        mapper.Map<SourceTestReviewViewDto?>(await entryRepository.FindSourceTestReviewAsync(referenceNumber, token)
+        mapper.Map<SourceTestReviewViewDto?>(await repository.FindSourceTestReviewAsync(referenceNumber, token)
             .ConfigureAwait(false));
 
     // Command
@@ -95,7 +95,7 @@ public sealed partial class WorkEntryService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
-        await entryRepository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -114,12 +114,12 @@ public sealed partial class WorkEntryService(
     public async Task<CommandResult> UpdateAsync(int id, IWorkEntryCommandDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
         manager.Update(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -138,11 +138,11 @@ public sealed partial class WorkEntryService(
 
     public async Task<CommandResult> CloseAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         manager.Close(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -161,11 +161,11 @@ public sealed partial class WorkEntryService(
 
     public async Task<CommandResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         manager.Reopen(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -184,11 +184,11 @@ public sealed partial class WorkEntryService(
     public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         manager.Delete(workEntry, resource.Comment, currentUser);
-        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -206,11 +206,11 @@ public sealed partial class WorkEntryService(
 
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await entryRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         manager.Restore(workEntry, currentUser);
-        await entryRepository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
 
         if (workEntry is SourceTestReview str)
         {
@@ -230,11 +230,11 @@ public sealed partial class WorkEntryService(
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
-        var result = await commentService.AddCommentAsync(entryRepository, itemId, resource, token)
+        var result = await commentService.AddCommentAsync(repository, itemId, resource, token)
             .ConfigureAwait(false);
 
         // FUTURE: Replace with FindAsync using a query projection.
-        var workEntry = await entryRepository.GetAsync(itemId, token: token).ConfigureAwait(false);
+        var workEntry = await repository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,
@@ -243,12 +243,12 @@ public sealed partial class WorkEntryService(
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        commentService.DeleteCommentAsync(entryRepository, commentId, token);
+        commentService.DeleteCommentAsync(repository, commentId, token);
 
     #region IDisposable,  IAsyncDisposable
 
-    public void Dispose() => entryRepository.Dispose();
-    public async ValueTask DisposeAsync() => await entryRepository.DisposeAsync().ConfigureAwait(false);
+    public void Dispose() => repository.Dispose();
+    public async ValueTask DisposeAsync() => await repository.DisposeAsync().ConfigureAwait(false);
 
     #endregion
 }

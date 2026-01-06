@@ -6,7 +6,7 @@ namespace LocalRepositoryTests.ComplianceWork;
 
 public class GetWorkEntryType
 {
-    private LocalWorkEntryRepository _repository = null!;
+    private LocalComplianceWorkRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.GetWorkEntryRepository();

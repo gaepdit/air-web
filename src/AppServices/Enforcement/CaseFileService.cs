@@ -20,7 +20,7 @@ public sealed class CaseFileService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
-    IWorkEntryRepository entryRepository,
+    IComplianceWorkRepository repository,
     ICommentService<int> commentService,
     IFacilityService facilityService,
     IUserService userService,
@@ -90,7 +90,7 @@ public sealed class CaseFileService(
         caseFile.Notes = resource.Notes ?? string.Empty;
 
         if (resource.EventId != null &&
-            await entryRepository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false)
+            await repository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false)
                 is ComplianceEvent entry)
         {
             caseFileManager.LinkComplianceEvent(caseFile, entry, currentUser);
@@ -131,14 +131,14 @@ public sealed class CaseFileService(
 
     public async Task<IEnumerable<WorkEntrySearchResultDto>> GetLinkedEventsAsync(int id,
         CancellationToken token = default) =>
-        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
+        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await repository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
                                    ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
                 WorkEntrySortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
     public async Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
         IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default) =>
-        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await entryRepository
+        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await repository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
                 WorkEntrySortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
@@ -146,7 +146,7 @@ public sealed class CaseFileService(
     public async Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        if (await entryRepository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
+        if (await repository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
             return false;
         if (entry.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(entry))
             return false;
@@ -161,7 +161,7 @@ public sealed class CaseFileService(
     {
         var caseFile = await caseFileRepository.GetAsync(id, [nameof(CaseFile.ComplianceEvents)], token: token)
             .ConfigureAwait(false);
-        if (await entryRepository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
+        if (await repository.GetAsync(entryId, token: token).ConfigureAwait(false) is not ComplianceEvent entry)
             return false;
         if (!caseFile.ComplianceEvents.Contains(entry))
             return false;
@@ -277,7 +277,7 @@ public sealed class CaseFileService(
     {
         caseFileRepository.Dispose();
         caseFileManager.Dispose();
-        entryRepository.Dispose();
+        repository.Dispose();
         userService.Dispose();
         appNotificationService.Dispose();
     }
@@ -286,7 +286,7 @@ public sealed class CaseFileService(
     {
         await caseFileRepository.DisposeAsync().ConfigureAwait(false);
         await caseFileManager.DisposeAsync().ConfigureAwait(false);
-        await entryRepository.DisposeAsync().ConfigureAwait(false);
+        await repository.DisposeAsync().ConfigureAwait(false);
         userService.Dispose();
         await appNotificationService.DisposeAsync().ConfigureAwait(false);
     }

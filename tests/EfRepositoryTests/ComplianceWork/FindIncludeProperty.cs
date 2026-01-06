@@ -6,7 +6,7 @@ namespace EfRepositoryTests.ComplianceWork;
 
 public class FindIncludeProperty
 {
-    private WorkEntryRepository _repository = null!;
+    private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();
@@ -23,7 +23,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
-        var result = await _repository.FindAsync(expected.Id, includeProperties: IWorkEntryRepository.IncludeComments);
+        var result = await _repository.FindAsync(expected.Id, includeProperties: IComplianceWorkRepository.IncludeComments);
 
         // Assert
         using var scope = new AssertionScope();

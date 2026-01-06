@@ -40,7 +40,7 @@ public class CreateTests
                 Arg.Any<object?[]>())
             .Returns(AppNotificationResult.Success());
 
-        var entryService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IWorkEntryRepository>(),
+        var entryService = new WorkEntryService(AppServicesTestsSetup.Mapper!, Substitute.For<IComplianceWorkRepository>(),
             workEntryManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
             Substitute.For<ICommentService<int>>(), userServiceMock, notificationMock);
 

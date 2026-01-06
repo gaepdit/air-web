@@ -5,7 +5,7 @@ namespace EfRepositoryTests.ComplianceWork;
 
 public class GetNextId
 {
-    private WorkEntryRepository _repository = null!;
+    private ComplianceWorkRepository _repository = null!;
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

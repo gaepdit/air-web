@@ -23,7 +23,7 @@ public class WorkEntrySearchServiceTests
         var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<WorkEntrySearchResultDto>>(
             WorkEntryData.GetData.Where(entry => !entry.IsDeleted).ToList());
 
-        var repoMock = Substitute.For<IWorkEntryRepository>();
+        var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
         repoMock.GetPagedListAsync<WorkEntrySearchResultDto>(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(),
@@ -53,7 +53,7 @@ public class WorkEntrySearchServiceTests
         // Arrange
         var searchDto = new WorkEntrySearchDto();
 
-        var repoMock = Substitute.For<IWorkEntryRepository>();
+        var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(0);
         repoMock.GetPagedListAsync(Arg.Any<Expression<Func<AirWeb.Domain.ComplianceEntities.ComplianceWork.ComplianceWork, bool>>>(),

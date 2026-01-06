@@ -6,7 +6,7 @@ namespace EfRepositoryTests.ComplianceWork;
 
 public class FindOfType
 {
-    private WorkEntryRepository _repository = null!;
+    private ComplianceWorkRepository _repository = null!;
 
     [SetUp]
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetWorkEntryRepository();

@@ -13,17 +13,17 @@ public interface IWorkEntrySearchService
     : ISearchService<WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto>;
 
 public sealed class WorkEntrySearchService(
-    IWorkEntryRepository repository,
+    IComplianceWorkRepository repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
     : BaseSearchService<ComplianceWork, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto,
-            IWorkEntryRepository>
+            IComplianceWorkRepository>
         (repository, facilityService, mapper, userService, authorization),
         IWorkEntrySearchService
 {
-    private readonly IWorkEntryRepository _repository = repository;
+    private readonly IComplianceWorkRepository _repository = repository;
 
     public Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>

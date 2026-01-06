@@ -138,7 +138,7 @@ public sealed partial class WorkEntryService
     private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
         CancellationToken token)
     {
-        workEntry.NotificationType = await entryRepository
+        workEntry.NotificationType = await repository
             .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
         workEntry.ReceivedDate = resource.ReceivedDate;
         workEntry.DueDate = resource.DueDate;

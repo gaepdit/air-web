@@ -21,7 +21,7 @@ public class AddCommentTests
         // Act
         await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var itemInRepo = await repository.GetAsync(id, IWorkEntryRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IComplianceWorkRepository.IncludeComments);
 
         // Assert
         itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
@@ -41,7 +41,7 @@ public class AddCommentTests
         // Act
         await repository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var itemInRepo = await repository.GetAsync(id, IWorkEntryRepository.IncludeComments);
+        var itemInRepo = await repository.GetAsync(id, IComplianceWorkRepository.IncludeComments);
 
         // Assert
         itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()

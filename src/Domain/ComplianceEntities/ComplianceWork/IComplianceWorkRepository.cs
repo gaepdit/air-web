@@ -3,7 +3,7 @@ using AirWeb.Domain.Lookups.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceWork;
 
-public interface IWorkEntryRepository : IRepositoryWithMapping<ComplianceWork, int>, ICommentRepository<int>
+public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWork, int>, ICommentRepository<int>
 {
     public static string[] IncludeComments => [nameof(ComplianceWork.Comments)];
 

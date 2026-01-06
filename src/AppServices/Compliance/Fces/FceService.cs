@@ -22,7 +22,7 @@ public sealed class FceService(
     IMapper mapper,
     IFceRepository fceRepository,
     IFceManager fceManager,
-    IWorkEntryRepository entryRepository,
+    IComplianceWorkRepository repository,
     ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
     ISourceTestService sourceTestService,
@@ -61,22 +61,22 @@ public sealed class FceService(
 
         summary = new SupportingDataSummary
         {
-            Accs = await entryRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
+            Accs = await repository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
                 For<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
 
-            Inspections = await entryRepository.GetListAsync<InspectionSummaryDto, Inspection>(
+            Inspections = await repository.GetListAsync<InspectionSummaryDto, Inspection>(
                 For<Inspection>(), mapper, token: token).ConfigureAwait(false),
 
-            Notifications = await entryRepository.GetListAsync<NotificationSummaryDto, Notification>(
+            Notifications = await repository.GetListAsync<NotificationSummaryDto, Notification>(
                 For<Notification>(), mapper, token: token).ConfigureAwait(false),
 
-            Reports = await entryRepository.GetListAsync<ReportSummaryDto, Report>(
+            Reports = await repository.GetListAsync<ReportSummaryDto, Report>(
                 For<Report>(), mapper, token: token).ConfigureAwait(false),
 
-            RmpInspections = await entryRepository.GetListAsync<InspectionSummaryDto, RmpInspection>(
+            RmpInspections = await repository.GetListAsync<InspectionSummaryDto, RmpInspection>(
                 For<RmpInspection>(), mapper, token: token).ConfigureAwait(false),
 
-            SourceTests = await entryRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
+            SourceTests = await repository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
                 For<SourceTestReview>(), mapper, token: token).ConfigureAwait(false),
 
             EnforcementCases = mapper.Map<IEnumerable<EnforcementCaseSummaryDto>>(
