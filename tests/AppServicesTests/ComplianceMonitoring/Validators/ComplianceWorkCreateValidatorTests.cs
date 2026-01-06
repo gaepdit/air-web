@@ -5,10 +5,10 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.ComplianceMonitoring.Validators;
 
-public class WorkEntryCreateValidatorTests
+public class ComplianceWorkCreateValidatorTests
 {
-    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
-    private static readonly WorkEntryCreateValidator CreateValidator = new(WorkEntryCommandValidator);
+    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
+    private static readonly ComplianceWorkCreateValidator CreateValidator = new(ComplianceWorkCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

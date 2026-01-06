@@ -3,7 +3,7 @@ using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
 
-public abstract record AccCommandDto : WorkEntryCommandDto, IAccCommandDto
+public abstract record AccCommandDto : ComplianceWorkCommandDto, IAccCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

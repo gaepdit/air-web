@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
-public record WorkEntryCommandDto : IWorkEntryCommandDto
+public record ComplianceWorkCommandDto : IComplianceWorkCommandDto
 {
     // Data
     [Required]

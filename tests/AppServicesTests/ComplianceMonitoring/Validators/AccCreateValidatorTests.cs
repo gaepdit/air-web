@@ -8,10 +8,10 @@ namespace AppServicesTests.ComplianceMonitoring.Validators;
 
 public class AccCreateValidatorTests
 {
-    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
-    private static readonly WorkEntryCreateValidator WorkEntryCreateDtoValidator = new(WorkEntryCommandValidator);
+    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
+    private static readonly ComplianceWorkCreateValidator ComplianceWorkCreateDtoValidator = new(ComplianceWorkCommandValidator);
     private static readonly AccCommandValidator AccCommandDtoValidator = new();
-    private readonly AccCreateValidator _validator = new(WorkEntryCreateDtoValidator, AccCommandDtoValidator);
+    private readonly AccCreateValidator _validator = new(ComplianceWorkCreateDtoValidator, AccCommandDtoValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

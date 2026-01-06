@@ -31,11 +31,11 @@ public sealed partial class ComplianceWorkService(
 #pragma warning restore S107
 {
     // Query
-    public async Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default)
+    public async Task<IComplianceWorkViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default)
     {
         if (!await repository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
-        IWorkEntryViewDto entry =
+        IComplianceWorkViewDto work =
             await repository.GetComplianceWorkTypeAsync(id, token).ConfigureAwait(false) switch
             {
                 ComplianceWorkType.AnnualComplianceCertification => mapper.Map<AccViewDto>(await repository
@@ -53,30 +53,30 @@ public sealed partial class ComplianceWorkService(
                 ComplianceWorkType.SourceTestReview => mapper.Map<SourceTestReviewViewDto>(await repository
                     .FindAsync<SourceTestReview>(id, includeComments, token).ConfigureAwait(false)),
 
-                _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Work Entry Type."),
+                _ => throw new ArgumentOutOfRangeException(nameof(id), "Item has an invalid Compliance Work Type."),
             };
 
-        entry.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
-        return entry;
+        work.FacilityName = await facilityService.GetNameAsync((FacilityId)work.FacilityId).ConfigureAwait(false);
+        return work;
     }
 
-    public async Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
+    public async Task<ComplianceWorkSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
-        var entry = mapper.Map<WorkEntrySummaryDto?>(await repository.FindAsync(id, token: token)
+        var work = mapper.Map<ComplianceWorkSummaryDto?>(await repository.FindAsync(id, token: token)
             .ConfigureAwait(false));
-        if (entry is null) return entry;
-        entry.FacilityName = await facilityService.GetNameAsync((FacilityId)entry.FacilityId).ConfigureAwait(false);
-        return entry;
+        if (work is null) return work;
+        work.FacilityName = await facilityService.GetNameAsync((FacilityId)work.FacilityId).ConfigureAwait(false);
+        return work;
     }
 
-    public async Task<ComplianceWorkType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default) =>
+    public async Task<ComplianceWorkType?> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         await repository.ExistsAsync(id, token).ConfigureAwait(false)
             ? await repository.GetComplianceWorkTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
-        (await repository.FindAsync(entry => entry.Id == id && entry.IsComplianceEvent,
+        (await repository.FindAsync(work => work.Id == id && work.IsComplianceEvent,
                 [nameof(ComplianceEvent.CaseFiles)], token: token)
             .ConfigureAwait(false) as ComplianceEvent)?.CaseFiles.Select(caseFile => caseFile.Id) ?? [];
 
@@ -90,14 +90,14 @@ public sealed partial class ComplianceWorkService(
             .ConfigureAwait(false));
 
     // Command
-    public async Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource,
+    public async Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource,
         CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var workEntry = await CreateWorkEntryFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
-        await repository.InsertAsync(workEntry, token: token).ConfigureAwait(false);
+        var work = await CreateComplianceWorkFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
+        await repository.InsertAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
                 .ConfigureAwait(false);
@@ -106,22 +106,22 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryCreated, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EntryCreated, work.ResponsibleStaff, token, work.Id)
             .ConfigureAwait(false);
-        return CreateResult<int>.Create(workEntry.Id, notificationResult.FailureReason);
+        return CreateResult<int>.Create(work.Id, notificationResult.FailureReason);
     }
 
-    public async Task<CommandResult> UpdateAsync(int id, IWorkEntryCommandDto resource,
+    public async Task<CommandResult> UpdateAsync(int id, IComplianceWorkCommandDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        await UpdateWorkEntryFromDtoAsync(resource, workEntry, token).ConfigureAwait(false);
-        manager.Update(workEntry, currentUser);
-        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        await UpdateComplianceWorkFromDtoAsync(resource, work, token).ConfigureAwait(false);
+        manager.Update(work, currentUser);
+        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(resource.ResponsibleStaffId!)
                 .ConfigureAwait(false);
@@ -130,7 +130,7 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryUpdated, workEntry.ResponsibleStaff, token, id)
+            .SendNotificationAsync(Template.EntryUpdated, work.ResponsibleStaff, token, id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
@@ -138,13 +138,13 @@ public sealed partial class ComplianceWorkService(
 
     public async Task<CommandResult> CloseAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        manager.Close(workEntry, currentUser);
-        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        manager.Close(work, currentUser);
+        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
@@ -153,7 +153,7 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryClosed, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EntryClosed, work.ResponsibleStaff, token, work.Id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
@@ -161,13 +161,13 @@ public sealed partial class ComplianceWorkService(
 
     public async Task<CommandResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        manager.Reopen(workEntry, currentUser);
-        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        manager.Reopen(work, currentUser);
+        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
@@ -176,7 +176,7 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryReopened, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EntryReopened, work.ResponsibleStaff, token, work.Id)
             .ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
@@ -184,13 +184,13 @@ public sealed partial class ComplianceWorkService(
     public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
         CancellationToken token = default)
     {
-        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        manager.Delete(workEntry, resource.Comment, currentUser);
-        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        manager.Delete(work, resource.Comment, currentUser);
+        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
@@ -199,20 +199,20 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryDeleted, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EntryDeleted, work.ResponsibleStaff, token, work.Id)
             .ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var workEntry = await repository.GetAsync(id, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        manager.Restore(workEntry, currentUser);
-        await repository.UpdateAsync(workEntry, token: token).ConfigureAwait(false);
+        manager.Restore(work, currentUser);
+        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
 
-        if (workEntry is SourceTestReview str)
+        if (work is SourceTestReview str)
         {
             var complianceEmail = await userService.GetUserEmailAsync(str.ResponsibleStaff!.Id)
                 .ConfigureAwait(false);
@@ -221,7 +221,7 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryRestored, workEntry.ResponsibleStaff, token, workEntry.Id)
+            .SendNotificationAsync(Template.EntryRestored, work.ResponsibleStaff, token, work.Id)
             .ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
@@ -234,10 +234,10 @@ public sealed partial class ComplianceWorkService(
             .ConfigureAwait(false);
 
         // FUTURE: Replace with FindAsync using a query projection.
-        var workEntry = await repository.GetAsync(itemId, token: token).ConfigureAwait(false);
+        var work = await repository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.EntryCommentAdded, workEntry.ResponsibleStaff, token, workEntry.Id,
+            .SendNotificationAsync(Template.EntryCommentAdded, work.ResponsibleStaff, token, work.Id,
                 resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false);
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);
     }

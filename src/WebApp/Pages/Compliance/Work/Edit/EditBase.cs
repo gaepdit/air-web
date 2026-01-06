@@ -21,7 +21,7 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
     [FromRoute]
     public int Id { get; set; }
 
-    public IWorkEntrySummaryDto ItemView { get; protected set; } = null!;
+    public IComplianceWorkSummaryDto ItemView { get; protected set; } = null!;
     public SelectList StaffSelectList { get; private set; } = null!;
 
     // Form buttons
@@ -45,7 +45,7 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
 
     protected async Task<IActionResult> DoPostAsync<TDto>(
         TDto item, IValidator<TDto> validator, CancellationToken token)
-        where TDto : IWorkEntryCommandDto
+        where TDto : IComplianceWorkCommandDto
     {
         var itemView = await service.FindSummaryAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
@@ -59,7 +59,7 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
         }
 
         var result = await service.UpdateAsync(Id, item, token);
-        var entryType = await service.GetWorkEntryTypeAsync(Id, token);
+        var entryType = await service.GetComplianceWorkTypeAsync(Id, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{entryType!.Value.GetDisplayName()} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);

@@ -8,11 +8,11 @@ namespace AppServicesTests.ComplianceMonitoring.Validators;
 
 public class PermitRevocationCreateValidatorTests
 {
-    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
-    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
+    private static readonly ComplianceWorkCreateValidator ComplianceWorkCreateValidator = new(ComplianceWorkCommandValidator);
     private static readonly PermitRevocationCommandValidator PermitRevocationCommandValidator = new();
 
-    private static readonly PermitRevocationCreateValidator CreateValidator = new(WorkEntryCreateValidator,
+    private static readonly PermitRevocationCreateValidator CreateValidator = new(ComplianceWorkCreateValidator,
         PermitRevocationCommandValidator);
 
     [Test]

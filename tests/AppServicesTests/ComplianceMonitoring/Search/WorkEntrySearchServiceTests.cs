@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.ComplianceMonitoring.Search;
 
-public class WorkEntrySearchServiceTests
+public class ComplianceWorkSearchServiceTests
 {
     private readonly PaginatedRequest _paging = new(pageNumber: 1, pageSize: 100, sorting: "Id");
 
@@ -19,14 +19,14 @@ public class WorkEntrySearchServiceTests
     public async Task WhenItemsExist_ReturnsPagedList()
     {
         // Arrange
-        var searchDto = new WorkEntrySearchDto();
-        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<WorkEntrySearchResultDto>>(
+        var searchDto = new ComplianceWorkSearchDto();
+        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<ComplianceWorkSearchResultDto>>(
             ComplianceWorkData.GetData.Where(entry => !entry.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(entries.Count);
-        repoMock.GetPagedListAsync<WorkEntrySearchResultDto>(Arg.Any<Expression<Func<ComplianceWork, bool>>>(),
+        repoMock.GetPagedListAsync<ComplianceWorkSearchResultDto>(Arg.Any<Expression<Func<ComplianceWork, bool>>>(),
                 Arg.Any<PaginatedRequest>(), Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
             .Returns(entries);
 
@@ -35,7 +35,7 @@ public class WorkEntrySearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new WorkEntrySearchService(repoMock, Substitute.For<IFacilityService>(),
+        var service = new ComplianceWorkSearchService(repoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
@@ -51,7 +51,7 @@ public class WorkEntrySearchServiceTests
     public async Task WhenNoItemsExist_ReturnsEmptyPagedList()
     {
         // Arrange
-        var searchDto = new WorkEntrySearchDto();
+        var searchDto = new ComplianceWorkSearchDto();
 
         var repoMock = Substitute.For<IComplianceWorkRepository>();
         repoMock.CountAsync(Arg.Any<Expression<Func<ComplianceWork, bool>>>(), Arg.Any<CancellationToken>())
@@ -65,7 +65,7 @@ public class WorkEntrySearchServiceTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var service = new WorkEntrySearchService(repoMock, Substitute.For<IFacilityService>(),
+        var service = new ComplianceWorkSearchService(repoMock, Substitute.For<IFacilityService>(),
             AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 

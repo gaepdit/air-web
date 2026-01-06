@@ -3,7 +3,7 @@ using AirWeb.AppServices.Lookups.NotificationTypes;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 
-public record NotificationViewDto : WorkEntryViewDto
+public record NotificationViewDto : ComplianceWorkViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

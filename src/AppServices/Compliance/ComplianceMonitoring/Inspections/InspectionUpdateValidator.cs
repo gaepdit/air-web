@@ -6,10 +6,10 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
 public class InspectionUpdateValidator : AbstractValidator<InspectionUpdateDto>
 {
     public InspectionUpdateValidator(
-        IValidator<IWorkEntryCommandDto> workEntryCommandValidator,
+        IValidator<IComplianceWorkCommandDto> complianceWorkCommandValidator,
         IValidator<InspectionCommandDto> inspectionCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(workEntryCommandValidator);
+        RuleFor(dto => dto).SetValidator(complianceWorkCommandValidator);
         RuleFor(dto => dto).SetValidator(inspectionCommandValidator);
     }
 }

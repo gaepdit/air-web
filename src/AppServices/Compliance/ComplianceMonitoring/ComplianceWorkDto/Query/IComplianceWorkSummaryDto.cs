@@ -5,7 +5,7 @@ using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
-public interface IWorkEntrySummaryDto : IIsClosed, IHasOwner, IDeleteComments, IDeletable
+public interface IComplianceWorkSummaryDto : IIsClosed, IHasOwner, IDeleteComments, IDeletable
 {
     public string ItemName { get; }
     public string FacilityId { get; }

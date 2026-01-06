@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
-public record ComplianceEventViewDto : WorkEntryViewDto, IDataExchange
+public record ComplianceEventViewDto : ComplianceWorkViewDto, IDataExchange
 {
     public ushort? ActionNumber { get; init; }
     public DataExchangeStatus DataExchangeStatus { get; init; }

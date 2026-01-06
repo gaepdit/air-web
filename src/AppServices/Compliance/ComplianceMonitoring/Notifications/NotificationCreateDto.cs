@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 
-public record NotificationCreateDto : NotificationCommandDto, IWorkEntryCreateDto
+public record NotificationCreateDto : NotificationCommandDto, IComplianceWorkCreateDto
 {
     [Required]
     [Display(Name = "Facility")]

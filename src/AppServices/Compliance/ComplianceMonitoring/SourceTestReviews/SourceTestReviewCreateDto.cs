@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 
-public record SourceTestReviewCreateDto : SourceTestReviewCommandDto, IWorkEntryCreateDto
+public record SourceTestReviewCreateDto : SourceTestReviewCommandDto, IComplianceWorkCreateDto
 {
     public bool TestReportIsClosed { get; set; }
 

@@ -10,9 +10,9 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 public interface IComplianceWorkService : IDisposable, IAsyncDisposable
 {
     // Query
-    Task<IWorkEntryViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
-    Task<WorkEntrySummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
-    Task<ComplianceWorkType?> GetWorkEntryTypeAsync(int id, CancellationToken token = default);
+    Task<IComplianceWorkViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
+    Task<ComplianceWorkSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
+    Task<ComplianceWorkType?> GetComplianceWorkTypeAsync(int id, CancellationToken token = default);
 
     // Enforcement Cases
     Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default);
@@ -22,8 +22,8 @@ public interface IComplianceWorkService : IDisposable, IAsyncDisposable
     Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
 
     // Command
-    Task<CreateResult<int>> CreateAsync(IWorkEntryCreateDto resource, CancellationToken token = default);
-    Task<CommandResult> UpdateAsync(int id, IWorkEntryCommandDto resource, CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource, CancellationToken token = default);
+    Task<CommandResult> UpdateAsync(int id, IComplianceWorkCommandDto resource, CancellationToken token = default);
     Task<CommandResult> CloseAsync(int id, CancellationToken token = default);
     Task<CommandResult> ReopenAsync(int id, CancellationToken token = default);
     Task<CommandResult> DeleteAsync(int id, CommentDto resource, CancellationToken token = default);

@@ -13,11 +13,11 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
 public sealed partial class ComplianceWorkService
 {
-    private async Task<ComplianceWork> CreateWorkEntryFromDtoAsync(IWorkEntryCreateDto resource,
+    private async Task<ComplianceWork> CreateComplianceWorkFromDtoAsync(IComplianceWorkCreateDto resource,
         ApplicationUser? currentUser, CancellationToken token = default)
     {
         var facilityId = (FacilityId)resource.FacilityId!;
-        var workEntryTask = resource switch
+        var workTask = resource switch
         {
             AccCreateDto => manager.CreateAsync(ComplianceWorkType.AnnualComplianceCertification, facilityId,
                 currentUser),
@@ -33,145 +33,145 @@ public sealed partial class ComplianceWorkService
             _ => throw new ArgumentException("Invalid create DTO resource."),
         };
 
-        var workEntry = await workEntryTask.ConfigureAwait(false);
-        workEntry.ResponsibleStaff = await userService.GetUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
-        workEntry.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        workEntry.Notes = resource.Notes ?? string.Empty;
+        var work = await workTask.ConfigureAwait(false);
+        work.ResponsibleStaff = await userService.GetUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
+        work.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
+        work.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {
             case AccCreateDto dto:
-                MapAcc(dto, (AnnualComplianceCertification)workEntry);
+                MapAcc(dto, (AnnualComplianceCertification)work);
                 break;
             case InspectionCreateDto dto:
-                MapInspection(dto, (BaseInspection)workEntry);
+                MapInspection(dto, (BaseInspection)work);
                 break;
             case NotificationCreateDto dto:
-                await MapNotificationAsync(dto, (Notification)workEntry, token).ConfigureAwait(false);
+                await MapNotificationAsync(dto, (Notification)work, token).ConfigureAwait(false);
                 break;
             case PermitRevocationCreateDto dto:
-                MapPermitRevocation(dto, (PermitRevocation)workEntry);
+                MapPermitRevocation(dto, (PermitRevocation)work);
                 break;
             case ReportCreateDto dto:
-                MapReport(dto, (Report)workEntry);
+                MapReport(dto, (Report)work);
                 break;
             case SourceTestReviewCreateDto dto:
-                ((SourceTestReview)workEntry).ReferenceNumber = dto.ReferenceNumber;
-                MapStr(dto, (SourceTestReview)workEntry);
+                ((SourceTestReview)work).ReferenceNumber = dto.ReferenceNumber;
+                MapStr(dto, (SourceTestReview)work);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(resource), "Invalid work entry type.");
+                throw new ArgumentOutOfRangeException(nameof(resource), "Invalid compliance work type.");
         }
 
-        return workEntry;
+        return work;
     }
 
-    private async Task UpdateWorkEntryFromDtoAsync(IWorkEntryCommandDto resource, ComplianceWork complianceWork,
+    private async Task UpdateComplianceWorkFromDtoAsync(IComplianceWorkCommandDto resource, ComplianceWork work,
         CancellationToken token)
     {
-        complianceWork.ResponsibleStaff = resource.ResponsibleStaffId == null
+        work.ResponsibleStaff = resource.ResponsibleStaffId == null
             ? null
             : await userService.GetUserAsync(resource.ResponsibleStaffId).ConfigureAwait(false);
-        complianceWork.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
-        complianceWork.Notes = resource.Notes ?? string.Empty;
+        work.AcknowledgmentLetterDate = resource.AcknowledgmentLetterDate;
+        work.Notes = resource.Notes ?? string.Empty;
 
         switch (resource)
         {
             case AccUpdateDto dto:
-                MapAcc(dto, (AnnualComplianceCertification)complianceWork);
+                MapAcc(dto, (AnnualComplianceCertification)work);
                 break;
 
             case InspectionUpdateDto dto:
-                MapInspection(dto, (BaseInspection)complianceWork);
+                MapInspection(dto, (BaseInspection)work);
                 break;
 
             case NotificationUpdateDto dto:
-                await MapNotificationAsync(dto, (Notification)complianceWork, token).ConfigureAwait(false);
+                await MapNotificationAsync(dto, (Notification)work, token).ConfigureAwait(false);
                 break;
 
             case PermitRevocationUpdateDto dto:
-                MapPermitRevocation(dto, (PermitRevocation)complianceWork);
+                MapPermitRevocation(dto, (PermitRevocation)work);
                 break;
 
             case ReportUpdateDto dto:
-                MapReport(dto, (Report)complianceWork);
+                MapReport(dto, (Report)work);
                 break;
 
             case SourceTestReviewUpdateDto dto:
-                MapStr(dto, (SourceTestReview)complianceWork);
+                MapStr(dto, (SourceTestReview)work);
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(nameof(complianceWork), "Invalid work entry type.");
+                throw new ArgumentOutOfRangeException(nameof(work), "Invalid compliance work type.");
         }
     }
 
-    private static void MapAcc(IAccCommandDto resource, AnnualComplianceCertification acc)
+    private static void MapAcc(IAccCommandDto resource, AnnualComplianceCertification work)
     {
-        acc.ReceivedDate = resource.ReceivedDate;
-        acc.AccReportingYear = resource.AccReportingYear;
-        acc.PostmarkDate = resource.PostmarkDate;
-        acc.PostmarkedOnTime = resource.PostmarkedOnTime;
-        acc.SignedByRo = resource.SignedByRo;
-        acc.OnCorrectForms = resource.OnCorrectForms;
-        acc.IncludesAllTvConditions = resource.IncludesAllTvConditions;
-        acc.CorrectlyCompleted = resource.CorrectlyCompleted;
-        acc.ReportsDeviations = resource.ReportsDeviations;
-        acc.IncludesPreviouslyUnreportedDeviations = resource.IncludesPreviouslyUnreportedDeviations;
-        acc.ReportsAllKnownDeviations = resource.ReportsAllKnownDeviations;
-        acc.ResubmittalRequired = resource.ResubmittalRequired;
-        acc.EnforcementNeeded = resource.EnforcementNeeded;
+        work.ReceivedDate = resource.ReceivedDate;
+        work.AccReportingYear = resource.AccReportingYear;
+        work.PostmarkDate = resource.PostmarkDate;
+        work.PostmarkedOnTime = resource.PostmarkedOnTime;
+        work.SignedByRo = resource.SignedByRo;
+        work.OnCorrectForms = resource.OnCorrectForms;
+        work.IncludesAllTvConditions = resource.IncludesAllTvConditions;
+        work.CorrectlyCompleted = resource.CorrectlyCompleted;
+        work.ReportsDeviations = resource.ReportsDeviations;
+        work.IncludesPreviouslyUnreportedDeviations = resource.IncludesPreviouslyUnreportedDeviations;
+        work.ReportsAllKnownDeviations = resource.ReportsAllKnownDeviations;
+        work.ResubmittalRequired = resource.ResubmittalRequired;
+        work.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapInspection(IInspectionCommandDto resource, BaseInspection inspection)
+    private static void MapInspection(IInspectionCommandDto resource, BaseInspection work)
     {
-        inspection.InspectionReason = resource.InspectionReason;
-        inspection.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
-        inspection.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
-        inspection.WeatherConditions = resource.WeatherConditions ?? string.Empty;
-        inspection.InspectionGuide = resource.InspectionGuide ?? string.Empty;
-        inspection.FacilityOperating = resource.FacilityOperating;
-        inspection.DeviationsNoted = resource.DeviationsNoted;
-        inspection.FollowupTaken = resource.FollowupTaken;
+        work.InspectionReason = resource.InspectionReason;
+        work.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
+        work.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
+        work.WeatherConditions = resource.WeatherConditions ?? string.Empty;
+        work.InspectionGuide = resource.InspectionGuide ?? string.Empty;
+        work.FacilityOperating = resource.FacilityOperating;
+        work.DeviationsNoted = resource.DeviationsNoted;
+        work.FollowupTaken = resource.FollowupTaken;
     }
 
-    private async Task MapNotificationAsync(INotificationCommandDto resource, Notification workEntry,
+    private async Task MapNotificationAsync(INotificationCommandDto resource, Notification work,
         CancellationToken token)
     {
-        workEntry.NotificationType = await repository
+        work.NotificationType = await repository
             .GetNotificationTypeAsync(resource.NotificationTypeId!.Value, token).ConfigureAwait(false);
-        workEntry.ReceivedDate = resource.ReceivedDate;
-        workEntry.DueDate = resource.DueDate;
-        workEntry.SentDate = resource.SentDate;
-        workEntry.FollowupTaken = resource.FollowupTaken;
+        work.ReceivedDate = resource.ReceivedDate;
+        work.DueDate = resource.DueDate;
+        work.SentDate = resource.SentDate;
+        work.FollowupTaken = resource.FollowupTaken;
     }
 
-    private static void MapPermitRevocation(IPermitRevocationCommandDto resource, PermitRevocation workEntry)
+    private static void MapPermitRevocation(IPermitRevocationCommandDto resource, PermitRevocation work)
     {
-        workEntry.ReceivedDate = resource.ReceivedDate;
-        workEntry.PermitRevocationDate = resource.PermitRevocationDate;
-        workEntry.PhysicalShutdownDate = resource.PhysicalShutdownDate;
-        workEntry.FollowupTaken = resource.FollowupTaken;
+        work.ReceivedDate = resource.ReceivedDate;
+        work.PermitRevocationDate = resource.PermitRevocationDate;
+        work.PhysicalShutdownDate = resource.PhysicalShutdownDate;
+        work.FollowupTaken = resource.FollowupTaken;
     }
 
-    private static void MapReport(IReportCommandDto resource, Report report)
+    private static void MapReport(IReportCommandDto resource, Report work)
     {
-        report.ReceivedDate = resource.ReceivedDate;
-        report.ReportingPeriodType = resource.ReportingPeriodType;
-        report.ReportingPeriodStart = resource.ReportingPeriodStart;
-        report.ReportingPeriodEnd = resource.ReportingPeriodEnd;
-        report.ReportingPeriodComment = resource.ReportingPeriodComment;
-        report.DueDate = resource.DueDate;
-        report.SentDate = resource.SentDate;
-        report.ReportComplete = resource.ReportComplete;
-        report.ReportsDeviations = resource.ReportsDeviations;
-        report.EnforcementNeeded = resource.EnforcementNeeded;
+        work.ReceivedDate = resource.ReceivedDate;
+        work.ReportingPeriodType = resource.ReportingPeriodType;
+        work.ReportingPeriodStart = resource.ReportingPeriodStart;
+        work.ReportingPeriodEnd = resource.ReportingPeriodEnd;
+        work.ReportingPeriodComment = resource.ReportingPeriodComment;
+        work.DueDate = resource.DueDate;
+        work.SentDate = resource.SentDate;
+        work.ReportComplete = resource.ReportComplete;
+        work.ReportsDeviations = resource.ReportsDeviations;
+        work.EnforcementNeeded = resource.EnforcementNeeded;
     }
 
-    private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview str)
+    private static void MapStr(ISourceTestReviewCommandDto resource, SourceTestReview work)
     {
-        str.ReceivedByComplianceDate = resource.ReceivedByComplianceDate!.Value;
-        str.DueDate = resource.DueDate;
-        str.FollowupTaken = resource.FollowupTaken;
+        work.ReceivedByComplianceDate = resource.ReceivedByComplianceDate!.Value;
+        work.DueDate = resource.DueDate;
+        work.FollowupTaken = resource.FollowupTaken;
     }
 }

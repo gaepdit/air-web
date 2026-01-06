@@ -16,7 +16,7 @@ public class DeleteModel(IComplianceWorkService service) : PageModel
     [BindProperty]
     public CommentDto Comment { get; set; } = null!;
 
-    public WorkEntrySummaryDto ItemSummary { get; private set; } = null!;
+    public ComplianceWorkSummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

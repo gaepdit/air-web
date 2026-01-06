@@ -14,7 +14,7 @@ internal static class SearchDefaults
     // Default pagination size for summary tables.
     public const int SummaryTableSize = 15;
 
-    public static WorkEntrySearchDto FacilityCompliance(string facilityId) =>
+    public static ComplianceWorkSearchDto FacilityCompliance(string facilityId) =>
         new() { FacilityId = facilityId };
 
     public static FceSearchDto FacilityFces(string facilityId) =>
@@ -23,13 +23,13 @@ internal static class SearchDefaults
     public static CaseFileSearchDto FacilityEnforcement(string facilityId) =>
         new() { FacilityId = facilityId };
 
-    public static WorkEntrySearchDto StaffOpenCompliance(string userId) =>
+    public static ComplianceWorkSearchDto StaffOpenCompliance(string userId) =>
         new() { Staff = userId, Closed = ClosedOpenAny.Open };
 
     public static CaseFileSearchDto StaffOpenEnforcement(string userId) =>
         new() { Staff = userId, Closed = ClosedOpenAny.Open };
 
-    public static WorkEntrySearchDto OfficeOpenCompliance(Guid officeId) =>
+    public static ComplianceWorkSearchDto OfficeOpenCompliance(Guid officeId) =>
         new() { Office = officeId, Closed = ClosedOpenAny.Open };
 
     public static CaseFileSearchDto OfficeOpenEnforcement(Guid officeId) =>
@@ -40,7 +40,7 @@ internal static class PaginationDefaults
 {
     public static PaginatedRequest ComplianceSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
-            sorting: WorkEntrySortBy.EventDateDesc.GetDescription());
+            sorting: ComplianceWorkSortBy.EventDateDesc.GetDescription());
 
     public static PaginatedRequest SourceTestSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize, "default");

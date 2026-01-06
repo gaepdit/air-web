@@ -2,10 +2,10 @@ using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
-// Used by both work entry create and update validators.
-public class WorkEntryCommandValidator : AbstractValidator<IWorkEntryCommandDto>
+// Used by both ComplianceWork create and update validators.
+public class ComplianceWorkCommandValidator : AbstractValidator<IComplianceWorkCommandDto>
 {
-    public WorkEntryCommandValidator()
+    public ComplianceWorkCommandValidator()
     {
         RuleFor(dto => dto.ResponsibleStaffId).NotEmpty();
         RuleFor(dto => dto.AcknowledgmentLetterDate)

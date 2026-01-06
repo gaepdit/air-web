@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 
-public record PermitRevocationCreateDto : PermitRevocationCommandDto, IWorkEntryCreateDto
+public record PermitRevocationCreateDto : PermitRevocationCommandDto, IComplianceWorkCreateDto
 {
     [Required]
     [Display(Name = "Facility")]

@@ -18,10 +18,10 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<CommandResult> UpdateAsync(int id, CaseFileUpdateDto resource, CancellationToken token = default);
 
     // Case File Compliance Event linkages
-    Task<IEnumerable<WorkEntrySearchResultDto>> GetLinkedEventsAsync(int id, CancellationToken token = default);
+    Task<IEnumerable<ComplianceWorkSearchResultDto>> GetLinkedEventsAsync(int id, CancellationToken token = default);
 
-    Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
-        IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default);
+    Task<IEnumerable<ComplianceWorkSearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
+        IEnumerable<ComplianceWorkSearchResultDto> linkedEvents, CancellationToken token = default);
 
     Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);
     Task<bool> UnLinkComplianceEventAsync(int id, int entryId, CancellationToken token = default);

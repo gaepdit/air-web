@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
-public interface IWorkEntryCreateDto : IWorkEntryCommandDto
+public interface IComplianceWorkCreateDto : IComplianceWorkCommandDto
 {
     public string? FacilityId { get; }
 }

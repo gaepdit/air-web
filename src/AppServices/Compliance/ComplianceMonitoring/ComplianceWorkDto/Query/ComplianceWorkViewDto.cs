@@ -3,7 +3,7 @@ using AirWeb.AppServices.Comments;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
-public abstract record WorkEntryViewDto : WorkEntrySummaryDto, IWorkEntryViewDto
+public abstract record ComplianceWorkViewDto : ComplianceWorkSummaryDto, IComplianceWorkViewDto
 {
     public int Id { get; init; }
 

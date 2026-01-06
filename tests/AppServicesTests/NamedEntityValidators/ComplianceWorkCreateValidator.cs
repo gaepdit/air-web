@@ -5,7 +5,7 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.NamedEntityValidators;
 
-public class WorkEntryCreateValidator
+public class ComplianceWorkCreateValidator
 {
     [Test]
     public async Task ValidDto_ReturnsAsValid()

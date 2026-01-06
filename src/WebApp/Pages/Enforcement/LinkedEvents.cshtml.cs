@@ -13,8 +13,8 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     [FromRoute]
     public int Id { get; set; } // Case File ID
 
-    public IEnumerable<WorkEntrySearchResultDto> LinkedComplianceEvents { get; private set; } = [];
-    public IEnumerable<WorkEntrySearchResultDto> AvailableComplianceEvents { get; private set; } = [];
+    public IEnumerable<ComplianceWorkSearchResultDto> LinkedComplianceEvents { get; private set; } = [];
+    public IEnumerable<ComplianceWorkSearchResultDto> AvailableComplianceEvents { get; private set; } = [];
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {

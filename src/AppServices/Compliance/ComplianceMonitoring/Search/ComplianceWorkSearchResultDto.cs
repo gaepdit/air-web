@@ -4,7 +4,7 @@ using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
-public record WorkEntrySearchResultDto : ISearchResult
+public record ComplianceWorkSearchResultDto : ISearchResult
 {
     public int Id { get; init; }
     public ComplianceWorkType ComplianceWorkType { get; [UsedImplicitly] init; }

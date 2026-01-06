@@ -15,7 +15,7 @@ public class DetailsModel(IComplianceWorkService service, IAuthorizationService 
     [FromRoute]
     public int Id { get; set; }
 
-    public IWorkEntryViewDto? Item { get; private set; }
+    public IComplianceWorkViewDto? Item { get; private set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 

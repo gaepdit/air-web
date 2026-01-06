@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
-internal static class WorkEntryFilters
+internal static class ComplianceWorkFilters
 {
-    public static Expression<Func<ComplianceWork, bool>> SearchPredicate(WorkEntrySearchDto spec) =>
+    public static Expression<Func<ComplianceWork, bool>> SearchPredicate(ComplianceWorkSearchDto spec) =>
         PredicateBuilder.True<ComplianceWork>()
             .ByDeletedStatus(spec.DeleteStatus)
             .ByClosedStatus(spec.Closed)
@@ -31,31 +31,31 @@ internal static class WorkEntryFilters
 
         if (input.Contains(WorkTypeSearch.Acc))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.AnnualComplianceCertification);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.AnnualComplianceCertification);
 
         if (input.Contains(WorkTypeSearch.Inspection))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Inspection);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.Inspection);
 
         if (input.Contains(WorkTypeSearch.Notification))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Notification);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.Notification);
 
         if (input.Contains(WorkTypeSearch.PermitRevocation))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.PermitRevocation);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.PermitRevocation);
 
         if (input.Contains(WorkTypeSearch.Report))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.Report);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.Report);
 
         if (input.Contains(WorkTypeSearch.Rmp))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.RmpInspection);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.RmpInspection);
 
         if (input.Contains(WorkTypeSearch.Str))
             includePredicate = includePredicate
-                .Or(entry => entry.ComplianceWorkType == ComplianceWorkType.SourceTestReview);
+                .Or(work => work.ComplianceWorkType == ComplianceWorkType.SourceTestReview);
 
         return predicate.And(includePredicate);
     }
@@ -65,43 +65,43 @@ internal static class WorkEntryFilters
         string? input) =>
         string.IsNullOrWhiteSpace(input)
             ? predicate
-            : predicate.And(entry => entry.ResponsibleStaff != null && entry.ResponsibleStaff.Id == input);
+            : predicate.And(work => work.ResponsibleStaff != null && work.ResponsibleStaff.Id == input);
 
     public static Expression<Func<ComplianceWork, bool>> ByOffice(
         this Expression<Func<ComplianceWork, bool>> predicate,
         Guid? input) =>
         input is null
             ? predicate
-            : predicate.And(entry =>
-                entry.ResponsibleStaff != null &&
-                entry.ResponsibleStaff.Office != null &&
-                entry.ResponsibleStaff.Office.Id == input);
+            : predicate.And(work =>
+                work.ResponsibleStaff != null &&
+                work.ResponsibleStaff.Office != null &&
+                work.ResponsibleStaff.Office.Id == input);
 
     public static Expression<Func<ComplianceWork, bool>> MinEventDate(
         this Expression<Func<ComplianceWork, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.EventDate >= input);
+            : predicate.And(work => work.EventDate >= input);
 
     public static Expression<Func<ComplianceWork, bool>> MaxEventDate(
         this Expression<Func<ComplianceWork, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.EventDate <= input);
+            : predicate.And(work => work.EventDate <= input);
 
     public static Expression<Func<ComplianceWork, bool>> MinClosedDate(
         this Expression<Func<ComplianceWork, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.ClosedDate >= input);
+            : predicate.And(work => work.ClosedDate >= input);
 
     public static Expression<Func<ComplianceWork, bool>> MaxClosedDate(
         this Expression<Func<ComplianceWork, bool>> predicate,
         DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(entry => entry.ClosedDate <= input);
+            : predicate.And(work => work.ClosedDate <= input);
 }

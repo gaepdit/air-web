@@ -3,7 +3,7 @@ using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 
-public abstract record PermitRevocationCommandDto : WorkEntryCommandDto, IPermitRevocationCommandDto
+public abstract record PermitRevocationCommandDto : ComplianceWorkCommandDto, IPermitRevocationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

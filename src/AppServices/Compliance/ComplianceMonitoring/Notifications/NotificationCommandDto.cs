@@ -3,7 +3,7 @@ using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 
-public abstract record NotificationCommandDto : WorkEntryCommandDto, INotificationCommandDto
+public abstract record NotificationCommandDto : ComplianceWorkCommandDto, INotificationCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

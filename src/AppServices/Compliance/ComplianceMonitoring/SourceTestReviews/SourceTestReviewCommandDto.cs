@@ -3,7 +3,7 @@ using AirWeb.AppServices.Utilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 
-public abstract record SourceTestReviewCommandDto : WorkEntryCommandDto, ISourceTestReviewCommandDto
+public abstract record SourceTestReviewCommandDto : ComplianceWorkCommandDto, ISourceTestReviewCommandDto
 {
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }

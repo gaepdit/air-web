@@ -53,7 +53,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public IEnumerable<string> AirProgramsAsStrings =>
         AirPrograms.Select(program => program.GetDisplayName());
 
-    public IList<WorkEntrySearchResultDto> ComplianceEvents { get; } = [];
+    public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
 
     [UsedImplicitly]
     public List<CommentViewDto> Comments { get; } = [];

@@ -129,18 +129,18 @@ public sealed class CaseFileService(
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
-    public async Task<IEnumerable<WorkEntrySearchResultDto>> GetLinkedEventsAsync(int id,
+    public async Task<IEnumerable<ComplianceWorkSearchResultDto>> GetLinkedEventsAsync(int id,
         CancellationToken token = default) =>
-        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await repository
+        mapper.Map<ICollection<ComplianceWorkSearchResultDto>>(await repository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted &&
                                    ((ComplianceEvent)entry).CaseFiles.Any(caseFile => caseFile.Id == id),
-                WorkEntrySortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
+                ComplianceWorkSortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
-    public async Task<IEnumerable<WorkEntrySearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
-        IEnumerable<WorkEntrySearchResultDto> linkedEvents, CancellationToken token = default) =>
-        mapper.Map<ICollection<WorkEntrySearchResultDto>>(await repository
+    public async Task<IEnumerable<ComplianceWorkSearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
+        IEnumerable<ComplianceWorkSearchResultDto> linkedEvents, CancellationToken token = default) =>
+        mapper.Map<ICollection<ComplianceWorkSearchResultDto>>(await repository
             .GetListAsync(entry => entry.IsComplianceEvent && !entry.IsDeleted && entry.FacilityId == facilityId,
-                WorkEntrySortBy.IdDesc.GetDescription(), token: token)
+                ComplianceWorkSortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
 
     public async Task<bool> LinkComplianceEventAsync(int id, int entryId, CancellationToken token = default)

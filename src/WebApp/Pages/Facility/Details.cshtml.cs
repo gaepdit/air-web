@@ -15,7 +15,7 @@ public class DetailsModel(
     IFacilityService facilityService,
     IFceSearchService fceSearchService,
     ICaseFileSearchService caseFileService,
-    IWorkEntrySearchService entrySearchService,
+    IComplianceWorkSearchService searchService,
     ISourceTestAppService sourceTestService,
     IAuthorizationService authorization) : PageModel
 {
@@ -27,7 +27,7 @@ public class DetailsModel(
 
     // Data tables
     public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
-    public IPaginatedResult<WorkEntrySearchResultDto> ComplianceWork { get; set; } = null!;
+    public IPaginatedResult<ComplianceWorkSearchResultDto> ComplianceWork { get; set; } = null!;
     public IPaginatedResult<FceSearchResultDto> Fces { get; set; } = null!;
 
     public IPaginatedResult<SourceTestSummary> SourceTests { get; private set; } = null!;
@@ -60,7 +60,7 @@ public class DetailsModel(
             PaginationDefaults.SourceTestSummary, RefreshIaipData);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
-        ComplianceWork = await entrySearchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
+        ComplianceWork = await searchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
             PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
         Fces = await fceSearchService.SearchAsync(SearchDefaults.FacilityFces(Id),

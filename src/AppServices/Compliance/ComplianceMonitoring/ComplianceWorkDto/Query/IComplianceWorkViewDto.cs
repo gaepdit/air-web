@@ -3,7 +3,7 @@ using AirWeb.AppServices.Comments;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
-public interface IWorkEntryViewDto : IWorkEntrySummaryDto
+public interface IComplianceWorkViewDto : IComplianceWorkSummaryDto
 {
     [Display(Name = "Date Acknowledgment Letter Sent")]
     public DateOnly? AcknowledgmentLetterDate { get; }

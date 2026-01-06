@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 
-public record PermitRevocationViewDto : WorkEntryViewDto
+public record PermitRevocationViewDto : ComplianceWorkViewDto
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }

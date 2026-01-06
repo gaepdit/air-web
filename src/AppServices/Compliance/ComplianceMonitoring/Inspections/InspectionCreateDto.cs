@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
 
-public record InspectionCreateDto : InspectionCommandDto, IWorkEntryCreateDto
+public record InspectionCreateDto : InspectionCommandDto, IComplianceWorkCreateDto
 {
     [Required]
     [Display(Name = "Facility")]

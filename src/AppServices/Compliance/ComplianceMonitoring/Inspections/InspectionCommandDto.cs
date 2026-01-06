@@ -4,7 +4,7 @@ using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
 
-public abstract record InspectionCommandDto : WorkEntryCommandDto, IInspectionCommandDto
+public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspectionCommandDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

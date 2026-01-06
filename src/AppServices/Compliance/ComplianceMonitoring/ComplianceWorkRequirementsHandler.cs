@@ -7,12 +7,12 @@ using System.Security.Claims;
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;
 
 internal class ComplianceWorkRequirementsHandler(IComplianceWorkService service) :
-    AuthorizationHandler<ComplianceOperation, IWorkEntrySummaryDto>
+    AuthorizationHandler<ComplianceOperation, IComplianceWorkSummaryDto>
 {
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ComplianceOperation requirement,
-        IWorkEntrySummaryDto resource)
+        IComplianceWorkSummaryDto resource)
     {
         var user = context.User;
         if (user.Identity is not { IsAuthenticated: true }) return;
@@ -34,7 +34,7 @@ internal class ComplianceWorkRequirementsHandler(IComplianceWorkService service)
         if (success) context.Succeed(requirement);
     }
 
-    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IWorkEntrySummaryDto item) =>
+    private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IComplianceWorkSummaryDto item) =>
         user.CanRestore(item) &&
         (item is not SourceTestReviewViewDto dto || (dto.ReferenceNumber != null &&
                                                      !await service

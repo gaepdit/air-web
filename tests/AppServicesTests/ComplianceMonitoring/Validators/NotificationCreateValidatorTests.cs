@@ -8,12 +8,12 @@ namespace AppServicesTests.ComplianceMonitoring.Validators;
 
 public class NotificationCreateValidatorTests
 {
-    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
-    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
+    private static readonly ComplianceWorkCreateValidator ComplianceWorkCreateValidator = new(ComplianceWorkCommandValidator);
     private static readonly NotificationCommandValidator NotificationCommandValidator = new();
 
     private static readonly NotificationCreateValidator CreateValidator =
-        new(WorkEntryCreateValidator, NotificationCommandValidator);
+        new(ComplianceWorkCreateValidator, NotificationCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
-public interface IWorkEntryCommandDto
+public interface IComplianceWorkCommandDto
 {
     // Data
     public string? ResponsibleStaffId { get; }

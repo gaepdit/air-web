@@ -9,32 +9,32 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
-public interface IWorkEntrySearchService
-    : ISearchService<WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto>;
+public interface IComplianceWorkSearchService
+    : ISearchService<ComplianceWorkSearchDto, ComplianceWorkSearchResultDto, ComplianceWorkExportDto>;
 
-public sealed class WorkEntrySearchService(
+public sealed class ComplianceWorkSearchService(
     IComplianceWorkRepository repository,
     IFacilityService facilityService,
     IMapper mapper,
     IUserService userService,
     IAuthorizationService authorization)
-    : BaseSearchService<ComplianceWork, WorkEntrySearchDto, WorkEntrySearchResultDto, WorkEntryExportDto,
+    : BaseSearchService<ComplianceWork, ComplianceWorkSearchDto, ComplianceWorkSearchResultDto, ComplianceWorkExportDto,
             IComplianceWorkRepository>
         (repository, facilityService, mapper, userService, authorization),
-        IWorkEntrySearchService
+        IComplianceWorkSearchService
 {
     private readonly IComplianceWorkRepository _repository = repository;
 
-    public Task<IPaginatedResult<WorkEntrySearchResultDto>> SearchAsync(WorkEntrySearchDto spec,
+    public Task<IPaginatedResult<ComplianceWorkSearchResultDto>> SearchAsync(ComplianceWorkSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
+        SearchAsync(spec, paging, loadFacilities, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
 
-    public Task<int> CountAsync(WorkEntrySearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
+    public Task<int> CountAsync(ComplianceWorkSearchDto spec, CancellationToken token = default) =>
+        CountAsync(spec, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
 
-    public Task<IEnumerable<WorkEntryExportDto>> ExportAsync(WorkEntrySearchDto spec,
+    public Task<IEnumerable<ComplianceWorkExportDto>> ExportAsync(ComplianceWorkSearchDto spec,
         CancellationToken token = default) =>
-        ExportAsync(spec, WorkEntryFilters.SearchPredicate, Policies.ComplianceManager, token);
+        ExportAsync(spec, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

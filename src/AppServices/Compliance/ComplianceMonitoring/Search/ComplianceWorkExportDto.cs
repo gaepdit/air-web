@@ -6,13 +6,13 @@ using GaEpd.AppLibrary.Extensions;
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record WorkEntryExportDto : ISearchResult
+public record ComplianceWorkExportDto : ISearchResult
 {
-    public WorkEntryExportDto(ComplianceWork complianceWork)
+    public ComplianceWorkExportDto(ComplianceWork complianceWork)
     {
-        WorkEntryId = complianceWork.Id;
+        ComplianceWorkId = complianceWork.Id;
         FacilityId = complianceWork.FacilityId;
-        WorkEntryType = complianceWork.ComplianceWorkType.GetDisplayName();
+        ComplianceWorkType = complianceWork.ComplianceWorkType.GetDisplayName();
         EventDate = complianceWork.EventDate;
         EventDateName = complianceWork.EventDateName;
         ResponsibleStaff = complianceWork.ResponsibleStaff?.SortableFullName;
@@ -22,8 +22,8 @@ public record WorkEntryExportDto : ISearchResult
         Deleted = complianceWork.IsDeleted ? "Deleted" : "No";
     }
 
-    [XLColumn(Header = "Work Entry ID")]
-    public int WorkEntryId { get; init; }
+    [XLColumn(Header = "Compliance Work ID")]
+    public int ComplianceWorkId { get; init; }
 
     [XLColumn(Header = "Facility ID")]
     public string FacilityId { get; init; }
@@ -31,8 +31,8 @@ public record WorkEntryExportDto : ISearchResult
     [XLColumn(Header = "Facility")]
     public string? FacilityName { get; set; }
 
-    [XLColumn(Header = "Work Entry Type")]
-    public string WorkEntryType { get; init; }
+    [XLColumn(Header = "Compliance Work Type")]
+    public string ComplianceWorkType { get; init; }
 
     [XLColumn(Header = "Date Description")]
     public DateOnly EventDate { get; init; }

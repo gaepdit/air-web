@@ -6,10 +6,10 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
 public class AccCreateValidator : AbstractValidator<AccCreateDto>
 {
     public AccCreateValidator(
-        IValidator<IWorkEntryCreateDto> workEntryCreateDtoValidator,
+        IValidator<IComplianceWorkCreateDto> complianceWorkCreateValidator,
         IValidator<AccCommandDto> accCommandDtoValidator)
     {
-        RuleFor(dto => dto).SetValidator(workEntryCreateDtoValidator);
+        RuleFor(dto => dto).SetValidator(complianceWorkCreateValidator);
         RuleFor(dto => dto).SetValidator(accCommandDtoValidator);
     }
 }

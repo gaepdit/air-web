@@ -4,7 +4,7 @@ using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 
-public record WorkEntrySummaryDto : IWorkEntrySummaryDto
+public record ComplianceWorkSummaryDto : IComplianceWorkSummaryDto
 {
     public string ItemName => ComplianceWorkType.GetDisplayName();
     public string FacilityId { get; init; } = null!;

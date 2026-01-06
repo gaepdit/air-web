@@ -8,12 +8,12 @@ namespace AppServicesTests.ComplianceMonitoring.Validators;
 
 public class SourceTestReviewCreateValidatorTests
 {
-    private static readonly WorkEntryCommandValidator WorkEntryCommandValidator = new();
-    private static readonly WorkEntryCreateValidator WorkEntryCreateValidator = new(WorkEntryCommandValidator);
+    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
+    private static readonly ComplianceWorkCreateValidator ComplianceWorkCreateValidator = new(ComplianceWorkCommandValidator);
     private static readonly SourceTestReviewCommandValidator SourceTestReviewCommandValidator = new();
 
     private static SourceTestReviewCreateValidator GetCreateValidator(IComplianceWorkService service) =>
-        new(service, WorkEntryCreateValidator, SourceTestReviewCommandValidator);
+        new(service, ComplianceWorkCreateValidator, SourceTestReviewCommandValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

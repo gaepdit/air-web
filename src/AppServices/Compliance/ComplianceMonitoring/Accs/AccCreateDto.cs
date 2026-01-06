@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
 
-public record AccCreateDto : AccCommandDto, IWorkEntryCreateDto
+public record AccCreateDto : AccCommandDto, IComplianceWorkCreateDto
 {
     [Required]
     [Display(Name = "Facility")]

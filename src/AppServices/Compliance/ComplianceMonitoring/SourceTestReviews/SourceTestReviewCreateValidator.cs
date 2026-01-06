@@ -9,12 +9,12 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
 
     public SourceTestReviewCreateValidator(
         IComplianceWorkService service,
-        IValidator<IWorkEntryCreateDto> workEntryCreateValidator,
+        IValidator<IComplianceWorkCreateDto> complianceWorkCreateValidator,
         IValidator<SourceTestReviewCommandDto> sourceTestReviewCommandValidator)
     {
         _service = service;
 
-        RuleFor(dto => dto).SetValidator(workEntryCreateValidator);
+        RuleFor(dto => dto).SetValidator(complianceWorkCreateValidator);
         RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
         RuleFor(dto => dto.TestReportIsClosed).Equal(true);
         RuleFor(dto => dto.ReferenceNumber)

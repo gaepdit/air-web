@@ -6,10 +6,10 @@ namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 public class SourceTestReviewUpdateValidator : AbstractValidator<SourceTestReviewUpdateDto>
 {
     public SourceTestReviewUpdateValidator(
-        IValidator<IWorkEntryCommandDto> workEntryCommandValidator,
+        IValidator<IComplianceWorkCommandDto> complianceWorkCommandValidator,
         IValidator<SourceTestReviewCommandDto> sourceTestReviewCommandValidator)
     {
-        RuleFor(dto => dto).SetValidator(workEntryCommandValidator);
+        RuleFor(dto => dto).SetValidator(complianceWorkCommandValidator);
         RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
     }
 }

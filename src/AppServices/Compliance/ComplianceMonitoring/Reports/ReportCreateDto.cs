@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 
-public record ReportCreateDto : ReportCommandDto, IWorkEntryCreateDto
+public record ReportCreateDto : ReportCommandDto, IComplianceWorkCreateDto
 {
     [Required]
     [Display(Name = "Facility")]

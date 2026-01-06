@@ -12,7 +12,7 @@ public class CloseModel(IComplianceWorkService service) : PageModel
     [FromRoute]
     public int Id { get; set; }
 
-    public WorkEntrySummaryDto ItemSummary { get; private set; } = null!;
+    public ComplianceWorkSummaryDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync()
     {

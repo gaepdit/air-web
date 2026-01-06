@@ -40,7 +40,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     protected async Task<IActionResult> DoPostAsync<TDto>(
         TDto item, IComplianceWorkService service,
         IValidator<TDto> validator, CancellationToken token)
-        where TDto : IWorkEntryCreateDto
+        where TDto : IComplianceWorkCreateDto
     {
         if (item.FacilityId == null || FacilityId != item.FacilityId) return BadRequest();
         await validator.ApplyValidationAsync(item, ModelState);

@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
-public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, IDeleteStatus, IClosedStatus
+public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISearchDto, IDeleteStatus, IClosedStatus
 {
-    public WorkEntrySortBy Sort { get; init; } = WorkEntrySortBy.IdAsc;
+    public ComplianceWorkSortBy Sort { get; init; } = ComplianceWorkSortBy.IdAsc;
     public string SortByName => Sort.ToString();
     public string Sorting => Sort.GetDescription();
 
@@ -94,7 +94,7 @@ public record WorkEntrySearchDto : ISearchDto<WorkEntrySearchDto>, ISearchDto, I
         return asRouteValues;
     }
 
-    public WorkEntrySearchDto TrimAll() => this with
+    public ComplianceWorkSearchDto TrimAll() => this with
     {
         FacilityId = FacilityId?.Trim(),
         Notes = Notes?.Trim(),
@@ -114,7 +114,7 @@ public enum WorkTypeSearch
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum WorkEntrySortBy
+public enum ComplianceWorkSortBy
 {
     [Description("Id")] IdAsc,
     [Description("Id desc")] IdDesc,
