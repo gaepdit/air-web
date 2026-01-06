@@ -15,10 +15,10 @@ public class MinClosedDateFilterTests
     {
         // Arrange
         DateOnly? spec = null;
-        var expected = WorkEntryData.GetData;
+        var expected = ComplianceWorkData.GetData;
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -30,11 +30,11 @@ public class MinClosedDateFilterTests
     public void RangeMatch()
     {
         // Arrange
-        var spec = WorkEntryData.GetData.First(e => e.ClosedDate != null).ClosedDate!.Value.AddDays(-1);
-        var expected = WorkEntryData.GetData.Where(e => e.ClosedDate >= spec);
+        var spec = ComplianceWorkData.GetData.First(e => e.ClosedDate != null).ClosedDate!.Value.AddDays(-1);
+        var expected = ComplianceWorkData.GetData.Where(e => e.ClosedDate >= spec);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -46,11 +46,11 @@ public class MinClosedDateFilterTests
     public void ExactMatch()
     {
         // Arrange
-        var spec = WorkEntryData.GetData.First(e => e.ClosedDate != null).ClosedDate!.Value;
-        var expected = WorkEntryData.GetData.Where(e => e.ClosedDate >= spec);
+        var spec = ComplianceWorkData.GetData.First(e => e.ClosedDate != null).ClosedDate!.Value;
+        var expected = ComplianceWorkData.GetData.Where(e => e.ClosedDate >= spec);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -62,7 +62,7 @@ public class MinClosedDateFilterTests
     public void NoMatch()
     {
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(DateOnly.MaxValue));
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(DateOnly.MaxValue));
 
         // Assert
         result.Should().BeEmpty();

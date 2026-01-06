@@ -14,10 +14,10 @@ public class OfficeFilterTests
     public void NullSpec_ReturnsAll()
     {
         // Arrange
-        var expected = WorkEntryData.GetData;
+        var expected = ComplianceWorkData.GetData;
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(null)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(null)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -29,15 +29,15 @@ public class OfficeFilterTests
     public void Match()
     {
         // Arrange
-        var spec = WorkEntryData.GetData
+        var spec = ComplianceWorkData.GetData
             .First(e => e.ResponsibleStaff is { Office: not null })
             .ResponsibleStaff!.Office!.Id;
 
-        var expected = WorkEntryData.GetData.Where(e =>
+        var expected = ComplianceWorkData.GetData.Where(e =>
             e.ResponsibleStaff is { Office: not null } && e.ResponsibleStaff.Office.Id == spec);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -49,7 +49,7 @@ public class OfficeFilterTests
     public void NoMatch()
     {
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(Guid.Empty));
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(Guid.Empty));
 
         // Assert
         result.Should().BeEmpty();

@@ -10,7 +10,7 @@ public class FindOfType
     {
         // Arrange
         await using var repository = RepositoryHelper.GetWorkEntryRepository();
-        var entry = WorkEntryData.GetData.First(entry => entry.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
+        var entry = ComplianceWorkData.GetData.First(entry => entry.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
 
         // Act
         var result = await repository.FindAsync<Notification>(entry.Id, includeExtras: true);

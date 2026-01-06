@@ -17,7 +17,7 @@ public class FindWorkEntry
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var entry = WorkEntryData.GetData.First();
+        var entry = ComplianceWorkData.GetData.First();
 
         // Act
         var result = await _repository.FindAsync(entry.Id);

@@ -7,7 +7,7 @@ using AirWeb.TestData.Lookups;
 namespace AirWeb.LocalRepository.Repositories;
 
 public sealed class LocalComplianceWorkRepository()
-    : BaseRepositoryWithMapping<ComplianceWork, int>(WorkEntryData.GetData), IComplianceWorkRepository
+    : BaseRepositoryWithMapping<ComplianceWork, int>(ComplianceWorkData.GetData), IComplianceWorkRepository
 {
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(entry => entry.Id).Max() + 1;

@@ -15,10 +15,10 @@ public class WorkTypeFilterTests
     {
         // Arrange
         List<WorkTypeSearch> spec = [];
-        var expected = WorkEntryData.GetData;
+        var expected = ComplianceWorkData.GetData;
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -32,11 +32,11 @@ public class WorkTypeFilterTests
         // Arrange
         List<WorkTypeSearch> spec = [WorkTypeSearch.Acc];
 
-        var expected = WorkEntryData.GetData.Where(e =>
+        var expected = ComplianceWorkData.GetData.Where(e =>
             e.ComplianceWorkType == ComplianceWorkType.AnnualComplianceCertification);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -50,11 +50,11 @@ public class WorkTypeFilterTests
         // Arrange
         List<WorkTypeSearch> spec = [WorkTypeSearch.Acc, WorkTypeSearch.Inspection];
 
-        var expected = WorkEntryData.GetData.Where(e =>
+        var expected = ComplianceWorkData.GetData.Where(e =>
             e.ComplianceWorkType is ComplianceWorkType.AnnualComplianceCertification or ComplianceWorkType.Inspection);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -76,10 +76,10 @@ public class WorkTypeFilterTests
             WorkTypeSearch.Notification,
             WorkTypeSearch.PermitRevocation,
         ];
-        var expected = WorkEntryData.GetData;
+        var expected = ComplianceWorkData.GetData;
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -94,7 +94,7 @@ public class WorkTypeFilterTests
         List<WorkTypeSearch> spec = [(WorkTypeSearch)99];
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec));
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec));
 
         // Assert
         result.Should().BeEmpty();

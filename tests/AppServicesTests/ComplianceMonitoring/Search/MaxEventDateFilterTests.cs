@@ -15,10 +15,10 @@ public class MaxEventDateFilterTests
     {
         // Arrange
         DateOnly? spec = null;
-        var expected = WorkEntryData.GetData;
+        var expected = ComplianceWorkData.GetData;
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -30,11 +30,11 @@ public class MaxEventDateFilterTests
     public void RangeMatch()
     {
         // Arrange
-        var spec = WorkEntryData.GetData.First().EventDate.AddDays(1);
-        var expected = WorkEntryData.GetData.Where(e => e.EventDate <= spec);
+        var spec = ComplianceWorkData.GetData.First().EventDate.AddDays(1);
+        var expected = ComplianceWorkData.GetData.Where(e => e.EventDate <= spec);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -46,11 +46,11 @@ public class MaxEventDateFilterTests
     public void ExactMatch()
     {
         // Arrange
-        var spec = WorkEntryData.GetData.First().EventDate;
-        var expected = WorkEntryData.GetData.Where(e => e.EventDate <= spec);
+        var spec = ComplianceWorkData.GetData.First().EventDate;
+        var expected = ComplianceWorkData.GetData.Where(e => e.EventDate <= spec);
 
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(spec)).ToList();
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(spec)).ToList();
 
         // Assert
         using var scope = new AssertionScope();
@@ -62,7 +62,7 @@ public class MaxEventDateFilterTests
     public void NoMatch()
     {
         // Act
-        var result = WorkEntryData.GetData.Where(GetPredicate(DateOnly.MinValue));
+        var result = ComplianceWorkData.GetData.Where(GetPredicate(DateOnly.MinValue));
 
         // Assert
         result.Should().BeEmpty();

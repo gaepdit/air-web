@@ -12,7 +12,7 @@ public class AddCommentTests
         // Arrange
         await using var repository = RepositoryHelper.GetWorkEntryRepository();
 
-        var id = WorkEntryData.GetData.First().Id;
+        var id = ComplianceWorkData.GetData.First().Id;
         var newComment = Comment.CreateComment(SampleText.ValidName, null);
 
         // Act

@@ -21,7 +21,7 @@ public class GetWorkEntryType
     public async Task GivenExistingItem_ReturnsValue(ComplianceWorkType type)
     {
         // Arrange
-        var entry = WorkEntryData.GetData.First(entry => entry.ComplianceWorkType.Equals(type));
+        var entry = ComplianceWorkData.GetData.First(entry => entry.ComplianceWorkType.Equals(type));
 
         // Act
         var result = await _repository.GetComplianceWorkTypeAsync(entry.Id);

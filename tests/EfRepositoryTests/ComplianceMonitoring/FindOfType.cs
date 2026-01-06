@@ -18,7 +18,7 @@ public class FindOfType
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.First(entry => entry.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
+        var expected = ComplianceWorkData.GetData.First(entry => entry.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
 
         // Act
         var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: false);

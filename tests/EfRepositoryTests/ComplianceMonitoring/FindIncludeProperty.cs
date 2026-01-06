@@ -18,7 +18,7 @@ public class FindIncludeProperty
     public async Task WhenRequestingProperty_ReturnsEntityWithProperty()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
+        var expected = ComplianceWorkData.GetData.FirstOrDefault(entry =>
             entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
@@ -35,7 +35,7 @@ public class FindIncludeProperty
     public async Task GetWithExtras_ReturnsEntityWithAdditionalProperties()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
+        var expected = ComplianceWorkData.GetData.FirstOrDefault(entry =>
             entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
@@ -52,7 +52,7 @@ public class FindIncludeProperty
     public async Task WhenNotRequestingExtras_ReturnsEntityWithoutAdditionalProperties()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
+        var expected = ComplianceWorkData.GetData.FirstOrDefault(entry =>
             entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
@@ -69,7 +69,7 @@ public class FindIncludeProperty
     public async Task WhenNotRequestingExtras_ForChildEntity_ReturnsEntityWithoutAdditionalProperties()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.FirstOrDefault(entry =>
+        var expected = ComplianceWorkData.GetData.FirstOrDefault(entry =>
             entry is { ComplianceWorkType: ComplianceWorkType.Notification, Comments.Count: > 0 });
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 

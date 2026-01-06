@@ -18,7 +18,7 @@ public class GetIncludeProperty
     public async Task WhenRequestingProperty_ReturnsEntityWithProperty()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.FirstOrDefault(entry => entry.Comments.Count > 0);
+        var expected = ComplianceWorkData.GetData.FirstOrDefault(entry => entry.Comments.Count > 0);
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Work Entry has comments.");
 
         // Act
@@ -34,7 +34,7 @@ public class GetIncludeProperty
     public async Task WhenNotRequestingProperty_ReturnsEntityWithoutProperty()
     {
         // Arrange
-        var expected = WorkEntryData.GetData.First();
+        var expected = ComplianceWorkData.GetData.First();
 
         // Act
         var result = await _repository.GetAsync(expected.Id, []);
