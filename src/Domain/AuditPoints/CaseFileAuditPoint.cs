@@ -27,11 +27,11 @@ public record CaseFileAuditPoint : AuditPoint
     internal static CaseFileAuditPoint Reopened(ApplicationUser? user) => Create(user);
     internal static CaseFileAuditPoint Restored(ApplicationUser? user) => Create(user);
 
-    internal static CaseFileAuditPoint ComplianceEventLinked(int entryId, ApplicationUser? user) =>
-        Create("Compliance Event Linked", $"Event ID {entryId}", user);
+    internal static CaseFileAuditPoint ComplianceEventLinked(int eventId, ApplicationUser? user) =>
+        Create("Compliance Event Linked", $"Event ID {eventId}", user);
 
-    internal static CaseFileAuditPoint ComplianceEventUnlinked(int entryId, ApplicationUser? user) =>
-        Create("Compliance Event Unlinked", $"Event ID {entryId}", user);
+    internal static CaseFileAuditPoint ComplianceEventUnlinked(int eventId, ApplicationUser? user) =>
+        Create("Compliance Event Unlinked", $"Event ID {eventId}", user);
 
     internal static CaseFileAuditPoint PollutantsAndProgramsUpdated(ApplicationUser? user) =>
         Create("Pollutants and Programs Updated", user);

@@ -18,7 +18,7 @@ public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWo
     /// </summary>
     /// <param name="id">The ID of the ComplianceWork.</param>
     /// <param name="includeExtras">Whether to include the <see cref="ComplianceWorkComment"/> and
-    /// <see cref="WorkEntryAuditPoint"/> navigation properties with the result.</param>
+    /// <see cref="ComplianceWorkAuditPoint"/> navigation properties with the result.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Work Entry of type TEntry or null.</returns>
     Task<TEntry?> FindAsync<TEntry>(int id, bool includeExtras, CancellationToken token = default)

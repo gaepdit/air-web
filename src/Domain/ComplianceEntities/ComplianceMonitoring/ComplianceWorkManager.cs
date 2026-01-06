@@ -29,7 +29,7 @@ public sealed class ComplianceWorkManager(IComplianceWorkRepository repository, 
         if (complianceWork is ComplianceEvent ce and not RmpInspection)
             ce.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
 
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Added(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Added(user));
         return complianceWork;
     }
 
@@ -37,35 +37,35 @@ public sealed class ComplianceWorkManager(IComplianceWorkRepository repository, 
     {
         complianceWork.SetUpdater(user?.Id);
         if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Edited(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Edited(user));
     }
 
     public void Close(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Close(user);
         if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Closed(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Closed(user));
     }
 
     public void Reopen(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Reopen(user);
         if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Reopened(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Reopened(user));
     }
 
     public void Delete(ComplianceWork complianceWork, string? comment, ApplicationUser? user)
     {
         complianceWork.Delete(comment, user);
         if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.DeleteDataExchange();
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Deleted(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Deleted(user));
     }
 
     public void Restore(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Undelete();
         if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
-        complianceWork.AuditPoints.Add(WorkEntryAuditPoint.Restored(user));
+        complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Restored(user));
     }
 
     #region IDisposable,  IAsyncDisposable
