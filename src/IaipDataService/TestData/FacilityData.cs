@@ -311,19 +311,17 @@ public static class FacilityData
         },
     ];
 
-    private static List<Facility>? _facilities;
-
     public static List<Facility> GetData
     {
         get
         {
-            if (_facilities is not null) return _facilities;
-            _facilities = FacilitySeedItems.ToList();
+            if (field is not null) return field;
+            field = FacilitySeedItems.ToList();
 
-            foreach (var facility in _facilities)
+            foreach (var facility in field)
                 facility.NextActionNumber = (ushort)Random.Shared.Next(15_000, ushort.MaxValue / 2);
 
-            return _facilities;
+            return field;
         }
     }
 }
