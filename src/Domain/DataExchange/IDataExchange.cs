@@ -37,12 +37,10 @@ internal interface IDataExchangeWrite
 
 internal static class DataExchangeExtensions
 {
-    public static void InitiateDataExchange(this IDataExchangeWrite dx, ushort actionNumber) =>
-        dx.SetActionNumber(actionNumber);
-
-    public static void UpdateDataExchange(this IDataExchangeWrite dx) =>
-        dx.SetDataExchangeStatus(DataExchangeStatus.U);
-
-    public static void DeleteDataExchange(this IDataExchangeWrite dx) =>
-        dx.SetDataExchangeStatus(DataExchangeStatus.D);
+    extension(IDataExchangeWrite dx)
+    {
+        public void InitiateDataExchange(ushort actionNumber) => dx.SetActionNumber(actionNumber);
+        public void UpdateDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.U);
+        public void DeleteDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.D);
+    }
 }
