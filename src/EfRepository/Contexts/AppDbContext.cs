@@ -88,7 +88,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureEnumValues()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName)
             .ConfigureCollectionSerialization()
-            .ConfigureCompositeUniqueIndexes();
+            .ConfigureCompositeUniqueIndexes()
+            .ConfigureIdentityPasskeyData(Database.ProviderName);
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.
