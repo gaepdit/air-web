@@ -553,7 +553,7 @@ appsettings.*.json
 
 ## Build artifacts
 # MSBuild
-.artifacts/
+_artifacts/
 # Library Manager
 **/wwwroot/lib/
 # Webpack

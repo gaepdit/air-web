@@ -16,14 +16,13 @@ public class PermitRevocation : ComplianceWork
     }
 
     // Properties
-    private DateOnly _receivedDate;
 
     public DateOnly ReceivedDate
     {
-        get => _receivedDate;
+        get;
         set
         {
-            _receivedDate = value;
+            field = value;
             EventDate = value;
         }
     }

@@ -6,15 +6,18 @@ namespace AirWeb.AppServices.AuthenticationServices.Roles;
 public static class CompliancePrincipalExtensions
 {
     // Compliance roles
-    internal static bool IsAnyCompliance(this IPrincipal principal) =>
-        principal.IsInOneOfRoles(RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager);
+    extension(IPrincipal principal)
+    {
+        internal bool IsAnyCompliance() =>
+            principal.IsInOneOfRoles(RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager);
 
-    internal static bool IsComplianceManager(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.ComplianceManager);
+        internal bool IsComplianceManager() =>
+            principal.IsInRole(RoleName.ComplianceManager);
 
-    internal static bool IsComplianceSiteMaintainer(this IPrincipal principal) =>
-        principal.IsInRole(RoleName.ComplianceSiteMaintenance);
+        internal bool IsComplianceSiteMaintainer() =>
+            principal.IsInRole(RoleName.ComplianceSiteMaintenance);
 
-    internal static bool IsComplianceStaff(this IPrincipal principal) =>
-        principal.IsInOneOfRoles(RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager);
+        internal bool IsComplianceStaff() =>
+            principal.IsInOneOfRoles(RoleName.ComplianceStaff, RoleName.ComplianceManager, RoleName.EnforcementManager);
+    }
 }

@@ -8,6 +8,7 @@ using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using IaipDataService.Facilities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
@@ -319,6 +320,14 @@ internal static class AppDbContextConfiguration
         builder.Entity<CaseFile>()
             .HasIndex(e => new { e.FacilityId, e.ActionNumber })
             .IsUnique();
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureIdentityPasskeyData(this ModelBuilder builder, string? dbProviderName)
+    {
+        if (dbProviderName == AppDbContext.SqliteProvider)
+            builder.Entity<IdentityPasskeyData>(e => e.HasNoKey());
 
         return builder;
     }
