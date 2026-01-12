@@ -21,13 +21,13 @@ public record ActionViewDto : IActionViewDto
         EnforcementActionStatus.Approved => DateOnly.FromDateTime(ApprovedDate!.Value),
         EnforcementActionStatus.Issued => IssueDate,
         EnforcementActionStatus.Canceled => DateOnly.FromDateTime(CanceledDate!.Value),
-        EnforcementActionStatus.Draft => DateOnly.FromDateTime(CreatedAt.DateTime),
+        EnforcementActionStatus.Draft => CreatedAt is null ? null : DateOnly.FromDateTime(CreatedAt.Value.DateTime),
         _ => null,
     };
 
     public bool IsReportable { get; init; }
     public bool IsReportableAction { get; init; }
-    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset? CreatedAt { get; init; }
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
