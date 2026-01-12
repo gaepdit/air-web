@@ -18,7 +18,7 @@
 --     PenaltyAmount, PenaltyComment, StipulatedPenaltiesDefined,
 --
 --     -- EnforcementAction (All)
---     UpdatedAt, UpdatedById, IsDeleted)
+--     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                            as Id,
        e.STRENFORCEMENTNUMBER                                             as CaseFileId,
@@ -47,6 +47,7 @@ select newid()                                                            as Id,
        iif(s.STRENFORCEMENTNUMBER is null, 0, 1)                          as StipulatedPenaltiesDefined,
 
        -- EnforcementAction (All)
+       e.DATCORECEIVEDFROMCOMPANY at time zone 'Eastern Standard Time' as CreatedAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time'             as UpdatedAt,
        um.Id                                                              as UpdatedById,
        isnull(e.IsDeleted, 0)                                             as IsDeleted
