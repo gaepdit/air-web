@@ -10,7 +10,7 @@
 --     ResponseRequested, ResponseReceived, ResponseComment,
 --
 --     -- EnforcementAction (All)
---     UpdatedAt, UpdatedById, IsDeleted)
+--     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                as Id,
        e.STRENFORCEMENTNUMBER                                 as CaseFileId,
@@ -28,6 +28,7 @@ select newid()                                                as Id,
        null                                                   as ResponseReceived,
        null                                                   as ResponseComment,
 
+       e.DATLONTOUC at time zone 'Eastern Standard Time' as CreateAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
        isnull(e.IsDeleted, 0)                                 as IsDeleted

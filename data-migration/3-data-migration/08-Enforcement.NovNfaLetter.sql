@@ -11,7 +11,7 @@
 --     ResponseRequested, ResponseReceived, ResponseComment,
 --
 --     -- EnforcementAction (All)
---     UpdatedAt, UpdatedById, IsDeleted)
+--     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                as Id,
        e.STRENFORCEMENTNUMBER                                 as CaseFileId,
@@ -45,6 +45,7 @@ select newid()                                                as Id,
        null                                                   as ResponseComment,
 
        -- EnforcementAction (All)
+       e.DATNOVTOUC at time zone 'Eastern Standard Time' as CreateAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
        isnull(e.IsDeleted, 0)                                 as IsDeleted
@@ -59,7 +60,7 @@ where isnull(e.IsDeleted, 0) = 0
 
   -- If NOV and NFA issued dates are the same, migrate as `NovNfaLetter`.
   -- (This syntax excludes all records where the NOV or NFA issue dates are 
-  -- null so no additional filtering is needed.)
+  -- null, so no additional filtering is needed.)
   and convert(date, e.DATNOVSENT) = convert(date, e.DATNFALETTERSENT)
 
 order by e.STRENFORCEMENTNUMBER;

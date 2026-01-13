@@ -545,7 +545,7 @@
                             on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
                         </div>
                     }
-                    @if (action.Status == EnforcementActionStatus.Draft)
+                    @if (action is { Status: EnforcementActionStatus.Draft, StatusDate: not null })
                     {
                         <div>
                             Draft started
