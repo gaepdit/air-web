@@ -24,7 +24,6 @@ erDiagram
     CME["Compliance Event"]
     STR["Source Test Review"]
     ACC["ACC"]
-    BINS["Base Inspection"]
     INS["Inspection"]
     RMP["RMP Inspection"]
     REP["Report"]
@@ -33,10 +32,10 @@ erDiagram
     STR |o--|| CME: "is a type of"
     ACC |o--|| CME: "is a type of"
     BINS |o--|| CME: "is a type of"
-    INS |o--|| BINS: "is a type of"
-    RMP |o--|| BINS: "is a type of"
+    INS |o--|| CME: "is a type of"
     REP |o--|| CME: "is a type of"
     CME |o--|| WRK: "is a subset of"
+    RMP |o--|| WRK: "is a type of"
     NOT |o--|| WRK: "is a type of"
     REV |o--|| WRK: "is a type of"
     STR |o--|| TST: "evaluates"

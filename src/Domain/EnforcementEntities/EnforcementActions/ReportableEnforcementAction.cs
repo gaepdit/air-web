@@ -23,7 +23,10 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
     private protected ReportableEnforcementAction() { }
 
     private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
-        : base(id, caseFile, user) { }
+        : base(id, caseFile, user)
+    {
+        IsReportableAction = true;
+    }
 
     // Data exchange properties
     [JsonIgnore]

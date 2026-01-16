@@ -13,5 +13,6 @@ public class RmpInspection : BaseInspection
         : base(id, facilityId, user)
     {
         ComplianceWorkType = ComplianceWorkType.RmpInspection;
+        IsComplianceEvent = false;
     }
 }
