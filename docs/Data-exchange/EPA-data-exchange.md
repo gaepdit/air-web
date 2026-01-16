@@ -98,19 +98,19 @@ flowchart TD
 | `AIRBRANCH`       | `dbo.VW_ICIS_COMPLIANCEMONITORING`                           | View     | `airbranch` | Used in staging              | *Rewrite*            |
 | `AIRBRANCH`       | `dbo.VW_ICIS_ENFORCEMENTACTION`                              | View     | `airbranch` | Used in staging              | *Rewrite*            |
 | `AIRBRANCH`       | `dbo.VW_ICIS_ID_REFERENCE`                                   | View     | `airbranch` | IAIP EDT tools               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_AIRPROGRAM_DELETE`                                 | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
+| `AIRBRANCH`       | `etl.ICIS_AIRPROGRAM_DELETE`                                 | SProc    | `epa-dx`    | Stage new data               | None                 |
 | `AIRBRANCH`       | `etl.ICIS_CASEFILE_DELETE`                                   | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
 | `AIRBRANCH`       | `etl.ICIS_CASEFILE_UPDATE`                                   | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
 | `AIRBRANCH`       | `etl.ICIS_CF2CM_DELETE`                                      | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_CMS_DELETE`                                        | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_CMS_UPDATE`                                        | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
+| `AIRBRANCH`       | `etl.ICIS_CMS_DELETE`                                        | SProc    | `epa-dx`    | Stage new data               | None                 |
+| `AIRBRANCH`       | `etl.ICIS_CMS_UPDATE`                                        | SProc    | `epa-dx`    | Stage new data               | None                 |
 | `AIRBRANCH`       | `etl.ICIS_CM_DELETE`                                         | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
 | `AIRBRANCH`       | `etl.ICIS_CM_UPDATE`                                         | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
 | `AIRBRANCH`       | `etl.ICIS_EAMILESTONE_DELETE`                                | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_FACILITY_DELETE`                                   | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_FACILITY_UPDATE`                                   | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_POLLUTANT_DELETE`                                  | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
-| `AIRBRANCH`       | `etl.ICIS_Stage_All`                                         | SProc    | `epa-dx`    | Stage new data               | *Rewrite*            |
+| `AIRBRANCH`       | `etl.ICIS_FACILITY_DELETE`                                   | SProc    | `epa-dx`    | Stage new data               | None                 |
+| `AIRBRANCH`       | `etl.ICIS_FACILITY_UPDATE`                                   | SProc    | `epa-dx`    | Stage new data               | None                 |
+| `AIRBRANCH`       | `etl.ICIS_POLLUTANT_DELETE`                                  | SProc    | `epa-dx`    | Stage new data               | None                 |
+| `AIRBRANCH`       | `etl.ICIS_Stage_All`                                         | SProc    | `epa-dx`    | Stage new data               | None                 |
 | `AIRBRANCH`       | `etl.VW_AirProgramsWithSubparts`                             | View     | `epa-dx`    | Used in staging              | None                 |
 | `AIRBRANCH`       | `iaip_facility.TriggerDataUpdateAtEPA`                       | SProc    | `airbranch` | Update status                | *Rewrite*            |
 | `AIRBRANCH`       | `icis_edt.AssignErrors`                                      | SProc    | `airbranch` | IAIP EDT tools               | None                 |
@@ -120,8 +120,8 @@ flowchart TD
 | `AIRBRANCH`       | `icis_edt.GetErrors`                                         | SProc    | `airbranch` | IAIP EDT tools               | None                 |
 | `AIRBRANCH`       | `icis_edt.SetDefaultUser`                                    | SProc    | `airbranch` | IAIP EDT tools               | None                 |
 | `AIRBRANCH`       | `icis_edt.SetResolvedStatus`                                 | SProc    | `airbranch` | IAIP EDT tools               | None                 |
-| `NETWORKNODEFLOW` | `dbo.CountAllRecords`                                        | SProc    | `epa-dx`    | Auditing tool                | *Rewrite*            |
-| `NETWORKNODEFLOW` | `dbo.CountFacilityRecords`                                   | SProc    | `epa-dx`    | Auditing tool                | *Rewrite*            |
-| `NETWORKNODEFLOW` | `dbo.CountPendingRecords`                                    | SProc    | `epa-dx`    | Auditing tool                | *Rewrite*            |
+| `NETWORKNODEFLOW` | `dbo.CountAllRecords`                                        | SProc    | `epa-dx`    | Auditing tool                | None                 |
+| `NETWORKNODEFLOW` | `dbo.CountFacilityRecords`                                   | SProc    | `epa-dx`    | Auditing tool                | None                 |
+| `NETWORKNODEFLOW` | `dbo.CountPendingRecords`                                    | SProc    | `epa-dx`    | Auditing tool                | None                 |
 | `NETWORKNODEFLOW` | `dbo.SUBMISSIONSTATUS / TG_ICIS_EDT_ERRORS`                  | Trigger  | `epa-dx`    | Internal                     | None                 |
 | `NETWORKNODEFLOW` | `dbo.SubmissionStatus / TG_ICIS_SubmissionStatus`            | Trigger  | `epa-dx`    | Internal                     | None                 |
