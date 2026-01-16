@@ -26,32 +26,18 @@ select e.STRENFORCEMENTNUMBER                                 as Id,
 
        -- Parse Pollutants as JSON from `STRPOLLUTANTS`
        isnull((select '[' + string_agg(quotename(lk.ICIS_POLLUTANT_CODE, '"'), ',') + ']'
-               from (select distinct lk.ICIS_POLLUTANT_CODE
+               from (select distinct lk_po.ICIS_POLLUTANT_CODE
                      from string_split(e.STRPOLLUTANTS, ',') s
-                         inner join AIRBRANCH.dbo.LK_ICIS_POLLUTANT lk
-                             on lk.LGCY_POLLUTANT_CODE = substring(trim(s.value), 2, 10)) as lk),
+                         inner join AIRBRANCH.dbo.LK_ICIS_POLLUTANT lk_po
+                             on lk_po.LGCY_POLLUTANT_CODE = substring(trim(s.value), 2, 10)) as lk),
               '[]')                                           as PollutantIds,
 
        -- Parse Air Programs as JSON from `STRPOLLUTANTS`
-       isnull((select '[' + string_agg(quotename(ap.Program, '"'), ',') + ']'
-               from (select distinct case left(trim(s.value), 1)
-                                         when '0' then 'SIP'
-                                         when '1' then 'FederalSIP'
-                                         when '3' then 'NonFederalSIP'
-                                         when '4' then 'CfcTracking'
-                                         when '6' then 'PSD'
-                                         when '7' then 'NSR'
-                                         when '8' then 'NESHAP'
-                                         when '9' then 'NSPS'
-                                         when 'F' then 'FESOP'
-                                         when 'A' then 'AcidPrecipitation'
-                                         when 'I' then 'NativeAmerican'
-                                         when 'M' then 'MACT'
-                                         when 'V' then 'TitleV'
-                                         when 'R' then 'RMP'
-                                         end as Program
-                     from string_split(e.STRPOLLUTANTS, ',') s) ap
-               where ap.Program is not null),
+       isnull((select '[' + string_agg(quotename(lk.ICIS_PROGRAM_CODE, '"'), ',') + ']'
+               from (select distinct lk_pr.ICIS_PROGRAM_CODE
+                     from string_split(e.STRPOLLUTANTS, ',') s
+                         inner join AIRBRANCH.dbo.LK_ICIS_PROGRAM lk_pr
+                             on lk_pr.LGCY_PROGRAM_CODE = left(trim(s.value), 1)) as lk),
               '[]')                                           as AirPrograms,
 
        convert(smallint, e.STRAFSKEYACTIONNUMBER)             as ActionNumber,
