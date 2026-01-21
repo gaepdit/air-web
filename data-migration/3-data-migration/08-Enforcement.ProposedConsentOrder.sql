@@ -1,21 +1,23 @@
 -- insert into AirWeb.dbo.EnforcementActions
 -- (
 --     -- EnforcementAction (All)
---     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
---
+--     Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
+-- 
 --     -- ReportableEnforcement
 --     -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
---     ActionNumber, DataExchangeStatus,
---
+--     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+-- 
 --     -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
 --     ResponseRequested, ResponseReceived, ResponseComment,
---
+-- 
 --     -- EnforcementAction (All)
 --     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                as Id,
        e.STRENFORCEMENTNUMBER                                 as CaseFileId,
        'ProposedConsentOrder'                                 as ActionType,
+       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)        as FacilityId,
+
        nullif
        (concat_ws(CHAR(13) + CHAR(10),
                   iif(e.DATCOTOUC is null, null, 'Date Proposed CO to UC: ' + format(e.DATCOTOUC, 'dd-MMM-yyyy')),
@@ -28,6 +30,7 @@ select newid()                                                as Id,
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSCOPROPOSEDNUMBER)            as ActionNumber,
        e.ICIS_STATUSIND                                       as DataExchangeStatus,
+       null                                                   as DataExchangeStatusDate,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        0                                                      as ResponseRequested,
@@ -35,7 +38,7 @@ select newid()                                                as Id,
        null                                                   as ResponseComment,
 
        -- EnforcementAction (All)
-       e.DATCOTOUC at time zone 'Eastern Standard Time' as CreatedAt,
+       e.DATCOTOUC at time zone 'Eastern Standard Time'       as CreatedAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
        isnull(e.IsDeleted, 0)                                 as IsDeleted

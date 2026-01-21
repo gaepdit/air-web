@@ -1,34 +1,34 @@
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
---
+-- 
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
 --     -- WorkEntry
---     Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate, IsComplianceEvent,
---
+--     Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+--     IsComplianceEvent,
+-- 
 --     -- ComplianceEvent
---     DataExchangeStatus,
---
+--     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+-- 
 --     -- AnnualComplianceCertification, Notification, Report
 --     ReceivedDate,
---
+-- 
 --     -- AnnualComplianceCertification, Report
 --     ReportsDeviations, EnforcementNeeded,
---
+-- 
 --     -- Report
 --     ReportingPeriodType, ReportingPeriodStart, ReportingPeriodEnd, ReportingPeriodComment,
---
+-- 
 --     -- Notification, Report, SourceTestReview
 --     DueDate,
---
+-- 
 --     -- Notification, Report
 --     SentDate,
---
+-- 
 --     -- Report
 --     ReportComplete,
---
+-- 
 --     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
---     ClosedById, ClosedDate)
+--     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                    as Id,
        AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
@@ -38,7 +38,10 @@ select i.STRTRACKINGNUMBER                                    as Id,
        AIRBRANCH.air.ReduceText(d.STRGENERALCOMMENTS)         as Notes,
        convert(date, i.DATRECEIVEDDATE)                       as EventDate,
        1                                                      as IsComplianceEvent,
+
+       convert(int, f.STRAFSACTIONNUMBER)                     as ActionNumber,
        i.ICIS_STATUSIND                                       as DataExchangeStatus,
+       null                                                   as DataExchangeStatusDate,
 
        convert(date, i.DATRECEIVEDDATE)                       as ReceivedDate,
        convert(bit, d.STRSHOWDEVIATION)                       as ReportsDeviations,
@@ -67,10 +70,7 @@ select i.STRTRACKINGNUMBER                                    as Id,
        uc.Id                                                  as CreatedById,
        d.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
-       convert(bit, isnull(i.STRDELETE, 'False'))             as IsDeleted,
-       null                                                   as DeletedAt,
-       null                                                   as DeletedById,
-       null                                                   as DeleteComments,
+       0                                                      as IsDeleted,
        IIF(i.DATCOMPLETEDATE is null, 0, 1)                   as IsClosed,
        IIF(i.DATCOMPLETEDATE is null, null, um.Id)            as ClosedById,
        convert(date, i.DATCOMPLETEDATE)                       as ClosedDate
@@ -78,6 +78,8 @@ select i.STRTRACKINGNUMBER                                    as Id,
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPREPORTS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
+    left join AFSSSCPRECORDS f
+        on f.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
         on ur.IaipUserId = i.STRRESPONSIBLESTAFF
@@ -95,4 +97,4 @@ SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'Report';
+where ComplianceWorkType = 'Report';

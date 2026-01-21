@@ -1,9 +1,9 @@
 -- SET IDENTITY_INSERT AirWeb.dbo.CaseFiles ON;
 -- 
 -- insert into AirWeb.dbo.CaseFiles
--- (Id, FacilityId, ResponsibleStaffId, Notes, ViolationTypeCode, CaseFileStatus,
---  DiscoveryDate, DayZero, EnforcementDate, PollutantIds, AirPrograms, ActionNumber,
---  DataExchangeStatus, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedDate)
+-- (Id, FacilityId, ResponsibleStaffId, Notes, ViolationTypeCode, CaseFileStatus, DiscoveryDate, DayZero, EnforcementDate,
+--  PollutantIds, AirPrograms, ActionNumber, DataExchangeStatus, DataExchangeStatusDate, UpdatedAt, UpdatedById, IsDeleted,
+--  IsClosed, ClosedDate)
 
 select e.STRENFORCEMENTNUMBER                                 as Id,
        AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)        as FacilityId,
@@ -42,10 +42,11 @@ select e.STRENFORCEMENTNUMBER                                 as Id,
 
        convert(smallint, e.STRAFSKEYACTIONNUMBER)             as ActionNumber,
        e.ICIS_STATUSIND                                       as DataExchangeStatus,
+       null                                                   as DataExchangeStatusDate,
 
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
-       isnull(e.IsDeleted, 0)                                 as IsDeleted,
+       0                                                      as IsDeleted,
        convert(bit, e.STRENFORCEMENTFINALIZED)                as IsClosed,
        convert(date, e.DATENFORCEMENTFINALIZED)               as ClosedDate
 

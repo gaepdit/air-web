@@ -1,23 +1,22 @@
 -- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
---
+-- 
 -- insert into AirWeb.dbo.ComplianceWork
 -- (
 --     -- WorkEntry
---     Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+--     Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
 --     IsComplianceEvent,
---
+-- 
 --     -- AnnualComplianceCertification, Notification, PermitRevocation, Report
 --     ReceivedDate,
---
+-- 
 --     -- Inspection, Notification, PermitRevocation, SourceTestReview
 --     FollowupTaken,
---
+-- 
 --     -- PermitRevocation
 --     PermitRevocationDate, PhysicalShutdownDate,
---
+-- 
 --     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
---     ClosedById, ClosedDate)
+--     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                    as Id,
        AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
@@ -38,10 +37,7 @@ select i.STRTRACKINGNUMBER                                    as Id,
        uc.Id                                                  as CreatedById,
        d.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
-       convert(bit, isnull(i.STRDELETE, 'False'))             as IsDeleted,
-       null                                                   as DeletedAt,
-       null                                                   as DeletedById,
-       null                                                   as DeleteComments,
+       0                                                      as IsDeleted,
        IIF(i.DATCOMPLETEDATE is null, 0, 1)                   as IsClosed,
        IIF(i.DATCOMPLETEDATE is null, null, um.Id)            as ClosedById,
        convert(date, i.DATCOMPLETEDATE)                       as ClosedDate
@@ -73,4 +69,4 @@ SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'PermitRevocation';
+where ComplianceWorkType = 'PermitRevocation';
