@@ -1,20 +1,22 @@
 -- insert into AirWeb.dbo.EnforcementActions
 -- (
 --     -- EnforcementAction (All)
---     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
---
+--     Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
+-- 
 --     -- AdministrativeOrder, ConsentOrder, LetterOfNoncompliance
 --     ResolvedDate,
---
+-- 
 --     -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
 --     ResponseRequested, ResponseReceived, ResponseComment,
---
+-- 
 --     -- EnforcementAction (All)
 --     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                as Id,
        e.STRENFORCEMENTNUMBER                                 as CaseFileId,
        'LetterOfNoncompliance'                                as ActionType,
+       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)        as FacilityId,
+
        nullif(concat_ws(CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
                         iif(e.DATLONTOUC is null, null, 'Date LON to UC: ' + format(e.DATLONTOUC, 'dd-MMM-yyyy')),
                         AIRBRANCH.air.ReduceText(e.STRLONCOMMENTS)),
@@ -28,7 +30,7 @@ select newid()                                                as Id,
        null                                                   as ResponseReceived,
        null                                                   as ResponseComment,
 
-       e.DATLONTOUC at time zone 'Eastern Standard Time' as CreateAt,
+       e.DATLONTOUC at time zone 'Eastern Standard Time'      as CreateAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
        um.Id                                                  as UpdatedById,
        isnull(e.IsDeleted, 0)                                 as IsDeleted

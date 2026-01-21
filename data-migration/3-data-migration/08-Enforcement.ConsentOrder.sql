@@ -1,28 +1,30 @@
 -- insert into AirWeb.dbo.EnforcementActions
 -- (
 --     -- EnforcementAction (All)
---     Id, CaseFileId, ActionType, Notes, Status, IssueDate, IsReportableAction,
---
+--     Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
+-- 
 --     -- ReportableEnforcement
 --     -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
---     ActionNumber, DataExchangeStatus,
---
+--     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+-- 
 --     -- AdministrativeOrder, ConsentOrder
 --     ExecutedDate,
---
+-- 
 --     -- AdministrativeOrder, ConsentOrder, LetterOfNoncompliance
 --     ResolvedDate,
---
+-- 
 --     -- ConsentOrder
 --     ReceivedFromFacility, ReceivedFromDirectorsOffice, OrderId,
 --     PenaltyAmount, PenaltyComment, StipulatedPenaltiesDefined,
---
+-- 
 --     -- EnforcementAction (All)
 --     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                            as Id,
        e.STRENFORCEMENTNUMBER                                             as CaseFileId,
        'ConsentOrder'                                                     as ActionType,
+       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)                    as FacilityId,
+
        AIRBRANCH.air.ReduceText(e.STRCOCOMMENT)                           as Notes,
        iif(e.STRCOEXECUTED = 'True', 'Issued', 'Draft')                   as Status,
        convert(date, e.DATCOEXECUTED)                                     as IssueDate,
@@ -31,6 +33,7 @@ select newid()                                                            as Id,
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSCOEXECUTEDNUMBER)                        as ActionNumber,
        e.ICIS_STATUSIND                                                   as DataExchangeStatus,
+       null                                                               as DataExchangeStatusDate,
 
        -- AdministrativeOrder, ConsentOrder
        convert(date, e.DATCOEXECUTED)                                     as ExecutedDate,
@@ -47,7 +50,7 @@ select newid()                                                            as Id,
        iif(s.STRENFORCEMENTNUMBER is null, 0, 1)                          as StipulatedPenaltiesDefined,
 
        -- EnforcementAction (All)
-       e.DATCORECEIVEDFROMCOMPANY at time zone 'Eastern Standard Time' as CreatedAt,
+       e.DATCORECEIVEDFROMCOMPANY at time zone 'Eastern Standard Time'    as CreatedAt,
        e.DATMODIFINGDATE at time zone 'Eastern Standard Time'             as UpdatedAt,
        um.Id                                                              as UpdatedById,
        isnull(e.IsDeleted, 0)                                             as IsDeleted

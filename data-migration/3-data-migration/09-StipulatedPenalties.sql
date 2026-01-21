@@ -1,5 +1,5 @@
--- insert into AirWeb.dbo.StipulatedPenalties (Id, ConsentOrderId, Amount, ReceivedDate, Notes, CreatedAt, CreatedById,
---                                             IsDeleted)
+-- insert into AirWeb.dbo.StipulatedPenalties
+-- (Id, ConsentOrderId, Amount, ReceivedDate, Notes, CreatedAt, CreatedById, IsDeleted)
 
 select newid()                                                  as Id,
        a.Id                                                     as ConsentOrderId,
