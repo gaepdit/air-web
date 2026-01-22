@@ -114,3 +114,7 @@ from SSCP_AUDITEDENFORCEMENT e
 
 where isnull(e.IsDeleted, 0) = 0
 order by v.CreatedDate, v.EnforcementNumber, v.TrackingNumber;
+
+select *
+from AirWeb.dbo.AuditPoints
+where Discriminator = 'CaseFileAuditPoint';
