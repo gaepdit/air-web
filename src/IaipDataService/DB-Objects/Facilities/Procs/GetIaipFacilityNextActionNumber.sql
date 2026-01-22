@@ -16,20 +16,20 @@ Input Parameters:
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
-2025-12-22  DWaldron            Initial version
+2025-12-22  DWaldron            Initial version (air-web#455)
 
 ***************************************************************************************************/
 
     SET XACT_ABORT, NOCOUNT ON
 BEGIN TRY
 
-    BEGIN TRANSACTION;
-
     declare @Previous
         table
         (
             [ActionNumber] smallint
-        )
+        );
+
+    BEGIN TRANSACTION;
 
     update dbo.APBSUPPLAMENTALDATA
     set STRAFSACTIONNUMBER = convert(smallint, STRAFSACTIONNUMBER) + 1
@@ -39,7 +39,6 @@ BEGIN TRY
     select ActionNumber from @Previous;
 
     COMMIT TRANSACTION;
-
     RETURN 0;
 END TRY
 BEGIN CATCH

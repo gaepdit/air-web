@@ -23,7 +23,7 @@
 select newid()                                                            as Id,
        e.STRENFORCEMENTNUMBER                                             as CaseFileId,
        'ConsentOrder'                                                     as ActionType,
-       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)                    as FacilityId,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER)          as FacilityId,
 
        AIRBRANCH.air.ReduceText(e.STRCOCOMMENT)                           as Notes,
        iif(e.STRCOEXECUTED = 'True', 'Issued', 'Draft')                   as Status,

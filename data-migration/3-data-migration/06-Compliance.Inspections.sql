@@ -20,7 +20,7 @@
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                                               as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                                   as FacilityId,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER)                         as FacilityId,
        iif(i.STREVENTTYPE = '02', 'Inspection', 'RmpInspection')                         as WorkEntryType,
        ur.Id                                                                             as ResponsibleStaffId,
        convert(date, i.DATACKNOLEDGMENTLETTERSENT)                                       as AcknowledgmentLetterDate,

@@ -21,32 +21,32 @@
 --     -- WorkEntry
 --     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
-select i.STRTRACKINGNUMBER                                    as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
-       'SourceTestReview'                                     as WorkEntryType,
-       ur.Id                                                  as ResponsibleStaffId,
-       convert(date, i.DATACKNOLEDGMENTLETTERSENT)            as AcknowledgmentLetterDate,
-       AIRBRANCH.air.ReduceText(d.STRTESTREPORTCOMMENTS)      as Notes,
-       convert(date, i.DATRECEIVEDDATE)                       as EventDate,
-       1                                                      as IsComplianceEvent,
+select i.STRTRACKINGNUMBER                                       as Id,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,
+       'SourceTestReview'                                        as WorkEntryType,
+       ur.Id                                                     as ResponsibleStaffId,
+       convert(date, i.DATACKNOLEDGMENTLETTERSENT)               as AcknowledgmentLetterDate,
+       AIRBRANCH.air.ReduceText(d.STRTESTREPORTCOMMENTS)         as Notes,
+       convert(date, i.DATRECEIVEDDATE)                          as EventDate,
+       1                                                         as IsComplianceEvent,
 
-       convert(int, f.STRAFSACTIONNUMBER)                     as ActionNumber,
-       i.ICIS_STATUSIND                                       as DataExchangeStatus,
-       null                                                   as DataExchangeStatusDate,
+       convert(int, f.STRAFSACTIONNUMBER)                        as ActionNumber,
+       i.ICIS_STATUSIND                                          as DataExchangeStatus,
+       null                                                      as DataExchangeStatusDate,
 
-       convert(bit, d.STRTESTREPORTFOLLOWUP)                  as FollowupTaken,
-       AIRBRANCH.air.FixDate(d.DATTESTREPORTDUE)              as DueDate,
-       nullif(d.STRREFERENCENUMBER, 'N/A')                    as ReferenceNumber,
-       convert(date, i.DATRECEIVEDDATE)                       as ReceivedByComplianceDate,
+       convert(bit, d.STRTESTREPORTFOLLOWUP)                     as FollowupTaken,
+       AIRBRANCH.air.FixDate(d.DATTESTREPORTDUE)                 as DueDate,
+       nullif(d.STRREFERENCENUMBER, 'N/A')                       as ReferenceNumber,
+       convert(date, i.DATRECEIVEDDATE)                          as ReceivedByComplianceDate,
 
-       i.DATMODIFINGDATE at time zone 'Eastern Standard Time' as CreatedAt,
-       uc.Id                                                  as CreatedById,
-       d.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
-       um.Id                                                  as UpdatedById,
-       0                                                      as IsDeleted,
-       IIF(i.DATCOMPLETEDATE is null, 0, 1)                   as IsClosed,
-       IIF(i.DATCOMPLETEDATE is null, null, um.Id)            as ClosedById,
-       convert(date, i.DATCOMPLETEDATE)                       as ClosedDate
+       i.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as CreatedAt,
+       uc.Id                                                     as CreatedById,
+       d.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as UpdatedAt,
+       um.Id                                                     as UpdatedById,
+       0                                                         as IsDeleted,
+       IIF(i.DATCOMPLETEDATE is null, 0, 1)                      as IsClosed,
+       IIF(i.DATCOMPLETEDATE is null, null, um.Id)               as ClosedById,
+       convert(date, i.DATCOMPLETEDATE)                          as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPTESTREPORTS d

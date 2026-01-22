@@ -13,10 +13,10 @@
 --     -- EnforcementAction (All)
 --     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
-select newid()                                                as Id,
-       e.STRENFORCEMENTNUMBER                                 as CaseFileId,
-       'NoticeOfViolation'                                    as ActionType,
-       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)        as FacilityId,
+select newid()                                                   as Id,
+       e.STRENFORCEMENTNUMBER                                    as CaseFileId,
+       'NoticeOfViolation'                                       as ActionType,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER) as FacilityId,
 
        nullif
        (concat_ws(CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -26,26 +26,26 @@ select newid()                                                as Id,
                              iif(e.DATNOVTOPM is null, null, 'Date NOV to PM: ' + format(e.DATNOVTOPM, 'dd-MMM-yyyy'))),
                    ''),
                   AIRBRANCH.air.ReduceText(e.STRNOVCOMMENT)),
-        '')                                                   as Notes,
-       iif(e.STRNOVSENT = 'True', 'Issued', 'Draft')          as Status,
-       convert(date, e.DATNOVSENT)                            as IssueDate,
-       1                                                      as IsReportableAction,
+        '')                                                      as Notes,
+       iif(e.STRNOVSENT = 'True', 'Issued', 'Draft')             as Status,
+       convert(date, e.DATNOVSENT)                               as IssueDate,
+       1                                                         as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(smallint, e.STRAFSNOVSENTNUMBER)               as ActionNumber,
-       e.ICIS_STATUSIND                                       as DataExchangeStatus,
-       null                                                   as DataExchangeStatusDate,
+       convert(smallint, e.STRAFSNOVSENTNUMBER)                  as ActionNumber,
+       e.ICIS_STATUSIND                                          as DataExchangeStatus,
+       null                                                      as DataExchangeStatusDate,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(bit, e.STRNOVRESPONSERECEIVED)                 as ResponseRequested,
-       convert(date, e.DATNOVRESPONSERECEIVED)                as ResponseReceived,
-       null                                                   as ResponseComment,
+       convert(bit, e.STRNOVRESPONSERECEIVED)                    as ResponseRequested,
+       convert(date, e.DATNOVRESPONSERECEIVED)                   as ResponseReceived,
+       null                                                      as ResponseComment,
 
        -- EnforcementAction (All)
-       e.DATNOVTOUC at time zone 'Eastern Standard Time'      as CreateAt,
-       e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
-       um.Id                                                  as UpdatedById,
-       isnull(e.IsDeleted, 0)                                 as IsDeleted
+       e.DATNOVTOUC at time zone 'Eastern Standard Time'         as CreateAt,
+       e.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as UpdatedAt,
+       um.Id                                                     as UpdatedById,
+       isnull(e.IsDeleted, 0)                                    as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 

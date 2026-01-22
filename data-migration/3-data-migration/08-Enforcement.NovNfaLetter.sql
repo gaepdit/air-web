@@ -13,10 +13,10 @@
 --     -- EnforcementAction (All)
 --     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
-select newid()                                                as Id,
-       e.STRENFORCEMENTNUMBER                                 as CaseFileId,
-       'NovNfaLetter'                                         as ActionType,
-       AIRBRANCH.air.FormatAirsNumber(e.STRAIRSNUMBER)        as FacilityId,
+select newid()                                                   as Id,
+       e.STRENFORCEMENTNUMBER                                    as CaseFileId,
+       'NovNfaLetter'                                            as ActionType,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER) as FacilityId,
 
        nullif
        (concat_ws(CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -26,32 +26,32 @@ select newid()                                                as Id,
                              iif(e.DATNOVTOPM is null, null, 'Date NOV to PM: ' + format(e.DATNOVTOPM, 'dd-MMM-yyyy'))),
                    ''),
                   AIRBRANCH.air.ReduceText(e.STRNOVCOMMENT)),
-        '')                                                   as Notes,
+        '')                                                      as Notes,
 
        -- Only issued NOVs & NFAs with identical issue dates are migrated as combined NOV/NFA letters. 
        -- Draft letters are migrated as separate NOVs and NFAs. This might miss some draft NOV/NFA letters,
        -- but the number of those would be very small, and all would be open enforcement and so easily caught
        -- and corrected by staff.
-       'Issued'                                               as Status,
+       'Issued'                                                  as Status,
 
-       convert(date, e.DATNOVSENT)                            as IssueDate,
-       1                                                      as IsReportableAction,
+       convert(date, e.DATNOVSENT)                               as IssueDate,
+       1                                                         as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(smallint, e.STRAFSNOVSENTNUMBER)               as ActionNumber,
-       e.ICIS_STATUSIND                                       as DataExchangeStatus,
-       null                                                   as DataExchangeStatusDate,
+       convert(smallint, e.STRAFSNOVSENTNUMBER)                  as ActionNumber,
+       e.ICIS_STATUSIND                                          as DataExchangeStatus,
+       null                                                      as DataExchangeStatusDate,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(bit, e.STRNOVRESPONSERECEIVED)                 as ResponseRequested,
-       convert(date, e.DATNOVRESPONSERECEIVED)                as ResponseReceived,
-       null                                                   as ResponseComment,
+       convert(bit, e.STRNOVRESPONSERECEIVED)                    as ResponseRequested,
+       convert(date, e.DATNOVRESPONSERECEIVED)                   as ResponseReceived,
+       null                                                      as ResponseComment,
 
        -- EnforcementAction (All)
-       e.DATNOVTOUC at time zone 'Eastern Standard Time'      as CreateAt,
-       e.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
-       um.Id                                                  as UpdatedById,
-       isnull(e.IsDeleted, 0)                                 as IsDeleted
+       e.DATNOVTOUC at time zone 'Eastern Standard Time'         as CreateAt,
+       e.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as UpdatedAt,
+       um.Id                                                     as UpdatedById,
+       isnull(e.IsDeleted, 0)                                    as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 
