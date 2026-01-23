@@ -100,8 +100,8 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
 
     // Data Exchange
-    public ushort? ActionNumber { get; init; }
-    public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public ushort? ActionNumber { get; set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
     public bool IsReportable { get; init; }
 }

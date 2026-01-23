@@ -6,9 +6,9 @@ namespace AirWeb.Domain.DataExchange;
 // EPA Data Exchange properties are used by compliance monitoring, case files and enforcement actions.
 public interface IDataExchange : IFacilityId
 {
-    public ushort? ActionNumber { get; }
-    public DataExchangeStatus DataExchangeStatus { get; }
-    public DateTimeOffset? DataExchangeStatusDate { get; }
+    public ushort? ActionNumber { get; set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
 
     /// <summary>
     /// The ID used by EPA.
@@ -22,18 +22,14 @@ public interface IDataExchange : IFacilityId
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public enum DataExchangeStatus
 {
-    [Description("Not Included")] N,
-    [Description("Processed")] P,
-    [Description("Inserted")] I,
+    [Description("Not Applicable")] N,
     [Description("Updated")] U,
+    [Description("Update Processed")] P,
     [Description("Deleted")] D,
+    [Description("Deletion Processed")] X,
 }
 
-internal interface IDataExchangeWrite
-{
-    void SetActionNumber(ushort actionNumber);
-    void SetDataExchangeStatus(DataExchangeStatus status);
-}
+internal interface IDataExchangeWrite : IDataExchange;
 
 internal static class DataExchangeExtensions
 {
@@ -42,5 +38,18 @@ internal static class DataExchangeExtensions
         public void InitiateDataExchange(ushort actionNumber) => dx.SetActionNumber(actionNumber);
         public void UpdateDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.U);
         public void DeleteDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.D);
+
+        private void SetActionNumber(ushort actionNumber)
+        {
+            dx.ActionNumber = actionNumber;
+            dx.DataExchangeStatus = DataExchangeStatus.U;
+            dx.DataExchangeStatusDate = DateTimeOffset.Now;
+        }
+
+        private void SetDataExchangeStatus(DataExchangeStatus status)
+        {
+            dx.DataExchangeStatus = status;
+            dx.DataExchangeStatusDate = DateTimeOffset.Now;
+        }
     }
 }

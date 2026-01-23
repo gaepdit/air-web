@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : DeletableEntity<int>, INotes, IDataExchange, IDataExchangeWrite
+public class Fce : DeletableEntity<int>, INotes, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -76,25 +76,12 @@ public class Fce : DeletableEntity<int>, INotes, IDataExchange, IDataExchangeWri
     }
 
     [JsonIgnore]
-    public ushort? ActionNumber { get; internal set; }
+    public ushort? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; internal set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
 
     [JsonIgnore]
-    public DateTimeOffset? DataExchangeStatusDate { get; internal set; }
-
-    void IDataExchangeWrite.SetActionNumber(ushort actionNumber)
-    {
-        ActionNumber = actionNumber;
-        DataExchangeStatus = DataExchangeStatus.I;
-        DataExchangeStatusDate = DateTimeOffset.Now;
-    }
-
-    void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
-    {
-        DataExchangeStatus = status;
-        DataExchangeStatusDate = DateTimeOffset.Now;
-    }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
 }

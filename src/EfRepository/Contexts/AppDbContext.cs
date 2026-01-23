@@ -88,7 +88,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureEnumValues()
             .ConfigureDateTimeOffsetHandling(Database.ProviderName)
             .ConfigureCollectionSerialization()
-            .ConfigureCompositeUniqueIndexes()
+            .ConfigureDataExchangeIndexes()
             .ConfigureIdentityPasskeyData(Database.ProviderName);
 
 #pragma warning disable S125

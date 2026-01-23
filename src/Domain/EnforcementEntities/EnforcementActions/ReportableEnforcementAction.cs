@@ -16,7 +16,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Consent Orders
 // * Administrative Orders
 
-public abstract class ReportableEnforcementAction : EnforcementAction, IDataExchange, IDataExchangeWrite
+public abstract class ReportableEnforcementAction : EnforcementAction, IDataExchangeWrite
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -30,26 +30,12 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
 
     // Data exchange properties
     [JsonIgnore]
-    public ushort? ActionNumber { get; internal set; }
+    public ushort? ActionNumber { get; set; }
 
     [JsonIgnore]
     [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; internal set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
 
     [JsonIgnore]
-    public DateTimeOffset? DataExchangeStatusDate { get; internal set; }
-
-    void IDataExchangeWrite.SetActionNumber(ushort actionNumber)
-    {
-        ActionNumber = actionNumber;
-        DataExchangeStatus = DataExchangeStatus.I;
-        DataExchangeStatusDate = DateTimeOffset.Now;
-    }
-
-    void IDataExchangeWrite.SetDataExchangeStatus(DataExchangeStatus status)
-    {
-        if (ActionNumber is null) return;
-        DataExchangeStatus = status;
-        DataExchangeStatusDate = DateTimeOffset.Now;
-    }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
 }

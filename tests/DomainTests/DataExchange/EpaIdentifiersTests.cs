@@ -9,9 +9,9 @@ public class IDataExchangeTests
     private record DataExchange : IDataExchange
     {
         public string FacilityId { get; init; } = "00100001";
-        public ushort? ActionNumber { get; init; } = 1;
-        public DataExchangeStatus DataExchangeStatus => DataExchangeStatus.N;
-        public DateTimeOffset? DataExchangeStatusDate => null;
+        public ushort? ActionNumber { get; set; } = 1;
+        public DataExchangeStatus DataExchangeStatus { get; set; } = DataExchangeStatus.N;
+        public DateTimeOffset? DataExchangeStatusDate { get; set; } = null;
     }
 
     [Test]
