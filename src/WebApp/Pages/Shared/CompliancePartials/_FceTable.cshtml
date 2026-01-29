@@ -47,9 +47,7 @@
             <tr>
                 <th scope="row" class="@rowCss">
                     <a asp-page="/Compliance/FCE/Details" asp-route-id="@item.Id.ToString()"
-                       class="@linkCss">
-                        @item.Id.ToString()
-                    </a>
+                       class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
                     {
                         <span class="text-danger-emphasis">DELETED</span>
