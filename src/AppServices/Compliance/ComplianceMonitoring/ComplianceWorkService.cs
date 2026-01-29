@@ -10,6 +10,7 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
 using IaipDataService.Facilities;
@@ -26,12 +27,14 @@ public sealed partial class ComplianceWorkService(
     ISourceTestService testService,
     ICommentService<int> commentService,
     IUserService userService,
+    ICaseFileService caseFileService,
     IAppNotificationService appNotificationService)
     : IComplianceWorkService
 #pragma warning restore S107
 {
     // Query
-    public async Task<IComplianceWorkViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default)
+    public async Task<IComplianceWorkViewDto?> FindAsync(int id, bool includeComments,
+        CancellationToken token = default)
     {
         if (!await repository.ExistsAsync(id, token).ConfigureAwait(false)) return null;
 
@@ -188,7 +191,17 @@ public sealed partial class ComplianceWorkService(
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         manager.Delete(work, resource.Comment, currentUser);
-        await repository.UpdateAsync(work, token: token).ConfigureAwait(false);
+        await repository.UpdateAsync(work, autoSave: false, token: token).ConfigureAwait(false);
+
+        if (work is ComplianceEvent ce)
+        {
+            var caseFiles = await GetCaseFileIdsAsync(id, token).ConfigureAwait(false);
+            foreach (var caseFile in caseFiles)
+                await caseFileService.UnLinkComplianceEventAsync(caseFile, ce.Id, autoSave: false, token: token)
+                    .ConfigureAwait(false);
+        }
+
+        await repository.SaveChangesAsync(token).ConfigureAwait(false);
 
         if (work is SourceTestReview str)
         {

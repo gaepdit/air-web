@@ -59,7 +59,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
 
-        var result = await service.UnLinkComplianceEventAsync(Id, eventId, token);
+        var result = await service.UnLinkComplianceEventAsync(Id, eventId, token: token);
 
         if (result)
         {
