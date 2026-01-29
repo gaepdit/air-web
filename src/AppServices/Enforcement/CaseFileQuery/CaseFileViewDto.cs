@@ -14,7 +14,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments, IDataExchange
+public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments, IDataExchangeAction
 {
     public int Id { get; init; }
     public bool IsClosed { get; init; }

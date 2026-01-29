@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public record NovViewDto : ResponseRequestedViewDto, IDataExchange
+public record NovViewDto : ResponseRequestedViewDto, IDataExchangeAction
 {
     public string FacilityId { get; init; } = null!;
     public ushort? ActionNumber { get; set; }

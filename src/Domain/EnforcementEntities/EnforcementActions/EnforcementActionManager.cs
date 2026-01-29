@@ -56,7 +56,7 @@ public class EnforcementActionManager(
 
     private async Task UpdateDataExchangeStatusAsync(EnforcementAction action)
     {
-        if (action is not ReportableEnforcementAction ra) return;
+        if (action is not DxActionEnforcementAction ra) return;
 
         if (action.Status != EnforcementActionStatus.Issued)
         {
@@ -130,7 +130,7 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
-        if (action is ReportableEnforcementAction ra) ra.DeleteDataExchange();
+        if (action is DxActionEnforcementAction ra) ra.DeleteDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
     }
 
@@ -142,7 +142,7 @@ public class EnforcementActionManager(
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
-        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
+        if (action is DxActionEnforcementAction ra) ra.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
         if (!tryCloseCaseFile) return false;
@@ -155,7 +155,7 @@ public class EnforcementActionManager(
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
         ((EnforcementAction)action).SetUpdater(user?.Id);
-        ((ReportableEnforcementAction)action).UpdateDataExchange();
+        ((DxActionEnforcementAction)action).UpdateDataExchange();
         action.Execute(executedDate);
     }
 

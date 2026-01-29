@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class ConsentOrder : ReportableEnforcementAction, IFormalEnforcementAction
+public class ConsentOrder : DxActionEnforcementAction, IFormalEnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

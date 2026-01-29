@@ -4,26 +4,26 @@
 {
     <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
         <div class="container">
-        <details>
-            <summary class="rounded-1 p-1"><span class="ps-1">Show audit history</span></summary>
-            <ul class="mt-2 mb-0">
-                @foreach (var audit in Model)
-                {
-                    <li>
-                        @audit.What
-                        @if (!string.IsNullOrWhiteSpace(audit.MoreInfo))
-                        {
-                            @:(@audit.MoreInfo)
-                        }
-                        by
-                        @Html.DisplayFor(_ => audit.WhoFullName, DisplayTemplate.TextOrPlaceholder,
-                            additionalViewData: new { Placeholder = DefaultText.NotAvailable })
-                        on
-                        @Html.DisplayFor(_ => audit.When, DisplayTemplate.LongDateTimeOffset)
-                    </li>
-                }
-            </ul>
-        </details>
-    </div>
+            <details>
+                <summary class="rounded-1 p-1"><span class="ps-1">Show audit history</span></summary>
+                <ul class="mt-2 mb-0">
+                    @foreach (var audit in Model)
+                    {
+                        <li>
+                            @audit.What
+                            @if (!string.IsNullOrWhiteSpace(audit.MoreInfo))
+                            {
+                                @:(@audit.MoreInfo)
+                            }
+                            by
+                            @Html.DisplayFor(_ => audit.WhoFullName, DisplayTemplate.TextOrPlaceholder,
+                                additionalViewData: new { Placeholder = DefaultText.NotAvailable })
+                            on
+                            @Html.DisplayFor(_ => audit.When, DisplayTemplate.LongDateTimeOffset)
+                        </li>
+                    }
+                </ul>
+            </details>
+        </div>
     </div>
 }

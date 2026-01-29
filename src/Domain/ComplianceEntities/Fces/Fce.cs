@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.ComplianceEntities.Fces;
 
-public class Fce : DeletableEntity<int>, INotes, IDataExchangeWrite
+public class Fce : DeletableEntity<int>, INotes, IDataExchangeAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

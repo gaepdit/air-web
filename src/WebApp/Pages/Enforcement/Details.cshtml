@@ -923,7 +923,7 @@
 @section Footer {
     @if (caseFile.ActionNumber != null)
     {
-        IDataExchange dx = caseFile;
+        IDataExchangeAction dx = caseFile;
 
         <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
             <div class="container">
@@ -935,7 +935,7 @@
                         <dd class="col-sm-6">@Html.DisplayFor(_ => caseFile.IsReportable, DisplayTemplate.BoolYesNo)</dd>
 
                         <dt class="col-sm-4">EPA Facility ID</dt>
-                        <dd class="col-sm-6">@dx.EpaFacilityIdentifier</dd>
+                        <dd class="col-sm-6">@dx.EpaFacilityId</dd>
 
                         <dt class="col-sm-4">EPA Action ID</dt>
                         <dd class="col-sm-6">@dx.EpaActionId</dd>
@@ -949,10 +949,10 @@
                     </dl>
 
                     @foreach (var action in caseFile.EnforcementActions
-                                      .Where(dto => dto.IsIssued && dto is IDataExchange { ActionNumber: not null })
+                                      .Where(dto => dto.IsIssued && dto is IDataExchangeAction { ActionNumber: not null })
                                       .OrderBy(dto => dto.CreatedAt))
                     {
-                        var edx = (IDataExchange)action;
+                        var edx = (IDataExchangeAction)action;
 
                         <hr />
                         <h5 class="h6">@action.ActionType.GetDisplayName() issued @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)</h5>

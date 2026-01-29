@@ -9,19 +9,33 @@ public class IDataExchangeTests
     private record DataExchange : IDataExchange
     {
         public string FacilityId { get; init; } = "00100001";
-        public ushort? ActionNumber { get; set; } = 1;
         public DataExchangeStatus DataExchangeStatus { get; set; } = DataExchangeStatus.N;
         public DateTimeOffset? DataExchangeStatusDate { get; set; } = null;
     }
 
+    private record DataExchangeAction : DataExchange, IDataExchangeAction
+    {
+        public ushort? ActionNumber { get; set; } = 1;
+    }
+
     [Test]
-    public void GivenValidFacilityId_ReturnsEpaIdentifier()
+    public void GivenValid_ReturnsEpaFacilityId()
     {
         // Arrange
         var test = new DataExchange();
 
         // Assert
-        ((IDataExchange)test).EpaActionId.Should().Be("GA000A0000130010000100001");
+        ((IDataExchange)test).EpaFacilityId.Should().Be("GA0000001300100001");
+    }
+
+    [Test]
+    public void GivenValidAction_ReturnsEpaActionIdentifier()
+    {
+        // Arrange
+        var test = new DataExchangeAction();
+
+        // Assert
+        ((IDataExchangeAction)test).EpaActionId.Should().Be("GA000A0000130010000100001");
     }
 
     [Test]
@@ -31,19 +45,19 @@ public class IDataExchangeTests
         var test = new DataExchange { FacilityId = "1" };
 
         // Act
-        var act = () => ((IDataExchange)test).EpaActionId;
+        var func = () => ((IDataExchange)test).EpaFacilityId;
 
         // Assert
-        act.Should().Throw<ArgumentException>();
+        func.Should().Throw<ArgumentException>();
     }
 
     [Test]
     public void GivenNullActionNumber_ReturnsNull()
     {
         // Arrange
-        var test = new DataExchange { ActionNumber = null };
+        var test = new DataExchangeAction() { ActionNumber = null };
 
         // Assert
-        ((IDataExchange)test).EpaActionId.Should().BeNull();
+        ((IDataExchangeAction)test).EpaActionId.Should().BeNull();
     }
 }

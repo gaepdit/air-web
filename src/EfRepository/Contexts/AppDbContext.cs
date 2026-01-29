@@ -9,7 +9,6 @@ using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Identity;
 using AirWeb.Domain.Lookups.NotificationTypes;
 using AirWeb.Domain.Lookups.Offices;
-using AirWeb.EfRepository.Contexts.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AirWeb.EfRepository.Contexts;

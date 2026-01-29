@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeWrite
+public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

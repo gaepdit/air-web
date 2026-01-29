@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class AdministrativeOrder : ReportableEnforcementAction, IFormalEnforcementAction
+public class AdministrativeOrder : DxActionEnforcementAction, IFormalEnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

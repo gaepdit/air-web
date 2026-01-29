@@ -7,7 +7,7 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IFceBasicViewDto, IDataExchange
+public record FceViewDto : IFceBasicViewDto, IDataExchangeAction
 {
     [Display(Name = "FCE Tracking Number")]
     public int Id { get; init; }

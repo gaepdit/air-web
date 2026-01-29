@@ -1,5 +1,5 @@
 ﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model AirWeb.Domain.DataExchange.IDataExchange
+@model AirWeb.Domain.DataExchange.IDataExchangeAction
 @if (Model.ActionNumber != null)
 {
     <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
@@ -8,7 +8,7 @@
                 <summary class="rounded-1 p-1"><span class="ps-1">Show EPA Data Exchange info</span></summary>
                 <dl class="row mt-2 mb-0">
                     <dt class="col-sm-3">EPA Facility ID</dt>
-                    <dd class="col-sm-9">@Model.EpaFacilityIdentifier</dd>
+                    <dd class="col-sm-9">@Model.EpaFacilityId</dd>
 
                     <dt class="col-sm-3">EPA Action ID</dt>
                     <dd class="col-sm-9">@Model.EpaActionId</dd>

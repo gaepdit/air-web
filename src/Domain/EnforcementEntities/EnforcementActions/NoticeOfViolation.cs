@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class NoticeOfViolation : ReportableEnforcementAction, IInformalEnforcementAction, IResponseRequested
+public class NoticeOfViolation : DxActionEnforcementAction, IInformalEnforcementAction, IResponseRequested
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

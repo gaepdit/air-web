@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 
-public record ProposedCoViewDto : ResponseRequestedViewDto, IDataExchange
+public record ProposedCoViewDto : ResponseRequestedViewDto, IDataExchangeAction
 {
     public string FacilityId { get; init; } = null!;
     public ushort? ActionNumber { get; set; }

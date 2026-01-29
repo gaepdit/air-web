@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-namespace AirWeb.EfRepository.Contexts.Configuration;
+namespace AirWeb.EfRepository.Contexts;
 
 [SuppressMessage("ReSharper", "ConvertToExtensionBlock")]
 internal static class AppDbContextConfiguration
@@ -222,7 +222,7 @@ internal static class AppDbContextConfiguration
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<ReportableEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<DxEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;

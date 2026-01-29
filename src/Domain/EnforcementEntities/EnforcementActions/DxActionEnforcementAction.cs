@@ -16,13 +16,13 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 // * Consent Orders
 // * Administrative Orders
 
-public abstract class ReportableEnforcementAction : EnforcementAction, IDataExchangeWrite
+public abstract class DxActionEnforcementAction : DxEnforcementAction, IDataExchangeAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
-    private protected ReportableEnforcementAction() { }
+    private protected DxActionEnforcementAction() { }
 
-    private protected ReportableEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
+    private protected DxActionEnforcementAction(Guid id, CaseFile caseFile, ApplicationUser? user)
         : base(id, caseFile, user)
     {
         IsReportableAction = true;
@@ -31,11 +31,4 @@ public abstract class ReportableEnforcementAction : EnforcementAction, IDataExch
     // Data exchange properties
     [JsonIgnore]
     public ushort? ActionNumber { get; set; }
-
-    [JsonIgnore]
-    [StringLength(1)]
-    public DataExchangeStatus DataExchangeStatus { get; set; }
-
-    [JsonIgnore]
-    public DateTimeOffset? DataExchangeStatusDate { get; set; }
 }

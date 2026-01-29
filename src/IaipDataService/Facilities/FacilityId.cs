@@ -36,7 +36,7 @@ public partial record FacilityId : IComparable<FacilityId>
     /// <summary>
     /// The ID used by EPA.
     /// </summary>
-    public string EpaFacilityIdentifier => $"GA00000013{Id}";
+    public string EpaFacilityId => $"GA00000013{Id}";
 
     // Operators
     public static implicit operator string(FacilityId id) => id.FormattedId;
