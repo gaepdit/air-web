@@ -33,7 +33,7 @@ flowchart TD
 |----------------------------|:--------------:|:------------------------:|:----------------------:|
 | Letter of Noncompliance    |       ✓        |                          |                        |
 | Notice of Violation        |                |            ✓             |                        |
-| No Further Action Letter   |       ✓        |                          |                        |
+| No Further Action Letter   |      ✓ *       |                          |                        |
 | Combined NOV/NFA Letter    |                |            ✓             |                        |
 | Proposed Consent Order     |                |            ✓             |                        |
 | Consent Order              |                |                          |           ✓            |
@@ -41,14 +41,16 @@ flowchart TD
 | Order Resolved  (CO or AO) |       ✓        |                          |                        |
 | Informational Letter       |       ✓        |                          |                        |
 
+<span>*</span> NFA letters are not reportable on their own but are sent as Addressing & Resolving Pathway Activities.
+
 #### ICIS-Air Pathway Activities
 
-| Item                          | ICIS-Air Data Type    | Pathway Activity *                |
+| Item                          | ICIS-Air Data Type    | Pathway Activity                  |
 |-------------------------------|-----------------------|-----------------------------------|
 | Case File                     | Case File             | *N/A*                             |
 | Compliance Event              | Compliance Monitoring | Discovery                         |
 | Notice of Violation           | Informal EA           | Notification                      |
-| No Further Action Letter      | *N/A*                 | Addressing & Resolving            |
+| No Further Action Letter      | *N/A*                 | Addressing/Resolving              |
 | Combined NOV/NFA Letter       | Informal EA           | Notification/Addressing/Resolving |
 | Proposed Consent Order        | Informal EA           | Notification                      |
 | Consent Order                 | Formal EA             | Addressing                        |
@@ -56,13 +58,10 @@ flowchart TD
 | Administrative Order          | Formal EA             | Addressing                        |
 | Administrative Order Resolved | *N/A*                 | Resolving                         |
 
-<span>*</span> Indicates Pathway Activities tracked for each Case File.
-
-## Database objects
+## IAIP Database objects
 
 | Database          | Object                                                       | Type     | Repo        | Use                          | Modification         |
 |-------------------|--------------------------------------------------------------|----------|-------------|------------------------------|----------------------|
-| `AIRBRANCH`       | `air.GetIaipFacilityNextActionNumber`                        | SProc    | `air-web`   | Create new data              | *New*                |
 | `AIRBRANCH`       | `dbo.APBAIRPROGRAMPOLLUTANTS / TG_ICIS_AIRPROGRAMPOLLUTANTS` | Trigger  | `airbranch` | Update status for facility   | None                 |
 | `AIRBRANCH`       | `dbo.APBAIRPROGRAMPOLLUTANTS / TG_ICIS_POLLUTANT`            | Trigger  | `airbranch` | Update status for facility   | None                 |
 | `AIRBRANCH`       | `dbo.APBFACILITYINFORMATION / TG_APBFACILITYINFORMATION`     | Trigger  | `airbranch` | Update status for facility   | None                 |

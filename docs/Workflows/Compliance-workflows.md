@@ -196,7 +196,7 @@ flowchart
 
 ## RMP Inspection Workflow
 
-* An RMP Inspection is a Compliance Event.
+* An RMP Inspection is a Compliance Event but is not reportable to the Data Exchange.
 * An RMP Inspection is automatically closed when created.
 
 ```mermaid

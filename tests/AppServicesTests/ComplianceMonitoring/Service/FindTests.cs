@@ -3,6 +3,7 @@ using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
@@ -32,7 +33,7 @@ public class FindTests
 
         var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
-            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(),
+            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),
             Substitute.For<IAppNotificationService>());
 
         // Act
@@ -56,7 +57,8 @@ public class FindTests
         var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), Substitute.For<IFacilityService>(),
             Substitute.For<ISourceTestService>(), Substitute.For<ICommentService<int>>(),
-            Substitute.For<IUserService>(), Substitute.For<IAppNotificationService>());
+            Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),
+            Substitute.For<IAppNotificationService>());
 
         // Act
         var result = await appService.FindAsync(-1, includeComments: false);

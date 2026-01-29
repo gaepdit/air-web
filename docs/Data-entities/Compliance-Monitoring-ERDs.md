@@ -35,7 +35,7 @@ erDiagram
     INS |o--|| CME: "is a type of"
     REP |o--|| CME: "is a type of"
     CME |o--|| WRK: "is a subset of"
-    RMP |o--|| WRK: "is a type of"
+    RMP |o--|| CME: "is a type of"
     NOT |o--|| WRK: "is a type of"
     REV |o--|| WRK: "is a type of"
     STR |o--|| TST: "evaluates"

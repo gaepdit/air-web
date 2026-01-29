@@ -3,6 +3,7 @@ using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
+using AirWeb.AppServices.Enforcement;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
@@ -44,7 +45,8 @@ public class CreateTests
         var service = new ComplianceWorkService(AppServicesTestsSetup.Mapper!,
             Substitute.For<IComplianceWorkRepository>(),
             complianceWorkManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
-            Substitute.For<ICommentService<int>>(), userServiceMock, notificationMock);
+            Substitute.For<ICommentService<int>>(), userServiceMock, Substitute.For<ICaseFileService>(),
+            notificationMock);
 
         var item = new PermitRevocationCreateDto
         {
