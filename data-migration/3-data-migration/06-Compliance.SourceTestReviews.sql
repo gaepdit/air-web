@@ -51,8 +51,8 @@ select i.STRTRACKINGNUMBER                                       as Id,
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPTESTREPORTS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
-    left join AFSSSCPRECORDS f
-        on f.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
+    left join AFSISMPRECORDS f
+        on f.STRREFERENCENUMBER = d.STRREFERENCENUMBER
 
     inner join AirWeb.dbo.AspNetUsers ur
         on ur.IaipUserId = i.STRRESPONSIBLESTAFF
