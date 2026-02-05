@@ -26,8 +26,8 @@ public sealed class ComplianceWorkManager(IComplianceWorkRepository repository, 
             _ => throw new ArgumentException("Invalid compliance work type.", nameof(type)),
         };
 
-        if (complianceWork is ComplianceEvent ce and not RmpInspection)
-            ce.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
+        if (complianceWork is IDataExchangeAction dx)
+            dx.InitializeDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
 
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Added(user));
         return complianceWork;
@@ -36,35 +36,35 @@ public sealed class ComplianceWorkManager(IComplianceWorkRepository repository, 
     public void Update(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.SetUpdater(user?.Id);
-        if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
+        if (complianceWork is IDataExchangeAction dx) dx.UpdateDataExchange();
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Edited(user));
     }
 
     public void Close(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Close(user);
-        if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
+        if (complianceWork is IDataExchangeAction dx) dx.UpdateDataExchange();
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Closed(user));
     }
 
     public void Reopen(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Reopen(user);
-        if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
+        if (complianceWork is IDataExchangeAction dx) dx.UpdateDataExchange();
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Reopened(user));
     }
 
     public void Delete(ComplianceWork complianceWork, string? comment, ApplicationUser? user)
     {
         complianceWork.Delete(comment, user);
-        if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.DeleteDataExchange();
+        if (complianceWork is IDataExchangeAction dx) dx.DeleteDataExchange();
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Deleted(user));
     }
 
     public void Restore(ComplianceWork complianceWork, ApplicationUser? user)
     {
         complianceWork.Undelete();
-        if (complianceWork is ComplianceEvent ce and not RmpInspection) ce.UpdateDataExchange();
+        if (complianceWork is IDataExchangeAction dx) dx.UpdateDataExchange();
         complianceWork.AuditPoints.Add(ComplianceWorkAuditPoint.Restored(user));
     }
 

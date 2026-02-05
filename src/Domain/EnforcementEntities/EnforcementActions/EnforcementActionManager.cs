@@ -56,19 +56,17 @@ public class EnforcementActionManager(
 
     private async Task UpdateDataExchangeStatusAsync(EnforcementAction action)
     {
-        if (action is not DxActionEnforcementAction ra) return;
+        if (action is not DxEnforcementAction dx) return;
 
         if (action.Status != EnforcementActionStatus.Issued)
-        {
-            ra.DeleteDataExchange();
-            return;
-        }
+            dx.DeleteDataExchange();
 
-        if (ra.ActionNumber is null)
-            ra.InitiateDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
-                .ConfigureAwait(false));
+        else if (action is DxActionEnforcementAction { ActionNumber: null } dxa)
+            dxa.InitializeDataExchange(
+                await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId).ConfigureAwait(false));
+
         else
-            ra.UpdateDataExchange();
+            dx.UpdateDataExchange();
     }
 
     public async Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
@@ -130,7 +128,7 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
-        if (action is DxActionEnforcementAction ra) ra.DeleteDataExchange();
+        if (action is DxActionEnforcementAction dx) dx.DeleteDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
     }
 
@@ -142,7 +140,7 @@ public class EnforcementActionManager(
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
-        if (action is DxActionEnforcementAction ra) ra.UpdateDataExchange();
+        if (action is DxActionEnforcementAction dx) dx.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
         if (!tryCloseCaseFile) return false;

@@ -16,7 +16,8 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
 
         var caseFile = new CaseFile(repository.GetNextId(), facilityId, user);
 
-        caseFile.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
+        caseFile.InitializeDataExchange(
+            await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
         caseFile.AuditPoints.Add(CaseFileAuditPoint.Added(user));
         return caseFile;
     }

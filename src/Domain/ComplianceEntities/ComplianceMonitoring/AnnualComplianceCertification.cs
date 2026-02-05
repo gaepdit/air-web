@@ -1,8 +1,9 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
-public class AnnualComplianceCertification : ComplianceEvent
+public class AnnualComplianceCertification : ComplianceEvent, IDataExchangeAction
 {
     // Constructors
 

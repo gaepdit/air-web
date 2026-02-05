@@ -1,8 +1,9 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
-public class Inspection : BaseInspection
+public class Inspection : BaseInspection, IDataExchangeAction
 {
     // Constructors
 
