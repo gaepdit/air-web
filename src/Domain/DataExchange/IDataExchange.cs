@@ -28,8 +28,7 @@ internal static class DataExchangeExtensions
 {
     extension(IDataExchange dx)
     {
-        public void UpdateDataExchange() =>
-            dx.SetDataExchangeStatus(DataExchangeStatus.U);
+        public void UpdateDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.U);
 
         public void DeleteDataExchange()
         {
