@@ -69,11 +69,8 @@ public sealed class CaseFileService(
             .FindAsync(id, includeProperties: [nameof(CaseFile.ViolationType), nameof(CaseFile.EnforcementActions)],
                 token: token).ConfigureAwait(false));
 
-        if (caseFile != null)
-        {
-            caseFile.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
-                .ConfigureAwait(false);
-        }
+        caseFile?.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
+            .ConfigureAwait(false);
 
         return caseFile;
     }

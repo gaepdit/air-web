@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Roles;
 using AirWeb.AppServices.DtoInterfaces;
+using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
 using System.Security.Claims;
@@ -22,8 +23,8 @@ public static class CaseFilePermissions
         public bool CanManageCaseFileDeletions() =>
             user.IsEnforcementManager();
 
-        public bool CanDeleteCaseFile(IIsDeleted item) =>
-            !item.IsDeleted && user.CanManageCaseFileDeletions();
+        public bool CanDeleteCaseFile(CaseFileViewDto item) =>
+            !item.IsDeleted && user.CanManageCaseFileDeletions() && !item.HasIssuedEnforcement;
 
         public bool CanEditCaseFile<T>(T item)
             where T : IIsClosed, IIsDeleted, IHasOwner =>

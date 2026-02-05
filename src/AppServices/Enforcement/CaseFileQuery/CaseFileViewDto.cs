@@ -64,6 +64,9 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
+    public bool HasIssuedEnforcement =>
+        EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
+
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
     public bool MissingViolationType => ViolationType == null;

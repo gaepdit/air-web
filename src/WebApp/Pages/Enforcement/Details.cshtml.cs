@@ -124,6 +124,7 @@ public class DetailsModel(
 
         var closeCaseFileWasSet = IssueEnforcementAction.Option;
         IssueEnforcementAction.Option = IssueEnforcementAction.Option && UserCan[CaseFileOperation.CloseCaseFile];
+
         var caseFileClosed = await actionService.IssueAsync(enforcementActionId, IssueEnforcementAction, token);
         if (caseFileClosed) return RedirectToFragment(null);
 
