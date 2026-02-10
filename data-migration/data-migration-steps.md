@@ -5,8 +5,10 @@
 
 2. Run the scripts in the `1-setup` folder to create temporary DB objects used by the migration scripts.
 
-3. Run the data cleanup scripts in the `2-data-cleanup` folder.
+3. Run the data cleanup scripts in the `2-data-fix` folder.
 
 4. Run the migration scripts in the `3-data-migration` folder.
 
-5. When ready, run the cleanup scripts in the `4-cleanup` folder to remove the temporary objects.
+5. Examine the results of the scripts in the `4-test` folder.
+
+6. When ready, run the cleanup scripts in the `5-cleanup` folder to remove the temporary objects.

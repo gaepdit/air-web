@@ -11,10 +11,12 @@ using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-namespace AirWeb.EfRepository.Contexts.Configuration;
+namespace AirWeb.EfRepository.Contexts;
 
+[SuppressMessage("ReSharper", "ConvertToExtensionBlock")]
 internal static class AppDbContextConfiguration
 {
     internal static ModelBuilder ConfigureNavigationAutoIncludes(this ModelBuilder builder)
@@ -220,7 +222,7 @@ internal static class AppDbContextConfiguration
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<ReportableEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
+        builder.Entity<DxEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
         return builder;
@@ -301,7 +303,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCompositeUniqueIndexes(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureDataExchangeIndexes(this ModelBuilder builder)
     {
         // Configure composite unique indexes for FacilityId + ActionNumber
         // These ensure that ActionNumber is sequential and unique per FacilityId

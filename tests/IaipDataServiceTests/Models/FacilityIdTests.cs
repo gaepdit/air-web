@@ -88,7 +88,7 @@ public class FacilityIdTests
         result.Id.Should().Be("00100001");
         result.FormattedId.Should().Be("001-00001");
         result.ToString().Should().Be("001-00001");
-        result.EpaFacilityIdentifier.Should().Be("GA0000001300100001");
+        result.EpaFacilityId.Should().Be("GA0000001300100001");
     }
 
     [Test]

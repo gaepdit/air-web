@@ -7,7 +7,7 @@ using AirWeb.Domain.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Fces;
 
-public record FceViewDto : IFceBasicViewDto, IDataExchange
+public record FceViewDto : IFceBasicViewDto, IDataExchangeAction
 {
     [Display(Name = "FCE Tracking Number")]
     public int Id { get; init; }
@@ -54,7 +54,7 @@ public record FceViewDto : IFceBasicViewDto, IDataExchange
     public DateRange ExtendedDataDateRange => new(ExtendedDataStartDate, CompletedDate);
 
     // Data exchange
-    public ushort? ActionNumber { get; init; }
-    public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public ushort? ActionNumber { get; set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
 }

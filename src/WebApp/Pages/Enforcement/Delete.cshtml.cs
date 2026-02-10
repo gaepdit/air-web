@@ -16,13 +16,13 @@ public class DeleteModel(ICaseFileService service) : PageModel
     [BindProperty]
     public CommentDto Comment { get; set; } = null!;
 
-    public CaseFileSummaryDto ItemSummary { get; private set; } = null!;
+    public CaseFileViewDto ItemSummary { get; private set; } = null!;
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
         if (Id == 0) return RedirectToPage("Index");
 
-        var item = await service.FindSummaryAsync(Id, token);
+        var item = await service.FindDetailedAsync(Id, token);
         if (item is null) return NotFound();
         if (!User.CanDeleteCaseFile(item)) return Forbid();
 
@@ -34,7 +34,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var item = await service.FindSummaryAsync(Id, token);
+        var item = await service.FindDetailedAsync(Id, token);
         if (item is null || !User.CanDeleteCaseFile(item))
             return BadRequest();
 

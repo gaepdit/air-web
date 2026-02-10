@@ -1,50 +1,46 @@
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
---
--- insert into AirWeb.dbo.ComplianceWork
--- (
---     -- WorkEntry
---     Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---     IsComplianceEvent,
---
---     -- AnnualComplianceCertification, Notification, PermitRevocation, Report
---     ReceivedDate,
---
---     -- Inspection, Notification, PermitRevocation, SourceTestReview
---     FollowupTaken,
---
---     -- PermitRevocation
---     PermitRevocationDate, PhysicalShutdownDate,
---
---     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
---     ClosedById, ClosedDate)
+SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
 
-select i.STRTRACKINGNUMBER                                    as Id,
-       AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)        as FacilityId,
-       'PermitRevocation'                                     as WorkEntryType,
-       ur.Id                                                  as ResponsibleStaffId,
-       convert(date, i.DATACKNOLEDGMENTLETTERSENT)            as AcknowledgmentLetterDate,
-       AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONCOMMENT)     as Notes,
-       convert(date, i.DATRECEIVEDDATE)                       as EventDate,
-       0                                                      as IsComplianceEvent,
+insert into AirWeb.dbo.ComplianceWork
+(
+    -- WorkEntry
+    Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+    IsComplianceEvent,
 
-       convert(date, i.DATRECEIVEDDATE)                       as ReceivedDate,
-       convert(bit, d.STRNOTIFICATIONFOLLOWUP)                as FollowupTaken,
+    -- AnnualComplianceCertification, Notification, PermitRevocation, Report
+    ReceivedDate,
 
-       AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)            as PermitRevocationDate,
-       convert(date, d.DATNOTIFICATIONSENT)                   as PhysicalShutdownDate,
+    -- Inspection, Notification, PermitRevocation, SourceTestReview
+    FollowupTaken,
 
-       i.DATMODIFINGDATE at time zone 'Eastern Standard Time' as CreatedAt,
-       uc.Id                                                  as CreatedById,
-       d.DATMODIFINGDATE at time zone 'Eastern Standard Time' as UpdatedAt,
-       um.Id                                                  as UpdatedById,
-       convert(bit, isnull(i.STRDELETE, 'False'))             as IsDeleted,
-       null                                                   as DeletedAt,
-       null                                                   as DeletedById,
-       null                                                   as DeleteComments,
-       IIF(i.DATCOMPLETEDATE is null, 0, 1)                   as IsClosed,
-       IIF(i.DATCOMPLETEDATE is null, null, um.Id)            as ClosedById,
-       convert(date, i.DATCOMPLETEDATE)                       as ClosedDate
+    -- PermitRevocation
+    PermitRevocationDate, PhysicalShutdownDate,
+
+    -- WorkEntry
+    CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
+
+select i.STRTRACKINGNUMBER                                       as Id,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,
+       'PermitRevocation'                                        as WorkEntryType,
+       ur.Id                                                     as ResponsibleStaffId,
+       convert(date, i.DATACKNOLEDGMENTLETTERSENT)               as AcknowledgmentLetterDate,
+       AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONCOMMENT)        as Notes,
+       convert(date, i.DATRECEIVEDDATE)                          as EventDate,
+       0                                                         as IsComplianceEvent,
+
+       convert(date, i.DATRECEIVEDDATE)                          as ReceivedDate,
+       convert(bit, d.STRNOTIFICATIONFOLLOWUP)                   as FollowupTaken,
+
+       AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)               as PermitRevocationDate,
+       convert(date, d.DATNOTIFICATIONSENT)                      as PhysicalShutdownDate,
+
+       i.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as CreatedAt,
+       uc.Id                                                     as CreatedById,
+       d.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as UpdatedAt,
+       um.Id                                                     as UpdatedById,
+       0                                                         as IsDeleted,
+       IIF(i.DATCOMPLETEDATE is null, 0, 1)                      as IsClosed,
+       IIF(i.DATCOMPLETEDATE is null, null, um.Id)               as ClosedById,
+       convert(date, i.DATCOMPLETEDATE)                          as ClosedDate
 
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     inner join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
@@ -73,4 +69,4 @@ SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork OFF;
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'PermitRevocation';
+where ComplianceWorkType = 'PermitRevocation';

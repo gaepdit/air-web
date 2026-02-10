@@ -13,7 +13,7 @@ public sealed class FceManager(IFceRepository repository, IFacilityService facil
 
         var fce = new Fce(repository.GetNextId(), facilityId, year, user);
 
-        fce.InitiateDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
+        fce.InitializeDataExchange(await facilityService.GetNextActionNumberAsync(facilityId).ConfigureAwait(false));
         fce.AuditPoints.Add(FceAuditPoint.Added(user));
         return fce;
     }

@@ -30,6 +30,7 @@ public class EnforcementActionManager(
         };
 
         caseFile.EnforcementActions.Add(enforcementAction);
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionAdded(actionType, user));
         return enforcementAction;
     }
@@ -56,19 +57,19 @@ public class EnforcementActionManager(
 
     private async Task UpdateDataExchangeStatusAsync(EnforcementAction action)
     {
-        if (action is not ReportableEnforcementAction ra) return;
+        if (action is not DxEnforcementAction dx) return;
+
+        action.CaseFile.UpdateDataExchange();
 
         if (action.Status != EnforcementActionStatus.Issued)
-        {
-            ra.DeleteDataExchange();
-            return;
-        }
+            dx.DeleteDataExchange();
 
-        if (ra.ActionNumber is null)
-            ra.InitiateDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
-                .ConfigureAwait(false));
+        else if (action is DxActionEnforcementAction { ActionNumber: null } dxa)
+            dxa.InitializeDataExchange(
+                await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId).ConfigureAwait(false));
+
         else
-            ra.UpdateDataExchange();
+            dx.UpdateDataExchange();
     }
 
     public async Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
@@ -83,16 +84,18 @@ public class EnforcementActionManager(
 
         await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
 
-        if (!tryCloseCaseFile || action is not
+        if (tryCloseCaseFile && action is
             {
                 ActionType: EnforcementActionType.NovNfaLetter or EnforcementActionType.NoFurtherActionLetter,
                 CaseFile.MissingData: false,
             })
-            return false;
+        {
+            var caseFile = action.CaseFile;
+            caseFileManager.Close(caseFile, user);
+            return true;
+        }
 
-        var caseFile = action.CaseFile;
-        caseFileManager.Close(caseFile, user);
-        return true;
+        return false;
     }
 
     private static void Approve(EnforcementAction action, ApplicationUser? user)
@@ -130,7 +133,8 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
-        if (action is ReportableEnforcementAction ra) ra.DeleteDataExchange();
+        if (action is DxActionEnforcementAction dx) dx.DeleteDataExchange();
+        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
     }
 
@@ -142,20 +146,21 @@ public class EnforcementActionManager(
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
-        if (action is ReportableEnforcementAction ra) ra.UpdateDataExchange();
+        if (action is DxActionEnforcementAction dx) dx.UpdateDataExchange();
+        action.CaseFile.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
         if (!tryCloseCaseFile) return false;
 
-        var caseFile = action.CaseFile;
-        caseFileManager.Close(caseFile, user);
+        caseFileManager.Close(action.CaseFile, user);
         return true;
     }
 
     public void ExecuteOrder(IFormalEnforcementAction action, DateOnly executedDate, ApplicationUser? user)
     {
         ((EnforcementAction)action).SetUpdater(user?.Id);
-        ((ReportableEnforcementAction)action).UpdateDataExchange();
+        ((DxActionEnforcementAction)action).UpdateDataExchange();
+        action.CaseFile.UpdateDataExchange();
         action.Execute(executedDate);
     }
 
@@ -163,6 +168,7 @@ public class EnforcementActionManager(
     {
         action.SetUpdater(user?.Id);
         action.UpdateDataExchange();
+        action.CaseFile.UpdateDataExchange();
         action.Appeal(executedDate);
     }
 

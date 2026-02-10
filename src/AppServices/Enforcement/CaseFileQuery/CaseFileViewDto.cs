@@ -14,7 +14,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Enforcement.CaseFileQuery;
 
-public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments, IDataExchange
+public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComments, IDataExchangeAction
 {
     public int Id { get; init; }
     public bool IsClosed { get; init; }
@@ -64,6 +64,9 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
+    public bool HasIssuedEnforcement =>
+        EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
+
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
     public bool MissingViolationType => ViolationType == null;
@@ -100,8 +103,8 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public string OwnerId => ResponsibleStaff?.Id ?? string.Empty;
 
     // Data Exchange
-    public ushort? ActionNumber { get; init; }
-    public DataExchangeStatus DataExchangeStatus { get; init; }
-    public DateTimeOffset? DataExchangeStatusDate { get; init; }
+    public ushort? ActionNumber { get; set; }
+    public DataExchangeStatus DataExchangeStatus { get; set; }
+    public DateTimeOffset? DataExchangeStatusDate { get; set; }
     public bool IsReportable { get; init; }
 }

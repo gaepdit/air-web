@@ -564,3 +564,5 @@ _artifacts/
 
 # Code coverage report from ReportGenerator
 coveragereport/
+
+.mailmap

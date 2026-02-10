@@ -6,36 +6,34 @@ begin
          where Discriminator = 'NotificationType'
            and Name = 'Other');
 
-    --
---     SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
---
---     insert into AirWeb.dbo.ComplianceWork
---     (
---         -- WorkEntry
---         Id, FacilityId, WorkEntryType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---         IsComplianceEvent,
---
---         -- AnnualComplianceCertification, Notification, Report
---         ReceivedDate,
---
---         -- Inspection, Notification, PermitRevocation, SourceTestReview
---         FollowupTaken,
---
---         -- Notification, Report, SourceTestReview
---         DueDate,
---
---         -- Notification, Report
---         SentDate,
---
---         -- Notification
---         NotificationTypeId,
---
---         -- WorkEntry
---         CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, DeletedAt, DeletedById, DeleteComments, IsClosed,
---         ClosedById, ClosedDate)
+    SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+
+    insert into AirWeb.dbo.ComplianceWork
+    (
+        -- WorkEntry
+        Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+        IsComplianceEvent,
+
+        -- AnnualComplianceCertification, Notification, Report
+        ReceivedDate,
+
+        -- Inspection, Notification, PermitRevocation, SourceTestReview
+        FollowupTaken,
+
+        -- Notification, Report, SourceTestReview
+        DueDate,
+
+        -- Notification, Report
+        SentDate,
+
+        -- Notification
+        NotificationTypeId,
+
+        -- WorkEntry
+        CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
     select i.STRTRACKINGNUMBER                                                         as Id,
-           AIRBRANCH.air.FormatAirsNumber(i.STRAIRSNUMBER)                             as FacilityId,
+           AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER)                   as FacilityId,
            'Notification'                                                              as WorkEntryType,
            ur.Id                                                                       as ResponsibleStaffId,
            convert(date, i.DATACKNOLEDGMENTLETTERSENT)                                 as AcknowledgmentLetterDate,
@@ -47,8 +45,8 @@ begin
                             + AIRBRANCH.air.ReduceText(d.STRNOTIFICATIONCOMMENT)), '') as Notes,
            convert(date, i.DATRECEIVEDDATE)                                            as EventDate,
            0                                                                           as IsComplianceEvent,
-           convert(date, i.DATRECEIVEDDATE)                                            as ReceivedDate,
 
+           convert(date, i.DATRECEIVEDDATE)                                            as ReceivedDate,
            convert(bit, d.STRNOTIFICATIONFOLLOWUP)                                     as FollowupTaken,
            AIRBRANCH.air.FixDate(d.DATNOTIFICATIONDUE)                                 as DueDate,
            AIRBRANCH.air.FixDate(d.DATNOTIFICATIONSENT)                                as SentDate,
@@ -58,10 +56,7 @@ begin
            uc.Id                                                                       as CreatedById,
            d.DATMODIFINGDATE at time zone 'Eastern Standard Time'                      as UpdatedAt,
            um.Id                                                                       as UpdatedById,
-           convert(bit, isnull(i.STRDELETE, 'False'))                                  as IsDeleted,
-           null                                                                        as DeletedAt,
-           null                                                                        as DeletedById,
-           null                                                                        as DeleteComments,
+           0                                                                           as IsDeleted,
            IIF(i.DATCOMPLETEDATE is null, 0, 1)                                        as IsClosed,
            IIF(i.DATCOMPLETEDATE is null, null, um.Id)                                 as ClosedById,
            convert(date, i.DATCOMPLETEDATE)                                            as ClosedDate
@@ -95,4 +90,4 @@ end
 
 select *
 from AirWeb.dbo.ComplianceWork
-where WorkEntryType = 'Notification';
+where ComplianceWorkType = 'Notification';

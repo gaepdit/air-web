@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.DataExchange;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
@@ -8,6 +9,7 @@ namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
 public interface IFormalEnforcementAction : IResolvable, IIsExecuted, IDataExchange
 {
+    public CaseFile CaseFile { get; }
     internal void Execute(DateOnly executedDate);
 }
 

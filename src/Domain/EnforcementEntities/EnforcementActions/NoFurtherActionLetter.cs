@@ -3,7 +3,7 @@ using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;
 
-public class NoFurtherActionLetter : EnforcementAction
+public class NoFurtherActionLetter : DxEnforcementAction
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

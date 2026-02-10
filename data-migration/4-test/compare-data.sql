@@ -2,19 +2,19 @@
        count(*)               as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.Fces) as [AirWeb]
-from SSCPFCEMASTER i
-    inner join SSCPFCE f
+from AIRBRANCH.dbo.SSCPFCEMASTER i
+    inner join AIRBRANCH.dbo.SSCPFCE f
         on f.STRFCENUMBER = i.STRFCENUMBER
-where i.IsDeleted = 'False' or
-      i.IsDeleted is null
+where i.IsDeleted = 'False'
+   or i.IsDeleted is null
 
 union
 
-select 'ACC'                                                   as [category],
-       count(*)                                                as [AIRBRANCH],
+select 'ACC'                                                        as [category],
+       count(*)                                                     as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'AnnualComplianceCertification') as [AirWeb]
+        where ComplianceWorkType = 'AnnualComplianceCertification') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPACCS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -23,11 +23,11 @@ where i.STRDELETE is null
 
 union
 
-select 'Inspection'                         as [category],
-       count(*)                             as [AIRBRANCH],
+select 'Inspection'                              as [category],
+       count(*)                                  as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'Inspection') as [AirWeb]
+        where ComplianceWorkType = 'Inspection') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPINSPECTIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -36,11 +36,11 @@ where i.STRDELETE is null
 
 union
 
-select 'RMP Inspection'                        as [category],
-       count(*)                                as [AIRBRANCH],
+select 'RMP Inspection'                             as [category],
+       count(*)                                     as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'RmpInspection') as [AirWeb]
+        where ComplianceWorkType = 'RmpInspection') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPINSPECTIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -49,11 +49,11 @@ where i.STRDELETE is null
 
 union
 
-select 'Notification'                         as [category],
-       count(*)                               as [AIRBRANCH],
+select 'Notification'                              as [category],
+       count(*)                                    as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'Notification') as [AirWeb]
+        where ComplianceWorkType = 'Notification') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -63,11 +63,11 @@ where i.STRDELETE is null
 
 union
 
-select 'PermitRevocation'                         as [category],
-       count(*)                                   as [AIRBRANCH],
+select 'PermitRevocation'                              as [category],
+       count(*)                                        as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'PermitRevocation') as [AirWeb]
+        where ComplianceWorkType = 'PermitRevocation') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     inner join AIRBRANCH.dbo.SSCPNOTIFICATIONS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -77,11 +77,11 @@ where i.STRDELETE is null
 
 union
 
-select 'Report'                         as [category],
-       count(*)                         as [AIRBRANCH],
+select 'Report'                              as [category],
+       count(*)                              as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'Report') as [AirWeb]
+        where ComplianceWorkType = 'Report') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPTESTREPORTS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -90,11 +90,11 @@ where i.STRDELETE is null
 
 union
 
-select 'SourceTestReview'                         as [category],
-       count(*)                                   as [AIRBRANCH],
+select 'SourceTestReview'                              as [category],
+       count(*)                                        as [AIRBRANCH],
        (select count(*)
         from AirWeb.dbo.ComplianceWork
-        where WorkEntryType = 'SourceTestReview') as [AirWeb]
+        where ComplianceWorkType = 'SourceTestReview') as [AirWeb]
 from AIRBRANCH.dbo.SSCPITEMMASTER i
     left join AIRBRANCH.dbo.SSCPTESTREPORTS d
         on d.STRTRACKINGNUMBER = i.STRTRACKINGNUMBER
@@ -131,7 +131,8 @@ select 'ConsentOrder'                      as [category],
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 where isnull(e.IsDeleted, 0) = 0
   and e.STRACTIONTYPE = 'CASEFILE'
-  and (e.STRCORECEIVEDFROMCOMPANY = 'True' or e.STRCORECEIVEDFROMDIRECTOR = 'True' or e.STRCOEXECUTED = 'True')
+  and (e.STRCORECEIVEDFROMCOMPANY = 'True' or e.STRCORECEIVEDFROMDIRECTOR = 'True' or
+       e.STRCOEXECUTED = 'True')
 
 union
 

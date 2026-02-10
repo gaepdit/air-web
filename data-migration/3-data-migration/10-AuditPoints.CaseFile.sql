@@ -7,8 +7,8 @@ with cte as
                      (partition by STRENFORCEMENTNUMBER order by DATMODIFINGDATE, ID)
           from AIRBRANCH.dbo.SSCP_ENFORCEMENT)
 
--- insert
--- into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
+insert
+into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
 
 select newid()                                  as Id,
        'Added'                                  as What,
@@ -37,8 +37,8 @@ with cte as
                      (partition by STRENFORCEMENTNUMBER order by DATMODIFINGDATE, ID)
           from AIRBRANCH.dbo.SSCP_ENFORCEMENT)
 
--- insert
--- into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
+insert
+into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
 
 select newid()                                  as Id,
        'Edited'                                 as What,
@@ -68,8 +68,8 @@ with cte as
           from SSCP_ENFORCEMENT
           group by STRENFORCEMENTNUMBER, DATENFORCEMENTFINALIZED)
 
--- insert
--- into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
+insert
+into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, CaseFileId)
 
 select newid()                                  as Id,
        'Closed'                                 as What,
@@ -94,8 +94,8 @@ where isnull(e.IsDeleted, 0) = 0
 
 order by x.DATMODIFINGDATE, x.STRENFORCEMENTNUMBER;
 
--- insert
--- into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], MoreInfo, Discriminator, CaseFileId)
+insert
+into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], MoreInfo, Discriminator, CaseFileId)
 
 select newid()                                  as Id,
        'Compliance Event Linked'                as What,
@@ -114,3 +114,7 @@ from SSCP_AUDITEDENFORCEMENT e
 
 where isnull(e.IsDeleted, 0) = 0
 order by v.CreatedDate, v.EnforcementNumber, v.TrackingNumber;
+
+select *
+from AirWeb.dbo.AuditPoints
+where Discriminator = 'CaseFileAuditPoint';

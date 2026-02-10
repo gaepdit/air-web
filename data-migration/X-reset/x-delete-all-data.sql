@@ -3,11 +3,11 @@
 
 
 -- -- The following tables are populated by the data migration scripts.
--- delete from AIRBRANCH.air.ComplianceUserIds;
+-- -- delete from AIRBRANCH.air.ComplianceUserIds;
 -- delete from AirWeb.dbo.AspNetRoleClaims;
 -- delete from AirWeb.dbo.AspNetUserClaims;
 -- delete from AirWeb.dbo.AspNetUserLogins;
--- delete from AirWeb.dbo.AspNetUserRoles;
+-- -- delete from AirWeb.dbo.AspNetUserRoles;
 -- delete from AirWeb.dbo.AspNetUserTokens;
 -- delete from AirWeb.dbo.AuditPoints;
 -- delete from AirWeb.dbo.CaseFileComplianceEvents;
@@ -24,5 +24,5 @@
 -- delete from AirWeb.dbo.ViolationTypes;
 
 
--- -- The following table is populated by the application. 
+-- -- The following table is populated by the application.
 -- delete from AirWeb.dbo.AspNetRoles;

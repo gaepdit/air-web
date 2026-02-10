@@ -69,11 +69,8 @@ public sealed class CaseFileService(
             .FindAsync(id, includeProperties: [nameof(CaseFile.ViolationType), nameof(CaseFile.EnforcementActions)],
                 token: token).ConfigureAwait(false));
 
-        if (caseFile != null)
-        {
-            caseFile.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
-                .ConfigureAwait(false);
-        }
+        caseFile?.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
+            .ConfigureAwait(false);
 
         return caseFile;
     }
@@ -133,7 +130,7 @@ public sealed class CaseFileService(
         CancellationToken token = default) =>
         mapper.Map<ICollection<ComplianceWorkSearchResultDto>>(await repository
             .GetListAsync(work => work.IsComplianceEvent && !work.IsDeleted &&
-                                   ((ComplianceEvent)work).CaseFiles.Any(caseFile => caseFile.Id == id),
+                                  ((ComplianceEvent)work).CaseFiles.Any(caseFile => caseFile.Id == id),
                 ComplianceWorkSortBy.IdDesc.GetDescription(), token: token).ConfigureAwait(false));
 
     public async Task<IEnumerable<ComplianceWorkSearchResultDto>> GetAvailableEventsAsync(FacilityId facilityId,
@@ -143,32 +140,33 @@ public sealed class CaseFileService(
                 ComplianceWorkSortBy.IdDesc.GetDescription(), token: token)
             .ConfigureAwait(false)).Except(linkedEvents);
 
-    public async Task<bool> LinkComplianceEventAsync(int id, int eventId, CancellationToken token = default)
+    public async Task<bool> LinkComplianceEventAsync(int caseFileId, int eventId, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent complianceEvent)
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
+        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent ce)
             return false;
-        if (complianceEvent.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(complianceEvent))
+        if (ce.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(ce))
             return false;
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        caseFileManager.LinkComplianceEvent(caseFile, complianceEvent, currentUser);
+        caseFileManager.LinkComplianceEvent(caseFile, ce, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
         return true;
     }
 
-    public async Task<bool> UnLinkComplianceEventAsync(int id, int eventId, CancellationToken token = default)
+    public async Task<bool> UnLinkComplianceEventAsync(int caseFileId, int eventId, bool autoSave = true,
+        CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, [nameof(CaseFile.ComplianceEvents)], token: token)
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, [nameof(CaseFile.ComplianceEvents)], token: token)
             .ConfigureAwait(false);
-        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent complianceEvent)
+        if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent ce)
             return false;
-        if (!caseFile.ComplianceEvents.Contains(complianceEvent))
+        if (!caseFile.ComplianceEvents.Contains(ce))
             return false;
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        caseFileManager.UnlinkComplianceEvent(caseFile, complianceEvent, currentUser);
-        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
+        caseFileManager.UnlinkComplianceEvent(caseFile, ce, currentUser);
+        await caseFileRepository.UpdateAsync(caseFile, autoSave: autoSave, token: token).ConfigureAwait(false);
         return true;
     }
 

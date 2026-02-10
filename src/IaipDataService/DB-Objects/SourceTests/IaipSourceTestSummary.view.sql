@@ -1,4 +1,4 @@
-USE airbranch;
+USE AIRBRANCH
 GO
 
 CREATE OR ALTER VIEW air.IaipSourceTestSummary

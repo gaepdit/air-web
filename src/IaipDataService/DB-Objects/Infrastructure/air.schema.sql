@@ -1,4 +1,4 @@
-﻿USE airbranch;
+﻿USE AIRBRANCH
 
 IF NOT EXISTS
     (SELECT 1

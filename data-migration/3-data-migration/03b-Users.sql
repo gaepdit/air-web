@@ -1,7 +1,7 @@
--- insert into AirWeb.dbo.AspNetUsers
--- (Id, GivenName, FamilyName, OfficeId, Active, AccountCreatedAt, AccountUpdatedAt, ProfileUpdatedAt, MostRecentLogin,
---  UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp,
---  PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, IaipUserId)
+insert into AirWeb.dbo.AspNetUsers
+(Id, GivenName, FamilyName, OfficeId, Active, AccountCreatedAt, AccountUpdatedAt, ProfileUpdatedAt, MostRecentLogin,
+ UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp,
+ PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, IaipUserId)
 
 select newid()                  as Id,
        STRFIRSTNAME             as GivenName,
