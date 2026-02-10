@@ -24,7 +24,7 @@ public sealed class CaseFileRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        Context.CaseFileComments.Add(new CaseFileComment(comment, itemId));
+        await Context.CaseFileComments.AddAsync(new CaseFileComment(comment, itemId), token).ConfigureAwait(false);
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 

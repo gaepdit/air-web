@@ -27,7 +27,7 @@ public sealed class FceRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        Context.FceComments.Add(new FceComment(comment, itemId));
+        await Context.FceComments.AddAsync(new FceComment(comment, itemId), token).ConfigureAwait(false);
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 

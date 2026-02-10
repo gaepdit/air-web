@@ -51,7 +51,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
 
     public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
     {
-        Context.ComplianceWorkComments.Add(new ComplianceWorkComment(comment, itemId));
+        await Context.ComplianceWorkComments.AddAsync(new ComplianceWorkComment(comment, itemId), token).ConfigureAwait(false);
         await SaveChangesAsync(token).ConfigureAwait(false);
     }
 
