@@ -89,8 +89,8 @@ with roleX(IaipRole, AirWebRole) as
             and convert(int, l.value) in
                 (19, 20, 79, 80, 82, 84, 85, 86, 113, 114, 133, 134, 135, 136, 137, 138, 140, 118))
 
--- insert
--- into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
+insert
+into AirWeb.dbo.AspNetUserRoles (UserId, RoleId)
 
 select distinct u.Id as UserId,
                 r.Id as RoleId

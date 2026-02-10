@@ -1,9 +1,9 @@
--- SET IDENTITY_INSERT AirWeb.dbo.CaseFiles ON;
--- 
--- insert into AirWeb.dbo.CaseFiles
--- (Id, FacilityId, ResponsibleStaffId, Notes, ViolationTypeCode, CaseFileStatus, DiscoveryDate, DayZero, EnforcementDate,
---  PollutantIds, AirPrograms, ActionNumber, DataExchangeStatus, DataExchangeStatusDate, UpdatedAt, UpdatedById, IsDeleted,
---  IsClosed, ClosedDate)
+SET IDENTITY_INSERT AirWeb.dbo.CaseFiles ON;
+
+insert into AirWeb.dbo.CaseFiles
+(Id, FacilityId, ResponsibleStaffId, Notes, ViolationTypeCode, CaseFileStatus, DiscoveryDate, DayZero, EnforcementDate,
+ PollutantIds, AirPrograms, ActionNumber, DataExchangeStatus, DataExchangeStatusDate, UpdatedAt, UpdatedById, IsDeleted,
+ IsClosed, ClosedDate)
 
 select e.STRENFORCEMENTNUMBER                                    as Id,
        AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER) as FacilityId,

@@ -1,4 +1,7 @@
-﻿drop function AIRBRANCH.air.FixDate;
-drop function AIRBRANCH.air.ReduceText;
+﻿begin
 
-go
+    use AIRBRANCH;
+    drop function air.FixDate;
+    drop function air.ReduceText;
+
+end

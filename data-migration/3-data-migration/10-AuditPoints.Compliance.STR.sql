@@ -1,4 +1,4 @@
--- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
+insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
 select newid()                                  as Id,
        'Added'                                  as What,
        isnull(ua.Id, ui.Id)                     as WhoId,
@@ -22,7 +22,7 @@ where i.STRDELETE is null
 
 order by nullif(a.DATMODIFINGDATE, i.DATMODIFINGDATE), i.STRTRACKINGNUMBER;
 
--- insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
+insert into AirWeb.dbo.AuditPoints (Id, What, WhoId, [When], Discriminator, ComplianceWorkId)
 select newid()                                  as Id,
        'Edited'                                 as What,
        ui.Id                                    as WhoId,

@@ -1,8 +1,8 @@
--- SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
--- 
--- insert into AirWeb.dbo.Fces
--- (Id, FacilityId, Year, ReviewedById, CompletedDate, OnsiteInspection, Notes, ActionNumber, DataExchangeStatus,
---  DataExchangeStatusDate, CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted)
+SET IDENTITY_INSERT AirWeb.dbo.Fces ON;
+
+insert into AirWeb.dbo.Fces
+(Id, FacilityId, Year, ReviewedById, CompletedDate, OnsiteInspection, Notes, ActionNumber, DataExchangeStatus,
+ DataExchangeStatusDate, CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted)
 
 select i.STRFCENUMBER                                            as Id,
        AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,

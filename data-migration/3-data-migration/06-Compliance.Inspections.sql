@@ -1,23 +1,23 @@
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
--- insert into AirWeb.dbo.ComplianceWork
--- (
---     -- WorkEntry
---     Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---     IsComplianceEvent,
--- 
---     -- ComplianceEvent
---     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
--- 
---     -- Inspection
---     InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide, FacilityOperating,
---     DeviationsNoted,
--- 
---     -- Inspection, Notification, PermitRevocation, SourceTestReview
---     FollowupTaken,
--- 
---     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
+SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+
+insert into AirWeb.dbo.ComplianceWork
+(
+    -- WorkEntry
+    Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+    IsComplianceEvent,
+
+    -- ComplianceEvent
+    ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+
+    -- Inspection
+    InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide, FacilityOperating,
+    DeviationsNoted,
+
+    -- Inspection, Notification, PermitRevocation, SourceTestReview
+    FollowupTaken,
+
+    -- WorkEntry
+    CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                                               as Id,
        AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER)                         as FacilityId,

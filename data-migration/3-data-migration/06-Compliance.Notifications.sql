@@ -6,32 +6,31 @@ begin
          where Discriminator = 'NotificationType'
            and Name = 'Other');
 
-    --
---     SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
---     insert into AirWeb.dbo.ComplianceWork
---     (
---         -- WorkEntry
---         Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---         IsComplianceEvent,
--- 
---         -- AnnualComplianceCertification, Notification, Report
---         ReceivedDate,
--- 
---         -- Inspection, Notification, PermitRevocation, SourceTestReview
---         FollowupTaken,
--- 
---         -- Notification, Report, SourceTestReview
---         DueDate,
--- 
---         -- Notification, Report
---         SentDate,
--- 
---         -- Notification
---         NotificationTypeId,
--- 
---         -- WorkEntry
---         CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
+    SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+
+    insert into AirWeb.dbo.ComplianceWork
+    (
+        -- WorkEntry
+        Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+        IsComplianceEvent,
+
+        -- AnnualComplianceCertification, Notification, Report
+        ReceivedDate,
+
+        -- Inspection, Notification, PermitRevocation, SourceTestReview
+        FollowupTaken,
+
+        -- Notification, Report, SourceTestReview
+        DueDate,
+
+        -- Notification, Report
+        SentDate,
+
+        -- Notification
+        NotificationTypeId,
+
+        -- WorkEntry
+        CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
     select i.STRTRACKINGNUMBER                                                         as Id,
            AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER)                   as FacilityId,

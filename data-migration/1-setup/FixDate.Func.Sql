@@ -1,5 +1,5 @@
-﻿use AIRBRANCH;
-go
+﻿USE AIRBRANCH
+GO
 
 CREATE OR ALTER FUNCTION air.FixDate
 (

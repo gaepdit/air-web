@@ -1,10 +1,10 @@
--- insert into AirWeb.dbo.EnforcementActions
--- (
---     -- EnforcementAction (All)
---     Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
--- 
---     -- EnforcementAction (All)
---     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
+insert into AirWeb.dbo.EnforcementActions
+(
+    -- EnforcementAction (All)
+    Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
+
+    -- EnforcementAction (All)
+    CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                   as Id,
        e.STRENFORCEMENTNUMBER                                    as CaseFileId,

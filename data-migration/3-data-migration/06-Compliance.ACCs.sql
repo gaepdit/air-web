@@ -1,27 +1,27 @@
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
--- insert into AirWeb.dbo.ComplianceWork
--- (
---     -- WorkEntry
---     Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---     IsComplianceEvent,
--- 
---     -- ComplianceEvent
---     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
--- 
---     -- AnnualComplianceCertification, Notification, Report
---     ReceivedDate,
--- 
---     -- AnnualComplianceCertification
---     AccReportingYear, PostmarkDate, PostmarkedOnTime, SignedByRo, OnCorrectForms, IncludesAllTvConditions,
---     CorrectlyCompleted, ReportsDeviations, IncludesPreviouslyUnreportedDeviations, ReportsAllKnownDeviations,
---     ResubmittalRequired,
--- 
---     -- AnnualComplianceCertification, Report
---     EnforcementNeeded,
--- 
---     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
+SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+
+insert into AirWeb.dbo.ComplianceWork
+(
+    -- WorkEntry
+    Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+    IsComplianceEvent,
+
+    -- ComplianceEvent
+    ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+
+    -- AnnualComplianceCertification, Notification, Report
+    ReceivedDate,
+
+    -- AnnualComplianceCertification
+    AccReportingYear, PostmarkDate, PostmarkedOnTime, SignedByRo, OnCorrectForms, IncludesAllTvConditions,
+    CorrectlyCompleted, ReportsDeviations, IncludesPreviouslyUnreportedDeviations, ReportsAllKnownDeviations,
+    ResubmittalRequired,
+
+    -- AnnualComplianceCertification, Report
+    EnforcementNeeded,
+
+    -- WorkEntry
+    CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                       as Id,
        AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,

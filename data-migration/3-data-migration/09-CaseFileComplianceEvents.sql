@@ -1,4 +1,4 @@
--- insert into AirWeb.dbo.CaseFileComplianceEvents (CaseFileId, ComplianceEventId)
+insert into AirWeb.dbo.CaseFileComplianceEvents (CaseFileId, ComplianceEventId)
 
 select c.EnforcementNumber as CaseFilesId,
        c.TrackingNumber    as ComplianceEventsId

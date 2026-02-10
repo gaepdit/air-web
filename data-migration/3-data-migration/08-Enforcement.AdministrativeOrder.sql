@@ -1,23 +1,23 @@
--- insert into AirWeb.dbo.EnforcementActions
--- (
---     -- EnforcementAction (All)
---     Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
--- 
---     -- ReportableEnforcement
---     -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
---     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
--- 
---     -- AdministrativeOrder, ConsentOrder
---     ExecutedDate,
--- 
---     -- AdministrativeOrder
---     AppealedDate,
--- 
---     -- AdministrativeOrder, ConsentOrder, LetterOfNoncompliance
---     ResolvedDate,
--- 
---     -- EnforcementAction (All)
---     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
+insert into AirWeb.dbo.EnforcementActions
+(
+    -- EnforcementAction (All)
+    Id, CaseFileId, ActionType, FacilityId, Notes, Status, IssueDate, IsReportableAction,
+
+    -- ReportableEnforcement
+    -- (AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder)
+    ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+
+    -- AdministrativeOrder, ConsentOrder
+    ExecutedDate,
+
+    -- AdministrativeOrder
+    AppealedDate,
+
+    -- AdministrativeOrder, ConsentOrder, LetterOfNoncompliance
+    ResolvedDate,
+
+    -- EnforcementAction (All)
+    CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
 select newid()                                                   as Id,
        e.STRENFORCEMENTNUMBER                                    as CaseFileId,

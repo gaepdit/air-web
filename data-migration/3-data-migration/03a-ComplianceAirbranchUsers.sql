@@ -1,4 +1,4 @@
--- insert into AIRBRANCH.air.ComplianceUserIds (IaipUserId)
+insert into AIRBRANCH.air.ComplianceUserIds (IaipUserId)
 
 select IaipUserId
 from (select STRMODIFINGPERSON as IaipUserId

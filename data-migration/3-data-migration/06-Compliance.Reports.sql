@@ -1,34 +1,34 @@
--- SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
--- 
--- insert into AirWeb.dbo.ComplianceWork
--- (
---     -- WorkEntry
---     Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
---     IsComplianceEvent,
--- 
---     -- ComplianceEvent
---     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
--- 
---     -- AnnualComplianceCertification, Notification, Report
---     ReceivedDate,
--- 
---     -- AnnualComplianceCertification, Report
---     ReportsDeviations, EnforcementNeeded,
--- 
---     -- Report
---     ReportingPeriodType, ReportingPeriodStart, ReportingPeriodEnd, ReportingPeriodComment,
--- 
---     -- Notification, Report, SourceTestReview
---     DueDate,
--- 
---     -- Notification, Report
---     SentDate,
--- 
---     -- Report
---     ReportComplete,
--- 
---     -- WorkEntry
---     CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
+SET IDENTITY_INSERT AirWeb.dbo.ComplianceWork ON;
+
+insert into AirWeb.dbo.ComplianceWork
+(
+    -- WorkEntry
+    Id, FacilityId, ComplianceWorkType, ResponsibleStaffId, AcknowledgmentLetterDate, Notes, EventDate,
+    IsComplianceEvent,
+
+    -- ComplianceEvent
+    ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+
+    -- AnnualComplianceCertification, Notification, Report
+    ReceivedDate,
+
+    -- AnnualComplianceCertification, Report
+    ReportsDeviations, EnforcementNeeded,
+
+    -- Report
+    ReportingPeriodType, ReportingPeriodStart, ReportingPeriodEnd, ReportingPeriodComment,
+
+    -- Notification, Report, SourceTestReview
+    DueDate,
+
+    -- Notification, Report
+    SentDate,
+
+    -- Report
+    ReportComplete,
+
+    -- WorkEntry
+    CreatedAt, CreatedById, UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedById, ClosedDate)
 
 select i.STRTRACKINGNUMBER                                       as Id,
        AIRBRANCH.iaip_facility.FormatAirsNumber(i.STRAIRSNUMBER) as FacilityId,
