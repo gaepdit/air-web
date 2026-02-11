@@ -22,8 +22,10 @@ select newid()                                                   as Id,
        (concat_ws(CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
                   nullif
                   (concat_ws(CHAR(13) + CHAR(10),
-                             iif(e.DATNOVTOUC is null, null, 'Date NOV to UC: ' + format(e.DATNOVTOUC, 'dd-MMM-yyyy')),
-                             iif(e.DATNOVTOPM is null, null, 'Date NOV to PM: ' + format(e.DATNOVTOPM, 'dd-MMM-yyyy'))),
+                             iif(e.DATNOVTOUC is null, null,
+                                 'Date NOV to UC: ' + format(e.DATNOVTOUC, 'dd-MMM-yyyy')),
+                             iif(e.DATNOVTOPM is null, null,
+                                 'Date NOV to PM: ' + format(e.DATNOVTOPM, 'dd-MMM-yyyy'))),
                    ''),
                   AIRBRANCH.air.ReduceText(e.STRNOVCOMMENT)),
         '')                                                      as Notes,
@@ -39,7 +41,7 @@ select newid()                                                   as Id,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSNOVSENTNUMBER)                  as ActionNumber,
-       e.ICIS_STATUSIND                                          as DataExchangeStatus,
+       iif(e.STRAFSNOVSENTNUMBER is null, 'N', e.ICIS_STATUSIND) as DataExchangeStatus,
        null                                                      as DataExchangeStatusDate,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
