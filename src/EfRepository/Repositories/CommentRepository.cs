@@ -5,9 +5,11 @@ using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.EfRepository.Contexts;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.EfRepository.Repositories;
 
+[SuppressMessage("", "S2436")]
 public abstract class CommentRepository<TEntity, TKey, TComment, TContext>(TContext context)
     : ICommentRepository<TKey, TComment>
     where TEntity : class, IEntity<TKey>, IComments<TComment>
@@ -68,6 +70,7 @@ public abstract class CommentRepository<TEntity, TKey, TComment, TContext>(TCont
     #endregion
 }
 
+[SuppressMessage("", "S2436")]
 public abstract class CommentRepository<TEntity, TComment, TContext>(TContext context)
     : CommentRepository<TEntity, int, TComment, TContext>(context), ICommentRepository<TComment>
     where TEntity : class, IEntity<int>, IComments<TComment>

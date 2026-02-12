@@ -6,9 +6,11 @@ using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.LocalRepository.Repositories;
 
+[SuppressMessage("", "S2436")]
 public abstract class LocalCommentRepository<TEntity, TKey, TComment>(IEnumerable<TEntity> items)
     : ICommentRepository<TKey, TComment>
     where TEntity : class, IEntity<TKey>, IComments<TComment>
