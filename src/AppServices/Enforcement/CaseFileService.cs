@@ -30,9 +30,7 @@ public sealed class CaseFileService(
 {
     public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository
-            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeDetails, token).ConfigureAwait(false);
-
+        var caseFile = await caseFileRepository.FindWithDetailsAsync(id, token).ConfigureAwait(false);
         if (caseFile == null) return null;
 
         // Facility name and enforcement actions are ignored in Automapper.

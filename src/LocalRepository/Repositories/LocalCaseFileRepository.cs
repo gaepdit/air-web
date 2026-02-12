@@ -13,6 +13,13 @@ public sealed class LocalCaseFileRepository : BaseRepositoryWithMapping<CaseFile
     // Local repository requires ID to be manually set.
     public int? GetNextId() => Items.Count == 0 ? 1 : Items.Select(caseFile => caseFile.Id).Max() + 1;
 
+    public async Task<CaseFile?> FindWithDetailsAsync(int id, CancellationToken token = default)
+    {
+        var caseFile = await FindAsync(id, token: token).ConfigureAwait(false);
+        caseFile?.Comments.RemoveAll(comment => comment.IsDeleted);
+        return caseFile;
+    }
+
     public Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default) =>
         Task.FromResult(ViolationTypeData.GetViolationType(code));
 
