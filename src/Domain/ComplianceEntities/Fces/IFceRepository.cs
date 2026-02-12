@@ -1,6 +1,8 @@
-﻿namespace AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.Domain.Comments;
 
-public interface IFceRepository : IRepositoryWithMapping<Fce, int>, ICommentRepository<int>
+namespace AirWeb.Domain.ComplianceEntities.Fces;
+
+public interface IFceRepository : IRepositoryWithMapping<Fce, int>
 {
     public static string[] IncludeComments => [nameof(Fce.Comments)];
 
@@ -15,7 +17,7 @@ public interface IFceRepository : IRepositoryWithMapping<Fce, int>, ICommentRepo
     /// <param name="id">The ID of the FCE.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>An FCE with Comments included or null.</returns>
-    Task<Fce?> FindWithExtrasAsync(int id, CancellationToken token = default);
+    Task<Fce?> FindWithDetailsAsync(int id, CancellationToken token = default);
 
     /// <summary>
     /// Returns a boolean indicating whether an <see cref="Fce"/> with the given parameters exists.

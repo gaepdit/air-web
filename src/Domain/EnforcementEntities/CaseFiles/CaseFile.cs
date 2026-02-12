@@ -1,6 +1,7 @@
-﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
@@ -12,7 +13,7 @@ using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction
+public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComments<CaseFileComment>
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

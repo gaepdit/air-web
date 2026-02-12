@@ -1,9 +1,9 @@
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.TestData.Enforcement;
+using AirWeb.TestData.Compliance;
 using AirWeb.TestData.SampleData;
 
-namespace EfRepositoryTests.CaseFiles;
+namespace EfRepositoryTests.Comments;
 
 public class AddCommentTests
 {
@@ -13,15 +13,16 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
-        await using var repository = repositoryHelper.GetCaseFileRepository();
+        await using var fceRepository = repositoryHelper.GetFceRepository();
+        await using var commentRepository = repositoryHelper.GetFceCommentRepository();
 
-        var id = CaseFileData.GetData.First().Id;
-        var newComment = Comment.CreateComment(SampleText.ValidName, null);
+        var id = FceData.GetData.First().Id;
+        var newComment = new FceComment(new Comment(SampleText.ValidName, null), id);
 
         // Act
-        await repository.AddCommentAsync(id, newComment);
+        await commentRepository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
-        var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
+        var itemInRepo = await fceRepository.GetAsync(id, IFceRepository.IncludeComments);
 
         // Assert
         itemInRepo.Comments.OrderByDescending(comment => comment.CommentedAt).First()
@@ -33,13 +34,14 @@ public class AddCommentTests
     {
         // Arrange
         await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-        await using var repository = repositoryHelper.GetCaseFileRepository();
+        await using var repository = repositoryHelper.GetFceRepository();
+        await using var commentRepository = repositoryHelper.GetFceCommentRepository();
 
-        var id = CaseFileData.GetData.First().Id;
-        var newComment = Comment.CreateComment(SampleText.ValidName, null);
+        var id = FceData.GetData.First().Id;
+        var newComment = new FceComment(new Comment(SampleText.ValidName, null), id);
 
         // Act
-        await repository.AddCommentAsync(id, newComment);
+        await commentRepository.AddCommentAsync(id, newComment);
         repositoryHelper.ClearChangeTracker();
         var itemInRepo = await repository.GetAsync(id, IFceRepository.IncludeComments);
 

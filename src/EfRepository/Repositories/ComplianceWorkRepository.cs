@@ -49,19 +49,4 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
         Context.Set<NotificationType>()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
 
-    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
-    {
-        Context.ComplianceWorkComments.Add(new ComplianceWorkComment(comment, itemId));
-        await SaveChangesAsync(token).ConfigureAwait(false);
-    }
-
-    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
-    {
-        var comment = await Context.ComplianceWorkComments.FindAsync([commentId], token).ConfigureAwait(false);
-        if (comment != null)
-        {
-            comment.SetDeleted(userId);
-            await SaveChangesAsync(token).ConfigureAwait(false);
-        }
-    }
 }

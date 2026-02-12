@@ -21,7 +21,7 @@ public sealed class CaseFileService(
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
     IComplianceWorkRepository repository,
-    ICommentService<int> commentService,
+    ICaseFileCommentService commentService,
     IFacilityService facilityService,
     IUserService userService,
     IAppNotificationService appNotificationService)
@@ -30,9 +30,7 @@ public sealed class CaseFileService(
 {
     public async Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository
-            .FindAsync(id, includeProperties: ICaseFileRepository.IncludeDetails, token).ConfigureAwait(false);
-
+        var caseFile = await caseFileRepository.FindWithDetailsAsync(id, token).ConfigureAwait(false);
         if (caseFile == null) return null;
 
         // Facility name and enforcement actions are ignored in Automapper.
@@ -253,7 +251,7 @@ public sealed class CaseFileService(
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
-        var result = await commentService.AddCommentAsync(caseFileRepository, itemId, resource, token)
+        var result = await commentService.AddCommentAsync(itemId, resource, token)
             .ConfigureAwait(false);
 
         // FUTURE: Replace with FindAsync using a query projection.
@@ -267,7 +265,7 @@ public sealed class CaseFileService(
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        commentService.DeleteCommentAsync(caseFileRepository, commentId, token);
+        commentService.DeleteCommentAsync(commentId, token);
 
     #region IDisposable,  IAsyncDisposable
 

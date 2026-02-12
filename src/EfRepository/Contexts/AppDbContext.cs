@@ -1,4 +1,5 @@
 using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EmailLog;

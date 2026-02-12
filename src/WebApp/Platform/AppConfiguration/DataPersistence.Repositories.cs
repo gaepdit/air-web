@@ -1,3 +1,4 @@
+using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EmailLog;
@@ -12,21 +13,30 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 internal static partial class DataPersistence
 {
-    private static void AddEntityFrameworkRepositories(this IServiceCollection services) => services
-        .AddScoped<IEmailLogRepository, EmailLogRepository>()
-        .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
-        .AddScoped<IOfficeRepository, OfficeRepository>()
-        .AddScoped<IFceRepository, FceRepository>()
-        .AddScoped<IComplianceWorkRepository, ComplianceWorkRepository>()
-        .AddScoped<IEnforcementActionRepository, EnforcementActionRepository>()
-        .AddScoped<ICaseFileRepository, CaseFileRepository>();
+    extension(IServiceCollection services)
+    {
+        private void AddEntityFrameworkRepositories() => services
+            .AddScoped<IEmailLogRepository, EmailLogRepository>()
+            .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
+            .AddScoped<IOfficeRepository, OfficeRepository>()
+            .AddScoped<IFceRepository, FceRepository>()
+            .AddScoped<IComplianceWorkRepository, ComplianceWorkRepository>()
+            .AddScoped<IEnforcementActionRepository, EnforcementActionRepository>()
+            .AddScoped<ICaseFileRepository, CaseFileRepository>()
+            .AddScoped<ICaseFileCommentRepository, CaseFileCommentRepository>()
+            .AddScoped<IComplianceWorkCommentRepository, ComplianceWorkCommentRepository>()
+            .AddScoped<IFceCommentRepository, FceCommentRepository>();
 
-    private static void AddInMemoryRepositories(this IServiceCollection services) => services
-        .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
-        .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
-        .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
-        .AddSingleton<IFceRepository, LocalFceRepository>()
-        .AddSingleton<IComplianceWorkRepository, LocalComplianceWorkRepository>()
-        .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
-        .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>();
+        private void AddInMemoryRepositories() => services
+            .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
+            .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
+            .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
+            .AddSingleton<IFceRepository, LocalFceRepository>()
+            .AddSingleton<IComplianceWorkRepository, LocalComplianceWorkRepository>()
+            .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
+            .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>()
+            .AddSingleton<ICaseFileCommentRepository, LocalCaseFileCommentRepository>()
+            .AddSingleton<IComplianceWorkCommentRepository, LocalComplianceWorkCommentRepository>()
+            .AddSingleton<IFceCommentRepository, LocalFceCommentRepository>();
+    }
 }

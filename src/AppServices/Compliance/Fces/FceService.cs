@@ -27,7 +27,7 @@ public sealed class FceService(
     IFacilityService facilityService,
     ISourceTestService sourceTestService,
     IPermitFeesService permitFeesService,
-    ICommentService<int> commentService,
+    IFceCommentService commentService,
     IUserService userService,
     IAppNotificationService appNotificationService,
     IMemoryCache cache,
@@ -37,7 +37,7 @@ public sealed class FceService(
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
     {
-        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithExtrasAsync(id, token).ConfigureAwait(false));
+        var fce = mapper.Map<FceViewDto?>(await fceRepository.FindWithDetailsAsync(id, token).ConfigureAwait(false));
         if (fce is null) return null;
         fce.FacilityName = await facilityService.GetNameAsync((FacilityId)fce.FacilityId).ConfigureAwait(false);
         return fce;
@@ -179,7 +179,7 @@ public sealed class FceService(
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
-        var result = await commentService.AddCommentAsync(fceRepository, itemId, resource, token)
+        var result = await commentService.AddCommentAsync(itemId, resource, token)
             .ConfigureAwait(false);
 
         var fce = await fceRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
@@ -190,7 +190,7 @@ public sealed class FceService(
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        commentService.DeleteCommentAsync(fceRepository, commentId, token);
+        commentService.DeleteCommentAsync(commentId, token);
 
     #region IDisposable,  IAsyncDisposable
 
