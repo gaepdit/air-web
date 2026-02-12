@@ -33,7 +33,7 @@ public class FindTests
 
         var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
-            Substitute.For<ICommentService<int>>(), Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),
+            Substitute.For<IComplianceWorkCommentService>(), Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),
             Substitute.For<IAppNotificationService>());
 
         // Act
@@ -56,7 +56,7 @@ public class FindTests
 
         var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), Substitute.For<IFacilityService>(),
-            Substitute.For<ISourceTestService>(), Substitute.For<ICommentService<int>>(),
+            Substitute.For<ISourceTestService>(), Substitute.For<IComplianceWorkCommentService>(),
             Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),
             Substitute.For<IAppNotificationService>());
 

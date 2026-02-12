@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.Comments;
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
@@ -38,20 +38,4 @@ public sealed class CaseFileRepository(AppDbContext context)
 
     public async Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
         (await GetAsync(id, token).ConfigureAwait(false)).AirPrograms;
-
-    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default)
-    {
-        await Context.CaseFileComments.AddAsync(new CaseFileComment(comment, itemId), token).ConfigureAwait(false);
-        await SaveChangesAsync(token).ConfigureAwait(false);
-    }
-
-    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
-    {
-        var comment = await Context.CaseFileComments.FindAsync([commentId], token).ConfigureAwait(false);
-        if (comment != null)
-        {
-            comment.SetDeleted(userId);
-            await SaveChangesAsync(token).ConfigureAwait(false);
-        }
-    }
 }

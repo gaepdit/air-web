@@ -25,7 +25,7 @@ public sealed partial class ComplianceWorkService(
     IComplianceWorkManager manager,
     IFacilityService facilityService,
     ISourceTestService testService,
-    ICommentService<int> commentService,
+    IComplianceWorkCommentService commentService,
     IUserService userService,
     ICaseFileService caseFileService,
     IAppNotificationService appNotificationService)
@@ -243,7 +243,7 @@ public sealed partial class ComplianceWorkService(
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {
-        var result = await commentService.AddCommentAsync(repository, itemId, resource, token)
+        var result = await commentService.AddCommentAsync(itemId, resource, token)
             .ConfigureAwait(false);
 
         // FUTURE: Replace with FindAsync using a query projection.
@@ -256,7 +256,7 @@ public sealed partial class ComplianceWorkService(
     }
 
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
-        commentService.DeleteCommentAsync(repository, commentId, token);
+        commentService.DeleteCommentAsync(commentId, token);
 
     #region IDisposable,  IAsyncDisposable
 

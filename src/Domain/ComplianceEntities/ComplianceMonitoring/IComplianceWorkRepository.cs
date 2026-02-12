@@ -1,9 +1,10 @@
 ﻿using AirWeb.Domain.AuditPoints;
+using AirWeb.Domain.Comments;
 using AirWeb.Domain.Lookups.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
-public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWork, int>, ICommentRepository<int>
+public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWork, int>
 {
     public static string[] IncludeComments => [nameof(ComplianceWork.Comments)];
 

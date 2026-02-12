@@ -1,11 +1,12 @@
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.BaseEntities;
 using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Domain.Comments;
 using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
-public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
+public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes, IComments<ComplianceWorkComment>
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.
@@ -54,7 +55,8 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes
     public bool IsComplianceEvent { get; internal init; }
 
     // Data exchange properties
-    public bool IsReportable => IsComplianceEvent && !IsDeleted && ComplianceWorkType != ComplianceWorkType.RmpInspection;
+    public bool IsReportable =>
+        IsComplianceEvent && !IsDeleted && ComplianceWorkType != ComplianceWorkType.RmpInspection;
 }
 
 // Enums

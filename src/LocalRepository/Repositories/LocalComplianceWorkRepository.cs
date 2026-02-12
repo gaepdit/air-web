@@ -30,21 +30,4 @@ public sealed class LocalComplianceWorkRepository()
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Task.FromResult(NotificationTypeData.GetData.Single(notificationType => notificationType.Id.Equals(typeId)));
-
-    public async Task AddCommentAsync(int itemId, Comment comment, CancellationToken token = default) =>
-        (await GetAsync(itemId, token: token).ConfigureAwait(false)).Comments.Add(
-            new ComplianceWorkComment(comment, itemId));
-
-    public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
-    {
-        var comment = Items.SelectMany(work => work.Comments).FirstOrDefault(comment => comment.Id == commentId);
-
-        if (comment != null)
-        {
-            var fce = Items.First(work => work.Comments.Contains(comment));
-            fce.Comments.Remove(comment);
-        }
-
-        return Task.CompletedTask;
-    }
 }

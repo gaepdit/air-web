@@ -4,12 +4,15 @@ namespace AirWeb.Domain.Comments;
 
 public record Comment : ISoftDelete<string>
 {
-    public static Comment CreateComment(string text, ApplicationUser? user) => new()
+    protected Comment() { }
+
+    // This constructor is only used for creating test data and for unit testing.
+    public Comment(string text, ApplicationUser? user)
     {
-        Id = Guid.NewGuid(),
-        Text = text,
-        CommentBy = user,
-    };
+        Id = Guid.NewGuid();
+        Text = text;
+        CommentBy = user;
+    }
 
     // Properties
     public Guid Id { get; init; }
@@ -36,4 +39,72 @@ public record Comment : ISoftDelete<string>
         DeletedAt = null;
         DeletedById = null;
     }
+}
+
+public interface ISetCommentItemId<in TKey>
+    where TKey : IEquatable<TKey>
+{
+    void SetItemId(TKey itemId);
+}
+
+public interface ISetCommentItemId : ISetCommentItemId<int>;
+
+public interface IComments<TComment> where TComment : Comment
+{
+    List<TComment> Comments { get; }
+}
+
+public record CaseFileComment : Comment, ISetCommentItemId
+{
+    public CaseFileComment() { }
+
+    // This constructor is only used for creating test data.
+    public CaseFileComment(Comment comment, int itemId)
+    {
+        Id = Guid.NewGuid();
+        Text = comment.Text;
+        CommentBy = comment.CommentBy;
+        CommentedAt = comment.CommentedAt;
+        CaseFileId = itemId;
+    }
+
+    public int CaseFileId { get; private set; }
+    public void SetItemId(int itemId) => CaseFileId = itemId;
+}
+
+public record ComplianceWorkComment : Comment, ISetCommentItemId
+{
+    public ComplianceWorkComment() { }
+
+    // This constructor is only used for creating test data.
+    public ComplianceWorkComment(Comment comment, int itemId)
+    {
+        Id = Guid.NewGuid();
+        Text = comment.Text;
+        CommentBy = comment.CommentBy;
+        CommentedAt = comment.CommentedAt;
+        ComplianceWorkId = itemId;
+    }
+
+    public int ComplianceWorkId { get; private set; }
+    public void SetItemId(int itemId) => ComplianceWorkId = itemId;
+}
+
+public record FceComment : Comment, ISetCommentItemId
+
+{
+    public FceComment() { }
+
+    // This constructor is only used for creating test data.
+    public FceComment(Comment comment, int itemId)
+    {
+        Id = Guid.NewGuid();
+        Text = comment.Text;
+        CommentBy = comment.CommentBy;
+        CommentedAt = comment.CommentedAt;
+        FceId = itemId;
+    }
+
+    public int FceId { get; private set; }
+    public void SetItemId(int itemId) => FceId = itemId;
 }

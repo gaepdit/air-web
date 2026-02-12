@@ -124,11 +124,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         await Context.SaveChangesAsync();
         ClearChangeTracker();
     }
-
-    /// <summary>
-    /// Seeds data and returns an instance of <see cref="FceRepository"/>.
-    /// </summary>
-    /// <returns>An FCE Repository.</returns>
+    
     public FceRepository GetFceRepository()
     {
         Context = new AppDbContext(_options);
@@ -147,34 +143,28 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         return new EnforcementActionRepository(Context);
     }
 
-    /// <summary>
-    /// Seeds data and returns an instance of <see cref="ComplianceWorkRepository"/>.
-    /// </summary>
-    /// <returns>An ComplianceWorkRepository.</returns>
     public ComplianceWorkRepository GetComplianceWorkRepository()
     {
         Context = new AppDbContext(_options);
         return new ComplianceWorkRepository(Context);
     }
 
-    /// <summary>
-    /// Seeds data and returns an instance of <see cref="NotificationTypeRepository"/>.
-    /// </summary>
-    /// <returns>An NotificationTypeRepository.</returns>
     public NotificationTypeRepository GetNotificationTypeRepository()
     {
         Context = new AppDbContext(_options);
         return new NotificationTypeRepository(Context);
     }
 
-    /// <summary>
-    /// Seeds data and returns an instance of <see cref="OfficeRepository"/>.
-    /// </summary>
-    /// <returns>An OfficeRepository.</returns>
     public OfficeRepository GetOfficeRepository()
     {
         Context = new AppDbContext(_options);
         return new OfficeRepository(Context);
+    }
+
+    public FceCommentRepository GetFceCommentRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new FceCommentRepository(Context);
     }
 
     public void Dispose() => Context.Dispose();

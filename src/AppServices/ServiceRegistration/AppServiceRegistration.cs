@@ -39,7 +39,9 @@ public static class AppServiceRegistration
         .AddScoped<IFceSearchService, FceSearchService>()
 
         // Comments
-        .AddScoped<ICommentService<int>, CommentService<int>>()
+        .AddScoped<ICaseFileCommentService, CaseFileCommentService>()
+        .AddScoped<IComplianceWorkCommentService, ComplianceWorkCommentService>()
+        .AddScoped<IFceCommentService, FceCommentService>()
 
         // Notification Types
         .AddScoped<INotificationTypeManager, NotificationTypeManager>()

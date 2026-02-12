@@ -1,10 +1,11 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.Domain.Comments;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 
-public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>, ICommentRepository<int>
+public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>
 {
     // Will return the next available ID if the repository requires it for adding new entities (e.g., local repository).
     // Will return null if the repository creates a new ID on insert (e.g., Entity Framework).

@@ -11,13 +11,9 @@ public static class CommentData
         var commentCount = Random.Shared.Next(maxValue - minValue) + minValue;
         for (var i = 0; i < commentCount; i++)
         {
-            commentList.Add(new Comment
-            {
-                Id = Guid.NewGuid(),
-                Text = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-                CommentBy = UserData.GetRandomUser(),
-                CommentedAt = DateTimeOffset.Now.AddDays(i - commentCount),
-            });
+            commentList.Add(
+                new Comment(SampleText.GetRandomText(SampleText.TextLength.Paragraph), UserData.GetRandomUser())
+                    { CommentedAt = DateTimeOffset.Now.AddDays(i - commentCount) });
         }
 
         return commentList;

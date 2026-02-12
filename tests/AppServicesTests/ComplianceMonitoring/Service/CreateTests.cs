@@ -45,7 +45,7 @@ public class CreateTests
         var service = new ComplianceWorkService(AppServicesTestsSetup.Mapper!,
             Substitute.For<IComplianceWorkRepository>(),
             complianceWorkManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
-            Substitute.For<ICommentService<int>>(), userServiceMock, Substitute.For<ICaseFileService>(),
+            Substitute.For<IComplianceWorkCommentService>(), userServiceMock, Substitute.For<ICaseFileService>(),
             notificationMock);
 
         var item = new PermitRevocationCreateDto
