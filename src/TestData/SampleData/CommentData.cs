@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Comments;
+﻿using AirWeb.Core.Entities;
 using AirWeb.TestData.Identity;
 
 namespace AirWeb.TestData.SampleData;

@@ -1,13 +1,12 @@
+using AirWeb.Core.BaseEntities;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Data;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
-using AirWeb.Domain.Identity;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 

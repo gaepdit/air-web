@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
 using System.Runtime.CompilerServices;
 
 namespace AirWeb.Domain.AuditPoints;

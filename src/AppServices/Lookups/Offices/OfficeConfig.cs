@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Lookups.LookupsBase;
-using AirWeb.Domain.Lookups.Offices;
+using AirWeb.Core.Entities;
 
 namespace AirWeb.AppServices.Lookups.Offices;
 

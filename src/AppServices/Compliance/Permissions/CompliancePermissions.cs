@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Roles;
 using AirWeb.AppServices.DtoInterfaces;
-using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Core.BaseEntities;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.Permissions;

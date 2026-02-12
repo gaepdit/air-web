@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.BaseEntities.Interfaces;
+﻿using AirWeb.Core.BaseEntities;
+using AirWeb.Domain.CommonInterfaces;
 using IaipDataService.Facilities;
 using JetBrains.Annotations;
 

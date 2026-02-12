@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Core.BaseEntities;
 
 namespace AirWeb.AppServices.DtoInterfaces;
 

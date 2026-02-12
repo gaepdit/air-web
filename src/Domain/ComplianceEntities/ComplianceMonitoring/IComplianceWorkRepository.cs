@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.Lookups.NotificationTypes;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

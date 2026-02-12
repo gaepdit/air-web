@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
 using FluentValidation;
 using FluentValidation.TestHelper;

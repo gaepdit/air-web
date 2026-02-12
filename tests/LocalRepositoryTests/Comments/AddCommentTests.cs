@@ -1,3 +1,4 @@
+using AirWeb.Core.Entities;
 using AirWeb.Domain.Comments;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Compliance;

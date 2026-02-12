@@ -13,7 +13,7 @@ namespace AirWeb.Domain.Data;
 // where ICIS_POLLUTANT_CODE is not null
 // ```
 
-public static partial class CommonData
+public static class CommonData
 {
     public static ICollection<Pollutant> AsPollutants(this List<string> pollutantIds) =>
         AllPollutants.Where(pollutant => pollutantIds.Contains(pollutant.Code)).ToList();

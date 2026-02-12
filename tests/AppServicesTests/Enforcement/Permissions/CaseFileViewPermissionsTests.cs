@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Claims;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

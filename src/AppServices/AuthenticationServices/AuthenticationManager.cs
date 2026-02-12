@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.AuthenticationServices.Claims;
-using AirWeb.Domain.Identity;
+using AirWeb.Core.Entities;
+using AirWeb.Domain.Roles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Lookups.LookupsBase;
-using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
 
 namespace AirWeb.AppServices.Lookups.NotificationTypes;

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Utilities;
-using AirWeb.Domain.DataAttributes;
+using AirWeb.Core.Data.DataAttributes;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using FluentValidation;
 

@@ -1,7 +1,7 @@
-﻿using AirWeb.Domain.AuditPoints;
+﻿using AirWeb.Core.Entities;
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.Identity;
 
 namespace AirWeb.Domain.EnforcementEntities.CaseFiles;
 

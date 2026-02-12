@@ -10,12 +10,11 @@ using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Lookups.NotificationTypes;
-using AirWeb.Domain.Lookups.Offices;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

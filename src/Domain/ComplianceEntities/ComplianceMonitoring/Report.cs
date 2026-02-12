@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.DataExchange;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
+using AirWeb.Domain.DataExchange;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

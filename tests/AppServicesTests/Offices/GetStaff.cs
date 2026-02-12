@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.Offices;
+using AirWeb.Core.Entities;
 using AirWeb.TestData.SampleData;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;

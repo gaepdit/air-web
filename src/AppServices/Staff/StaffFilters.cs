@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Identity;
+using AirWeb.Core.Entities;
 using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Staff;

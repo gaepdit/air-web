@@ -5,7 +5,7 @@ using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.Roles;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;

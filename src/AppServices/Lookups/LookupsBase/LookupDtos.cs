@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain;
+﻿using AirWeb.Core;
 using GaEpd.AppLibrary.Domain.Entities;
 
 namespace AirWeb.AppServices.Lookups.LookupsBase;

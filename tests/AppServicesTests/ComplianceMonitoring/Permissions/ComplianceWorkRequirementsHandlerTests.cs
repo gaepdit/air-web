@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

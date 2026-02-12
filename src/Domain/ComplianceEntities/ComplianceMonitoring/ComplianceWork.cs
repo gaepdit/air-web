@@ -1,8 +1,8 @@
+using AirWeb.Core.BaseEntities;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.BaseEntities.Interfaces;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.CommonInterfaces;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

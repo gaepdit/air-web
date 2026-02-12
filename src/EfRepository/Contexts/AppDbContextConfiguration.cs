@@ -1,11 +1,9 @@
-using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.Comments;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Identity;
 using GaEpd.AppLibrary.Domain.Entities;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;

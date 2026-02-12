@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.NotificationTypes;
+﻿using AirWeb.Core.Entities;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

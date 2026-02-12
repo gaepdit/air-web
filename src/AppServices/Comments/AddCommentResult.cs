@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
 
 namespace AirWeb.AppServices.Comments;
 

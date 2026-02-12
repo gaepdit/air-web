@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.DataAttributes;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Data.DataAttributes;
+using AirWeb.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;

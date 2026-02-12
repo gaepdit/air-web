@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Core.Entities;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
 
 namespace AppServicesTests.NotificationTypes;

@@ -1,4 +1,4 @@
-using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.TestData.Lookups;
 

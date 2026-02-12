@@ -2,9 +2,9 @@
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Identity;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
 using Microsoft.Extensions.Logging;

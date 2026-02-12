@@ -1,6 +1,6 @@
+using AirWeb.Core.Entities;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.Identity;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;

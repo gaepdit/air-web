@@ -1,4 +1,4 @@
-using AirWeb.Domain.Identity;
+using AirWeb.Core.Entities;
 using AirWeb.LocalRepository.Identity;
 using AirWeb.TestData.Identity;
 using System.Diagnostics;

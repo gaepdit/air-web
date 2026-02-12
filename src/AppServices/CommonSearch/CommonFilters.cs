@@ -1,5 +1,5 @@
-using AirWeb.Domain.BaseEntities;
-using AirWeb.Domain.BaseEntities.Interfaces;
+using AirWeb.Core.BaseEntities;
+using AirWeb.Domain.CommonInterfaces;
 using GaEpd.AppLibrary.Domain.Predicates;
 using IaipDataService.Facilities;
 using System.Linq.Expressions;

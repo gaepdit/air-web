@@ -18,16 +18,12 @@ using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.AppServices.Lookups.Offices;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.AuditPoints;
-using AirWeb.Domain.Comments;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.NotificationTypes;
-using AirWeb.Domain.Lookups.Offices;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 

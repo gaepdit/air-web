@@ -4,7 +4,7 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Comma
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.Roles;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 using FluentValidation;

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.Domain.Identity;
+using AirWeb.Domain.Roles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;

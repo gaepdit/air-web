@@ -1,6 +1,6 @@
-using FluentValidation;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Identity;
+using AirWeb.Core.Entities;
+using FluentValidation;
 
 namespace AirWeb.AppServices.Staff.Validators;
 

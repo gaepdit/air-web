@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.EmailLog;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;

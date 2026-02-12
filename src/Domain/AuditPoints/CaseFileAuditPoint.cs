@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
+using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using GaEpd.AppLibrary.Extensions;
 using System.Runtime.CompilerServices;
 

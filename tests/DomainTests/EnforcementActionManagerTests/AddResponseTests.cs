@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Core.Entities;
+using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Identity;
 using IaipDataService.Facilities;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

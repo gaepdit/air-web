@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Lookups.NotificationTypes;
+﻿using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;

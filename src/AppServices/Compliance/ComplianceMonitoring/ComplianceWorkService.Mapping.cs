@@ -5,8 +5,8 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Identity;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring;

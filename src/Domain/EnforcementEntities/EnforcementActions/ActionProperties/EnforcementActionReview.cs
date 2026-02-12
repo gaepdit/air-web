@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Core.Entities;
 using System.ComponentModel;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;

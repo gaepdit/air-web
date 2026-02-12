@@ -1,8 +1,8 @@
 ﻿using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.Offices;
+using AirWeb.Core.Entities;
+using AirWeb.Domain.Roles;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;

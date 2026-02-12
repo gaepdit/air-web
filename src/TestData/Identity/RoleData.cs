@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Roles;
 using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.TestData.Identity;

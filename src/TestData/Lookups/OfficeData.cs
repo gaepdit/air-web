@@ -1,4 +1,4 @@
-using AirWeb.Domain.Lookups.Offices;
+using AirWeb.Core.Entities;
 
 namespace AirWeb.TestData.Lookups;
 

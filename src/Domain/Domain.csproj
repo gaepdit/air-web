@@ -4,14 +4,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GaEpd.AppLibrary"/>
-        <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore"/>
         <PackageReference Include="Microsoft.Extensions.Identity.Stores"/>
-        <PackageReference Include="ZLogger"/>
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Core\Core.csproj" />
         <ProjectReference Include="..\IaipDataService\IaipDataService.csproj"/>
     </ItemGroup>
 

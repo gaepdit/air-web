@@ -1,15 +1,12 @@
+using AirWeb.Core.Entities;
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.EmailLog;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
-using AirWeb.Domain.Identity;
-using AirWeb.Domain.Lookups.NotificationTypes;
-using AirWeb.Domain.Lookups.Offices;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AirWeb.EfRepository.Contexts;

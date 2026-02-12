@@ -1,7 +1,7 @@
-﻿using AirWeb.Domain.BaseEntities;
+﻿using AirWeb.Core.BaseEntities;
+using AirWeb.Core.Entities;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Identity;
 using System.Diagnostics.CodeAnalysis;
 
 namespace AirWeb.Domain.EnforcementEntities.EnforcementActions;

@@ -1,8 +1,8 @@
-﻿using AirWeb.Domain.AuditPoints;
+﻿using AirWeb.Core.Entities;
+using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Identity;
 using Microsoft.Extensions.Logging;
 using ZLogger;
 
