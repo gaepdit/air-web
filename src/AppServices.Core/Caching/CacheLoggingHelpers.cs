@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using ZLogger;
 
-namespace AirWeb.AppServices.Caching;
+namespace AirWeb.AppServices.Core.Caching;
 
-internal static class CacheLoggingHelpers
+public static class CacheLoggingHelpers
 {
     private static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
     private static readonly EventId AirWebCacheRefresh = new(2504, nameof(AirWebCacheRefresh));

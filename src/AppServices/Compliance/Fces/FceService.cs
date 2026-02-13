@@ -1,10 +1,10 @@
 ﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.Caching;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.Caching;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
@@ -95,7 +95,8 @@ public sealed class FceService(
 
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
 
-        return cache.Set(cacheKey, summary, CacheConstants.FceSupportingData, logger);
+        var fceSupportingDataCacheTime = TimeSpan.FromDays(2);
+        return cache.Set(cacheKey, summary, fceSupportingDataCacheTime, logger);
 
         Expression<Func<TSource, bool>> For<TSource>() where TSource : ComplianceWork => source =>
             source.FacilityId == facilityId && source.EventDate <= completedDate &&

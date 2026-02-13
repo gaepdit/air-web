@@ -1,4 +1,4 @@
-﻿namespace IaipDataService;
+﻿namespace IaipDataService.Utilities;
 
 public static class CacheConstants
 {
