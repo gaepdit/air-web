@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.AuditPoints;
-using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.Comments;
+using AirWeb.AppServices.Core.AuditPoints;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 

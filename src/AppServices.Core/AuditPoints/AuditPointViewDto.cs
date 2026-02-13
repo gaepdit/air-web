@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.AuditPoints;
+﻿namespace AirWeb.AppServices.Core.AuditPoints;
 
 public record AuditPointViewDto
 {
