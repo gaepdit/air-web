@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <RootNamespace>AirWeb.AppServices</RootNamespace>
+        <RootNamespace>AirWeb.AppServices.Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,13 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
-        <ProjectReference Include="..\AppServices.Core\AppServices.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Compliance\WorkEntries\WorkEntryService.Mapping.cs">
-            <DependentUpon>WorkEntryService.cs</DependentUpon>
-        </Compile>
+        <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 </Project>
