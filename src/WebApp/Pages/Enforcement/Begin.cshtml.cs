@@ -5,7 +5,7 @@ using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -13,7 +13,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class BeginModel(
     IFacilityService facilityService,
     IComplianceWorkService service,
@@ -101,5 +101,5 @@ public class BeginModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

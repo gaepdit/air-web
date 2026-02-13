@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Core.AppNotifications;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
@@ -95,7 +95,8 @@ public sealed class CaseFileService(
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementCreated, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementCreated, caseFile.ResponsibleStaff, token,
+                caseFile.Id)
             .ConfigureAwait(false);
 
         return CreateResult<int>.Create(caseFile.Id, notificationResult.FailureReason);
@@ -212,7 +213,8 @@ public sealed class CaseFileService(
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementReopened, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementReopened, caseFile.ResponsibleStaff, token,
+                caseFile.Id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
@@ -228,7 +230,8 @@ public sealed class CaseFileService(
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementDeleted, caseFile.ResponsibleStaff, token,
+                caseFile.Id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
@@ -243,7 +246,8 @@ public sealed class CaseFileService(
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementRestored, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementRestored, caseFile.ResponsibleStaff, token,
+                caseFile.Id)
             .ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
@@ -259,7 +263,8 @@ public sealed class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementCommentAdded, caseFile.ResponsibleStaff, token, itemId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementCommentAdded, caseFile.ResponsibleStaff, token,
+                itemId)
             .ConfigureAwait(false);
 
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);

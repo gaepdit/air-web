@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
@@ -25,13 +25,14 @@ public sealed class CaseFileSearchService(
 
     public Task<IPaginatedResult<CaseFileSearchResultDto>> SearchAsync(CaseFileSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
+        SearchAsync(spec, paging, loadFacilities, CaseFileFilters.SearchPredicate,
+            CompliancePolicies.EnforcementManager, token);
 
     public Task<int> CountAsync(CaseFileSearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
+        CountAsync(spec, CaseFileFilters.SearchPredicate, CompliancePolicies.EnforcementManager, token);
 
     public Task<IEnumerable<CaseFileExportDto>> ExportAsync(CaseFileSearchDto spec, CancellationToken token = default)
-        => ExportAsync(spec, CaseFileFilters.SearchPredicate, Policies.EnforcementManager, token);
+        => ExportAsync(spec, CaseFileFilters.SearchPredicate, CompliancePolicies.EnforcementManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

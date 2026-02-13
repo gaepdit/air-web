@@ -1,12 +1,12 @@
 using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Core.AppNotifications;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
+using AirWeb.Domain.AppRoles;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Roles;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;
@@ -42,7 +42,8 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
+                caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -60,7 +61,8 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
+                caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -78,7 +80,8 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
+                caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -233,7 +236,8 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionDeleted, caseFile.ResponsibleStaff, token,
+                caseFile.Id)
             .ConfigureAwait(false);
     }
 
@@ -265,7 +269,7 @@ public sealed class EnforcementActionService(
             .ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
 
-        if (!await userService.UserIsInRoleAsync(reviewer, RoleName.EnforcementReviewer).ConfigureAwait(false))
+        if (!await userService.UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer).ConfigureAwait(false))
         {
             logger.ZLogError(
                 $"User {reviewer.Id:@UserId} does not have the Enforcement Manager role and cannot review action {action.Id:@ActionId}.");
@@ -277,7 +281,8 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, reviewer, token, action.CaseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, reviewer, token,
+                action.CaseFile.Id)
             .ConfigureAwait(false);
     }
 
@@ -299,7 +304,8 @@ public sealed class EnforcementActionService(
             action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
         if (nextReviewer is not null)
-            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, nextReviewer,
+            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested,
+                nextReviewer,
                 token, action.CaseFile.Id).ConfigureAwait(false);
     }
 

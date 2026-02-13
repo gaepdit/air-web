@@ -1,6 +1,5 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
-using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.Domain.Roles;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.Core.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
@@ -21,7 +20,7 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
         [
             new Claim(AppClaimTypes.ActiveUser, true.ToString()),
-            new Claim(ClaimTypes.Role, RoleName.SiteMaintenance),
+            new Claim(ClaimTypes.Role, GeneralRole.SiteMaintenance),
         ], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeTrue();
@@ -31,7 +30,7 @@ public class RoleBasedPolicy
     public async Task WhenWithRequestedRoleButNotActive_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            [new Claim(ClaimTypes.Role, RoleName.SiteMaintenance)], "Basic"));
+            [new Claim(ClaimTypes.Role, GeneralRole.SiteMaintenance)], "Basic"));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();
     }
@@ -51,7 +50,7 @@ public class RoleBasedPolicy
         var user = new ClaimsPrincipal(new ClaimsIdentity(
         [
             new Claim(AppClaimTypes.ActiveUser, true.ToString()),
-            new Claim(ClaimTypes.Role, RoleName.SiteMaintenance),
+            new Claim(ClaimTypes.Role, GeneralRole.SiteMaintenance),
         ]));
         var result = await _authorization.Succeeded(user, Policies.SiteMaintainer);
         result.Should().BeFalse();

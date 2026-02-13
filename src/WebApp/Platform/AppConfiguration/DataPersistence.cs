@@ -1,4 +1,4 @@
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
 using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;
 using AirWeb.WebApp.Platform.Settings;

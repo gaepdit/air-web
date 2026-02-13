@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Lookups.LookupsBase;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;

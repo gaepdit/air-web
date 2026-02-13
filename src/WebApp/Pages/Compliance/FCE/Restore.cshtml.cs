@@ -5,7 +5,7 @@ using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
-[Authorize(Policy = nameof(Policies.ComplianceManager))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceManager))]
 public class RestoreModel(IFceService fceService) : PageModel
 {
     [FromRoute]

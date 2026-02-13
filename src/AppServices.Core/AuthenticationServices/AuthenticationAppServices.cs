@@ -1,8 +1,7 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AirWeb.AppServices.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public static class AuthenticationAppServices
 {

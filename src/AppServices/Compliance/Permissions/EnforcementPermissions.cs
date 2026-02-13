@@ -1,4 +1,4 @@
-using AirWeb.AppServices.AuthenticationServices.Roles;
+using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using System.Security.Claims;
 

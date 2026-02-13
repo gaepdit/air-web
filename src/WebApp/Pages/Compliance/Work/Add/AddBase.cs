@@ -2,8 +2,8 @@ using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Staff;
+using AirWeb.Domain.AppRoles;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Roles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -11,7 +11,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public abstract class AddBase(IFacilityService facilityService, IStaffService staffService)
     : PageModel, ISubmitCancelButtons
 {
@@ -63,5 +63,5 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     }
 
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

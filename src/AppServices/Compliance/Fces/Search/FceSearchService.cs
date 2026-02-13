@@ -1,6 +1,6 @@
-using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
@@ -25,13 +25,14 @@ public sealed class FceSearchService(
 
     public Task<IPaginatedResult<FceSearchResultDto>> SearchAsync(FceSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
+        SearchAsync(spec, paging, loadFacilities, FceFilters.SearchPredicate, CompliancePolicies.ComplianceManager,
+            token);
 
     public Task<int> CountAsync(FceSearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
+        CountAsync(spec, FceFilters.SearchPredicate, CompliancePolicies.ComplianceManager, token);
 
     public Task<IEnumerable<FceExportDto>> ExportAsync(FceSearchDto spec, CancellationToken token = default) =>
-        ExportAsync(spec, FceFilters.SearchPredicate, Policies.ComplianceManager, token);
+        ExportAsync(spec, FceFilters.SearchPredicate, CompliancePolicies.ComplianceManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -19,7 +19,7 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto();
@@ -41,7 +41,7 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto { IsDeleted = true };
@@ -63,7 +63,8 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto();
@@ -85,7 +86,7 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto();
@@ -107,7 +108,8 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto { IsDeleted = true };
@@ -129,7 +131,8 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto { FacilityId = _facilityId, IsDeleted = true };
@@ -156,7 +159,8 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto { FacilityId = _facilityId, IsDeleted = true };
@@ -183,7 +187,7 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto { IsDeleted = true };
@@ -205,7 +209,8 @@ public class FceRequirementsHandlerTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto();

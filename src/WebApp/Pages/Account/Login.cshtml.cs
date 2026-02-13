@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.AuthenticationServices.Claims;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Core.Entities;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;

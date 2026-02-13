@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using System.Linq.Expressions;

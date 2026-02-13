@@ -6,7 +6,7 @@ using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class CloseModel(ICaseFileService service) : PageModel
 {
     [FromRoute]

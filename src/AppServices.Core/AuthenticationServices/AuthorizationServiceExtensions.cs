@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace AirWeb.AppServices.AuthorizationPolicies;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public static class AuthorizationServiceExtensions
 {

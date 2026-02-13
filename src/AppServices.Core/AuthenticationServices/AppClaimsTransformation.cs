@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.AuthenticationServices.Claims;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public static class AppClaimTypes
 {

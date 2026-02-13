@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacilityService facilityService) : PageModel
 {
     [FromRoute]

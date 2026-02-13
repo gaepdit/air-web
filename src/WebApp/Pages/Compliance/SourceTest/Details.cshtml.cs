@@ -3,8 +3,9 @@ using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Permissions;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -76,7 +77,8 @@ public class DetailsModel(
             var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
 
             var defaultStaffId =
-                defaultStaff != null && await staffService.IsInRoleAsync(defaultStaff.Id, AppRole.ComplianceStaffRole)
+                defaultStaff != null &&
+                await staffService.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceStaffRole)
                     ? defaultStaff.Id
                     : (await staffService.GetCurrentUserAsync()).Id;
 
@@ -197,7 +199,7 @@ public class DetailsModel(
     {
         // FUTURE: Refactor this permission check.
         CanAddNewReview = ComplianceReview is null &&
-                          await authorization.Succeeded(User, Policies.ComplianceStaff) &&
+                          await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff) &&
                           TestSummary is { ReportClosed: true } &&
                           !await service.SourceTestReviewExistsAsync(ReferenceNumber, token);
         if (ComplianceReview is not null)
@@ -205,5 +207,5 @@ public class DetailsModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

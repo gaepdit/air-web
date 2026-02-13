@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -17,7 +17,7 @@ public class CaseFileViewPermissionsTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileViewDto();
@@ -58,7 +58,7 @@ public class CaseFileViewPermissionsTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileViewDto { IsDeleted = true };
@@ -80,7 +80,7 @@ public class CaseFileViewPermissionsTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileViewDto { IsClosed = true };
@@ -102,7 +102,7 @@ public class CaseFileViewPermissionsTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
             authenticationType: "Basic"));
 
         CaseFileViewDto? resource = null;

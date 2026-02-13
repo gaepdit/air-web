@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
@@ -71,7 +72,7 @@ public class DetailsModel(
 
         SourceTests = await sourceTestsForFacilityTask;
 
-        IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
+        IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
         return Page();
     }
 }

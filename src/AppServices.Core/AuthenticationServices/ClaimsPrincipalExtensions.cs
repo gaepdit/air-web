@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.AuthenticationServices.Claims;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public static class ClaimsPrincipalExtensions
 {

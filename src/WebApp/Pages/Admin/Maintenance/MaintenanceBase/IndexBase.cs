@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Lookups.LookupsBase;
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 

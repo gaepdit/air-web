@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public interface IUserService : IDisposable
 {

@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Staff;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
 using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Pages.Admin.Users;
 

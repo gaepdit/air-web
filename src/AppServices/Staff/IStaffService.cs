@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;

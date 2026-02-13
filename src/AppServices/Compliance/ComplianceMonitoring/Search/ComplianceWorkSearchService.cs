@@ -1,6 +1,6 @@
-using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
@@ -27,14 +27,15 @@ public sealed class ComplianceWorkSearchService(
 
     public Task<IPaginatedResult<ComplianceWorkSearchResultDto>> SearchAsync(ComplianceWorkSearchDto spec,
         PaginatedRequest paging, bool loadFacilities = true, CancellationToken token = default) =>
-        SearchAsync(spec, paging, loadFacilities, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
+        SearchAsync(spec, paging, loadFacilities, ComplianceWorkFilters.SearchPredicate,
+            CompliancePolicies.ComplianceManager, token);
 
     public Task<int> CountAsync(ComplianceWorkSearchDto spec, CancellationToken token = default) =>
-        CountAsync(spec, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
+        CountAsync(spec, ComplianceWorkFilters.SearchPredicate, CompliancePolicies.ComplianceManager, token);
 
     public Task<IEnumerable<ComplianceWorkExportDto>> ExportAsync(ComplianceWorkSearchDto spec,
         CancellationToken token = default) =>
-        ExportAsync(spec, ComplianceWorkFilters.SearchPredicate, Policies.ComplianceManager, token);
+        ExportAsync(spec, ComplianceWorkFilters.SearchPredicate, CompliancePolicies.ComplianceManager, token);
 
     #region IDisposable,  IAsyncDisposable
 

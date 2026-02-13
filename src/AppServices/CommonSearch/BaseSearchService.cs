@@ -1,5 +1,4 @@
-using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace AirWeb.AppServices.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public static class LoginProviderValidation
 {

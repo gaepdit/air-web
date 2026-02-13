@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Core.AuthenticationServices;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 

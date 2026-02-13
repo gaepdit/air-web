@@ -9,7 +9,7 @@ using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class NotificationEditModel(
     IComplianceWorkService service,
     INotificationTypeService notificationTypeService,

@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
@@ -10,7 +10,7 @@ public class OfficeIndexModel : IndexBase
 {
     public override MaintenanceOption ThisOption => MaintenanceOption.Office;
     public override AuthorizationPolicy Policy => Policies.SiteMaintainer;
-    public override AppRole AppRole => AppRole.SiteMaintenanceRole;
+    public override AppRole AppRole => GeneralRole.SiteMaintenanceRole;
 
     public async Task OnGetAsync(
         [FromServices] IOfficeService service,

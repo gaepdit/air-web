@@ -7,7 +7,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class LinkedEventsModel(ICaseFileService service) : PageModel
 {
     [FromRoute]

@@ -6,7 +6,7 @@ using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class ReopenModel(ICaseFileService service) : PageModel
 {
     [FromRoute]

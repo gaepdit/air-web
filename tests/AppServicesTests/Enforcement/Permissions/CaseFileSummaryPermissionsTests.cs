@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -18,7 +18,8 @@ public class CaseFileSummaryPermissionsTests
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileSummaryDto();
@@ -82,7 +83,8 @@ public class CaseFileSummaryPermissionsTests
     {
         // Arrange
         var requirements = new[] { CaseFileOperation.DeleteComment };
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileSummaryDto { IsDeleted = true };
@@ -101,7 +103,8 @@ public class CaseFileSummaryPermissionsTests
     {
         // Arrange
         var requirements = new[] { CaseFileOperation.DeleteComment };
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         var resource = new CaseFileSummaryDto { IsClosed = true };
@@ -120,7 +123,8 @@ public class CaseFileSummaryPermissionsTests
     {
         // Arrange
         var requirements = new[] { CaseFileOperation.DeleteComment };
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, RoleName.ComplianceManager)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceManager)],
             authenticationType: "Basic"));
 
         CaseFileSummaryDto? resource = null;

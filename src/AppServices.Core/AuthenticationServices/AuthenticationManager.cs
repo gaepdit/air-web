@@ -1,6 +1,5 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
+﻿using AirWeb.Core.AppRoles;
 using AirWeb.Core.Entities;
-using AirWeb.Domain.Roles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +8,7 @@ using Microsoft.Identity.Web;
 using System.Security.Claims;
 using ZLogger;
 
-namespace AirWeb.AppServices.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 public interface IAuthenticationManager : IDisposable
 {
@@ -80,7 +79,7 @@ public sealed class AuthenticationManager(
         var staffId = user!.Id;
         logger.ZLogInformation($"Local user with ID {staffId} signed in");
 
-        foreach (var pair in AppRole.AllRoles ?? [])
+        foreach (var pair in AppRole.AllRoles)
             await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
         foreach (var role in testUserRoles)
             await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
@@ -117,7 +116,7 @@ public sealed class AuthenticationManager(
     private async Task SeedRolesAsync(ApplicationUser user, string loginProvider)
     {
         if (loginProvider == LoginProviders.OktaScheme)
-            await userManager.AddToRoleAsync(user, RoleName.GeneralStaff).ConfigureAwait(false);
+            await userManager.AddToRoleAsync(user, GeneralRole.GeneralStaff).ConfigureAwait(false);
 
         // Add the new user to application Roles if seeded in AppSettings.
         var settings = new List<SeedUserRoles>();

@@ -1,5 +1,5 @@
-using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.Core.AppNotifications;
+﻿using AirWeb.AppServices.Core.AppNotifications;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;

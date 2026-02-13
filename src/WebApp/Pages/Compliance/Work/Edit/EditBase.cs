@@ -4,7 +4,7 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Comma
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 using FluentValidation;
@@ -12,7 +12,7 @@ using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public abstract class EditBase(IComplianceWorkService service, IStaffService staffService, IMapper mapper)
     : PageModel, ISubmitCancelButtons
 {
@@ -68,5 +68,5 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
 
     // FUTURE: Allow for editing a Compliance Work entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

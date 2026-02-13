@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Identity.Web;
 using Okta.AspNetCore;
@@ -47,6 +47,7 @@ public static class AuthenticationServices
         builder.Services
             .AddAuthenticationAppServices()
             .AddAuthorizationPolicies()
+            .AddCompliancePolicies()
             .AddAuthorization();
     }
 }

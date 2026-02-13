@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
@@ -67,13 +67,13 @@ public class IndexModel(
 
         ShowDashboard = true;
 
-        IsComplianceStaff = await authorization.Succeeded(User, Policies.ComplianceStaff);
+        IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
         if (IsComplianceStaff) await LoadComplianceStaffTables(token);
 
-        IsComplianceManager = await authorization.Succeeded(User, Policies.ComplianceManager);
+        IsComplianceManager = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
         if (IsComplianceManager) await LoadComplianceManagerTables(token);
 
-        IsEnforcementReviewer = await authorization.Succeeded(User, Policies.EnforcementReviewer);
+        IsEnforcementReviewer = await authorization.Succeeded(User, CompliancePolicies.EnforcementReviewer);
         if (IsEnforcementReviewer) await LoadEnforcementReviewerTables(token);
 
         return Page();

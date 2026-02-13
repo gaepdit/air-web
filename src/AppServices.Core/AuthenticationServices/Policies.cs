@@ -1,10 +1,8 @@
-﻿using AirWeb.AppServices.AuthenticationServices.Claims;
-using AirWeb.AppServices.AuthenticationServices.Roles;
-using AirWeb.Domain.Roles;
+﻿using AirWeb.Core.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AirWeb.AppServices.AuthorizationPolicies;
+namespace AirWeb.AppServices.Core.AuthenticationServices;
 
 #pragma warning disable S125 // Sections of code should not be commented out
 //
@@ -29,22 +27,21 @@ namespace AirWeb.AppServices.AuthorizationPolicies;
 
 public static class Policies
 {
-    public static void AddPolicies(this IServiceCollection services) => services.AddAuthorizationBuilder()
-        .AddPolicy(nameof(ActiveUser), ActiveUser)
-        .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
-        .AddPolicy(nameof(Staff), Staff)
-        .AddPolicy(nameof(UserAdministrator), UserAdministrator)
-        .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
-        .AddPolicy(nameof(ComplianceManager), ComplianceManager)
-        .AddPolicy(nameof(EnforcementReviewer), EnforcementReviewer)
-        .AddPolicy(nameof(EnforcementManager), EnforcementManager)
-        .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
-        .AddPolicy(nameof(ViewAdminPages), ViewAdminPages)
-        .AddPolicy(nameof(ViewSiteMaintenancePage), ViewSiteMaintenancePage)
-        .AddPolicy(nameof(ViewUsersPage), ViewUsersPage);
+    public static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
+    {
+        services.AddAuthorizationBuilder()
+            .AddPolicy(nameof(ActiveUser), ActiveUser)
+            .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
+            .AddPolicy(nameof(Staff), Staff)
+            .AddPolicy(nameof(UserAdministrator), UserAdministrator)
+            .AddPolicy(nameof(ViewAdminPages), ViewAdminPages)
+            .AddPolicy(nameof(ViewSiteMaintenancePage), ViewSiteMaintenancePage)
+            .AddPolicy(nameof(ViewUsersPage), ViewUsersPage);
+        return services;
+    }
 
     // Default policy builder
-    private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
+    public static AuthorizationPolicyBuilder ActiveUserPolicyBuilder => new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .RequireClaim(AppClaimTypes.ActiveUser, true.ToString());
 
@@ -61,23 +58,7 @@ public static class Policies
         .RequireAssertion(context => context.User.IsStaff()).Build();
 
     public static AuthorizationPolicy UserAdministrator { get; } = ActiveUserPolicyBuilder
-        .RequireRole(RoleName.AppUserAdmin).Build();
-
-    // -- Compliance roles
-    public static AuthorizationPolicy ComplianceStaff { get; } = ActiveUserPolicyBuilder
-        .RequireAssertion(context => context.User.IsComplianceStaff()).Build();
-
-    public static AuthorizationPolicy ComplianceManager { get; } = ActiveUserPolicyBuilder
-        .RequireRole(RoleName.ComplianceManager).Build();
-
-    public static AuthorizationPolicy EnforcementReviewer { get; } = ActiveUserPolicyBuilder
-        .RequireRole(RoleName.EnforcementReviewer).Build();
-
-    public static AuthorizationPolicy EnforcementManager { get; } = ActiveUserPolicyBuilder
-        .RequireRole(RoleName.EnforcementManager).Build();
-
-    public static AuthorizationPolicy ComplianceSiteMaintainer { get; } = ActiveUserPolicyBuilder
-        .RequireRole(RoleName.ComplianceSiteMaintenance).Build();
+        .RequireRole(GeneralRole.AppUserAdmin).Build();
 
     // -- Admin page access
 

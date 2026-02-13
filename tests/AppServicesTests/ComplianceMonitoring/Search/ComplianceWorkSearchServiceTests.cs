@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Compliance;
 using AutoMapper;

@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Roles;
+﻿using AirWeb.Core.AppRoles;
+using AirWeb.Domain.AppRoles;
 using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.TestData.Identity;
@@ -10,27 +11,27 @@ internal static partial class UserData
         new()
         {
             UserId = Users[1].Id,
-            RoleId = GetRoleId(RoleName.ComplianceManager),
+            RoleId = GetRoleId(ComplianceRole.ComplianceManager),
         },
         new()
         {
             UserId = Users[1].Id,
-            RoleId = GetRoleId(RoleName.EnforcementManager),
+            RoleId = GetRoleId(ComplianceRole.EnforcementManager),
         },
         new()
         {
             UserId = Users[3].Id,
-            RoleId = GetRoleId(RoleName.ComplianceStaff),
+            RoleId = GetRoleId(ComplianceRole.ComplianceStaff),
         },
         new()
         {
             UserId = Users[3].Id,
-            RoleId = GetRoleId(RoleName.EnforcementReviewer),
+            RoleId = GetRoleId(ComplianceRole.EnforcementReviewer),
         },
         new()
         {
             UserId = Users[4].Id,
-            RoleId = GetRoleId(RoleName.ComplianceStaff),
+            RoleId = GetRoleId(ComplianceRole.ComplianceStaff),
         },
     ];
 

@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.Domain.Roles;
+using AirWeb.Core.AppRoles;
+using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
@@ -9,8 +11,8 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 public class NotificationTypeIndexModel : IndexBase
 {
     public override MaintenanceOption ThisOption => MaintenanceOption.NotificationType;
-    public override AuthorizationPolicy Policy => Policies.ComplianceSiteMaintainer;
-    public override AppRole AppRole => AppRole.ComplianceSiteMaintenanceRole;
+    public override AuthorizationPolicy Policy => CompliancePolicies.ComplianceSiteMaintainer;
+    public override AppRole AppRole => ComplianceRole.ComplianceSiteMaintenanceRole;
 
     public async Task OnGetAsync(
         [FromServices] INotificationTypeService service,

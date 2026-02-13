@@ -4,14 +4,14 @@ using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Roles;
+using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class SubmitReviewModel(
     IEnforcementActionService actionService,
     IStaffService staffService,
@@ -73,5 +73,5 @@ public class SubmitReviewModel(
     }
 
     private async Task PopulateSelectListsAsync() => StaffSelectList =
-        (await staffService.GetUsersInRoleAsync(AppRole.EnforcementReviewerRole)).ToSelectList();
+        (await staffService.GetUsersInRoleAsync(ComplianceRole.EnforcementReviewerRole)).ToSelectList();
 }
