@@ -1,12 +1,10 @@
 using AirWeb.Core.BaseEntities;
-using AirWeb.Domain.CommonInterfaces;
 using GaEpd.AppLibrary.Domain.Predicates;
-using IaipDataService.Facilities;
 using System.Linq.Expressions;
 
-namespace AirWeb.AppServices.CommonSearch;
+namespace AirWeb.AppServices.Core.Search;
 
-internal static class CommonFilters
+public static class CommonFilters
 {
     public static Expression<Func<TEntity, bool>> ByDeletedStatus<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,
@@ -27,19 +25,6 @@ internal static class CommonFilters
             ClosedOpenAny.Open => predicate.And(entity => !entity.IsClosed),
             _ => predicate,
         };
-
-    public static Expression<Func<TEntity, bool>> ByFacilityId<TEntity>(
-        this Expression<Func<TEntity, bool>> predicate,
-        string? input) where TEntity : IFacilityId
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return predicate;
-
-        if (!FacilityId.IsValidFormat(input))
-            return PredicateBuilder.False<TEntity>();
-
-        return predicate.And(entity => entity.FacilityId == new FacilityId(input).FormattedId);
-    }
 
     public static Expression<Func<TEntity, bool>> ByNotesText<TEntity>(
         this Expression<Func<TEntity, bool>> predicate,

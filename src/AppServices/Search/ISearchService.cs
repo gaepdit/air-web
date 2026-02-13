@@ -1,14 +1,15 @@
 using AirWeb.AppServices.Core.Search;
+using AirWeb.AppServices.FacilitySearch;
 using GaEpd.AppLibrary.Pagination;
 
-namespace AirWeb.AppServices.CommonSearch;
+namespace AirWeb.AppServices.Search;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 public interface ISearchService<in TSearchDto, TResultDto, TExportDto> : IDisposable, IAsyncDisposable
 #pragma warning restore S2436
     where TSearchDto : ISearchDto<TSearchDto>
-    where TResultDto : class, ISearchResult
-    where TExportDto : ISearchResult
+    where TResultDto : class, IFacilitySearchResult
+    where TExportDto : IFacilitySearchResult
 {
     Task<IPaginatedResult<TResultDto>> SearchAsync(TSearchDto spec, PaginatedRequest paging,
         bool loadFacilities = true, CancellationToken token = default);

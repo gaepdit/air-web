@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Search;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;

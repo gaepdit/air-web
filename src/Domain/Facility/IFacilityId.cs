@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.CommonInterfaces;
+﻿namespace AirWeb.Domain.Facility;
 
 public interface IFacilityId
 {

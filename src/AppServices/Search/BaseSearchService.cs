@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Core.Search;
+using AirWeb.AppServices.FacilitySearch;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
@@ -8,7 +9,7 @@ using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
-namespace AirWeb.AppServices.CommonSearch;
+namespace AirWeb.AppServices.Search;
 
 #pragma warning disable S2436 // Types and methods should not have too many generic parameters
 public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExportDto, TRepository>(
@@ -20,8 +21,8 @@ public abstract class BaseSearchService<TEntity, TSearchDto, TResultDto, TExport
     IAuthorizationService authorization)
     where TEntity : class, IEntity<int>
     where TSearchDto : class, ISearchDto<TSearchDto>, IDeleteStatus
-    where TResultDto : class, ISearchResult
-    where TExportDto : class, ISearchResult
+    where TResultDto : class, IFacilitySearchResult
+    where TExportDto : class, IFacilitySearchResult
     where TRepository : IRepositoryWithMapping<TEntity, int>, IReadRepository<TEntity, int>
 {
     protected async Task<IPaginatedResult<TResultDto>> SearchAsync(

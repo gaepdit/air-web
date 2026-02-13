@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.CommonFilters.CommonFilterTestsData;
+using static AppServicesCoreTests.CommonFilters.FilterTestsData;
 
-namespace AppServicesTests.CommonFilters;
+namespace AppServicesCoreTests.CommonFilters;
 
 public class DeletedStatusFilterTests
 {

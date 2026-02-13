@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.FacilitySearch;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
@@ -6,7 +6,7 @@ using GaEpd.AppLibrary.Extensions;
 namespace AirWeb.AppServices.Enforcement.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record CaseFileExportDto : ISearchResult
+public record CaseFileExportDto : IFacilitySearchResult
 {
     public CaseFileExportDto(CaseFile caseFile)
     {

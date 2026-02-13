@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.FacilitySearch;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.CommonFilters.CommonFilterTestsData;
+using static AppServicesTests.FacilityFilter.FacilityFilterTestsData;
 
-namespace AppServicesTests.CommonFilters;
+namespace AppServicesTests.FacilityFilter;
 
 public class FacilityIdFilterTests
 {

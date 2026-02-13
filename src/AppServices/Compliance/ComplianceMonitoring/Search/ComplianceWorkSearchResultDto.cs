@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+using AirWeb.AppServices.FacilitySearch;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
-public record ComplianceWorkSearchResultDto : ISearchResult
+public record ComplianceWorkSearchResultDto : IFacilitySearchResult
 {
     public int Id { get; init; }
     public ComplianceWorkType ComplianceWorkType { get; [UsedImplicitly] init; }

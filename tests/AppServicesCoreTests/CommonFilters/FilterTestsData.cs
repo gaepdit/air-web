@@ -1,16 +1,13 @@
 ﻿using AirWeb.Core.BaseEntities;
-using AirWeb.Domain.CommonInterfaces;
-using IaipDataService.Facilities;
 using JetBrains.Annotations;
 
-namespace AppServicesTests.CommonFilters;
+namespace AppServicesCoreTests.CommonFilters;
 
-internal static class CommonFilterTestsData
+internal static class FilterTestsData
 {
-    public record SearchEntity : IFacilityId, IIsDeleted, IIsClosed, INotes
+    public record SearchEntity : IIsDeleted, IIsClosed, INotes
     {
         public int Id { [UsedImplicitly] get; init; }
-        public required string FacilityId { get; init; }
         public bool IsDeleted { get; init; }
         public bool IsClosed { get; init; }
         public string? Notes { get; init; }
@@ -21,7 +18,6 @@ internal static class CommonFilterTestsData
         new()
         {
             Id = 1,
-            FacilityId = (FacilityId)"001-00001",
             IsDeleted = false,
             IsClosed = true,
             Notes = null,
@@ -29,23 +25,20 @@ internal static class CommonFilterTestsData
         new()
         {
             Id = 2,
-            FacilityId = (FacilityId)"001-00001",
             IsDeleted = true,
             IsClosed = true,
             Notes = "abc",
         },
         new()
         {
-            Id = 1,
-            FacilityId = (FacilityId)"001-00003",
+            Id = 3,
             IsDeleted = false,
             IsClosed = false,
             Notes = "abc.d",
         },
         new()
         {
-            Id = 2,
-            FacilityId = (FacilityId)"003-00001",
+            Id = 4,
             IsDeleted = true,
             IsClosed = false,
             Notes = "",

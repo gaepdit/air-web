@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+using AirWeb.AppServices.FacilitySearch;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 
 namespace AirWeb.AppServices.Enforcement.Search;
 
-public record CaseFileSearchResultDto : ISearchResult
+public record CaseFileSearchResultDto : IFacilitySearchResult
 {
     public int Id { get; init; }
     public required string FacilityId { get; init; }

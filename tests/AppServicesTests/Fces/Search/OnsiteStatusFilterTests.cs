@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Compliance.Fces.Search;
+using AirWeb.AppServices.Core.Search;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
 using GaEpd.AppLibrary.Domain.Predicates;

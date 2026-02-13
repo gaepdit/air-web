@@ -45,7 +45,7 @@ public class EditRolesTests
         staffServiceMock.FindAsync(Arg.Any<string>())
             .Returns(StaffViewTest);
         staffServiceMock.GetRolesAsync(Arg.Any<string>())
-            .Returns(new List<string> { ComplianceRole.ComplianceSiteMaintenance });
+            .Returns(new List<string> { GeneralRole.GeneralStaff, ComplianceRole.ComplianceStaff });
 
         var pageModel = new EditRolesModel(staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData(), Id = new Guid(StaffViewTest.Id) };
@@ -57,7 +57,7 @@ public class EditRolesTests
                 Category = r.Value.Category,
                 DisplayName = r.Value.DisplayName,
                 Description = r.Value.Description,
-                IsSelected = r.Key == ComplianceRole.ComplianceSiteMaintenance,
+                IsSelected = r.Key == GeneralRole.GeneralStaff || r.Key == ComplianceRole.ComplianceStaff,
             }).ToList();
 
         // Act

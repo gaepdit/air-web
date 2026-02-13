@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Predicates;

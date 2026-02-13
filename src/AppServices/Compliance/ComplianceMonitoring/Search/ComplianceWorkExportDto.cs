@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.FacilitySearch;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using ClosedXML.Attributes;
 using GaEpd.AppLibrary.Extensions;
@@ -6,7 +6,7 @@ using GaEpd.AppLibrary.Extensions;
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record ComplianceWorkExportDto : ISearchResult
+public record ComplianceWorkExportDto : IFacilitySearchResult
 {
     public ComplianceWorkExportDto(ComplianceWork complianceWork)
     {

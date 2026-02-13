@@ -1,6 +1,6 @@
-namespace AirWeb.AppServices.CommonSearch;
+namespace AirWeb.AppServices.FacilitySearch;
 
-public interface ISearchResult
+public interface IFacilitySearchResult
 {
     public string FacilityId { get; }
     public string? FacilityName { get; set; }

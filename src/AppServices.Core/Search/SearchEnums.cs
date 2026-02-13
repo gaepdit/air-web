@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace AirWeb.AppServices.CommonSearch;
+namespace AirWeb.AppServices.Core.Search;
 
 // "(Any)" (null) = no filtering
 // "Yes" = only if value is true

@@ -2,7 +2,7 @@ using AirWeb.Core.BaseEntities;
 using AirWeb.Core.Entities;
 using AirWeb.Domain.AuditPoints;
 using AirWeb.Domain.Comments;
-using AirWeb.Domain.CommonInterfaces;
+using AirWeb.Domain.Facility;
 
 namespace AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

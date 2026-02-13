@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.CommonSearch;
+﻿using AirWeb.AppServices.FacilitySearch;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using ClosedXML.Attributes;
 
 namespace AirWeb.AppServices.Compliance.Fces.Search;
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public record FceExportDto : ISearchResult
+public record FceExportDto : IFacilitySearchResult
 {
     public FceExportDto(Fce fce)
     {

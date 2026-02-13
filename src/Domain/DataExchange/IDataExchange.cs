@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.CommonInterfaces;
+﻿using AirWeb.Domain.Facility;
 using System.ComponentModel;
 
 namespace AirWeb.Domain.DataExchange;
