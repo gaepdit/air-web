@@ -5,6 +5,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/tests/">
+    <Project Path="tests/AppServicesCoreTests/AppServicesCoreTests.csproj" />
     <Project Path="tests/AppServicesTests/AppServicesTests.csproj" />
       <Project Path="tests/CoreTests/CoreTests.csproj" />
     <Project Path="tests/DomainTests/DomainTests.csproj" />

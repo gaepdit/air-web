@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AppServicesTests.Permissions;
+namespace AppServicesCoreTests.Permissions;
 
 public static class AuthorizationServiceBuilder
 {
