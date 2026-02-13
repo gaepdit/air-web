@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.AppServices.Lookups.NotificationTypes;
 using AirWeb.Core.AppRoles;
 using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;

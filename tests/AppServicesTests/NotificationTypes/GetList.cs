@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.AppServices.Lookups.NotificationTypes;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
 

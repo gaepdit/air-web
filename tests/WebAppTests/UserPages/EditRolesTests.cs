@@ -1,6 +1,6 @@
-using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.Core.EntityServices.Offices;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Core.AppRoles;
 using AirWeb.Domain.AppRoles;
 using AirWeb.TestData.SampleData;

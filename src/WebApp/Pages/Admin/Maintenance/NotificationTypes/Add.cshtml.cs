@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Lookups.NotificationTypes;
+using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 using FluentValidation;
 

@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AutoMapper;
+﻿using AirWeb.AppServices.Core.AutoMapper;
 using AutoMapper;
 
 namespace AppServicesTests;
@@ -12,8 +12,11 @@ public class AppServicesTestsSetup
     public void OneTimeSetUp()
     {
         // AutoMapper profiles are added here.
-        Mapper = new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()))
-            .CreateMapper();
+        Mapper = new MapperConfiguration(configuration =>
+        {
+            configuration.AddProfile(new AutoMapperProfile());
+            configuration.AddProfile(new AirWeb.AppServices.AutoMapper.AutoMapperProfile());
+        }).CreateMapper();
 
         AssertionConfiguration.Current.Equivalency.Modify(options => options
             // Setting this option globally since our DTOs generally exclude properties, e.g., audit properties.

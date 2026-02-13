@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using IaipDataService.Facilities;

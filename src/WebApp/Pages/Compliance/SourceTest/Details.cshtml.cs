@@ -1,10 +1,10 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Permissions;
 using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;

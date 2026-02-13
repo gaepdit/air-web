@@ -1,4 +1,5 @@
 using AirWeb.AppServices.AutoMapper;
+using AirWeb.AppServices.Core.AutoMapper;
 using AirWeb.AppServices.ServiceRegistration;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.OrgNotifications;
@@ -30,7 +31,9 @@ builder.ConfigureAuthentication();
 builder.Services.AddRazorPages();
 
 // Add various services.
-builder.Services.AddAppServices().AddIdentityStores().AddAutoMapperProfiles().AddEmailService().AddApiDocumentation()
+builder.Services.AddAppServices().AddIdentityStores()
+    .AddAutoMapperProfiles().AddComplianceAutoMapperProfiles()
+    .AddEmailService().AddApiDocumentation()
     .AddWebOptimizer().AddMemoryCache().AddOrgNotifications();
 
 // Add data stores and initialize the database.

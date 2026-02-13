@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 
 namespace AirWeb.AppServices.Compliance.Fces.SupportingData;
 

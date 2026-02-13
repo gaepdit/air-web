@@ -1,7 +1,6 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
-using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;

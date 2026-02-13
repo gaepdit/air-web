@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AutoMapper;
 using FluentValidation;
 using IaipDataService.SourceTests;

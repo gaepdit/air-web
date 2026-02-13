@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
+﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Inspections;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
@@ -10,15 +9,10 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
-using AirWeb.AppServices.Core.AuditPoints;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Lookups.NotificationTypes;
-using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Core.Entities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -29,9 +23,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.AutoMapper;
 
-public static class AutoMapperProfileRegistration
+public static class ProfileRegistration
 {
-    public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services) =>
+    public static IServiceCollection AddComplianceAutoMapperProfiles(this IServiceCollection services) =>
         services.AddAutoMapper(expression => expression.AddProfile<AutoMapperProfile>());
 }
 
@@ -39,10 +33,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        Users();
-        MaintenanceItems();
-        Comments();
-        AuditPoints();
+        NotificationTypes();
         Fces();
         ComplianceWork();
         Enforcement();
@@ -64,29 +55,10 @@ public class AutoMapperProfile : Profile
         SourceTestReviews();
     }
 
-    private void Users()
+    private void NotificationTypes()
     {
-        CreateMap<ApplicationUser, StaffSearchResultDto>();
-        CreateMap<ApplicationUser, StaffViewDto>();
-    }
-
-    private void MaintenanceItems()
-    {
-        CreateMap<Office, OfficeUpdateDto>();
-        CreateMap<Office, OfficeViewDto>();
-
         CreateMap<NotificationType, NotificationTypeUpdateDto>();
         CreateMap<NotificationType, NotificationTypeViewDto>();
-    }
-
-    private void Comments()
-    {
-        CreateMap<Comment, CommentViewDto>();
-    }
-
-    private void AuditPoints()
-    {
-        CreateMap<AuditPoint, AuditPointViewDto>();
     }
 
     private void Fces()

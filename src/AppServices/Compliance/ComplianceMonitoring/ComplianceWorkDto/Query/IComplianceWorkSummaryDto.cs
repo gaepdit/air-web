@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.DtoInterfaces;
-using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.Core.BaseEntities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 

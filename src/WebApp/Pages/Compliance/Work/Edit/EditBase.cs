@@ -3,7 +3,7 @@ using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using AutoMapper;

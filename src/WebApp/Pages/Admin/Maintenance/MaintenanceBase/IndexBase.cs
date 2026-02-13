@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.AppServices.Lookups.LookupsBase;
+using AirWeb.AppServices.Core.EntityServices.LookupsBase;
 using AirWeb.Core.AppRoles;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;

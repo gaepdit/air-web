@@ -1,6 +1,6 @@
-using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Core.AuditPoints;
-using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.Core.EntityServices.AuditPoints;
+using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Core.Entities.ValueObjects;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.DataExchange;

@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using GaEpd.AppLibrary.Extensions;
 

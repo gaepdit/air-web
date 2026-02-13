@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;

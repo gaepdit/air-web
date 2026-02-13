@@ -1,3 +1,4 @@
+using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.AppServices.CommonSearch;

@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Staff;
 using AirWeb.Domain.AppRoles;
 using AirWeb.Domain.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;

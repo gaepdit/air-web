@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;

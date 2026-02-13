@@ -1,9 +1,9 @@
-using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Core.AuditPoints;
+using AirWeb.AppServices.Core.EntityServices.AuditPoints;
+using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.AppServices.DtoInterfaces;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Staff.Dto;
 using AirWeb.Core.BaseEntities;
 using AirWeb.Domain.DataExchange;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;

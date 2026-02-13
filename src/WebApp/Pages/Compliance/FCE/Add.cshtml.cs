@@ -1,6 +1,6 @@
 using AirWeb.AppServices.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.AppRoles;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;

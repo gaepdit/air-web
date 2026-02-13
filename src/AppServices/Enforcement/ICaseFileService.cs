@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.CommonDtos;
+﻿using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;
 using IaipDataService.Facilities;

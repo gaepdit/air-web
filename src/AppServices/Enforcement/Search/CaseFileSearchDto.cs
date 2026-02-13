@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.CommonSearch;
+using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Utilities;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using GaEpd.AppLibrary.Extensions;

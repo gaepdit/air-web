@@ -1,9 +1,9 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Staff;
 using AirWeb.Domain.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;

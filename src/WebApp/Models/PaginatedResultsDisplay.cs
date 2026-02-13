@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Staff.Dto;
+﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Models;

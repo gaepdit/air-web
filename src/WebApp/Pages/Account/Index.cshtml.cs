@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.Staff.Dto;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Core.AppRoles;
 using AirWeb.WebApp.Models;
 
