@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AirWeb.AppServices.AppNotifications;
+namespace AirWeb.AppServices.Core.AppNotifications;
 
 public record AppNotificationResult
 {

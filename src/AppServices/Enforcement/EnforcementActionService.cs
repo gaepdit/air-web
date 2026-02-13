@@ -1,6 +1,7 @@
 using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.CommonDtos;
+using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -41,7 +42,7 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(Template.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -59,7 +60,7 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(Template.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -77,7 +78,7 @@ public sealed class EnforcementActionService(
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(Template.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token, caseFileId)
             .ConfigureAwait(false);
 
         return enforcementAction.Id;
@@ -176,7 +177,7 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)
-            await appNotificationService.SendNotificationAsync(Template.EnforcementClosed,
+            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementClosed,
                 action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
         return caseFileClosed;
@@ -217,7 +218,7 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)
-            await appNotificationService.SendNotificationAsync(Template.EnforcementClosed,
+            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementClosed,
                 action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
         return caseFileClosed;
@@ -232,7 +233,7 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(Template.EnforcementActionDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionDeleted, caseFile.ResponsibleStaff, token, caseFile.Id)
             .ConfigureAwait(false);
     }
 
@@ -276,7 +277,7 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService
-            .SendNotificationAsync(Template.EnforcementActionReviewRequested, reviewer, token, action.CaseFile.Id)
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, reviewer, token, action.CaseFile.Id)
             .ConfigureAwait(false);
     }
 
@@ -294,11 +295,11 @@ public sealed class EnforcementActionService(
         actionManager.SubmitReview(action, resource.Result!.Value, resource.Comment, currentUser!, nextReviewer);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
-        await appNotificationService.SendNotificationAsync(Template.EnforcementActionReviewCompleted,
+        await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewCompleted,
             action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
 
         if (nextReviewer is not null)
-            await appNotificationService.SendNotificationAsync(Template.EnforcementActionReviewRequested, nextReviewer,
+            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, nextReviewer,
                 token, action.CaseFile.Id).ConfigureAwait(false);
     }
 

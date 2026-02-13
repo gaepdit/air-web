@@ -1,6 +1,6 @@
-namespace AirWeb.AppServices.AppNotifications;
+namespace AirWeb.AppServices.Core.AppNotifications;
 
-public partial class Template
+public abstract class Template
 {
     // Email template properties
     public required string Subject { get; init; }

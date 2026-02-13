@@ -1,9 +1,10 @@
-﻿using AirWeb.AppServices.AppNotifications;
+using AirWeb.AppServices.AppNotifications;
 using AirWeb.AppServices.AuthenticationServices;
 using AirWeb.AppServices.Caching;
 using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.CommonDtos;
 using AirWeb.AppServices.Compliance.Fces.SupportingData;
+using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
@@ -123,7 +124,7 @@ public sealed class FceService(
         await fceRepository.InsertAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.FceCreated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
+            .SendNotificationAsync(FceTemplate.FceCreated, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
 
         return CreateResult<int>.Create(fce.Id, notificationResult.FailureReason);
     }
@@ -142,7 +143,7 @@ public sealed class FceService(
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.FceUpdated, fce.ReviewedBy, token, id).ConfigureAwait(false);
+            .SendNotificationAsync(FceTemplate.FceUpdated, fce.ReviewedBy, token, id).ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -156,7 +157,7 @@ public sealed class FceService(
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.FceDeleted, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
+            .SendNotificationAsync(FceTemplate.FceDeleted, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -169,7 +170,7 @@ public sealed class FceService(
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(Template.FceRestored, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
+            .SendNotificationAsync(FceTemplate.FceRestored, fce.ReviewedBy, token, fce.Id).ConfigureAwait(false);
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -184,7 +185,7 @@ public sealed class FceService(
 
         var fce = await fceRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
-        var notificationResult = await appNotificationService.SendNotificationAsync(Template.FceCommentAdded,
+        var notificationResult = await appNotificationService.SendNotificationAsync(FceTemplate.FceCommentAdded,
             fce.ReviewedBy, token, itemId, resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false);
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);
     }

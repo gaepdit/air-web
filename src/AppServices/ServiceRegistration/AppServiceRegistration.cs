@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.AppNotifications;
-using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.Comments;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
+using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.AppServices.Lookups.NotificationTypes;

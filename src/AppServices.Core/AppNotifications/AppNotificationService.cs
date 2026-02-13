@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ZLogger;
 
-namespace AirWeb.AppServices.AppNotifications;
+namespace AirWeb.AppServices.Core.AppNotifications;
 
 public interface IAppNotificationService : IDisposable, IAsyncDisposable
 {
