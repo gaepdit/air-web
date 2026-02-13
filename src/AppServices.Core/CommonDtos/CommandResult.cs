@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AirWeb.AppServices.CommonDtos;
+namespace AirWeb.AppServices.Core.CommonDtos;
 
 // Used for modifying entities. Can include non-failure warning messages.
 public record CommandResult

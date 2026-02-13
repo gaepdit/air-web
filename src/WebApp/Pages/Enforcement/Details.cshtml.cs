@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Core.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.AppServices.Enforcement.CaseFileQuery;

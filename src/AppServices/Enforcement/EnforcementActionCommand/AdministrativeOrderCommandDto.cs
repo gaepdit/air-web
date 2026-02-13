@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Utilities;
+﻿using AirWeb.AppServices.Core.CommonDtos;
+using AirWeb.AppServices.Core.Utilities;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Enforcement.EnforcementActionCommand;

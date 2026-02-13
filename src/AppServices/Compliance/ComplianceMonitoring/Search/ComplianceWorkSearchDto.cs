@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.CommonSearch;
 using AirWeb.AppServices.Core.Search;
-using AirWeb.AppServices.Utilities;
+using AirWeb.AppServices.Core.Utilities;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;

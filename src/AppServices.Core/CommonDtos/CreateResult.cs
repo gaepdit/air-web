@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.CommonDtos;
+﻿namespace AirWeb.AppServices.Core.CommonDtos;
 
 // Used for creating entities, returning the ID of the new entity. Can also include non-failure warning messages.
 public record CreateResult<TKey> : CommandResult

@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Utilities;
+﻿namespace AirWeb.AppServices.Core.Utilities;
 
 public static class FileSize
 {
@@ -16,8 +16,8 @@ public static class FileSize
 
     public static string ToFileSizeString(long value)
     {
-        var power = Math.Min((int)Math.Floor((value > 0 ? Math.Log(value) : 0) / Math.Log(1024)),
-            7); // Total number of FileSizeUnits available
+        // Total number of FileSizeUnits available = 7 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ ↓
+        var power = Math.Min((int)Math.Floor((value > 0 ? Math.Log(value) : 0) / Math.Log(1024)), 7);
         return $"{(value / Math.Pow(1024, power)).ToString(power == 0 ? "N0" : "N1")} {FileSizeUnits(power)}";
     }
 }

@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.CommonDtos;
+﻿using AirWeb.AppServices.Core.CommonDtos;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.CommonDtos;
+namespace AppServicesCoreTests.Validators;
 
 public class MaxCurrentDateAndCommentValidatorTests
 {

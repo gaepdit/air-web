@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.CommonDtos;
+﻿using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
 using FluentValidation;
 

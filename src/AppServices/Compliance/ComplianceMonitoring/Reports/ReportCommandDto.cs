@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
-using AirWeb.AppServices.Utilities;
+using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.Reports;

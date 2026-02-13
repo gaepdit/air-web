@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Utilities;
+﻿using AirWeb.AppServices.Core.Utilities;
 
-namespace AirWeb.AppServices.CommonDtos;
+namespace AirWeb.AppServices.Core.CommonDtos;
 
 public record MaxDateOnlyDto : IMaxCurrentDate
 {

@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Utilities;
+﻿namespace AirWeb.AppServices.Core.Utilities;
 
 public static class DateTimeFormats
 {
