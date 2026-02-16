@@ -11,7 +11,7 @@
     <Project Path="tests/DomainCoreTests/DomainCoreTests.csproj" />
     <Project Path="tests/EfRepositoryTests/EfRepositoryTests.csproj" />
     <Project Path="tests/IaipDataServiceTests/IaipDataServiceTests.csproj" />
-    <Project Path="tests/LocalRepositoryTests/LocalRepositoryTests.csproj" />
+    <Project Path="tests/MemRepositoryTests/MemRepositoryTests.csproj" />
     <Project Path="tests/WebAppTests/WebAppTests.csproj" />
   </Folder>
   <Project Path="src/AppHost/AppHost.csproj" />
@@ -21,7 +21,7 @@
   <Project Path="src/Domain.Core/Domain.Core.csproj" />
   <Project Path="src/EfRepository/EfRepository.csproj" />
   <Project Path="src/IaipDataService/IaipDataService.csproj" />
-  <Project Path="src/LocalRepository/LocalRepository.csproj" />
+  <Project Path="src/MemRepository/MemRepository.csproj" />
   <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
   <Project Path="src/TestData/TestData.csproj" />
   <Project Path="src/WebApp/WebApp.csproj" />

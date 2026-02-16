@@ -5,7 +5,7 @@ using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.EfRepository.Repositories;
-using AirWeb.LocalRepository.Repositories;
+using AirWeb.MemRepository.Repositories;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
@@ -26,15 +26,15 @@ internal static partial class DataPersistence
             .AddScoped<IFceCommentRepository, FceCommentRepository>();
 
         private void AddInMemoryRepositories() => services
-            .AddSingleton<IEmailLogRepository, LocalEmailLogRepository>()
-            .AddSingleton<INotificationTypeRepository, LocalNotificationTypeRepository>()
-            .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
-            .AddSingleton<IFceRepository, LocalFceRepository>()
-            .AddSingleton<IComplianceWorkRepository, LocalComplianceWorkRepository>()
-            .AddSingleton<IEnforcementActionRepository, LocalEnforcementActionRepository>()
-            .AddSingleton<ICaseFileRepository, LocalCaseFileRepository>()
-            .AddSingleton<ICaseFileCommentRepository, LocalCaseFileCommentRepository>()
-            .AddSingleton<IComplianceWorkCommentRepository, LocalComplianceWorkCommentRepository>()
-            .AddSingleton<IFceCommentRepository, LocalFceCommentRepository>();
+            .AddSingleton<IEmailLogRepository, EmailLogMemRepository>()
+            .AddSingleton<INotificationTypeRepository, NotificationTypeMemRepository>()
+            .AddSingleton<IOfficeRepository, OfficeMemRepository>()
+            .AddSingleton<IFceRepository, FceMemRepository>()
+            .AddSingleton<IComplianceWorkRepository, ComplianceWorkMemRepository>()
+            .AddSingleton<IEnforcementActionRepository, EnforcementActionMemRepository>()
+            .AddSingleton<ICaseFileRepository, CaseFileMemRepository>()
+            .AddSingleton<ICaseFileCommentRepository, CaseFileCommentMemRepository>()
+            .AddSingleton<IComplianceWorkCommentRepository, ComplianceWorkCommentMemRepository>()
+            .AddSingleton<IFceCommentRepository, FceCommentMemRepository>();
     }
 }

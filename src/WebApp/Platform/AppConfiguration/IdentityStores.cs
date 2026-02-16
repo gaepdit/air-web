@@ -1,6 +1,6 @@
 using AirWeb.Domain.Core.Entities;
 using AirWeb.EfRepository.Contexts;
-using AirWeb.LocalRepository.Identity;
+using AirWeb.MemRepository.Identity;
 using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Identity;
 
