@@ -18,31 +18,18 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        Users();
-        Offices();
-        Comments();
-        AuditPoints();
-    }
-
-    private void Users()
-    {
+        // Users
         CreateMap<ApplicationUser, StaffSearchResultDto>();
         CreateMap<ApplicationUser, StaffViewDto>();
-    }
 
-    private void Offices()
-    {
+        // Offices
         CreateMap<Office, OfficeUpdateDto>();
         CreateMap<Office, OfficeViewDto>();
-    }
 
-    private void Comments()
-    {
+        // Comments
         CreateMap<Comment, CommentViewDto>();
-    }
 
-    private void AuditPoints()
-    {
+        // AuditPoints()
         CreateMap<AuditPoint, AuditPointViewDto>();
     }
 }

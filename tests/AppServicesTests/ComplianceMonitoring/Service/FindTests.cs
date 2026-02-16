@@ -31,7 +31,7 @@ public class FindTests
         facilityRepoMock.GetNameAsync(new FacilityId(item.FacilityId))
             .Returns(SampleText.ValidName);
 
-        var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
+        var appService = new ComplianceWorkService(Setup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), facilityRepoMock, Substitute.For<ISourceTestService>(),
             Substitute.For<IComplianceWorkCommentService>(), Substitute.For<IUserService>(),
             Substitute.For<ICaseFileService>(),
@@ -55,7 +55,7 @@ public class FindTests
         repoMock.ExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var appService = new ComplianceWorkService(AppServicesTestsSetup.Mapper!, repoMock,
+        var appService = new ComplianceWorkService(Setup.Mapper!, repoMock,
             Substitute.For<IComplianceWorkManager>(), Substitute.For<IFacilityService>(),
             Substitute.For<ISourceTestService>(), Substitute.For<IComplianceWorkCommentService>(),
             Substitute.For<IUserService>(), Substitute.For<ICaseFileService>(),

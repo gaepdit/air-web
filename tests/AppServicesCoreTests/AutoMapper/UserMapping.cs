@@ -18,7 +18,7 @@ public class UserMapping
     [Test]
     public void StaffViewMappingWorks()
     {
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffViewDto>(_user);
+        var result = Setup.Mapper!.Map<StaffViewDto>(_user);
 
         using var scope = new AssertionScope();
         result.Id.Should().Be(_user.Id);
@@ -43,7 +43,7 @@ public class UserMapping
             Office = null,
         };
 
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffViewDto>(user);
+        var result = Setup.Mapper!.Map<StaffViewDto>(user);
 
         using var scope = new AssertionScope();
         result.Id.Should().Be(user.Id);
@@ -58,7 +58,7 @@ public class UserMapping
     [Test]
     public void StaffSearchResultMappingWorks()
     {
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffSearchResultDto>(_user);
+        var result = Setup.Mapper!.Map<StaffSearchResultDto>(_user);
 
         using var scope = new AssertionScope();
         result.Id.Should().Be(_user.Id);
@@ -81,7 +81,7 @@ public class UserMapping
             Office = null,
         };
 
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffSearchResultDto>(user);
+        var result = Setup.Mapper!.Map<StaffSearchResultDto>(user);
 
         using var scope = new AssertionScope();
         result.Id.Should().Be(user.Id);
@@ -95,7 +95,7 @@ public class UserMapping
     public void NullStaffViewMappingWorks()
     {
         ApplicationUser? item = null;
-        var result = AppServicesTestsSetup.Mapper!.Map<StaffViewDto?>(item);
+        var result = Setup.Mapper!.Map<StaffViewDto?>(item);
         result.Should().BeNull();
     }
 }

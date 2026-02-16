@@ -24,7 +24,7 @@ public class GetActiveListItems
         var managerMock = Substitute.For<INotificationTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService =
-            new NotificationTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
+            new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
 
         // Act
         var result = await appService.GetAsListItemsAsync();

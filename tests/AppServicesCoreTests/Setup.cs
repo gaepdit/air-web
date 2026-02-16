@@ -4,17 +4,20 @@ using AutoMapper;
 namespace AppServicesCoreTests;
 
 [SetUpFixture]
-public class AppServicesTestsSetup
+public class Setup
 {
     internal static IMapper? Mapper;
+    internal static MapperConfiguration? MapperConfiguration;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        // AutoMapper profiles are added here.
-        Mapper = new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()))
-            .CreateMapper();
+        // Add AutoMapper profiles
+        MapperConfiguration =
+            new MapperConfiguration(configuration => configuration.AddProfile(new AutoMapperProfile()));
+        Mapper = MapperConfiguration.CreateMapper();
 
+        // Configure assertion equivalency 
         AssertionConfiguration.Current.Equivalency.Modify(options => options
             // Setting this option globally since our DTOs generally exclude properties, e.g., audit properties.
             // See: https://fluentassertions.com/objectgraphs/#matching-members

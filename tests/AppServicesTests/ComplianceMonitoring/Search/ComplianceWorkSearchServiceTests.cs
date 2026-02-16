@@ -20,7 +20,7 @@ public class ComplianceWorkSearchServiceTests
     {
         // Arrange
         var searchDto = new ComplianceWorkSearchDto();
-        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<ComplianceWorkSearchResultDto>>(
+        var entries = Setup.Mapper!.Map<IReadOnlyCollection<ComplianceWorkSearchResultDto>>(
             ComplianceWorkData.GetData.Where(work => !work.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IComplianceWorkRepository>();
@@ -36,7 +36,7 @@ public class ComplianceWorkSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new ComplianceWorkSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
+            Setup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);
@@ -66,7 +66,7 @@ public class ComplianceWorkSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new ComplianceWorkSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!,
+            Setup.Mapper!,
             Substitute.For<IUserService>(), authMock);
 
         // Act

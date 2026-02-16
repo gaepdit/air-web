@@ -39,22 +39,6 @@ public class AutoMapperProfile : Profile
         Enforcement();
     }
 
-    private void ComplianceWork()
-    {
-        CreateMap<ComplianceWork, ComplianceWorkSummaryDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-        CreateMap<ComplianceWork, ComplianceWorkSearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
-
-        Accs();
-        Inspections();
-        Notifications();
-        PermitRevocations();
-        Reports();
-        RmpInspections();
-        SourceTestReviews();
-    }
-
     private void NotificationTypes()
     {
         CreateMap<NotificationType, NotificationTypeUpdateDto>();
@@ -78,6 +62,22 @@ public class AutoMapperProfile : Profile
         CreateMap<Report, ReportSummaryDto>();
         CreateMap<RmpInspection, InspectionSummaryDto>();
         CreateMap<CaseFile, EnforcementCaseSummaryDto>();
+    }
+
+    private void ComplianceWork()
+    {
+        CreateMap<ComplianceWork, ComplianceWorkSummaryDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+        CreateMap<ComplianceWork, ComplianceWorkSearchResultDto>()
+            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
+        Accs();
+        Inspections();
+        Notifications();
+        PermitRevocations();
+        Reports();
+        RmpInspections();
+        SourceTestReviews();
     }
 
     private void Accs()

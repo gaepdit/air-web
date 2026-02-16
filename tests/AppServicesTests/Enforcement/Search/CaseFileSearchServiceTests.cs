@@ -22,7 +22,7 @@ public class CaseFileSearchServiceTests
         var searchDto = new CaseFileSearchDto();
         // Hydrate the enforcement action data
         _ = EnforcementActionData.GetData;
-        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<CaseFileSearchResultDto>>(
+        var entries = Setup.Mapper!.Map<IReadOnlyCollection<CaseFileSearchResultDto>>(
             CaseFileData.GetData.ToList());
 
         var repoMock = Substitute.For<ICaseFileRepository>();
@@ -38,7 +38,7 @@ public class CaseFileSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new CaseFileSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
+            Setup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);
@@ -68,7 +68,7 @@ public class CaseFileSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new CaseFileSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
+            Setup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

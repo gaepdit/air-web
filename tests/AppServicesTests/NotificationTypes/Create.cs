@@ -20,7 +20,7 @@ public class Create
         userServiceMock.GetCurrentUserAsync()
             .Returns((ApplicationUser?)null);
         var appService =
-            new NotificationTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
+            new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
 
         var result = await appService.CreateAsync(item.Name);
 

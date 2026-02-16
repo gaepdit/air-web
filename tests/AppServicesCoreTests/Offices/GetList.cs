@@ -17,7 +17,7 @@ public class GetList
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
 
-        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
             Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 
         // Act
@@ -35,7 +35,7 @@ public class GetList
         repoMock.GetListAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new List<Office>());
 
-        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
             Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
 
         // Act

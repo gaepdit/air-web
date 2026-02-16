@@ -17,7 +17,7 @@ public class GetList
         var managerMock = Substitute.For<INotificationTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
         var appService =
-            new NotificationTypeService(AppServicesTestsSetup.Mapper!, repoMock, managerMock, userServiceMock);
+            new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
 
         var result = await appService.GetListAsync();
 

@@ -19,7 +19,7 @@ public class Create
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
 
-        var appService = new OfficeService(AppServicesTestsSetup.Mapper!, Substitute.For<IOfficeRepository>(),
+        var appService = new OfficeService(Setup.Mapper!, Substitute.For<IOfficeRepository>(),
             managerMock, userServiceMock, Substitute.For<IAuthorizationService>());
 
         // Act

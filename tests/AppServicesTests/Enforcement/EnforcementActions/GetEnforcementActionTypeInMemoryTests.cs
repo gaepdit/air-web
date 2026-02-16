@@ -21,7 +21,7 @@ public class GetEnforcementActionTypeInMemoryTests
     {
         _repository = RepositoryHelper.GetEnforcementActionRepository();
         _sut = new EnforcementActionService(Substitute.For<IEnforcementActionManager>(), _repository,
-            Substitute.For<ICaseFileRepository>(), Substitute.For<ICaseFileManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<ICaseFileRepository>(), Substitute.For<ICaseFileManager>(), Setup.Mapper!,
             Substitute.For<IUserService>(), Substitute.For<ILogger<EnforcementActionService>>(),
             Substitute.For<IAppNotificationService>());
     }

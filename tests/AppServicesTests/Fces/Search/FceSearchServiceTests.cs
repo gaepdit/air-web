@@ -20,7 +20,7 @@ public class FceSearchServiceTests
     {
         // Arrange
         var searchDto = new FceSearchDto();
-        var entries = AppServicesTestsSetup.Mapper!.Map<IReadOnlyCollection<FceSearchResultDto>>(
+        var entries = Setup.Mapper!.Map<IReadOnlyCollection<FceSearchResultDto>>(
             FceData.GetData.Where(fce => !fce.IsDeleted).ToList());
 
         var repoMock = Substitute.For<IFceRepository>();
@@ -36,7 +36,7 @@ public class FceSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new FceSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper, Substitute.For<IUserService>(), authMock);
+            Setup.Mapper, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);
@@ -66,7 +66,7 @@ public class FceSearchServiceTests
             .Returns(AuthorizationResult.Success());
 
         var service = new FceSearchService(repoMock, Substitute.For<IFacilityService>(),
-            AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(), authMock);
+            Setup.Mapper!, Substitute.For<IUserService>(), authMock);
 
         // Act
         var result = await service.SearchAsync(searchDto, _paging);

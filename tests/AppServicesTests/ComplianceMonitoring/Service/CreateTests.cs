@@ -42,7 +42,7 @@ public class CreateTests
                 Arg.Any<object?[]>())
             .Returns(AppNotificationResult.Success());
 
-        var service = new ComplianceWorkService(AppServicesTestsSetup.Mapper!,
+        var service = new ComplianceWorkService(Setup.Mapper!,
             Substitute.For<IComplianceWorkRepository>(),
             complianceWorkManagerMock, Substitute.For<IFacilityService>(), Substitute.For<ISourceTestService>(),
             Substitute.For<IComplianceWorkCommentService>(), userServiceMock, Substitute.For<ICaseFileService>(),
