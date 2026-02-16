@@ -1,4 +1,4 @@
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using IaipDataService.Facilities;
 using Microsoft.EntityFrameworkCore;
 

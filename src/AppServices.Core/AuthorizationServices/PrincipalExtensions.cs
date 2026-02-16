@@ -1,4 +1,4 @@
-using AirWeb.Core.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using System.Security.Principal;
 
 namespace AirWeb.AppServices.Core.AuthorizationServices;

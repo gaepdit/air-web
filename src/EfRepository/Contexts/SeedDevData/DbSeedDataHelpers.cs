@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;

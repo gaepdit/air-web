@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.Core.AuthorizationServices;
+﻿using AirWeb.AppServices.Compliance.FacilitySearch;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.DataExport;
 using AirWeb.AppServices.Core.Search;
-using AirWeb.AppServices.FacilitySearch;
-using AirWeb.AppServices.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 

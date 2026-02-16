@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.Comments;
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using AirWeb.Domain.Compliance.Comments;
+using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;

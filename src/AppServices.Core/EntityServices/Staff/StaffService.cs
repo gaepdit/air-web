@@ -2,8 +2,8 @@
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.AppServices.Core.EntityServices.Staff.Exceptions;
 using AirWeb.AppServices.Core.EntityServices.Users;
-using AirWeb.Core.AppRoles;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.AppRoles;
+using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;

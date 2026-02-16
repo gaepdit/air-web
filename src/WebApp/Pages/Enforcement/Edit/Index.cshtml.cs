@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Enforcement;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 

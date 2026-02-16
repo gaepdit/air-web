@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
-using AirWeb.Core.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;

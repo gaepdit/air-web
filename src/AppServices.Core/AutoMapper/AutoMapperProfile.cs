@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 

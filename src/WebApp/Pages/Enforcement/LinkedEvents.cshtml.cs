@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.Permissions;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
 using IaipDataService.Facilities;
 

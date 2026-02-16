@@ -1,4 +1,4 @@
-﻿using AirWeb.Core.Entities;
+﻿using AirWeb.Domain.Core.Entities;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;

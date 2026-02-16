@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 
 namespace AppServicesCoreTests.AutoMapper;
 

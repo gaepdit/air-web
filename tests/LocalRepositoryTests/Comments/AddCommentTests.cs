@@ -1,5 +1,5 @@
-using AirWeb.Core.Entities;
-using AirWeb.Domain.Comments;
+using AirWeb.Domain.Compliance.Comments;
+using AirWeb.Domain.Core.Entities;
 using AirWeb.LocalRepository.Repositories;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;

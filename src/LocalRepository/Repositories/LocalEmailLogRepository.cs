@@ -1,4 +1,4 @@
-﻿using AirWeb.Core.Entities;
+﻿using AirWeb.Domain.Core.Entities;
 
 namespace AirWeb.LocalRepository.Repositories;
 

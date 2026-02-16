@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AutoMapper;
 using FluentValidation;

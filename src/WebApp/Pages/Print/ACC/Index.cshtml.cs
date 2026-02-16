@@ -1,5 +1,5 @@
-using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.WebApp.Platform.PrintoutModels;
 using IaipDataService.Facilities;

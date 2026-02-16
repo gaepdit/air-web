@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
 using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.Core.AppRoles;
-using AirWeb.Domain.AppRoles;
+using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 

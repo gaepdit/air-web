@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthenticationServices;
-using AirWeb.Core.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 

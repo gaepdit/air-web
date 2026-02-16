@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.AppServices.Core.EntityServices.Staff;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
-using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.Domain.AppRoles;
+using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;

@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AppServices\AppServices.csproj" />
+        <ProjectReference Include="..\AppServices.Compliance\AppServices.Compliance.csproj" />
         <ProjectReference Include="..\LocalRepository\LocalRepository.csproj" />
         <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
         <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />

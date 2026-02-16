@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Permissions;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.WebApp.Models;
 

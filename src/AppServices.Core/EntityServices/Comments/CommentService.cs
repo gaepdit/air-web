@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Users;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 
 namespace AirWeb.AppServices.Core.EntityServices.Comments;
 

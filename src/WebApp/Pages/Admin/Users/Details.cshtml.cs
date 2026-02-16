@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.Core.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 
 namespace AirWeb.WebApp.Pages.Admin.Users;
 

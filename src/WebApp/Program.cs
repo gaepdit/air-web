@@ -1,5 +1,6 @@
 using AirWeb.AppServices;
-using AirWeb.AppServices.AutoMapper;
+using AirWeb.AppServices.Compliance;
+using AirWeb.AppServices.Compliance.AutoMapper;
 using AirWeb.AppServices.Core;
 using AirWeb.AppServices.Core.AutoMapper;
 using AirWeb.WebApp.Platform.AppConfiguration;

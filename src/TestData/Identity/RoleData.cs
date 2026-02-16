@@ -1,5 +1,5 @@
-﻿using AirWeb.Core.AppRoles;
-using AirWeb.Domain.AppRoles;
+﻿using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.TestData.Identity;

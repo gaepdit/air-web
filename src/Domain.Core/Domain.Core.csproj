@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>AirWeb.Domain.Core</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="GaEpd.AppLibrary" />
+        <PackageReference Include="JetBrains.Annotations" />
+        <PackageReference Include="ZLogger" />
+    </ItemGroup>
+</Project>

@@ -1,3 +1,0 @@
-﻿namespace AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
-
-public record SourceTestReviewUpdateDto : SourceTestReviewCommandDto;

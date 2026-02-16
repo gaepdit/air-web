@@ -1,4 +1,4 @@
-using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.TestData.Lookups;
 

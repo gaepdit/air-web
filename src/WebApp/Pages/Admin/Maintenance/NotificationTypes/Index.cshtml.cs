@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.Core.AppRoles;
-using AirWeb.Domain.AppRoles;
+using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;

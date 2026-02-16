@@ -1,4 +1,4 @@
-﻿using AirWeb.Core.Entities;
+﻿using AirWeb.Domain.Core.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

@@ -1,0 +1,29 @@
+﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Core.Entities;
+
+namespace AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+
+public class AdministrativeOrder : DxActionEnforcementAction, IFormalEnforcementAction
+{
+    // Constructors
+    [UsedImplicitly] // Used by ORM.
+    private AdministrativeOrder() { }
+
+    internal AdministrativeOrder(Guid id, CaseFile caseFile, ApplicationUser? user)
+        : base(id, caseFile, user)
+    {
+        ActionType = EnforcementActionType.AdministrativeOrder;
+    }
+
+    public DateOnly? ExecutedDate { get; set; }
+    public bool IsExecuted => ExecutedDate.HasValue;
+    public void Execute(DateOnly executedDate) => ExecutedDate = executedDate;
+
+    public DateOnly? AppealedDate { get; set; }
+    public bool IsAppealed => AppealedDate.HasValue;
+    public void Appeal(DateOnly appealDate) => AppealedDate = appealDate;
+
+    public DateOnly? ResolvedDate { get; set; }
+    public bool IsResolved => ResolvedDate.HasValue;
+    public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
+}

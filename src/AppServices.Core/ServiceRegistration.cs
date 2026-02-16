@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

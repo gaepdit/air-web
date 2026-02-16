@@ -1,5 +1,5 @@
-﻿using AirWeb.Core.AppRoles;
-using AirWeb.Core.Entities;
+﻿using AirWeb.Domain.Core.AppRoles;
+using AirWeb.Domain.Core.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.Core.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;

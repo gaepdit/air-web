@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.LookupsBase;
 using AirWeb.AppServices.Core.EntityServices.Users;
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;

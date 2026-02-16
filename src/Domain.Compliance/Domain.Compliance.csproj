@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>AirWeb.Domain.Compliance</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+        <PackageReference Include="Microsoft.Extensions.Identity.Stores"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
+        <ProjectReference Include="..\IaipDataService\IaipDataService.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Identity\AppRole.General.cs">
+            <DependentUpon>AppRole.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Identity\AppRole.Compliance.cs">
+            <DependentUpon>AppRole.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+</Project>

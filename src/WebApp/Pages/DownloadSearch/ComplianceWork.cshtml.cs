@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;

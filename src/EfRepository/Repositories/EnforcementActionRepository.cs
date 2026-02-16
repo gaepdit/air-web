@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;

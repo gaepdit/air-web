@@ -1,4 +1,4 @@
-using AirWeb.Core.BaseEntities;
+using AirWeb.Domain.Core.BaseEntities;
 using GaEpd.AppLibrary.Domain.Predicates;
 using System.Linq.Expressions;
 

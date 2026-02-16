@@ -1,4 +1,4 @@
-using AirWeb.Core.Entities;
+using AirWeb.Domain.Core.Entities;
 using AirWeb.EfRepository.Contexts;
 using AirWeb.LocalRepository.Identity;
 using AirWeb.WebApp.Platform.Settings;

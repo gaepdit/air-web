@@ -1,4 +1,4 @@
-﻿using AirWeb.Core;
+﻿using AirWeb.Domain.Core;
 using FluentValidation;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;

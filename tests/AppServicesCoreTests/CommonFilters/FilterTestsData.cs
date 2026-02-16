@@ -1,4 +1,4 @@
-﻿using AirWeb.Core.BaseEntities;
+﻿using AirWeb.Domain.Core.BaseEntities;
 using JetBrains.Annotations;
 
 namespace AppServicesCoreTests.CommonFilters;

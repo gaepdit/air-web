@@ -1,9 +1,9 @@
-using AirWeb.Core.Entities;
-using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
+using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.Core.Entities;
 using GaEpd.AppLibrary.Domain.Entities;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;
