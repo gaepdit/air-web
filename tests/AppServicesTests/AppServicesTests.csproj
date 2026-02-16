@@ -2,7 +2,5 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\AppServices\AppServices.csproj" />
         <ProjectReference Include="..\..\src\TestData\TestData.csproj" />
-        <ProjectReference Include="..\EfRepositoryTests\EfRepositoryTests.csproj"/>
-        <ProjectReference Include="..\LocalRepositoryTests\LocalRepositoryTests.csproj"/>
     </ItemGroup>
 </Project>

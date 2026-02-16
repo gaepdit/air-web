@@ -1,26 +1,25 @@
 ﻿using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Enforcement;
+using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData.Enforcement;
-using EfRepositoryTests;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Enforcement.EnforcementActions;
 
 [TestFixture]
 [Parallelizable(ParallelScope.None)]
-public class GetEnforcementActionTypeEfTests
+public class GetEnforcementActionTypeTests
 {
     private EnforcementActionService _sut;
-    private EnforcementActionRepository _repository;
+    private IEnforcementActionRepository _repository;
 
     [SetUp]
     public void SetUp()
     {
-        _repository = RepositoryHelper.CreateRepositoryHelper().GetEnforcementActionRepository();
+        _repository = Substitute.For<IEnforcementActionRepository>();
         _sut = new EnforcementActionService(Substitute.For<IEnforcementActionManager>(), _repository,
             Substitute.For<ICaseFileRepository>(), Substitute.For<ICaseFileManager>(), Setup.Mapper!,
             Substitute.For<IUserService>(), Substitute.For<ILogger<EnforcementActionService>>(),
@@ -38,11 +37,14 @@ public class GetEnforcementActionTypeEfTests
     public async Task EF_GetEnforcementActionType_WhenIdExists_ReturnActionType()
     {
         // Arrange
-        var existingAction = EnforcementActionData.GetData.First();
+        var existingActionId = Guid.NewGuid();
+        var existingAction = new ActionTypeDto { ActionType = EnforcementActionType.AdministrativeOrder };
+        _repository.FindAsync<ActionTypeDto>(existingActionId, Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
+            .Returns(existingAction);
         var expected = existingAction.ActionType;
 
         // Act
-        var results = await _sut.GetEnforcementActionType(existingAction.Id);
+        var results = await _sut.GetEnforcementActionType(existingActionId);
 
         // Assert
         results.Should().Be(expected);
@@ -53,6 +55,8 @@ public class GetEnforcementActionTypeEfTests
     {
         // Arrange
         var nonExistingActionId = Guid.NewGuid();
+        _repository.FindAsync<ActionTypeDto>(nonExistingActionId, Arg.Any<IMapper>(), Arg.Any<CancellationToken>())
+            .Returns((ActionTypeDto?)null);
 
         // Act
         var results = await _sut.GetEnforcementActionType(nonExistingActionId);
