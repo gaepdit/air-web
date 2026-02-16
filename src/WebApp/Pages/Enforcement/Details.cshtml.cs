@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Core.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Enforcement;

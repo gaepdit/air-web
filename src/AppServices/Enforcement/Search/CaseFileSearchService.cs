@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Search;
 using AirWeb.Domain.EnforcementEntities.CaseFiles;
 using AutoMapper;

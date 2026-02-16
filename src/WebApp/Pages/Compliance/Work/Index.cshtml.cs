@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.WebApp.Models;

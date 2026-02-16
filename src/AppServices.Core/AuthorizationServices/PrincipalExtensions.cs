@@ -1,7 +1,7 @@
 using AirWeb.Core.AppRoles;
 using System.Security.Principal;
 
-namespace AirWeb.AppServices.Core.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthorizationServices;
 
 public static class PrincipalExtensions
 {

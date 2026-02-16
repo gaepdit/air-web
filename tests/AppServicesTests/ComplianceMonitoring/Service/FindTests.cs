@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.PermitRevocations;
 using AirWeb.AppServices.Core.AppNotifications;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Enforcement;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;

@@ -1,8 +1,9 @@
-﻿using AirWeb.Core.AppRoles;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.Core.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AirWeb.AppServices.Core.AuthenticationServices;
+namespace AirWeb.AppServices.Core.AuthorizationServices;
 
 #pragma warning disable S125 // Sections of code should not be commented out
 //

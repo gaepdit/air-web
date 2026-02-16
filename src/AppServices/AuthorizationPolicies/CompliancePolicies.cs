@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Enforcement.Permissions;
 using AirWeb.Domain.AppRoles;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ public static class CompliancePolicies
 {
     public static IServiceCollection AddCompliancePolicies(this IServiceCollection services)
     {
-        services.AddAuthorizationBuilder()
+        new AuthorizationBuilder(services)
             .AddPolicy(nameof(ComplianceStaff), ComplianceStaff)
             .AddPolicy(nameof(ComplianceManager), ComplianceManager)
             .AddPolicy(nameof(EnforcementReviewer), EnforcementReviewer)
@@ -29,7 +29,7 @@ public static class CompliancePolicies
         return services;
     }
 
-    // -- Compliance Role-based policies
+    // Compliance Role-based policies
     public static AuthorizationPolicy ComplianceStaff { get; } = Policies.ActiveUserPolicyBuilder
         .RequireAssertion(context => context.User.IsComplianceStaff()).Build();
 

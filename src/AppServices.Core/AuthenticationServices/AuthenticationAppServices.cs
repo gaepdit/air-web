@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AirWeb.AppServices.Core.EntityServices.Users;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.Core.AuthenticationServices;

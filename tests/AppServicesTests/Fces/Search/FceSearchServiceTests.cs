@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
 using AutoMapper;

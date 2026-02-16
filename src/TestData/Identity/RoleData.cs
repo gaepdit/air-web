@@ -40,6 +40,13 @@ internal static partial class UserData
         get
         {
             if (field is not null) return field;
+
+            if (AppRole.AllRoles.Count == 0)
+            {
+                GeneralRole.AddRoles();
+                ComplianceRole.AddRoles();
+            }
+
             field = AppRole.AllRoles!
                 .Select(pair => new IdentityRole(pair.Value.Name) { NormalizedName = pair.Key.ToUpperInvariant() })
                 .ToList();

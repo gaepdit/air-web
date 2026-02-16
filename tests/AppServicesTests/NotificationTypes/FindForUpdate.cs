@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring.Notifications;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
 using AutoMapper;

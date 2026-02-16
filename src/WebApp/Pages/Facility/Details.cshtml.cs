@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.SourceTests;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Enforcement.Search;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;

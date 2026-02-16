@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Core.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Enforcement.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;

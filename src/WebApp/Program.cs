@@ -26,7 +26,7 @@ builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
 builder.Services.AddDataProtection();
 
 // Configure authentication and authorization.
-builder.ConfigureAuthentication();
+builder.ConfigureAuthentication().ConfigureAuthorization();
 
 // Add UI services.
 builder.Services.AddRazorPages();

@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
 using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.AppRoles;

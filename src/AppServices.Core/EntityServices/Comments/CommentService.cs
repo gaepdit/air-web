@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Core.AuthenticationServices;
+﻿using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Core.Entities;
 
 namespace AirWeb.AppServices.Core.EntityServices.Comments;

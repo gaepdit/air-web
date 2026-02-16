@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthenticationServices;
+using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.Core.AppRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +11,13 @@ public class RoleBasedPolicy
 {
     private IAuthorizationService _authorization = null!;
 
-    [SetUp]
-    public void SetUp() => _authorization = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
-        collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer));
+    [OneTimeSetUp]
+    public void SetUp()
+    {
+        GeneralRole.AddRoles();
+        _authorization = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
+            collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer));
+    }
 
     [Test]
     public async Task WhenActiveAndWithRequestedRole_Succeeds()

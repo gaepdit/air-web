@@ -8,52 +8,31 @@ namespace AirWeb.Domain.AppRoles;
 public static class ComplianceRole
 {
     // These are the strings that are stored in the database. Avoid modifying these once published!
+    public const string ComplianceStaff = nameof(ComplianceStaff);
+    public const string ComplianceManager = nameof(ComplianceManager);
+    public const string EnforcementReviewer = nameof(EnforcementReviewer);
+    public const string EnforcementManager = nameof(EnforcementManager);
+    public const string ComplianceSiteMaintenance = nameof(ComplianceSiteMaintenance);
 
-    public static readonly string ComplianceStaff = nameof(ComplianceStaff);
-    public static readonly string ComplianceManager = nameof(ComplianceManager);
-    public static readonly string EnforcementReviewer = nameof(EnforcementReviewer);
-    public static readonly string EnforcementManager = nameof(EnforcementManager);
-    public static readonly string ComplianceSiteMaintenance = nameof(ComplianceSiteMaintenance);
+    private const string ComplianceCategory = "Compliance and Enforcement";
 
-    // (You might be tempted to change the above `static readonly` strings to `const` but don't!
-    // The first reference to any of the above causes the following static `AppRole` definitions
-    // to be evaluated, which adds them to the common `AppRoles` dictionary.)
+    public static void AddRoles() => AppRole.AddAppRoles(ComplianceStaffRole, ComplianceManagerRole,
+        EnforcementReviewerRole, EnforcementManagerRole, ComplianceSiteMaintenanceRole);
 
     // The following static Role objects are used for displaying role information in the UI.
-    private const string Compliance = nameof(Compliance);
+    public static AppRole ComplianceStaffRole { get; } = new(ComplianceStaff, ComplianceCategory,
+        AppRole.RoleType.Staff, "Compliance Staff", "Can do compliance and enforcement staff work.");
 
-    [UsedImplicitly]
-    public static AppRole ComplianceStaffRole { get; } = new(
-        ComplianceStaff, Compliance, "Compliance Staff",
-        "Can do compliance and enforcement staff work.",
-        AppRole.SpecializedRole.Staff
-    );
+    public static AppRole ComplianceManagerRole { get; } = new(ComplianceManager, ComplianceCategory,
+        AppRole.RoleType.Staff, "Compliance Manager", "Can manage compliance work.");
 
-    [UsedImplicitly]
-    public static AppRole ComplianceManagerRole { get; } = new(
-        ComplianceManager, Compliance, "Compliance Manager",
-        "Can manage compliance work.",
-        AppRole.SpecializedRole.Staff
-    );
+    public static AppRole EnforcementReviewerRole { get; } = new(EnforcementReviewer, ComplianceCategory,
+        AppRole.RoleType.Staff, "Enforcement Reviewer", "Can review enforcement actions.");
 
-    [UsedImplicitly]
-    public static AppRole EnforcementReviewerRole { get; } = new(
-        EnforcementReviewer, Compliance, "Enforcement Reviewer",
-        "Can review enforcement actions.",
-        AppRole.SpecializedRole.Staff
-    );
+    public static AppRole EnforcementManagerRole { get; } = new(EnforcementManager, ComplianceCategory,
+        AppRole.RoleType.Staff, "Enforcement Manager", "Can resolve enforcement cases.");
 
-    [UsedImplicitly]
-    public static AppRole EnforcementManagerRole { get; } = new(
-        EnforcementManager, Compliance, "Enforcement Manager",
-        "Can resolve enforcement cases.",
-        AppRole.SpecializedRole.Staff
-    );
-
-    [UsedImplicitly]
-    public static AppRole ComplianceSiteMaintenanceRole { get; } = new(
-        ComplianceSiteMaintenance, Compliance, "Compliance Site Maintenance",
-        "Can update values in compliance program lookup tables (drop-down lists).",
-        AppRole.SpecializedRole.SiteMaintenance
-    );
+    public static AppRole ComplianceSiteMaintenanceRole { get; } = new(ComplianceSiteMaintenance, ComplianceCategory,
+        AppRole.RoleType.SiteMaintenance, "Compliance Site Maintenance",
+        "Can update values in compliance program lookup tables (drop-down lists).");
 }
