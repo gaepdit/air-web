@@ -2,9 +2,9 @@
 
 namespace AirWeb.Domain.Core.Data;
 
-public static class CommonData
+public static partial class CommonData
 {
-    public static List<string> Counties { get; } =
+    public static IEnumerable<string> Counties { get; } =
     [
         "Appling",
         "Atkinson",

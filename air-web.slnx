@@ -18,6 +18,7 @@
   <Project Path="src/AppServices.Core/AppServices.Core.csproj" />
   <Project Path="src/Domain.Compliance/Domain.Compliance.csproj" />
   <Project Path="src/Domain.Core/Domain.Core.csproj" />
+    <Project Path="src/Domain.Sbeap/Domain.Sbeap.csproj" />
   <Project Path="src/EfRepository/EfRepository.csproj" />
   <Project Path="src/IaipDataService/IaipDataService.csproj" />
   <Project Path="src/MemRepository/MemRepository.csproj" />
