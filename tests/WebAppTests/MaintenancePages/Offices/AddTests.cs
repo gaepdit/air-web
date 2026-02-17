@@ -1,5 +1,5 @@
-using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.AppServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Offices;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Maintenance.Offices;

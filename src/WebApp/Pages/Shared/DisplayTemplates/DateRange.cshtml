@@ -1,5 +1,5 @@
-﻿@using AirWeb.AppServices.Utilities
-@model AirWeb.Domain.ValueObjects.DateRange
+﻿@using AirWeb.AppServices.Core.Utilities
+@model AirWeb.Domain.Core.Entities.ValueObjects.DateRange
 @{
     var format = (string?)ViewData["Format"] ?? DateTimeFormats.LongDate;
     var connector = (string?)ViewData["Connector"] ?? " to ";

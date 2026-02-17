@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.SourceTestReviews;
-using AirWeb.AppServices.Staff;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AutoMapper;
 using FluentValidation;
 using IaipDataService.SourceTests;
@@ -9,7 +9,7 @@ using IaipDataService.SourceTests.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class SourceTestReviewEditModel(
     IComplianceWorkService service,
     ISourceTestService sourceTestService,

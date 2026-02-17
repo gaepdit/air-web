@@ -1,13 +1,13 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.CommonDtos;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
-using AirWeb.AppServices.Compliance.Permissions;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
+using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class DeleteModel(IComplianceWorkService service) : PageModel
 {
     [FromRoute]

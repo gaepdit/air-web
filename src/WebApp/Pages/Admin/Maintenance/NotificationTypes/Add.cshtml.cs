@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Lookups.NotificationTypes;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.NotificationTypes;
 
-[Authorize(Policy = nameof(Policies.ComplianceSiteMaintainer))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceSiteMaintainer))]
 public class AddModel : AddBase
 {
     [BindProperty]

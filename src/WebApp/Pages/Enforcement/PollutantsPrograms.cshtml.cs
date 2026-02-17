@@ -1,14 +1,14 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using IaipDataService.Facilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacilityService facilityService) : PageModel
 {
     [FromRoute]

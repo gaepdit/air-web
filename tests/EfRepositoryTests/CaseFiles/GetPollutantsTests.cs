@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
+﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.EfRepository.Repositories;
 using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Repositories;

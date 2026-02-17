@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Lookups.LookupsBase;
+﻿using AirWeb.AppServices.Core.EntityServices.LookupsBase;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 

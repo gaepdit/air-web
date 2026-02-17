@@ -1,17 +1,17 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
-using AirWeb.AppServices.Enforcement.EnforcementActionQuery;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class RequestReviewModel(
     IEnforcementActionService actionService,
     IStaffService staffService,
@@ -71,5 +71,6 @@ public class RequestReviewModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.EnforcementReviewerRole)).ToSelectList();
+        StaffSelectList =
+            (await staffService.GetUsersInRoleAsync(ComplianceRole.EnforcementReviewerRole)).ToSelectList();
 }

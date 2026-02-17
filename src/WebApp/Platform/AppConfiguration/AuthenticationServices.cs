@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.AuthenticationServices;
-using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Identity.Web;
 using Okta.AspNetCore;
@@ -8,7 +7,7 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 public static class AuthenticationServices
 {
-    public static void ConfigureAuthentication(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder ConfigureAuthentication(this IHostApplicationBuilder builder)
     {
         var authenticationBuilder = builder.Services
             .ConfigureApplicationCookie(options =>
@@ -44,9 +43,8 @@ public static class AuthenticationServices
             // Note: `cookieScheme: null` is mandatory. See https://github.com/AzureAD/microsoft-identity-web/issues/133#issuecomment-739550416
         }
 
-        builder.Services
-            .AddAuthenticationAppServices()
-            .AddAuthorizationPolicies()
-            .AddAuthorization();
+        builder.Services.AddAuthenticationAppServices();
+
+        return builder;
     }
 }

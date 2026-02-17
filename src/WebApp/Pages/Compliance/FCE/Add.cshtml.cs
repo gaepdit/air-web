@@ -1,8 +1,8 @@
-using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Staff;
-using AirWeb.Domain.ComplianceEntities.Fces;
-using AirWeb.Domain.Identity;
+using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -10,7 +10,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class AddModel(
     IFceService fceService,
     IFacilityService facilityService,
@@ -69,5 +69,5 @@ public class AddModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

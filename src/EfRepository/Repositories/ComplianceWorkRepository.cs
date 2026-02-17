@@ -1,6 +1,4 @@
-using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Lookups.NotificationTypes;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;
@@ -48,5 +46,4 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>()
             .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
-
 }

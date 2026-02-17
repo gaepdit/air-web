@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Core.Entities;
 using AirWeb.TestData.Lookups;
 using IaipDataService.TestData;
 

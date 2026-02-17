@@ -1,4 +1,4 @@
-using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using IaipDataService.Facilities;
 using Microsoft.EntityFrameworkCore;
 

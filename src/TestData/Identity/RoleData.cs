@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Identity;
+﻿using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using Microsoft.AspNetCore.Identity;
 
 namespace AirWeb.TestData.Identity;
@@ -10,27 +11,27 @@ internal static partial class UserData
         new()
         {
             UserId = Users[1].Id,
-            RoleId = GetRoleId(RoleName.ComplianceManager),
+            RoleId = GetRoleId(ComplianceRole.ComplianceManager),
         },
         new()
         {
             UserId = Users[1].Id,
-            RoleId = GetRoleId(RoleName.EnforcementManager),
+            RoleId = GetRoleId(ComplianceRole.EnforcementManager),
         },
         new()
         {
             UserId = Users[3].Id,
-            RoleId = GetRoleId(RoleName.ComplianceStaff),
+            RoleId = GetRoleId(ComplianceRole.ComplianceStaff),
         },
         new()
         {
             UserId = Users[3].Id,
-            RoleId = GetRoleId(RoleName.EnforcementReviewer),
+            RoleId = GetRoleId(ComplianceRole.EnforcementReviewer),
         },
         new()
         {
             UserId = Users[4].Id,
-            RoleId = GetRoleId(RoleName.ComplianceStaff),
+            RoleId = GetRoleId(ComplianceRole.ComplianceStaff),
         },
     ];
 
@@ -39,6 +40,13 @@ internal static partial class UserData
         get
         {
             if (field is not null) return field;
+
+            if (AppRole.AllRoles.Count == 0)
+            {
+                GeneralRole.AddRoles();
+                ComplianceRole.AddRoles();
+            }
+
             field = AppRole.AllRoles!
                 .Select(pair => new IdentityRole(pair.Value.Name) { NormalizedName = pair.Key.ToUpperInvariant() })
                 .ToList();

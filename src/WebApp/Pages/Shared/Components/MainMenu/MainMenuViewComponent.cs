@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
+﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.WebApp.Pages.Account;
 using Microsoft.AspNetCore.Http.Extensions;
 

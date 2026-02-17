@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Compliance.Fces.Search;
-using AirWeb.AppServices.Enforcement.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.Enforcement.Search;
+using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Platform.Settings;

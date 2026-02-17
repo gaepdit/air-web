@@ -1,7 +1,7 @@
-﻿@using AirWeb.AppServices.CommonSearch
-@using AirWeb.AppServices.Compliance.Fces.Search
+﻿@using AirWeb.AppServices.Compliance.Compliance.Fces.Search
+@using AirWeb.AppServices.Core.Search
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model IList<AirWeb.AppServices.Compliance.Fces.Search.FceSearchResultDto>
+@model IList<AirWeb.AppServices.Compliance.Compliance.Fces.Search.FceSearchResultDto>
 @{
     var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
     var hideFacility = (bool?)ViewData["HideFacility"] ?? false;

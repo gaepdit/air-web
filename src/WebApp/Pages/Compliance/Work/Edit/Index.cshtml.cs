@@ -1,5 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.Domain.ComplianceEntities.ComplianceMonitoring;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
 

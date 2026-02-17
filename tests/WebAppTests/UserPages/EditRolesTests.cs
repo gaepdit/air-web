@@ -1,7 +1,8 @@
-using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.AppServices.Staff;
-using AirWeb.AppServices.Staff.Dto;
-using AirWeb.Domain.Identity;
+using AirWeb.AppServices.Core.EntityServices.Offices;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
+using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Core.AppRoles;
 using AirWeb.TestData.SampleData;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Pages.Admin.Users;
@@ -40,6 +41,15 @@ public class EditRolesTests
     public async Task OnGet_PopulatesThePageModel()
     {
         // Arrange
+        var staffServiceMock = Substitute.For<IStaffService>();
+        staffServiceMock.FindAsync(Arg.Any<string>())
+            .Returns(StaffViewTest);
+        staffServiceMock.GetRolesAsync(Arg.Any<string>())
+            .Returns(new List<string> { GeneralRole.GeneralStaff });
+
+        var pageModel = new EditRolesModel(staffServiceMock)
+            { TempData = WebAppTestsSetup.PageTempData(), Id = new Guid(StaffViewTest.Id) };
+
         var expectedRoleSettings = AppRole.AllRoles!
             .Select(r => new EditRolesModel.RoleSetting
             {
@@ -47,17 +57,8 @@ public class EditRolesTests
                 Category = r.Value.Category,
                 DisplayName = r.Value.DisplayName,
                 Description = r.Value.Description,
-                IsSelected = r.Key == RoleName.ComplianceSiteMaintenance,
+                IsSelected = r.Key == GeneralRole.GeneralStaff,
             }).ToList();
-
-        var staffServiceMock = Substitute.For<IStaffService>();
-        staffServiceMock.FindAsync(Arg.Any<string>())
-            .Returns(StaffViewTest);
-        staffServiceMock.GetRolesAsync(Arg.Any<string>())
-            .Returns(new List<string> { RoleName.ComplianceSiteMaintenance });
-
-        var pageModel = new EditRolesModel(staffServiceMock)
-            { TempData = WebAppTestsSetup.PageTempData(), Id = new Guid(StaffViewTest.Id) };
 
         // Act
         var result = await pageModel.OnGetAsync();
@@ -116,7 +117,7 @@ public class EditRolesTests
         staffServiceMock.UpdateRolesAsync(Arg.Any<string>(), Arg.Any<Dictionary<string, bool>>())
             .Returns(IdentityResult.Success);
         staffServiceMock.GetRolesAsync(Arg.Any<string>())
-            .Returns(new List<string> { RoleName.ComplianceSiteMaintenance });
+            .Returns(new List<string> { ComplianceRole.ComplianceSiteMaintenance });
 
         var userId = Guid.NewGuid();
         var page = new EditRolesModel(staffServiceMock)
@@ -173,7 +174,7 @@ public class EditRolesTests
         staffServiceMock.FindAsync(Arg.Any<string>())
             .Returns(StaffViewTest);
         staffServiceMock.GetRolesAsync(Arg.Any<string>())
-            .Returns(new List<string> { RoleName.ComplianceSiteMaintenance });
+            .Returns(new List<string> { ComplianceRole.ComplianceSiteMaintenance });
 
         var userId = Guid.NewGuid();
         var page = new EditRolesModel(staffServiceMock)

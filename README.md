@@ -53,10 +53,14 @@ Complete the following tasks when the application is ready for deployment.
 
 The solution contains the following projects:
 
-* **Domain** — A class library containing the data models, business logic, and repository interfaces.
-* **AppServices** — A class library containing the services used by an application to interact with the domain.
+* **Domain.&ast;** — Class libraries containing the data models, business logic, and repository interfaces.
+    * *Domain.Core* — Core data models, etc.
+    * *Domain.Compliance* — Compliance/enforcement models.
+* **AppServices.&ast;** — Class libraries containing the services used by an application to interact with the Domains.
+    * *AppServices.Core* — Core app services
+    * *AppServices.Compliance* — Compliance/enforcement app services
 * **IaipDataService** — A class library implementing data services for IAIP data.
-* **LocalRepository** — A class library implementing the repositories and data stores using static in-memory test data
+* **MemRepository** — A class library implementing the repositories and data stores using static in-memory test data
   (for local development).
 * **EfRepository** — A class library implementing the repositories and data stores using Entity Framework and a
   database (as specified by the configured connection string).
@@ -70,14 +74,18 @@ There are also corresponding unit test projects for each (not counting the `Test
 ```mermaid
 flowchart BT
     I[IaipDataServices]
-    D[Domain] --> I
-    A[AppServices] ----> D
-    T[TestData] --> D
+    DR[Domain.Core]
+    DC[Domain.Compliance] --> I
+    DC --> DR
+    AR[AppServices.Core] --> DR
+    AC[AppServices.Compliance] --> DC
+    AC --> AR
+    T[TestData] --> DC
     E[EfRepository] --> T
-    L[LocalRepository] --> T
-    W[WebApp] ---> L
-    W ---> E
-    W --> A
+    M[MemRepository] --> T
+    W[WebApp] --> M
+    W --> E
+    W --> AC
 ```
 
 ## Development settings

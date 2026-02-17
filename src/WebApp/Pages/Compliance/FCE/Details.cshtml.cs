@@ -1,10 +1,10 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Comments;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.Domain.ComplianceEntities.Fces;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.Enforcement.Search;
+using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;

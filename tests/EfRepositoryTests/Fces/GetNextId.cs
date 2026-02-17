@@ -1,4 +1,4 @@
-using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.EfRepository.Repositories;
 
 namespace EfRepositoryTests.Fces;

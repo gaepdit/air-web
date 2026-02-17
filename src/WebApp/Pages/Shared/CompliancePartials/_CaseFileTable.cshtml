@@ -1,7 +1,7 @@
-﻿@using AirWeb.AppServices.CommonSearch
-@using AirWeb.AppServices.Enforcement.Search
+﻿@using AirWeb.AppServices.Compliance.Enforcement.Search
+@using AirWeb.AppServices.Core.Search
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@model IList<AirWeb.AppServices.Enforcement.Search.CaseFileSearchResultDto>
+@model IList<AirWeb.AppServices.Compliance.Enforcement.Search.CaseFileSearchResultDto>
 @{
     var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
     var hideStaff = (bool?)ViewData["HideStaff"] ?? false;

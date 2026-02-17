@@ -1,12 +1,12 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFileQuery;
-using AirWeb.AppServices.Enforcement.Permissions;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class ReopenModel(ICaseFileService service) : PageModel
 {
     [FromRoute]

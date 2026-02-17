@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
-using AirWeb.AppServices.Compliance.Permissions;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFileCommand;
-using AirWeb.AppServices.Staff;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
@@ -13,7 +13,7 @@ using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class BeginModel(
     IFacilityService facilityService,
     IComplianceWorkService service,
@@ -101,5 +101,5 @@ public class BeginModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
 }

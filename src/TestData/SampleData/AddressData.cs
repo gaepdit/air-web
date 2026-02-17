@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.ValueObjects;
+﻿using AirWeb.Domain.Core.Entities.ValueObjects;
 
 namespace AirWeb.TestData.SampleData;
 

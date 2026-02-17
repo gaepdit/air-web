@@ -1,5 +1,6 @@
-using AirWeb.Domain.Comments;
-using AirWeb.Domain.ComplianceEntities.Fces;
+using AirWeb.Domain.Compliance.Comments;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
+using AirWeb.Domain.Core.Entities;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.SampleData;
 

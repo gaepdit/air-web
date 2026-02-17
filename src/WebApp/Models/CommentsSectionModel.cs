@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Comments;
+﻿using AirWeb.AppServices.Core.EntityServices.Comments;
 
 namespace AirWeb.WebApp.Models;
 

@@ -1,11 +1,11 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Fces;
-using AirWeb.AppServices.Compliance.Permissions;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
-[Authorize(Policy = nameof(Policies.ComplianceManager))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceManager))]
 public class RestoreModel(IFceService fceService) : PageModel
 {
     [FromRoute]

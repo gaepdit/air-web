@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.EmailLog;
+﻿using AirWeb.Domain.Core.Entities;
 using AirWeb.EfRepository.Contexts;
 
 namespace AirWeb.EfRepository.Repositories;

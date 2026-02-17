@@ -1,6 +1,6 @@
-﻿using AirWeb.Domain.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 

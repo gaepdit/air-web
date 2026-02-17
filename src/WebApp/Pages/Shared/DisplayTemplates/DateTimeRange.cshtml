@@ -1,5 +1,5 @@
-﻿@using AirWeb.AppServices.Utilities
-@model AirWeb.Domain.ValueObjects.DateTimeRange
+﻿@using AirWeb.AppServices.Core.Utilities
+@model AirWeb.Domain.Core.Entities.ValueObjects.DateTimeRange
 @if (Model.EndDate is null && Model.StartDate == default)
 {
     @DefaultText.NotAvailable

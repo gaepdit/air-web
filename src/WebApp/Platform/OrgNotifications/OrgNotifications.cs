@@ -1,3 +1,4 @@
+using AirWeb.AppServices.Core.Caching;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Apis;
 using JetBrains.Annotations;
@@ -37,7 +38,7 @@ public class OrgNotifications(
     {
         if (string.IsNullOrEmpty(AppSettings.OrgNotificationsApiUrl)) return [];
 
-        if (cache.TryGetValue(CacheKey, out List<OrgNotification>? notifications) && notifications != null)
+        if (cache.TryGetValue(CacheKey, logger, out List<OrgNotification>? notifications))
             return notifications;
 
         try
@@ -52,7 +53,8 @@ public class OrgNotifications(
             notifications = [];
         }
 
-        cache.Set(CacheKey, notifications, new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+        var notificationsCacheTime = TimeSpan.FromHours(1);
+        cache.Set(CacheKey, notifications, notificationsCacheTime, logger);
         return notifications;
     }
 }

@@ -1,5 +1,8 @@
-using AirWeb.AppServices.AutoMapper;
-using AirWeb.AppServices.ServiceRegistration;
+using AirWeb.AppServices;
+using AirWeb.AppServices.Compliance;
+using AirWeb.AppServices.Compliance.AutoMapper;
+using AirWeb.AppServices.Core;
+using AirWeb.AppServices.Core.AutoMapper;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.OrgNotifications;
 using AirWeb.WebApp.Platform.Settings;
@@ -23,14 +26,23 @@ builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
 builder.Services.AddDataProtection();
 
 // Configure authentication and authorization.
-builder.ConfigureAuthentication();
+builder.ConfigureAuthentication().ConfigureAuthorization();
 
 // Add UI services.
 builder.Services.AddRazorPages();
 
-// Add various services.
-builder.Services.AddAppServices().AddIdentityStores().AddAutoMapperProfiles().AddEmailService().AddApiDocumentation()
+// Add common services.
+builder.Services
+    .AddAppServices()
+    .AddIdentityStores()
+    .AddAutoMapperProfiles()
+    .AddEmailService().AddApiDocumentation()
     .AddWebOptimizer().AddMemoryCache().AddOrgNotifications();
+
+// Add compliance/enforcement services.
+builder.Services
+    .AddComplianceAppServices()
+    .AddComplianceAutoMapperProfiles();
 
 // Add data stores and initialize the database.
 await builder.ConfigureDataPersistenceAsync();

@@ -1,6 +1,8 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.CommonSearch;
-using AirWeb.AppServices.DataExport;
+﻿using AirWeb.AppServices.Compliance.FacilitySearch;
+using AirWeb.AppServices.Compliance.Search;
+using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Core.DataExport;
+using AirWeb.AppServices.Core.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
 
@@ -10,8 +12,8 @@ public abstract class DownloadBase<TSearchDto, TResultDto, TExportDto>(
     ISearchService<TSearchDto, TResultDto, TExportDto> searchService) : PageModel
 #pragma warning restore S2436
     where TSearchDto : ISearchDto<TSearchDto>, IDeleteStatus
-    where TResultDto : class, ISearchResult
-    where TExportDto : ISearchResult
+    where TResultDto : class, IFacilitySearchResult
+    where TExportDto : IFacilitySearchResult
 {
     public IRouteValues Spec { get; private set; } = null!;
     public int ResultsCount { get; private set; }

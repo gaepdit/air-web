@@ -1,18 +1,18 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFileCommand;
-using AirWeb.AppServices.Enforcement.CaseFileQuery;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Staff;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
-using AirWeb.Domain.Identity;
+﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(Policies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class EditModel(
     ICaseFileService caseFileService,
     IStaffService staffService,
@@ -68,7 +68,7 @@ public class EditModel(
 
     private async Task PopulateSelectListsAsync()
     {
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(AppRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
             nameof(ViolationType.Code), nameof(ViolationType.Display),
             null, nameof(ViolationType.SeverityCode));

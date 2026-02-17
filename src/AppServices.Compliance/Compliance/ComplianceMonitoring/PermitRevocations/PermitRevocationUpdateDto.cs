@@ -1,0 +1,3 @@
+﻿namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.PermitRevocations;
+
+public record PermitRevocationUpdateDto : PermitRevocationCommandDto;

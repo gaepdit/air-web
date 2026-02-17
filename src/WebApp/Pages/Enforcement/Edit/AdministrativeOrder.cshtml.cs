@@ -1,8 +1,8 @@
-﻿using AirWeb.AppServices.Enforcement;
-using AirWeb.AppServices.Enforcement.CaseFileQuery;
-using AirWeb.AppServices.Enforcement.EnforcementActionCommand;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.Domain.EnforcementEntities.EnforcementActions;
+﻿using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 using FluentValidation;

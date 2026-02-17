@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>AirWeb.MemRepository</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain.Compliance\Domain.Compliance.csproj" />
+        <ProjectReference Include="..\TestData\TestData.csproj" />
+    </ItemGroup>
+</Project>

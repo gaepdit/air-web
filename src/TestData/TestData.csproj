@@ -4,6 +4,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Domain.Compliance\Domain.Compliance.csproj" />
     </ItemGroup>
 </Project>

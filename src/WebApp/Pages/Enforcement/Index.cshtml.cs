@@ -1,9 +1,9 @@
-﻿using AirWeb.AppServices.AuthorizationPolicies;
-using AirWeb.AppServices.Enforcement.Permissions;
-using AirWeb.AppServices.Enforcement.Search;
-using AirWeb.AppServices.Lookups.Offices;
-using AirWeb.AppServices.Staff;
-using AirWeb.Domain.EnforcementEntities.ViolationTypes;
+﻿using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.AppServices.Compliance.Enforcement.Search;
+using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Core.EntityServices.Offices;
+using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;

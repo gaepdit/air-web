@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.ComplianceMonitoring.Accs;
-using AirWeb.AppServices.Staff;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
+using AirWeb.AppServices.Core.EntityServices.Staff;
 using AutoMapper;
 using FluentValidation;
 

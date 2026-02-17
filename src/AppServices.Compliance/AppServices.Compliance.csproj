@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>AirWeb.AppServices.Compliance</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ClosedXML" />
+        <PackageReference Include="FluentValidation" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+        <PackageReference Include="GaEpd.EmailService" />
+        <PackageReference Include="JetBrains.Annotations" />
+        <PackageReference Include="Microsoft.Identity.Web" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain.Compliance\Domain.Compliance.csproj" />
+        <ProjectReference Include="..\AppServices.Core\AppServices.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Compliance\WorkEntries\WorkEntryService.Mapping.cs">
+            <DependentUpon>WorkEntryService.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+</Project>
