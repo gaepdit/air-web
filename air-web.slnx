@@ -14,7 +14,6 @@
     <Project Path="tests/MemRepositoryTests/MemRepositoryTests.csproj" />
     <Project Path="tests/WebAppTests/WebAppTests.csproj" />
   </Folder>
-  <Project Path="src/AppHost/AppHost.csproj" />
   <Project Path="src/AppServices.Compliance/AppServices.Compliance.csproj" />
   <Project Path="src/AppServices.Core/AppServices.Core.csproj" />
   <Project Path="src/Domain.Compliance/Domain.Compliance.csproj" />
@@ -22,7 +21,6 @@
   <Project Path="src/EfRepository/EfRepository.csproj" />
   <Project Path="src/IaipDataService/IaipDataService.csproj" />
   <Project Path="src/MemRepository/MemRepository.csproj" />
-  <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
   <Project Path="src/TestData/TestData.csproj" />
   <Project Path="src/WebApp/WebApp.csproj" />
 </Solution>

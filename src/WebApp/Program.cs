@@ -8,7 +8,6 @@ using AirWeb.WebApp.Platform.OrgNotifications;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.EmailService.Utilities;
 using IaipDataService;
-using ServiceDefaults;
 using ZLogger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,9 +48,6 @@ builder.Services
 await builder.ConfigureDataPersistenceAsync();
 builder.AddIaipDataServices(AppSettings.ConnectToIaip);
 
-// Configure Aspire.
-builder.AddServiceDefaults();
-
 // Build the application.
 var app = builder.Build();
 
@@ -61,7 +57,6 @@ app.UseSecurityHeaders().UseErrorHandling().UseStatusCodePagesWithReExecute("/Er
     .UseApiDocumentation();
 
 // Map endpoints.
-app.MapDefaultEndpoints();
 app.MapRazorPages();
 app.MapControllers();
 

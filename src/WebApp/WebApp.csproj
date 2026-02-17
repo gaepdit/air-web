@@ -22,7 +22,6 @@
         <ProjectReference Include="..\AppServices.Compliance\AppServices.Compliance.csproj" />
         <ProjectReference Include="..\MemRepository\MemRepository.csproj" />
         <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
-        <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
     </ItemGroup>
 
     <ItemGroup>
