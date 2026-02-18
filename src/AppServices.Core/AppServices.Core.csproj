@@ -8,7 +8,6 @@
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
         <PackageReference Include="GaEpd.EmailService" />
-        <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="Microsoft.Identity.Web" />
     </ItemGroup>
 

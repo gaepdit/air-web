@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirWeb.Domain.Core.Entities.ValueObjects;
 
