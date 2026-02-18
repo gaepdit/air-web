@@ -9,11 +9,20 @@
             <a asp-page="/Index" title="Air Branch Web App">
                 <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
             </a>
-            <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web
+            <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">
+                @if ((bool)(ViewData["SBEAP"] ?? false))
+                {
+                    @:SBEAP
+                }
+                else
+                {
+                    @:Air Web
+                }
                 @if (Model.ShowStaffOptions)
                 {
                     <span class="d-sm-none d-md-inline">Dashboard</span>
-                }</a>
+                }
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">

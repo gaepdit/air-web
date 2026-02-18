@@ -5,15 +5,15 @@
 :root, [data-bs-theme="light"] {
     --callout-link: 10, 88, 202;
     --base-hue: 200deg;
+    --bs-gradient: linear-gradient(180deg,
+    hsl(200, 93%, 73%) 0%,
+    hsl(247, 55%, 80%) 70%,
+    hsl(295, 42%, 78%) 100%);
 }
 
 /* Light mode theme colors */
 .navbar {
     background-color: hsl(var(--base-hue), 75%, 91%);
-    --bs-gradient: linear-gradient(180deg,
-    hsl(200, 93%, 73%) 0%,
-    hsl(247, 55%, 80%) 70%,
-    hsl(295, 42%, 78%) 100%);
 }
 
 .navbar a {
@@ -63,15 +63,15 @@
 [data-bs-theme="dark"] {
     --callout-link: 110, 168, 254;
     --bs-success-bg-subtle: hsl(153, 92%, 10%);
+    --bs-gradient: linear-gradient(180deg,
+    hsl(212, 72%, 30%) 0%,
+    hsl(234, 22%, 41%) 50%,
+    hsl(355.3, 30.9%, 51.2%) 100%);
 }
 
 [data-bs-theme="dark"] .navbar {
     background-color: hsl(var(--base-hue), 75%, 13%);
     color: hsl(var(--base-hue), 0%, 100%);
-    --bs-gradient: linear-gradient(180deg,
-    hsl(212, 72%, 30%) 0%,
-    hsl(234, 22%, 41%) 50%,
-    hsl(355.3, 30.9%, 51.2%) 100%);
 }
 
 [data-bs-theme="dark"] .navbar a {
