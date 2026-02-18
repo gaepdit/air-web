@@ -1,6 +1,6 @@
 using AirWeb.Domain.Core.Entities;
 
-namespace AirWeb.TestData.Lookups;
+namespace AirWeb.TestData.Identity;
 
 internal static class OfficeData
 {

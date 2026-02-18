@@ -2,7 +2,7 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.TestData.Compliance;
 using IaipDataService.Facilities;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.ComplianceRepositories;
 
 public sealed class FceMemRepository()
     : BaseRepositoryWithMapping<Fce, int>(FceData.GetData), IFceRepository

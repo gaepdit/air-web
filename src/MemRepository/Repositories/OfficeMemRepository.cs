@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Core.Entities;
 using AirWeb.MemRepository.Identity;
-using AirWeb.TestData.Lookups;
+using AirWeb.TestData.Identity;
 
 namespace AirWeb.MemRepository.Repositories;
 

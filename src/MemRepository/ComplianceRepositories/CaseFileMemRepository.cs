@@ -3,7 +3,7 @@ using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Enforcement;
 using IaipDataService.Facilities;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.ComplianceRepositories;
 
 public sealed class CaseFileMemRepository : BaseRepositoryWithMapping<CaseFile, int>, ICaseFileRepository
 {

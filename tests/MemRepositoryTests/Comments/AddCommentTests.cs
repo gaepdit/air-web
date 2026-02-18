@@ -1,6 +1,6 @@
 using AirWeb.Domain.Compliance.Comments;
 using AirWeb.Domain.Core.Entities;
-using AirWeb.MemRepository.Repositories;
+using AirWeb.MemRepository.ComplianceRepositories;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.SampleData;

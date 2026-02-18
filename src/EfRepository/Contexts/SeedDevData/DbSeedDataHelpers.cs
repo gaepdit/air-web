@@ -4,7 +4,6 @@ using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
-using AirWeb.TestData.Lookups;
 
 namespace AirWeb.EfRepository.Contexts.SeedDevData;
 

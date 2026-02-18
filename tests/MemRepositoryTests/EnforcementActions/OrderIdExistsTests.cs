@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
-using AirWeb.MemRepository.Repositories;
+using AirWeb.MemRepository.ComplianceRepositories;
 using AirWeb.TestData.Enforcement;
 
 namespace MemRepositoryTests.EnforcementActions;

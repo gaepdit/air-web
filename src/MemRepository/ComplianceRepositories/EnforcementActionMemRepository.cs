@@ -1,7 +1,7 @@
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.TestData.Enforcement;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.ComplianceRepositories;
 
 public class EnforcementActionMemRepository()
     : BaseRepositoryWithMapping<EnforcementAction, Guid>(EnforcementActionData.GetData), IEnforcementActionRepository

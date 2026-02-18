@@ -1,6 +1,6 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 
-namespace AirWeb.TestData.Lookups;
+namespace AirWeb.TestData.Compliance;
 
 internal static class NotificationTypeData
 {

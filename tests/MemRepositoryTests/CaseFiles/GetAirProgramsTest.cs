@@ -1,4 +1,4 @@
-﻿using AirWeb.MemRepository.Repositories;
+﻿using AirWeb.MemRepository.ComplianceRepositories;
 using AirWeb.TestData.Enforcement;
 
 namespace MemRepositoryTests.CaseFiles;

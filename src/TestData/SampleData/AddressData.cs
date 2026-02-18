@@ -4,10 +4,9 @@ namespace AirWeb.TestData.SampleData;
 
 public static class AddressData
 {
-    public static Address GetRandomAddress() => new[] { CompleteAddress, LessCompleteAddress, IncompleteAddress }
-        [Random.Shared.Next(3)];
+    public static Address GetRandomAddress() => new[] { Address1, Address2, Address3 }[Random.Shared.Next(3)];
 
-    private static Address CompleteAddress => new()
+    private static Address Address1 => new()
     {
         Street = "123 Main St.",
         Street2 = "Box 456",
@@ -16,7 +15,7 @@ public static class AddressData
         State = "Georgia",
     };
 
-    private static Address LessCompleteAddress => new()
+    private static Address Address2 => new()
     {
         Street = "456 Second St.",
         Street2 = null,
@@ -25,7 +24,7 @@ public static class AddressData
         State = "GA",
     };
 
-    private static Address IncompleteAddress => new()
+    private static Address Address3 => new()
     {
         Street = string.Empty,
         Street2 = null,

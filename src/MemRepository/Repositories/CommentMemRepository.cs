@@ -1,10 +1,4 @@
-using AirWeb.Domain.Compliance.Comments;
-using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
-using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Core.Entities;
-using AirWeb.TestData.Compliance;
-using AirWeb.TestData.Enforcement;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using System.Diagnostics.CodeAnalysis;
@@ -66,13 +60,3 @@ public abstract class CommentMemRepository<TEntity, TComment>(IEnumerable<TEntit
     : CommentMemRepository<TEntity, int, TComment>(items), ICommentRepository<TComment>
     where TEntity : class, IEntity<int>, IComments<TComment>
     where TComment : Comment;
-
-public class CaseFileCommentMemRepository()
-    : CommentMemRepository<CaseFile, CaseFileComment>(CaseFileData.GetData), ICaseFileCommentRepository;
-
-public class ComplianceWorkCommentMemRepository()
-    : CommentMemRepository<ComplianceWork, ComplianceWorkComment>(ComplianceWorkData.GetData),
-        IComplianceWorkCommentRepository;
-
-public class FceCommentMemRepository()
-    : CommentMemRepository<Fce, FceComment>(FceData.GetData), IFceCommentRepository;

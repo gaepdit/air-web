@@ -1,8 +1,7 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Compliance;
-using AirWeb.TestData.Lookups;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.ComplianceRepositories;
 
 public sealed class ComplianceWorkMemRepository()
     : BaseRepositoryWithMapping<ComplianceWork, int>(ComplianceWorkData.GetData), IComplianceWorkRepository
