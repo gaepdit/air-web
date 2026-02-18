@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Sbeap.Customers.Dto;
 using AirWeb.AppServices.Sbeap.Customers.Validators;
-using AirWeb.Domain.Core.Entities;
+using AirWeb.Domain.Core.Data;
 using AppServicesTests.Sbeap.TestData;
 using FluentValidation.TestHelper;
 
@@ -14,7 +14,7 @@ public class CustomerCreateValidatorTests
     private static readonly ContactCreateValidator ContactValidator = new(PhoneNumberValidator);
 
     private static readonly CustomerCreateValidator CustomerValidator =
-        new(Substitute.For<ISicCodeRepository>(), ContactValidator);
+        new(ContactValidator);
 
     [Test]
     public async Task ValidDtoWithEmptyContact_ReturnsAsValid()
@@ -113,13 +113,10 @@ public class CustomerCreateValidatorTests
         {
             Name = Constants.ValidName,
             Contact = EmptyContactCreate,
-            SicCodeId = "0000",
+            SicCodeId = SicCodes.Data.First().Id,
         };
 
-        var sic = Substitute.For<ISicCodeRepository>();
-        sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
-
-        var validator = new CustomerCreateValidator(sic, ContactValidator);
+        var validator = new CustomerCreateValidator(ContactValidator);
 
         // Act
         var result = await validator.TestValidateAsync(model);
@@ -138,11 +135,7 @@ public class CustomerCreateValidatorTests
             Contact = EmptyContactCreate,
             SicCodeId = "0000",
         };
-
-        var sic = Substitute.For<ISicCodeRepository>();
-        sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(false);
-
-        var validator = new CustomerCreateValidator(sic, ContactValidator);
+        var validator = new CustomerCreateValidator(ContactValidator);
 
         // Act
         var result = await validator.TestValidateAsync(model);

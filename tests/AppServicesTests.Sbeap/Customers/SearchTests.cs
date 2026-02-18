@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Sbeap.Customers;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
-using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
 using AirWeb.Domain.Sbeap.Entities.Customers;
 using AppServicesTests.Sbeap.TestData;
@@ -30,9 +29,8 @@ public class SearchTests
         customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
-        var appService = new CustomerService(Setup.Mapper!, Substitute.For<IUserService>(),
-            customerRepoMock, Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>(),
-            Substitute.For<ISicCodeRepository>());
+        var appService = new CustomerService(Setup.Mapper!, Substitute.For<IUserService>(), customerRepoMock,
+            Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
@@ -59,9 +57,8 @@ public class SearchTests
         customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
-        var appService = new CustomerService(Setup.Mapper!, Substitute.For<IUserService>(),
-            customerRepoMock, Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>(),
-            Substitute.For<ISicCodeRepository>());
+        var appService = new CustomerService(Setup.Mapper!, Substitute.For<IUserService>(), customerRepoMock,
+            Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);

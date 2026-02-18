@@ -12,13 +12,10 @@ internal static class CustomerData
         {
             Name = Constants.Phrase,
             County = "Bacon",
-            Location = new Address
-            {
-                City = Constants.ValidName,
-            },
+            Location = new Address { City = Constants.ValidName },
             MailingAddress = Address.EmptyAddress,
             Description = Constants.Phrase,
-            SicCode = CommonData.SicCodes.ElementAt(0),
+            SicCode = SicCodes.Data.First(),
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
         {
@@ -35,7 +32,7 @@ internal static class CustomerData
             Location = Address.EmptyAddress,
             MailingAddress = Address.EmptyAddress,
             Description = Constants.Phrase,
-            SicCode = CommonData.SicCodes.First(),
+            SicCode = SicCodes.Data.First(),
             Website = null,
             DeleteComments = Constants.Phrase,
         },

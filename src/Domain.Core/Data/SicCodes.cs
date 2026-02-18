@@ -1,14 +1,18 @@
 ﻿// ReSharper disable StringLiteralTypo
 
 using AirWeb.Domain.Core.Entities;
+using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.Domain.Core.Data;
 
-public static partial class CommonData
+public static class SicCodes
 {
+    public static bool Exists(string code) => Data.Any(sicCode => sicCode.Id == code && sicCode.Active);
+    public static SicCode? Get(string code) => Data.FirstOrDefault(sicCode => sicCode.Id == code);
+
     private const string LegacyDocketConv = "Legacy Docket Conv";
 
-    public static IEnumerable<SicCode> SicCodes { get; } =
+    public static IEnumerable<SicCode> Data { get; } =
     [
         new() { Id = "0111", Description = "Wheat" },
         new() { Id = "0112", Description = "Rice" },
@@ -1125,4 +1129,7 @@ public static partial class CommonData
         new() { Id = "9721", Description = "International Affairs" },
         new() { Id = "9999", Description = "Nonclassifiable Establishments" },
     ];
+
+    public static IReadOnlyList<ListItem<string>> ActiveListItems { get; } = Data
+        .Select(sic => new ListItem<string>(sic.Id, Name: sic.Display)).ToList();
 }

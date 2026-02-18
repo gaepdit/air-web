@@ -1,6 +1,7 @@
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
+using AirWeb.Domain.Core.Data;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
 using AirWeb.Domain.Sbeap.Entities.Customers;
@@ -15,8 +16,7 @@ public sealed class CustomerService(
     IUserService users,
     ICustomerRepository customers,
     ICustomerManager manager,
-    IContactRepository contacts,
-    ISicCodeRepository sic)
+    IContactRepository contacts)
     : ICustomerService
 {
     // Customer read
@@ -65,7 +65,7 @@ public sealed class CustomerService(
         customer.Description = resource.Description;
         customer.SicCode = resource.SicCodeId is null
             ? null
-            : await sic.GetAsync(resource.SicCodeId, token).ConfigureAwait(false);
+            : SicCodes.Get(resource.SicCodeId);
         customer.County = resource.County;
         customer.Website = resource.Website;
         customer.Location = resource.Location;
@@ -90,7 +90,7 @@ public sealed class CustomerService(
         item.Description = resource.Description;
         item.SicCode = resource.SicCodeId is null
             ? null
-            : await sic.GetAsync(resource.SicCodeId, token).ConfigureAwait(false);
+            : SicCodes.Get(resource.SicCodeId);
         item.County = resource.County;
         item.Location = resource.Location;
         item.MailingAddress = resource.MailingAddress;

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Sbeap.Customers.Dto;
 using AirWeb.AppServices.Sbeap.Customers.Validators;
-using AirWeb.Domain.Core.Entities;
+using AirWeb.Domain.Core.Data;
 using AppServicesTests.Sbeap.TestData;
 using FluentValidation.TestHelper;
 
@@ -14,7 +14,7 @@ public class UpdateValidatorTests
     public async Task ValidDto_ReturnsAsValid()
     {
         var model = DefaultCustomerUpdate with { Name = Constants.ValidName };
-        var validator = new CustomerUpdateValidator(Substitute.For<ISicCodeRepository>());
+        var validator = new CustomerUpdateValidator();
 
         var result = await validator.TestValidateAsync(model);
 
@@ -25,7 +25,7 @@ public class UpdateValidatorTests
     public async Task NameTooShort_ReturnsAsInvalid()
     {
         var model = DefaultCustomerUpdate with { Name = Constants.ShortName };
-        var validator = new CustomerUpdateValidator(Substitute.For<ISicCodeRepository>());
+        var validator = new CustomerUpdateValidator();
 
         var result = await validator.TestValidateAsync(model);
 
@@ -38,11 +38,9 @@ public class UpdateValidatorTests
         var model = DefaultCustomerUpdate with
         {
             Name = Constants.ValidName,
-            SicCodeId = "0000",
+            SicCodeId = SicCodes.Data.First().Id,
         };
-        var sic = Substitute.For<ISicCodeRepository>();
-        sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
-        var validator = new CustomerUpdateValidator(sic);
+        var validator = new CustomerUpdateValidator();
 
         var result = await validator.TestValidateAsync(model);
 
@@ -57,9 +55,7 @@ public class UpdateValidatorTests
             Name = Constants.ShortName,
             SicCodeId = "0000",
         };
-        var sic = Substitute.For<ISicCodeRepository>();
-        sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(false);
-        var validator = new CustomerUpdateValidator(sic);
+        var validator = new CustomerUpdateValidator();
 
         var result = await validator.TestValidateAsync(model);
 
