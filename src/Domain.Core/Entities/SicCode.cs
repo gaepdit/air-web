@@ -24,7 +24,7 @@ public record SicCode : IEntity<string>
     }
 }
 
-public interface ISicRepository : IDisposable, IAsyncDisposable
+public interface ISicCodeRepository : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Determines whether the <see cref="SicCode"/> with the given <paramref name="id"/> exists.
@@ -44,10 +44,10 @@ public interface ISicRepository : IDisposable, IAsyncDisposable
     Task<SicCode> GetAsync(string id, CancellationToken token = default);
 
     /// <summary>
-    /// Returns a read-only collection of all <see cref="SicCode"/> values.
+    /// Returns a read-only collection of all active <see cref="SicCode"/> values.
     /// Returns an empty collection if none exists.
     /// </summary>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A read-only collection of SicCode entities.</returns>
-    Task<IReadOnlyCollection<SicCode>> GetListAsync(CancellationToken token = default);
+    Task<IReadOnlyCollection<SicCode>> GetActiveListAsync(CancellationToken token = default);
 }
