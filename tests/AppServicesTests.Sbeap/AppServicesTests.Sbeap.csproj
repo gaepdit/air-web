@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <RootNamespace>AppServicesSbeapTests</RootNamespace>
-    </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\AppServices.Sbeap\AppServices.Sbeap.csproj" />
     </ItemGroup>

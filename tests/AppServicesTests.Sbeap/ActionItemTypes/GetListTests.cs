@@ -1,8 +1,9 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
+using AppServicesTests.Sbeap.TestData;
 
-namespace AppServicesSbeapTests.ActionItemTypes;
+namespace AppServicesTests.Sbeap.ActionItemTypes;
 
 public class GetListTests
 {
@@ -10,7 +11,7 @@ public class GetListTests
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
         // Arrange
-        var actionItemType = new ActionItemType(Guid.Empty, TestData.ValidName);
+        var actionItemType = new ActionItemType(Guid.Empty, Constants.ValidName);
         var itemList = new List<ActionItemType> { actionItemType };
 
         var repoMock = Substitute.For<IActionItemTypeRepository>();
@@ -20,7 +21,7 @@ public class GetListTests
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
 
-        var appService = new ActionItemTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock);
 
         // Act
         var result = await appService.GetListAsync();
@@ -38,7 +39,7 @@ public class GetListTests
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
 
-        var appService = new ActionItemTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock);
 
         // Act
         var result = await appService.GetListAsync();

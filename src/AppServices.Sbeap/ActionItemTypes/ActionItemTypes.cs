@@ -18,9 +18,9 @@ public record ActionItemTypeUpdateDto : LookupUpdateDto;
 public interface IActionItemTypeService : ILookupService<ActionItemTypeViewDto, ActionItemTypeUpdateDto>;
 
 public class ActionItemTypeService(
-    IMapper mapper,
     IActionItemTypeRepository repository,
     IActionItemTypeManager manager,
+    IMapper mapper,
     IUserService userService)
     : LookupService<ActionItemType, ActionItemTypeViewDto, ActionItemTypeUpdateDto>
         (mapper, repository, manager, userService), IActionItemTypeService;

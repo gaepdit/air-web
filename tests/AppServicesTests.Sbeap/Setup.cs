@@ -2,7 +2,7 @@
 using AutoMapper;
 using AwesomeAssertions.Extensions;
 
-namespace AppServicesSbeapTests;
+namespace AppServicesTests.Sbeap;
 
 [SetUpFixture]
 public class Setup

@@ -1,9 +1,10 @@
 ﻿using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
+using AppServicesTests.Sbeap.TestData;
 using FluentValidation;
 using FluentValidation.TestHelper;
 
-namespace AppServicesSbeapTests.ActionItemTypes;
+namespace AppServicesTests.Sbeap.ActionItemTypes;
 
 internal class UpdateValidatorTests
 {
@@ -15,7 +16,7 @@ internal class UpdateValidatorTests
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeUpdateDto { Name = TestData.ValidName, Active = true };
+        var model = new ActionItemTypeUpdateDto { Name = Constants.ValidName, Active = true };
 
         var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
@@ -27,8 +28,8 @@ internal class UpdateValidatorTests
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ActionItemType(Guid.NewGuid(), TestData.ValidName));
-        var model = new ActionItemTypeUpdateDto { Name = TestData.ValidName, Active = true };
+            .Returns(new ActionItemType(Guid.NewGuid(), Constants.ValidName));
+        var model = new ActionItemTypeUpdateDto { Name = Constants.ValidName, Active = true };
 
         var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
@@ -41,8 +42,8 @@ internal class UpdateValidatorTests
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ActionItemType(Guid.Empty, TestData.ValidName));
-        var model = new ActionItemTypeUpdateDto { Name = TestData.ValidName, Active = true };
+            .Returns(new ActionItemType(Guid.Empty, Constants.ValidName));
+        var model = new ActionItemTypeUpdateDto { Name = Constants.ValidName, Active = true };
 
         var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
@@ -54,7 +55,7 @@ internal class UpdateValidatorTests
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeUpdateDto { Name = TestData.ShortName, Active = true };
+        var model = new ActionItemTypeUpdateDto { Name = Constants.ShortName, Active = true };
 
         var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 

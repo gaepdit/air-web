@@ -5,7 +5,7 @@ namespace AirWeb.Domain.Sbeap.AppRoles;
 /// <summary>
 /// SBEAP User Roles available to the application for authorization.
 /// </summary>
-public static class SbeapRoles
+public static class SbeapRole
 {
     // These are the strings that are stored in the database. Avoid modifying these once published!
     public const string SbeapAdmin = nameof(SbeapAdmin);

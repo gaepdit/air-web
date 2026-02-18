@@ -34,7 +34,7 @@ public record Address : ValueObject
         .ConcatWithSeparator(", ");
 
     // Empty address
-    private static Address EmptyAddress => new();
+    public static Address EmptyAddress => new();
     public bool IsEmpty => this == EmptyAddress;
 
     protected override IEnumerable<object> GetEqualityComponents()

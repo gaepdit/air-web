@@ -1,8 +1,9 @@
 ﻿using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
+using AppServicesTests.Sbeap.TestData;
 using FluentValidation.TestHelper;
 
-namespace AppServicesSbeapTests.ActionItemTypes;
+namespace AppServicesTests.Sbeap.ActionItemTypes;
 
 public class CreateValidatorTests
 {
@@ -12,7 +13,7 @@ public class CreateValidatorTests
         // Arrange
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeCreateDto { Name = TestData.ValidName };
+        var model = new ActionItemTypeCreateDto { Name = Constants.ValidName };
 
         // Act
         var validator = new ActionItemTypeCreateValidator(repoMock);
@@ -28,8 +29,8 @@ public class CreateValidatorTests
         // Arrange
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new ActionItemType(Guid.Empty, TestData.ValidName));
-        var model = new ActionItemTypeCreateDto { Name = TestData.ValidName };
+            .Returns(new ActionItemType(Guid.Empty, Constants.ValidName));
+        var model = new ActionItemTypeCreateDto { Name = Constants.ValidName };
 
         // Act
         var validator = new ActionItemTypeCreateValidator(repoMock);
@@ -45,7 +46,7 @@ public class CreateValidatorTests
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeCreateDto { Name = TestData.ShortName };
+        var model = new ActionItemTypeCreateDto { Name = Constants.ShortName };
 
         var validator = new ActionItemTypeCreateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);

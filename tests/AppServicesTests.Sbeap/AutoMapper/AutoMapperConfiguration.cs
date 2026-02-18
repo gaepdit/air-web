@@ -1,4 +1,4 @@
-namespace AppServicesSbeapTests.AutoMapper;
+namespace AppServicesTests.Sbeap.AutoMapper;
 
 public class AutoMapperConfiguration
 {
