@@ -1,4 +1,7 @@
-﻿-- Stats on email address domains
+﻿USE AIRBRANCH
+GO
+
+-- Stats on email address domains
 select substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS)) as domain, count(*)
 from AIRBRANCH.dbo.EPDUSERPROFILES
 group by substring(STREMAILADDRESS, charindex('@', STREMAILADDRESS), len(STREMAILADDRESS));

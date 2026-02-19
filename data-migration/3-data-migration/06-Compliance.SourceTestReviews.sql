@@ -31,7 +31,7 @@ select i.STRTRACKINGNUMBER                                       as Id,
        1                                                         as IsComplianceEvent,
 
        convert(int, f.STRAFSACTIONNUMBER)                        as ActionNumber,
-       i.ICIS_STATUSIND                                          as DataExchangeStatus,
+       iif(f.STRAFSACTIONNUMBER is null, 'N', i.ICIS_STATUSIND)  as DataExchangeStatus,
        null                                                      as DataExchangeStatusDate,
 
        convert(bit, d.STRTESTREPORTFOLLOWUP)                     as FollowupTaken,
