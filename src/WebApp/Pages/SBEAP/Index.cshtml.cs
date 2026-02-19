@@ -1,7 +1,4 @@
-﻿using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.Domain.Core.Entities;
-using AirWeb.WebApp.Platform.Settings;
-using GaEpd.AppLibrary.Pagination;
+﻿using AirWeb.Domain.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 
 // using Sbeap.AppServices.AuthorizationPolicies;
@@ -17,7 +14,7 @@ public class IndexModel(
     SignInManager<ApplicationUser> signInManager,
     IAuthorizationService authorization
     // ICaseworkService cases
-    )
+)
     : PageModel
 {
     // Properties
@@ -41,5 +38,5 @@ public class IndexModel(
     }
 
     // private async Task<bool> UseDashboardAsync() =>
-        // (await authorization.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
+    // (await authorization.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
 }

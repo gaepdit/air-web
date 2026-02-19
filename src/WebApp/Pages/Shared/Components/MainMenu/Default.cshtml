@@ -1,28 +1,47 @@
 ﻿@model MainMenuViewComponent.MenuParams
 @{
     var iconsFile = Url.Content("~/images/app-icons.svg");
+    var showSbeapMenu = (bool)(ViewData["SBEAP"] ?? false);
 }
 
 <header role="banner">
     <nav id="main-nav" class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
-            <a asp-page="/Index" title="Air Branch Web App">
-                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
-            </a>
-            <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">
-                @if ((bool)(ViewData["SBEAP"] ?? false))
-                {
-                    @:SBEAP
-                }
-                else
-                {
-                    @:Air Web
-                }
-                @if (Model.ShowStaffOptions)
-                {
-                    <span class="d-sm-none d-md-inline">Dashboard</span>
-                }
-            </a>
+
+            <div class="dropdown">
+                <button class="nav-link dropdown-toggle icon-link border rounded p-1 me-2" id="searchDashboardMenuLink" type="button"
+                        data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of dashboard pages">
+                    <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo" title="Switch dashboard" />
+                    <span class="visually-hidden">Switch Dashboard</span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="searchDashboardMenuLink">
+                    @if (showSbeapMenu)
+                    {
+                        <li><a class="dropdown-item" asp-page="/Index">Air Web Dashboard</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="dropdown-item" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
+                    }
+                </ul>
+            </div>
+
+            @if (showSbeapMenu)
+            {
+                <a class="navbar-brand nav-link me-2" asp-page="/SBEAP/Index" title="Small Business Environmental Assistance Program">SBEAP
+                    @if (Model.ShowStaffOptions)
+                    {
+                        <span class="d-sm-none d-md-inline">Dashboard</span>
+                    }</a>
+            }
+            else
+            {
+                <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web
+                    @if (Model.ShowStaffOptions)
+                    {
+                        <span class="d-sm-none d-md-inline">Dashboard</span>
+                    }</a>
+            }
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,21 +62,36 @@
                                     Search
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="searchDropdownMenuLink">
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Facility/Index">Facilities</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement Cases</a>
-                                    </li>
+                                    @if (showSbeapMenu)
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Customers/Index">Customer Search</a>
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/Cases/Index">Case Search</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/Customers/Add">
+                                                <svg class="bi">
+                                                    <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
+                                                </svg>
+                                                New Customer
+                                            </a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Facility/Index">Facilities</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement Cases</a>
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                         </ul>
