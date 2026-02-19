@@ -2,10 +2,15 @@
 
 <div class="container px-0 py-2">
     <div class="row">
-        <div class="small col-md text-secondary-emphasis">
-            <partial name="Shared/_PaginationCount" model="Model.SearchResults" />
+        <div class="small col-md mt-3 text-secondary-emphasis">
+            Total: @Html.DisplayFor(_ => Model.SearchResults.TotalCount)
+            @if (Model.SearchResults.TotalPages > 1)
+            {
+                <br />
+                @:Showing: @Model.SearchResults.FirstItemIndex.ToString() – @Model.SearchResults.LastItemIndex.ToString()
+            }
         </div>
-        <div class="col-md mt-3 mt-md-0">
+        <div class="col-md">
             <partial name="Shared/_PaginationNav" />
         </div>
         <div class="col-md"></div>
