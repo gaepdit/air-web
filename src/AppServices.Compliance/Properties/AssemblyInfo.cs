@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("AppServicesComplianceTests")]
+[assembly: InternalsVisibleTo("AppServicesTests.Compliance")]
 [assembly: InternalsVisibleTo("MemRepositoryTests")]
 [assembly: InternalsVisibleTo("EfRepositoryTests")]

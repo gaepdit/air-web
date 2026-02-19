@@ -5,10 +5,10 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/tests/">
-    <Project Path="tests/AppServicesComplianceTests/AppServicesComplianceTests.csproj" />
-    <Project Path="tests/AppServicesCoreTests/AppServicesCoreTests.csproj" />
-    <Project Path="tests/DomainComplianceTests/DomainComplianceTests.csproj" />
-    <Project Path="tests/DomainCoreTests/DomainCoreTests.csproj" />
+      <Project Path="tests/AppServicesTests.Compliance/AppServicesTests.Compliance.csproj" />
+      <Project Path="tests/AppServicesTests.Core/AppServicesTests.Core.csproj" />
+      <Project Path="tests/DomainTests.Compliance/DomainTests.Compliance.csproj" />
+      <Project Path="tests/DomainTests.Core/DomainTests.Core.csproj" />
     <Project Path="tests/EfRepositoryTests/EfRepositoryTests.csproj" />
     <Project Path="tests/IaipDataServiceTests/IaipDataServiceTests.csproj" />
     <Project Path="tests/MemRepositoryTests/MemRepositoryTests.csproj" />
