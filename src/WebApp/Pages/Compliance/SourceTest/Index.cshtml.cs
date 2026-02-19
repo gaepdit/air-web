@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.SourceTests;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
@@ -17,24 +18,21 @@ public class SourceTestIndexModel(ISourceTestAppService sourceTestService) : Pag
     [TempData]
     public bool RefreshIaipData { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool refresh = false,
-        CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false,
+        [FromQuery] bool refresh = false, CancellationToken token = default)
     {
         if (refresh)
         {
             RefreshIaipData = true;
-            return RedirectToPage(new { p });
+            return RedirectToPage(new { p, showAll });
         }
 
         PageNumber = p;
         var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
-        SearchResults = await sourceTestService.GetOpenSourceTestsForComplianceAsync(userEmail: null, paging,
+        var userEmail = showAll ? null : User.GetEmail();
+        SearchResults = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentEmail: userEmail, paging,
             RefreshIaipData);
 
         return Page();
     }
-
-    public Task<IActionResult> OnGetSearchAsync([FromQuery] int p = 1, [FromQuery] bool refresh = false,
-        CancellationToken token = default) =>
-        OnGetAsync(p, refresh, token);
 }

@@ -29,19 +29,19 @@ public class TestSourceTestService : ISourceTestService
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());
 
-    public Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
+    public Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
         bool forceRefresh = false) =>
         Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
             .Where(report => report is { ReportClosed: true, IaipComplianceComplete: false })
+            .Where(report => assignmentEmail is null || report.IaipComplianceAssignment == assignmentEmail)
             .OrderByDescending(report => report.DateTestReviewComplete)
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());
 
-    public Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail,
-        DateOnly? reviewDate)
+    public Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
     {
         var report = Items.Single(report => report.ReferenceNumber == referenceNumber);
-        report.IaipComplianceAssignment = complianceAssignmentEmail;
+        report.IaipComplianceAssignment = assignmentEmail;
         report.IaipComplianceComplete = reviewDate != null;
 
         return Task.CompletedTask;

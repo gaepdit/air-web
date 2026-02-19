@@ -2,6 +2,7 @@
 GO
 
 CREATE OR ALTER PROCEDURE air.GetOpenSourceTestsForCompliance
+    @AssignmentEmail varchar(100) = null
 AS
 
 /**************************************************************************************************
@@ -48,6 +49,8 @@ BEGIN
     from air.IaipSourceTestSummary
     where ReportClosed = convert(bit, 1)
       and IaipComplianceComplete = convert(bit, 0)
+      and DateTestReviewComplete > '2023-01-01'
+      and (IaipComplianceAssignment = @AssignmentEmail or @AssignmentEmail is null)
     order by DateTestReviewComplete desc, ReferenceNumber desc;
 
 END

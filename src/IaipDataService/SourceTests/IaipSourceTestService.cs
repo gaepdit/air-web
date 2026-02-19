@@ -94,7 +94,7 @@ public class IaipSourceTestService(
     private const string OpenSourceTestsCacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
 
     public async Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
-        bool forceRefresh = false)
+        string? assignmentEmail, bool forceRefresh = false)
     {
         if (!forceRefresh &&
             cache.TryGetValue(OpenSourceTestsCacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
@@ -102,28 +102,24 @@ public class IaipSourceTestService(
 
         using var db = dbf.Create();
 
-        await using var multi = await db.QueryMultipleAsync("air.GetOpenSourceTestsForCompliance",
-            commandType: CommandType.StoredProcedure);
-
-        var sourceTests = multi
-            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
+        var sourceTests = (await db.QueryAsync<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
+            "air.GetOpenSourceTestsForCompliance", (summary, testDates, reviewedByStaff) =>
             {
                 summary.TestDates = testDates;
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
-            }).ToList();
+            }, param: new { assignmentEmail }, commandType: CommandType.StoredProcedure)).ToList();
 
         return cache.Set(OpenSourceTestsCacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger,
             forceRefresh);
     }
 
-    public async Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail,
-        DateOnly? reviewDate)
+    public async Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
     {
         using var db = dbf.Create();
         var complianceReviewDate = reviewDate?.ToDateTime(TimeOnly.MinValue);
         await db.ExecuteAsync("air.UpdateSourceTest",
-            param: new { referenceNumber, complianceAssignmentEmail, complianceReviewDate },
+            param: new { referenceNumber, assignmentEmail, complianceReviewDate },
             commandType: CommandType.StoredProcedure);
         cache.Remove(OpenSourceTestsCacheKey);
     }

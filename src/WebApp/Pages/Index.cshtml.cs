@@ -119,7 +119,7 @@ public class IndexModel(
     private async Task LoadOfficeSourceTests()
     {
         if (UserOfficeId is null) return;
-        OfficeSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(userEmail: null,
+        OfficeSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentEmail: null,
             PaginationDefaults.SourceTestSummary);
     }
 
