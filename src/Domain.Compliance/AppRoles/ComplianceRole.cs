@@ -14,25 +14,25 @@ public static class ComplianceRole
     public const string EnforcementManager = nameof(EnforcementManager);
     public const string ComplianceSiteMaintenance = nameof(ComplianceSiteMaintenance);
 
-    private const string ComplianceCategory = "Compliance and Enforcement";
+    private const string Category = "Compliance and Enforcement";
 
     public static void AddRoles() => AppRole.AddAppRoles(ComplianceStaffRole, ComplianceManagerRole,
         EnforcementReviewerRole, EnforcementManagerRole, ComplianceSiteMaintenanceRole);
 
     // The following static Role objects are used for displaying role information in the UI.
-    public static AppRole ComplianceStaffRole { get; } = new(ComplianceStaff, ComplianceCategory,
+    public static AppRole ComplianceStaffRole { get; } = new(ComplianceStaff, Category,
         AppRole.RoleType.Staff, "Compliance Staff", "Can do compliance and enforcement staff work.");
 
-    public static AppRole ComplianceManagerRole { get; } = new(ComplianceManager, ComplianceCategory,
+    public static AppRole ComplianceManagerRole { get; } = new(ComplianceManager, Category,
         AppRole.RoleType.Staff, "Compliance Manager", "Can manage compliance work.");
 
-    public static AppRole EnforcementReviewerRole { get; } = new(EnforcementReviewer, ComplianceCategory,
+    public static AppRole EnforcementReviewerRole { get; } = new(EnforcementReviewer, Category,
         AppRole.RoleType.Staff, "Enforcement Reviewer", "Can review enforcement actions.");
 
-    public static AppRole EnforcementManagerRole { get; } = new(EnforcementManager, ComplianceCategory,
+    public static AppRole EnforcementManagerRole { get; } = new(EnforcementManager, Category,
         AppRole.RoleType.Staff, "Enforcement Manager", "Can resolve enforcement cases.");
 
-    public static AppRole ComplianceSiteMaintenanceRole { get; } = new(ComplianceSiteMaintenance, ComplianceCategory,
+    public static AppRole ComplianceSiteMaintenanceRole { get; } = new(ComplianceSiteMaintenance, Category,
         AppRole.RoleType.SiteMaintenance, "Compliance Site Maintenance",
         "Can update values in compliance program lookup tables (drop-down lists).");
 }

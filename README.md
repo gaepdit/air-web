@@ -72,13 +72,13 @@ There are also corresponding unit test projects for each (not counting the `Test
 ### Project dependency diagram
 
 ```mermaid
-flowchart BT
+flowchart TB
     I[IaipDataServices]
     DR[Domain.Core]
     DC[Domain.Compliance] --> I
     DC --> DR
     AR[AppServices.Core] --> DR
-    AC[AppServices.Compliance] --> DC
+    AC[AppServices.Compliance] ---> DC
     AC --> AR
     T[TestData] --> DC
     E[EfRepository] --> T

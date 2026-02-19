@@ -115,6 +115,8 @@ public class DetailsModel(
         return Page();
     }
 
+    private const string DetailsPageName = "Details";
+
     public async Task<IActionResult> OnPostNewReviewAsync(SourceTestReviewCreateDto newComplianceReview,
         CancellationToken token)
     {
@@ -141,7 +143,43 @@ public class DetailsModel(
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "compliance-review");
+    }
+
+    public async Task<IActionResult> OnPostCloseAsync(CancellationToken token)
+    {
+        if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
+
+        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        if (id is null) return BadRequest();
+
+        var item = await service.FindSummaryAsync(id.Value, token);
+        if (item is null || !User.CanClose(item)) return BadRequest();
+
+        var result = await service.CloseAsync(id.Value, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+
+        return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "compliance-review");
+    }
+
+    public async Task<IActionResult> OnPostReopenAsync(CancellationToken token)
+    {
+        if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
+
+        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        if (id is null) return BadRequest();
+
+        var item = await service.FindSummaryAsync(id.Value, token);
+        if (item is null || !User.CanReopen(item)) return BadRequest();
+
+        var result = await service.ReopenAsync(id.Value, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been reopened.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+
+        return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "compliance-review");
     }
 
@@ -175,7 +213,7 @@ public class DetailsModel(
         var result = await service.AddCommentAsync(ComplianceReview.Id, newComment, token);
         NewCommentId = result.Id;
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: NewCommentId.ToString());
     }
 
@@ -191,7 +229,7 @@ public class DetailsModel(
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
         await service.DeleteCommentAsync(commentId, token);
-        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
+        return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "comments");
     }
 

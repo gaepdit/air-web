@@ -11,6 +11,8 @@ public interface ISourceTestService
     Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false);
 
-    Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(bool forceRefresh = false);
-    Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail, DateOnly? reviewDate);
+    Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
+        int skip, int take);
+
+    Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate);
 }

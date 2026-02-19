@@ -1,0 +1,45 @@
+﻿using AirWeb.AppServices.Core.EntityServices.Offices;
+using AirWeb.AppServices.Core.EntityServices.Users;
+using AirWeb.Domain.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
+
+namespace AppServicesTests.Core.Offices;
+
+public class FindForUpdate
+{
+    [Test]
+    public async Task WhenItemExists_ReturnsViewDto()
+    {
+        // Arrange
+        var office = new Office(Guid.Empty, SampleText.ValidName);
+
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
+
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
+
+        // Act
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
+
+        // Assert
+        result.Should().BeEquivalentTo(office);
+    }
+
+    [Test]
+    public async Task WhenDoesNotExist_ReturnsNull()
+    {
+        // Arrange
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
+
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>());
+
+        // Act
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
+
+        // Assert
+        result.Should().BeNull();
+    }
+}
