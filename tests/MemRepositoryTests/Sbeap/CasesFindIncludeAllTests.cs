@@ -7,7 +7,7 @@ public class CasesFindIncludeAllTests
     private CaseworkMemRepository _repository = null!;
 
     [SetUp]
-    public void SetUp() => _repository = new CaseworkMemRepository(new ActionMemItemRepository());
+    public void SetUp() => _repository = new CaseworkMemRepository(new ActionItemMemRepository());
 
     [TearDown]
     public async Task TearDown() => await _repository.DisposeAsync();

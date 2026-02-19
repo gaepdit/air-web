@@ -8,7 +8,7 @@ public class FindIncludeAll
 
     [SetUp]
     public void SetUp() => _repository = new CustomerMemRepository(new ContactMemRepository(),
-        new CaseworkMemRepository(new ActionMemItemRepository()));
+        new CaseworkMemRepository(new ActionItemMemRepository()));
 
     [TearDown]
     public async Task TearDown() => await _repository.DisposeAsync();

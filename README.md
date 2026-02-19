@@ -55,10 +55,12 @@ The solution contains the following projects:
 
 * **Domain.&ast;** — Class libraries containing the data models, business logic, and repository interfaces.
     * *Domain.Core* — Core data models, etc.
-    * *Domain.Compliance* — Compliance/enforcement models.
+  * *Domain.Compliance* — Compliance/enforcement models
+  * *Domain.Sbeap* — SBEAP models
 * **AppServices.&ast;** — Class libraries containing the services used by an application to interact with the Domains.
     * *AppServices.Core* — Core app services
     * *AppServices.Compliance* — Compliance/enforcement app services
+  * *AppServices.Sbeap* — SBEAP app services
 * **IaipDataService** — A class library implementing data services for IAIP data.
 * **MemRepository** — A class library implementing the repositories and data stores using static in-memory test data
   (for local development).
@@ -76,16 +78,21 @@ flowchart BT
     I[IaipDataServices]
     DR[Domain.Core]
     DC[Domain.Compliance] --> I
+    DS[Domain.Sbeap]
     DC --> DR
+    DS --> DR
     AR[AppServices.Core] --> DR
-    AC[AppServices.Compliance] --> DC
+    AC[AppServices.Compliance] ---> DC
     AC --> AR
-    T[TestData] --> DC
+    AS --> AR
+    AS[AppServices.Sbeap] ---> DS
+    T[TestData] ---> DC
     E[EfRepository] --> T
     M[MemRepository] --> T
     W[WebApp] --> M
     W --> E
     W --> AC
+    W --> AS
 ```
 
 ## Development settings

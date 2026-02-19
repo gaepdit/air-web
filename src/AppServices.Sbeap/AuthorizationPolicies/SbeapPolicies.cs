@@ -26,10 +26,9 @@ namespace AirWeb.AppServices.Sbeap.AuthorizationPolicies;
 
 public static class SbeapPolicies
 {
-    public static IServiceCollection AddPolicies(this IServiceCollection services)
+    public static IServiceCollection AddSbeapPolicies(this IServiceCollection services)
     {
         new AuthorizationBuilder(services)
-            .AddPolicy(nameof(ActiveUser), ActiveUser)
             .AddPolicy(nameof(SbeapStaffOrMaintainer), SbeapStaffOrMaintainer)
             .AddPolicy(nameof(SbeapAdmin), SbeapAdmin)
             .AddPolicy(nameof(SbeapSiteMaintainer), SbeapSiteMaintainer)

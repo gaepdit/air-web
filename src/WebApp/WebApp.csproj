@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AppServices.Compliance\AppServices.Compliance.csproj" />
+        <ProjectReference Include="..\AppServices.Sbeap\AppServices.Sbeap.csproj" />
         <ProjectReference Include="..\MemRepository\MemRepository.csproj" />
         <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
     </ItemGroup>
