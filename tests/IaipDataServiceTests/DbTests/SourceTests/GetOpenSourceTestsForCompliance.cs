@@ -23,7 +23,7 @@ public class GetOpenSourceTestsForCompliance
 
         // Assert
         using var scope = new AssertionScope();
-        result.Item1.Should().NotBeEmpty();
+        result.Item1.Should().ContainSingle();
         result.Item2.Should().BePositive();
     }
 }
