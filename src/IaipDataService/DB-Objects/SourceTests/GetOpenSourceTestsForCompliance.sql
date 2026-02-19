@@ -2,7 +2,9 @@
 GO
 
 CREATE OR ALTER PROCEDURE air.GetOpenSourceTestsForCompliance
-    @AssignmentEmail varchar(100) = null
+    @AssignmentEmail varchar(100) = null,
+    @Skip int,
+    @Take int
 AS
 
 /**************************************************************************************************
@@ -51,7 +53,15 @@ BEGIN
       and IaipComplianceComplete = convert(bit, 0)
       and DateTestReviewComplete > '2023-01-01'
       and (IaipComplianceAssignment = @AssignmentEmail or @AssignmentEmail is null)
-    order by DateTestReviewComplete desc, ReferenceNumber desc;
+    order by DateTestReviewComplete desc, ReferenceNumber desc
+    offset @Skip rows fetch next @Take rows only;
 
+    select count(*)
+    from air.IaipSourceTestSummary
+    where ReportClosed = convert(bit, 1)
+      and IaipComplianceComplete = convert(bit, 0)
+      and DateTestReviewComplete > '2023-01-01'
+      and (IaipComplianceAssignment = @AssignmentEmail or @AssignmentEmail is null);
+    
 END
 GO

@@ -91,27 +91,24 @@ public class IaipSourceTestService(
         return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
     }
 
-    private const string OpenSourceTestsCacheKey = "IaipSourceTestService.GetOpenSourceTestsForComplianceAsync";
-
-    public async Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
-        string? assignmentEmail, bool forceRefresh = false)
+    public async Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
+        string? assignmentEmail, int skip, int take)
     {
-        if (!forceRefresh &&
-            cache.TryGetValue(OpenSourceTestsCacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
-            return cachedValue;
-
         using var db = dbf.Create();
 
-        var sourceTests = (await db.QueryAsync<SourceTestSummary, DateRange, PersonName, SourceTestSummary>(
-            "air.GetOpenSourceTestsForCompliance", (summary, testDates, reviewedByStaff) =>
+        await using var multi = await db.QueryMultipleAsync("air.GetOpenSourceTestsForCompliance",
+            param: new { assignmentEmail, skip, take }, commandType: CommandType.StoredProcedure);
+
+        var sourceTests = multi
+            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
             {
                 summary.TestDates = testDates;
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
-            }, param: new { assignmentEmail }, commandType: CommandType.StoredProcedure)).ToList();
+            }).ToList();
 
-        return cache.Set(OpenSourceTestsCacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger,
-            forceRefresh);
+        var count = await multi.ReadSingleAsync<int>();
+        return (sourceTests, count);
     }
 
     public async Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
@@ -121,7 +118,6 @@ public class IaipSourceTestService(
         await db.ExecuteAsync("air.UpdateSourceTest",
             param: new { referenceNumber, assignmentEmail, complianceReviewDate },
             commandType: CommandType.StoredProcedure);
-        cache.Remove(OpenSourceTestsCacheKey);
     }
 
     private async Task<bool> SourceTestExistsAsync(int referenceNumber)

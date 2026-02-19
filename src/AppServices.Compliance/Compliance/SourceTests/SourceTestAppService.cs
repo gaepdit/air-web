@@ -11,7 +11,7 @@ public interface ISourceTestAppService
         PaginatedRequest paging, bool forceRefresh = false);
 
     Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
-        PaginatedRequest paging, bool forceRefresh = false);
+        PaginatedRequest paging);
 }
 
 public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
@@ -27,11 +27,12 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
     }
 
     public async Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
-        PaginatedRequest paging, bool forceRefresh = false)
+        PaginatedRequest paging)
     {
-        var tests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentEmail, forceRefresh)
+        var tests = await sourceTestService
+            .GetOpenSourceTestsForComplianceAsync(assignmentEmail, paging.Skip, paging.Take)
             .ConfigureAwait(false);
 
-        return new PaginatedResult<SourceTestSummary>(tests.Skip(paging.Skip).Take(paging.Take), tests.Count, paging);
+        return new PaginatedResult<SourceTestSummary>(tests.Item1, tests.Item2, paging);
     }
 }

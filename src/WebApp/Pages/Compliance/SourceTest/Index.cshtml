@@ -1,5 +1,4 @@
 @page "{handler?}"
-@using AirWeb.WebApp.Platform.Settings
 @model SourceTestIndexModel
 @{
     ViewData["Title"] = "Source Tests Needing Compliance Review";
@@ -16,31 +15,4 @@ else
     <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
     <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SearchResults.Items" />
     <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
-}
-
-@section Footer {
-    @if (AppSettings.ConnectToIaip)
-    {
-        <div class="bg-info-subtle py-2 border-bottom d-print-none">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col">
-                        <small>
-                            * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24&nbsp;hours.
-                            If it appears out of date, you can manually refresh the data.
-                        </small>
-                    </div>
-                    <div class="col-auto my-0 ms-3">
-                        <a asp-route-p="@Model.PageNumber" asp-route-refresh="true"
-                           class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
-                            Refresh IAIP Data
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
 }

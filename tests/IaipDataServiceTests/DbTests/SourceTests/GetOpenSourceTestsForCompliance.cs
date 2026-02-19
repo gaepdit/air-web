@@ -18,7 +18,12 @@ public class GetOpenSourceTestsForCompliance
     [Test]
     public async Task ReturnsList()
     {
+        // Act
+        var result = await _sut.GetOpenSourceTestsForComplianceAsync(assignmentEmail: null, skip: 0, take: 1);
+
         // Assert
-        (await _sut.GetOpenSourceTestsForComplianceAsync(assignmentEmail: null)).Should().NotBeEmpty();
+        using var scope = new AssertionScope();
+        result.Item1.Should().NotBeEmpty();
+        result.Item2.Should().BePositive();
     }
 }
