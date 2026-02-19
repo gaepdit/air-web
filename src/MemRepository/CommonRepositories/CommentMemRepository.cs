@@ -3,7 +3,7 @@ using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using System.Diagnostics.CodeAnalysis;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.CommonRepositories;
 
 [SuppressMessage("", "S2436")]
 public abstract class CommentMemRepository<TEntity, TKey, TComment>(IEnumerable<TEntity> items)

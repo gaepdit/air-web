@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Core.Entities;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.CommonRepositories;
 
 public sealed class EmailLogMemRepository : IEmailLogRepository
 {

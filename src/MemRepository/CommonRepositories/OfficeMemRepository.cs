@@ -2,7 +2,7 @@
 using AirWeb.MemRepository.Identity;
 using AirWeb.TestData.Identity;
 
-namespace AirWeb.MemRepository.Repositories;
+namespace AirWeb.MemRepository.CommonRepositories;
 
 public sealed class OfficeMemRepository()
     : NamedEntityRepository<Office>(OfficeData.GetData), IOfficeRepository

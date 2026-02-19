@@ -2,7 +2,7 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
-using AirWeb.MemRepository.Repositories;
+using AirWeb.MemRepository.CommonRepositories;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 
