@@ -1,10 +1,24 @@
 @page "{handler?}"
 @model SourceTestIndexModel
 @{
-    ViewData["Title"] = "Source Tests Needing Compliance Review";
+    ViewData["Title"] = $"{(Model.ShowAll ? "All" : "My")} Source Tests Needing Compliance Review";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="row justify-content-between align-items-center g-0 my-1">
+    <div class="col-md">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-auto ms-md-3 d-print-none">
+        @if (Model.ShowAll)
+        {
+            <a asp-page="Index" class="btn btn-outline-info">Show Just Mine</a>
+        }
+        else
+        {
+            <a asp-page="Index" asp-route-showAll="true" class="btn btn-outline-info">Show All</a>
+        }
+    </div>
+</div>
 
 @if (Model.SearchResults.TotalCount == 0)
 {
