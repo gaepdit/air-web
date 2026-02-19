@@ -129,25 +129,24 @@ else
             <h2 id="compliance-review" class="mb-md-0">Compliance Review</h2>
         </div>
         <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="btn-group">
-                @if (Model.UserCan[ComplianceOperation.Close])
-                {
-                    <a asp-page="../Work/Close" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                       class="btn btn-outline-primary">Close</a>
-                }
-                @if (Model.UserCan[ComplianceOperation.Reopen])
-                {
-                    <a asp-page="../Work/Reopen" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                       class="btn btn-outline-primary">
-                        Reopen
-                    </a>
-                }
-                @if (Model.UserCan[ComplianceOperation.Edit])
-                {
-                    <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                       class="btn btn-outline-primary">Edit</a>
-                }
-            </div>
+            @if (Model.UserCan[ComplianceOperation.Edit])
+            {
+                <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                   class="btn btn-outline-primary">Edit</a>
+            }
+            @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
+            {
+                <form method="post" class="d-inline ms-1">
+                    @if (Model.UserCan[ComplianceOperation.Close])
+                    {
+                        <button asp-page-handler="Close" type="submit" class="btn btn-primary">Close</button>
+                    }
+                    @if (Model.UserCan[ComplianceOperation.Reopen])
+                    {
+                        <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
+                    }
+                </form>
+            }
         </div>
     </div>
 
@@ -184,7 +183,7 @@ else
                     @:by @review.ClosedBy.Name
                 }
 
-            @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
+                    @:on @Html.DisplayFor(_ => review.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
             }
             else
             {

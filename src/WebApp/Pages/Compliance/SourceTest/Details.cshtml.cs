@@ -145,6 +145,42 @@ public class DetailsModel(
             fragment: "compliance-review");
     }
 
+    public async Task<IActionResult> OnPostCloseAsync(CancellationToken token)
+    {
+        if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
+
+        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        if (id is null) return BadRequest();
+
+        var item = await service.FindSummaryAsync(id.Value, token);
+        if (item is null || !User.CanClose(item)) return BadRequest();
+
+        var result = await service.CloseAsync(id.Value, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "compliance-review");
+    }
+
+    public async Task<IActionResult> OnPostReopenAsync(CancellationToken token)
+    {
+        if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
+
+        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        if (id is null) return BadRequest();
+
+        var item = await service.FindSummaryAsync(id.Value, token);
+        if (item is null || !User.CanReopen(item)) return BadRequest();
+
+        var result = await service.ReopenAsync(id.Value, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been reopened.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+
+        return RedirectToPage("Details", pageHandler: null, routeValues: new { ReferenceNumber },
+            fragment: "compliance-review");
+    }
+
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {

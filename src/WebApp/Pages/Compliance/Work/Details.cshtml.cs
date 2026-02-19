@@ -56,6 +56,32 @@ public class DetailsModel(IComplianceWorkService service, IAuthorizationService 
         return Page();
     }
 
+    public async Task<IActionResult> OnPostCloseAsync(CancellationToken token)
+    {
+        if (!ModelState.IsValid) return BadRequest();
+
+        var item = await service.FindSummaryAsync(Id, token);
+        if (item is null || !User.CanClose(item)) return BadRequest();
+
+        var result = await service.CloseAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostReopenAsync(CancellationToken token)
+    {
+        if (!ModelState.IsValid) return BadRequest();
+
+        var item = await service.FindSummaryAsync(Id, token);
+        if (item is null || !User.CanReopen(item)) return BadRequest();
+
+        var result = await service.ReopenAsync(Id, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been reopened.");
+        if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
+        return RedirectToPage();
+    }
+
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
