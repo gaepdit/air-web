@@ -3,7 +3,7 @@ GO
 
 CREATE OR ALTER PROCEDURE air.UpdateSourceTest
     @ReferenceNumber int,
-    @ComplianceAssignmentEmail varchar(100),
+    @AssignmentEmail varchar(100),
     @ComplianceReviewDate date
 AS
 
@@ -28,7 +28,7 @@ BEGIN TRY
     BEGIN TRANSACTION;
 
     update dbo.ISMPREPORTINFORMATION
-    set ComplianceAssignment = @ComplianceAssignmentEmail,
+    set ComplianceAssignment = @AssignmentEmail,
         ComplianceReviewDate = @ComplianceReviewDate
     where STRREFERENCENUMBER = @ReferenceNumber;
 

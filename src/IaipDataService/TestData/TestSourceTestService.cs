@@ -29,19 +29,24 @@ public class TestSourceTestService : ISourceTestService
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());
 
-    public Task<IReadOnlyCollection<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(
-        bool forceRefresh = false) =>
-        Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
+    public Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
+        string? assignmentEmail, int skip, int take)
+    {
+        var allTests = Items
             .Where(report => report is { ReportClosed: true, IaipComplianceComplete: false })
+            .Where(report => assignmentEmail is null || report.IaipComplianceAssignment == assignmentEmail)
             .OrderByDescending(report => report.DateTestReviewComplete)
-            .ThenByDescending(report => report.ReferenceNumber)
-            .Select(report => new SourceTestSummary(report)).ToList());
+            .ThenByDescending(report => report.ReferenceNumber).ToList();
 
-    public Task UpdateSourceTestAsync(int referenceNumber, string complianceAssignmentEmail,
-        DateOnly? reviewDate)
+        var testsPage = allTests.Skip(skip).Take(take).Select(report => new SourceTestSummary(report)).ToList();
+
+        return Task.FromResult<(IReadOnlyCollection<SourceTestSummary>, int)>((testsPage, allTests.Count));
+    }
+
+    public Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
     {
         var report = Items.Single(report => report.ReferenceNumber == referenceNumber);
-        report.IaipComplianceAssignment = complianceAssignmentEmail;
+        report.IaipComplianceAssignment = assignmentEmail;
         report.IaipComplianceComplete = reviewDate != null;
 
         return Task.CompletedTask;
