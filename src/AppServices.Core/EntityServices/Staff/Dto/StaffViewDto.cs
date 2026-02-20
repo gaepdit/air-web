@@ -49,7 +49,7 @@ public record StaffViewDto : INamedEntity
             var sn = new StringBuilder();
             sn.Append(SortableFullName);
 
-            if (Office != null) sn.Append($" ({Office.Name})");
+            if (Office != null) sn.Append($" — {Office.Name}");
             if (!Active) sn.Append(" [Inactive]");
 
             return sn.ToString();
