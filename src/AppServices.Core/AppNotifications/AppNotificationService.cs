@@ -47,7 +47,9 @@ public sealed class AppNotificationService(
         Message message;
         try
         {
-            message = Message.Create(subject, recipientEmail, textBody, htmlBody);
+            message = Message.Create(subject, recipientEmail, textBody, htmlBody, settings.DefaultSenderName,
+                settings.DefaultSenderEmail);
+            // message = Message.Create(subject, recipientEmail, textBody, htmlBody);
         }
         catch (Exception e)
         {
