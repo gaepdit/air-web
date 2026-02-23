@@ -13,35 +13,37 @@ insert into AirWeb.dbo.EnforcementActions
     -- EnforcementAction (All)
     CreatedAt, UpdatedAt, UpdatedById, IsDeleted)
 
-select newid()                                                   as Id,
-       e.STRENFORCEMENTNUMBER                                    as CaseFileId,
-       'ProposedConsentOrder'                                    as ActionType,
-       AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER) as FacilityId,
+select newid()                                                      as Id,
+       e.STRENFORCEMENTNUMBER                                       as CaseFileId,
+       'ProposedConsentOrder'                                       as ActionType,
+       AIRBRANCH.iaip_facility.FormatAirsNumber(e.STRAIRSNUMBER)    as FacilityId,
 
        nullif
        (concat_ws(CHAR(13) + CHAR(10),
-                  iif(e.DATCOTOUC is null, null, 'Date Proposed CO to UC: ' + format(e.DATCOTOUC, 'dd-MMM-yyyy')),
-                  iif(e.DATCOTOPM is null, null, 'Date Proposed CO to PM: ' + format(e.DATCOTOPM, 'dd-MMM-yyyy'))),
-        '')                                                      as Notes,
-       iif(e.STRCOPROPOSED = 'True', 'Issued', 'Draft')          as Status,
-       convert(date, e.DATCOPROPOSED)                            as IssueDate,
-       1                                                         as IsReportableAction,
+                  iif(e.DATCOTOUC is null, null,
+                      'Date Proposed CO to UC: ' + format(e.DATCOTOUC, 'dd-MMM-yyyy')),
+                  iif(e.DATCOTOPM is null, null,
+                      'Date Proposed CO to PM: ' + format(e.DATCOTOPM, 'dd-MMM-yyyy'))),
+        '')                                                         as Notes,
+       iif(e.STRCOPROPOSED = 'True', 'Issued', 'Draft')             as Status,
+       convert(date, e.DATCOPROPOSED)                               as IssueDate,
+       1                                                            as IsReportableAction,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       convert(smallint, e.STRAFSCOPROPOSEDNUMBER)               as ActionNumber,
-       e.ICIS_STATUSIND                                          as DataExchangeStatus,
-       null                                                      as DataExchangeStatusDate,
+       convert(smallint, e.STRAFSCOPROPOSEDNUMBER)                  as ActionNumber,
+       iif(e.STRAFSCOPROPOSEDNUMBER is null, 'N', e.ICIS_STATUSIND) as DataExchangeStatus,
+       null                                                         as DataExchangeStatusDate,
 
        -- InformationalLetter, LetterOfNoncompliance, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
-       0                                                         as ResponseRequested,
-       null                                                      as ResponseReceived,
-       null                                                      as ResponseComment,
+       0                                                            as ResponseRequested,
+       null                                                         as ResponseReceived,
+       null                                                         as ResponseComment,
 
        -- EnforcementAction (All)
-       e.DATCOTOUC at time zone 'Eastern Standard Time'          as CreatedAt,
-       e.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as UpdatedAt,
-       um.Id                                                     as UpdatedById,
-       isnull(e.IsDeleted, 0)                                    as IsDeleted
+       e.DATCOTOUC at time zone 'Eastern Standard Time'             as CreatedAt,
+       e.DATMODIFINGDATE at time zone 'Eastern Standard Time'       as UpdatedAt,
+       um.Id                                                        as UpdatedById,
+       isnull(e.IsDeleted, 0)                                       as IsDeleted
 
 from AIRBRANCH.dbo.SSCP_AUDITEDENFORCEMENT e
 

@@ -10,8 +10,8 @@ insert into AirWeb.dbo.ComplianceWork
     ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
 
     -- Inspection
-    InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide, FacilityOperating,
-    DeviationsNoted,
+    InspectionReason, InspectionStarted, InspectionEnded, WeatherConditions, InspectionGuide,
+    FacilityOperating, DeviationsNoted,
 
     -- Inspection, Notification, PermitRevocation, SourceTestReview
     FollowupTaken,
@@ -29,7 +29,7 @@ select i.STRTRACKINGNUMBER                                                      
        1                                                                                 as IsComplianceEvent,
 
        convert(int, f.STRAFSACTIONNUMBER)                                                as ActionNumber,
-       i.ICIS_STATUSIND                                                                  as DataExchangeStatus,
+       iif(f.STRAFSACTIONNUMBER is null, 'N', i.ICIS_STATUSIND)                          as DataExchangeStatus,
        null                                                                              as DataExchangeStatusDate,
 
        case

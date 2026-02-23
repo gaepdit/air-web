@@ -13,7 +13,7 @@ select i.STRFCENUMBER                                            as Id,
        AIRBRANCH.air.ReduceText(d.STRFCECOMMENTS)                as Notes,
 
        convert(int, f.STRAFSACTIONNUMBER)                        as ActionNumber,
-       i.ICIS_STATUSIND                                          as DataExchangeStatus,
+       iif(f.STRAFSACTIONNUMBER is null, 'N', i.ICIS_STATUSIND)  as DataExchangeStatus,
        null                                                      as DataExchangeStatusDate,
 
        i.DATMODIFINGDATE at time zone 'Eastern Standard Time'    as CreatedAt,
@@ -33,8 +33,8 @@ from AIRBRANCH.dbo.SSCPFCEMASTER i
     inner join AirWeb.dbo.AspNetUsers um
         on um.IaipUserId = d.STRMODIFINGPERSON
 
-where i.IsDeleted = 'False' or
-      i.IsDeleted is null
+where i.IsDeleted = 'False'
+   or i.IsDeleted is null
 
 order by i.STRFCENUMBER;
 

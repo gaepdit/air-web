@@ -31,7 +31,7 @@ select newid()                                                   as Id,
 
        -- AdministrativeOrder, ConsentOrder, NoticeOfViolation, NovNfaLetter, ProposedConsentOrder
        convert(smallint, e.STRAFSAOTOAGNUMBER)                   as ActionNumber,
-       e.ICIS_STATUSIND                                          as DataExchangeStatus,
+       iif(e.STRAFSAOTOAGNUMBER is null, 'N', e.ICIS_STATUSIND)  as DataExchangeStatus,
        null                                                      as DataExchangeStatusDate,
 
        -- AdministrativeOrder, ConsentOrder

@@ -74,7 +74,7 @@ There are also corresponding unit test projects for each (not counting the `Test
 ### Project dependency diagram
 
 ```mermaid
-flowchart BT
+flowchart TB
     I[IaipDataServices]
     DR[Domain.Core]
     DC[Domain.Compliance] --> I

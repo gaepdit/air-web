@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.SourceTests;
+using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
@@ -11,30 +12,28 @@ namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 public class SourceTestIndexModel(ISourceTestAppService sourceTestService) : PageModel
 {
     public IPaginatedResult<SourceTestSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults);
+    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
     public int PageNumber { get; set; }
+    public bool ShowAll { get; set; }
 
-    [TempData]
-    public bool RefreshIaipData { get; set; }
+    public IDictionary<string, string?> RouteValues => new Dictionary<string, string?>
+        { { nameof(ShowAll), ShowAll.ToString() } };
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool refresh = false,
+    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false,
         CancellationToken token = default)
     {
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage(new { p });
-        }
-
         PageNumber = p;
+        ShowAll = showAll;
+
         var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
-        SearchResults = await sourceTestService.GetOpenSourceTestsForComplianceAsync(userEmail: null, paging,
-            RefreshIaipData);
+        var userEmail = showAll ? null : User.GetEmail();
+        SearchResults =
+            await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentEmail: userEmail, paging);
 
         return Page();
     }
 
-    public Task<IActionResult> OnGetSearchAsync([FromQuery] int p = 1, [FromQuery] bool refresh = false,
+    public IActionResult OnGetSearch([FromQuery] int p = 1, [FromQuery] bool showAll = false,
         CancellationToken token = default) =>
-        OnGetAsync(p, refresh, token);
+        RedirectToPage("Index", pageHandler: null, routeValues: new { p, showAll }, fragment: "");
 }
