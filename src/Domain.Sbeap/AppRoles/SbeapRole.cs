@@ -17,15 +17,15 @@ public static class SbeapRole
     public static void AddRoles() => AppRole.AddAppRoles(SbeapAdminRole, SbeapSiteMaintenanceRole, SbeapStaffRole);
 
     // The following static Role objects are used for displaying role information in the UI.
-    private static AppRole SbeapAdminRole { get; } = new(SbeapAdmin, Category,
+    public static AppRole SbeapAdminRole { get; } = new(SbeapAdmin, Category,
         AppRole.RoleType.UserAdmin, "SBEAP Admin",
         "Can manage SBEAP work.");
 
-    private static AppRole SbeapStaffRole { get; } = new(SbeapStaff, Category,
+    public static AppRole SbeapStaffRole { get; } = new(SbeapStaff, Category,
         AppRole.RoleType.Staff, "SBEAP Staff",
         "Can do compliance and enforcement staff work.");
 
-    private static AppRole SbeapSiteMaintenanceRole { get; } = new(SbeapSiteMaintenance, Category,
+    public static AppRole SbeapSiteMaintenanceRole { get; } = new(SbeapSiteMaintenance, Category,
         AppRole.RoleType.SiteMaintenance, "SBEAP Site Maintenance",
         "Can update values in SBEAP program lookup tables (drop-down lists).");
 }

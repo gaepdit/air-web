@@ -1,26 +1,31 @@
 namespace AirWeb.WebApp.Pages.Admin.Maintenance;
 
-public class MaintenanceOption
+public record MaintenanceOption
 {
-    public string SingularName { get; private init; } = string.Empty;
-    public string PluralName { get; private init; } = string.Empty;
+    public string SingularName { get; private init; }
+    public string PluralName { get; private init; }
     public bool StartsWithVowelSound { get; private init; }
 
-    private MaintenanceOption() { }
+    private MaintenanceOption(string singularName, string pluralName, bool startsWithVowelSound = false)
+    {
+        SingularName = singularName;
+        PluralName = pluralName;
+        StartsWithVowelSound = startsWithVowelSound;
+    }
 
-    public static MaintenanceOption NotificationType { get; } =
-        new()
-        {
-            SingularName = "Compliance Notification Type",
-            PluralName = "Compliance Notification Types",
-            StartsWithVowelSound = false,
-        };
+    // Common
+    public static MaintenanceOption Office =>
+        new(singularName: "Office", pluralName: "Offices", startsWithVowelSound: true);
 
-    public static MaintenanceOption Office { get; } =
-        new()
-        {
-            SingularName = "Office",
-            PluralName = "Offices",
-            StartsWithVowelSound = true,
-        };
+    // Compliance
+    public static MaintenanceOption NotificationType =>
+        new(singularName: "Compliance Notification Type", pluralName: "Compliance Notification Types",
+            startsWithVowelSound: false);
+
+    // SBEAP
+    public static MaintenanceOption ActionItemType =>
+        new(singularName: "SBEAP Action Item Type", pluralName: "SBEAP Action Item Types", startsWithVowelSound: true);
+
+    public static MaintenanceOption Agency =>
+        new(singularName: "SBEAP Agency", pluralName: "SBEAP Agencies", startsWithVowelSound: true);
 }

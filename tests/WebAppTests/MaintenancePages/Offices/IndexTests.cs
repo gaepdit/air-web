@@ -24,7 +24,7 @@ public class IndexTests
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
-        var page = new OfficeIndexModel { TempData = WebAppTestsSetup.PageTempData() };
+        var page = new IndexModel { TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
         await page.OnGetAsync(serviceMock, authorizationMock);
