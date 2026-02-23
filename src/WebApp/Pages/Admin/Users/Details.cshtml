@@ -34,10 +34,12 @@
     <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
 
     <dt class="col-sm-3">Phone</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })</dd>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder,
+                additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 
     <dt class="col-sm-3">Office</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })</dd>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
+                additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 </dl>
 <hr />
 

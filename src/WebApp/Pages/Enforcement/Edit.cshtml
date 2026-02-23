@@ -39,8 +39,8 @@
                     additionalViewData: new { Items = Model.ViolationTypeSelectList, Placeholder = DefaultText.PlaceholderNone })
             </div>
         }
-        
-        @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+
+        @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
 
         <partial name="Shared/_SubmitCancelButtons" />
     </form>

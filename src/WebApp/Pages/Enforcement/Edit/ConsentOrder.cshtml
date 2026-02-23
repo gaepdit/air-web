@@ -32,7 +32,7 @@
         <h2 class="h4">Update Details</h2>
 
         <div class="mb-3">
-            @Html.EditorFor(model => model.Item.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+            @Html.EditorFor(model => model.Item.Comment, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
         </div>
 
         <div class="row">
@@ -41,10 +41,10 @@
                     additionalViewData: new { Min = 1, Addon = ConsentOrder.OrderNumberPrefix })
             </div>
             <div class="col-sm-6 mb-3">
-                @Html.EditorFor(model => model.Item.PenaltyAmount, EditorTemplate.InputCurrency, new { Min = 0m })
+                @Html.EditorFor(model => model.Item.PenaltyAmount, EditorTemplate.InputCurrency, additionalViewData: new { Min = 0m })
             </div>
             <div class="mb-3">
-                @Html.EditorFor(model => model.Item.PenaltyComment, EditorTemplate.Textarea, new { Rows = 3 })
+                @Html.EditorFor(model => model.Item.PenaltyComment, EditorTemplate.Textarea, additionalViewData: new { Rows = 3 })
             </div>
         </div>
 

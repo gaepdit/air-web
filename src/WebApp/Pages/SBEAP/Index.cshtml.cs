@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 // using Sbeap.Domain.Identity;
 // using Sbeap.WebApp.Platform.Constants;
 
-namespace AirWeb.WebApp.Pages.sbeap;
+namespace AirWeb.WebApp.Pages.SBEAP;
 
 [AllowAnonymous]
 public class IndexModel(

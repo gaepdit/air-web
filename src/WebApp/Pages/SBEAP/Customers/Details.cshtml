@@ -1,0 +1,237 @@
+﻿@page "{id:guid?}"
+@using AirWeb.AppServices.Sbeap.Customers.Permissions
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model DetailsModel
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+@if (Model.Item.IsDeleted)
+{
+    <div class="row justify-content-between align-items-center g-0 mb-2">
+        <h2 class="h3 text-danger-emphasis col-md mb-md-0">This customer has been deleted</h2>
+        <div class="col-md-auto d-print-none ms-md-3">
+            @if (Model.UserCan[CustomerOperation.ManageDeletions])
+            {
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-warning">Restore</a>
+            }
+        </div>
+    </div>
+}
+<div class="row justify-content-between align-items-end g-0">
+    <h1 class="col-md mb-md-0">
+        <span class="text-body-secondary">Customer:</span> @Model.Item.Name
+    </h1>
+    <div class="col-md-auto d-print-none ms-md-3">
+        @if (!Model.Item.IsDeleted)
+        {
+            <a asp-page="Edit" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            @if (Model.UserCan[CustomerOperation.ManageDeletions])
+            {
+                <a asp-page="Delete" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-danger ms-1">Delete</a>
+            }
+        }
+    </div>
+</div>
+
+<hr>
+@if (Model.Item.IsDeleted)
+{
+    <div class="container mb-2">
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeletedBy)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @Html.DisplayFor(m => m.Item.DeletedBy, DisplayTemplate.NameOrPlaceholder)
+                on @Html.DisplayFor(m => m.Item.DeletedAt, DisplayTemplate.LongDateTimeOffsetNullable)
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeleteComments)</dt>
+            <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Model.Item.DeleteComments</dd>
+        </dl>
+    </div>
+}
+
+<h2 class="h3">Details</h2>
+
+<div class="container mt-4">
+    <dl class="row">
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
+        <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TextOrPlaceholder)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.County)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.County, DisplayTemplate.County)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.SicCodeDisplay)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.SicCodeDisplay, DisplayTemplate.TextOrPlaceholder)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Website)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Website, DisplayTemplate.ProbableUrlOrNotEntered)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Location)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Location)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.MailingAddress)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.MailingAddress)</dd>
+    </dl>
+</div>
+
+<h2 class="h3 mt-3">Cases</h2>
+
+@if (Model.Item.Cases.Count == 0)
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <table class="table" aria-label="Cases for this Customer">
+        <thead>
+        <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Date Opened</th>
+            <th scope="col">Date Closed</th>
+            <th scope="col">Description</th>
+            <th scope="col">
+                <span class="visually-hidden">Actions</span>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+        @foreach (var item in Model.Item.Cases)
+        {
+            <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
+                <th scope="row" class="fw-normal">
+                    @if (item.IsDeleted)
+                    {
+                        <strong>DELETED</strong>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
+                    }
+                </th>
+                <td>
+                    @Html.DisplayFor(m => item.CaseOpenedDate)
+                </td>
+                <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnly, additionalViewData: new { Placeholder = "" })</td>
+                <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 200 })</td>
+                <td>
+                    <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Model.UserCan[CustomerOperation.Edit])
+{
+    <div class="container bg-light-subtle border rounded-1 my-3 py-2 d-print-none">
+        <h3 id="new-case" class="h5">Start a New Case</h3>
+
+        <form method="post" asp-fragment="new-case">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-3">
+                    @Html.EditorFor(e => e.NewCase.CaseOpenedDate, EditorTemplate.InputDateOnly)
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewCase.Description, EditorTemplate.Textarea, additionalViewData: new { Rows = 3 })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Add New Case</button>
+            <div class="text-danger-emphasis">* denotes a required field</div>
+            <input asp-for="NewCase.CustomerId" type="hidden" />
+        </form>
+    </div>
+}
+
+<div class="row justify-content-between align-items-end g-0 mt-4 mb-3">
+    <h2 class="h3 col-md mb-md-0">Contacts</h2>
+    <div class="col-md-auto d-print-none ms-md-3">
+        @if (Model.UserCan[CustomerOperation.Edit])
+        {
+            <a asp-page="AddContact" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Add New Contact</a>
+        }
+    </div>
+</div>
+
+@if (Model.Item.Contacts.Count == 0)
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 g-3">
+        @foreach (var item in Model.Item.Contacts)
+        {
+            <div class="col">
+                <div id="@item.Id.ToString()" class="card @(item.Id == Model.HighlightId ? "border-success" : "")">
+                    <div class="card-header">
+                        <div class="container-full">
+                            <div class="row justify-content-between align-items-start g-0 my-1">
+                                <div class="col">
+                                    @if (string.IsNullOrEmpty(item.Name))
+                                    {
+                                        <h3 class="h5 card-title">@Html.DisplayFor(m => item.Title)</h3>
+                                    }
+                                    else
+                                    {
+                                        <h3 class="h5 card-title">@Html.DisplayFor(m => item.Name)</h3>
+                                        @if (!string.IsNullOrEmpty(item.Title))
+                                        {
+                                            <h4 class="h5 card-subtitle text-body-secondary no-anchor">@Html.DisplayFor(m => item.Title)</h4>
+                                        }
+                                    }
+                                </div>
+                                @if (Model.UserCan[CustomerOperation.Edit])
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        <a asp-page="EditContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a asp-page="DeleteContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body px-2">
+                        <div class="container">
+                            <dl class="row card-text">
+                                <dt>@Html.DisplayNameFor(m => item.Email)</dt>
+                                <dd>@Html.DisplayFor(m => item.Email, DisplayTemplate.ProbableEmailOrNotEntered)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Address)</dt>
+                                <dd>@Html.DisplayFor(m => item.Address)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.PhoneNumbers)</dt>
+                                <dd>@Html.DisplayFor(m => item.PhoneNumbers, DisplayTemplate.PhoneNumberCollection)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Notes)</dt>
+                                <dd class="text-break text-pre-line">@Html.DisplayFor(m => item.Notes,
+                                            DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    @if (item.EnteredBy is not null || item.EnteredOn is not null)
+                    {
+                        <small class="card-footer text-body-secondary">
+                            Entered
+                            @if (item.EnteredBy is not null)
+                            {
+                                <text>by @item.EnteredBy.Name</text>
+                            }
+                            @if (item.EnteredOn is not null)
+                            {
+                                <text> on @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDateOnly)</text>
+                            }
+                        </small>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

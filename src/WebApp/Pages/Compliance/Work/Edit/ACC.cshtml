@@ -1,5 +1,4 @@
 ﻿@page "{id:int?}"
-@using AirWeb.Domain
 @using AirWeb.Domain.Compliance
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AccEditModel
@@ -90,7 +89,7 @@
 
         <div class="row">
             <div class="mb-3">
-                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
             </div>
         </div>
 

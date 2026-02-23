@@ -44,7 +44,7 @@
         </div>
 
         <div class="mb-3">
-            @Html.EditorFor(m => m.ItemReview.Comment, EditorTemplate.Textarea, new { Rows = 5 })
+            @Html.EditorFor(m => m.ItemReview.Comment, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />

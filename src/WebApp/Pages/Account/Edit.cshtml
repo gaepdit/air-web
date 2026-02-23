@@ -21,7 +21,7 @@
                 @Html.EditorFor(m => m.UpdateStaff.PhoneNumber, EditorTemplate.Input)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(m => m.UpdateStaff.OfficeId, EditorTemplate.Select, new { Items = Model.OfficeSelectList })
+                @Html.EditorFor(m => m.UpdateStaff.OfficeId, EditorTemplate.Select, additionalViewData: new { Items = Model.OfficeSelectList })
             </div>
         </div>
 

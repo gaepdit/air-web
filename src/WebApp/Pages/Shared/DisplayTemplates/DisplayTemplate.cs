@@ -35,6 +35,7 @@ public static class DisplayTemplate
     public const string LongDateTimeOffsetNullable = nameof(LongDateTimeOffsetNullable);
     public const string Name = nameof(Name);
     public const string NameOrPlaceholder = nameof(NameOrPlaceholder);
+    public const string PhoneNumberCollection = nameof(PhoneNumberCollection);
     public const string ProbableEmailOrNotEntered = nameof(ProbableEmailOrNotEntered);
     public const string ProbableUrlOrNotEntered = nameof(ProbableUrlOrNotEntered);
     public const string ShortDateOnly = nameof(ShortDateOnly);

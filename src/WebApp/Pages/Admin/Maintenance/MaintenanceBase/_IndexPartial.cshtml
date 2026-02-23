@@ -61,7 +61,8 @@ else
                     {
                         @:👉
                     }
-                    @Html.DisplayFor(_ => item.Name, DisplayTemplate.TextOrPlaceholder, new { Placeholder = "none" })
+                    @Html.DisplayFor(_ => item.Name, DisplayTemplate.TextOrPlaceholder,
+                            additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })
                 </td>
                 <td>@Html.DisplayFor(_ => item.Active, DisplayTemplate.BoolActive)</td>
                 @if (Model.IsMaintainer)

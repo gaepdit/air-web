@@ -3,9 +3,12 @@
 
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ExecutedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable,
+                additionalViewData: new { Placeholder = DefaultText.PlaceholderNo })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.AppealedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.AppealedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.AppealedDate, DisplayTemplate.ShortDateOnlyNullable,
+                additionalViewData: new { Placeholder = DefaultText.PlaceholderNo })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(dto => dto.ResolvedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable, new { PlaceholderNotEntered = "No" })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(dto => dto.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable,
+                additionalViewData: new { Placeholder = DefaultText.PlaceholderNo })</dd>
 </dl>

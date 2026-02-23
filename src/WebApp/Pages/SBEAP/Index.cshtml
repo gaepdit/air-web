@@ -46,8 +46,8 @@ else
     @*                 @foreach (var item in Model.OpenCases.Items) *@
     @*                 { *@
     @*                     <tr> *@
-    @*                         <th scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.DateOnly)</th> *@
-    @*                         <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.StringOrNone)</td> *@
+    @*                         <th scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</th> *@
+    @*                         <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td> *@
     @*                         <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td> *@
     @*                         <td class="pe-3"> *@
     @*                             <a asp-page="/Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a> *@

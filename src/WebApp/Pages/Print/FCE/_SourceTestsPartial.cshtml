@@ -28,7 +28,8 @@
     {
         <tr>
             <th scope="row" rowspan="2">@i.Id.ToString()</th>
-            <td>@Html.DisplayFor(_ => i.ReferenceNumber, DisplayTemplate.IntOrPlaceholder, new { Placeholder = DefaultText.NotAvailable })</td>
+            <td>@Html.DisplayFor(_ => i.ReferenceNumber, DisplayTemplate.IntOrPlaceholder,
+                        additionalViewData: new { Placeholder = DefaultText.NotAvailable })</td>
             <td>@Html.DisplayFor(_ => i.ReceivedByComplianceDate, DisplayTemplate.LongDateOnly)</td>
             <td>@i.ResponsibleStaffSortableFullName</td>
             <td>@i.ComplianceStatus</td>

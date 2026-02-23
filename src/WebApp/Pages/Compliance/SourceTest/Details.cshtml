@@ -51,7 +51,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ComplianceStatus)</dt>
     <dd class="col-sm-8 col-lg-9">@summary.ComplianceStatus</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
@@ -97,7 +97,7 @@
 
                 <div class="row">
                     <div class="mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, new { Rows = 3 })
+                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 3 })
                     </div>
                 </div>
 

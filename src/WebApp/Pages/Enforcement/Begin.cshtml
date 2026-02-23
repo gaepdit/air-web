@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        @Html.EditorFor(m => m.NewCaseFile.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+        @Html.EditorFor(m => m.NewCaseFile.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
 
         <partial name="Shared/_SubmitCancelButtons" />
         <input asp-for="NewCaseFile.FacilityId" type="hidden" />
