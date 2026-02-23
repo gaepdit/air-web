@@ -10,7 +10,9 @@ using AirWeb.Domain.Sbeap.Entities.Agencies;
 using AirWeb.Domain.Sbeap.Entities.Cases;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
 using AirWeb.Domain.Sbeap.Entities.Customers;
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.CommonRepositories;
+using AirWeb.EfRepository.ComplianceRepositories;
+using AirWeb.EfRepository.SbeapRepositories;
 using AirWeb.MemRepository.CommonRepositories;
 using AirWeb.MemRepository.ComplianceRepositories;
 using AirWeb.MemRepository.SbeapRepositories;
@@ -36,14 +38,13 @@ internal static partial class DataPersistence
             .AddScoped<IComplianceWorkCommentRepository, ComplianceWorkCommentRepository>()
             .AddScoped<IFceCommentRepository, FceCommentRepository>()
 
-        // SBEAP
-        // .AddScoped<IActionItemRepository, ActionItemRepository>()
-        // .AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>()
-        // .AddScoped<IAgencyRepository, AgencyRepository>()
-        // .AddScoped<ICaseworkRepository, CaseworkRepository>()
-        // .AddScoped<IContactRepository, ContactRepository>()
-        // .AddScoped<ICustomerRepository, CustomerRepository>()
-        ;
+            // SBEAP
+            .AddScoped<IActionItemRepository, ActionItemRepository>()
+            .AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>()
+            .AddScoped<IAgencyRepository, AgencyRepository>()
+            .AddScoped<ICaseworkRepository, CaseworkRepository>()
+            .AddScoped<IContactRepository, ContactRepository>()
+            .AddScoped<ICustomerRepository, CustomerRepository>();
 
         private void AddInMemoryRepositories() => services
             // Common

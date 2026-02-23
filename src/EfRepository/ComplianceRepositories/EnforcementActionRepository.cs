@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.EfRepository.Contexts;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.ComplianceRepositories;
 
 public sealed class EnforcementActionRepository(AppDbContext context)
     : BaseRepositoryWithMapping<EnforcementAction, Guid, AppDbContext>(context), IEnforcementActionRepository

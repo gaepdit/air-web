@@ -4,7 +4,7 @@ using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.ComplianceRepositories;
 
 public sealed class CaseFileRepository(AppDbContext context)
     : BaseRepositoryWithMapping<CaseFile, int, AppDbContext>(context), ICaseFileRepository

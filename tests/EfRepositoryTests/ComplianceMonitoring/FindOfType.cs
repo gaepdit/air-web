@@ -1,5 +1,5 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.ComplianceRepositories;
 using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.ComplianceMonitoring;
@@ -18,7 +18,8 @@ public class FindOfType
     public async Task GivenExistingItem_ReturnsTrue()
     {
         // Arrange
-        var expected = ComplianceWorkData.GetData.First(work => work.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
+        var expected =
+            ComplianceWorkData.GetData.First(work => work.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
 
         // Act
         var result = await _repository.FindAsync<Notification>(expected.Id, includeExtras: false);

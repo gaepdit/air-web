@@ -1,7 +1,7 @@
 using AirWeb.Domain.Core.Entities;
 using AirWeb.EfRepository.Contexts;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.CommonRepositories;
 
 public sealed class OfficeRepository(AppDbContext context)
     : NamedEntityRepository<Office, AppDbContext>(context), IOfficeRepository

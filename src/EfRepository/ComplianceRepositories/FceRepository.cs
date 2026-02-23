@@ -2,7 +2,7 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.ComplianceRepositories;
 
 public sealed class FceRepository(AppDbContext context)
     : BaseRepositoryWithMapping<Fce, int, AppDbContext>(context), IFceRepository
@@ -23,5 +23,4 @@ public sealed class FceRepository(AppDbContext context)
         CancellationToken token = default) =>
         Context.Fces.AsNoTracking().AnyAsync(fce =>
             fce.FacilityId.Equals(facilityId) && fce.Year.Equals(year) && !fce.IsDeleted && fce.Id != ignoreId, token);
-
 }

@@ -1,7 +1,7 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.EfRepository.Contexts;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.ComplianceRepositories;
 
 public sealed class ComplianceWorkRepository(AppDbContext context)
     : BaseRepositoryWithMapping<ComplianceWork, int, AppDbContext>(context), IComplianceWorkRepository

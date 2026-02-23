@@ -1,14 +1,9 @@
-using AirWeb.Domain.Compliance.Comments;
-using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
-using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Core.Entities;
-using AirWeb.EfRepository.Contexts;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using System.Diagnostics.CodeAnalysis;
 
-namespace AirWeb.EfRepository.Repositories;
+namespace AirWeb.EfRepository.CommonRepositories;
 
 [SuppressMessage("", "S2436")]
 public abstract class CommentRepository<TEntity, TKey, TComment, TContext>(TContext context)
@@ -77,12 +72,3 @@ public abstract class CommentRepository<TEntity, TComment, TContext>(TContext co
     where TEntity : class, IEntity<int>, IComments<TComment>
     where TComment : Comment
     where TContext : DbContext;
-
-public class CaseFileCommentRepository(AppDbContext context)
-    : CommentRepository<CaseFile, CaseFileComment, AppDbContext>(context), ICaseFileCommentRepository;
-
-public class ComplianceWorkCommentRepository(AppDbContext context)
-    : CommentRepository<ComplianceWork, ComplianceWorkComment, AppDbContext>(context), IComplianceWorkCommentRepository;
-
-public class FceCommentRepository(AppDbContext context)
-    : CommentRepository<Fce, FceComment, AppDbContext>(context), IFceCommentRepository;

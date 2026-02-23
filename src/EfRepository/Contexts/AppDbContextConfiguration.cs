@@ -3,7 +3,12 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.Core;
 using AirWeb.Domain.Core.Entities;
+using AirWeb.Domain.Sbeap.Entities.ActionItems;
+using AirWeb.Domain.Sbeap.Entities.Cases;
+using AirWeb.Domain.Sbeap.Entities.Contacts;
+using AirWeb.Domain.Sbeap.Entities.Customers;
 using GaEpd.AppLibrary.Domain.Entities;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;
@@ -22,9 +27,12 @@ internal static class AppDbContextConfiguration
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
 
-        // Named entities should always be included.
+        // Lookup table entities should always be included.
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
+
+        // -- Compliance lookups
         builder.Entity<Notification>().Navigation(notification => notification.NotificationType).AutoInclude();
+        builder.Entity<CaseFile>().Navigation(caseFile => caseFile.ViolationType).AutoInclude();
 
         // User data should be included in all entities.
 
@@ -39,7 +47,7 @@ internal static class AppDbContextConfiguration
         complianceWorkEntity.Navigation(work => work.DeletedBy).AutoInclude();
         complianceWorkEntity.Navigation(work => work.ResponsibleStaff).AutoInclude();
 
-        // Enforcement entities
+        // Enforcement
         var caseFileEntity = builder.Entity<CaseFile>();
         caseFileEntity.Navigation(caseFile => caseFile.ClosedBy).AutoInclude();
         caseFileEntity.Navigation(caseFile => caseFile.DeletedBy).AutoInclude();
@@ -51,6 +59,18 @@ internal static class AppDbContextConfiguration
         var enforcementActionReviewEntity = builder.Entity<EnforcementActionReview>();
         enforcementActionReviewEntity.Navigation(review => review.ReviewedBy).AutoInclude();
 
+        // SBEAP
+        builder.Entity<ActionItem>().Navigation(actionItem => actionItem.EnteredBy).AutoInclude();
+        builder.Entity<Contact>().Navigation(contact => contact.EnteredBy).AutoInclude();
+        builder.Entity<ActionItem>().Navigation(item => item.Casework).AutoInclude();
+        builder.Entity<Casework>().Navigation(casework => casework.Customer).AutoInclude();
+        builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();
+
+        // -- SBEAP lookups
+        builder.Entity<ActionItem>().Navigation(actionItem => actionItem.ActionItemType).AutoInclude();
+        builder.Entity<Casework>().Navigation(casework => casework.ReferralAgency).AutoInclude();
+        builder.Entity<Customer>().Navigation(customer => customer.SicCode).AutoInclude();
+
         // Comments
         builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();
 
@@ -60,7 +80,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureComplianceWorkMapping(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureComplianceWorkTphMapping(this ModelBuilder builder)
     {
         // Compliance Work entries use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<ComplianceWork>()
@@ -133,7 +153,7 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureEnforcementActionMapping(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureEnforcementActionTphMapping(this ModelBuilder builder)
     {
         // Enforcement Actions use "Table Per Hierarchy" (TPH) mapping strategy.
         builder.Entity<EnforcementAction>()
@@ -201,6 +221,16 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
+    internal static ModelBuilder ConfigureCommonTphMapping(this ModelBuilder builder)
+    {
+        // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.
+        builder.Entity<AuditPoint>().ToTable("AuditPoints");
+        builder.Entity<Comment>().ToTable("Comments");
+        builder.Entity<StandardNamedEntity>().ToTable("Lookups");
+
+        return builder;
+    }
+
     internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
     {
         // == Let's save enums in the database as strings.
@@ -223,15 +253,9 @@ internal static class AppDbContextConfiguration
         builder.Entity<DxEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
         builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
 
-        return builder;
-    }
-
-    internal static ModelBuilder ConfigureInheritanceMapping(this ModelBuilder builder)
-    {
-        // By default, EF maps inheritance using table-per-hierarchy (TPH), but we want to explicitly set the table names.
-        builder.Entity<AuditPoint>().ToTable("AuditPoints");
-        builder.Entity<Comment>().ToTable("Comments");
-        builder.Entity<StandardNamedEntity>().ToTable("Lookups");
+        // SBEAP
+        builder.Entity<Contact>().OwnsMany(contact => contact.PhoneNumbers,
+            owned => owned.Property(phoneNumber => phoneNumber.Type).HasConversion<string>());
 
         return builder;
     }
@@ -248,30 +272,21 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureDateTimeOffsetHandling(this ModelBuilder builder, string? dbProviderName)
+    internal static ModelBuilder ConfigureLookupTableNameMaxLength(this ModelBuilder builder)
     {
-        // == "Handling DateTimeOffset in SQLite with Entity Framework Core"
-        // https://blog.dangl.me/archive/handling-datetimeoffset-in-sqlite-with-entity-framework-core/
-        if (dbProviderName != AppDbContext.SqliteProvider) return builder;
-
-        foreach (var entityType in builder.Model.GetEntityTypes())
+        // Set the maximum length of the `Name` property for `StandardNamedEntity`.
+        foreach (var entityType in builder.Model.GetEntityTypes()
+                     .Where(type => typeof(StandardNamedEntity).IsAssignableFrom(type.ClrType))
+                     .Select(type => type.ClrType))
         {
-            // This doesn't work with owned types which we don't have anyway but which would be configured like so:
-            // https://github.com/gaepdit/air-web/blob/ee621ee4708e7b4964e3aa66c34e04925cf80337/src/EfRepository/DbContext/AppDbContext.cs#L50-L68
-            if (entityType.FindOwnership() != null) continue; // Skip owned types
-
-            var dateTimeOffsetProperties = entityType.ClrType.GetProperties()
-                .Where(info => info.PropertyType == typeof(DateTimeOffset) ||
-                               info.PropertyType == typeof(DateTimeOffset?));
-            foreach (var property in dateTimeOffsetProperties)
-                builder.Entity(entityType.Name).Property(property.Name)
-                    .HasConversion(new DateTimeOffsetToBinaryConverter());
+            builder.Entity(entityType).Property<string>(nameof(StandardNamedEntity.Name))
+                .HasMaxLength(AppConstants.MaximumNameLength);
         }
 
         return builder;
     }
 
-    internal static ModelBuilder ConfigureCollectionSerialization(this ModelBuilder builder)
+    internal static ModelBuilder ConfigureCollectionPropertySerialization(this ModelBuilder builder)
     {
         // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#collections-of-primitives
 
@@ -324,11 +339,47 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureIdentityPasskeyData(this ModelBuilder builder, string? dbProviderName)
-    {
-        if (dbProviderName == AppDbContext.SqliteProvider)
-            builder.Entity<IdentityPasskeyData>(e => e.HasNoKey());
+    // ===== SQLite-only configuration methods =====
 
+    internal static ModelBuilder ConfigureDateTimeOffsetHandling(this ModelBuilder builder)
+    {
+        // SQLite-only configuration!
+
+        // == "Handling DateTimeOffset in SQLite with Entity Framework Core"
+        // https://blog.dangl.me/archive/handling-datetimeoffset-in-sqlite-with-entity-framework-core/
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            // This doesn't work with owned types which we don't have anyway but which would be configured like so:
+            // https://github.com/gaepdit/air-web/blob/ee621ee4708e7b4964e3aa66c34e04925cf80337/src/EfRepository/DbContext/AppDbContext.cs#L50-L68
+            if (entityType.FindOwnership() != null) continue; // Skip owned types
+
+            var dateTimeOffsetProperties = entityType.ClrType.GetProperties()
+                .Where(info => info.PropertyType == typeof(DateTimeOffset) ||
+                               info.PropertyType == typeof(DateTimeOffset?));
+            foreach (var property in dateTimeOffsetProperties)
+                builder.Entity(entityType.Name).Property(property.Name)
+                    .HasConversion(new DateTimeOffsetToBinaryConverter());
+        }
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureOwnedTypeCollections(this ModelBuilder builder)
+    {
+        // SQLite-only configuration!
+
+        // Sqlite and EF Core are in conflict on how to handle collections of owned types.
+        // See: https://stackoverflow.com/a/69826156/212978
+        // and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types
+        builder.Entity<Contact>().OwnsMany(contact => contact.PhoneNumbers,
+            navigationBuilder => navigationBuilder.HasKey("Id"));
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureIdentityPasskeyData(this ModelBuilder builder)
+    {
+        // SQLite-only configuration!
+        builder.Entity<IdentityPasskeyData>(e => e.HasNoKey());
         return builder;
     }
 }
