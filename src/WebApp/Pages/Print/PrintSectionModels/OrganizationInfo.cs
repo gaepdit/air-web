@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Core.Entities.ValueObjects;
 
-namespace AirWeb.WebApp.Platform.PrintoutModels;
+namespace AirWeb.WebApp.Pages.Print.PrintSectionModels;
 
 public record OrganizationInfo
 {

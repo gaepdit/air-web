@@ -1,5 +1,5 @@
 using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.WebApp.Platform.PrintoutModels;
+using AirWeb.WebApp.Pages.Print.PrintSectionModels;
 using AirWeb.WebApp.Platform.Settings;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
