@@ -35,5 +35,5 @@ public class SourceTestIndexModel(ISourceTestAppService sourceTestService) : Pag
 
     public IActionResult OnGetSearch([FromQuery] int p = 1, [FromQuery] bool showAll = false,
         CancellationToken token = default) =>
-        RedirectToPage("Index", pageHandler: null, routeValues: new { p, showAll }, fragment: "");
+        RedirectToPage("Index", pageHandler: null, routeValues: new { showAll, p }, fragment: "");
 }

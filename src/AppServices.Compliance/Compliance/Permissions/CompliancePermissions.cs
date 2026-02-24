@@ -34,7 +34,7 @@ public static class CompliancePermissions
 
         public bool CanRestore(IIsDeleted item) => item.IsDeleted && user.CanManageDeletions();
 
-        // TODO: Reevaluate the following
+        // FUTURE: Reevaluate the following
         public bool CanView<T>(T item) where T : IIsClosed, IIsDeleted => user.CanManageDeletions() ||
                                                                           !item.IsDeleted && user.IsComplianceStaff() ||
                                                                           item.IsClosed && user.IsStaff();
