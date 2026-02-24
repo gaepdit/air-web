@@ -175,6 +175,27 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     height: 40px;
 }
 
+/* Off-canvas toggle
+-------------------------------------------------- */
+.offcanvas-toggler {
+    padding: .25rem .5rem;
+    margin-right: .5rem;
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-navbar-toggler-border-color);
+    border-radius: var(--bs-border-radius);
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+.offcanvas-toggler .bi {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+[data-bs-theme="dark"] .navbar .navbar-toggler,
+[data-bs-theme="dark"] .offcanvas-toggler {
+    color: hsla(var(--base-hue), 0%, 100%, 0.7);
+}
+
 /* Skip to content link
 -------------------------------------------------- */
 .skip-nav {
