@@ -3,8 +3,8 @@
 
 /* Change the base-hue variable to set all branding colors. */
 :root, [data-bs-theme="light"] {
-    --callout-link: 10, 88, 202;
     --base-hue: 200deg;
+    --callout-link: 10, 88, 202;
     --bs-gradient: linear-gradient(180deg,
     hsl(200, 93%, 73%) 0%,
     hsl(247, 55%, 80%) 70%,
@@ -20,9 +20,10 @@
     color: hsl(var(--base-hue), 75%, 23%);
 }
 
-.navbar a:hover,
-.navbar a:focus {
-    color: hsl(var(--base-hue), 100%, 25%);
+.navbar a:hover, .navbar a:focus,
+.navbar button:hover, .navbar button:focus,
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+    color: hsl(var(--base-hue), 80%, 25%);
 }
 
 .navbar a:active {
@@ -46,8 +47,6 @@
 }
 
 .navbar .nav-link,
-.navbar .nav-link:hover,
-.navbar .nav-link:focus,
 .navbar .navbar-nav .nav-link.active,
 .navbar .navbar-nav .nav-link.show {
     color: hsl(var(--base-hue), 20%, 20%);
@@ -83,8 +82,12 @@
 }
 
 [data-bs-theme="dark"] .navbar a:hover,
-[data-bs-theme="dark"] .navbar a:focus {
-    color: hsl(var(--base-hue), 100%, 85%);
+[data-bs-theme="dark"] .navbar a:focus,
+[data-bs-theme="dark"] .navbar button:hover,
+[data-bs-theme="dark"] .navbar button:focus,
+[data-bs-theme="dark"] .navbar .nav-link:hover,
+[data-bs-theme="dark"] .navbar .nav-link:focus {
+    color: hsl(var(--base-hue), 100%, 95%);
 }
 
 [data-bs-theme="dark"] .navbar a:active {
@@ -98,7 +101,7 @@
 [data-bs-theme="dark"] .navbar .dropdown-item:focus,
 [data-bs-theme="dark"] .navbar .dropdown-item:hover {
     color: hsl(var(--base-hue), 75%, 90%);
-    background-color: hsl(var(--base-hue), 10%, 19%);
+    background-color: hsl(var(--base-hue), 10%, 23%);
 }
 
 [data-bs-theme="dark"] .navbar .dropdown-item.active,
@@ -189,6 +192,11 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 .offcanvas-toggler .bi {
     height: 1.5em;
     width: 1.5em;
+}
+
+.navbar .navbar-toggler:hover,
+.offcanvas-toggler:hover {
+    border-color: rgba(var(--bs-emphasis-color-rgb), 0.4);
 }
 
 [data-bs-theme="dark"] .navbar .navbar-toggler,

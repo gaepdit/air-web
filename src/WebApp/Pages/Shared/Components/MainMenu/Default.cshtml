@@ -1,7 +1,7 @@
 ﻿@model MainMenuViewComponent.MenuParams
 @{
     var iconsFile = Url.Content("~/images/app-icons.svg");
-    var showSbeapMenu = (bool)(ViewData["SBEAP"] ?? false);
+    var onSbeapSite = (bool)(ViewData["SBEAP"] ?? false);
 }
 
 <header role="banner">
@@ -10,16 +10,18 @@
             <div>
                 @if (Model.ShowSbeapSwitch)
                 {
-                    <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#orgNav" aria-controls="orgNav" aria-label="Toggle organization navigation">
+                    <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas" 
+                            data-bs-target="#orgNav" aria-controls="orgNav" 
+                            aria-label="Toggle organization navigation" title="Switch Dashboard">
                         <svg class="bi">
                             <use href="/images/app-icons.svg#app-icon-shuffle"></use>
                         </svg>
                         <span class="visually-hidden">Switch Dashboard</span>
                     </button>
                 }
-                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo me-2" title="Switch dashboard" />
+                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo me-2" />
             </div>
-            @if (showSbeapMenu)
+            @if (onSbeapSite)
             {
                 <a class="navbar-brand nav-link me-2" asp-page="/SBEAP/Index" title="Small Business Environmental Assistance Program">SBEAP
                     @if (Model.ShowStaffOptions)
@@ -55,15 +57,15 @@
                                     Search
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="searchDropdownMenuLink">
-                                    @if (showSbeapMenu)
+                                    @if (onSbeapSite)
                                     {
-                                        <li><a class="dropdown-item" asp-page="/Customers/Index">Customer Search</a>
+                                        <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Index">Customer Search</a>
                                         </li>
-                                        <li><a class="dropdown-item" asp-page="/Cases/Index">Case Search</a></li>
+                                        <li><a class="dropdown-item" asp-page="/SBEAP/Cases/Index">Case Search</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" asp-page="/Customers/Add">
+                                        <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Add">
                                                 <svg class="bi">
                                                     <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
                                                 </svg>

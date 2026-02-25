@@ -1,53 +1,18 @@
-/* Branding colors
+/* SBEAP branding colors
 -------------------------------------------------- */
 
 :root, [data-bs-theme="light"] {
     --base-hue: 275deg;
-    --callout-link: 10, 88, 202;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
 
-/* Light mode theme colors */
-
-.navbar {
-    background-color: hsl(var(--base-hue), 73%, 23%);
-    color: hsl(var(--base-hue), 0%, 100%);
+.navbar .dropdown-item:focus, .navbar .dropdown-item:hover {
+    color: hsl(var(--base-hue), 73%, 23%);
+    background-color: hsl(var(--base-hue), 100%, 95%);
 }
 
-.navbar .nav-link,
-.navbar .nav-link:hover,
-.navbar .nav-link:focus,
-.navbar .navbar-nav .nav-link.active,
-.navbar .navbar-nav .nav-link.show {
-    color: hsl(var(--base-hue), 0%, 100%);
-}
-
-.navbar .navbar-brand:focus-visible,
-.navbar .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 0%, 100%, .57);
-}
-
-.navbar .nav-link {
-    color: hsl(var(--base-hue), 0%, 100%)
-}
-
-.navbar .nav-link.border {
-    border-color: hsl(var(--base-hue), 0%, 60%) !important;
-}
-
-.navbar .navbar-brand:focus-visible, .navbar .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 0%, 100%, .57)
-}
-
-/* Dark mode theme colors */
-
-[data-bs-theme="dark"] {
-    --bs-body-bg: #25292d;
-    --callout-link: 110, 168, 254;
-}
+/* Dark mode theme */
 
 [data-bs-theme="dark"] .navbar {
     background-color: hsl(var(--base-hue), 42%, 23%);
-    color: hsl(var(--base-hue), 0%, 100%);
-    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
