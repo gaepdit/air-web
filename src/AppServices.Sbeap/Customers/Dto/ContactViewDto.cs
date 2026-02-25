@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.Domain.Core.Entities.ValueObjects;
+using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.ValueObjects;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel.DataAnnotations;

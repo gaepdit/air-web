@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.Core.Entities.ValueObjects;
+﻿namespace AirWeb.Domain.Core.ValueObjects;
 
 public record struct DateTimeRange(
     DateTime StartDate,

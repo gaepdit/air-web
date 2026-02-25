@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.AppServices.Sbeap.Cases.Dto;
-using AirWeb.Domain.Core.Entities.ValueObjects;
+using AirWeb.Domain.Core.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;

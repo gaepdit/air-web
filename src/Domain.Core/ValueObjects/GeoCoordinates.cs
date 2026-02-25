@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AirWeb.Domain.Core.Entities.ValueObjects;
+namespace AirWeb.Domain.Core.ValueObjects;
 
 [Owned]
 public record GeoCoordinates(

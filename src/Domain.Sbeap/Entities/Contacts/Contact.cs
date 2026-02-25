@@ -1,5 +1,5 @@
 ﻿using AirWeb.Domain.Core.Entities;
-using AirWeb.Domain.Core.Entities.ValueObjects;
+using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.Entities.Customers;
 using AirWeb.Domain.Sbeap.ValueObjects;
 

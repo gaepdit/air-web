@@ -1,5 +1,5 @@
 using AirWeb.Domain.Core.Data;
-using AirWeb.Domain.Core.Entities.ValueObjects;
+using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.Entities.Customers;
 
 namespace AppServicesTests.Sbeap.TestData;

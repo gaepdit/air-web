@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Core.Entities.ValueObjects;
+﻿using AirWeb.Domain.Core.ValueObjects;
 
 namespace AirWeb.WebApp.Pages.Print.PrintSectionModels;
 

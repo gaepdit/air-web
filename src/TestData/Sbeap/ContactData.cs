@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Core.Entities.ValueObjects;
+﻿using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
 using AirWeb.TestData.Identity;
 using AirWeb.TestData.SampleData;

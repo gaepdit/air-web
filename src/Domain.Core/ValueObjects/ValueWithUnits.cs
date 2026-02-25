@@ -1,4 +1,4 @@
-﻿namespace AirWeb.Domain.Core.Entities.ValueObjects;
+﻿namespace AirWeb.Domain.Core.ValueObjects;
 
 public readonly record struct ValueWithUnits(
     string Value,

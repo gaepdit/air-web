@@ -1,7 +1,7 @@
 ﻿using GaEpd.AppLibrary.Extensions;
 using System.Text.Json.Serialization;
 
-namespace AirWeb.Domain.Core.Entities.ValueObjects;
+namespace AirWeb.Domain.Core.ValueObjects;
 
 public readonly record struct PersonName(
     string GivenName,

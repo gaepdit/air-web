@@ -2,7 +2,7 @@
 using GaEpd.AppLibrary.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace AirWeb.Domain.Core.Entities.ValueObjects;
+namespace AirWeb.Domain.Core.ValueObjects;
 
 [Owned]
 public record Address : ValueObject
