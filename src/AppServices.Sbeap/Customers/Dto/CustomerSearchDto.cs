@@ -1,12 +1,17 @@
-﻿using System.ComponentModel;
+﻿using AirWeb.AppServices.Core.Search;
+using GaEpd.AppLibrary.Extensions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 
-public record CustomerSearchDto
+public record CustomerSearchDto : ISearchDto<CustomerSearchDto>, ISearchDto
 {
     public CustomerSortBy Sort { get; init; } = CustomerSortBy.Name;
+    public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
+
     public string? Name { get; init; }
     public string? Description { get; init; }
 

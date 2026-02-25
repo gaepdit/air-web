@@ -1,6 +1,7 @@
 ﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
+using AirWeb.Domain.Sbeap.ValueObjects;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
 using AirWeb.TestData.Identity;
@@ -59,7 +60,7 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
             context.Database.BeginTransaction();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles ON");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(AppDbContext.EnforcementCaseFiles)} ON");
         }
 
         context.EnforcementCaseFiles.AddRange(CaseFileData.GetData);
@@ -67,7 +68,7 @@ public static class DbSeedDataHelpers
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT CaseFiles OFF");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(AppDbContext.EnforcementCaseFiles)} OFF");
             context.Database.CommitTransaction();
         }
     }
@@ -108,7 +109,7 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
             context.Database.BeginTransaction();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces ON");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(AppDbContext.Fces)} ON");
         }
 
         context.Fces.AddRange(FceData.GetData);
@@ -116,7 +117,7 @@ public static class DbSeedDataHelpers
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Fces OFF");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(AppDbContext.Fces)} OFF");
             context.Database.CommitTransaction();
         }
     }
@@ -133,7 +134,7 @@ public static class DbSeedDataHelpers
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
             context.Database.BeginTransaction();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT ComplianceWork ON");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(ComplianceWork)} ON");
         }
 
         if (!context.Accs.Any())
@@ -175,7 +176,7 @@ public static class DbSeedDataHelpers
 
         if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
         {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT ComplianceWork OFF");
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(ComplianceWork)} OFF");
             context.Database.CommitTransaction();
         }
     }
@@ -245,8 +246,21 @@ public static class DbSeedDataHelpers
     private static void SeedContactData(AppDbContext context)
     {
         if (context.SbeapContacts.Any()) return;
-        context.SbeapContacts.AddRange(ContactData.GetContacts(false));
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
+            context.Database.BeginTransaction();
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(PhoneNumber)} ON");
+        }
+
+        context.SbeapContacts.AddRange(ContactData.GetContacts);
         context.SaveChanges();
+
+        if (context.Database.ProviderName == AppDbContext.SqlServerProvider)
+        {
+            context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {nameof(PhoneNumber)} OFF");
+            context.Database.CommitTransaction();
+        }
     }
 
     private static void SeedCustomerData(AppDbContext context)

@@ -4,7 +4,7 @@ using AirWeb.TestData.Sbeap;
 namespace AirWeb.MemRepository.SbeapRepositories;
 
 public sealed class ContactMemRepository()
-    : BaseRepository<Contact, Guid>(ContactData.GetContacts(true)), IContactRepository
+    : BaseRepository<Contact, Guid>(ContactData.GetContacts), IContactRepository
 {
     // Local repository requires ID to be manually set.
     public int GetNextPhoneNumberId()

@@ -1,14 +1,18 @@
+using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
+using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 
-public record CaseworkSearchDto
+public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
 {
     // Sorting
     public CaseworkSortBy Sort { get; init; } = CaseworkSortBy.Customer;
+    public string SortByName => Sort.ToString();
+    public string Sorting => Sort.GetDescription();
 
     // Status
 

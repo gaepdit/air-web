@@ -73,13 +73,15 @@ internal static class ContactData
 
     private static IEnumerable<Contact>? _contacts;
 
-    public static IEnumerable<Contact> GetContacts(bool seedPhoneIds)
+    public static IEnumerable<Contact> GetContacts
     {
-        if (_contacts is not null) return _contacts;
-
-        _contacts = ContactSeedItems.ToList();
-        _contacts.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
-        return _contacts;
+        get
+        {
+            if (_contacts is not null) return _contacts;
+            _contacts = ContactSeedItems.ToList();
+            _contacts.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
+            return _contacts;
+        }
     }
 
     public static void ClearData() => _contacts = null;

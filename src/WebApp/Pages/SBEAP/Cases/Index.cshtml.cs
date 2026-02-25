@@ -19,7 +19,7 @@ public class IndexModel(ICaseworkService service, IAgencyService agencyService, 
     public IPaginatedResult<CaseworkSearchResultDto> SearchResults { get; private set; } = null!;
     public string SortByName => Spec.Sort.ToString();
     public bool ShowDeletionSearchOptions { get; private set; }
-    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
+    public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     // Select lists
     public SelectList AgencySelectList { get; private set; } = null!;

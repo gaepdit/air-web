@@ -50,7 +50,7 @@ else
     @*                         <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td> *@
     @*                         <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td> *@
     @*                         <td class="pe-3"> *@
-    @*                             <a asp-page="/Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a> *@
+    @*                             <a asp-page="Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a> *@
     @*                         </td> *@
     @*                     </tr> *@
     @*                 } *@
@@ -69,7 +69,7 @@ else
     @*                     @if (Model.OpenCases.HasNextPage) *@
     @*                     { *@
     @*                         <div class="col-md text-end align"> *@
-    @*                             <a asp-page="/Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults" *@
+    @*                             <a asp-page="Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults" *@
     @*                                asp-route-Sort="@(nameof(CaseworkSortBy.OpenedDate))" class="btn btn-sm btn-outline-info me-2"> *@
     @*                                 View All *@
     @*                             </a> *@

@@ -19,7 +19,7 @@ public class IndexModel(ICustomerService service, IAuthorizationService authoriz
     public IPaginatedResult<CustomerSearchResultDto> SearchResults { get; private set; } = null!;
     public string SortByName => Spec.Sort.ToString();
     public bool ShowDeletionSearchOptions { get; private set; }
-    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
+    public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
     // Select lists
     public static SelectList CountiesSelectList => new(CommonData.Counties);
