@@ -75,9 +75,26 @@ public sealed class AuthenticationManager(
 
     public async Task<IdentityResult> LogInAsTestUserAsync(string[] testUserRoles)
     {
-        var user = await userManager.FindByIdAsync("00000001-0000-0000-0000-000000000000").ConfigureAwait(false);
-        var staffId = user!.Id;
-        logger.ZLogInformation($"Local user with ID {staffId} signed in");
+        const string userId = "00000001-0000-0000-0000-000000000000";
+        var user = await userManager.FindByIdAsync(userId).ConfigureAwait(false);
+
+        if (user is null)
+        {
+            const string email = "test@example.com";
+            user = new ApplicationUser
+            {
+                Id = userId,
+                GivenName = "First",
+                FamilyName = "Last",
+                Email = email,
+                UserName = email.ToLowerInvariant(),
+                NormalizedEmail = email.ToUpperInvariant(),
+                NormalizedUserName = email.ToUpperInvariant(),
+            };
+            await userManager.CreateAsync(user);
+        }
+
+        logger.ZLogInformation($"Local user with ID {userId} signed in");
 
         foreach (var pair in AppRole.AllRoles)
             await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
