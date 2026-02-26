@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Sbeap.Agencies;
 using AirWeb.AppServices.Sbeap.Cases.Dto;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
+using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.Agencies;
@@ -50,5 +51,8 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.DeletedBy, expression => expression.Ignore());
         CreateMap<Customer, CustomerUpdateDto>();
         CreateMap<Customer, CustomerSearchResultDto>();
+
+        // Address
+        CreateMap<Address, OptionalAddress>();
     }
 }

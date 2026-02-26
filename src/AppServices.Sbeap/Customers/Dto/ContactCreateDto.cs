@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Core.ValueObjects;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 
@@ -23,7 +22,7 @@ public record ContactCreateDto(Guid CustomerId)
 
     public string? Notes { get; init; }
 
-    public Address Address { get; init; } = new();
+    public OptionalAddress Address { get; init; } = new();
 
     [Display(Name = "Phone number")]
     public PhoneNumberCreate PhoneNumber { get; init; } = new();

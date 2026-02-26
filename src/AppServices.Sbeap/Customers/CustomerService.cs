@@ -68,8 +68,8 @@ public sealed class CustomerService(
             : SicCodes.Get(resource.SicCodeId)?.Id;
         customer.County = resource.County;
         customer.Website = resource.Website;
-        customer.Location = resource.Location;
-        customer.MailingAddress = resource.MailingAddress;
+        customer.Location = resource.Location.AsAddress();
+        customer.MailingAddress = resource.MailingAddress.AsAddress();
 
         await customers.InsertAsync(customer, autoSave: false, token: token).ConfigureAwait(false);
         await CreateContactAsync(customer, resource.Contact, user, token).ConfigureAwait(false);
@@ -93,8 +93,8 @@ public sealed class CustomerService(
             : SicCodes.Get(resource.SicCodeId)?.Id;
         item.County = resource.County;
         item.Website = resource.Website;
-        item.Location = resource.Location;
-        item.MailingAddress = resource.MailingAddress;
+        item.Location = resource.Location.AsAddress();
+        item.MailingAddress = resource.MailingAddress.AsAddress();
 
         await customers.UpdateAsync(item, token: token).ConfigureAwait(false);
     }
@@ -138,7 +138,7 @@ public sealed class CustomerService(
         contact.Title = resource.Title;
         contact.Email = resource.Email;
         contact.Notes = resource.Notes;
-        contact.Address = resource.Address;
+        contact.Address = resource.Address.AsAddress();
         contact.EnteredBy = user;
 
         if (!resource.PhoneNumber.IsIncomplete)
@@ -170,7 +170,7 @@ public sealed class CustomerService(
         item.Title = resource.Title;
         item.Email = resource.Email;
         item.Notes = resource.Notes;
-        item.Address = resource.Address;
+        item.Address = resource.Address.AsAddress();
 
         await contacts.UpdateAsync(item, token: token).ConfigureAwait(false);
     }

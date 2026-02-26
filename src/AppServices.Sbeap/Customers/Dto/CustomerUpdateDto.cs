@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Core.ValueObjects;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 
@@ -24,6 +23,6 @@ public record CustomerUpdateDto
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
     public string? Website { get; init; }
 
-    public Address Location { get; init; } = null!;
-    public Address MailingAddress { get; init; } = null!;
+    public OptionalAddress Location { get; init; } = null!;
+    public OptionalAddress MailingAddress { get; init; } = null!;
 }

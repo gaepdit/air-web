@@ -1,5 +1,4 @@
-﻿using AirWeb.Domain.Core.ValueObjects;
-using AirWeb.Domain.Sbeap.ValueObjects;
+﻿using AirWeb.Domain.Sbeap.ValueObjects;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -34,7 +33,7 @@ public record ContactUpdateDto
 
     public string? Notes { get; init; }
 
-    public Address Address { get; init; } = null!;
+    public OptionalAddress Address { get; init; } = null!;
 
     [UsedImplicitly]
     public List<PhoneNumber> PhoneNumbers { get; } = [];
