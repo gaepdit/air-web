@@ -92,6 +92,7 @@ public sealed class CustomerService(
             ? null
             : SicCodes.Get(resource.SicCodeId)?.Id;
         item.County = resource.County;
+        item.Website = resource.Website;
         item.Location = resource.Location;
         item.MailingAddress = resource.MailingAddress;
 
