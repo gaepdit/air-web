@@ -8,7 +8,6 @@ using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
 using AirWeb.Domain.Sbeap.Entities.Cases;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
-using AirWeb.Domain.Sbeap.Entities.Customers;
 using GaEpd.AppLibrary.Domain.Entities;
 using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;
@@ -69,7 +68,6 @@ internal static class AppDbContextConfiguration
         // -- SBEAP lookups
         builder.Entity<ActionItem>().Navigation(actionItem => actionItem.ActionItemType).AutoInclude();
         builder.Entity<Casework>().Navigation(casework => casework.ReferralAgency).AutoInclude();
-        builder.Entity<Customer>().Navigation(customer => customer.SicCode).AutoInclude();
 
         // Comments
         builder.Entity<Comment>().Navigation(comment => comment.CommentBy).AutoInclude();

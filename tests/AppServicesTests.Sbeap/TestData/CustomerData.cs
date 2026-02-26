@@ -15,7 +15,7 @@ internal static class CustomerData
             Location = new Address { City = Constants.ValidName },
             MailingAddress = Address.EmptyAddress,
             Description = Constants.Phrase,
-            SicCode = SicCodes.Data.First(),
+            SicCodeId = SicCodes.Data.First().Id,
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
         {
@@ -32,7 +32,7 @@ internal static class CustomerData
             Location = Address.EmptyAddress,
             MailingAddress = Address.EmptyAddress,
             Description = Constants.Phrase,
-            SicCode = SicCodes.Data.First(),
+            SicCodeId = SicCodes.Data.First().Id,
             Website = null,
             DeleteComments = Constants.Phrase,
         },

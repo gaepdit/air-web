@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Core.Entities;
+﻿using AirWeb.Domain.Core.Data;
+using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Core.ValueObjects;
 using AirWeb.Domain.Sbeap.Entities.Cases;
 using AirWeb.Domain.Sbeap.Entities.Contacts;
@@ -24,7 +25,10 @@ public class Customer : AuditableSoftDeleteEntity
     public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
-    public SicCode? SicCode { get; set; }
+
+    // TODO: Change SicCode to SIC; change SicCode.Id to SIC.Code; Change SicCodeId to SicCode
+    public string? SicCodeId { get; set; }
+    public SicCode? SicCode => SicCodeId is null ? null : SicCodes.Get(SicCodeId);
     public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
