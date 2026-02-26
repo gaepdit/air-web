@@ -110,7 +110,7 @@ else
                 <td>
                     @Html.DisplayFor(m => item.CaseOpenedDate)
                 </td>
-                <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnly, additionalViewData: new { Placeholder = "" })</td>
+                <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnlyNullable, additionalViewData: new { Placeholder = "" })</td>
                 <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 200 })</td>
                 <td>
                     <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
@@ -221,7 +221,7 @@ else
                             }
                             @if (item.EnteredOn is not null)
                             {
-                                <text> on @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDateOnly)</text>
+                                <text> on @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDateTimeOffset)</text>
                             }
                         </small>
                     }
