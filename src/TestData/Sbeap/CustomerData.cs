@@ -17,7 +17,7 @@ internal static class CustomerData
             Location = AddressData.GetRandomAddress(),
             MailingAddress = AddressData.GetRandomAddress(),
             Description = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
-            SicCodeId = SicCodes.Data.First().Id,
+            SicCode = SicData.Sics.First().Code,
             Website = SampleText.ValidUrl,
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
@@ -36,7 +36,7 @@ internal static class CustomerData
             Location = AddressData.GetRandomAddress(),
             MailingAddress = Address.EmptyAddress,
             Description = TextData.ShortMultiline,
-            SicCodeId = SicCodes.Data.First().Id,
+            SicCode = SicData.Sics.First().Code,
             Website = null,
             DeleteComments = TextData.ShortMultiline,
         },

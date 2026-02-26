@@ -63,9 +63,9 @@ public sealed class CustomerService(
         var customer = manager.Create(resource.Name, user?.Id);
 
         customer.Description = resource.Description;
-        customer.SicCodeId = resource.SicCodeId is null
+        customer.SicCode = resource.SicCode is null
             ? null
-            : SicCodes.Get(resource.SicCodeId)?.Id;
+            : SicData.Find(resource.SicCode)?.Code;
         customer.County = resource.County;
         customer.Website = resource.Website;
         customer.Location = resource.Location.AsAddress();
@@ -88,9 +88,9 @@ public sealed class CustomerService(
 
         item.Name = resource.Name;
         item.Description = resource.Description;
-        item.SicCodeId = resource.SicCodeId is null
+        item.SicCode = resource.SicCode is null
             ? null
-            : SicCodes.Get(resource.SicCodeId)?.Id;
+            : SicData.Find(resource.SicCode)?.Code;
         item.County = resource.County;
         item.Website = resource.Website;
         item.Location = resource.Location.AsAddress();

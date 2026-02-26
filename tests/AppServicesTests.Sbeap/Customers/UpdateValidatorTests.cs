@@ -38,7 +38,7 @@ public class UpdateValidatorTests
         var model = DefaultCustomerUpdate with
         {
             Name = Constants.ValidName,
-            SicCodeId = SicCodes.Data.First().Id,
+            SicCode = SicData.Sics.First().Code,
         };
         var validator = new CustomerUpdateValidator();
 
@@ -53,7 +53,7 @@ public class UpdateValidatorTests
         var model = DefaultCustomerUpdate with
         {
             Name = Constants.ShortName,
-            SicCodeId = "0000",
+            SicCode = "0000",
         };
         var validator = new CustomerUpdateValidator();
 

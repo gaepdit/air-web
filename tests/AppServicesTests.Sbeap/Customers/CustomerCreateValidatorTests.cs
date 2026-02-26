@@ -113,7 +113,7 @@ public class CustomerCreateValidatorTests
         {
             Name = Constants.ValidName,
             Contact = EmptyContactCreate,
-            SicCodeId = SicCodes.Data.First().Id,
+            SicCode = SicData.Sics.First().Code,
         };
 
         var validator = new CustomerCreateValidator(ContactValidator);
@@ -133,7 +133,7 @@ public class CustomerCreateValidatorTests
         {
             Name = Constants.ValidName,
             Contact = EmptyContactCreate,
-            SicCodeId = "0000",
+            SicCode = "0000",
         };
         var validator = new CustomerCreateValidator(ContactValidator);
 
@@ -141,6 +141,6 @@ public class CustomerCreateValidatorTests
         var result = await validator.TestValidateAsync(model);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(e => e.SicCodeId);
+        result.ShouldHaveValidationErrorFor(e => e.SicCode);
     }
 }

@@ -29,7 +29,7 @@ public static class CustomerFilters
     private static Expression<Func<Customer, bool>> HasSicCode(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input)
         ? predicate
-        : predicate.And(e => e.SicCode != null && e.SicCode.Id == input);
+        : predicate.And(e => e.Sic != null && e.Sic.Code == input);
 
     private static Expression<Func<Customer, bool>> InCity(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input)

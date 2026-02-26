@@ -13,7 +13,7 @@ public record CustomerViewDto
     public string Description { get; init; } = string.Empty;
 
     [Display(Name = "SIC Code")]
-    public string? SicCodeDisplay { get; init; }
+    public string? SicDisplay { get; init; }
 
     public string? Website { get; init; }
 

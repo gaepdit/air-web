@@ -16,7 +16,7 @@ public record CustomerUpdateDto
 
     [MaxLength(4)]
     [Display(Name = "SIC Code")]
-    public string? SicCodeId { get; init; }
+    public string? SicCode { get; init; }
 
     public string? County { get; init; }
 

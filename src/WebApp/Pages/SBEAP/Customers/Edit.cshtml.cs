@@ -74,7 +74,7 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private void PopulateSelectLists() => SicSelectList = SicCodes.ActiveListItems.ToSelectList();
+    private void PopulateSelectLists() => SicSelectList = SicData.ActiveListItems.ToSelectList();
 
     private async Task SetPermissionsAsync(CustomerUpdateDto item)
     {

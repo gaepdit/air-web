@@ -19,8 +19,8 @@ public class CustomerUpdateValidator : AbstractValidator<CustomerUpdateDto>
             .WithMessage("The Website must be a valid web address.")
             .When(x => !string.IsNullOrEmpty(x.Website));
 
-        RuleFor(e => e.SicCodeId)
-            .Must(id => id is null || SicCodes.Exists(id))
+        RuleFor(e => e.SicCode)
+            .Must(id => id is null || SicData.Exists(id))
             .WithMessage(_ => "The SIC Code entered does not exist or is not active.");
     }
 }

@@ -9,7 +9,7 @@ public record CustomerSearchResultDto
     public string Description { get; init; } = string.Empty;
 
     [Display(Name = "SIC Code")]
-    public string? SicCodeDisplay { get; init; }
+    public string? SicDisplay { get; init; }
 
     public string? County { get; init; }
     public bool IsDeleted { get; [UsedImplicitly] init; }

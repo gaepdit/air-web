@@ -42,5 +42,5 @@ public class AddModel(ICustomerService service, IValidator<CustomerCreateDto> va
         return RedirectToPage("Details", new { id });
     }
 
-    private void PopulateSelectLists() => SicSelectList = SicCodes.ActiveListItems.ToSelectList();
+    private void PopulateSelectLists() => SicSelectList = SicData.ActiveListItems.ToSelectList();
 }

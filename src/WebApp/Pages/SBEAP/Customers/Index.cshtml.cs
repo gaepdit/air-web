@@ -49,7 +49,7 @@ public class IndexModel(ICustomerService service, IAuthorizationService authoriz
     }
 
     private void PopulateSelectLists() =>
-        SicSelectList = SicCodes.ActiveListItems.ToSelectList();
+        SicSelectList = SicData.ActiveListItems.ToSelectList();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
         (await authorization.AuthorizeAsync(User, nameof(SbeapPolicies.SbeapAdmin))).Succeeded;

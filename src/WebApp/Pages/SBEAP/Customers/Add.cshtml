@@ -38,7 +38,7 @@
                     @Html.EditorFor(e => e.Item.Description, EditorTemplate.Textarea, additionalViewData: new { Rows = 3 })
                 </div>
                 <div class="col-lg-4 mb-3">
-                    @Html.EditorFor(e => e.Item.SicCodeId, EditorTemplate.SelectOptional, additionalViewData: new { Items = Model.SicSelectList })
+                    @Html.EditorFor(e => e.Item.SicCode, EditorTemplate.SelectOptional, additionalViewData: new { Items = Model.SicSelectList })
                 </div>
             </div>
         </div>
