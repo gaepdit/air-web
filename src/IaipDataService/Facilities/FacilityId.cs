@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace IaipDataService.Facilities;
 
-public partial record FacilityId : IComparable<FacilityId>
+public partial record FacilityId
 {
     private readonly string? _id;
 
@@ -43,7 +43,8 @@ public partial record FacilityId : IComparable<FacilityId>
     public static explicit operator FacilityId(string id) => new(id);
     public override string ToString() => FormattedId;
     public virtual bool Equals(FacilityId? other) => !string.IsNullOrEmpty(other?._id) && other._id == _id;
-    public int CompareTo(FacilityId? other) => string.Compare(_id, other?._id, StringComparison.Ordinal);
+
+    // `GetHashCode()` is required by `Equals()`
     public override int GetHashCode() => string.GetHashCode(_id, StringComparison.Ordinal);
 
     public static bool TryParse([NotNullWhen(true)] string? s, [NotNullWhen(true)] out FacilityId? result)
