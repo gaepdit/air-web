@@ -23,9 +23,16 @@ public class Contact : AuditableSoftDeleteEntity
     public ApplicationUser? EnteredBy { get; set; }
     public DateTimeOffset? EnteredOn { get; init; }
 
+    [StringLength(15)]
     public string? Honorific { get; set; }
+
+    [StringLength(250)]
     public string? GivenName { get; set; }
+
+    [StringLength(250)]
     public string? FamilyName { get; set; }
+
+    [StringLength(250)]
     public string? Title { get; set; }
 
     [EmailAddress]
@@ -33,7 +40,9 @@ public class Contact : AuditableSoftDeleteEntity
     [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
 
+    [StringLength(4000)]
     public string? Notes { get; set; }
+
     public Address Address { get; set; } = null!;
 
     // Collections

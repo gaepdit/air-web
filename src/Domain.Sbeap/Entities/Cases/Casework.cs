@@ -21,13 +21,20 @@ public class Casework : AuditableSoftDeleteEntity
 
     public Customer Customer { get; private init; } = null!;
 
+    [StringLength(7000)]
     public string Description { get; set; } = string.Empty;
+
     public DateOnly CaseOpenedDate { get; set; }
     public DateOnly? CaseClosedDate { get; set; }
     public bool IsClosed => CaseClosedDate is not null;
+
+    [StringLength(4000)]
     public string? CaseClosureNotes { get; set; }
+
     public Agency? ReferralAgency { get; set; }
     public DateOnly? ReferralDate { get; set; }
+
+    [StringLength(4000)]
     public string? ReferralNotes { get; set; }
 
     // Collections
@@ -36,5 +43,6 @@ public class Casework : AuditableSoftDeleteEntity
 
     // Properties: Deletion
 
+    [StringLength(4000)]
     public string? DeleteComments { get; set; }
 }

@@ -9,18 +9,23 @@ public record Address : ValueObject
 {
     // Properties
 
+    [StringLength(4000)]
     [Display(Name = "Street Address")]
     public string Street { get; [UsedImplicitly] init; } = string.Empty;
 
+    [StringLength(4000)]
     [Display(Name = "Apt / Suite / Other")]
     public string? Street2 { get; [UsedImplicitly] init; }
 
+    [StringLength(4000)]
     [Display(Name = "City")]
     public string City { get; [UsedImplicitly] init; } = string.Empty;
 
+    [StringLength(20)]
     [Display(Name = "State")]
     public string State { get; [UsedImplicitly] init; } = string.Empty;
 
+    [StringLength(10)]
     [DataType(DataType.PostalCode)]
     [Display(Name = "Postal Code")]
     public string PostalCode { get; [UsedImplicitly] init; } = string.Empty;

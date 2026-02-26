@@ -23,6 +23,7 @@ public class Customer : AuditableSoftDeleteEntity
     [StringLength(4000, MinimumLength = MinNameLength)]
     public string Name { get; set; } = string.Empty;
 
+    [StringLength(4000)]
     public string? Description { get; set; }
 
     [StringLength(4)]
@@ -30,9 +31,10 @@ public class Customer : AuditableSoftDeleteEntity
 
     public Sic? Sic => SicCode is null ? null : SicData.Find(SicCode);
 
+    [StringLength(13)]
     public string? County { get; set; }
 
-    [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
+    [StringLength(2000)] // https://stackoverflow.com/q/417142/212978
     public string? Website { get; set; }
 
     public Address Location { get; set; } = null!;
@@ -45,5 +47,6 @@ public class Customer : AuditableSoftDeleteEntity
 
     // Properties: Deletion
 
+    [StringLength(4000)]
     public string? DeleteComments { get; set; }
 }
