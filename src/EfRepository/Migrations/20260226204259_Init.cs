@@ -109,6 +109,7 @@ namespace AirWeb.EfRepository.Migrations
                     AccountUpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ProfileUpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     MostRecentLogin = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IaipUserId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -235,8 +236,9 @@ namespace AirWeb.EfRepository.Migrations
                     EnforcementDate = table.Column<DateOnly>(type: "date", nullable: true),
                     PollutantIds = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AirPrograms = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActionNumber = table.Column<short>(type: "smallint", nullable: true),
+                    ActionNumber = table.Column<int>(type: "int", nullable: true),
                     DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    DataExchangeStatusDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -281,13 +283,15 @@ namespace AirWeb.EfRepository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FacilityId = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    WorkEntryType = table.Column<string>(type: "nvarchar(29)", maxLength: 29, nullable: false),
+                    ComplianceWorkType = table.Column<string>(type: "nvarchar(29)", maxLength: 29, nullable: false),
                     ResponsibleStaffId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AcknowledgmentLetterDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
                     EventDate = table.Column<DateOnly>(type: "date", nullable: false),
                     IsComplianceEvent = table.Column<bool>(type: "bit", nullable: false),
+                    ActionNumber = table.Column<int>(type: "int", nullable: true),
                     DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    DataExchangeStatusDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ReceivedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     AccReportingYear = table.Column<int>(type: "int", nullable: true),
                     PostmarkDate = table.Column<DateOnly>(type: "date", nullable: true),
@@ -371,7 +375,9 @@ namespace AirWeb.EfRepository.Migrations
                     CompletedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     OnsiteInspection = table.Column<bool>(type: "bit", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
+                    ActionNumber = table.Column<int>(type: "int", nullable: true),
                     DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    DataExchangeStatusDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -403,6 +409,7 @@ namespace AirWeb.EfRepository.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CaseFileId = table.Column<int>(type: "int", nullable: false),
                     ActionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FacilityId = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrentReviewerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -412,20 +419,21 @@ namespace AirWeb.EfRepository.Migrations
                     IssueDate = table.Column<DateOnly>(type: "date", nullable: true),
                     CanceledDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsReportableAction = table.Column<bool>(type: "bit", nullable: false),
-                    ResponseRequested = table.Column<bool>(type: "bit", nullable: true),
-                    ResponseReceived = table.Column<DateOnly>(type: "date", nullable: true),
-                    ResponseComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
-                    ResolvedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    ActionNumber = table.Column<short>(type: "smallint", nullable: true),
                     DataExchangeStatus = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    DataExchangeStatusDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ExecutedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     AppealedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    ResolvedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    ActionNumber = table.Column<int>(type: "int", nullable: true),
                     ReceivedFromFacility = table.Column<DateOnly>(type: "date", nullable: true),
                     ReceivedFromDirectorsOffice = table.Column<DateOnly>(type: "date", nullable: true),
                     OrderId = table.Column<short>(type: "smallint", nullable: true),
                     PenaltyAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     PenaltyComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
                     StipulatedPenaltiesDefined = table.Column<bool>(type: "bit", nullable: true),
+                    ResponseRequested = table.Column<bool>(type: "bit", nullable: true),
+                    ResponseReceived = table.Column<DateOnly>(type: "date", nullable: true),
+                    ResponseComment = table.Column<string>(type: "nvarchar(max)", maxLength: 7000, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -494,10 +502,10 @@ namespace AirWeb.EfRepository.Migrations
                     WhoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     When = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     MoreInfo = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
                     CaseFileId = table.Column<int>(type: "int", nullable: true),
-                    FceId = table.Column<int>(type: "int", nullable: true),
-                    WorkEntryId = table.Column<int>(type: "int", nullable: true)
+                    ComplianceWorkId = table.Column<int>(type: "int", nullable: true),
+                    FceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -514,8 +522,8 @@ namespace AirWeb.EfRepository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuditPoints_ComplianceWork_WorkEntryId",
-                        column: x => x.WorkEntryId,
+                        name: "FK_AuditPoints_ComplianceWork_ComplianceWorkId",
+                        column: x => x.ComplianceWorkId,
                         principalTable: "ComplianceWork",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -538,9 +546,9 @@ namespace AirWeb.EfRepository.Migrations
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    WorkEntryId = table.Column<int>(type: "int", nullable: true),
-                    FceId = table.Column<int>(type: "int", nullable: true),
-                    CaseFileId = table.Column<int>(type: "int", nullable: true)
+                    CaseFileId = table.Column<int>(type: "int", nullable: true),
+                    ComplianceWorkId = table.Column<int>(type: "int", nullable: true),
+                    FceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -557,8 +565,8 @@ namespace AirWeb.EfRepository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_ComplianceWork_WorkEntryId",
-                        column: x => x.WorkEntryId,
+                        name: "FK_Comments_ComplianceWork_ComplianceWorkId",
+                        column: x => x.ComplianceWorkId,
                         principalTable: "ComplianceWork",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -692,6 +700,11 @@ namespace AirWeb.EfRepository.Migrations
                 column: "CaseFileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditPoints_ComplianceWorkId",
+                table: "AuditPoints",
+                column: "ComplianceWorkId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AuditPoints_FceId",
                 table: "AuditPoints",
                 column: "FceId");
@@ -700,11 +713,6 @@ namespace AirWeb.EfRepository.Migrations
                 name: "IX_AuditPoints_WhoId",
                 table: "AuditPoints",
                 column: "WhoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuditPoints_WorkEntryId",
-                table: "AuditPoints",
-                column: "WorkEntryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CaseFileComplianceEvents_ComplianceEventId",
@@ -720,6 +728,13 @@ namespace AirWeb.EfRepository.Migrations
                 name: "IX_CaseFiles_DeletedById",
                 table: "CaseFiles",
                 column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseFiles_FacilityId_ActionNumber",
+                table: "CaseFiles",
+                columns: new[] { "FacilityId", "ActionNumber" },
+                unique: true,
+                filter: "[ActionNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CaseFiles_ResponsibleStaffId",
@@ -742,14 +757,14 @@ namespace AirWeb.EfRepository.Migrations
                 column: "CommentById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_ComplianceWorkId",
+                table: "Comments",
+                column: "ComplianceWorkId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_FceId",
                 table: "Comments",
                 column: "FceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_WorkEntryId",
-                table: "Comments",
-                column: "WorkEntryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ComplianceWork_ClosedById",
@@ -760,6 +775,13 @@ namespace AirWeb.EfRepository.Migrations
                 name: "IX_ComplianceWork_DeletedById",
                 table: "ComplianceWork",
                 column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplianceWork_FacilityId_ActionNumber",
+                table: "ComplianceWork",
+                columns: new[] { "FacilityId", "ActionNumber" },
+                unique: true,
+                filter: "[ActionNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ComplianceWork_NotificationTypeId",
@@ -815,6 +837,13 @@ namespace AirWeb.EfRepository.Migrations
                 name: "IX_Fces_DeletedById",
                 table: "Fces",
                 column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fces_FacilityId_ActionNumber",
+                table: "Fces",
+                columns: new[] { "FacilityId", "ActionNumber" },
+                unique: true,
+                filter: "[ActionNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Fces_ReviewedById",
