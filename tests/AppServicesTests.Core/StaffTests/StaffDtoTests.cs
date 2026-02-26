@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 
-namespace AppServicesTests.Core.Staff;
+namespace AppServicesTests.Core.StaffTests;
 
 public class StaffDtoTests
 {
@@ -21,9 +21,9 @@ public class StaffDtoTests
         result.Email.Should().Be("def");
     }
 
-    private static StaffViewDto ValidStaffView => new()
+    private static StaffViewDto DefaultStaffView => new()
     {
-        Id = Guid.Empty.ToString(),
+        Id = Guid.NewGuid().ToString(),
         FamilyName = string.Empty,
         GivenName = string.Empty,
     };
@@ -33,7 +33,7 @@ public class StaffDtoTests
     [TestCase("", "def", "def")]
     public void DisplayName_ExpectedBehavior(string givenName, string familyName, string expected)
     {
-        var staffViewDto = ValidStaffView with { GivenName = givenName, FamilyName = familyName };
+        var staffViewDto = DefaultStaffView with { GivenName = givenName, FamilyName = familyName };
         staffViewDto.Name.Should().Be(expected);
     }
 
@@ -42,14 +42,14 @@ public class StaffDtoTests
     [TestCase("", "def", "def")]
     public void SortableFullName_ExpectedBehavior(string givenName, string familyName, string expected)
     {
-        var staffViewDto = ValidStaffView with { GivenName = givenName, FamilyName = familyName };
+        var staffViewDto = DefaultStaffView with { GivenName = givenName, FamilyName = familyName };
         staffViewDto.SortableFullName.Should().Be(expected);
     }
 
     [Test]
     public void AsUpdateDto_ExpectedBehavior()
     {
-        var staffViewDto = ValidStaffView with
+        var staffViewDto = DefaultStaffView with
         {
             Id = Guid.NewGuid().ToString(),
             Active = true,

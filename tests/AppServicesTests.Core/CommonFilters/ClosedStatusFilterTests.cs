@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Domain.Predicates;
-using static AppServicesTests.Core.CommonFilters.FilterTestsData;
+using static AppServicesTests.Core.CommonFilters.TestData;
 
 namespace AppServicesTests.Core.CommonFilters;
 

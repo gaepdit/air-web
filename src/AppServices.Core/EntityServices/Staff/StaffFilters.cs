@@ -4,7 +4,7 @@ using GaEpd.AppLibrary.Extensions;
 
 namespace AirWeb.AppServices.Core.EntityServices.Staff;
 
-public static class StaffFilters
+internal static class StaffFilters
 {
     public static IQueryable<ApplicationUser> ApplyFilter(
         this IQueryable<ApplicationUser> userQuery, StaffSearchDto spec) =>
