@@ -2,7 +2,7 @@ SET IDENTITY_INSERT AirWeb.dbo.CaseFiles ON;
 
 insert into AirWeb.dbo.CaseFiles
 (Id, FacilityId, ResponsibleStaffId, Notes, ViolationTypeCode, CaseFileStatus, DiscoveryDate, DayZero,
- EnforcementDate, PollutantIds, AirPrograms, ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
+ EnforcementDate, PollutantIds, AirPrograms, IsReportable, ActionNumber, DataExchangeStatus, DataExchangeStatusDate,
  UpdatedAt, UpdatedById, IsDeleted, IsClosed, ClosedDate)
 
 select e.STRENFORCEMENTNUMBER                                      as Id,
@@ -40,6 +40,7 @@ select e.STRENFORCEMENTNUMBER                                      as Id,
                              on lk_pr.LGCY_PROGRAM_CODE = left(trim(s.value), 1)) as lk),
               '[]')                                                as AirPrograms,
 
+       convert(bit, isnull(e.STRAFSKEYACTIONNUMBER, 0)) as IsReportable,
        convert(smallint, e.STRAFSKEYACTIONNUMBER)                  as ActionNumber,
        iif(e.STRAFSKEYACTIONNUMBER is null, 'N', e.ICIS_STATUSIND) as DataExchangeStatus,
        null                                                        as DataExchangeStatusDate,
