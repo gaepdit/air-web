@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <InformationalVersion>2026.2.10</InformationalVersion>
+        <InformationalVersion>2026.2.28</InformationalVersion>
         <RootNamespace>AirWeb.WebApp</RootNamespace>
         <AssemblyName>AirWeb.WebApp</AssemblyName>
     </PropertyGroup>

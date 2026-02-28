@@ -1,7 +1,7 @@
 ﻿# Changelog
 
-## [X.Y.Z] - YYYY-MM-DD
+## [2026.2.28] - 2026-02-28
 
-_Add a changelog using the [Common Changelog](https://common-changelog.org/) format._
+🚀 Initial application launch.
 
-[X.Y.Z]: https://github.com/gaepdit/air-web/releases/tag/vX.Y.Z
+[2026.2.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.2.28
