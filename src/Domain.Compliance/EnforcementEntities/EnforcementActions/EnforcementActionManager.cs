@@ -29,9 +29,7 @@ public class EnforcementActionManager(
             _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null),
         };
 
-        caseFile.EnforcementActions.Add(enforcementAction);
-        caseFile.UpdateDataExchange();
-        caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionAdded(actionType, user));
+        caseFileManager.AddEnforcementAction(caseFile, enforcementAction, user);
         return enforcementAction;
     }
 
@@ -59,15 +57,20 @@ public class EnforcementActionManager(
     {
         if (action is not DxEnforcementAction dx) return;
 
-        action.CaseFile.UpdateDataExchange();
+        // Update case file DX first (so its action number is smaller than the Enforcement Action's)
+        var caseFile = action.CaseFile;
+        if (caseFile.ActionNumber is null)
+            caseFile.InitializeDataExchange(await facilityService
+                .GetNextActionNumberAsync((FacilityId)action.FacilityId).ConfigureAwait(false));
+        else
+            caseFile.UpdateDataExchange();
 
+        // Update the Enforcement Action DX
         if (action.Status != EnforcementActionStatus.Issued)
             dx.DeleteDataExchange();
-
         else if (action is DxActionEnforcementAction { ActionNumber: null } dxa)
-            dxa.InitializeDataExchange(
-                await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId).ConfigureAwait(false));
-
+            dxa.InitializeDataExchange(await facilityService.GetNextActionNumberAsync((FacilityId)action.FacilityId)
+                .ConfigureAwait(false));
         else
             dx.UpdateDataExchange();
     }
@@ -90,8 +93,7 @@ public class EnforcementActionManager(
                 CaseFile.MissingData: false,
             })
         {
-            var caseFile = action.CaseFile;
-            caseFileManager.Close(caseFile, user);
+            caseFileManager.Close(action.CaseFile, user);
             return true;
         }
 
@@ -133,24 +135,30 @@ public class EnforcementActionManager(
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
     {
         action.Delete(comment: null, user);
-        if (action is DxActionEnforcementAction dx) dx.DeleteDataExchange();
-        caseFile.UpdateDataExchange();
         caseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionDeleted(action.ActionType, user));
+
+        if (action is not DxEnforcementAction dx) return;
+        dx.DeleteDataExchange();
+        if (caseFile.ActionNumber is not null) caseFile.UpdateDataExchange();
     }
 
     // Type-specific update methods
     public bool Resolve(EnforcementAction action, DateOnly resolvedDate, ApplicationUser? user,
         bool tryCloseCaseFile = false)
     {
-        if (action is not IResolvable resolvable || resolvable.IsResolved)
+        if (action is not IResolvable resolvable || resolvable.IsResolved || !action.IsIssued || action.IsDeleted)
             throw new InvalidOperationException("Enforcement Action is not resolvable.");
 
         action.SetUpdater(user?.Id);
-        if (action is DxActionEnforcementAction dx) dx.UpdateDataExchange();
-        action.CaseFile.UpdateDataExchange();
         resolvable.Resolve(resolvedDate);
 
-        if (!tryCloseCaseFile) return false;
+        if (action is DxActionEnforcementAction dx)
+        {
+            dx.UpdateDataExchange();
+            action.CaseFile.UpdateDataExchange();
+        }
+
+        if (!tryCloseCaseFile || action.CaseFile.MissingData) return false;
 
         caseFileManager.Close(action.CaseFile, user);
         return true;
