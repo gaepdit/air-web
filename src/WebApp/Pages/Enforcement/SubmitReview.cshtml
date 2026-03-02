@@ -40,7 +40,7 @@
 
         <div id="forwarded-select-container" class="mb-3 @(showForwardSelect ? "" : "d-none")">
             @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
-                    additionalViewData: new { Items = Model.StaffSelectList })
+                additionalViewData: new { Items = Model.StaffSelectList })
         </div>
 
         <div class="mb-3">
@@ -53,7 +53,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
+    <script asp-add-content-to-csp>
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('forwarded-select-container');
             const radios = document.querySelectorAll('input[name="ItemReview.Result"]');
