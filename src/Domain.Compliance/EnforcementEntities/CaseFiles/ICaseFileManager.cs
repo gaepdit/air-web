@@ -1,4 +1,5 @@
 ﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Core.Entities;
 
 namespace AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
@@ -13,6 +14,14 @@ public interface ICaseFileManager : IDisposable, IAsyncDisposable
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>The created Case File.</returns>
     Task<CaseFile> CreateAsync(FacilityId facilityId, ApplicationUser? user, CancellationToken token = default);
+
+    /// <summary>
+    /// Add an <see cref="EnforcementAction"/> to a <see cref="CaseFile"/> and update the Data Exchange properties.
+    /// </summary>
+    /// <param name="caseFile">The Case File to update.</param>
+    /// <param name="action">The Enforcement Action to add to the Case File.</param>
+    /// <param name="user">The user adding the Enforcement Action.</param>
+    Task AddEnforcementAction(CaseFile caseFile, EnforcementAction action, ApplicationUser? user);
 
     /// <summary>
     /// Updates the properties of a <see cref="CaseFile"/> to indicate that it was completed and closed.

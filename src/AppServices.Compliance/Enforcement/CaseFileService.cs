@@ -105,8 +105,10 @@ public sealed class CaseFileService(
     public async Task<CommandResult> UpdateAsync(int id, CaseFileUpdateDto resource,
         CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, [nameof(CaseFile.ViolationType)], token: token)
-            .ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id,
+        [
+            nameof(CaseFile.ViolationType), nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions),
+        ], token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         // Update the case file properties
