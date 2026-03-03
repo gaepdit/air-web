@@ -43,7 +43,7 @@ internal static class SecurityHeaders
         $"https://browser-intake-us3-datadoghq.com/api/v2/logs?" +
         $"dd-api-key={AppSettings.DataDogSettings.ClientToken}" +
         $"&dd-evp-origin=content-security-policy&ddsource=csp-report" +
-        $"&ddtags=service%3Aairweb.webapp%2Cenv%3A{AppSettings.ShortEnv}%2Cversion%3A{AppSettings.SimpleVersion}";
+        $"&ddtags=service%3Aair-web%2Cenv%3A{AppSettings.ShortEnv}%2Cversion%3A{AppSettings.SimpleVersion}";
 
     private static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
@@ -68,7 +68,7 @@ internal static class SecurityHeaders
         builder.AddBaseUri().None();
         builder.AddObjectSrc().None();
         builder.AddScriptSrc().Self()
-            .From("https://www.datadoghq-browser-agent.com/us3/v6/datadog-rum.js")
+            .From("https://www.datadoghq-browser-agent.com/us3/v6/")
             .From("https://cdn.raygun.io/raygun4js/raygun.min.js")
             .WithHashTagHelper()
             .WithNonce()
