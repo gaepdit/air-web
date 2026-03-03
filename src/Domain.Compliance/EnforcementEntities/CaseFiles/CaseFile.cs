@@ -154,6 +154,8 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     // or Cases where the only linked compliance event is an RMP inspection.
     public bool IsReportable
     {
+        // FUTURE: This is probably equivalent to `get => ActionNumber.HasValue;`
+        // which would allow `CaseFileService.UpdateAsync` to be simplified.  
         get => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
                EnforcementActions.Exists(action => action.IsReportable);
 
