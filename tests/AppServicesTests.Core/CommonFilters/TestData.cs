@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace AppServicesTests.Core.CommonFilters;
 
-internal static class FilterTestsData
+internal static class TestData
 {
     public record SearchEntity : IIsDeleted, IIsClosed, INotes
     {

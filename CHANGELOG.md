@@ -1,7 +1,12 @@
-﻿# Changelog
+# Changelog
 
-## [X.Y.Z] - YYYY-MM-DD
+## [2026.3.2] - 2026-03-02
 
-_Add a changelog using the [Common Changelog](https://common-changelog.org/) format._
+Grant new users the General Staff role
 
-[X.Y.Z]: https://github.com/gaepdit/air-web/releases/tag/vX.Y.Z
+## [2026.2.28] - 2026-02-28
+
+🚀 Initial application launch.
+
+[2026.2.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.2.28
+[2026.3.2]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.2

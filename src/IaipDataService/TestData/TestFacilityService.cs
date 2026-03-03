@@ -8,7 +8,8 @@ public sealed class TestFacilityService : IFacilityService
     internal IReadOnlyCollection<Facility> Items { get; } = FacilityData.GetData.ToList();
 
     private ReadOnlyDictionary<FacilityId, string> FacilityList =>
-        new(Items.ToDictionary(facility => facility.Id, facility => facility.Name));
+        new(Items.OrderBy(facility => facility.FacilityId)
+            .ToDictionary(facility => facility.Id, facility => facility.Name));
 
     public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
         FindFacility(id);

@@ -11,7 +11,7 @@ public class GetList
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
         // Arrange
-        var office = new Office(Guid.Empty, SampleText.ValidName);
+        var office = new Office(Guid.NewGuid(), SampleText.ValidName);
         var itemList = new List<Office> { office };
 
         var repoMock = Substitute.For<IOfficeRepository>();
