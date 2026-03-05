@@ -1,4 +1,3 @@
-using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Core.Data.DataAttributes;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -29,24 +28,18 @@ public class MaxDateTagHelper : TagHelper
             return;
 
         // Check if the property has the MaxDateAttribute
-        var maxDateAttribute = For.Metadata.ContainerType?
-            .GetProperty(For.Metadata.PropertyName ?? string.Empty)?
-            .GetCustomAttributes(typeof(MaxDateAttribute), inherit: true)
-            .FirstOrDefault() as MaxDateAttribute;
-
-        if (maxDateAttribute == null)
+        if (For.Metadata.ContainerType?
+                .GetProperty(For.Metadata.PropertyName ?? string.Empty)?
+                .GetCustomAttributes(typeof(MaxDateAttribute), inherit: true)
+                .FirstOrDefault() is not MaxDateAttribute maxDateAttribute)
             return;
 
         // Only set max if it's not already set (allow explicit overrides)
         if (output.Attributes.ContainsName("max"))
             return;
 
-        // Determine the max date value
-        var maxDateValue = maxDateAttribute.UseTodayAsMax
-            ? DateTime.Today.ToString(DateTimeFormats.HtmlInputDate)
-            : maxDateAttribute.MaxDate?.ToString(DateTimeFormats.HtmlInputDate);
-
-        if (maxDateValue != null)
-            output.Attributes.SetAttribute("max", maxDateValue);
+        // Set the max date value
+        if (maxDateAttribute.MaxDateValue != null)
+            output.Attributes.SetAttribute("max", maxDateAttribute.MaxDateValue);
     }
 }

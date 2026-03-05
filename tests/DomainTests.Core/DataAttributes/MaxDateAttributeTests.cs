@@ -11,8 +11,9 @@ public class MaxDateAttributeTests
         var attribute = new MaxDateAttribute();
 
         // Assert
-        attribute.UseTodayAsMax.Should().BeTrue();
-        attribute.MaxDate.Should().BeNull();
+        attribute.MaxDate.Should().Be(DateOnly.FromDateTime(DateTime.Now));
+        attribute.MaxDateValue.Should().Be(
+            DateOnly.FromDateTime(DateTime.Now).ToString(MaxDateAttribute.HtmlInputDate));
     }
 
     [Test]
@@ -27,8 +28,23 @@ public class MaxDateAttributeTests
         var attribute = new MaxDateAttribute(year, month, day);
 
         // Assert
-        attribute.UseTodayAsMax.Should().BeFalse();
         attribute.MaxDate.Should().Be(new DateOnly(year, month, day));
+        attribute.MaxDateValue.Should().Be(
+            new DateOnly(year, month, day).ToString(MaxDateAttribute.HtmlInputDate));
+    }
+
+    [Test]
+    public void Constructor_WithDayDelta_SetsMaxDate()
+    {
+        // Arrange
+        const int delta = 2;
+
+        // Act
+        var attribute = new MaxDateAttribute(delta);
+
+        // Assert
+        attribute.MaxDateValue.Should().Be(
+            DateOnly.FromDateTime(DateTime.Now).AddDays(delta).ToString(MaxDateAttribute.HtmlInputDate));
     }
 
     [Test]

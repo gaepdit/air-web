@@ -2,7 +2,6 @@ using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Core.Data.DataAttributes;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -18,6 +17,9 @@ public class MaxDateTagHelperTests
         [MaxDate(2025, 12, 31)]
         public DateOnly DateWithSpecificMax { get; set; }
 
+        [MaxDate(2)]
+        public DateOnly DateWithDayDelta { get; set; }
+
         public DateOnly DateWithoutMaxAttribute { get; set; }
     }
 
@@ -27,7 +29,7 @@ public class MaxDateTagHelperTests
         // Arrange
         var tagHelper = new MaxDateTagHelper
         {
-            For = CreateModelExpression(nameof(TestModel.DateWithMaxToday))
+            For = CreateModelExpression(nameof(TestModel.DateWithMaxToday)),
         };
 
         var context = CreateTagHelperContext();
@@ -47,7 +49,7 @@ public class MaxDateTagHelperTests
         // Arrange
         var tagHelper = new MaxDateTagHelper
         {
-            For = CreateModelExpression(nameof(TestModel.DateWithSpecificMax))
+            For = CreateModelExpression(nameof(TestModel.DateWithSpecificMax)),
         };
 
         var context = CreateTagHelperContext();
@@ -61,12 +63,32 @@ public class MaxDateTagHelperTests
     }
 
     [Test]
+    public void Process_WithMaxDateAttributeWithDayDelta_SetsMaxAttributeToCorrectDate()
+    {
+        // Arrange
+        var tagHelper = new MaxDateTagHelper
+        {
+            For = CreateModelExpression(nameof(TestModel.DateWithDayDelta)),
+        };
+
+        var context = CreateTagHelperContext();
+        var output = CreateTagHelperOutput("input");
+
+        // Act
+        tagHelper.Process(context, output);
+
+        // Assert
+        output.Attributes["max"].Value.Should()
+            .Be(DateOnly.FromDateTime(DateTime.Now).AddDays(2).ToString("yyyy-MM-dd"));
+    }
+
+    [Test]
     public void Process_WithoutMaxDateAttribute_DoesNotSetMaxAttribute()
     {
         // Arrange
         var tagHelper = new MaxDateTagHelper
         {
-            For = CreateModelExpression(nameof(TestModel.DateWithoutMaxAttribute))
+            For = CreateModelExpression(nameof(TestModel.DateWithoutMaxAttribute)),
         };
 
         var context = CreateTagHelperContext();
@@ -85,7 +107,7 @@ public class MaxDateTagHelperTests
         // Arrange
         var tagHelper = new MaxDateTagHelper
         {
-            For = CreateModelExpression(nameof(TestModel.DateWithMaxToday))
+            For = CreateModelExpression(nameof(TestModel.DateWithMaxToday)),
         };
 
         var context = CreateTagHelperContext();
@@ -108,7 +130,7 @@ public class MaxDateTagHelperTests
         var output = CreateTagHelperOutput("input");
 
         // Act
-        Action act = () => tagHelper.Process(context, output);
+        var act = () => tagHelper.Process(context, output);
 
         // Assert
         act.Should().NotThrow();
@@ -117,9 +139,8 @@ public class MaxDateTagHelperTests
 
     private static ModelExpression CreateModelExpression(string propertyName)
     {
-        var property = typeof(TestModel).GetProperty(propertyName)!;
         var metadata = new EmptyModelMetadataProvider().GetMetadataForProperty(typeof(TestModel), propertyName);
-        
+
         return new ModelExpression(propertyName, new ModelExplorer(
             new EmptyModelMetadataProvider(),
             metadata,
@@ -129,7 +150,7 @@ public class MaxDateTagHelperTests
     private static TagHelperContext CreateTagHelperContext()
     {
         return new TagHelperContext(
-            new TagHelperAttributeList(),
+            [],
             new Dictionary<object, object>(),
             Guid.NewGuid().ToString("N"));
     }
@@ -138,7 +159,7 @@ public class MaxDateTagHelperTests
     {
         return new TagHelperOutput(
             tagName,
-            new TagHelperAttributeList(),
+            [],
             (_, _) => Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
     }
 }
