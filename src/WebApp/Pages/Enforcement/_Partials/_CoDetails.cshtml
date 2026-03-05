@@ -31,7 +31,7 @@
     {
         @if (Model.IsExecuted && Model.ExecutedDate < GlobalConstants.ComplianceDataMigrationDate)
         {
-            <p>
+            <p class="text-info-emphasis fw-lighter">
                 Note: Dates listed for stipulated penalties received before
                 @Html.DisplayFor(_ => GlobalConstants.ComplianceDataMigrationDate, DisplayTemplate.ShortDateOnly)
                 are approximate.
