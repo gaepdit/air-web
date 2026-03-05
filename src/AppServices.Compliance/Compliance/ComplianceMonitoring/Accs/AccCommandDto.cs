@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Core.Utilities;
+using AirWeb.Domain.Core.Data.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 
@@ -8,6 +9,7 @@ public abstract record AccCommandDto : ComplianceWorkCommandDto, IAccCommandDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]
+    [MaxDate]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "ACC Reporting Year")]
@@ -16,6 +18,7 @@ public abstract record AccCommandDto : ComplianceWorkCommandDto, IAccCommandDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Postmarked")]
+    [MaxDate]
     public DateOnly PostmarkDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "Postmarked By Deadline")]

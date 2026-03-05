@@ -1,5 +1,4 @@
 ﻿@page "{id:int?}"
-@using AirWeb.AppServices.Core.Utilities
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model PermitRevocationEditModel
 @{
@@ -37,8 +36,7 @@
 
         <div class="row">
             <div class="col-md">
-                @Html.EditorFor(m => m.Item.PermitRevocationDate, EditorTemplate.InputDateOnly,
-                    additionalViewData: new { Max = DateTime.Today.AddYears(1).ToString(DateTimeFormats.HtmlInputDate) })
+                @Html.EditorFor(m => m.Item.PermitRevocationDate, EditorTemplate.InputDateOnly)
             </div>
             <div class="col-md mt-3 mt-md-0">
                 @Html.EditorFor(m => m.Item.PhysicalShutdownDate, EditorTemplate.InputDateOnlyNullable,

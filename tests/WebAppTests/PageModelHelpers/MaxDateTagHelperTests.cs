@@ -1,4 +1,3 @@
-using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Core.Data.DataAttributes;
 using AirWeb.WebApp.Platform.PageModelHelpers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -39,7 +38,7 @@ public class MaxDateTagHelperTests
         tagHelper.Process(context, output);
 
         // Assert
-        var expectedMax = DateTime.Today.ToString(DateTimeFormats.HtmlInputDate);
+        var expectedMax = DateTime.Today.ToString(MaxDateAttribute.HtmlInputDate);
         output.Attributes["max"].Value.Should().Be(expectedMax);
     }
 
@@ -79,7 +78,7 @@ public class MaxDateTagHelperTests
 
         // Assert
         output.Attributes["max"].Value.Should()
-            .Be(DateOnly.FromDateTime(DateTime.Now).AddDays(2).ToString("yyyy-MM-dd"));
+            .Be(DateOnly.FromDateTime(DateTime.Now).AddDays(2).ToString(MaxDateAttribute.HtmlInputDate));
     }
 
     [Test]
