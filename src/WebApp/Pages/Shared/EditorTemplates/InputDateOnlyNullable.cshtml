@@ -1,12 +1,8 @@
-﻿@using AirWeb.AppServices.Core.Utilities
-@using AirWeb.Domain.Compliance
+﻿@using AirWeb.Domain.Compliance
 @model DateOnly?
-@{
-    var min = (string?)ViewData["Min"] ?? ComplianceConstants.EarliestComplianceDateHtmlString;
-    var max = (string?)ViewData["Max"] ?? DateTime.Today.ToString(DateTimeFormats.HtmlInputDate);
-}
+
 <div class="form-floating">
-    <input asp-for="@__model" class="form-control" min="@min" max="@max" />
+    <input asp-for="@__model" class="form-control" min="@ComplianceConstants.EarliestComplianceDateHtmlString" />
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>

@@ -12,26 +12,31 @@ public record ConsentOrderCommandDto : CommentDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Signed Copy Received From Facility")]
+    [MaxDate]
     public DateOnly? ReceivedFromFacility { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Executed")]
+    [MaxDate]
     public DateOnly? ExecutedDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Received From Director's Office")]
+    [MaxDate]
     public DateOnly? ReceivedFromDirectorsOffice { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Issued")]
+    [MaxDate]
     public DateOnly? IssueDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Resolved")]
+    [MaxDate]
     public DateOnly? ResolvedDate { get; init; }
 
     [PositiveShort(ErrorMessage = "The Order ID must be a positive number.")]

@@ -1,5 +1,6 @@
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Core.Utilities;
+using AirWeb.Domain.Core.Data.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 
@@ -24,6 +25,7 @@ public record CaseFileUpdateDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Discovery Date")]
+    [MaxDate]
     public DateOnly DiscoveryDate { get; init; }
 
     [DataType(DataType.MultilineText)]

@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.Utilities;
+using AirWeb.Domain.Core.Data.DataAttributes;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
@@ -9,21 +10,25 @@ public record AdministrativeOrderCommandDto : CommentDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Executed")]
+    [MaxDate]
     public DateOnly? ExecutedDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Issued")]
+    [MaxDate]
     public DateOnly? IssueDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Appealed")]
+    [MaxDate]
     public DateOnly? AppealedDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Resolved")]
+    [MaxDate]
     public DateOnly? ResolvedDate { get; init; }
 }
 
