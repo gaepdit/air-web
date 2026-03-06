@@ -3,6 +3,7 @@ using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
+using AirWeb.AppServices.Core.Search;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
@@ -20,6 +21,7 @@ public class EnforcementIndexModel(
     public CaseFileSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
+    public bool UserCanViewOpenEnforcement { get; private set; }
     public IPaginatedResult<CaseFileSearchResultDto> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(Spec, SearchResults);
 
@@ -31,14 +33,19 @@ public class EnforcementIndexModel(
     public async Task OnGetAsync(CancellationToken token = default)
     {
         UserCanViewDeletedRecords = User.CanManageCaseFileDeletions();
+        UserCanViewOpenEnforcement = User.CanViewOpenEnforcement();
         await PopulateSelectListsAsync(token);
     }
 
     public async Task OnGetSearchAsync(CaseFileSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
         Spec = spec.TrimAll();
+
         UserCanViewDeletedRecords = User.CanManageCaseFileDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
+
+        UserCanViewOpenEnforcement = User.CanViewOpenEnforcement();
+        if (!UserCanViewOpenEnforcement) Spec = Spec with { Closed = ClosedOpenAny.Closed };
 
         await PopulateSelectListsAsync(token);
 
