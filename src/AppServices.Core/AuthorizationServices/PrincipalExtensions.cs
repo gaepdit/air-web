@@ -12,5 +12,6 @@ public static class PrincipalExtensions
         public bool IsStaff() => principal.IsInOneOfRoles(AppRole.StaffRoles);
         internal bool IsSiteMaintainer() => principal.IsInOneOfRoles(AppRole.SiteMaintenanceRoles);
         internal bool IsUserAdmin() => principal.IsInOneOfRoles(AppRole.UserAdminRoles);
+        public bool IsManager() => principal.IsInOneOfRoles(AppRole.ManagementRoles);
     }
 }

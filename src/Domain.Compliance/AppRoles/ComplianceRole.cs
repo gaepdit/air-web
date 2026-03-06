@@ -24,13 +24,13 @@ public static class ComplianceRole
         AppRole.RoleType.Staff, "Compliance Staff", "Can do compliance and enforcement staff work.");
 
     public static AppRole ComplianceManagerRole { get; } = new(ComplianceManager, Category,
-        AppRole.RoleType.Staff, "Compliance Manager", "Can manage compliance work.");
+        AppRole.RoleType.Management, "Compliance Manager", "Can manage compliance work.");
 
     public static AppRole EnforcementReviewerRole { get; } = new(EnforcementReviewer, Category,
         AppRole.RoleType.Staff, "Enforcement Reviewer", "Can review enforcement actions.");
 
     public static AppRole EnforcementManagerRole { get; } = new(EnforcementManager, Category,
-        AppRole.RoleType.Staff, "Enforcement Manager", "Can resolve enforcement cases.");
+        AppRole.RoleType.Management, "Enforcement Manager", "Can resolve enforcement cases.");
 
     public static AppRole ComplianceSiteMaintenanceRole { get; } = new(ComplianceSiteMaintenance, Category,
         AppRole.RoleType.SiteMaintenance, "Compliance Site Maintenance",

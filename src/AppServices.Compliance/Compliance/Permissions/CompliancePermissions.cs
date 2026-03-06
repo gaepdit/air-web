@@ -11,14 +11,11 @@ public static class CompliancePermissions
     extension(ClaimsPrincipal user)
     {
         // FUTURE: Move these common permissions elsewhere. --
-        public bool CanAddComment(IIsDeleted item) => !item.IsDeleted && user.IsComplianceStaff();
 
         public bool CanClose<T>(T item) where T : IIsClosed, IIsDeleted => !item.IsClosed && user.CanFinalize(item);
 
         public bool CanDelete(IIsDeleted item) => !item.IsDeleted && user.CanManageDeletions();
 
-        public bool CanDeleteComment<T>(T item) where T : IIsDeleted, IHasOwner =>
-            !item.IsDeleted && (user.CanManageDeletions() || user.IsOwner(item));
         // -- end common permissions
 
         public bool CanEdit<T>(T item) where T : IIsClosed, IIsDeleted =>
