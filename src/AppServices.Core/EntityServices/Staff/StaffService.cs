@@ -66,9 +66,9 @@ public sealed class StaffService(
 
     public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsync(params AppRole[] role)
     {
-        var userSets = role.Select(r => userManager.GetUsersInRoleAsync(r.Name));
-        var results = await Task.WhenAll(userSets).ConfigureAwait(false);
-        var users = results.Aggregate((current, union) => current.Union(union).ToList());
+        IList<IList<ApplicationUser>> userSets = [];
+        foreach (var appRole in role) userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name));
+        var users = userSets.Aggregate((current, union) => current.Union(union).ToList());
 
         return mapper
             .Map<IReadOnlyList<StaffViewDto>>(users)
