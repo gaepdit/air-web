@@ -73,5 +73,6 @@ public class SubmitReviewModel(
     }
 
     private async Task PopulateSelectListsAsync() => StaffSelectList =
-        (await staffService.GetUsersInRoleAsync(ComplianceRole.EnforcementReviewerRole)).ToSelectList();
+        (await staffService.GetUsersInRoleAsync(ComplianceRole.EnforcementReviewerRole,
+            ComplianceRole.EnforcementManagerRole)).ToSelectList();
 }
