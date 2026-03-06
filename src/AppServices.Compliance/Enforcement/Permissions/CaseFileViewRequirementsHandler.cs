@@ -1,4 +1,3 @@
-using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.Comments;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +27,7 @@ internal class CaseFileViewRequirementsHandler :
             nameof(CaseFileOperation.RestoreCaseFile) => user.CanRestoreCaseFile(resource),
             nameof(CaseFileOperation.View) => user.CanViewCaseFile(resource),
             nameof(CaseFileOperation.ViewDeleted) => user.CanManageCaseFileDeletions(),
-            nameof(CaseFileOperation.ViewDraftEnforcement) => user.CanViewDraftEnforcement(resource),
+            nameof(CaseFileOperation.ViewOpenEnforcement) => user.CanViewOpenEnforcement(),
             _ => false,
         };
 

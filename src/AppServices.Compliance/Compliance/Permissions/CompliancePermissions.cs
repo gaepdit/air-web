@@ -1,6 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.DtoInterfaces;
-using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.Domain.Core.BaseEntities;
 using System.Security.Claims;
 
@@ -30,12 +28,5 @@ public static class CompliancePermissions
         public bool CanReopen<T>(T item) where T : IIsClosed, IIsDeleted => item.IsClosed && user.CanFinalize(item);
 
         public bool CanRestore(IIsDeleted item) => item.IsDeleted && user.CanManageDeletions();
-
-        // FUTURE: Reevaluate the following
-        public bool CanView<T>(T item) where T : IIsClosed, IIsDeleted => user.CanManageDeletions() ||
-                                                                          !item.IsDeleted && user.IsComplianceStaff() ||
-                                                                          item.IsClosed && user.IsStaff();
-
-        public bool CanViewDraftEnforcement<T>(T item) where T : IIsClosed, IIsDeleted => user.IsComplianceStaff();
     }
 }
