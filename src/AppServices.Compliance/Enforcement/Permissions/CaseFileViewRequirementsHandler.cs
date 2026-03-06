@@ -27,7 +27,6 @@ internal class CaseFileViewRequirementsHandler :
             nameof(CaseFileOperation.RestoreCaseFile) => user.CanRestoreCaseFile(resource),
             nameof(CaseFileOperation.View) => user.CanViewCaseFile(resource),
             nameof(CaseFileOperation.ViewDeleted) => user.CanManageCaseFileDeletions(),
-            nameof(CaseFileOperation.ViewOpenEnforcement) => user.CanViewOpenEnforcement(),
             _ => false,
         };
 
