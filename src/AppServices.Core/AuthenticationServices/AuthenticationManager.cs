@@ -98,7 +98,7 @@ public sealed class AuthenticationManager(
 
         foreach (var pair in AppRole.AllRoles)
             await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
-        foreach (var role in testUserRoles)
+        foreach (var role in testUserRoles.Where(role => !string.IsNullOrWhiteSpace(role)))
             await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
 
         await signInManager.SignInWithClaimsAsync(user, isPersistent: false,

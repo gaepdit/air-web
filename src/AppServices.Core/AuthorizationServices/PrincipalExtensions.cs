@@ -8,9 +8,9 @@ public static class PrincipalExtensions
     extension(IPrincipal principal)
     {
         public bool IsInOneOfRoles(params IEnumerable<string> roles) => roles.Any(principal.IsInRole);
-
         public bool IsStaff() => principal.IsInOneOfRoles(AppRole.StaffRoles);
         internal bool IsSiteMaintainer() => principal.IsInOneOfRoles(AppRole.SiteMaintenanceRoles);
         internal bool IsUserAdmin() => principal.IsInOneOfRoles(AppRole.UserAdminRoles);
+        public bool IsManager() => principal.IsInOneOfRoles(AppRole.ManagementRoles);
     }
 }

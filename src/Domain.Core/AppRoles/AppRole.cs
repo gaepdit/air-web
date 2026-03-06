@@ -38,17 +38,20 @@ public record AppRole(
         SiteMaintenance,
         Staff,
         UserAdmin,
+        Management,
     }
 
     public static HashSet<string> SiteMaintenanceRoles { get; } = [];
     public static HashSet<string> StaffRoles { get; } = [];
     public static HashSet<string> UserAdminRoles { get; } = [];
+    public static HashSet<string> ManagementRoles { get; } = [];
 
     public static Dictionary<RoleType, HashSet<string>> SpecializedRoles { get; } = new()
     {
         [RoleType.SiteMaintenance] = SiteMaintenanceRoles,
         [RoleType.Staff] = StaffRoles,
         [RoleType.UserAdmin] = UserAdminRoles,
+        [RoleType.Management] = ManagementRoles,
     };
 
     /// <summary>
