@@ -23,7 +23,7 @@ public static class CompliancePermissions
 
         public bool CanFinalize(IIsDeleted item) => !item.IsDeleted && user.IsComplianceStaff();
 
-        public bool CanManageDeletions() => user.IsComplianceManager();
+        public bool CanManageDeletions() => user.IsComplianceStaff();
 
         public bool CanReopen<T>(T item) where T : IIsClosed, IIsDeleted => item.IsClosed && user.CanFinalize(item);
 
