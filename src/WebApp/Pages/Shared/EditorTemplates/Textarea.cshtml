@@ -1,10 +1,18 @@
 ﻿@model string
 @{
-    var rows = (int?)ViewData["Rows"] ?? 2;
+	var rows = (int?)ViewData["Rows"] ?? 2;
+	var label = ViewData["Label"] as string;
 }
 
 <div class="form-floating">
     <textarea asp-for="@__model" class="form-control" rows="@rows.ToString()"></textarea>
-    <label asp-for="@__model" class="form-label"></label>
+	@if (label != null)
+	{
+		<label class="form-label">@label</label>
+	}
+	else
+	{
+		<label asp-for="@__model" class="form-label"></label>
+	}
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>
