@@ -168,15 +168,15 @@ public class AutoMapperProfile : Profile
 
         CreateMap<AdministrativeOrder, AoViewDto>();
         CreateMap<AoViewDto, AdministrativeOrderCommandDto>()
-            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
         CreateMap<AdministrativeOrderCommandDto, AdministrativeOrder>(MemberList.Source)
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Comment));
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
 
         CreateMap<ConsentOrder, CoViewDto>();
         CreateMap<CoViewDto, ConsentOrderCommandDto>()
-            .ForMember(dto => dto.Comment, expression => expression.MapFrom(dto => dto.Notes));
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
         CreateMap<ConsentOrderCommandDto, ConsentOrder>(MemberList.Source)
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Comment));
+            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
 
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, LonViewDto>();

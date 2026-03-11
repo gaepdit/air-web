@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Compliance.AppNotifications;
+﻿using AirWeb.AppServices.Compliance.AppNotifications;
 using AirWeb.AppServices.Compliance.Comments;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
@@ -192,7 +192,7 @@ public sealed partial class ComplianceWorkService(
         var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        manager.Delete(work, resource.Comment, currentUser);
+        manager.Delete(work, resource.Notes, currentUser);
         await repository.UpdateAsync(work, autoSave: false, token: token).ConfigureAwait(false);
 
         if (work is ComplianceEvent ce)

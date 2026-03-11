@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Compliance.AppNotifications;
+﻿using AirWeb.AppServices.Compliance.AppNotifications;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Core.AppNotifications;
@@ -35,7 +35,7 @@ public sealed class EnforcementActionService(
         var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
         var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
 
-        enforcementAction.Notes = resource.Comment;
+        enforcementAction.Notes = resource.Notes;
         if (enforcementAction is IResponseRequested responseRequestedAction)
             responseRequestedAction.ResponseRequested = resource.ResponseRequested;
 
@@ -125,7 +125,7 @@ public sealed class EnforcementActionService(
     {
         var entity = await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
-        entity.Notes = resource.Comment;
+        entity.Notes = resource.Notes;
         entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
@@ -298,7 +298,7 @@ public sealed class EnforcementActionService(
             ? null
             : await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false);
 
-        actionManager.SubmitReview(action, resource.Result!.Value, resource.Comment, currentUser!, nextReviewer);
+        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, currentUser!, nextReviewer);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewCompleted,

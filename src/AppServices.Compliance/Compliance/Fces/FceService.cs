@@ -155,7 +155,7 @@ public sealed class FceService(
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        fceManager.Delete(fce, resource.Comment, currentUser);
+        fceManager.Delete(fce, resource.Notes, currentUser);
         await fceRepository.UpdateAsync(fce, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

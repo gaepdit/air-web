@@ -228,7 +228,7 @@ public sealed class CaseFileService(
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.Delete(caseFile, resource.Comment, currentUser);
+        caseFileManager.Delete(caseFile, resource.Notes, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
