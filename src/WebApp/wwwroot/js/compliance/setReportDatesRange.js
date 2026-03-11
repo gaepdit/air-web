@@ -63,18 +63,20 @@
             reportingPeriodEnd.value = FormatDate(endDate);
             reportingPeriodStart.classList.remove('flashOutline');
             reportingPeriodEnd.classList.remove('flashOutline');
-            reportingPeriodStart.offsetWidth;
-            reportingPeriodEnd.offsetWidth;
+            // `offsetWidth` is only referenced here to trigger a layout reflow, so that adding back the class restarts the CSS animation.
+            // See: https://css-tricks.com/restart-css-animation/#aa-update-another-javascript-method-to-restart-a-css-animation
+            reportingPeriodStart.offsetWidth; //NOSONAR triggers reflow
+            reportingPeriodEnd.offsetWidth; //NOSONAR triggers reflow
             reportingPeriodStart.classList.add('flashOutline');
             reportingPeriodEnd.classList.add('flashOutline');
         }
     });
-
-    function FormatDate(date) {
-        return [
-            date.getFullYear(),
-            String(date.getMonth() + 1).padStart(2, '0'),
-            String(date.getDate()).padStart(2, '0'),
-        ].join('-');
-    }
 });
+
+function FormatDate(date) {
+    return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, '0'),
+        String(date.getDate()).padStart(2, '0'),
+    ].join('-');
+}
