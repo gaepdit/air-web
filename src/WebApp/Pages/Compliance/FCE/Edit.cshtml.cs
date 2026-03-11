@@ -61,5 +61,6 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
 
     // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole)).ToSelectList();
 }

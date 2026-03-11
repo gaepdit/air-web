@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Core.Data.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
 
@@ -9,6 +10,7 @@ public abstract record ReportCommandDto : ComplianceWorkCommandDto, IReportComma
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Received")]
+    [MaxDate]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "Type")]
@@ -17,11 +19,13 @@ public abstract record ReportCommandDto : ComplianceWorkCommandDto, IReportComma
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Start")]
+    [MaxDate]
     public DateOnly ReportingPeriodStart { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "End")]
+    [MaxDate]
     public DateOnly ReportingPeriodEnd { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "Reporting Period Comment")]
@@ -30,11 +34,13 @@ public abstract record ReportCommandDto : ComplianceWorkCommandDto, IReportComma
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Report Due Date")]
+    [MaxDate(365)]
     public DateOnly? DueDate { get; init; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Date Sent By Facility")]
+    [MaxDate]
     public DateOnly? SentDate { get; init; }
 
     [Display(Name = "Report Is Complete")]

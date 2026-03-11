@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260216211830_UpdateNamespaces")]
-    partial class UpdateNamespaces
+    [Migration("20260227144844_AddCaseFileIsReportableColumn")]
+    partial class AddCaseFileIsReportableColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -254,6 +254,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Notes")

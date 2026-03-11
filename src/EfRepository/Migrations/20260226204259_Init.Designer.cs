@@ -12,94 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260114220152_RenameComplianceWork")]
-    partial class RenameComplianceWork
+    [Migration("20260226204259_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.AuditPoint", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("nvarchar(34)");
-
-                    b.Property<string>("MoreInfo")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("What")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTimeOffset>("When")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("WhoId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WhoId");
-
-                    b.ToTable("AuditPoints", (string)null);
-
-                    b.HasDiscriminator().HasValue("AuditPoint");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.Comments.Comment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CommentById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTimeOffset>("CommentedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DeletedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("DeletedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(15000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentById");
-
-                    b.ToTable("Comments", (string)null);
-
-                    b.HasDiscriminator().HasValue("Comment");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,7 +108,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.Fces.Fce", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,48 +186,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("Fces");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EmailLog.EmailLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CopyRecipients")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("HtmlBody")
-                        .HasMaxLength(20000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Recipients")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("Sender")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("TextBody")
-                        .HasMaxLength(15000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmailLogs");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -408,7 +293,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("CaseFiles");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -464,7 +349,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("EnforcementActionReviews");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties.StipulatedPenalty", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.StipulatedPenalty", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -511,7 +396,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("StipulatedPenalties");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -600,7 +485,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.ViolationTypes.ViolationType", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes.ViolationType", b =>
                 {
                     b.Property<string>("Code")
                         .HasMaxLength(5)
@@ -624,7 +509,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("ViolationTypes");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -722,6 +607,121 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.AuditPoint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(34)
+                        .HasColumnType("nvarchar(34)");
+
+                    b.Property<string>("MoreInfo")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("What")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset>("When")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("WhoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WhoId");
+
+                    b.ToTable("AuditPoints", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AuditPoint");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommentById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("CommentedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(15000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentById");
+
+                    b.ToTable("Comments", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Comment");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.EmailLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CopyRecipients")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("HtmlBody")
+                        .HasMaxLength(20000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Recipients")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("TextBody")
+                        .HasMaxLength(15000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailLogs");
+                });
+
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
                     b.Property<int>("CaseFilesId")
@@ -773,7 +773,7 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.ToTable("Lookups", (string)null);
 
-                    b.HasDiscriminator().HasValue("StandardNamedEntity");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("StandardNamedEntity");
 
                     b.UseTphMappingStrategy();
                 });
@@ -911,81 +911,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.CaseFileAuditPoint", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.AuditPoints.AuditPoint");
-
-                    b.Property<int>("CaseFileId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CaseFileId");
-
-                    b.HasDiscriminator().HasValue("CaseFileAuditPoint");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.ComplianceWorkAuditPoint", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.AuditPoints.AuditPoint");
-
-                    b.Property<int>("ComplianceWorkId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ComplianceWorkId");
-
-                    b.HasDiscriminator().HasValue("ComplianceWorkAuditPoint");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.FceAuditPoint", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.AuditPoints.AuditPoint");
-
-                    b.Property<int>("FceId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("FceId");
-
-                    b.HasDiscriminator().HasValue("FceAuditPoint");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWorkComment", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.Comments.Comment");
-
-                    b.Property<int>("ComplianceWorkId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ComplianceWorkId");
-
-                    b.HasDiscriminator().HasValue("ComplianceWorkComment");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.FceComment", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.Comments.Comment");
-
-                    b.Property<int>("FceId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("FceId");
-
-                    b.HasDiscriminator().HasValue("FceComment");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFileComment", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.Comments.Comment");
-
-                    b.Property<int>("CaseFileId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CaseFileId");
-
-                    b.HasDiscriminator().HasValue("CaseFileComment");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
 
                     b.Property<int?>("ActionNumber")
                         .HasColumnType("int");
@@ -1003,9 +931,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasFilter("[ActionNumber] IS NOT NULL");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.Notification", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.Notification", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1035,9 +963,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Notification");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.PermitRevocation", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.PermitRevocation", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork");
 
                     b.Property<bool>("FollowupTaken")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1058,9 +986,22 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("PermitRevocation");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.InformationalLetter", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction");
+
+                    b.Property<string>("DataExchangeStatus")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<DateTimeOffset?>("DataExchangeStatusDate")
+                        .HasColumnType("datetimeoffset");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.InformationalLetter", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction");
 
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1081,9 +1022,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("InformationalLetter");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.LetterOfNoncompliance", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.LetterOfNoncompliance", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction");
 
                     b.Property<DateOnly?>("ResolvedDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1109,46 +1050,95 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("LetterOfNoncompliance");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NoFurtherActionLetter", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.CaseFileAuditPoint", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.AuditPoint");
 
-                    b.HasDiscriminator().HasValue("NoFurtherActionLetter");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction", b =>
-                {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction");
-
-                    b.Property<int?>("ActionNumber")
+                    b.Property<int>("CaseFileId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DataExchangeStatus")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                    b.HasIndex("CaseFileId");
 
-                    b.Property<DateTimeOffset?>("DataExchangeStatusDate")
-                        .HasColumnType("datetimeoffset");
+                    b.HasDiscriminator().HasValue("CaseFileAuditPoint");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.Lookups.NotificationTypes.NotificationType", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.ComplianceWorkAuditPoint", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.AuditPoint");
+
+                    b.Property<int>("ComplianceWorkId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("ComplianceWorkId");
+
+                    b.HasDiscriminator().HasValue("ComplianceWorkAuditPoint");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.FceAuditPoint", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.AuditPoint");
+
+                    b.Property<int>("FceId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("FceId");
+
+                    b.HasDiscriminator().HasValue("FceAuditPoint");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.CaseFileComment", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.Comment");
+
+                    b.Property<int>("CaseFileId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CaseFileId");
+
+                    b.HasDiscriminator().HasValue("CaseFileComment");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.ComplianceWorkComment", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.Comment");
+
+                    b.Property<int>("ComplianceWorkId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("ComplianceWorkId");
+
+                    b.HasDiscriminator().HasValue("ComplianceWorkComment");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.FceComment", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Core.Entities.Comment");
+
+                    b.Property<int>("FceId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("FceId");
+
+                    b.HasDiscriminator().HasValue("FceComment");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.NotificationType", b =>
                 {
                     b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
 
                     b.HasDiscriminator().HasValue("NotificationType");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.Lookups.Offices.Office", b =>
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.Office", b =>
                 {
                     b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
 
                     b.HasDiscriminator().HasValue("Office");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.AnnualComplianceCertification", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.AnnualComplianceCertification", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
 
                     b.Property<int?>("AccReportingYear")
                         .HasColumnType("int");
@@ -1198,9 +1188,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("AnnualComplianceCertification");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.BaseInspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.BaseInspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
 
                     b.Property<bool>("DeviationsNoted")
                         .HasColumnType("bit")
@@ -1239,9 +1229,9 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnName("WeatherConditions");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.Report", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.Report", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1289,9 +1279,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Report");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.SourceTestReview", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.SourceTestReview", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
 
                     b.Property<DateOnly?>("DueDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1312,9 +1302,13 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("SourceTestReview");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.AdministrativeOrder", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.AdministrativeOrder", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.Property<int?>("ActionNumber")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int");
 
                     b.Property<DateOnly?>("AppealedDate")
                         .HasColumnType("date");
@@ -1332,9 +1326,13 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("AdministrativeOrder");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.Property<int?>("ActionNumber")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int");
 
                     b.Property<DateOnly?>("ExecutedDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1369,9 +1367,20 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("ConsentOrder");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NoticeOfViolation", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.NoFurtherActionLetter", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.HasDiscriminator().HasValue("NoFurtherActionLetter");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.NoticeOfViolation", b =>
+                {
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.Property<int?>("ActionNumber")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int");
 
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1392,9 +1401,13 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("NoticeOfViolation");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.NovNfaLetter", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.NovNfaLetter", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.Property<int?>("ActionNumber")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int");
 
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1415,9 +1428,13 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("NovNfaLetter");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ProposedConsentOrder", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ProposedConsentOrder", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.EnforcementEntities.EnforcementActions.ReportableEnforcementAction");
+                    b.HasBaseType("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.DxEnforcementAction");
+
+                    b.Property<int?>("ActionNumber")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int");
 
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1438,49 +1455,31 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("ProposedConsentOrder");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.Inspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.Inspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.BaseInspection");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.BaseInspection");
 
                     b.HasDiscriminator().HasValue("Inspection");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.RmpInspection", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.RmpInspection", b =>
                 {
-                    b.HasBaseType("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.BaseInspection");
+                    b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.BaseInspection");
 
                     b.HasDiscriminator().HasValue("RmpInspection");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.AuditPoint", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "Who")
-                        .WithMany()
-                        .HasForeignKey("WhoId");
-
-                    b.Navigation("Who");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.Comments.Comment", b =>
-                {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "CommentBy")
-                        .WithMany()
-                        .HasForeignKey("CommentById");
-
-                    b.Navigation("CommentBy");
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
-                {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ClosedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ClosedBy")
                         .WithMany()
                         .HasForeignKey("ClosedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "DeletedBy")
                         .WithMany()
                         .HasForeignKey("DeletedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ResponsibleStaff")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ResponsibleStaff")
                         .WithMany()
                         .HasForeignKey("ResponsibleStaffId");
 
@@ -1491,13 +1490,13 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("ResponsibleStaff");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.Fces.Fce", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "DeletedBy")
                         .WithMany()
                         .HasForeignKey("DeletedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ReviewedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ReviewedBy")
                         .WithMany()
                         .HasForeignKey("ReviewedById");
 
@@ -1506,21 +1505,21 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("ReviewedBy");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ClosedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ClosedBy")
                         .WithMany()
                         .HasForeignKey("ClosedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "DeletedBy")
                         .WithMany()
                         .HasForeignKey("DeletedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ResponsibleStaff")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ResponsibleStaff")
                         .WithMany()
                         .HasForeignKey("ResponsibleStaffId");
 
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.ViolationTypes.ViolationType", "ViolationType")
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes.ViolationType", "ViolationType")
                         .WithMany()
                         .HasForeignKey("ViolationTypeCode");
 
@@ -1533,23 +1532,23 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("ViolationType");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
                 {
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction", "EnforcementAction")
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", "EnforcementAction")
                         .WithMany("Reviews")
                         .HasForeignKey("EnforcementActionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "RequestedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "RequestedBy")
                         .WithMany()
                         .HasForeignKey("RequestedById");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "RequestedOf")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "RequestedOf")
                         .WithMany()
                         .HasForeignKey("RequestedOfId");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ReviewedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ReviewedBy")
                         .WithMany()
                         .HasForeignKey("ReviewedById");
 
@@ -1562,9 +1561,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("ReviewedBy");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ActionProperties.StipulatedPenalty", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.StipulatedPenalty", b =>
                 {
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.EnforcementActions.ConsentOrder", "ConsentOrder")
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ConsentOrder", "ConsentOrder")
                         .WithMany("StipulatedPenalties")
                         .HasForeignKey("ConsentOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1573,23 +1572,23 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("ConsentOrder");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "ApprovedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "ApprovedBy")
                         .WithMany()
                         .HasForeignKey("ApprovedById");
 
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", "CaseFile")
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", "CaseFile")
                         .WithMany("EnforcementActions")
                         .HasForeignKey("CaseFileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "CurrentReviewer")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "CurrentReviewer")
                         .WithMany()
                         .HasForeignKey("CurrentReviewerId");
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", "DeletedBy")
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "DeletedBy")
                         .WithMany()
                         .HasForeignKey("DeletedById");
 
@@ -1602,24 +1601,42 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("DeletedBy");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Lookups.Offices.Office", "Office")
+                    b.HasOne("AirWeb.Domain.Core.Entities.Office", "Office")
                         .WithMany()
                         .HasForeignKey("OfficeId");
 
                     b.Navigation("Office");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.AuditPoint", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "Who")
+                        .WithMany()
+                        .HasForeignKey("WhoId");
+
+                    b.Navigation("Who");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Core.Entities.Comment", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "CommentBy")
+                        .WithMany()
+                        .HasForeignKey("CommentById");
+
+                    b.Navigation("CommentBy");
+                });
+
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", null)
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", null)
                         .WithMany()
                         .HasForeignKey("CaseFilesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceEvent", null)
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent", null)
                         .WithMany()
                         .HasForeignKey("ComplianceEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1637,7 +1654,7 @@ namespace AirWeb.EfRepository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1646,7 +1663,7 @@ namespace AirWeb.EfRepository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1661,7 +1678,7 @@ namespace AirWeb.EfRepository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1670,70 +1687,16 @@ namespace AirWeb.EfRepository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("AirWeb.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.CaseFileAuditPoint", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.Notification", b =>
                 {
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", null)
-                        .WithMany("AuditPoints")
-                        .HasForeignKey("CaseFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.ComplianceWorkAuditPoint", b =>
-                {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork", null)
-                        .WithMany("AuditPoints")
-                        .HasForeignKey("ComplianceWorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.AuditPoints.FceAuditPoint", b =>
-                {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.Fces.Fce", null)
-                        .WithMany("AuditPoints")
-                        .HasForeignKey("FceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWorkComment", b =>
-                {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("ComplianceWorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.FceComment", b =>
-                {
-                    b.HasOne("AirWeb.Domain.ComplianceEntities.Fces.Fce", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("FceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFileComment", b =>
-                {
-                    b.HasOne("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("CaseFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.Notification", b =>
-                {
-                    b.HasOne("AirWeb.Domain.Lookups.NotificationTypes.NotificationType", "NotificationType")
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.NotificationType", "NotificationType")
                         .WithMany()
                         .HasForeignKey("NotificationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1742,21 +1705,75 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("NotificationType");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.CaseFileAuditPoint", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", null)
+                        .WithMany("AuditPoints")
+                        .HasForeignKey("CaseFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.ComplianceWorkAuditPoint", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork", null)
+                        .WithMany("AuditPoints")
+                        .HasForeignKey("ComplianceWorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.AuditPoints.FceAuditPoint", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.Fces.Fce", null)
+                        .WithMany("AuditPoints")
+                        .HasForeignKey("FceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.CaseFileComment", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("CaseFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.ComplianceWorkComment", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ComplianceWorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.Comments.FceComment", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Compliance.ComplianceEntities.Fces.Fce", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("FceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceWork", b =>
                 {
                     b.Navigation("AuditPoints");
 
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.ComplianceEntities.Fces.Fce", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.Fces.Fce", b =>
                 {
                     b.Navigation("AuditPoints");
 
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.CaseFiles.CaseFile", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", b =>
                 {
                     b.Navigation("AuditPoints");
 
@@ -1765,12 +1782,12 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("EnforcementActions");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
                 {
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("AirWeb.Domain.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
+            modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
                 {
                     b.Navigation("StipulatedPenalties");
                 });

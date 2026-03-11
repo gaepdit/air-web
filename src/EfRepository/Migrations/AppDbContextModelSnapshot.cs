@@ -253,6 +253,9 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsReportable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Notes")
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");

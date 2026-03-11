@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7
         with:
           global-json-file: global.json
 
@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           path: _artifacts/bin/**/debug/TestResults/TestResults.xml
 
@@ -50,11 +50,11 @@ jobs:
 
     steps:
       - name: Download test result artifacts
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
         with:
           path: test-results # destination folder
 
       - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@27d65e188ec43221b20d26de30f4892fad91df2f
+        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040
         with:
           files: test-results/**/TestResults.xml

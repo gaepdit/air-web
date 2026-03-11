@@ -1,5 +1,6 @@
 ﻿@page "{id:Guid?}"
 @using AirWeb.AppServices.Core.Utilities
+@using AirWeb.Domain.Core.Data.DataAttributes
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model StipulatedPenaltiesEditModel
@@ -74,8 +75,8 @@
             <div class="col-sm mb-3">
                 <label asp-for="NewPenalty.ReceivedDate" class="form-label"></label>
                 <input asp-for="NewPenalty.ReceivedDate" class="form-control"
-                       min="@Model.ConsentOrder.ExecutedDate.ToString(DateTimeFormats.HtmlInputDate)"
-                       max="@DateTime.Today.ToString(DateTimeFormats.HtmlInputDate)" />
+                       min="@Model.ConsentOrder.ExecutedDate.ToString(MaxDateAttribute.HtmlInputDate)"
+                       max="@DateTime.Today.ToString(MaxDateAttribute.HtmlInputDate)" />
                 <span asp-validation-for="NewPenalty.ReceivedDate" class="invalid-feedback"></span>
             </div>
             <div class="col-sm mb-3">

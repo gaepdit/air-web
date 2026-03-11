@@ -79,14 +79,38 @@ public class FceRequirementsHandlerTests
     }
 
     [Test]
-    public async Task NotComplianceManager_CannotDelete()
+    public async Task ComplianceStaff_CanDelete()
     {
         // Arrange
         var requirements = new[] { ComplianceOperation.Delete };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
+            authenticationType: "Basic"));
+
+        var resource = new FceViewDto();
+        var context = new AuthorizationHandlerContext(requirements, user, resource);
+        var handler = new FceRequirementsHandler(Substitute.For<IFceService>());
+
+        // Act
+        await handler.HandleAsync(context);
+
+        // Assert
+        context.HasSucceeded.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task NotComplianceManagerOrStaff_CannotDelete()
+    {
+        // Arrange
+        var requirements = new[] { ComplianceOperation.Delete };
+
+        // The value for the `authenticationType` parameter causes
+        // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceSiteMaintenance)],
             authenticationType: "Basic"));
 
         var resource = new FceViewDto();
@@ -152,6 +176,34 @@ public class FceRequirementsHandlerTests
     }
 
     [Test]
+    public async Task ComplianceStaff_CanRestore()
+    {
+        // Arrange
+        var requirements = new[] { ComplianceOperation.Restore };
+
+        // The value for the `authenticationType` parameter causes
+        // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
+            authenticationType: "Basic"));
+
+        var resource = new FceViewDto { FacilityId = _facilityId, IsDeleted = true };
+        var context = new AuthorizationHandlerContext(requirements, user, resource);
+
+        var fceService = Substitute.For<IFceService>();
+        fceService.ExistsAsync(Arg.Any<FacilityId>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        var handler = new FceRequirementsHandler(fceService);
+
+        // Act
+        await handler.HandleAsync(context);
+
+        // Assert
+        context.HasSucceeded.Should().BeTrue();
+    }
+
+    [Test]
     public async Task IfReplacementExists_CannotRestore()
     {
         // Arrange
@@ -180,17 +232,18 @@ public class FceRequirementsHandlerTests
     }
 
     [Test]
-    public async Task NotComplianceManager_CanNotRestore()
+    public async Task NotComplianceManagerOrStaff_CanNotRestore()
     {
         // Arrange
         var requirements = new[] { ComplianceOperation.Restore };
 
         // The value for the `authenticationType` parameter causes
         // `ClaimsIdentity.IsAuthenticated` to be set to `true`.
-        var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.Role, ComplianceRole.ComplianceStaff)],
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(ClaimTypes.Role, ComplianceRole.ComplianceSiteMaintenance)],
             authenticationType: "Basic"));
 
-        var resource = new FceViewDto { IsDeleted = true };
+        var resource = new FceViewDto { IsDeleted = true, FacilityId = _facilityId };
         var context = new AuthorizationHandlerContext(requirements, user, resource);
         var handler = new FceRequirementsHandler(Substitute.For<IFceService>());
 

@@ -7,7 +7,8 @@
         <div class="mb-1">
             <em>
                 Response received
-                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable):
+                @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable)
+                @if (Model.ResponseComment != null){<text>:</text>}
             </em>
         </div>
         if (Model.ResponseComment != null)

@@ -60,14 +60,23 @@ public sealed class StaffService(
         var users = userManager.Users.ApplyFilter(spec);
         return Task.FromResult<IReadOnlyList<ListItem<string>>>(mapper.Map<IReadOnlyList<StaffViewDto>>(users)
             .Select(e => new ListItem<string>(e.Id, e.SortableNameWithOffice))
+            .OrderBy(e => e.Name)
             .ToList());
     }
 
-    public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsync(AppRole role) =>
-        (await userManager.GetUsersInRoleAsync(role.Name).ConfigureAwait(false))
-        .Where(user => user.Active)
-        .Select(user => new ListItem<string>(user.Id, user.SortableFullName))
-        .ToList();
+    public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsync(params AppRole[] role)
+    {
+        IList<IList<ApplicationUser>> userSets = [];
+        foreach (var appRole in role) userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name));
+        var users = userSets.Aggregate((current, union) => current.Union(union).ToList());
+
+        return mapper
+            .Map<IReadOnlyList<StaffViewDto>>(users)
+            .Where(user => user.Active)
+            .Select(user => new ListItem<string>(user.Id, user.SortableNameWithOffice))
+            .OrderBy(e => e.Name)
+            .ToList();
+    }
 
     public async Task<bool> IsInRoleAsync(string id, AppRole role)
     {

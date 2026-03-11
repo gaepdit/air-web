@@ -500,32 +500,6 @@ label:has([disabled]), label:has(:disabled) {
     background: hsla(0, 0%, 100%, 0.04);
 }
 
-/* ==================================================
-Print styles
-================================================== */
-@media print {
-    header.sticky-top {
-        position: static;
-    }
-
-    .banner-test-site {
-        position: static;
-        text-shadow: none;
-        box-shadow: none;
-        border: 1px solid;
-        margin-bottom: 1rem;
-        background: hsl(45, 100%, 80%);
-    }
-
-    .banner-test-site::after {
-        content: "— Not for public distribution";
-    }
-}
-
-/* ==================================================
-Additional application-specific styles
-================================================== */
-
 /* SVG icons
 -------------------------------------------------- */
 svg:not(:root).svg-icon {
@@ -570,5 +544,46 @@ svg:not(:root) {
 
     .columns-lg-3 {
         column-count: 3;
+    }
+}
+
+/* Input highlighter
+    (Use JavaScript to add this class to briefly flash an animated outline.)
+-------------------------------------------------- */
+.flashOutline {
+    animation: flashOutline 1s cubic-bezier(.4, 0, .8, .8);
+}
+
+@keyframes flashOutline {
+    0% {
+        outline: 4px solid rgba(var(--bs-warning-rgb), 0);
+    }
+    50% {
+        outline: 4px solid rgba(var(--bs-warning-rgb), 30%);
+    }
+    100% {
+        outline: 4px solid rgba(var(--bs-warning-rgb), 0);
+    }
+}
+
+/* ==================================================
+Print styles
+================================================== */
+@media print {
+    header.sticky-top {
+        position: static;
+    }
+
+    .banner-test-site {
+        position: static;
+        text-shadow: none;
+        box-shadow: none;
+        border: 1px solid;
+        margin-bottom: 1rem;
+        background: hsl(45, 100%, 80%);
+    }
+
+    .banner-test-site::after {
+        content: "— Not for public distribution";
     }
 }

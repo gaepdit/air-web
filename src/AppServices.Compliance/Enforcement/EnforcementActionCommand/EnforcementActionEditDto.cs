@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.Utilities;
+using AirWeb.Domain.Core.Data.DataAttributes;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
@@ -12,6 +13,7 @@ public record EnforcementActionEditDto : CommentDto
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Issued")]
+    [MaxDate]
     public DateOnly? IssueDate { get; init; }
 }
 

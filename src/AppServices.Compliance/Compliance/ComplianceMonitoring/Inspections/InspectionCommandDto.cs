@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Core.Data.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
 
@@ -9,6 +10,7 @@ public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspect
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Start Date")]
+    [MaxDate]
     public DateOnly InspectionStartedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Time)]
@@ -18,6 +20,7 @@ public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspect
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "End Date")]
+    [MaxDate]
     public DateOnly InspectionEndedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DataType(DataType.Time)]

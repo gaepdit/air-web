@@ -6,7 +6,7 @@ using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
-[Authorize(Policy = nameof(CompliancePolicies.ComplianceManager))]
+[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class RestoreModel(IComplianceWorkService service) : PageModel
 {
     [FromRoute]

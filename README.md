@@ -97,9 +97,12 @@ flowchart TB
 
 ## Development settings
 
-The following settings section configures the data stores, authentication, and other settings for development purposes.
-To work with these settings, add an `appsettings.Development.json` file in the root of the `WebApp` folder with a
-`DevSettings` section, and make your changes there. Here's a sample `appsettings.Development.json` file to start out:
+The included `appsettings.json` file works well for most development scenarios, but you can also change some dev
+settings if needed. To work with these settings, add an optional `appsettings.Development.json` file in the root of the
+`WebApp` folder with a `DevSettings` section, and make your changes there. The `DevSettings` section configures the data
+stores, authentication, and other settings for development purposes.
+
+Here's a sample `appsettings.Development.json` file to start out:
 
 ```json
 {
@@ -111,7 +114,14 @@ To work with these settings, add an `appsettings.Development.json` file in the r
         "EnableTestUser": true,
         "TestUserIsAuthenticated": true,
         "TestUserRoles": [
-            "GeneralStaff"
+            "AppUserAdmin",
+            "ComplianceManager",
+            "ComplianceSiteMaintenance",
+            "ComplianceStaff",
+            "EnforcementManager",
+            "EnforcementReviewer",
+            "GeneralStaff",
+            "SiteMaintenance"
         ],
         "EnableSecurityHeaders": false,
         "EnableWebOptimizer": false
@@ -139,10 +149,33 @@ To work with these settings, add an `appsettings.Development.json` file in the r
 ### Dev authentication settings
 
 - *EnableTestUser* — If `true`, a test user account will be available for development purposes.
+
 - *TestUserIsAuthenticated* — Simulates a successful login with a test account when `true`. Simulates a failed login
   when `false`. (Only applies if `EnableTestUser` is `false`.)
+
 - *TestUserRoles* — Adds the listed App Roles to the logged-in account. (Only applies if `TestUserIsAuthenticated` is
   `true`.)
+
+  **Important warning:** Arrays in app settings are not simply replaced by the `appsettings.Development.json` file.
+  Rather, each index in the array is individually compared. So, for example, if you want to reduce the roles used by
+  your test user, you would add something similar to the following to your dev settings section:
+
+```json
+{
+    "DevSettings": {
+        "TestUserRoles": [
+            "AppUserAdmin",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "GeneralStaff",
+            "SiteMaintenance"
+        ]
+    }
+}
+```
 
 ### Miscellaneous dev settings
 
