@@ -6,13 +6,6 @@
 
 <div class="form-floating">
     <textarea asp-for="@__model" class="form-control" rows="@rows.ToString()"></textarea>
-	@if (label != null)
-	{
-		<label class="form-label">@label</label>
-	}
-	else
-	{
-		<label asp-for="@__model" class="form-label"></label>
-	}
+    <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>
