@@ -5,5 +5,5 @@ public record CommentDto
 {
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    public string? Comment { get; init; }
+    public string? Notes { get; init; }
 }
