@@ -1,5 +1,4 @@
 @page "{facilityId?}"
-@using AirWeb.Domain
 @using AirWeb.Domain.Compliance
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AccAddModel
@@ -44,7 +43,9 @@
         <div class="container">
             <fieldset class="row mb-3 border rounded-3 py-2">
                 <div class="col">
-                    <legend class="h6">ACC Analysis</legend>
+                    <legend class="h6">ACC Analysis
+                        <partial name="Shared/_RequiredLabelPartial" />
+                    </legend>
                     <div class="row row-cols-auto">
                         <div class="col columns-md-2">
                             <div class="mb-3">

@@ -58,13 +58,22 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
-            </div>
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
-            </div>
+        <div class="container">
+            <fieldset class="row mb-3 border rounded-3 py-2">
+                <div class="col">
+                    <legend class="h6">Inspection Analysis
+                        <partial name="Shared/_RequiredLabelPartial" />
+                    </legend>
+                    <div class="row">
+                        <div class="col-lg mb-3">
+                            @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
+                        </div>
+                        <div class="col-lg mb-3">
+                            @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
         </div>
 
         <div class="row">
