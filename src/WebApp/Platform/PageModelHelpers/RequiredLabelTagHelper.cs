@@ -41,6 +41,6 @@ public class RequiredLabelTagHelper : TagHelper
                 .FirstOrDefault() is not RequiredLabelAttribute)
             return;
 
-        output.Content.AppendHtml(""" <span title="Required" class="text-danger-emphasis">*</span>""");
+        output.PreContent.AppendHtml("""<span title="Required" class="text-danger-emphasis">*</span> """);
     }
 }
