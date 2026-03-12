@@ -19,7 +19,9 @@ public class MaxDateTagHelperTests
         [MaxDate(2)]
         public DateOnly DateWithDayDelta { get; set; }
 
+#pragma warning disable S3459 // Only the effect of the (missing) `MaxDateAttribute` is being tested, not the property value.
         public DateOnly DateWithoutMaxAttribute { get; set; }
+#pragma warning restore S3459
     }
 
     [Test]

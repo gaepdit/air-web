@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
+using AirWeb.AppServices.Core.DataAttributes;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Core.Data.DataAttributes;
@@ -28,6 +29,7 @@ public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspect
     public TimeOnly InspectionEndedTime { get; init; } = new(16, 0);
 
     [Display(Name = "Inspection Reason")]
+    [RequiredLabel]
     public InspectionReason InspectionReason { get; init; }
 
     [Display(Name = "Weather Conditions")]

@@ -23,7 +23,7 @@ public class MaxDateTagHelper : TagHelper
     /// </remarks>
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        // Only process input elements with type="date" or date-related inputs
+        // Only process input elements.
         if (For == null || output.TagName != "input")
             return;
 

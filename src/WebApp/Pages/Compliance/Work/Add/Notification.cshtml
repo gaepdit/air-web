@@ -28,8 +28,8 @@
         </div>
 
         <div class="mb-3">
-            @Html.EditorFor(m => m.Item.NotificationTypeId, EditorTemplate.Select,
-                additionalViewData: new { Items = Model.NotificationTypeSelectList, Placeholder = DefaultText.SelectOptionRequired })
+            @Html.EditorFor(m => m.Item.NotificationTypeId, EditorTemplate.SelectNoPlaceholder,
+                additionalViewData: new { Items = Model.NotificationTypeSelectList })
         </div>
 
         <div class="row">

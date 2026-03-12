@@ -84,8 +84,9 @@ internal static class SecurityHeaders
             .From("https://login.microsoftonline.com");
         builder.AddManifestSrc().Self();
         builder.AddFrameAncestors().None();
-        builder.AddWorkerSrc()
+        builder.AddWorkerSrc().Blob()
             .From("https://www.datadoghq-browser-agent.com/us3/v6/");
+
         builder.AddReportTo("csp-endpoint");
 #pragma warning restore S1075
     }
