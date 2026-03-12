@@ -167,16 +167,11 @@ public class AutoMapperProfile : Profile
         CreateMap<DxActionEnforcementAction, ReportableActionViewDto>();
 
         CreateMap<AdministrativeOrder, AoViewDto>();
-        CreateMap<AoViewDto, AdministrativeOrderCommandDto>()
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
-        CreateMap<AdministrativeOrderCommandDto, AdministrativeOrder>(MemberList.Source)
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
-
+        CreateMap<AoViewDto, AdministrativeOrderCommandDto>();
+        CreateMap<AdministrativeOrderCommandDto, AdministrativeOrder>(MemberList.Source);
         CreateMap<ConsentOrder, CoViewDto>();
-        CreateMap<CoViewDto, ConsentOrderCommandDto>()
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
-        CreateMap<ConsentOrderCommandDto, ConsentOrder>(MemberList.Source)
-            .ForMember(dto => dto.Notes, expression => expression.MapFrom(dto => dto.Notes));
+        CreateMap<CoViewDto, ConsentOrderCommandDto>();
+        CreateMap<ConsentOrderCommandDto, ConsentOrder>(MemberList.Source);
 
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, LonViewDto>();
