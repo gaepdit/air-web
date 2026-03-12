@@ -9,10 +9,8 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="text-body-secondary ps-2">
-    <em>All fields are optional.</em>
-</div>
-<div class="p-3 rounded-3 bg-light-subtle">
+<div class="p-3 rounded-3 bg-light-subtle border">
+    <div class="text-body-secondary pb-2"><em>All fields are optional.</em></div>
     <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
         <fieldset>
             <legend>Case Details</legend>
@@ -163,7 +161,7 @@
             </tr>
             </thead>
 
-            <tbody class="table-group-divider">
+            <tbody>
             @foreach (var item in Model.SearchResults.Items)
             {
                 <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
@@ -184,7 +182,7 @@
                         }
                     </td>
                     <td>
-                        <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                        <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                     </td>
                 </tr>
             }

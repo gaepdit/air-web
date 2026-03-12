@@ -21,17 +21,17 @@
         }
         else
         {
-            <table class="table table-borderless small m-0" aria-labelledby="open-cases">
+            <table class="table table-hover m-0" aria-labelledby="open-cases">
                 <thead>
                 <tr>
-                    <th scope="col" class="ps-3">Date Opened</th>
+                    <th scope="col">Date Opened</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Case Description</th>
-                    <th scope="col" class="pe-3"><span class="visually-hidden">Actions</span></th>
+                    <th scope="col"><span class="visually-hidden">Actions</span></th>
                 </tr>
                 </thead>
 
-                <tbody class="table-group-divider">
+                <tbody>
                 @foreach (var item in Model.OpenCases.Items)
                 {
                     <tr>
@@ -39,7 +39,7 @@
                         <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
                         <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
                         <td class="pe-3">
-                            <a asp-page="Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                            <a asp-page="Cases/Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                         </td>
                     </tr>
                 }
@@ -64,7 +64,8 @@
                     {
                         <div class="col-md text-end align">
                             <a asp-page="Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults"
-                               asp-route-Sort="@(nameof(CaseworkSortBy.OpenedDate))" class="btn btn-sm btn-outline-info me-2">
+                               asp-route-Sort="@(nameof(CaseworkSortBy.OpenedDate))"
+                               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover me-3">
                                 View All
                             </a>
                         </div>

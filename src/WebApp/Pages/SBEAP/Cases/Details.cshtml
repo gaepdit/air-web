@@ -88,7 +88,7 @@
         <h2 class="h3">For Customer</h2>
     </div>
     <div class="col-md-auto d-print-none ms-md-3">
-        <a asp-page="../Customers/Details" asp-route-id="@Model.Item.Customer.Id.ToString()" class="btn btn-outline-info">View</a>
+        <a asp-page="../Customers/Details" asp-route-id="@Model.Item.Customer.Id.ToString()" class="btn btn-outline-primary">View</a>
     </div>
 </div>
 
@@ -133,7 +133,7 @@
 
 @if (Model.UserCan[CaseworkOperation.EditActionItems])
 {
-    <div class="container bg-light-subtle border border-info rounded-1 my-3 py-2 d-print-none">
+    <div class="container bg-light-subtle border border-primary-subtle rounded-1 my-3 py-2 d-print-none">
         <h3 id="new-action" class="h5">Add a new Action Item</h3>
 
         <form method="post" asp-fragment="new-action">

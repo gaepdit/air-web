@@ -2,7 +2,6 @@
 using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AppServicesTests.Sbeap.TestData;
-using AutoMapper;
 
 namespace AppServicesTests.Sbeap.ActionItemTypes;
 
@@ -37,7 +36,6 @@ public class FindForUpdateTests
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
         var managerMock = Substitute.For<IActionItemTypeManager>();
-        var mapperMock = Substitute.For<IMapper>();
         var userServiceMock = Substitute.For<IUserService>();
 
         var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock);

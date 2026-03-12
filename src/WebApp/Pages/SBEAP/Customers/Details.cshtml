@@ -93,7 +93,7 @@ else
         </tr>
         </thead>
 
-        <tbody class="table-group-divider">
+        <tbody>
         @foreach (var item in Model.Item.Cases)
         {
             <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
@@ -113,7 +113,7 @@ else
                 <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnlyNullable, additionalViewData: new { Placeholder = "" })</td>
                 <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 200 })</td>
                 <td>
-                    <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    <a asp-page="../Cases/Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                 </td>
             </tr>
         }
