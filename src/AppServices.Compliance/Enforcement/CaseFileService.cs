@@ -222,13 +222,13 @@ public sealed class CaseFileService(
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
-    public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
+    public async Task<CommandResult> DeleteAsync(int id, NotesDto resource,
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFileManager.Delete(caseFile, resource.Comment, currentUser);
+        caseFileManager.Delete(caseFile, resource.Notes, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

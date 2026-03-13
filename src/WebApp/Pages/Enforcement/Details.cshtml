@@ -1,4 +1,4 @@
-@page "{id:int?}"
+﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Compliance.Enforcement.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
@@ -303,7 +303,7 @@
                         </div>
                         <form method="post" asp-page-handler="AddEnforcementAction" id="AddEnforcementActionForm">
                             <div class="modal-body">
-                                @Html.EditorFor(m => m.CreateEnforcementAction.Comment, EditorTemplate.Textarea, new { Rows = 4 })
+                                @Html.EditorFor(m => m.CreateEnforcementAction.Notes, EditorTemplate.Textarea, new { Rows = 4 })
                                 <div class="mt-2">
                                     @Html.EditorFor(m => m.CreateEnforcementAction.ResponseRequested, EditorTemplate.Checkbox)
                                 </div>

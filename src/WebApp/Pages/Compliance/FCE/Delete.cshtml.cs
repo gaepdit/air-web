@@ -13,7 +13,7 @@ public class DeleteModel(IFceService fceService) : PageModel
     public int Id { get; set; }
 
     [BindProperty]
-    public CommentDto Comment { get; set; } = null!;
+    public NotesDto Notes { get; set; } = null!;
 
     public FceSummaryDto ItemSummary { get; private set; } = null!;
 
@@ -37,7 +37,7 @@ public class DeleteModel(IFceService fceService) : PageModel
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var result = await fceService.DeleteAsync(Id, Comment, token);
+        var result = await fceService.DeleteAsync(Id, Notes, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "FCE successfully deleted.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });

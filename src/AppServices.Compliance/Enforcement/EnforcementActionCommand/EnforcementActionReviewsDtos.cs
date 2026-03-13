@@ -21,7 +21,7 @@ public class ReviewRequestValidator : AbstractValidator<EnforcementActionRequest
     }
 }
 
-public record EnforcementActionSubmitReviewDto : CommentDto
+public record EnforcementActionSubmitReviewDto : NotesDto
 {
     [Required(ErrorMessage = "A review result must be selected.")]
     public ReviewResult? Result { get; init; }
