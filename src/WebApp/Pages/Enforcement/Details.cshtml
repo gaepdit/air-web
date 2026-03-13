@@ -3,6 +3,7 @@
 @using AirWeb.AppServices.Compliance.Enforcement.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
 @using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model DetailsModel
@@ -160,13 +161,15 @@
         @if (caseFile.HasReportableEnforcement)
         {
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</dd>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable,
+                        additionalViewData: new { Placeholder = DefaultText.NotAvailable })</dd>
             <dt class="col-sm-4 col-lg-3" id="violation-type">@Html.DisplayNameFor(_ => caseFile.ViolationType)</dt>
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
         }
         <dt class="mb-2">@Html.DisplayNameFor(_ => caseFile.Notes)</dt>
         <dd>
-            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[None]" })</div>
+            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => caseFile.Notes, DisplayTemplate.TextWithLinebreaks,
+                        additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</div>
         </dd>
     </dl>
 
@@ -247,9 +250,7 @@
         {
             <div class="col-md-auto ms-md-3 d-print-none">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                     Enforcement Action
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -303,7 +304,7 @@
                         </div>
                         <form method="post" asp-page-handler="AddEnforcementAction" id="AddEnforcementActionForm">
                             <div class="modal-body">
-                                @Html.EditorFor(m => m.CreateEnforcementAction.Notes, EditorTemplate.Textarea, new { Rows = 4 })
+                                @Html.EditorFor(m => m.CreateEnforcementAction.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
                                 <div class="mt-2">
                                     @Html.EditorFor(m => m.CreateEnforcementAction.ResponseRequested, EditorTemplate.Checkbox)
                                 </div>
@@ -520,7 +521,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, new { Placeholder = "[No notes entered]" })
+                    @Html.DisplayFor(_ => action.Notes, DisplayTemplate.TextWithLinebreaks, additionalViewData: new { Placeholder = "[No notes entered]" })
                     @switch (action)
                     {
                         case AoViewDto dto:
@@ -763,7 +764,7 @@
                         </div>
                         <form method="post" asp-page-handler="AddEnforcementActionResponse" id="AddResponseActionForm">
                             <div class="modal-body">
-                                @Html.EditorFor(m => m.AddEnforcementActionResponse.Comment, EditorTemplate.Textarea, new { Rows = 4 })
+                                @Html.EditorFor(m => m.AddEnforcementActionResponse.Comment, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
                                 <div class="form-floating mt-2">
                                     <input asp-for="AddEnforcementActionResponse.Date" class="form-control" />
                                     <label for="@nameof(Model.AddEnforcementActionResponse)_@nameof(Model.AddEnforcementActionResponse.Date)" class="form-label">Date
@@ -945,7 +946,7 @@
 
                         <dt class="col-sm-4">Data Exchange Status Date</dt>
                         <dd class="col-sm-6">@Html.DisplayFor(_ => dx.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
-                                additionalViewData: new { Placeholder = "none" })</dd>
+                                    additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
                     </dl>
 
                     @foreach (var action in caseFile.EnforcementActions
@@ -965,7 +966,7 @@
 
                             <dt class="col-sm-4">Data Exchange Status Date</dt>
                             <dd class="col-sm-6">@Html.DisplayFor(_ => edx.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
-                                    additionalViewData: new { Placeholder = "none" })</dd>
+                                        additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
                         </dl>
                     }
 

@@ -1,8 +1,9 @@
-using AirWeb.AppServices;
 using AirWeb.AppServices.Compliance;
 using AirWeb.AppServices.Compliance.AutoMapper;
 using AirWeb.AppServices.Core;
 using AirWeb.AppServices.Core.AutoMapper;
+using AirWeb.AppServices.Sbeap;
+using AirWeb.AppServices.Sbeap.AutoMapper;
 using AirWeb.WebApp.Platform.AppConfiguration;
 using AirWeb.WebApp.Platform.OrgNotifications;
 using AirWeb.WebApp.Platform.Settings;
@@ -42,7 +43,9 @@ builder.Services
 // Add compliance/enforcement services.
 builder.Services
     .AddComplianceAppServices()
-    .AddComplianceAutoMapperProfiles();
+    .AddComplianceAutoMapperProfiles()
+    .AddSbeapAppServices()
+    .AddSbeapAutoMapperProfiles();
 
 // Add data stores and initialize the database.
 await builder.ConfigureDataPersistenceAsync();

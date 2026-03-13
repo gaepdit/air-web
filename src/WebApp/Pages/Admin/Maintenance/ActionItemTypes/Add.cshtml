@@ -1,0 +1,24 @@
+﻿@page
+@using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@model AddModel
+@{
+    ViewData["Title"] = $"Add a new {Model.ThisOption.SingularName}";
+    ViewData["NoAnchors"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="p-3 border rounded-3 bg-light-subtle">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                @Html.EditorFor(m => m.Item.Name, EditorTemplate.Input)
+            </div>
+        </div>
+        <partial name="Shared/_SubmitCancelButtons" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="Shared/_ValidationScriptsPartial" />
+}

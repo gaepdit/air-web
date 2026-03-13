@@ -1,5 +1,6 @@
 @page "{referenceNumber:int?}"
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @using AirWeb.WebApp.Platform.Settings
@@ -19,9 +20,7 @@
             <a asp-page="/Print/SourceTest/Index" target="_blank" rel="noopener"
                asp-route-referenceNumber="@summary.ReferenceNumber.ToString()"
                class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                </svg>
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
                 Print
             </a>
         }
@@ -51,7 +50,7 @@
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ComplianceStatus)</dt>
     <dd class="col-sm-8 col-lg-9">@summary.ComplianceStatus</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
@@ -97,7 +96,7 @@
 
                 <div class="row">
                     <div class="mb-3">
-                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, new { Rows = 3 })
+                        @Html.EditorFor(m => m.NewComplianceReview!.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 3 })
                     </div>
                 </div>
 
@@ -161,9 +160,7 @@ else
             <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
                 <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
                    class="btn btn-sm btn-outline-primary icon-link">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                     Enforcement Case
                 </a>
             </div>
@@ -253,9 +250,7 @@ else
                     <div class="col-auto my-0 ms-3">
                         <a asp-route-referenceNumber="@Model.ReferenceNumber.ToString()" asp-route-refresh="true"
                            class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
                             Refresh IAIP Data
                         </a>
                     </div>

@@ -1,4 +1,5 @@
 ﻿@page "{id:int?}"
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model LinkedEventsModel
 
@@ -9,9 +10,7 @@
 
 <p class="d-print-none">
     <a asp-page="Details" asp-route-id="@Model.Id" class="lead icon-link">
-        <svg class="bi">
-            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Back to Enforcement Case #@Model.Id
     </a>
 </p>

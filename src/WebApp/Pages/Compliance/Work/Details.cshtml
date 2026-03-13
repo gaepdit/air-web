@@ -7,6 +7,7 @@
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
 @{
@@ -59,9 +60,7 @@
                 {
                     <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
                        class="btn btn-outline-secondary icon-link no-external-link">
-                        <svg class="bi">
-                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                        </svg>
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
                         Print
                     </a>
                 }
@@ -92,9 +91,7 @@
         <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
             <a asp-page="/Enforcement/Begin" asp-route-facilityId="@report.FacilityId" asp-route-eventId="@Model.Id.ToString()"
                class="btn btn-sm btn-outline-primary icon-link">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                </svg>
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                 Enforcement Case
             </a>
         </div>
