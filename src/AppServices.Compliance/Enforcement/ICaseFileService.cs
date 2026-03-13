@@ -38,7 +38,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     // Case File workflow
     Task<CommandResult> CloseAsync(int id, CancellationToken token = default);
     Task<CommandResult> ReopenAsync(int id, CancellationToken token = default);
-    Task<CommandResult> DeleteAsync(int id, CommentDto resource, CancellationToken token = default);
+    Task<CommandResult> DeleteAsync(int id, NotesDto resource, CancellationToken token = default);
     Task<CommandResult> RestoreAsync(int id, CancellationToken token = default);
 
     // Comments

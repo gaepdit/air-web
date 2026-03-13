@@ -222,7 +222,7 @@ public sealed class CaseFileService(
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
-    public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
+    public async Task<CommandResult> DeleteAsync(int id, NotesDto resource,
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);

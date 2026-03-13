@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 
-public record AdministrativeOrderCommandDto : CommentDto
+public record AdministrativeOrderCommandDto : NotesDto
 {
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]

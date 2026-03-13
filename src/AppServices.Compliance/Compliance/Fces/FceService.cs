@@ -149,7 +149,7 @@ public sealed class FceService(
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
-    public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
+    public async Task<CommandResult> DeleteAsync(int id, NotesDto resource,
         CancellationToken token = default)
     {
         var fce = await fceRepository.GetAsync(id, token: token).ConfigureAwait(false);

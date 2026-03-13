@@ -186,7 +186,7 @@ public sealed partial class ComplianceWorkService(
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
-    public async Task<CommandResult> DeleteAsync(int id, CommentDto resource,
+    public async Task<CommandResult> DeleteAsync(int id, NotesDto resource,
         CancellationToken token = default)
     {
         var work = await repository.GetAsync(id, token: token).ConfigureAwait(false);
