@@ -245,5 +245,6 @@ public class DetailsModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole)).ToSelectList();
 }

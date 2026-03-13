@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
+using AirWeb.AppServices.Core.DataAttributes;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Core.Data.DataAttributes;
@@ -14,6 +15,7 @@ public abstract record ReportCommandDto : ComplianceWorkCommandDto, IReportComma
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Display(Name = "Type")]
+    [RequiredLabel]
     public ReportingPeriodType ReportingPeriodType { get; init; } = ReportingPeriodType.Other;
 
     [DataType(DataType.Date)]

@@ -23,10 +23,13 @@ public class ReportAddModel(
     {
         WorkType = ComplianceWorkType.Report;
 
+        var yesterday = DateOnly.FromDateTime(DateTime.Today).AddDays(-1);
         Item = new ReportCreateDto
         {
             FacilityId = FacilityId,
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
+            ReportingPeriodStart = yesterday,
+            ReportingPeriodEnd = yesterday,
         };
 
         return await DoGetAsync();

@@ -11,30 +11,23 @@ public static class CaseFilePermissions
 {
     extension(ClaimsPrincipal user)
     {
-        public bool CanViewCaseFile<T>(T item)
-            where T : IIsClosed, IIsDeleted =>
-            user.CanManageCaseFileDeletions() || !item.IsDeleted && user.IsComplianceStaff() ||
-            item.IsClosed && user.IsStaff();
+        public bool CanViewCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
+            user.CanManageCaseFileDeletions() || !item.IsDeleted && (user.IsComplianceStaff() || user.IsStaff());
 
-        public bool CanCloseCaseFile<T>(T item)
-            where T : IIsClosed, IIsDeleted =>
+        public bool CanCloseCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
             item is { IsClosed: false, IsDeleted: false } && user.IsEnforcementManager();
 
-        public bool CanManageCaseFileDeletions() =>
-            user.IsEnforcementManager();
+        public bool CanManageCaseFileDeletions() => user.IsEnforcementManager();
 
         public bool CanDeleteCaseFile(CaseFileViewDto item) =>
             !item.IsDeleted && user.CanManageCaseFileDeletions() && !item.HasIssuedEnforcement;
 
-        public bool CanEditCaseFile<T>(T item)
-            where T : IIsClosed, IIsDeleted, IHasOwner =>
+        public bool CanEditCaseFile<T>(T item) where T : IIsClosed, IIsDeleted, IHasOwner =>
             item is { IsClosed: false, IsDeleted: false } && user.IsComplianceStaff();
 
-        public bool CanReopenCaseFile<T>(T item)
-            where T : IIsClosed, IIsDeleted =>
+        public bool CanReopenCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
             item is { IsClosed: true, IsDeleted: false } && user.IsEnforcementManager();
 
-        public bool CanRestoreCaseFile(IIsDeleted item) =>
-            item.IsDeleted && user.CanManageCaseFileDeletions();
+        public bool CanRestoreCaseFile(IIsDeleted item) => item.IsDeleted && user.CanManageCaseFileDeletions();
     }
 }

@@ -12,9 +12,11 @@
 
 <div class="p-3 mt-3 border rounded-3 bg-light-subtle">
     <form method="post">
+        <div class="row">
         <div class="mb-3">
             @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
                     additionalViewData: new { Items = Model.StaffSelectList })
+        </div>
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />

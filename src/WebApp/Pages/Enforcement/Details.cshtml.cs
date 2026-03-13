@@ -68,8 +68,8 @@ public class DetailsModel(
         if (CaseFile.IsDeleted && !UserCan[CaseFileOperation.ViewDeleted]) return NotFound();
         if (!UserCan[CaseFileOperation.View]) return Forbid();
 
-        if (!UserCan[CaseFileOperation.ViewDraftEnforcement])
-            CaseFile.EnforcementActions.RemoveAll(dto => !dto.IsIssued);
+        if (!UserCan[CaseFileOperation.ViewDeleted])
+            CaseFile.EnforcementActions.RemoveAll(dto => dto.IsDeleted);
 
         return InitializePage();
     }
