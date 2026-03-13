@@ -35,9 +35,8 @@
     <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
             <a href="#top" class="footer-link link-body-emphasis icon-link ms-n1">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-bar-up"></use>
-                </svg> Return to top
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpTop" />
+                Return to top
             </a>
         </div>
     </div>

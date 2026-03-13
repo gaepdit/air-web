@@ -1,6 +1,7 @@
 ﻿@page "{id:Guid?}"
 @using AirWeb.AppServices.Core.Utilities
 @using AirWeb.Domain.Core.Data.DataAttributes
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model StipulatedPenaltiesEditModel
@@ -13,9 +14,7 @@
 
 <p class="d-print-none">
     <a asp-page="Details" asp-route-id="@caseFile.Id" class="lead icon-link">
-        <svg class="bi">
-            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Back to Enforcement Case #@caseFile.Id
     </a>
 </p>
@@ -56,9 +55,7 @@
                 <td class="text-center">
                     <form class="delete-penalty" asp-page-handler="DeletePenalty" asp-route-penaltyId="@penalty.Id" method="post">
                         <button type="submit" class="btn btn-sm btn-outline-danger">
-                            <svg class="bi" role="img" aria-label="Delete">
-                                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-trash3"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Trash" />
                         </button>
                     </form>
                 </td>

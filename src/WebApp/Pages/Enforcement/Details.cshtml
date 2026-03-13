@@ -3,6 +3,7 @@
 @using AirWeb.AppServices.Compliance.Enforcement.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
 @using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model DetailsModel
@@ -249,9 +250,7 @@
         {
             <div class="col-md-auto ms-md-3 d-print-none">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle icon-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                     Enforcement Action
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">

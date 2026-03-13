@@ -1,6 +1,7 @@
 ﻿@page "{handler?}"
 @using AirWeb.AppServices.Core.Search
 @using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles
+@using AirWeb.WebApp.Pages.Shared
 @model EnforcementIndexModel
 @{
     ViewData["Title"] = "Enforcement Case Search";
@@ -159,9 +160,7 @@
                     <div class="col-auto d-print-none ms-2">
                         <a asp-page="../DownloadSearch/Enforcement" asp-all-route-data="Model.Spec.AsRouteValues()"
                            class="btn btn-sm btn-outline-secondary icon-link">
-                            <svg class="bi">
-                                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-download"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Download" />
                             Download search results
                         </a>
                     </div>

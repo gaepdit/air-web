@@ -1,5 +1,6 @@
 ﻿@page "~/Customers/Details/{id:guid?}/AddContact"
 @using AirWeb.Domain.Sbeap.ValueObjects
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AddContactModel
@@ -27,9 +28,8 @@
 <div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi me-2" role="img" aria-label="Danger:">
-                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-            </svg>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                     view-data-CssClass="@("me-2")" />
         </div>
 
         <div class="row mt-2">

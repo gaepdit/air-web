@@ -1,5 +1,6 @@
 @page
 @using AirWeb.AppServices.Core.AuthenticationServices
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Platform.Settings
 @model LoginModel
 @{
@@ -20,9 +21,8 @@
         <a asp-page="/Support">EPD-IT support</a>.
     </p>
     <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-        <svg class="bi me-2" role="img" aria-label="Danger:">
-            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                 view-data-CssClass="@("me-2")" />
     </div>
 }
 
@@ -36,10 +36,8 @@
 
                     <form asp-page-handler="@LoginProviders.TestUserScheme" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                         <button type="submit" class="btn btn-lg btn-outline-primary btn-img my-3 py-3 px-4" title="Sign in as a test user">
-                            <svg class="bi me-2">
-                                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-person-badge"></use>
-                            </svg>
-                            Sign in
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Badge" />
+                            <span class="ms-2">Sign in</span>
                         </button>
                     </form>
                 </div>

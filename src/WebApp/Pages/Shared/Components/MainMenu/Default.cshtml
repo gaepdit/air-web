@@ -1,6 +1,5 @@
 ﻿@model MainMenuViewComponent.MenuParams
 @{
-    var iconsFile = Url.Content("~/images/app-icons.svg");
     var onSbeapSite = (bool)(ViewData["SBEAP"] ?? false);
 }
 
@@ -10,12 +9,10 @@
             <div>
                 @if (Model.ShowSbeapSwitch)
                 {
-                    <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas" 
-                            data-bs-target="#orgNav" aria-controls="orgNav" 
+                    <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#orgNav" aria-controls="orgNav"
                             aria-label="Toggle organization navigation" title="Switch Dashboard">
-                        <svg class="bi">
-                            <use href="/images/app-icons.svg#app-icon-shuffle"></use>
-                        </svg>
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Switch"/>
                         <span class="visually-hidden">Switch Dashboard</span>
                     </button>
                 }
@@ -51,24 +48,21 @@
                             <li class="nav-item dropdown">
                                 <button class="nav-link dropdown-toggle icon-link" id="searchDropdownMenuLink" type="button"
                                         data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of search pages">
-                                    <svg class="bi">
-                                        <use href="@iconsFile#app-icon-search"></use>
-                                    </svg>
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Search" />
                                     Search
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="searchDropdownMenuLink">
                                     @if (onSbeapSite)
                                     {
-                                        <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Index">Customer Search</a>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/SBEAP/Customers/Index">Customer Search</a>
                                         </li>
                                         <li><a class="dropdown-item" asp-page="/SBEAP/Cases/Index">Case Search</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
                                         <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Add">
-                                                <svg class="bi">
-                                                    <use href="/images/app-icons.svg#app-icon-plus-lg"></use>
-                                                </svg>
+                                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus"/>
                                                 New Customer
                                             </a></li>
                                     }
@@ -150,43 +144,36 @@
                         <li class="nav-item dropdown">
                             <button class="nav-link dropdown-toggle" id="bd-theme" type="button"
                                     aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                                <svg class="bi me-1 theme-icon-active">
-                                    <use href="@iconsFile#app-icon-circle-half"></use>
-                                </svg>
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                         view-data-CssClass="@("me-1 theme-icon-active")" />
                                 <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-sun-fill"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Light
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-moon-stars-fill"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Dark
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-circle-half"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Auto
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                             </ul>
