@@ -20,11 +20,9 @@ This long-term project began with
 the [Small Business Environmental Assistance Program](https://github.com/gaepdit/sbeap) which was migrated into a
 standalone application.
 
-The current effort focuses on the Stationary Source Compliance Program, specifically the compliance monitoring and
-enforcement modules (which are also used by the EPD District Offices). This effort will also require updates to
-our [ICIS-Air data flows](https://github.com/gaepdit/icis-air-data-exchange).
-
-The remaining IAIP modules are described in [this discussion topic](https://github.com/gaepdit/air-web/discussions/50).
+The next effort focused on the Stationary Source Compliance Program, specifically the compliance monitoring and
+enforcement modules (which are also used by the EPD District Offices). This effort also required updates to
+the [ICIS-Air data flows](https://github.com/gaepdit/icis-air-data-exchange).
 
 ### Project ownership
 
@@ -80,19 +78,40 @@ flowchart TB
     DC[Domain.Compliance] --> I
     DS[Domain.Sbeap]
     DC --> DR
-    DS --> DR
+    DS ---> DR
     AR[AppServices.Core] --> DR
     AC[AppServices.Compliance] ---> DC
     AC --> AR
-    AS --> AR
     AS[AppServices.Sbeap] ---> DS
-    T[TestData] ---> DC
+    AS --> AR
+    T[TestData] ----> DC
+    T ---> DS
     E[EfRepository] --> T
+    E --> DC
+    E --> DS
+    M --> DC
     M[MemRepository] --> T
+    M --> DS
     W[WebApp] --> M
     W --> E
     W --> AC
     W --> AS
+```
+
+Since that's a little complicated, here's a simplified version:
+
+```mermaid
+flowchart TB
+    I[IaipDataServices]
+    DC[Domain.Core]
+    DB[Domain.BusinessUnit] --> I
+    DB --> DC
+    AC[AppServices.Core] ---> DC
+    AB[AppServices.BusinessUnit] ---> DB
+    AB --> AC
+    R[Repository] ---> DB
+    W[WebApp] --> R
+    W --> AB
 ```
 
 ## Development settings
