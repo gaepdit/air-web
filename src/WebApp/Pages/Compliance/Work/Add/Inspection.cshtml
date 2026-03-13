@@ -27,15 +27,15 @@
         </div>
 
         <div class="container">
-            <fieldset class="row mb-3 border rounded-3 py-2">
+            <fieldset class="row mb-3 border rounded-3 pt-2">
                 <div class="col">
-                    <legend class="h6">Inspection Date</legend>
+                    <legend class="h6 mb-3">Inspection Date</legend>
                     <div class="row">
                         <div class="col-md input-group mb-3">
                             @Html.EditorFor(m => m.Item.InspectionStartedDate, EditorTemplate.InputDateOnly)
                             @Html.EditorFor(m => m.Item.InspectionStartedTime, EditorTemplate.InputTimeOnly)
                         </div>
-                        <div class="col-md input-group mb-1">
+                        <div class="col-md input-group mb-3">
                             @Html.EditorFor(m => m.Item.InspectionEndedDate, EditorTemplate.InputDateOnly)
                             @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
                         </div>
@@ -58,13 +58,23 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
-            </div>
-            <div class="col-lg mb-3">
-                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
-            </div>
+        <div class="container">
+            <fieldset class="row mb-3 border rounded-3 pt-2">
+                <div class="col">
+                    <legend class="h6 mb-3">
+                        <partial name="Shared/_RequiredLabelPartial" />
+                        Inspection Analysis
+                    </legend>
+                    <div class="row">
+                        <div class="col-md mb-3">
+                                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
+                            </div>
+                            <div class="col-md mb-3">
+                                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
+                            </div>
+                        </div>
+                </div>
+            </fieldset>
         </div>
 
         <div class="row">

@@ -32,9 +32,9 @@
         </div>
 
         <div class="container">
-            <fieldset class="row mb-3 border rounded-3 py-2">
+            <fieldset class="row mb-3 border rounded-3 pt-2">
                 <div class="col">
-                    <legend class="h6">Reporting Period</legend>
+                    <legend class="h6 mb-3">Reporting Period</legend>
                     <div class="row">
                         <div class="col-md mb-3">
                             @Html.EditorFor(m => m.Item.ReportingPeriodType, EditorTemplate.SelectNoPlaceholder,
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-1">
+                    <div class="mb-3">
                         @Html.EditorFor(m => m.Item.ReportingPeriodComment, EditorTemplate.Textarea)
                     </div>
                 </div>
@@ -65,16 +65,19 @@
         </div>
 
         <div class="container">
-            <fieldset class="row mb-3 border rounded-3 py-2">
+            <fieldset class="row mb-3 border rounded-3 pt-2">
                 <div class="col">
-                    <legend class="h6">Report Analysis</legend>
+                    <legend class="h6 mb-3">
+                        <partial name="Shared/_RequiredLabelPartial" />
+                        Report Analysis
+                    </legend>
                     <div class="mb-3">
                         @Html.EditorFor(m => m.Item.ReportComplete, EditorTemplate.Checkbox)
                     </div>
                     <div class="mb-3">
                         @Html.EditorFor(m => m.Item.ReportsDeviations, EditorTemplate.Checkbox)
                     </div>
-                    <div class="mb-1">
+                    <div class="mb-3">
                         @Html.EditorFor(m => m.Item.EnforcementNeeded, EditorTemplate.Checkbox)
                     </div>
                 </div>

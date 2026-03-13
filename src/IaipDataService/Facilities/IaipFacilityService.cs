@@ -44,10 +44,10 @@ public sealed class IaipFacilityService(
 
         using var db = dbf.Create();
         var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
-        var varMultiTask = db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
+
+        await using var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
             commandType: CommandType.StoredProcedure);
 
-        await using var multi = await varMultiTask;
         var facility = multi.Read<Facility, Address, GeoCoordinates, RegulatoryData, Facility>(
             (facility, facilityAddress, geoCoordinates, regulatoryData) =>
             {

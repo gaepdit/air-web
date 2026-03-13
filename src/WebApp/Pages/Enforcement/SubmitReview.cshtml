@@ -20,7 +20,10 @@
     <form method="post">
         <div class="mb-3">
             <fieldset>
-                <legend>Your review <span class="text-danger-emphasis">*</span></legend>
+                <legend>
+                    <partial name="Shared/_RequiredLabelPartial" />
+                    Your review
+                </legend>
                 @* <h3 class="h6">Your review</h3> *@
                 @foreach (var reviewResult in Enum.GetValues<ReviewResult>())
                 {
@@ -43,8 +46,10 @@
                 additionalViewData: new { Items = Model.StaffSelectList })
         </div>
 
-        <div class="mb-3">
-            @Html.EditorFor(m => m.ItemReview.Comment, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
+        <div class="row">
+            <div class="mb-3">
+                @Html.EditorFor(m => m.ItemReview.Comment, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
+            </div>
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />

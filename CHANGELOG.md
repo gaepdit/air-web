@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.3.11] - 2026-03-11
+
+- Reporting period dates are automatically set when changing the report type.
+
 ## [2026.3.6] - 2026-03-06
 
 - Add compliance/enforcement managers to appropriate staff drop-downs.
@@ -25,3 +29,4 @@ Grant new users the General Staff role.
 [2026.3.2]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.2
 [2026.3.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.4
 [2026.3.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.6
+[2026.3.11]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.11
