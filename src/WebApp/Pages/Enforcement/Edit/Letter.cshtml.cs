@@ -44,7 +44,7 @@ public class LetterEditModel(
 
         Item = new EnforcementActionEditDto
         {
-            Comment = itemView.Notes,
+            Notes = itemView.Notes,
             IssueDate = itemView.IssueDate,
         };
 

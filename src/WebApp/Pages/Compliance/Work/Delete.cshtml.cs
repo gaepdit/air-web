@@ -14,7 +14,7 @@ public class DeleteModel(IComplianceWorkService service) : PageModel
     public int Id { get; set; }
 
     [BindProperty]
-    public CommentDto Comment { get; set; } = null!;
+    public NotesDto Notes { get; set; } = null!;
 
     public ComplianceWorkSummaryDto ItemSummary { get; private set; } = null!;
 
@@ -38,7 +38,7 @@ public class DeleteModel(IComplianceWorkService service) : PageModel
         if (item is null || !User.CanDelete(item))
             return BadRequest();
 
-        var result = await service.DeleteAsync(Id, Comment, token);
+        var result = await service.DeleteAsync(Id, Notes, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"{item.ItemName} successfully deleted.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("Details", new { Id });

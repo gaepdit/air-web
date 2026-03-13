@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 
-public record ConsentOrderCommandDto : CommentDto
+public record ConsentOrderCommandDto : NotesDto
 {
     [Required]
     [DataType(DataType.Date)]

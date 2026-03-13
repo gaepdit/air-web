@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 
-public record EnforcementActionEditDto : CommentDto
+public record EnforcementActionEditDto : NotesDto
 {
     [Display(Name = "Response Requested")]
     public bool ResponseRequested { get; set; } = true;

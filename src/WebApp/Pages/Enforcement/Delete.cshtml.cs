@@ -14,7 +14,7 @@ public class DeleteModel(ICaseFileService service) : PageModel
     public int Id { get; set; } // Case File ID
 
     [BindProperty]
-    public CommentDto Comment { get; set; } = null!;
+    public NotesDto Comment { get; set; } = null!;
 
     public CaseFileViewDto ItemSummary { get; private set; } = null!;
 
