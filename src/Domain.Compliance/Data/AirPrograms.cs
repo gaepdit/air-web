@@ -6,9 +6,9 @@ namespace AirWeb.Domain.Compliance.Data;
 
 public static class CommonoData
 {
-    public static ICollection<AirPrograms> AsAirPrograms(this List<string> airprogramIds) =>
+    public static ICollection<AirProgramL> AsAirPrograms(this List<string> airprogramIds) =>
         AllAirPrograms.Where(airprogram => airprogramIds.Contains(airprogram.Code)).ToList();
-    private static List<AirPrograms> AllAirPrograms { get; } =
+    private static List<AirProgramL> AllAirPrograms { get; } =
     [
         new("CAASIP", "SIP"),
         new("CAAFIP","Federal SIP"),
