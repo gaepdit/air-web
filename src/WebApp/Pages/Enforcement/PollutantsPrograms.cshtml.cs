@@ -49,7 +49,8 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         var caseFileAirPrograms = await caseFileService.GetAirProgramsAsync(Id, token);
         AirProgramSettings = facilityData.AirPrograms.Select(airProgram => new AirProgramSetting
         {
-            AirProgram = airProgram,
+            Code = airProgram.Code,
+            Name = airProgram.Name,
             IsSelected = caseFileAirPrograms.Any(cfAirProgram => cfAirProgram == airProgram)
         }).ToList();
 
@@ -69,7 +70,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
         await caseFileService.SaveCaseFileExtraDataAsync(Id,
             pollutants: PollutantSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
-            airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.AirProgram),
+            airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
             violationTypeCode: ViolationTypeCode,
             token: token);
 
@@ -86,7 +87,8 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
     public class AirProgramSetting
     {
-        public required AirProgram AirProgram { get; init; }
+        public required string Code { get; init; }
+        public required string Name { get; init; }
         public bool IsSelected { get; init; }
     }
 }

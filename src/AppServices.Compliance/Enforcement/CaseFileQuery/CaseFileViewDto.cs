@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.DtoInterfaces;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Core.EntityServices.AuditPoints;
@@ -47,10 +47,10 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public IList<Pollutant> Pollutants { get; } = [];
 
     [Display(Name = "Air Programs")]
-    public IList<AirProgram> AirPrograms { get; } = [];
+    public IList<AirProgramL> AirPrograms { get; } = [];
 
     public IEnumerable<string> AirProgramsAsStrings =>
-        AirPrograms.Select(program => program.GetDisplayName());
+        AirPrograms.Select(program => program.Name);
 
     public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
 

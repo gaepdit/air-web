@@ -83,5 +83,5 @@ public interface ICaseFileManager : IDisposable, IAsyncDisposable
     /// <param name="airPrograms">The Air Programs.</param>
     /// <param name="user">The user committing the change.</param>
     void UpdatePollutantsAndPrograms(CaseFile caseFile, IEnumerable<string> pollutants,
-        IEnumerable<AirProgram> airPrograms, ApplicationUser? user);
+        IEnumerable<string> airPrograms, ApplicationUser? user);
 }

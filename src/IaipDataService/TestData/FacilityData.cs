@@ -1,4 +1,4 @@
-using IaipDataService.Facilities;
+﻿using IaipDataService.Facilities;
 using IaipDataService.Structs;
 
 namespace IaipDataService.TestData;
@@ -29,7 +29,7 @@ public static class FacilityData
             new Pollutant("300000319", "Particulate Matter < 10 um"),
             new Pollutant("300000329", "Facility Wide"),
         ],
-        AirPrograms = [AirProgram.CAASIP, AirProgram.CAANSPS],
+        AirPrograms = [new("CAASIP", "SIP"), new("CAANSPS", "NSPS")],
         ProgramClassifications = [AirProgramClassification.NsrMajor, AirProgramClassification.HapMajor],
         OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
         EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,
@@ -80,7 +80,7 @@ public static class FacilityData
                     new Pollutant("300000329", "Facility Wide"),
                     new Pollutant("300000330", "Other Emissions Other than road based"),
                 ],
-                AirPrograms = [AirProgram.CAASIP, AirProgram.CAAMACT],
+                AirPrograms = [new("CAASIP", "SIP"), new("CAAMACT","MACT")],
                 ProgramClassifications = [AirProgramClassification.NsrMajor],
                 OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.Contribute,
                 EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.Atlanta,
@@ -126,7 +126,7 @@ public static class FacilityData
                 Naics = "123456",
                 StartupDate = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local),
                 PermitRevocationDate = new DateTime(2020, 2, 2, 0, 0, 0, DateTimeKind.Local),
-                AirPrograms = [AirProgram.CAASIP],
+                AirPrograms = [new("CAASIP", "SIP")],
                 ProgramClassifications = [AirProgramClassification.HapMajor],
                 OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
                 EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,
@@ -205,7 +205,7 @@ public static class FacilityData
                 StartupDate = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local),
                 PermitRevocationDate = null,
                 Pollutants = [new Pollutant("300000329", "Facility Wide")],
-                AirPrograms = [AirProgram.CAASIP, AirProgram.CAANSPS],
+                AirPrograms = [new("CAASIP", "SIP"), new("CAANSPS","NSPS")],
                 ProgramClassifications = [],
                 OneHourOzoneNonattainment = OneHourOzoneNonattainmentStatus.No,
                 EightHourOzoneNonattainment = EightHourOzoneNonattainmentStatus.None,

@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;
@@ -57,9 +57,10 @@ public sealed class IaipFacilityService(
                 return facility;
             }, splitOn: "FacilityAddressId,GeoCoordinatesId,RegulatoryDataId").Single();
 
+        //Update SQL Script
         if (loadDetails)
         {
-            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
+            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgramL>());
             facility.RegulatoryData!.ProgramClassifications.AddRange(
                 await multi.ReadAsync<AirProgramClassification>());
             facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());

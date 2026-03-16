@@ -1,4 +1,4 @@
-using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
@@ -286,14 +286,13 @@ internal static class AppDbContextConfiguration
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));
 
-        // Case File air programs: `List<AirProgram>`
+        // Case File air programs: `List<string>`
         builder.Entity<CaseFile>()
-            .Property(e => e.AirPrograms)
+            .Property(e => e.AirProgramCodes)
             .HasConversion(
-                original => JsonSerializer.Serialize(original.Select(p => p.ToString()), JsonSerializerOptions.Default),
-                serialized => JsonSerializer.Deserialize<List<string>>(serialized, JsonSerializerOptions.Default)!
-                    .Select(Enum.Parse<AirProgram>).ToList(),
-                new ValueComparer<ICollection<AirProgram>>(
+                original => JsonSerializer.Serialize(original, JsonSerializerOptions.Default),
+                serialized => JsonSerializer.Deserialize<List<string>>(serialized, JsonSerializerOptions.Default)!,
+                new ValueComparer<ICollection<string>>(
                     (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));

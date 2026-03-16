@@ -157,7 +157,7 @@ internal static class CaseFileData
 
                 caseFile.PollutantIds.AddRange(
                     facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
-                caseFile.AirPrograms.AddRange(facility.RegulatoryData.AirPrograms);
+                caseFile.AirProgramCodes.AddRange(facility.RegulatoryData.AirProgramsAsStrings);
             }
 
             // Set as deleted
