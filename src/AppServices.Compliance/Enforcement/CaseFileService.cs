@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.AppNotifications;
+using AirWeb.AppServices.Compliance.Comments;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;

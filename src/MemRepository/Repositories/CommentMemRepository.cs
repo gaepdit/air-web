@@ -40,24 +40,21 @@ public abstract class CommentMemRepository<TEntity, TKey, TComment>(IEnumerable<
 
     #region IDisposable,  IAsyncDisposable
 
-    ~CommentMemRepository() => Dispose(disposing: false);
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    // ReSharper disable once UnusedParameter.Global
+    protected virtual void Dispose(bool disposing) { }
 
     public void Dispose()
     {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(obj: this);
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     public ValueTask DisposeAsync()
     {
-        Dispose(disposing: false);
-        GC.SuppressFinalize(obj: this);
+        GC.SuppressFinalize(this);
         return ValueTask.CompletedTask;
     }
-
-    // ReSharper disable once VirtualMemberNeverOverridden.Global
-    // ReSharper disable once UnusedParameter.Global
-    protected virtual void Dispose(bool disposing) { }
 
     #endregion
 }

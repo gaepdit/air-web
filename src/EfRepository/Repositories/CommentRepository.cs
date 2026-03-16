@@ -40,33 +40,33 @@ public abstract class CommentRepository<TEntity, TKey, TComment, TContext>(TCont
 
     #region IDisposable, IAsyncDisposable
 
-    private bool _disposed;
-    ~CommentRepository() => Dispose(disposing: false);
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposing) return;
+        if (context is IDisposable contextDisposable)
+            contextDisposable.Dispose();
+        else
+            _ = context.DisposeAsync().AsTask();
+    }
 
     public void Dispose()
     {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(obj: this);
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    protected virtual async ValueTask DisposeAsyncCore()
+    {
+        await context.DisposeAsync().ConfigureAwait(false);
     }
 
     public async ValueTask DisposeAsync()
     {
         await DisposeAsyncCore().ConfigureAwait(false);
-        Dispose(disposing: false);
-        GC.SuppressFinalize(obj: this);
+        GC.SuppressFinalize(this);
     }
-
-    // ReSharper disable once VirtualMemberNeverOverridden.Global
-    // ReSharper disable once UnusedParameter.Global
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed) return;
-        Context.Dispose();
-        _disposed = true;
-    }
-
-    // ReSharper disable once VirtualMemberNeverOverridden.Global
-    protected virtual ValueTask DisposeAsyncCore() => Context.DisposeAsync();
 
     #endregion
 }
