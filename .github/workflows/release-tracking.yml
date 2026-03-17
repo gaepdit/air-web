@@ -1,15 +1,6 @@
 # Workflow to register a new application version with both GitHub Releases and Raygun deployment tracking.
-
-### NOTE: If Raygun deployment tracking is to be used, then enable this workflow and disable/delete 
-### the "github-release" workflow. This workflow handles both GitHub Releases and Raygun deployment tracking.
-
+#
 # The workflow is triggered when a tag in the format "v1.0.0" is pushed to GitHub.
-#
-# To use this workflow, you must add two "Action secrets" in the GitHub repository settings:
-#
-#    * RAYGUN_APIKEY = the API key for the Raygun project
-#    * RAYGUN_AUTHTOKEN = a "Personal Access Token" for your user account
-#      (generated at https://app.raygun.com/user/tokens)
 #
 # Learn more about Raygun Deployment Tracking at:
 # https://raygun.com/documentation/product-guides/deployment-tracking/overview/
@@ -27,7 +18,7 @@ on:
 jobs:
   release-tracking:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ false }}
+    if: ${{ true }}
     # ↑ Change to "true" (or delete) to enable the workflow.
 
     runs-on: ubuntu-latest
