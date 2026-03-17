@@ -2,6 +2,8 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Core.Offices;
 
@@ -19,8 +21,10 @@ public class Create
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
 
-        var appService = new OfficeService(Setup.Mapper!, Substitute.For<IOfficeRepository>(),
-            managerMock, userServiceMock, Substitute.For<IAuthorizationService>());
+        using var cache = Substitute.For<IMemoryCache>();
+
+        var appService = new OfficeService(Setup.Mapper!, Substitute.For<IOfficeRepository>(), managerMock,
+            userServiceMock, Substitute.For<IAuthorizationService>(), cache, Substitute.For<ILogger<OfficeService>>());
 
         // Act
         var result = await appService.CreateAsync(SampleText.ValidName);

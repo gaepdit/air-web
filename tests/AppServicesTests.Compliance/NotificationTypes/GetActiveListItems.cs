@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace AppServicesTests.Compliance.NotificationTypes;
@@ -23,8 +25,11 @@ public class GetActiveListItems
 
         var managerMock = Substitute.For<INotificationTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-        var appService =
-            new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock);
+
+        using var cache = Substitute.For<IMemoryCache>();
+
+        var appService = new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock, cache,
+            logger: Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act
         var result = await appService.GetAsListItemsAsync();
