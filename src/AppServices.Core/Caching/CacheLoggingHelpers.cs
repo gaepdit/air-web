@@ -40,5 +40,10 @@ public static class CacheLoggingHelpers
             logger.LogCacheHit(key);
             return true;
         }
+
+        public void Remove(params string[] keys)
+        {
+            foreach (var key in keys) cache.Remove(key);
+        }
     }
 }
