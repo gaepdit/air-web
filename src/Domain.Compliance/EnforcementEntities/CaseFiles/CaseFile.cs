@@ -122,7 +122,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     // are required if the data exchange is enabled.
     public ICollection<Pollutant> GetPollutants() => PollutantIds.AsPollutants();
     public List<string> PollutantIds { get; } = [];
-    public ICollection<AirProgramL> GetAirPrograms() => AirProgramCodes.AsAirPrograms();
+    public ICollection<AirProgram> GetAirPrograms() => AirProgramCodes.AsAirPrograms();
 
     public List<string> AirProgramCodes { get; } = [];
 

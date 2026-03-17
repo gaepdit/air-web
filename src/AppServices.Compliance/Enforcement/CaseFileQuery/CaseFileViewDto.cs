@@ -47,7 +47,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public IList<Pollutant> Pollutants { get; } = [];
 
     [Display(Name = "Air Programs")]
-    public IList<AirProgramL> AirPrograms { get; } = [];
+    public IList<AirProgram> AirPrograms { get; } = [];
 
     public IEnumerable<string> AirProgramsAsStrings =>
         AirPrograms.Select(program => program.Name);

@@ -20,5 +20,5 @@ public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>
     // Case File details
     Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default);
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
-    Task<IEnumerable<AirProgramL>> GetAirProgramsAsync(int id, CancellationToken token = default);
+    Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
 }

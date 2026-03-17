@@ -30,7 +30,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
 
     // Pollutants & Air Programs
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
-    Task<IEnumerable<AirProgramL>> GetAirProgramsAsync(int id, CancellationToken token = default);
+    Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
 
     Task SaveCaseFileExtraDataAsync(int id, IEnumerable<string> pollutants, IEnumerable<string> airPrograms,
         string? violationTypeCode, CancellationToken token = default);

@@ -60,7 +60,7 @@ public sealed class IaipFacilityService(
         //Update SQL Script
         if (loadDetails)
         {
-            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgramL>());
+            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
             facility.RegulatoryData!.ProgramClassifications.AddRange(
                 await multi.ReadAsync<AirProgramClassification>());
             facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());

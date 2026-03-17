@@ -26,6 +26,6 @@ public sealed class CaseFileMemRepository : BaseRepositoryWithMapping<CaseFile, 
     public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
         Task.FromResult<IEnumerable<Pollutant>>(Items.Single(caseFile => caseFile.Id.Equals(id)).GetPollutants());
 
-    public Task<IEnumerable<AirProgramL>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
-        Task.FromResult<IEnumerable<AirProgramL>>(Items.Single(caseFile => caseFile.Id.Equals(id)).GetAirPrograms());
+    public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
+        Task.FromResult<IEnumerable<AirProgram>>(Items.Single(caseFile => caseFile.Id.Equals(id)).GetAirPrograms());
 }

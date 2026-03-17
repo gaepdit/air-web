@@ -175,7 +175,7 @@ public sealed class CaseFileService(
     public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
         caseFileRepository.GetPollutantsAsync(id, token);
 
-    public Task<IEnumerable<AirProgramL>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
+    public Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
         caseFileRepository.GetAirProgramsAsync(id, token);
 
     public async Task SaveCaseFileExtraDataAsync(int id, IEnumerable<string> pollutants,

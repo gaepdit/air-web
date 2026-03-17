@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IaipDataService.Facilities;
 
-public record AirProgramL(
+public record AirProgram(
     string Code,
     string Name
 );

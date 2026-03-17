@@ -88,7 +88,7 @@ public record RegulatoryData
     /// Acid Precipitation, Native American, MACT, Title V, Risk Management Plan
     /// </remarks>
     [Display(Name = "Air Programs")]
-    public List<AirProgramL> AirPrograms { get; init; } = [];
+    public List<AirProgram> AirPrograms { get; init; } = [];
 
     public IEnumerable<string> AirProgramsAsStrings =>
         AirPrograms.Select(program => program.Code);
