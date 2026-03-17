@@ -22,7 +22,7 @@ public sealed class IaipFacilityService(
 
     private async Task<Facility?> GetFacilityAsync(FacilityId id, bool forceRefresh, bool loadDetails)
     {
-        if (!await ExistsAsync(id)) return null;
+        if (!await ExistsAsync(id).ConfigureAwait(false)) return null;
 
         var facilityDetailsCacheKey = FacilityDetailsCacheKey(id);
         var facilitySummaryCacheKey = FacilitySummaryCacheKey(id);
@@ -45,8 +45,9 @@ public sealed class IaipFacilityService(
         using var db = dbf.Create();
         var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
 
-        await using var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
-            commandType: CommandType.StoredProcedure);
+        var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
         var facility = multi.Read<Facility, Address, GeoCoordinates, RegulatoryData, Facility>(
             (facility, facilityAddress, geoCoordinates, regulatoryData) =>
@@ -59,10 +60,12 @@ public sealed class IaipFacilityService(
 
         if (loadDetails)
         {
-            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
+            facility.RegulatoryData!.AirPrograms.AddRange(
+                await multi.ReadAsync<AirProgram>().ConfigureAwait(false));
             facility.RegulatoryData!.ProgramClassifications.AddRange(
-                await multi.ReadAsync<AirProgramClassification>());
-            facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
+                await multi.ReadAsync<AirProgramClassification>().ConfigureAwait(false));
+            facility.RegulatoryData!.Pollutants.AddRange(
+                await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
         }
 
         return cache.Set(cacheKey, facility, CacheConstants.FacilityExpiration, logger, forceRefresh);
@@ -73,7 +76,7 @@ public sealed class IaipFacilityService(
 
     public async Task<string> GetNameAsync(string id)
     {
-        var facilityList = await GetListAsync();
+        var facilityList = await GetListAsync().ConfigureAwait(false);
         return facilityList.TryGetValue((FacilityId)id, out var name)
             ? name
             : throw new InvalidOperationException("Facility not found.");
@@ -83,14 +86,14 @@ public sealed class IaipFacilityService(
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<bool>("air.IaipFacilityExists",
-            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<ushort>("air.GetIaipFacilityNextActionNumber",
-            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     private const string FacilityListCacheKey = "IaipFacilityList";
@@ -104,7 +107,8 @@ public sealed class IaipFacilityService(
         using var db = dbf.Create();
         var facilityList = new ReadOnlyDictionary<FacilityId, string>(
             (await db.QueryAsync<KeyValuePair<FacilityId, string>>(
-                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
+                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure).ConfigureAwait(false))
+            .ToDictionary());
 
         return cache.Set(FacilityListCacheKey, facilityList, CacheConstants.FacilityListExpiration, logger);
     }

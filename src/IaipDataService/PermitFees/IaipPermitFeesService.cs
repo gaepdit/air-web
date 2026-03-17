@@ -17,7 +17,7 @@ public class IaipPermitFeesService(
     public async Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
         int lookBackYears, bool forceRefresh = false)
     {
-        if (!await facilityService.ExistsAsync(facilityId)) return [];
+        if (!await facilityService.ExistsAsync(facilityId).ConfigureAwait(false)) return [];
 
         var upperYear = cutoffDate.Month < 10 ? cutoffDate.Year - 1 : cutoffDate.Year;
         var lowerYear = upperYear - lookBackYears + 1;
@@ -31,7 +31,7 @@ public class IaipPermitFeesService(
 
         var feesSummary = (await db.QueryAsync<AnnualFeeSummary>("air.GetIaipAnnualFeesSummary",
             param: new { FacilityId = facilityId.Id, LowerYear = lowerYear, UpperYear = upperYear },
-            commandType: CommandType.StoredProcedure)).ToList();
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
 
         return cache.Set(cacheKey, feesSummary, CacheConstants.FeesSummaryExpiration, logger);
     }
