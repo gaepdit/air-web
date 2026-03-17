@@ -53,15 +53,17 @@ public sealed class FceService(
         return fce;
     }
 
+    private static readonly TimeSpan FceSupportingDataCacheTime = TimeSpan.FromDays(2);
+
     public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default)
     {
         // Check the cache first.
         var cacheKey = $"FceSupportingData.{facilityId}.{completedDate:yyyy-MM-dd}";
-        if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? summary))
-            return summary;
+        if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? cachedValue))
+            return cachedValue;
 
-        summary = new SupportingDataSummary
+        var summary = new SupportingDataSummary
         {
             Accs = await repository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
                 For<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
@@ -95,8 +97,7 @@ public sealed class FceService(
 
         await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
 
-        var fceSupportingDataCacheTime = TimeSpan.FromDays(2);
-        return cache.Set(cacheKey, summary, fceSupportingDataCacheTime, logger);
+        return cache.Set(summary, cacheKey, FceSupportingDataCacheTime, logger);
 
         Expression<Func<TSource, bool>> For<TSource>() where TSource : ComplianceWork => source =>
             source.FacilityId == facilityId && source.EventDate <= completedDate &&
