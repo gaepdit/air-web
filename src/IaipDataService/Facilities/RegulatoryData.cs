@@ -90,8 +90,7 @@ public record RegulatoryData
     [Display(Name = "Air Programs")]
     public List<AirProgram> AirPrograms { get; init; } = [];
 
-    public IEnumerable<string> AirProgramsAsStrings =>
-        AirPrograms.Select(program => program.Code);
+    public IEnumerable<string> AirProgramsAsStrings => AirPrograms.Select(program => program.Name);
 
     /// <summary>
     /// List of pollutants that apply to a facility.

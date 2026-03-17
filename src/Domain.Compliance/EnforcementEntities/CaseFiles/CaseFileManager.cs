@@ -91,8 +91,7 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
     }
 
     public void UpdatePollutantsAndPrograms(CaseFile caseFile, IEnumerable<string> pollutants,
-        IEnumerable<string> airPrograms,
-        ApplicationUser? user)
+        IEnumerable<string> airPrograms, ApplicationUser? user)
     {
         caseFile.PollutantIds.Clear();
         caseFile.PollutantIds.AddRange(pollutants);

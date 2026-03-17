@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace AirWeb.Domain.Compliance.Data;
 
-namespace AirWeb.Domain.Compliance.Data;
-
-public static class CommonoData
+public static partial class CommonData
 {
-    public static ICollection<AirProgram> AsAirPrograms(this List<string> airprogramIds) =>
-        AllAirPrograms.Where(airprogram => airprogramIds.Contains(airprogram.Code)).ToList();
+    public static ICollection<AirProgram> AsAirPrograms(this List<string> airProgramIds) =>
+        AllAirPrograms.Where(airProgram => airProgramIds.Contains(airProgram.Code)).ToList();
+
+    // ReSharper disable StringLiteralTypo
     private static List<AirProgram> AllAirPrograms { get; } =
     [
         new("CAASIP", "SIP"),
-        new("CAAFIP","Federal SIP"),
-        new("CAANFRP","Non-Federal SIP"),
-        new("CAACFC","CFC Tracking"),
-        new("CAAPSD","PSD"),
-        new("CAANSR","NSR"),
-        new("CAANESH","NESHAP"),
-        new("CAANSPS","NSPS"),
-        new("CAAAR","Acid Precipitation"),
-        new("CAAFENF","Federally-Enforceable Requirement"),
-        new("CAAFESOP","FESOP"),
-        new("CAAGHG","Greenhouse Gas Reporting Rule"),
-        new("CAANAM","Native American"),
-        new("CAAMACT","MACT"),
-        new("CAAPARGDC","Prevention of Accidental Release"),
-        new("CAATIP","Tribal Implementation Plan (TIP)"),
-        new("CAATVP","Title V"),
-        new("CAAGACTM","40 CFR Part 63 Area Sources"),
-        new("CAANSPSM","NSPS (Non-Major)"),
-        new("CAARMP","Risk Management Program"),
+        new("CAAFIP", "Federal SIP"),
+        new("CAANFRP", "Non-Federal SIP"),
+        new("CAACFC", "CFC Tracking"),
+        new("CAAPSD", "PSD"),
+        new("CAANSR", "NSR"),
+        new("CAANESH", "NESHAP"),
+        new("CAANSPS", "NSPS"),
+        new("CAAAR", "Acid Precipitation"),
+        new("CAAFENF", "Federally-Enforceable Requirement"),
+        new("CAAFESOP", "FESOP"),
+        new("CAAGHG", "Greenhouse Gas Reporting Rule"),
+        new("CAANAM", "Native American"),
+        new("CAAMACT", "MACT"),
+        new("CAAPARGDC", "Prevention of Accidental Release"),
+        new("CAATIP", "Tribal Implementation Plan (TIP)"),
+        new("CAATVP", "Title V"),
+        new("CAAGACTM", "40 CFR Part 63 Area Sources"),
+        new("CAANSPSM", "NSPS (Non-Major)"),
+        new("CAARMP", "Risk Management Program"),
     ];
 
     // ICIS Air Program Codes (original from `airbranch.dbo.LK_ICIS_PROGRAM`
@@ -56,5 +54,4 @@ public static class CommonoData
     // | <null>            | CAAGACTM          | 40 CFR Part 63 Area Sources                                              |
     // | <null>            | CAANSPSM          | New Source Performance Standards (Non-Major)                             |
     // | <null>            | CAARMP            | Risk Management Program                                                  |
-
 }

@@ -5,7 +5,6 @@ using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.Domain.Core.Entities;
 using GaEpd.AppLibrary.Domain.Entities;
-using IaipDataService.Facilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;

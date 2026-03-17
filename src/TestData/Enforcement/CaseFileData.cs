@@ -145,7 +145,8 @@ internal static class CaseFileData
 
                 if (caseFile is not { Id: > 302 }) continue;
 
-                var randomComplianceEvent = ComplianceWorkData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
+                var randomComplianceEvent =
+                    ComplianceWorkData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
                 if (randomComplianceEvent != null)
                 {
                     caseFile.ComplianceEvents.Add(randomComplianceEvent);
@@ -155,9 +156,8 @@ internal static class CaseFileData
                 var facility = FacilityData.GetFacility(caseFile.FacilityId);
                 if (facility.RegulatoryData is null) continue;
 
-                caseFile.PollutantIds.AddRange(
-                    facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
-                caseFile.AirProgramCodes.AddRange(facility.RegulatoryData.AirProgramsAsStrings);
+                caseFile.PollutantIds.AddRange(facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
+                caseFile.AirProgramCodes.AddRange(facility.RegulatoryData.AirPrograms.Select(program => program.Code));
             }
 
             // Set as deleted
