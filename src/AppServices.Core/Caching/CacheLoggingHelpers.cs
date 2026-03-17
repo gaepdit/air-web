@@ -8,7 +8,7 @@ namespace AirWeb.AppServices.Core.Caching;
 public static class CacheLoggingHelpers
 {
     private static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
-    private static readonly EventId AirWebCacheRefresh = new(2504, nameof(AirWebCacheRefresh));
+    private static readonly EventId AirWebCacheMiss = new(2504, nameof(AirWebCacheMiss));
 
     extension(ILogger logger)
     {
@@ -16,7 +16,7 @@ public static class CacheLoggingHelpers
             logger.ZLogInformation(AirWebCacheHit, $"Cache hit for key: {cacheKey}");
 
         private void LogCacheRefresh(string cacheKey) =>
-            logger.ZLogInformation(AirWebCacheRefresh, $"Cache miss for key: {cacheKey}");
+            logger.ZLogInformation(AirWebCacheMiss, $"Cache miss for key: {cacheKey}");
     }
 
     extension(IMemoryCache cache)
