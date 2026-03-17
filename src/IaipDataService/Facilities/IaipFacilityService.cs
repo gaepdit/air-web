@@ -57,7 +57,6 @@ public sealed class IaipFacilityService(
                 return facility;
             }, splitOn: "FacilityAddressId,GeoCoordinatesId,RegulatoryDataId").Single();
 
-        //Update SQL Script
         if (loadDetails)
         {
             facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
