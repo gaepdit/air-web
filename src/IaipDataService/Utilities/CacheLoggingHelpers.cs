@@ -25,7 +25,7 @@ internal static class CacheLoggingHelpers
 
     extension(IMemoryCache cache)
     {
-        public TItem Set<TItem>(string key, TItem value, TimeSpan timeSpan, ILogger logger, bool forceRefresh = false)
+        public TItem Set<TItem>(TItem value, string key, TimeSpan timeSpan, ILogger logger, bool forceRefresh = false)
         {
             cache.Set(key, value, new MemoryCacheEntryOptions().SetAbsoluteExpiration(timeSpan));
             if (forceRefresh)

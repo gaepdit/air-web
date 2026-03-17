@@ -39,7 +39,7 @@ public sealed class IaipFacilityService(
             if (cache.TryGetValue(facilityDetailsCacheKey, logger, out cachedValue))
                 return loadDetails
                     ? cachedValue
-                    : cache.Set(cacheKey, cachedValue, CacheConstants.FacilityExpiration, logger);
+                    : cache.Set(cachedValue, cacheKey, CacheConstants.FacilityExpiration, logger);
         }
 
         using var db = dbf.Create();
@@ -68,7 +68,7 @@ public sealed class IaipFacilityService(
                 await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
         }
 
-        return cache.Set(cacheKey, facility, CacheConstants.FacilityExpiration, logger, forceRefresh);
+        return cache.Set(facility, cacheKey, CacheConstants.FacilityExpiration, logger, forceRefresh);
     }
 
     private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
@@ -101,8 +101,7 @@ public sealed class IaipFacilityService(
     public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
     {
         if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
-                out ReadOnlyDictionary<FacilityId, string>? cachedValue))
-            return cachedValue;
+                out ReadOnlyDictionary<FacilityId, string>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
         var facilityList = new ReadOnlyDictionary<FacilityId, string>(
@@ -110,6 +109,6 @@ public sealed class IaipFacilityService(
                 sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure).ConfigureAwait(false))
             .ToDictionary());
 
-        return cache.Set(FacilityListCacheKey, facilityList, CacheConstants.FacilityListExpiration, logger);
+        return cache.Set(facilityList, FacilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
     }
 }

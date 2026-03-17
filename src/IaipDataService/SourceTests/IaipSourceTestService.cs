@@ -66,16 +66,15 @@ public class IaipSourceTestService(
                 return summary;
             }).SingleOrDefault();
 
-        return cache.Set(cacheKey, testSummary, CacheConstants.SourceTestExpiration, logger, forceRefresh);
+        return cache.Set(testSummary, cacheKey, CacheConstants.SourceTestExpiration, logger, forceRefresh);
     }
 
     public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false)
     {
         var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
-        if (!forceRefresh &&
-            cache.TryGetValue(cacheKey, logger, out IReadOnlyCollection<SourceTestSummary>? cachedValue))
-            return cachedValue;
+        if (!forceRefresh && cache.TryGetValue(cacheKey, logger,
+                out IReadOnlyCollection<SourceTestSummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
 
@@ -91,7 +90,7 @@ public class IaipSourceTestService(
                 return summary;
             }).ToList();
 
-        return cache.Set(cacheKey, sourceTests, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+        return cache.Set(sourceTests, cacheKey, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
     }
 
     public async Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
