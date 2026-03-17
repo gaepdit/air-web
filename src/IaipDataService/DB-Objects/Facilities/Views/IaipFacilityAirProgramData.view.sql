@@ -21,11 +21,11 @@ When        Who                 What
 select t.Sequence,
        right(t.STRAIRSNUMBER, 8) as [FacilityId],
        t.Code,
-       t.Name
+       t.Description
 from (select 1                                                              as [Sequence],
              STRAIRSNUMBER,
              IIF(substring(STRAIRPROGRAMCODES, 1, 1) = '1', 'CAASIP', null) as [Code],
-             'SIP'                                                          as [Name]
+             'SIP' as [Description]
       from dbo.APBHEADERDATA
       union
       select 2,

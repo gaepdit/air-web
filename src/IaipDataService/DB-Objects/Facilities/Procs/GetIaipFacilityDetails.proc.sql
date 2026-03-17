@@ -57,7 +57,7 @@ BEGIN
     from air.IaipFacilityData
     where Id = @FacilityId;
 
-    select Code, Name
+    select Code, Description
     from air.IaipFacilityAirProgramData
     where FacilityId = @FacilityId
     order by Sequence;
