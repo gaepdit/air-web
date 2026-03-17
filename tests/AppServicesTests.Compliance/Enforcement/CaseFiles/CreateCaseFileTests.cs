@@ -1,7 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.Enforcement;
+﻿using AirWeb.AppServices.Compliance.Comments;
+using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Core.AppNotifications;
-using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
