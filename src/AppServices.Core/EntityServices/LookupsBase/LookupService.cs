@@ -92,10 +92,9 @@ public abstract class LookupService<TEntity, TViewDto, TUpdateDto>(
 
     private void RemoveCaches(Guid? id = null)
     {
-        cache.Remove($"{LookupName}.List",
-            $"{LookupName}.ListItems.includeInactive",
-            $"{LookupName}.ListItems");
-        if (id != null) cache.Remove($"{LookupName}.{id}", $"{LookupName}.Update.{id}");
+        cache.RemoveAll([$"{LookupName}.List", $"{LookupName}.ListItems.includeInactive", $"{LookupName}.ListItems"]);
+
+        if (id != null) cache.RemoveAll([$"{LookupName}.{id}", $"{LookupName}.Update.{id}"]);
     }
 
     #region IDisposable,  IAsyncDisposable
