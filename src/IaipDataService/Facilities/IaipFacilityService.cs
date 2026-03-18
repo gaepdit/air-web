@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;

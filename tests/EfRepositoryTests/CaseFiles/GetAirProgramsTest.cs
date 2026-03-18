@@ -20,8 +20,8 @@ public class GetAirProgramsTest
     public async Task GivenAirProgramsExist_Return()
     {
         // Arrange
-        var caseFile = CaseFileData.GetData.First(e => e.AirPrograms.Count > 0);
-        var expected = caseFile.AirPrograms;
+        var caseFile = CaseFileData.GetData.First(e => e.AirProgramCodes.Count > 0);
+        var expected = caseFile.GetAirPrograms();
 
         // Act
         var results = await _repository.GetAirProgramsAsync(caseFile.Id);
@@ -34,7 +34,7 @@ public class GetAirProgramsTest
     public async Task GivenNoAirPrograms_ReturnEmpty()
     {
         // Arrange
-        var caseFile = CaseFileData.GetData.First(e => e.AirPrograms.Count == 0);
+        var caseFile = CaseFileData.GetData.First(e => e.AirProgramCodes.Count == 0);
 
         // Act
         var results = await _repository.GetAirProgramsAsync(caseFile.Id);

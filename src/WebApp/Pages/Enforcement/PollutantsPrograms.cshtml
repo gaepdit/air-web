@@ -46,8 +46,8 @@
             <div class="form-check">
                 <label class="form-check-label" asp-for="@Model.AirProgramSettings[index].IsSelected">
                     <input class="form-check-input" type="checkbox" asp-for="@Model.AirProgramSettings[index].IsSelected">
-                    @program.AirProgram.GetDisplayName()
-                    <input type="hidden" asp-for="@Model.AirProgramSettings[index].AirProgram" />
+                    @program.Description
+                    <input type="hidden" asp-for="@Model.AirProgramSettings[index].Code" />
                 </label>
             </div>
         }
