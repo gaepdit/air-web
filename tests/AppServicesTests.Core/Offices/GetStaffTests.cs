@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace AppServicesTests.Core.Offices;
 
-public class GetStaff
+public class GetStaffTests
 {
     [Test]
     public async Task WhenOfficeExists_ReturnsViewDtoList()

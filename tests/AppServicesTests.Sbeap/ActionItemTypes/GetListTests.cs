@@ -2,6 +2,8 @@
 using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AppServicesTests.Sbeap.TestData;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Sbeap.ActionItemTypes;
 
@@ -18,10 +20,9 @@ public class GetListTests
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>())
             .Returns(itemList);
 
-        var managerMock = Substitute.For<IActionItemTypeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-
-        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock);
+        using var cache = Substitute.For<IMemoryCache>();
+        var appService = new ActionItemTypeService(repoMock, Substitute.For<IActionItemTypeManager>(), Setup.Mapper!,
+            Substitute.For<IUserService>(), cache, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.GetListAsync();
@@ -39,7 +40,9 @@ public class GetListTests
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
 
-        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock);
+        using var cache = Substitute.For<IMemoryCache>();
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock, cache,
+            Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.GetListAsync();

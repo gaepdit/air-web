@@ -2,6 +2,8 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Sbeap.ActionItemTypes;
 
@@ -21,9 +23,11 @@ public class ActionItemTypeService(
     IActionItemTypeRepository repository,
     IActionItemTypeManager manager,
     IMapper mapper,
-    IUserService userService)
+    IUserService userService,
+    IMemoryCache cache,
+    ILogger<ActionItemTypeService> logger)
     : LookupService<ActionItemType, ActionItemTypeViewDto, ActionItemTypeUpdateDto>
-        (mapper, repository, manager, userService), IActionItemTypeService;
+        (mapper, repository, manager, userService, cache, logger), IActionItemTypeService;
 
 // Validators
 

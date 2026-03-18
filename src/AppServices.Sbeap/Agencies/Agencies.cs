@@ -2,6 +2,8 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Sbeap.Entities.Agencies;
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Sbeap.Agencies;
 
@@ -21,9 +23,11 @@ public class AgencyService(
     IAgencyRepository repository,
     IAgencyManager manager,
     IMapper mapper,
-    IUserService userService)
+    IUserService userService,
+    IMemoryCache cache,
+    ILogger<AgencyService> logger)
     : LookupService<Agency, AgencyViewDto, AgencyUpdateDto>
-        (mapper, repository, manager, userService), IAgencyService;
+        (mapper, repository, manager, userService, cache, logger), IAgencyService;
 
 // Validators
 

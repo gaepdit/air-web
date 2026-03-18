@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Core.Offices;
 
-public class Create
+public class CreateTests
 {
     [Test]
     public async Task WhenResourceIsValid_ReturnsId()

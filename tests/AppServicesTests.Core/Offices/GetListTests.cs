@@ -7,17 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Core.Offices;
 
-public class GetList
+public class GetListTests
 {
-    private static OfficeService GetService(IOfficeRepository repoMock)
-    {
-        var userServiceMock = Substitute.For<IUserService>();
-        var logger = Substitute.For<ILogger<OfficeService>>();
-        using var cache = Substitute.For<IMemoryCache>();
-        return new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(), userServiceMock,
-            Substitute.For<IAuthorizationService>(), cache, logger);
-    }
-
     [Test]
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
@@ -28,7 +19,10 @@ public class GetList
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
 
-        var appService = GetService(repoMock);
+        using var cache = Substitute.For<IMemoryCache>();
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>(), cache,
+            Substitute.For<ILogger<OfficeService>>());
 
         // Act
         var result = await appService.GetListAsync();
@@ -45,7 +39,10 @@ public class GetList
         repoMock.GetListAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new List<Office>());
 
-        var appService = GetService(repoMock);
+        using var cache = Substitute.For<IMemoryCache>();
+        var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>(), cache,
+            Substitute.For<ILogger<OfficeService>>());
 
         // Act
         var result = await appService.GetListAsync();

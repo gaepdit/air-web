@@ -29,7 +29,7 @@ public class GetActiveListItems
         using var cache = Substitute.For<IMemoryCache>();
 
         var appService = new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock, cache,
-            logger: Substitute.For<ILogger<NotificationTypeService>>());
+            Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act
         var result = await appService.GetAsListItemsAsync();

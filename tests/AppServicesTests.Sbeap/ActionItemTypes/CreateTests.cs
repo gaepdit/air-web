@@ -3,6 +3,8 @@ using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AppServicesTests.Sbeap.TestData;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Sbeap.ActionItemTypes;
 
@@ -23,8 +25,9 @@ public class CreateTests
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
 
-        var appService = new ActionItemTypeService(repoMock, managerMock,
-            Setup.Mapper!, userServiceMock);
+        using var cache = Substitute.For<IMemoryCache>();
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock, cache,
+            Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.CreateAsync(item.Name);
