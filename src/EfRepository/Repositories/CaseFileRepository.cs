@@ -37,5 +37,5 @@ public sealed class CaseFileRepository(AppDbContext context)
         (await GetAsync(id, token).ConfigureAwait(false)).GetPollutants();
 
     public async Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default) =>
-        (await GetAsync(id, token).ConfigureAwait(false)).AirPrograms;
+        (await GetAsync(id, token).ConfigureAwait(false)).GetAirPrograms();
 }

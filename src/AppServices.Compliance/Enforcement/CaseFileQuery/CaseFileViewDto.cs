@@ -1,4 +1,4 @@
-using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.DtoInterfaces;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Core.EntityServices.AuditPoints;
@@ -8,7 +8,6 @@ using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core.BaseEntities;
-using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
@@ -49,8 +48,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Air Programs")]
     public IList<AirProgram> AirPrograms { get; } = [];
 
-    public IEnumerable<string> AirProgramsAsStrings =>
-        AirPrograms.Select(program => program.GetDisplayName());
+    public IEnumerable<string> AirProgramsAsStrings => AirPrograms.Select(program => program.Description);
 
     public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
 
