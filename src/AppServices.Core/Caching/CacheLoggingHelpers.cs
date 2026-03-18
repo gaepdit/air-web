@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using ZLogger;
@@ -41,7 +41,7 @@ public static class CacheLoggingHelpers
             return true;
         }
 
-        public void Remove(params string[] keys)
+        public void RemoveAll(string[] keys)
         {
             foreach (var key in keys) cache.Remove(key);
         }

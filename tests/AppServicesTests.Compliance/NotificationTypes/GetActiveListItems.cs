@@ -1,4 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using Microsoft.Extensions.Caching.Memory;

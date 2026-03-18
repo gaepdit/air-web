@@ -68,7 +68,7 @@ public class EditModel(
 
     private async Task PopulateSelectListsAsync()
     {
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole)).ToSelectList();
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
             nameof(ViolationType.Code), nameof(ViolationType.Display),

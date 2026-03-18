@@ -51,7 +51,7 @@ public class EnforcementIndexModel(
 
     private async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        StaffSelectList = (await staff.GetUsersAsync(includeInactive: true)).ToSelectList();
+        StaffSelectList = staff.GetAllStaff().ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetAll(),
             nameof(ViolationType.Code), nameof(ViolationType.Display),
