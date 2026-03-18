@@ -1,4 +1,3 @@
-using AirWeb.AppServices;
 using AirWeb.AppServices.Compliance;
 using AirWeb.AppServices.Compliance.AutoMapper;
 using AirWeb.AppServices.Core;
@@ -13,13 +12,7 @@ using ZLogger;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure logging
-builder.Logging.ClearProviders().AddZLoggerConsole(options =>
-{
-    if (builder.Environment.IsDevelopment())
-        options.UsePlainTextFormatter();
-    else
-        options.UseJsonFormatter();
-});
+builder.Logging.ClearProviders().AddZLoggerConsole(options => options.UseJsonFormatter());
 
 // Configure basic settings.
 builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();

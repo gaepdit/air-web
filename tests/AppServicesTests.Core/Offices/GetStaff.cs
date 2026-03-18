@@ -2,6 +2,8 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace AppServicesTests.Core.Offices;
@@ -32,8 +34,11 @@ public class GetStaff
                 requirements: Arg.Any<IEnumerable<IAuthorizationRequirement>>())
             .Returns(AuthorizationResult.Success());
 
+        var logger = Substitute.For<ILogger<OfficeService>>();
+        using var cache = Substitute.For<IMemoryCache>();
+
         var appService = new OfficeService(Setup.Mapper!, repoMock, Substitute.For<IOfficeManager>(),
-            Substitute.For<IUserService>(), authorizationMock);
+            Substitute.For<IUserService>(), Substitute.For<IAuthorizationService>(), cache, logger);
 
         // Act
         var result = await appService.GetStaffAsListItemsAsync(Guid.NewGuid());
