@@ -1,4 +1,4 @@
-﻿namespace AirWeb.AppServices.Core.Caching;
+namespace AirWeb.AppServices.Core.Caching;
 
 internal static class CacheConstants
 {

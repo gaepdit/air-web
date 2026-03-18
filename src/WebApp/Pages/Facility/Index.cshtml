@@ -1,4 +1,5 @@
 ﻿@page
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
 @{
@@ -67,9 +68,7 @@ else
                     </div>
                     <div class="col-auto my-0 ms-3">
                         <a asp-route-refresh="true" class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
                             Refresh IAIP Data
                         </a>
                     </div>

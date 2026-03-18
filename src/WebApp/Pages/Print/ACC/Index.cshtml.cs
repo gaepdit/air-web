@@ -1,7 +1,7 @@
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 using AirWeb.AppServices.Core.Utilities;
-using AirWeb.WebApp.Platform.PrintoutModels;
+using AirWeb.WebApp.Pages.Print.PrintSectionModels;
 using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Print.ACC;

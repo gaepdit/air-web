@@ -5,6 +5,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain.Compliance\Domain.Compliance.csproj" />
+        <ProjectReference Include="..\Domain.Sbeap\Domain.Sbeap.csproj" />
         <ProjectReference Include="..\TestData\TestData.csproj" />
     </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace AirWeb.Domain.Compliance.Data;
 
-public static partial class CommonData
+public static partial class CommonComplianceData
 {
     public static ICollection<AirProgram> AsAirPrograms(this List<string> airProgramIds) =>
         AllAirPrograms.Where(airProgram => airProgramIds.Contains(airProgram.Code)).ToList();

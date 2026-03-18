@@ -1,5 +1,6 @@
-﻿using AirWeb.MemRepository.Identity;
-using AirWeb.MemRepository.Repositories;
+﻿using AirWeb.MemRepository.CommonRepositories;
+using AirWeb.MemRepository.ComplianceRepositories;
+using AirWeb.MemRepository.Identity;
 
 namespace MemRepositoryTests;
 

@@ -1,5 +1,5 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.ComplianceRepositories;
 using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.ComplianceMonitoring;
@@ -23,7 +23,8 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Compliance Work has comments.");
 
         // Act
-        var result = await _repository.FindAsync(expected.Id, includeProperties: IComplianceWorkRepository.IncludeComments);
+        var result =
+            await _repository.FindAsync(expected.Id, includeProperties: IComplianceWorkRepository.IncludeComments);
 
         // Assert
         using var scope = new AssertionScope();
