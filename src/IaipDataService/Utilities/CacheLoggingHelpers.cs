@@ -9,6 +9,7 @@ internal static class CacheLoggingHelpers
 {
     private static readonly EventId IaipDataCacheHit = new(2601, nameof(IaipDataCacheHit));
     private static readonly EventId IaipDataCacheRefresh = new(2602, nameof(IaipDataCacheRefresh));
+    private static readonly EventId IaipDataCacheMiss = new(2603, nameof(IaipDataCacheMiss));
 
     extension(ILogger logger)
     {
@@ -16,15 +17,15 @@ internal static class CacheLoggingHelpers
             logger.ZLogInformation(IaipDataCacheHit, $"Cache hit for key: {cacheKey}");
 
         private void LogCacheRefresh(string cacheKey) =>
-            logger.ZLogInformation(IaipDataCacheRefresh, $"Forcing cache refresh for key: {cacheKey}");
+            logger.ZLogInformation(IaipDataCacheRefresh, $"Cache refresh for key: {cacheKey}");
 
         private void LogCacheMiss(string cacheKey) =>
-            logger.ZLogInformation(IaipDataCacheRefresh, $"Cache miss for key: {cacheKey}");
+            logger.ZLogInformation(IaipDataCacheMiss, $"Cache miss for key: {cacheKey}");
     }
 
     extension(IMemoryCache cache)
     {
-        public TItem Set<TItem>(string key, TItem value, TimeSpan timeSpan, ILogger logger, bool forceRefresh = false)
+        public TItem Set<TItem>(TItem value, string key, TimeSpan timeSpan, ILogger logger, bool forceRefresh = false)
         {
             cache.Set(key, value, new MemoryCacheEntryOptions().SetAbsoluteExpiration(timeSpan));
             if (forceRefresh)

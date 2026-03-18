@@ -30,7 +30,7 @@ public sealed class TestFacilityService : IFacilityService
 
     public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
     {
-        var facility = await FindFacility(id);
+        var facility = await FindFacility(id).ConfigureAwait(false);
         return facility is null
             ? throw new ArgumentException($"Facility not found: {id}")
             : facility.NextActionNumber++;
