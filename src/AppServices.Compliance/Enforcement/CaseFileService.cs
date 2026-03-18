@@ -75,6 +75,9 @@ public sealed class CaseFileService(
         return caseFile;
     }
 
+    public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
+        caseFileRepository.ExistsAsync(id, token);
+
     public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)
     {

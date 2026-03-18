@@ -13,6 +13,7 @@ public interface IComplianceWorkService : IDisposable, IAsyncDisposable
     Task<IComplianceWorkViewDto?> FindAsync(int id, bool includeComments, CancellationToken token = default);
     Task<ComplianceWorkSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<ComplianceWorkType?> GetComplianceWorkTypeAsync(int id, CancellationToken token = default);
+    Task<bool> ExistsAsync(int id, CancellationToken token = default);
 
     // Enforcement Cases
     Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default);
