@@ -64,7 +64,7 @@ public enum ReviewResult
     Canceled,
 
     // Forwarded to someone else for additional review.
-    [Display(Name = "Forwarded for additional review")]
+    [Display(Name = "Approved and forwarded for additional review")]
     [Description("Approve and forward for additional review")]
     Forwarded,
 }

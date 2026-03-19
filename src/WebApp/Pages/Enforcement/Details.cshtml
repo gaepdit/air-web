@@ -541,15 +541,13 @@
                     @if (action is IIsExecuted { IsExecuted: true } executed)
                     {
                         <div>
-                            Executed
-                            on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            Executed on @Html.DisplayFor(_ => executed.ExecutedDate, DisplayTemplate.ShortDateOnlyNullable)
                         </div>
                     }
                     @if (action is { Status: EnforcementActionStatus.Draft, StatusDate: not null })
                     {
                         <div>
-                            Draft started
-                            on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
+                            Draft started on @Html.DisplayFor(_ => action.StatusDate, DisplayTemplate.ShortDateOnlyNullable)
                         </div>
                     }
                     else if (action.Status == EnforcementActionStatus.ReviewRequested)
@@ -557,38 +555,31 @@
                         var currentReview = action.CurrentOpenReview!;
 
                         <div>
-                            Review requested by @currentReview.RequestedByFullName
-                            from @currentReview.RequestedOfFullName
-                            on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.DateTimeShort)
+                            Review requested on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.DateTimeShort)
                         </div>
                     }
                     else if (action.Status == EnforcementActionStatus.Approved)
                     {
                         <div>
-                            Approved
-                            by @Html.DisplayFor(_ => action.ApprovedBy, DisplayTemplate.NameOrPlaceholder)
-                            on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.DateTimeNullableShort)
+                            Approved on @Html.DisplayFor(_ => action.ApprovedDate, DisplayTemplate.DateTimeNullableShort)
                         </div>
                     }
                     else if (action.Status == EnforcementActionStatus.Issued)
                     {
                         <div>
-                            Issued
-                            on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                            Issued on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
                         </div>
                     }
                     else if (action.Status == EnforcementActionStatus.Canceled)
                     {
                         <div>
-                            Canceled
-                            on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.DateTimeNullableShort)
+                            Canceled on @Html.DisplayFor(_ => action.CanceledDate, DisplayTemplate.DateTimeNullableShort)
                         </div>
                     }
                     @if (action is IIsResolved { IsResolved: true } resolved)
                     {
                         <div>
-                            Resolved
-                            on @Html.DisplayFor(_ => resolved.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
+                            Resolved on @Html.DisplayFor(_ => resolved.ResolvedDate, DisplayTemplate.ShortDateOnlyNullable)
                         </div>
                     }
                     @if (action.IsDeleted)
@@ -600,23 +591,50 @@
                         </div>
                     }
                 </div>
-                @if (action.Reviews.Any(r => r.IsCompleted))
+                @if (action.Reviews.Any())
                 {
                     <div class="card-footer small text-body-secondary py-1">
                         <details>
-                            <summary class="rounded-1 py-1"><span class="ps-1">Completed reviews</span></summary>
-                            <ul class="list-unstyled mt-1">
-                                @foreach (var review in action.Reviews.Where(r => r.IsCompleted).OrderBy(r => r.RequestedDate))
+                            <summary class="rounded-1 py-1"><span class="ps-1">Show reviews</span></summary>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var review in action.Reviews.OrderBy(r => r.RequestedDate))
                                 {
-                                    <li>
-                                        <em>@Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):</em>
-                                        @review.Result!.Value.GetDisplayName() by @review.ReviewedByFullName
-                                        @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
+                                    <li class="list-group-item bg-transparent">
+                                        <em>@Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.DateTimeNullableShort):</em>
+                                        Review requested by @review.RequestedByFullName
+                                        from @review.RequestedOfFullName.
+                                        @if (review.IsCompleted)
                                         {
-                                            <blockquote class="ps-2 m-0 my-2 border-start border-3 text-break">
-                                                <div class="text-pre-line"><em>Comments:</em> @review.ReviewComments
-                                                </div>
-                                            </blockquote>
+                                            <div class="mt-2">
+                                                <svg class="SVGBGI complete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path class="accent" fill="#b9e6ff" d="M21 17H7l-4 4V4.98h18V17z" />
+                                                    <path class="outline" d="M19.5 4h-15A2.5 2.5 0 0 0 2 6.5V21a1 1 0 0 0 1.71.71L7.42 18h12.09a2.5 2.5 0 0 0 2.5-2.5v-9a2.5 2.5 0 0 0-2.5-2.5Zm.48 11.5a.5.5 0 0 1-.5.5H7c-.27 0-.52.11-.71.29L4 18.58V6.52c0-.28.22-.5.5-.5h15c.28 0 .5.22.5.5l-.02 8.98ZM17 8H7c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1ZM13 12H7c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1Z" />
+                                                    <path class="solid" d="M19.5 4h-15A2.5 2.5 0 0 0 2 6.5V21a1 1 0 0 0 1.71.71L7.42 18h12.09a2.5 2.5 0 0 0 2.5-2.5v-9a2.5 2.5 0 0 0-2.5-2.5ZM13 14H7c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1Zm4-4H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1Z" />
+                                                </svg>
+                                                Review completed
+                                                by @review.ReviewedByFullName
+                                                on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):
+                                                <em>@review.Result!.Value.GetDisplayName().</em>
+                                                @if (!string.IsNullOrWhiteSpace(review.ReviewComments))
+                                                {
+                                                    <blockquote class="ps-2 m-0 mt-2 ms-1 border-start border-3 text-break">
+                                                        <em>Review comments:</em>
+                                                        <div class="text-pre-line">@review.ReviewComments
+                                                        </div>
+                                                    </blockquote>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="mt-2">
+                                                <svg class="SVGBGI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path class="accent" d="m19 20-7-6-7 6L4 4h16l-1 16z" />
+                                                    <path class="outline" d="M5.5 20.88a2.5 2.5 0 0 1-2.5-2.5V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v12.88a2.5 2.5 0 0 1-4.27 1.77l-4.38-4.38a.5.5 0 0 0-.71 0l-4.38 4.38a2.5 2.5 0 0 1-1.77.73Zm8.27-6.53 4.38 4.38a.5.5 0 0 0 .85-.35V5.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v12.88c0 .45.54.67.85.35l4.38-4.38a2.5 2.5 0 0 1 3.54 0Z" />
+                                                    <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
+                                                </svg>
+                                                <em>Review not yet completed.</em>
+                                            </div>
                                         }
                                     </li>
                                 }
@@ -928,7 +946,7 @@
         <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
             <div class="container">
                 <details>
-                    <summary class="rounded-1 p-1"><span class="ps-1">Show EPA Data Exchange info</span></summary>
+                    <summary class="rounded-1 p-1"><span class="ps-1">Show EPA data exchange info</span></summary>
                     <h5 class="h6 mt-2">Case File</h5>
                     <dl class="row mt-2 mb-0 ms-1">
                         <dt class="col-sm-4">Is this a reportable Case File?</dt>
