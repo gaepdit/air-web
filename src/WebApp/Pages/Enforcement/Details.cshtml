@@ -46,6 +46,11 @@
         setupModalWithDateValidation(buttonName, modalId, hiddenInputId, null, labelId);
     }
 </script>
+
+<div class="container">
+<div class = "row">
+<div class="col-md-10 order-2 order-md-1">
+
 @if (caseFile.IsDeleted)
 {
     <div class="callout callout-danger mb-3">
@@ -920,6 +925,16 @@
     </div>
 }
 
+</div>
+
+<div class="col-md-2 order-1 order-md-2">
+    <div class="sticky-md-top" id="toc-container">
+        <h3 class="h5 d-none d-md-block no-anchor">On this Page</h3>
+        <div class="list-group list-group-flush d-md-block" id="toc"></div>
+    </div>
+</div>
+</div>
+</div>
 @section Footer {
     @if (caseFile.ActionNumber != null)
     {
@@ -980,4 +995,5 @@
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
+    <script src="~/js/table-of-contents.js" defer></script>
 }
