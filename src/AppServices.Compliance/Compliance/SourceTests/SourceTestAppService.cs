@@ -12,6 +12,8 @@ public interface ISourceTestAppService
 
     Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
         PaginatedRequest paging);
+
+    Task<bool> SourceTestExistsAsync(int referenceNumber);
 }
 
 public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
@@ -35,4 +37,7 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
 
         return new PaginatedResult<SourceTestSummary>(tests.Item1, tests.Item2, paging);
     }
+
+    public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
+        sourceTestService.SourceTestExistsAsync(referenceNumber);
 }
