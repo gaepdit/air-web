@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.3.19] - 2026-03-19
+
+- Fixed incorrect Air Programs displayed in Facilities and Case Files.
+
 ## [2026.3.11] - 2026-03-11
 
 - Automatically set reporting period dates when changing the report type.
@@ -31,3 +35,4 @@
 [2026.3.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.4
 [2026.3.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.6
 [2026.3.11]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.11
+[2026.3.19]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.19
