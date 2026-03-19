@@ -23,7 +23,6 @@ public class FceIndexModel(
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter an FCE ID.")]
-    [Display(Name = "FCE ID")]
     public string? FindId { get; set; }
 
     public FceSearchDto Spec { get; set; } = null!;

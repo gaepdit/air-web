@@ -22,7 +22,6 @@ public class EnforcementIndexModel(
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter an Enforcement ID.")]
-    [Display(Name = "Enforcement ID")]
     public string? FindId { get; set; }
 
     public CaseFileSearchDto Spec { get; set; } = null!;

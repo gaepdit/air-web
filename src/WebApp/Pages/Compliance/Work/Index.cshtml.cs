@@ -21,7 +21,6 @@ public class ComplianceIndexModel(
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter a Compliance ID.")]
-    [Display(Name = "Compliance ID")]
     public string? FindId { get; set; }
 
     public ComplianceWorkSearchDto Spec { get; set; } = null!;
