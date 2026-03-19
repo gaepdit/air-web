@@ -24,31 +24,25 @@ public class SourceTestIndexModel(ISourceTestAppService service) : PageModel
     public IDictionary<string, string?> RouteValues => new Dictionary<string, string?>
         { { nameof(ShowAll), ShowAll.ToString() } };
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false,
-        CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false) =>
+        await PageWithSearchResultsAsync(p, showAll);
+
+    public async Task<IActionResult> OnPostAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false)
     {
-        PageNumber = p;
-        ShowAll = showAll;
-
-        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
-        var userEmail = showAll ? null : User.GetEmail();
-        SearchResults = await service.GetOpenSourceTestsForComplianceAsync(assignmentEmail: userEmail, paging);
-
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostAsync([FromQuery] int p = 1, [FromQuery] bool showAll = false,
-        CancellationToken token = default)
-    {
-        if (!ModelState.IsValid) return Page();
+        if (!ModelState.IsValid) return await PageWithSearchResultsAsync(p, showAll);
 
         if (!int.TryParse(FindId, out var referenceNumber))
             ModelState.AddModelError(nameof(FindId), "Reference Number must be a number.");
         else if (!await service.SourceTestExistsAsync(referenceNumber))
             ModelState.AddModelError(nameof(FindId), "The Reference Number entered does not exist.");
 
-        if (ModelState.IsValid) return RedirectToPage("Details", routeValues: new { referenceNumber });
+        return ModelState.IsValid
+            ? RedirectToPage("Details", routeValues: new { referenceNumber })
+            : await PageWithSearchResultsAsync(p, showAll);
+    }
 
+    private async Task<IActionResult> PageWithSearchResultsAsync(int p, bool showAll)
+    {
         PageNumber = p;
         ShowAll = showAll;
 
@@ -59,7 +53,6 @@ public class SourceTestIndexModel(ISourceTestAppService service) : PageModel
         return Page();
     }
 
-    public IActionResult OnGetSearch([FromQuery] int p = 1, [FromQuery] bool showAll = false,
-        CancellationToken token = default) =>
+    public IActionResult OnGetSearch([FromQuery] int p = 1, [FromQuery] bool showAll = false) =>
         RedirectToPage("Index", pageHandler: null, routeValues: new { showAll, p }, fragment: "");
 }
