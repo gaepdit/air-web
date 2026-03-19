@@ -180,6 +180,9 @@ public sealed class FceService(
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
+    public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
+        fceRepository.ExistsAsync(id, token);
+
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
     {

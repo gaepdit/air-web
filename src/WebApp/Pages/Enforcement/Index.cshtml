@@ -9,6 +9,23 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
+    <form method="post" role="search" class="my-1">
+        <div class="row row-cols-sm-auto align-items-center">
+            <div class="col-12 mb-2 mb-sm-0">
+                <label for="FindId">Find by Enforcement ID</label>
+            </div>
+            <div class="col-12">
+                <div class="input-group input-group-sm">
+                    <input id="FindId" asp-for="FindId" class="form-control" type="search" placeholder="Enter ID" aria-label="Search" />
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2 mt-sm-0"><span asp-validation-for="FindId" class="text-danger-emphasis"></span></div>
+    </form>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">

@@ -1,4 +1,4 @@
-﻿@model MainMenuViewComponent.MenuParams
+@model MainMenuViewComponent.MenuParams
 @{
     var onSbeapSite = (bool)(ViewData["SBEAP"] ?? false);
 }
@@ -78,7 +78,11 @@
                                         <li>
                                             <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
                                         </li>
-                                        <li><a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement Cases</a>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement Cases</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/SourceTest/Index">Source Tests</a>
                                         </li>
                                     }
                                 </ul>

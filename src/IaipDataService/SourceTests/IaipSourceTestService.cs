@@ -69,6 +69,13 @@ public class IaipSourceTestService(
         return cache.Set(testSummary, cacheKey, CacheConstants.SourceTestExpiration, logger, forceRefresh);
     }
 
+    public async Task<bool> SourceTestExistsAsync(int referenceNumber)
+    {
+        using var db = dbf.Create();
+        return await db.ExecuteScalarAsync<bool>("air.SourceTestExists",
+            param: new { referenceNumber }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+    }
+
     public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false)
     {
@@ -121,13 +128,6 @@ public class IaipSourceTestService(
         await db.ExecuteAsync("air.UpdateSourceTest",
             param: new { referenceNumber, assignmentEmail, complianceReviewDate },
             commandType: CommandType.StoredProcedure).ConfigureAwait(false);
-    }
-
-    private async Task<bool> SourceTestExistsAsync(int referenceNumber)
-    {
-        using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<bool>("air.SourceTestExists",
-            param: new { referenceNumber }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     private async Task<DocumentType> GetDocumentTypeAsync(int referenceNumber)

@@ -12,6 +12,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     // Query
     Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default);
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
+    Task<bool> ExistsAsync(int id, CancellationToken token = default);
 
     // Case File commands
     Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);

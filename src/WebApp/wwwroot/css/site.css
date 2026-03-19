@@ -566,6 +566,28 @@ svg:not(:root) {
     }
 }
 
+/* Icons by SVGBackgrounds.com
+   https://www.svgbackgrounds.com/elements/triple-threat-svg-icons/
+   
+-------------------------------------------------- */
+.SVGBGI {
+    height: 1rem;
+    width: 1rem;
+    fill: var(--bs-body-color);
+}
+
+.SVGBGI .accent, .SVGBGI .solid {
+    fill: none;
+}
+
+.SVGBGI .accent {
+    fill: var(--bs-warning-border-subtle);
+}
+
+.SVGBGI.complete .accent {
+    fill: var(--bs-success-border-subtle)
+}
+
 /* ==================================================
 Print styles
 ================================================== */
