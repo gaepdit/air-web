@@ -3,6 +3,8 @@
 ## [2026.3.19] - 2026-03-19
 
 - Fixed incorrect Air Programs displayed in Facilities and Case Files.
+- Added quick access fields to all search forms.
+- Improved the display of enforcement action reviews.
 
 ## [2026.3.11] - 2026-03-11
 
