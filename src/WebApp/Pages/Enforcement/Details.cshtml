@@ -605,7 +605,12 @@
                                         from @review.RequestedOfFullName.
                                         @if (review.IsCompleted)
                                         {
-                                            <div class="mt-2 ms-4">
+                                            <div class="mt-2">
+                                                <svg class="SVGBGI complete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path class="accent" fill="#b9e6ff" d="M21 17H7l-4 4V4.98h18V17z" />
+                                                    <path class="outline" d="M19.5 4h-15A2.5 2.5 0 0 0 2 6.5V21a1 1 0 0 0 1.71.71L7.42 18h12.09a2.5 2.5 0 0 0 2.5-2.5v-9a2.5 2.5 0 0 0-2.5-2.5Zm.48 11.5a.5.5 0 0 1-.5.5H7c-.27 0-.52.11-.71.29L4 18.58V6.52c0-.28.22-.5.5-.5h15c.28 0 .5.22.5.5l-.02 8.98ZM17 8H7c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1ZM13 12H7c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1Z" />
+                                                    <path class="solid" d="M19.5 4h-15A2.5 2.5 0 0 0 2 6.5V21a1 1 0 0 0 1.71.71L7.42 18h12.09a2.5 2.5 0 0 0 2.5-2.5v-9a2.5 2.5 0 0 0-2.5-2.5ZM13 14H7c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1Zm4-4H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1Z" />
+                                                </svg>
                                                 Review completed
                                                 by @review.ReviewedByFullName
                                                 on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort):
@@ -622,7 +627,12 @@
                                         }
                                         else
                                         {
-                                            <div class="mt-2 ms-4">
+                                            <div class="mt-2">
+                                                <svg class="SVGBGI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path class="accent" d="m19 20-7-6-7 6L4 4h16l-1 16z" />
+                                                    <path class="outline" d="M5.5 20.88a2.5 2.5 0 0 1-2.5-2.5V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v12.88a2.5 2.5 0 0 1-4.27 1.77l-4.38-4.38a.5.5 0 0 0-.71 0l-4.38 4.38a2.5 2.5 0 0 1-1.77.73Zm8.27-6.53 4.38 4.38a.5.5 0 0 0 .85-.35V5.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v12.88c0 .45.54.67.85.35l4.38-4.38a2.5 2.5 0 0 1 3.54 0Z" />
+                                                    <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
+                                                </svg>
                                                 <em>Review not yet completed.</em>
                                             </div>
                                         }
