@@ -5,30 +5,55 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace IaipDataService.Facilities;
 
+// The enum numbering matches the numbering system used in the IAIP DB `dbo.APBHEADERDATA.STRAIRPROGRAMCODES`
+// and the values returned by the `air.IaipFacilityAirProgramData` stored procedure.
+// The IAIP only goes up to 14; additional programs not used in the IAIP are numbered starting at 101.
+// This numbering system is deprecated by PR https://github.com/gaepdit/air-web/pull/537, which
+// switches from an enum to a class and rewrites the SP to return program codes rather than integers.
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum AirProgram
 {
-    [Display(Name = "SIP")] CAASIP,
-    [Display(Name = "Federal SIP")] CAAFIP,
-    [Display(Name = "Non-Federal SIP")] CAANFRP,
-    [Display(Name = "CFC Tracking")] CAACFC,
-    [Display(Name = "PSD")] CAAPSD,
-    [Display(Name = "NSR")] CAANSR,
-    [Display(Name = "NESHAP")] CAANESH,
-    [Display(Name = "NSPS")] CAANSPS,
-    [Display(Name = "Acid Precipitation")] CAAAR,
-    [Display(Name = "Federally-Enforceable Requirement")] CAAFENF,
-    [Display(Name = "FESOP")] CAAFESOP,
-    [Display(Name = "Greenhouse Gas Reporting Rule")] CAAGHG,
-    [Display(Name = "Native American")] CAANAM,
-    [Display(Name = "MACT")] CAAMACT,
-    [Display(Name = "Prevention of Accidental Release")] CAAPARGDC,
-    [Display(Name = "Tribal Implementation Plan (TIP)")] CAATIP,
-    [Display(Name = "Title V")] CAATVP,
-    [Display(Name = "40 CFR Part 63 Area Sources")] CAAGACTM,
-    [Display(Name = "NSPS (Non-Major)")] CAANSPSM,
-    [Display(Name = "Risk Management Program")] CAARMP,
+    [Display(Name = "SIP")] CAASIP = 1,
+    [Display(Name = "Federal SIP")] CAAFIP = 2,
+    [Display(Name = "Non-Federal SIP")] CAANFRP = 3,
+    [Display(Name = "CFC Tracking")] CAACFC = 4,
+    [Display(Name = "PSD")] CAAPSD = 5,
+    [Display(Name = "NSR")] CAANSR = 6,
+    [Display(Name = "NESHAP")] CAANESH = 7,
+    [Display(Name = "NSPS")] CAANSPS = 8,
+    [Display(Name = "Acid Precipitation")] CAAAR = 10,
+    [Display(Name = "Federally-Enforceable Requirement")] CAAFENF = 101,
+    [Display(Name = "FESOP")] CAAFESOP = 9,
+    [Display(Name = "Greenhouse Gas Reporting Rule")] CAAGHG = 102,
+    [Display(Name = "Native American")] CAANAM = 11,
+    [Display(Name = "MACT")] CAAMACT = 12,
+    [Display(Name = "Prevention of Accidental Release")] CAAPARGDC = 103,
+    [Display(Name = "Tribal Implementation Plan (TIP)")] CAATIP = 104,
+    [Display(Name = "Title V")] CAATVP = 13,
+    [Display(Name = "40 CFR Part 63 Area Sources")] CAAGACTM = 105,
+    [Display(Name = "NSPS (Non-Major)")] CAANSPSM = 106,
+    [Display(Name = "Risk Management Program")] CAARMP = 14,
 }
+
+// Original Air Program numbering from the IAIP:
+//
+// Public ReadOnly Property AirProgramBitPosition As New Dictionary(Of AirPrograms, Integer) From {
+//     {AirPrograms.None, 0},
+//     {AirPrograms.SIP, 1},
+//     {AirPrograms.FederalSIP, 2},
+//     {AirPrograms.NonFederalSIP, 3},
+//     {AirPrograms.CfcTracking, 4},
+//     {AirPrograms.PSD, 5},
+//     {AirPrograms.NSR, 6},
+//     {AirPrograms.NESHAP, 7},
+//     {AirPrograms.NSPS, 8},
+//     {AirPrograms.FESOP, 9},
+//     {AirPrograms.AcidPrecipitation, 10},
+//     {AirPrograms.NativeAmerican, 11},
+//     {AirPrograms.MACT, 12},
+//     {AirPrograms.TitleV, 13},
+//     {AirPrograms.RMP, 14}
+// }
 
 // ICIS Air Program Codes (original from `airbranch.dbo.LK_ICIS_PROGRAM`
 // 
