@@ -20,6 +20,7 @@ public interface IFceService : IDisposable, IAsyncDisposable
     Task<CommandResult> DeleteAsync(int id, NotesDto resource, CancellationToken token = default);
     Task<CommandResult> RestoreAsync(int id, CancellationToken token = default);
     Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default);
+    Task<bool> ExistsAsync(int id, CancellationToken token = default);
 
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);

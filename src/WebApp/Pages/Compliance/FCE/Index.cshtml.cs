@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
@@ -8,16 +9,22 @@ using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class FceIndexModel(
     IFceSearchService searchService,
+    IFceService fceService,
     IStaffService staff,
     IOfficeService offices,
     IAuthorizationService authorization) : PageModel
 {
+    [BindProperty]
+    [Required(ErrorMessage = "Enter an FCE ID.")]
+    public string? FindId { get; set; }
+
     public FceSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
@@ -51,6 +58,27 @@ public class FceIndexModel(
         var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: Spec.Sort.GetDescription());
         SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
         ShowResults = true;
+    }
+
+    public async Task<IActionResult> OnPostAsync(CancellationToken token)
+    {
+        if (!ModelState.IsValid)
+        {
+            UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
+            await PopulateSelectListsAsync(token);
+            return Page();
+        }
+
+        if (!int.TryParse(FindId, out var id))
+            ModelState.AddModelError(nameof(FindId), "FCE ID must be a number.");
+        else if (!await fceService.ExistsAsync(id, token: token))
+            ModelState.AddModelError(nameof(FindId), "The FCE ID entered does not exist.");
+
+        if (ModelState.IsValid) return RedirectToPage("Details", routeValues: new { id });
+
+        UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
+        await PopulateSelectListsAsync(token);
+        return Page();
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token)
