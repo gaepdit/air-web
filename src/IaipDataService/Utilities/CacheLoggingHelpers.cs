@@ -47,5 +47,10 @@ internal static class CacheLoggingHelpers
             logger.LogCacheHit(key);
             return true;
         }
+
+        public void RemoveAll(string[] keys)
+        {
+            foreach (var key in keys) cache.Remove(key);
+        }
     }
 }

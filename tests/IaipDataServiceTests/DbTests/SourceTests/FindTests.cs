@@ -1,8 +1,9 @@
 using IaipDataService.SourceTests;
+using IaipDataService.SourceTests.Models;
 
 namespace IaipDataServiceTests.DbTests.SourceTests;
 
-public class FindSummary
+public class FindTests
 {
     private IaipSourceTestService _sut;
 
@@ -19,21 +20,20 @@ public class FindSummary
     public async Task IfExists_ReturnsRecord()
     {
         // Act
-        var result = await _sut.FindSummaryAsync(Config.TestFacilityReferenceNumber);
+        var result = await _sut.FindAsync(Config.TestFacilityReferenceNumber);
 
         // Assert
         using var scope = new AssertionScope();
+        result.Should().BeOfType<SourceTestReportOpacity>();
         result.Should().NotBeNull();
         result.ReferenceNumber.Should().Be(Config.TestFacilityReferenceNumber);
-        result.Facility.Should().NotBeNull();
-        result.Facility.FacilityId.Should().Be(Config.TestFacilityId);
     }
 
     [Test]
     public async Task IfNotExists_ReturnsNull()
     {
         // Act
-        var result = await _sut.FindSummaryAsync(Config.NonexistentReferenceNumber);
+        var result = await _sut.FindAsync(Config.NonexistentReferenceNumber);
 
         // Assert
         result.Should().BeNull();

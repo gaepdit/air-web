@@ -18,11 +18,13 @@ public class IaipSourceTestService(
 {
     public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
-        var getDocumentTypeTask = GetDocumentTypeAsync(referenceNumber);
-
         if (!await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)) return null;
 
-        return await getDocumentTypeTask.ConfigureAwait(false) switch
+        var cacheKey = $"IaipSourceTestService.Find.{referenceNumber}";
+        if (cache.TryGetValue(cacheKey, logger, out BaseSourceTestReport? cachedValue))
+            return cachedValue;
+
+        BaseSourceTestReport? report = await GetDocumentTypeAsync(referenceNumber).ConfigureAwait(false) switch
         {
             DocumentType.Unassigned => null,
             DocumentType.OneStackTwoRuns or DocumentType.OneStackThreeRuns or DocumentType.OneStackFourRuns =>
@@ -40,14 +42,19 @@ public class IaipSourceTestService(
                 await GetOpacityAsync(referenceNumber).ConfigureAwait(false),
             _ => null,
         };
+
+        return cache.Set(report, cacheKey, CacheConstants.SourceTestExpiration, logger);
     }
 
     public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber, bool forceRefresh = false)
     {
         if (!await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)) return null;
 
-        var cacheKey = $"IaipSourceTestService.FindSummaryAsync.{referenceNumber}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedValue))
+        var cacheKey = $"IaipSourceTestService.FindSummary.{referenceNumber}";
+        var printoutCacheKey = $"IaipSourceTestService.Find.{referenceNumber}";
+
+        if (forceRefresh) cache.RemoveAll([cacheKey, printoutCacheKey]);
+        else if (cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedValue))
             return cachedValue;
 
         using var db = dbf.Create();

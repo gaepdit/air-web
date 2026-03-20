@@ -11,6 +11,7 @@ public class IndexModel : PageModel
     public AccViewDto? Report { get; set; }
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public MemoHeader MemoHeader { get; private set; }
+    public bool ShowReturnLink { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
         [FromServices] IComplianceWorkService complianceWorkService,
@@ -34,6 +35,7 @@ public class IndexModel : PageModel
                       $"AIRS # {Facility.Id}",
         };
 
+        ShowReturnLink = User.Identity is { IsAuthenticated: true };
         return Page();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.Compliance.AppNotifications;
 using AirWeb.AppServices.Compliance.Comments;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Compliance.Fces.SupportingData;
+using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.Caching;
 using AirWeb.AppServices.Core.CommonDtos;
@@ -10,6 +12,8 @@ using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AutoMapper;
+using GaEpd.AppLibrary.Extensions;
+using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.PermitFees;
 using IaipDataService.SourceTests;
@@ -24,7 +28,7 @@ public sealed class FceService(
     IMapper mapper,
     IFceRepository fceRepository,
     IFceManager fceManager,
-    IComplianceWorkRepository repository,
+    IComplianceWorkRepository complianceRepository,
     ICaseFileRepository caseFileRepository,
     IFacilityService facilityService,
     ISourceTestService sourceTestService,
@@ -33,8 +37,7 @@ public sealed class FceService(
     IUserService userService,
     IAppNotificationService appNotificationService,
     IMemoryCache cache,
-    ILogger<FceService> logger)
-    : IFceService
+    ILogger<FceService> logger) : IFceService
 #pragma warning restore S107
 {
     public async Task<FceViewDto?> FindAsync(int id, CancellationToken token = default)
@@ -55,33 +58,33 @@ public sealed class FceService(
 
     private static readonly TimeSpan FceSupportingDataCacheTime = TimeSpan.FromDays(2);
 
-    public async Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
-        CancellationToken token = default)
+    public async Task<SupportingDataPrintout> GetSupportingPrintoutDataAsync(FacilityId facilityId,
+        DateOnly completedDate, CancellationToken token = default)
     {
         // Check the cache first.
-        var cacheKey = $"FceSupportingData.{facilityId}.{completedDate:yyyy-MM-dd}";
-        if (cache.TryGetValue(cacheKey, logger, out SupportingDataSummary? cachedValue))
+        var cacheKey = $"FceSupportingPrintout.{facilityId}.{completedDate:yyyy-MM-dd}";
+        if (cache.TryGetValue(cacheKey, logger, out SupportingDataPrintout? cachedValue))
             return cachedValue;
 
-        var summary = new SupportingDataSummary
+        var summary = new SupportingDataPrintout
         {
-            Accs = await repository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
-                For<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
+            Accs = await complianceRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
+                FilterFor<AnnualComplianceCertification>(), mapper, token: token).ConfigureAwait(false),
 
-            Inspections = await repository.GetListAsync<InspectionSummaryDto, Inspection>(
-                For<Inspection>(), mapper, token: token).ConfigureAwait(false),
+            Inspections = await complianceRepository.GetListAsync<InspectionSummaryDto, Inspection>(
+                FilterFor<Inspection>(), mapper, token: token).ConfigureAwait(false),
 
-            Notifications = await repository.GetListAsync<NotificationSummaryDto, Notification>(
-                For<Notification>(), mapper, token: token).ConfigureAwait(false),
+            Notifications = await complianceRepository.GetListAsync<NotificationSummaryDto, Notification>(
+                FilterFor<Notification>(), mapper, token: token).ConfigureAwait(false),
 
-            Reports = await repository.GetListAsync<ReportSummaryDto, Report>(
-                For<Report>(), mapper, token: token).ConfigureAwait(false),
+            Reports = await complianceRepository.GetListAsync<ReportSummaryDto, Report>(
+                FilterFor<Report>(), mapper, token: token).ConfigureAwait(false),
 
-            RmpInspections = await repository.GetListAsync<InspectionSummaryDto, RmpInspection>(
-                For<RmpInspection>(), mapper, token: token).ConfigureAwait(false),
+            RmpInspections = await complianceRepository.GetListAsync<InspectionSummaryDto, RmpInspection>(
+                FilterFor<RmpInspection>(), mapper, token: token).ConfigureAwait(false),
 
-            SourceTests = await repository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
-                For<SourceTestReview>(), mapper, token: token).ConfigureAwait(false),
+            SourceTests = await complianceRepository.GetListAsync<SourceTestSummaryDto, SourceTestReview>(
+                FilterFor<SourceTestReview>(), mapper, token: token).ConfigureAwait(false),
 
             EnforcementCases = mapper.Map<IEnumerable<EnforcementCaseSummaryDto>>(
                 await caseFileRepository.GetListAsync(caseFile =>
@@ -99,9 +102,53 @@ public sealed class FceService(
 
         return cache.Set(summary, cacheKey, FceSupportingDataCacheTime, logger);
 
-        Expression<Func<TSource, bool>> For<TSource>() where TSource : ComplianceWork => source =>
-            source.FacilityId == facilityId && source.EventDate <= completedDate &&
-            source.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
+        Expression<Func<TSource, bool>> FilterFor<TSource>() where TSource : ComplianceWork =>
+            source => source.FacilityId == facilityId && source.EventDate <= completedDate &&
+                      source.EventDate >= completedDate.AddYears(-Fce.DataPeriod);
+    }
+
+    public async Task<SupportingDataDetails> GetSupportingDetailsAsync(FacilityId facilityId, DateOnly completedDate,
+        bool forceRefresh = false, CancellationToken token = default)
+    {
+        // Check the cache first.
+        var cacheKey = $"FceSupportingDetails.{facilityId}.{completedDate:yyyy-MM-dd}";
+        var printoutCacheKey = $"FceSupportingPrintout.{facilityId}.{completedDate:yyyy-MM-dd}";
+
+        if (forceRefresh) cache.RemoveAll([cacheKey, printoutCacheKey]);
+        else if (cache.TryGetValue(cacheKey, logger, out SupportingDataDetails? cachedValue))
+            return cachedValue;
+
+        var complianceSpec = new ComplianceWorkSearchDto
+        {
+            FacilityId = facilityId,
+            EventDateTo = completedDate,
+            EventDateFrom = completedDate.AddYears(-Fce.DataPeriod),
+        };
+        var compliancePagination = new PaginatedRequest(pageNumber: 1, pageSize: 100,
+            sorting: ComplianceWorkSortBy.WorkTypeAsc.GetDescription());
+
+        var caseFileSpec = new CaseFileSearchDto
+        {
+            FacilityId = facilityId,
+            EnforcementDateTo = completedDate,
+            EnforcementDateFrom = completedDate.AddYears(-Fce.ExtendedDataPeriod),
+        };
+        var caseFilePaging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
+            sorting: CaseFileSortBy.IdAsc.GetDescription());
+
+        var details = new SupportingDataDetails
+        {
+            AnnualFeesSummary = await permitFeesService
+                .GetAnnualFeesAsync(facilityId, completedDate, Fce.ExtendedDataPeriod).ConfigureAwait(false),
+            CaseFileSummary = await caseFileRepository
+                .GetPagedListAsync<CaseFileSearchResultDto>(CaseFileFilters.SearchPredicate(caseFileSpec),
+                    caseFilePaging, mapper, token: token).ConfigureAwait(false),
+            ComplianceSummary = await complianceRepository
+                .GetPagedListAsync<ComplianceWorkSearchResultDto>(ComplianceWorkFilters.SearchPredicate(complianceSpec),
+                    compliancePagination, mapper, token: token).ConfigureAwait(false),
+        };
+
+        return cache.Set(details, cacheKey, FceSupportingDataCacheTime, logger);
     }
 
     private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)

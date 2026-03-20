@@ -2,7 +2,7 @@ using IaipDataService.SourceTests;
 
 namespace IaipDataServiceTests.DbTests.SourceTests;
 
-public class GetOpenSourceTestsForCompliance
+public class GetSourceTestsForFacilityTests
 {
     private IaipSourceTestService _sut;
 
@@ -19,11 +19,9 @@ public class GetOpenSourceTestsForCompliance
     public async Task ReturnsList()
     {
         // Act
-        var result = await _sut.GetOpenSourceTestsForComplianceAsync(assignmentEmail: null, skip: 0, take: 1);
+        var result = await _sut.GetSourceTestsForFacilityAsync(Config.TestFacilityId);
 
         // Assert
-        using var scope = new AssertionScope();
-        result.Item1.Should().ContainSingle();
-        result.Item2.Should().BePositive();
+        result.Should().NotBeEmpty();
     }
 }
