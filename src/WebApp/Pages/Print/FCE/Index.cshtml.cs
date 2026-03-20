@@ -7,7 +7,7 @@ namespace AirWeb.WebApp.Pages.Print.FCE;
 public class IndexModel : PageModel
 {
     public FceViewDto? FceView { get; private set; }
-    public SupportingDataSummary SupportingData { get; set; } = null!;
+    public SupportingDataPrintout SupportingData { get; set; } = null!;
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public bool ShowReturnLink { get; private set; }
 
@@ -23,7 +23,7 @@ public class IndexModel : PageModel
         Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FceView.FacilityId);
         if (Facility == null) return NotFound();
 
-        SupportingData = await fceService.GetSupportingDataAsync(Facility.Id, FceView.CompletedDate, token);
+        SupportingData = await fceService.GetSupportingPrintoutDataAsync(Facility.Id, FceView.CompletedDate, token);
 
         ShowReturnLink = User.Identity is { IsAuthenticated: true };
         return Page();
