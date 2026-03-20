@@ -48,7 +48,7 @@
                 {
                     <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
                 }
-                <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id" target="_blank" rel="noopener"
+            <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id"
                    class="btn btn-outline-secondary icon-link justify-content-center no-external-link ms-1">
                     <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
                     Print

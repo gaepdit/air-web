@@ -1,5 +1,6 @@
 ﻿@page "~/print/acc/{id:int}"
 @using AirWeb.AppServices.Core.Utilities
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
@@ -12,6 +13,15 @@
     ViewData["Title"] = Model.Report!.AccReportingYear is null
         ? $"Facility {Model.Facility!.Id} - Title V ACC Memo: {Model.Report!.ReceivedDate.ToString(DateTimeFormats.ShortDate)}"
         : $"Facility {Model.Facility!.Id} - Title V ACC Memo: {Model.Report!.AccReportingYear.ToString()}";
+}
+@if (Model.ShowReturnLink)
+{
+    <div class="return-link">
+        <a asp-page="/Compliance/Work/Details" asp-route-id="@report.Id" class="icon-link">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+            ACC Details Page
+        </a>
+    </div>
 }
 
 <div class="page-wrapper">

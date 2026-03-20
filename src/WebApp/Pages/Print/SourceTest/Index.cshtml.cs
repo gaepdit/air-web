@@ -12,6 +12,7 @@ public class IndexModel : PageModel
     public MemoHeader MemoHeader { get; private set; }
     public OrganizationInfo OrganizationInfo { get; private set; } = null!;
     public bool ShowConfidentialWarning { get; private set; }
+    public bool ShowReturnLink { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(
         [FromServices] ISourceTestService sourceTestService,
@@ -38,6 +39,8 @@ public class IndexModel : PageModel
         };
         ShowConfidentialWarning = includeConfidentialInfo && Report.ConfidentialParameters.Count != 0;
         OrganizationInfo = AppSettings.OrganizationInfo with { NameOfDirector = Report.EpdDirector };
+
+        ShowReturnLink = User.Identity is { IsAuthenticated: true };
         return Page();
     }
 }
