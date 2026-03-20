@@ -50,7 +50,7 @@
 <div class="container">
 <div class = "row">
 
-<div class="col-md-10 order-2 order-md-1">
+<div class=" col-12 col-md-10 order-1 order-md-1"">
 
 @if (caseFile.IsDeleted)
 {
@@ -105,6 +105,10 @@
 </div>
 
 <div class="lead">Enforcement Tracking #@Model.Id.ToString()</div>
+
+@*Section 1 end and section 2 start*@
+</div>
+<div class="col-12 col-md-10 order-3 order-md-2">
 
 @if (caseFile.AttentionNeeded && Model.UserCan[CaseFileOperation.EditCaseFile])
 {
@@ -928,9 +932,10 @@
 
 </div>
 
+
 @*Table of Contents*@
-<div class="col-md-2 order-1 order-md-2">
-    <div class="sticky-md-top" style="top: 1rem;">
+<div class="col-12 col-md-2 order-2 order-md-3">
+    <div class="sticky-md-top">
         <div id="toc-container">
             <h3 class="h5">On this Page</h3>
             <div class="list-group list-group-flush " id="toc"></div>
@@ -938,7 +943,7 @@
     </div>
 </div>
 
-@*Container/Row end div*@
+@*container and row end div*@
 </div>
 </div>
 
