@@ -98,18 +98,18 @@ flowchart TB
     W --> AS
 ```
 
-Since that's a little complicated, here's a simplified version:
+That's a little complicated; here's a simplified version:
 
 ```mermaid
 flowchart TB
     I[IaipDataServices]
     DC[Domain.Core]
-    DB[Domain.BusinessUnit] --> I
+    DB[Domain.BusinessUnits] --> I
     DB --> DC
     AC[AppServices.Core] ---> DC
-    AB[AppServices.BusinessUnit] ---> DB
+    AB[AppServices.BusinessUnits] ---> DB
     AB --> AC
-    R[Repository] ---> DB
+    R[EF/Mem Repository] ---> DB
     W[WebApp] --> R
     W --> AB
 ```
@@ -140,6 +140,9 @@ Here's a sample `appsettings.Development.json` file to start out:
             "EnforcementManager",
             "EnforcementReviewer",
             "GeneralStaff",
+            "SbeapAdmin",
+            "SbeapSiteMaintenance",
+            "SbeapStaff",
             "SiteMaintenance"
         ],
         "EnableSecurityHeaders": false,
@@ -175,9 +178,9 @@ Here's a sample `appsettings.Development.json` file to start out:
 - *TestUserRoles* — Adds the listed App Roles to the logged-in account. (Only applies if `TestUserIsAuthenticated` is
   `true`.)
 
-  **Important warning:** Arrays in app settings are not simply replaced by the `appsettings.Development.json` file.
-  Rather, each index in the array is individually compared. So, for example, if you want to reduce the roles used by
-  your test user, you would add something similar to the following to your dev settings section:
+**Important warning:** In the app settings files, arrays are not replaced in whole by the `appsettings.Development.json`
+file. Rather, each index in the array is individually compared. So, for example, if you want to reduce the roles used by
+your test user, you would add something similar to the following to your dev settings section:
 
 ```json
 {
@@ -189,7 +192,10 @@ Here's a sample `appsettings.Development.json` file to start out:
             "",
             "",
             "",
-            "GeneralStaff",
+            "",
+            "SbeapAdmin",
+            "",
+            "SbeapStaff",
             "SiteMaintenance"
         ]
     }

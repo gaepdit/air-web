@@ -12,5 +12,11 @@ application [on 5-Sep-2023](https://github.com/gaepdit/sbeap/releases/tag/prod%2
 
 ## Air Web Application — Stationary Source Compliance Program
 
-Planning for a new web application to continue migrating functionality out of the IAIP began in January 2024, starting
-with SSCP compliance and enforcement activities.
+This new Air Branch web application was
+launched [on 2-Feb-2026](https://github.com/gaepdit/air-web/releases/tag/v2026.2.28) to continue migrating functionality
+out of the IAIP, starting with SSCP compliance and enforcement activities.
+
+## SBEAP consolidation
+
+[On 6-Apr-2026](https://github.com/gaepdit/air-web/releases/tag/v2026.4.6), the SBEAP application code was folded into
+the Air Web app codebase. 
