@@ -16,6 +16,10 @@
     ViewData["Title"] = $"{workTypeName} #{Model.Id} (Facility {report.FacilityId})";
 }
 
+<div class="container">
+<div class="row">
+<div class="col-12 col-md-10 order-1 order-md-1">
+
 @if (report.IsDeleted)
 {
     <div class="callout callout-danger mb-3">
@@ -100,6 +104,10 @@
         </div>
     }
 </div>
+
+@*Section 1 end and section 2 start*@
+</div>
+<div class="col-12 col-md-10 order-3 order-md-2">
 
 <dl class="row mt-3">
     <dt class="col-sm-4 col-lg-3">Facility</dt>
@@ -187,6 +195,21 @@
     </div>
 }
 
+</div>
+@*Table of Contents*@
+<div class="col-12 col-md-2 order-2 order-md-3">
+    <div class="sticky-md-top pt-2 pt-md-2">
+        <div id="toc-container">
+            <h6>On this Page</h6>
+            <div class="list-group list-group-flush " id="toc"></div>
+        </div>
+    </div>
+</div>
+
+@*container and row end div*@
+</div>
+</div>
+
 @section Footer {
     @if (report is IDataExchangeAction)
     {
@@ -198,4 +221,5 @@
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
+    <script src="~/js/table-of-contents.js" defer></script>
 }
