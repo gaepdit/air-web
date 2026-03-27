@@ -1,4 +1,4 @@
-@page "{referenceNumber:int?}"
+﻿@page "{referenceNumber:int?}"
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
@@ -8,6 +8,10 @@
     var summary = Model.TestSummary!;
     ViewData["Title"] = $"STR {summary.ReferenceNumber} – Facility {summary.Facility?.Id}";
 }
+
+<div class="container">
+<div class="row">
+<div class="col-12 col-md-10 order-1 order-md-1">
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
@@ -39,6 +43,11 @@
                  model="(summary.Facility!.FacilityId,summary.Facility.Name)" />
     </dd>
 </dl>
+
+@*Section 1 end and section 2 start*@
+</div>
+<div class="col-12 col-md-10 order-3 order-md-2">
+
 <dl class="row mt-3 bg-body-tertiary py-2 border border-info rounded-1">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
@@ -238,6 +247,21 @@ else
     </div>
 }
 
+@*Table of Contents*@
+</div>
+<div class="col-12 col-md-2 order-2 order-md-3">
+    <div class="sticky-md-top pt-2 pt-md-2">
+        <div id="toc-container">
+            <h6>On this Page</h6>
+            <div class="list-group list-group-flush " id="toc"></div>
+        </div>
+    </div>
+</div>
+
+@*container and row end div*@
+</div>
+</div>
+
 @section Footer {
     @if (AppSettings.ConnectToIaip)
     {
@@ -273,4 +297,6 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/table-of-contents.js" defer></script>
+
 }
