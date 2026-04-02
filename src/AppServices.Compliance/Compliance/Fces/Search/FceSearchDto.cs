@@ -15,8 +15,6 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [Display(Name = "Deletion Status")]
     public DeleteStatus? DeleteStatus { get; set; }
 
-    // == Facility ==
-
     private string? _facilityId;
 
     [Display(Name = "Facility AIRS Number")]
