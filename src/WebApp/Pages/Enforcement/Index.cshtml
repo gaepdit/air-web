@@ -203,6 +203,19 @@
 }
 
 @section Scripts {
+    <script src="~/js/dateValidation.js"></script>
+    <script>
+        datePairs(
+            "Spec_DiscoveryDateFrom",
+            "Spec_DiscoveryDateTo",
+            "Discovery FROM Date",
+            "Discovery UNTIL Date");
+        datePairs(
+            "Spec_EnforcementDateFrom",
+            "Spec_EnforcementDateTo",
+            "Initial Enforcement FROM Date",
+            "Initial Enforcement UNTIL Date");
+    </script>
     <script src="~/js/formSearch.js"></script>
     <partial name="Shared/_ValidationScriptsPartial" />
 }
