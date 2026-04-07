@@ -1,10 +1,11 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-
+﻿function createTOC(headerTags) {
     const toc = document.getElementById('toc');
-    const headers = document.querySelectorAll('h2');
+
+    const tags = headerTags.join(', ');
+    const headers = document.querySelectorAll(tags);
 
     headers.forEach((header, index) => {
-        //if the h2 does not have an ID, assign one so we can use a tag
+        // creates ID if H tag has none
         if (!header.id) {
             header.id = `section${index + 1}`;
         }
@@ -13,6 +14,7 @@
         link.href = `#${header.id}`;
         link.textContent = header.textContent;
         link.classList.add('list-group-item', 'list-group-item-action');
+
         toc.appendChild(link);
     });
-});
+}
