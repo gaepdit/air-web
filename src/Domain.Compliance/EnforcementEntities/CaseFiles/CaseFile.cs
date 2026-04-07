@@ -125,9 +125,9 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public List<AirProgram> AirPrograms { get; } = [];
 
     public bool MissingData =>
-        !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0 ||
-                      ComplianceEvents.All(dto => dto.IsDeleted) ||
-                      ViolationType == null);
+        !IsClosed && IsReportable &&
+        (PollutantIds.Count == 0 || AirPrograms.Count == 0 ||
+        ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];
