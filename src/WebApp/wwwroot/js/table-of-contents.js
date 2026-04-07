@@ -15,6 +15,10 @@
         link.textContent = header.textContent;
         link.classList.add('list-group-item', 'list-group-item-action');
 
+        // indent H3
+        if (header.tagName === 'H3') {
+            link.classList.add('ms-3');
+        }
         toc.appendChild(link);
     });
 }
