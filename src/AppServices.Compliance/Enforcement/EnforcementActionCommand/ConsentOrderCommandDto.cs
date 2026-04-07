@@ -65,45 +65,78 @@ public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderComman
         _repository = repository;
 
         RuleFor(dto => dto.ReceivedFromFacility)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ReceivedFromFacility.HasValue)
             .WithMessage("The date received from the facility cannot be in the future.");
 
         RuleFor(dto => dto.ExecutedDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ExecutedDate.HasValue)
             .WithMessage("The executed date cannot be in the future.");
 
         RuleFor(dto => dto.ReceivedFromDirectorsOffice)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ReceivedFromDirectorsOffice.HasValue)
             .WithMessage("The date received from the Director's Office cannot be in the future.");
 
         RuleFor(dto => dto.IssueDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.IssueDate.HasValue)
             .WithMessage("The issued date cannot be in the future.");
 
         RuleFor(dto => dto.ResolvedDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ResolvedDate.HasValue)
             .WithMessage("The resolved date cannot be in the future.");
 
         RuleFor(dto => dto)
-            .Must(dto => dto.ExecutedDate == null || dto.ReceivedFromFacility == null ||
-                         dto.ExecutedDate >= dto.ReceivedFromFacility)
-            .WithMessage("The order cannot be executed before it is received from the facility.")
-            .Must(dto => dto.IssueDate == null || dto.IssueDate >= dto.ExecutedDate)
-            .WithMessage("The issued date cannot be before the executed date.")
-            .Must(dto => dto.ReceivedFromDirectorsOffice == null || dto.ReceivedFromFacility == null ||
-                         dto.ReceivedFromDirectorsOffice >= dto.ReceivedFromFacility)
+            .Must(dto => dto.ExecutedDate >= dto.ReceivedFromFacility)
+            .When(dto => dto.ExecutedDate.HasValue && dto.ReceivedFromFacility.HasValue)
+            .WithMessage("The order cannot be executed before it is received from the facility.");
+
+        RuleFor(dto => dto.ExecutedDate)
+            .NotNull()
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be entered if no executed date is entered.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.IssueDate >= dto.ExecutedDate)
+            .When(dto => dto.IssueDate.HasValue && dto.ExecutedDate.HasValue)
+            .WithMessage("The issued date cannot be before the executed date.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.ReceivedFromDirectorsOffice >= dto.ReceivedFromFacility)
+            .When(dto => dto.ReceivedFromDirectorsOffice.HasValue && dto.ReceivedFromFacility.HasValue)
             .WithMessage(
-                "The order cannot be received from the Director's Office before it is received from the facility.")
-            .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.ExecutedDate)
-            .WithMessage("The resolved date cannot be before the executed date.")
-            .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.IssueDate)
+                "The order cannot be received from the Director's Office before it is received from the facility.");
+
+       RuleFor(dto => dto.ExecutedDate)
+            .NotNull()
+            .When(dto => dto.ResolvedDate.HasValue)
+            .WithMessage("The resolved date cannot be entered if no executed date is entered.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.ResolvedDate >= dto.ExecutedDate)
+            .When(dto => dto.ResolvedDate.HasValue && dto.ExecutedDate.HasValue)
+            .WithMessage("The resolved date cannot be before the executed date.");
+
+       RuleFor(dto => dto.IssueDate)
+            .NotNull()
+            .When(dto => dto.ResolvedDate.HasValue)
+            .WithMessage("The resolved date cannot be entered if no issued date is entered.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.ResolvedDate >= dto.IssueDate)
+            .When(dto => dto.ResolvedDate.HasValue && dto.IssueDate.HasValue)
             .WithMessage("The resolved date cannot be before the issued date.");
 
         RuleFor(dto => dto.PenaltyAmount).GreaterThanOrEqualTo(0);
 
         RuleFor(dto => dto.OrderId)
             .GreaterThan((short)0)
-            .WithMessage("The order ID must be greater than zero.")
+            .WithMessage("The order ID must be greater than zero.");
+
+        RuleFor(dto => dto.OrderId)
             .MustAsync(async (_, orderId, context, token) =>
                 await UniqueOrderId(orderId, context, token).ConfigureAwait(false))
             .WithMessage("The Order ID entered already exists.");
