@@ -4,13 +4,14 @@ using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
+using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
 public class LetterEditModel(
     IEnforcementActionService actionService,
-    ICaseFileService caseFileService)
-    : PageModel, ISubmitCancelButtons
+    ICaseFileService caseFileService,
+    IValidator<EnforcementActionEditDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public Guid Id { get; set; } // Enforcement Action ID
@@ -65,6 +66,11 @@ public class LetterEditModel(
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+
+        await validator.ApplyValidationAsync(Item, ModelState);
+
+        if (!ModelState.IsValid)
+            return Page();
 
         await actionService.UpdateAsync(Id, Item, token);
 
