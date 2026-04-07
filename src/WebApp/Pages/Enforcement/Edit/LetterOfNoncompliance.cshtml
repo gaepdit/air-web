@@ -1,10 +1,10 @@
 ﻿@page "{id:Guid?}"
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@model LetterEditModel
+@model LetterOfNoncomplianceEditModel
 @{
     var caseFile = Model.CaseFile!;
-    ViewData["Title"] = $"Edit {Model.ItemName}";
+    ViewData["Title"] = $"Edit Letter of Noncompliance";
     ViewData["NoAnchors"] = "True";
 }
 
@@ -34,15 +34,17 @@
             @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
         </div>
 
-        @if (Model.ShowResponseRequested)
-        {
-            <div class="mb-3">
-                @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
-            </div>
-        }
-
         <div class="mb-3">
-            @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+            <div class="col-md-6 mb-3">
+                @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />

@@ -37,29 +37,58 @@ public class AdministrativeOrderCommandValidator : AbstractValidator<Administrat
     public AdministrativeOrderCommandValidator()
     {
         RuleFor(dto => dto.ExecutedDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The date executed cannot be in the future.");
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ExecutedDate.HasValue)
+            .WithMessage("The executed date cannot be in the future.");
 
         RuleFor(dto => dto.IssueDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The date issued cannot be in the future.");
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be in the future.");
 
         RuleFor(dto => dto.AppealedDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The date appealed cannot be in the future.");
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.AppealedDate.HasValue)
+            .WithMessage("The appealed date cannot be in the future.");
 
         RuleFor(dto => dto.ResolvedDate)
-            .Must(date => date == null || date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The date resolved cannot be in the future.");
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.ResolvedDate.HasValue)
+            .WithMessage("The resolved date cannot be in the future.");
 
         RuleFor(dto => dto)
-            .Must(dto => dto.IssueDate == null || dto.IssueDate >= dto.ExecutedDate)
-            .WithMessage("The order cannot be issued before it is executed.")
-            .Must(dto => dto.AppealedDate == null || dto.AppealedDate >= dto.IssueDate)
-            .WithMessage("The order cannot be appealed before it is issued.")
-            .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.IssueDate)
-            .WithMessage("The order cannot be resolved before it is issued.")
-            .Must(dto => dto.ResolvedDate == null || dto.AppealedDate == null || dto.ResolvedDate >= dto.AppealedDate)
-            .WithMessage("The order cannot be appealed after it is resolved.");
+            .Must(dto => dto.IssueDate >= dto.ExecutedDate)
+            .When(dto => dto.IssueDate.HasValue && dto.ExecutedDate.HasValue)
+            .WithMessage("The issued date cannot be before the executed date.");
+
+        RuleFor(dto => dto.ExecutedDate)
+            .NotNull()
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be entered without an executed date.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.AppealedDate >= dto.IssueDate)
+            .When(dto => dto.AppealedDate.HasValue && dto.IssueDate.HasValue)
+            .WithMessage("The appealed date cannot be before the issued date.");
+
+        RuleFor(dto => dto.IssueDate)
+            .NotNull()
+            .When(dto => dto.AppealedDate.HasValue)
+            .WithMessage("The appealed date cannot be entered without an issued date.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.ResolvedDate >= dto.IssueDate)
+            .When(dto => dto.ResolvedDate.HasValue && dto.IssueDate.HasValue)
+            .WithMessage("The resolved date cannot be before the issued date.");
+
+        RuleFor(dto => dto.IssueDate)
+            .NotNull()
+            .When(dto => dto.ResolvedDate.HasValue)
+            .WithMessage("The resolved date cannot be entered without an issued date.");
+
+        RuleFor(dto => dto)
+            .Must(dto => dto.ResolvedDate >= dto.AppealedDate)
+            .When(dto => dto.ResolvedDate.HasValue && dto.AppealedDate.HasValue)
+            .WithMessage("The appealed date cannot be after the resolved date.");
     }
 }

@@ -1,26 +1,26 @@
-﻿using AirWeb.AppServices.Compliance.DtoInterfaces;
-using AirWeb.AppServices.Compliance.Enforcement;
+﻿using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
+using AutoMapper;
 using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
-public class LetterEditModel(
-    IEnforcementActionService actionService,
+public class LetterOfNoncomplianceEditModel(
+    IEnforcementActionService actionService, 
     ICaseFileService caseFileService,
-    IValidator<EnforcementActionEditDto> validator) : PageModel, ISubmitCancelButtons
+    IValidator<LetterOfNoncomplianceEditDto> validator,
+    IMapper mapper) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
-    public Guid Id { get; set; } // Enforcement Action ID
+    public Guid Id { get; set; }
 
     [BindProperty]
-    public EnforcementActionEditDto Item { get; set; } = null!;
+    public LetterOfNoncomplianceEditDto Item { get; set; } = null!;
 
-    public bool ShowResponseRequested { get; private set; }
-    public string ItemName { get; private set; } = null!;
     public CaseFileSummaryDto? CaseFile { get; set; }
 
     // Form buttons
@@ -37,32 +37,25 @@ public class LetterEditModel(
 
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null) return NotFound();
+        if (itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+            return RedirectToPage("Index", new { Id });
         if (!User.CanEdit(itemView)) return Forbid();
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
         if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
-        Item = new EnforcementActionEditDto
-        {
-            Notes = itemView.Notes,
-            IssueDate = itemView.IssueDate,
-        };
+        Item = mapper.Map<LetterOfNoncomplianceEditDto>(itemView);
 
-        if (itemView is IResponseRequested responseRequested)
-        {
-            Item.ResponseRequested = responseRequested.ResponseRequested;
-            ShowResponseRequested = true;
-        }
-
-        ItemName = itemView.ActionType.GetDisplayName();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var itemView = await actionService.FindAsync(Id, token);
-        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
+        if (itemView is null || !User.CanEdit(itemView) ||
+            itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+            return BadRequest();
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
@@ -73,11 +66,9 @@ public class LetterEditModel(
             return Page();
 
         await actionService.UpdateAsync(Id, Item, token);
-
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
-
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
             fragment: Id.ToString());
     }

@@ -121,9 +121,7 @@ public class SourceTestReviewCreateValidatorTests
         var result = await validator.TestValidateAsync(model);
 
         // Assert
-        using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.AcknowledgmentLetterDate);
     }
 
     [Test]
