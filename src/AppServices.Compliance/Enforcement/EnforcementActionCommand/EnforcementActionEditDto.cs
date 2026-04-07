@@ -23,6 +23,7 @@ public class EnforcementActionEditValidator : AbstractValidator<EnforcementActio
     {
         RuleFor(dto => dto.IssueDate)
             .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.IssueDate.HasValue)
             .WithMessage("The issued date cannot be in the future.");
     }
 }
