@@ -3,7 +3,7 @@ using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Compliance.Enforcement.Validators;
 
-public class AdministrativeOrderCommandTests
+public class AdministrativeOrderCommandValidatorTests
 {
     [Test]
     public async Task NullValuedDto_ReturnsAsValid()

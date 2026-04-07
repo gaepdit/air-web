@@ -17,12 +17,24 @@ public class LetterOfNoncomplianceEditValidator : AbstractValidator<LetterOfNonc
 {
     public LetterOfNoncomplianceEditValidator()
     {
+        RuleFor(dto => dto.IssueDate)
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be in the future.");
+
+        RuleFor(dto => dto.IssueDate)
+            .NotNull()
+            .When(dto => dto.ResolvedDate.HasValue)
+            .WithMessage("The resolved date cannot be entered if no issued date is entered.");
+
+        RuleFor(dto => dto.ResolvedDate)
+           .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+           .When(dto => dto.ResolvedDate.HasValue)
+           .WithMessage("The resolved date cannot be in the future.");
+
         RuleFor(dto => dto)
-           .Must(dto => dto.IssueDate <= DateOnly.FromDateTime(DateTime.Today))
-           .WithMessage("The issued date cannot be in the future.")
-           .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate <= DateOnly.FromDateTime(DateTime.Today))
-           .WithMessage("The resolved date cannot be in the future.")
-           .Must(dto => dto.ResolvedDate == null || dto.ResolvedDate >= dto.IssueDate)
+           .Must(dto => dto.ResolvedDate >= dto.IssueDate)
+           .When(dto => dto.ResolvedDate.HasValue && dto.IssueDate.HasValue)
            .WithMessage("The resolved date cannot be earlier than the issued date.");
     }
 }
