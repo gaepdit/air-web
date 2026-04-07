@@ -106,6 +106,14 @@
 <div class="lead">Enforcement Tracking #@Model.Id.ToString()</div>
 
 </div>
+
+<div class="col-12 col-md-2 order-2 order-md-3">
+    <div class="sticky-md-top pt-2" id="toc-container">
+        <h6>On This Page</h6>
+        <div class="list-group list-group-flush " id="toc"></div>
+    </div>
+</div>
+
 <div class="col-12 col-md-10 order-3 order-md-2">
 
 @if (caseFile.AttentionNeeded && Model.UserCan[CaseFileOperation.EditCaseFile])
@@ -928,15 +936,7 @@
     </div>
 }
 
-
 </div>
-<div class="col-12 col-md-2 order-2 order-md-3">
-    <div class="sticky-md-top pt-2 pt-md-2" id="toc-container">
-        <h6>On This Page</h6>
-        <div class="list-group list-group-flush " id="toc"></div>
-    </div>
-</div>
-
 </div>
 </div>
 
