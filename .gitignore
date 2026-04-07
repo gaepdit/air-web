@@ -539,6 +539,9 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,jetbrains
 
 
+### VS Code Extensions - C# Dev Kit
+*.lscache
+
 ########################
 ### Project-specific ###
 
