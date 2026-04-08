@@ -1,6 +1,7 @@
 ﻿using IaipDataService.Structs;
 using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IaipDataService.Facilities;
 
@@ -18,7 +19,7 @@ public record FacilitySummary : IFacilityIdName
     }
 
     [Key]
-    public FacilityId Id { get; init; } = null!;
+    public string Id { get; init; } = null!;
 
     public string Name { get; init; } = null!;
     public GeoCoordinates? GeoCoordinates { get; set; }
@@ -26,6 +27,10 @@ public record FacilitySummary : IFacilityIdName
     private string City { get; init; } = null!;
     private string State { get; init; } = null!;
 
-    public string FacilityId => Id.FormattedId;
+    // The `Id` property is needed to match existing DB procs. 
+    // The `FacilityId` property is needed to satisfy the `IFacilityIdName` interface.
+    [JsonIgnore]
+    public string FacilityId => Id;
+
     public string Location => new[] { City, State }.ConcatWithSeparator(", ");
 }

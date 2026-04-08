@@ -21,13 +21,13 @@ When        Who                 What
 BEGIN
     SET NOCOUNT ON;
 
-    select right(f.STRAIRSNUMBER, 8) as [Id],
-           trim(f.STRFACILITYNAME)   as [Name],
-           f.STRFACILITYCITY         as [City],
-           f.STRFACILITYSTATE        as [State],
-           'GeoCoordinates'          as [GeoCoordinatesId],
-           f.NUMFACILITYLATITUDE     as [Latitude],
-           f.NUMFACILITYLONGITUDE    as [Longitude]
+    select iaip_facility.FormatAirsNumber(f.STRAIRSNUMBER) as [Id],
+           trim(f.STRFACILITYNAME)                         as [Name],
+           f.STRFACILITYCITY                               as [City],
+           f.STRFACILITYSTATE                              as [State],
+           'GeoCoordinates'                                as [GeoCoordinatesId],
+           f.NUMFACILITYLATITUDE                           as [Latitude],
+           f.NUMFACILITYLONGITUDE                          as [Longitude]
     from dbo.APBFACILITYINFORMATION f
         inner join dbo.AFSFACILITYDATA a
             on f.STRAIRSNUMBER = a.STRAIRSNUMBER

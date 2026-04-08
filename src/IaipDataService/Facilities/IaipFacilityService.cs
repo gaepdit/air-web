@@ -75,7 +75,7 @@ public sealed class IaipFacilityService(
     private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
     public async Task<string> GetNameAsync(string id) =>
-        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.Id == id)?.Name ??
+        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.FacilityId == id)?.Name ??
             throw new InvalidOperationException("Facility not found.");
 
     public async Task<bool> ExistsAsync(FacilityId id)
@@ -97,7 +97,7 @@ public sealed class IaipFacilityService(
     public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false)
     {
         if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
-                out ReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
+                out IReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
 

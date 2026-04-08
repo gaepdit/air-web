@@ -16,7 +16,7 @@ public sealed class TestFacilityService : IFacilityService
         Task.FromResult(Items.SingleOrDefault(facility => facility.Id.Equals(id)));
 
     public async Task<string> GetNameAsync(string id) =>
-        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.Id == id)?.Name ??
+        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.FacilityId == id)?.Name ??
             throw new InvalidOperationException("Facility not found.");
 
     public Task<bool> ExistsAsync(FacilityId id) =>

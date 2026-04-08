@@ -24,6 +24,6 @@ public class GetAllTests
         // Assert
         using var scope = new AssertionScope();
         result.Count.Should().BeGreaterThan(6000);
-        result.Single(f => f.Id == Config.TestFacilityId).Name.Should().Be(Config.TestFacilityName);
+        result.Single(f => f.FacilityId == Config.TestFacilityId.FormattedId).Name.Should().Be(Config.TestFacilityName);
     }
 }

@@ -10,7 +10,7 @@ internal static partial class ComplianceMonitoringData
 {
     internal static IEnumerable<SourceTestReview> SourceTestReviewData =>
     [
-        new(11001, SourceTestData.GetData[0].Facility!.Id, UserData.GetRandomUser())
+        new(11001, (FacilityId)SourceTestData.GetData[0].Facility!.FacilityId, UserData.GetRandomUser())
         {
             ActionNumber = 11001,
             ComplianceWorkType = ComplianceWorkType.SourceTestReview,
@@ -24,7 +24,7 @@ internal static partial class ComplianceMonitoringData
             DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddMonths(-2)),
             FollowupTaken = false,
         },
-        new(11002, SourceTestData.GetData[1].Facility!.Id, UserData.GetRandomUser())
+        new(11002, (FacilityId)SourceTestData.GetData[1].Facility!.FacilityId, UserData.GetRandomUser())
         {
             ActionNumber = 11002,
             ComplianceWorkType = ComplianceWorkType.SourceTestReview,
@@ -38,7 +38,7 @@ internal static partial class ComplianceMonitoringData
             DueDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddMonths(-2)),
             FollowupTaken = true,
         },
-        new(11003, SourceTestData.GetData[2].Facility!.Id)
+        new(11003, (FacilityId)SourceTestData.GetData[2].Facility!.FacilityId)
         {
             ActionNumber = 11003,
             ComplianceWorkType = ComplianceWorkType.SourceTestReview,

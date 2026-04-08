@@ -26,7 +26,7 @@ public class FindSummaryTests
         result.Should().NotBeNull();
         result.ReferenceNumber.Should().Be(Config.TestFacilityReferenceNumber);
         result.Facility.Should().NotBeNull();
-        result.Facility.FacilityId.Should().Be(Config.TestFacilityId);
+        result.Facility.FacilityId.Should().Be(Config.TestFacilityId.FormattedId);
     }
 
     [Test]
