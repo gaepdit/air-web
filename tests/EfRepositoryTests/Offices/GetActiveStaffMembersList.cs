@@ -1,4 +1,4 @@
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.CommonRepositories;
 using AirWeb.TestData.Identity;
 
 namespace EfRepositoryTests.Offices;

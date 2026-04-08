@@ -1,9 +1,5 @@
 ﻿@using AirWeb.WebApp.Models
 @model ICollection<AirWeb.WebApp.Models.DisplayMessage>?
-@{
-    var iconsFile = Url.Content("~/images/app-icons.svg");
-}
-
 @if (Model != null)
 {
     foreach (var message in Model)
@@ -12,31 +8,20 @@
             @switch (message.Context)
             {
                 case DisplayMessage.AlertContext.Success:
-                    <svg class="bi me-3" role="img" aria-label="Success:">
-                        <use href="@iconsFile#app-icon-check-circle-fill"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckIcon" />
                     break;
 
                 case DisplayMessage.AlertContext.Info:
-                    <svg class="bi me-3" role="img" aria-label="Info:">
-                        <use href="@iconsFile#app-icon-info-circle-fill"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.InfoIcon" />
                     break;
 
                 case DisplayMessage.AlertContext.Danger:
                 case DisplayMessage.AlertContext.Warning:
-                    <svg class="bi me-3" role="img" aria-label="Warning:">
-                        <use href="@iconsFile#app-icon-exclamation-triangle-fill"></use>
-                    </svg>
-                    break;
-
-                case DisplayMessage.AlertContext.Primary:
-                case DisplayMessage.AlertContext.Secondary:
-                default:
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" />
                     break;
             }
 
-            <div>
+            <div class="ms-3">
                 @message.Message
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>

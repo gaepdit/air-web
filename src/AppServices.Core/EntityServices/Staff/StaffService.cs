@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Core.Caching;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.AppServices.Core.EntityServices.Staff.Exceptions;
 using AirWeb.AppServices.Core.EntityServices.Users;
@@ -6,10 +7,13 @@ using AirWeb.Domain.Core.AppRoles;
 using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
+using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 
 namespace AirWeb.AppServices.Core.EntityServices.Staff;
@@ -19,8 +23,9 @@ public sealed class StaffService(
     UserManager<ApplicationUser> userManager,
     IMapper mapper,
     IOfficeRepository officeRepository,
-    IAuthorizationService authorization)
-    : IStaffService
+    IAuthorizationService authorization,
+    IMemoryCache cache,
+    ILogger<StaffService> logger) : IStaffService
 {
     public async Task<StaffViewDto> GetCurrentUserAsync()
     {
@@ -53,29 +58,39 @@ public sealed class StaffService(
         return new PaginatedResult<StaffSearchResultDto>(listMapped, users.Count(), paging);
     }
 
-    public Task<IReadOnlyList<ListItem<string>>> GetUsersAsync(bool includeInactive = false)
+    private const string AllUsersCache = nameof(AllUsersCache);
+
+    public IReadOnlyList<ListItem<string>> GetAllStaff()
     {
-        var status = includeInactive ? SearchStaffStatus.All : SearchStaffStatus.Active;
-        var spec = new StaffSearchDto { Status = status };
-        var users = userManager.Users.ApplyFilter(spec);
-        return Task.FromResult<IReadOnlyList<ListItem<string>>>(mapper.Map<IReadOnlyList<StaffViewDto>>(users)
-            .Select(e => new ListItem<string>(e.Id, e.SortableNameWithOffice))
-            .OrderBy(e => e.Name)
-            .ToList());
+        if (cache.TryGetValue(AllUsersCache, logger, out IReadOnlyList<ListItem<string>>? cachedValue))
+            return cachedValue;
+
+        return cache.Set(
+            mapper.Map<IReadOnlyList<StaffViewDto>>(userManager.Users)
+                .Select(e => new ListItem<string>(e.Id, e.SortableNameWithOffice))
+                .OrderBy(e => e.Name).ToList(),
+            AllUsersCache, CacheConstants.StaffServiceCacheTime, logger);
     }
 
-    public async Task<IReadOnlyList<ListItem<string>>> GetUsersInRoleAsync(params AppRole[] role)
+    private static HashSet<string> CachedStaffLists { get; } = [];
+
+    public async Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(params AppRole[] role)
     {
+        var cacheKey = $"StaffList.{role.Select(r => r.Name).OrderBy(n => n).ConcatWithSeparator("+")}";
+        if (cache.TryGetValue(cacheKey, logger, out IReadOnlyList<ListItem<string>>? cachedValue)) return cachedValue;
+
         IList<IList<ApplicationUser>> userSets = [];
-        foreach (var appRole in role) userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name));
+        foreach (var appRole in role)
+            userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name).ConfigureAwait(false));
         var users = userSets.Aggregate((current, union) => current.Union(union).ToList());
 
-        return mapper
-            .Map<IReadOnlyList<StaffViewDto>>(users)
-            .Where(user => user.Active)
-            .Select(user => new ListItem<string>(user.Id, user.SortableNameWithOffice))
-            .OrderBy(e => e.Name)
-            .ToList();
+        CachedStaffLists.Add(cacheKey);
+        return cache.Set(
+            mapper.Map<IReadOnlyList<StaffViewDto>>(users)
+                .Where(user => user.Active)
+                .Select(user => new ListItem<string>(user.Id, user.SortableNameWithOffice))
+                .OrderBy(e => e.Name).ToList(),
+            cacheKey, CacheConstants.StaffServiceCacheTime, logger);
     }
 
     public async Task<bool> IsInRoleAsync(string id, AppRole role)
@@ -109,6 +124,7 @@ public sealed class StaffService(
             if (result != IdentityResult.Success) return result;
         }
 
+        RemoveCaches();
         return IdentityResult.Success;
 
         async Task<IdentityResult> UpdateUserRoleAsync(ApplicationUser u, string r, bool addToRole)
@@ -143,7 +159,15 @@ public sealed class StaffService(
         user.Active = resource.Active;
         user.ProfileUpdatedAt = DateTimeOffset.UtcNow;
 
+        RemoveCaches();
         return await userManager.UpdateAsync(user).ConfigureAwait(false);
+    }
+
+    private void RemoveCaches()
+    {
+        cache.Remove(AllUsersCache);
+        cache.RemoveAll(CachedStaffLists.ToArray());
+        CachedStaffLists.Clear();
     }
 
     #region IDisposable,  IAsyncDisposable

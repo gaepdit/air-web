@@ -38,9 +38,9 @@ public class OrgNotifications(
     {
         if (string.IsNullOrEmpty(AppSettings.OrgNotificationsApiUrl)) return [];
 
-        if (cache.TryGetValue(CacheKey, logger, out List<OrgNotification>? notifications))
-            return notifications;
+        if (cache.TryGetValue(CacheKey, logger, out List<OrgNotification>? cachedValue)) return cachedValue;
 
+        List<OrgNotification>? notifications;
         try
         {
             notifications = await http.FetchApiDataAsync<List<OrgNotification>>(
@@ -54,7 +54,7 @@ public class OrgNotifications(
         }
 
         var notificationsCacheTime = TimeSpan.FromHours(1);
-        cache.Set(CacheKey, notifications, notificationsCacheTime, logger);
+        cache.Set(notifications, CacheKey, notificationsCacheTime, logger);
         return notifications;
     }
 }

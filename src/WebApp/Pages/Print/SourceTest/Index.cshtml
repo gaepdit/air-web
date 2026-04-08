@@ -1,5 +1,6 @@
 ﻿@page "~/print/source-test/{referenceNumber:int}"
 @using AirWeb.AppServices.Core.Utilities
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using IaipDataService.SourceTests.Models
 @model IndexModel
@@ -10,7 +11,15 @@
     var report = Model.Report!;
     ViewData["Title"] = $"Facility {report.Facility!.Id} - {report.ReportTypeName} Reference Number: {report.ReferenceNumber.ToString()}";
 }
-
+@if (Model.ShowReturnLink)
+{
+    <div class="return-link">
+        <a asp-page="/Compliance/SourceTest/Details" asp-route-referenceNumber="@report.ReferenceNumber" class="icon-link">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+            Source Test Summary Page
+        </a>
+    </div>
+}
 <div class="page-wrapper">
     <partial name="_EpdBannerPartial" model="Model.OrganizationInfo" />
 

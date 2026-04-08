@@ -1,0 +1,12 @@
+﻿using AirWeb.AppServices.Sbeap.Cases.Dto;
+
+namespace AirWeb.AppServices.Sbeap.Cases;
+
+public interface IActionItemService : IDisposable, IAsyncDisposable
+{
+    Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default);
+    Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default);
+    Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
+    Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default);
+    Task DeleteAsync(Guid actionItemId, CancellationToken token = default);
+}

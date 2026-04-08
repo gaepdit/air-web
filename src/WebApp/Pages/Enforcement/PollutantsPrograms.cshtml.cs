@@ -15,10 +15,10 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
     public int Id { get; set; } // Case File ID
 
     [BindProperty]
-    public List<PollutantSetting> PollutantSettings { get; set; } = [];
+    public List<CodeSetting> PollutantSettings { get; set; } = [];
 
     [BindProperty]
-    public List<AirProgramSetting> AirProgramSettings { get; set; } = [];
+    public List<CodeSetting> AirProgramSettings { get; set; } = [];
 
     [BindProperty]
     [Display(Name = "Select Violation Type")]
@@ -39,7 +39,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         if (facilityData is null) return NotFound();
 
         var caseFilePollutants = await caseFileService.GetPollutantsAsync(Id, token);
-        PollutantSettings = facilityData.Pollutants.Select(pollutant => new PollutantSetting
+        PollutantSettings = facilityData.Pollutants.Select(pollutant => new CodeSetting
         {
             Code = pollutant.Code,
             Description = pollutant.Description,
@@ -47,9 +47,10 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         }).ToList();
 
         var caseFileAirPrograms = await caseFileService.GetAirProgramsAsync(Id, token);
-        AirProgramSettings = facilityData.AirPrograms.Select(airProgram => new AirProgramSetting
+        AirProgramSettings = facilityData.AirPrograms.Select(airProgram => new CodeSetting
         {
-            AirProgram = airProgram,
+            Code = airProgram.Code,
+            Description = airProgram.Description,
             IsSelected = caseFileAirPrograms.Any(cfAirProgram => cfAirProgram == airProgram)
         }).ToList();
 
@@ -69,7 +70,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
         await caseFileService.SaveCaseFileExtraDataAsync(Id,
             pollutants: PollutantSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
-            airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.AirProgram),
+            airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
             violationTypeCode: ViolationTypeCode,
             token: token);
 
@@ -77,16 +78,10 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         return RedirectToPage("Details", new { Id });
     }
 
-    public class PollutantSetting
+    public class CodeSetting
     {
         public required string Code { get; init; }
         public required string Description { get; init; }
-        public bool IsSelected { get; init; }
-    }
-
-    public class AirProgramSetting
-    {
-        public required AirProgram AirProgram { get; init; }
         public bool IsSelected { get; init; }
     }
 }

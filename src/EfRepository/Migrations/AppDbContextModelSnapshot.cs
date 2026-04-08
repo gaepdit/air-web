@@ -194,7 +194,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<int?>("ActionNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("AirPrograms")
+                    b.Property<string>("AirProgramCodes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -290,7 +290,7 @@ namespace AirWeb.EfRepository.Migrations
                         .IsUnique()
                         .HasFilter("[ActionNumber] IS NOT NULL");
 
-                    b.ToTable("CaseFiles");
+                    b.ToTable("EnforcementCaseFiles");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
@@ -722,6 +722,258 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("EmailLogs");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItems.ActionItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ActionDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("ActionItemTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CaseworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnteredById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("EnteredOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionItemTypeId");
+
+                    b.HasIndex("CaseworkId");
+
+                    b.HasIndex("EnteredById");
+
+                    b.ToTable("SbeapActionItems");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("CaseClosedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CaseClosureNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateOnly>("CaseOpenedDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeleteComments")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ReferralAgencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("ReferralDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReferralNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ReferralAgencyId");
+
+                    b.ToTable("SbeapCases");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Contacts.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("EnteredById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("EnteredOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("FamilyName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("GivenName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Honorific")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EnteredById");
+
+                    b.ToTable("SbeapContacts");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("County")
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeleteComments")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("SicCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SbeapCustomers");
+                });
+
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
                     b.Property<int>("CaseFilesId")
@@ -761,7 +1013,8 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1134,6 +1387,20 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
 
                     b.HasDiscriminator().HasValue("Office");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItemTypes.ActionItemType", b =>
+                {
+                    b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
+
+                    b.HasDiscriminator().HasValue("ActionItemType");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Agencies.Agency", b =>
+                {
+                    b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
+
+                    b.HasDiscriminator().HasValue("Agency");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.AnnualComplianceCertification", b =>
@@ -1628,6 +1895,216 @@ namespace AirWeb.EfRepository.Migrations
                     b.Navigation("CommentBy");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItems.ActionItem", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.ActionItemTypes.ActionItemType", "ActionItemType")
+                        .WithMany()
+                        .HasForeignKey("ActionItemTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Cases.Casework", "Casework")
+                        .WithMany("ActionItems")
+                        .HasForeignKey("CaseworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "EnteredBy")
+                        .WithMany()
+                        .HasForeignKey("EnteredById");
+
+                    b.Navigation("ActionItemType");
+
+                    b.Navigation("Casework");
+
+                    b.Navigation("EnteredBy");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Customers.Customer", "Customer")
+                        .WithMany("Cases")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Agencies.Agency", "ReferralAgency")
+                        .WithMany()
+                        .HasForeignKey("ReferralAgencyId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ReferralAgency");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Contacts.Contact", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Customers.Customer", "Customer")
+                        .WithMany("Contacts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "EnteredBy")
+                        .WithMany()
+                        .HasForeignKey("EnteredById");
+
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("ContactId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("ContactId");
+
+                            b1.ToTable("SbeapContacts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
+                    b.OwnsMany("AirWeb.Domain.Sbeap.ValueObjects.PhoneNumber", "PhoneNumbers", b1 =>
+                        {
+                            b1.Property<Guid>("ContactId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("Number")
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)");
+
+                            b1.Property<string>("Type")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ContactId", "Id");
+
+                            b1.ToTable("PhoneNumber");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
+                    b.Navigation("Address")
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("EnteredBy");
+
+                    b.Navigation("PhoneNumbers");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "Location", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("CustomerId");
+
+                            b1.ToTable("SbeapCustomers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "MailingAddress", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("CustomerId");
+
+                            b1.ToTable("SbeapCustomers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
+                    b.Navigation("Location")
+                        .IsRequired();
+
+                    b.Navigation("MailingAddress")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
                     b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles.CaseFile", null)
@@ -1785,6 +2262,18 @@ namespace AirWeb.EfRepository.Migrations
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.Navigation("ActionItems");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.Navigation("Cases");
+
+                    b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ConsentOrder", b =>
