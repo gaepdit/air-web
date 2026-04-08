@@ -74,7 +74,7 @@ public sealed class IaipFacilityService(
     private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
     private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
-    public async Task<string> GetNameAsync(string id) => 
+    public async Task<string> GetNameAsync(string id) =>
         (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.Id == id)?.Name ??
             throw new InvalidOperationException("Facility not found.");
 
@@ -100,8 +100,17 @@ public sealed class IaipFacilityService(
                 out ReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
-        var facilityList = (await db.QueryAsync<FacilitySummary>(
-                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
+
+        var facilityList = (await db.QueryAsync<FacilitySummary, GeoCoordinates, FacilitySummary>(
+                sql: "air.GetIaipFacilityList",
+                (facility, geoCoordinates) =>
+                {
+                    facility.GeoCoordinates = geoCoordinates;
+                    return facility;
+                }, splitOn: "GeoCoordinatesId",
+                commandType: CommandType.StoredProcedure
+            )
+            .ConfigureAwait(false)).ToList();
 
         return cache.Set(facilityList, FacilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
     }
