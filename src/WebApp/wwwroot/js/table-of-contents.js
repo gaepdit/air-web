@@ -17,7 +17,7 @@
 
         // indent H3
         if (header.tagName === 'H3') {
-            link.classList.add('ms-3');
+            link.classList.add('ps-3');
         }
         toc.appendChild(link);
     });
