@@ -14,14 +14,17 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-11-21  DWaldron            Initial version
+2026-04-08  DWaldron            Refactored to include more information for each facility (#545)
 
 ***************************************************************************************************/
 
 BEGIN
     SET NOCOUNT ON;
 
-    select right(f.STRAIRSNUMBER, 8) as [Key],
-           trim(f.STRFACILITYNAME)   as [Value]
+    select right(f.STRAIRSNUMBER, 8) as [Id],
+           trim(f.STRFACILITYNAME)   as [Name],
+           f.STRFACILITYCITY as [City],
+           f.STRFACILITYSTATE as [State]
     from dbo.APBFACILITYINFORMATION f
         inner join dbo.AFSFACILITYDATA a
             on f.STRAIRSNUMBER = a.STRAIRSNUMBER

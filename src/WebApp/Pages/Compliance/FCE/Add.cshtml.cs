@@ -37,7 +37,7 @@ public class AddModel(
     public async Task<IActionResult> OnGetAsync()
     {
         if (FacilityId is null) return NotFound(FacilityIdNotFound);
-        Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound(FacilityIdNotFound);
@@ -55,7 +55,7 @@ public class AddModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)Item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
             await PopulateSelectListsAsync();

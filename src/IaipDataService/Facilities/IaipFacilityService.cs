@@ -14,11 +14,11 @@ public sealed class IaipFacilityService(
     IMemoryCache cache,
     ILogger<IaipFacilityService> logger) : IFacilityService
 {
+    public Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false) =>
+        GetFacilityAsync(id, forceRefresh, loadDetails: false);
+
     public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
         GetFacilityAsync(id, forceRefresh, loadDetails: true);
-
-    public Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false) =>
-        GetFacilityAsync(id, forceRefresh, loadDetails: false);
 
     private async Task<Facility?> GetFacilityAsync(FacilityId id, bool forceRefresh, bool loadDetails)
     {
@@ -74,13 +74,9 @@ public sealed class IaipFacilityService(
     private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
     private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
-    public async Task<string> GetNameAsync(string id)
-    {
-        var facilityList = await GetListAsync().ConfigureAwait(false);
-        return facilityList.TryGetValue((FacilityId)id, out var name)
-            ? name
-            : throw new InvalidOperationException("Facility not found.");
-    }
+    public async Task<string> GetNameAsync(string id) => 
+        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.Id == id)?.Name ??
+            throw new InvalidOperationException("Facility not found.");
 
     public async Task<bool> ExistsAsync(FacilityId id)
     {
@@ -98,16 +94,14 @@ public sealed class IaipFacilityService(
 
     private const string FacilityListCacheKey = "IaipFacilityList";
 
-    public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
+    public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false)
     {
         if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
-                out ReadOnlyDictionary<FacilityId, string>? cachedValue)) return cachedValue;
+                out ReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
-        var facilityList = new ReadOnlyDictionary<FacilityId, string>(
-            (await db.QueryAsync<KeyValuePair<FacilityId, string>>(
-                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure).ConfigureAwait(false))
-            .ToDictionary());
+        var facilityList = (await db.QueryAsync<FacilitySummary>(
+                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
 
         return cache.Set(facilityList, FacilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
     }

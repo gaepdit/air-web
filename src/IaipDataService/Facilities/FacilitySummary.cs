@@ -18,9 +18,10 @@ public record FacilitySummary : IFacilityIdName
     [Key]
     public FacilityId Id { get; init; } = null!;
 
-    public string FacilityId => Id.FormattedId;
     public string Name { get; init; } = null!;
     private string City { get; init; } = null!;
     private string State { get; init; } = null!;
+
+    public string FacilityId => Id.FormattedId;
     public string Location => new[] { City, State }.ConcatWithSeparator(", ");
 }

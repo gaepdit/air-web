@@ -53,12 +53,12 @@ else
 </form>
 
 <ul id="facility-list">
-    @foreach (var (facilityId, facilityName) in Model.Facilities)
+    @foreach (var facility in Model.Facilities)
     {
         <li>
-            <a asp-page="/Facility/Details" asp-route-id="@facilityId"
+            <a asp-page="/Facility/Details" asp-route-id="@facility.Id"
                class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-offset-1">
-                @facilityId <span class="link-body-emphasis">–</span> @facilityName
+                @facility.Id <span class="link-body-emphasis">–</span> @facility.Name
             </a>
         </li>
     }
