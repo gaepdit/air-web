@@ -13,7 +13,7 @@
         const link = document.createElement('a');
         link.href = `#${header.id}`;
         link.textContent = header.textContent;
-        link.classList.add('list-group-item', 'list-group-item-action');
+        link.classList.add('list-group-item', 'list-group-item-action', 'toc-item', 'py-1', 'py-lg-2');
 
         // indent H3
         if (header.tagName === 'H3') {
