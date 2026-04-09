@@ -1,4 +1,4 @@
-async function initMap() {
+function initMap() {
     // Initialize the map.
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -34,12 +34,12 @@ async function initMap() {
     let currentLocation;
     map.locate();
     map.once('locationfound', function (ev) {
-        if (!currentLocation) {
+        if (currentLocation) {
+            currentLocation.setLatLng(ev.latlng);
+        } else {
             // Star icon created by Pixel perfect - Flaticon: https://www.flaticon.com/free-icons/star
             const star = L.icon({ iconUrl: '/images/star.png', iconSize: [24, 24] });
             currentLocation = L.marker(ev.latlng, { title: "You are here", icon: star }).addTo(map);
-        } else {
-            currentLocation.setLatLng(ev.latlng);
         }
     });
 }
