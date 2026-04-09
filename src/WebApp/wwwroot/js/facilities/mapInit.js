@@ -6,7 +6,7 @@
 
 // Initialize the map.
 async function initMap() {
-    //  Request the needed libraries.
+    // Load the needed libraries.
     const { Map, InfoWindow } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const map = new google.maps.Map(document.getElementById("FacilityMap"), {
@@ -15,12 +15,8 @@ async function initMap() {
         mapId: "FacilityMap",
     });
 
-    // Add markers.
-    const infoWindow = new google.maps.InfoWindow({
-        content: "",
-        maxWidth: 290,
-    });
-    const markers = facilities.map((f) => {
+    // Design the markers.
+    function makeMarker(f) {
         const marker = new google.maps.marker.AdvancedMarkerElement({
             position: { lat: f.GeoCoordinates.Latitude, lng: f.GeoCoordinates.Longitude },
             title: `${f.Id} – ${f.Name}`
@@ -39,8 +35,11 @@ async function initMap() {
             infoWindow.open(map, marker);
         });
         return marker;
-    });
+    }
 
+    // Add markers.
+    const infoWindow = new google.maps.InfoWindow({ content: "", maxWidth: 290 });
+    const markers = facilities.flatMap((f) => f.GeoCoordinates ? makeMarker(f) : []);
     // Add a marker clusterer to manage the markers.
     new markerClusterer.MarkerClusterer({ markers, map });
 }
