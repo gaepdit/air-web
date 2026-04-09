@@ -27,6 +27,7 @@ These pages are only available to logged-in staff.
 
 * `/Facility` Facility list and quick-find form.
 * `/Facility/Details/{facilityId}` Facility details page (some data retrieved from the IAIP database).
+* `/Facility/Map` Facility location search form.
 
 ### Compliance
 

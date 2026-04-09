@@ -47,7 +47,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)item.FacilityId);
             if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();

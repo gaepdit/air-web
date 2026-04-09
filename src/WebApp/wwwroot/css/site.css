@@ -307,13 +307,16 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
 
 /* External links
 -------------------------------------------------- */
-a[target]::after {
+a[target]::after,
+.facility-map .facility-map-info a[target]::after {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
     margin-left: .2em;
 }
 
-/* Optionally suppress external link icon */
-footer a[target]::after, a[target].no-external-link::after {
+/* Suppress some external link icons */
+footer a[target]::after,
+.facility-map a::after,
+a[target].no-external-link::after {
     content: none;
 }
 
@@ -545,6 +548,56 @@ svg:not(:root) {
     .columns-lg-3 {
         column-count: 3;
     }
+}
+
+/* Facility Map
+-------------------------------------------------- */
+.facility-map {
+    height: 500px;
+    font-family: var(--bs-body-font-family);
+}
+
+.facility-map-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.facility-map-info {
+    font-size: 14px;
+}
+
+.facility-map-link {
+    padding-top: 8px;
+}
+
+/* Map dark mode */
+:root[data-bs-theme="dark"] .leaflet-control-locate {
+    --locate-control-icon-color: #fff;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a,
+:root[data-bs-theme="dark"] .leaflet-popup-content-wrapper,
+:root[data-bs-theme="dark"] .leaflet-popup-tip,
+:root[data-bs-theme="dark"] .leaflet-control-attribution {
+    background-color: #3a3a3a !important;
+    color: #fff !important;
+}
+
+:root[data-bs-theme="dark"] .leaflet-control-attribution a {
+    color: #6db3f2;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a:hover {
+    background-color: #555;
+}
+
+/* Tile filter for dark mode */
+:root[data-bs-theme="dark"] .map-tiles {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) saturate(0.85);
 }
 
 /* Input highlighter

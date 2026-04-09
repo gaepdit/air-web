@@ -16,6 +16,7 @@ Shown when staff is logged in and viewing the Air Web dashboard.
 * {Logo} Dashboard (`/`)
 * 🔍︎ Search ▼
     * Facilities (`/Facility`)
+    * Map (`/Map`)
     * —
     * Compliance Monitoring (`/Compliance/Work`)
     * Compliance FCEs (`/Compliance/FCE`)

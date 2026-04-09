@@ -2,7 +2,7 @@ using IaipDataService.Facilities;
 
 namespace IaipDataServiceTests.DbTests.Facilities;
 
-public class FacilityExists
+public class GetAllTests
 {
     private IaipFacilityService _sut;
 
@@ -16,22 +16,14 @@ public class FacilityExists
     }
 
     [Test]
-    public async Task IfExists_ReturnsTrue()
+    public async Task ReturnsList()
     {
         // Act
-        var result = await _sut.ExistsAsync(Config.TestFacilityId);
+        var result = await _sut.GetAllAsync();
 
         // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public async Task IfNotExists_ReturnsFalse()
-    {
-        // Act
-        var result = await _sut.ExistsAsync(Config.NonexistentFacilityId);
-
-        // Assert
-        result.Should().BeFalse();
+        using var scope = new AssertionScope();
+        result.Count.Should().BeGreaterThan(6000);
+        result.Single(f => f.FacilityId == Config.TestFacilityId.FormattedId).Name.Should().Be(Config.TestFacilityName);
     }
 }

@@ -27,7 +27,7 @@ public class TestSourceTestService : ISourceTestService
     public Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         bool forceRefresh = false) =>
         Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
-            .Where(report => report.Facility?.Id == facilityId)
+            .Where(report => report.Facility?.FacilityId == facilityId)
             .OrderByDescending(report => report.TestDates.StartDate)
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());

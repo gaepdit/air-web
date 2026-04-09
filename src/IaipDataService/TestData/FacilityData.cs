@@ -117,7 +117,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
-            GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            GeoCoordinates = new GeoCoordinates(34.2M, -84.6M),
             RegulatoryData = new RegulatoryData
             {
                 OperatingStatusCode = FacilityOperatingStatus.X,
@@ -177,7 +177,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
-            GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            GeoCoordinates = new GeoCoordinates(34.205M, -84.605M),
             RegulatoryData = SampleRegulatoryData,
         },
         new("00100005")
