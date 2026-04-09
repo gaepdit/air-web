@@ -1,12 +1,24 @@
 function initMap() {
     // Initialize the map.
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        detectRetina: true,
+        className: "map-tiles",
     });
     const map = L.map('FacilityMap', { center: [32.9, -83.3], zoom: 7, layers: [tiles] });
 
     // Fix the marker icon path.
     L.Icon.Default.prototype.options.imagePath = "/lib/leaflet/dist/images/"
+
+    // Add a locate control.
+    L.control.locate({ initialZoomLevel: 13 }).addTo(map);
+
+    // Mark the current location when found.
+    // Star icon created by Pixel perfect - Flaticon: https://www.flaticon.com/free-icons/star
+    const star = L.icon({ iconUrl: '/images/star.png', iconSize: [24, 24] });
+    map.on('locatelocationfound', function (e) {
+        L.marker(e.latlng, { title: "You are here", icon: star }).addTo(map);
+    });
 
     // Add markers.
     function makeMarker(f) {
@@ -29,19 +41,6 @@ function initMap() {
     });
     facilities.flatMap((f) => f.GeoCoordinates ? makeMarker(f) : []);
     map.addLayer(markers);
-
-    // Show current location.
-    let currentLocation;
-    map.locate();
-    map.once('locationfound', function (ev) {
-        if (currentLocation) {
-            currentLocation.setLatLng(ev.latlng);
-        } else {
-            // Star icon created by Pixel perfect - Flaticon: https://www.flaticon.com/free-icons/star
-            const star = L.icon({ iconUrl: '/images/star.png', iconSize: [24, 24] });
-            currentLocation = L.marker(ev.latlng, { title: "You are here", icon: star }).addTo(map);
-        }
-    });
 }
 
 initMap();

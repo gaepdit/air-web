@@ -570,6 +570,35 @@ svg:not(:root) {
     padding-top: 8px;
 }
 
+/* Map dark mode */
+:root[data-bs-theme="dark"] .leaflet-control-locate {
+    --locate-control-icon-color: #fff;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a,
+:root[data-bs-theme="dark"] .leaflet-popup-content-wrapper,
+:root[data-bs-theme="dark"] .leaflet-popup-tip,
+:root[data-bs-theme="dark"] .leaflet-control-attribution {
+    background-color: #3a3a3a !important;
+    color: #fff !important;
+}
+
+:root[data-bs-theme="dark"] .leaflet-control-attribution a {
+    color: #6db3f2;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a:hover {
+    background-color: #555;
+}
+
+/* Tile filter for dark mode */
+:root[data-bs-theme="dark"] .map-tiles {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) saturate(0.85);
+}
 
 /* Input highlighter
     (Use JavaScript to add this class to briefly flash an animated outline.)

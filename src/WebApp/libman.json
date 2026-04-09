@@ -68,6 +68,13 @@
       "files": [
         "dist/**"
       ]
+    },
+    {
+      "library": "leaflet.locatecontrol@0.89.0",
+      "destination": "wwwroot/lib/leaflet.locatecontrol",
+      "files": [
+        "dist/**"
+      ]
     }
   ]
 }
