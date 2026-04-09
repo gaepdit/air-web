@@ -550,15 +550,16 @@ svg:not(:root) {
     }
 }
 
-/* Google Maps
+/* Facility Map
 -------------------------------------------------- */
 .facility-map {
     height: 500px;
+    font-family: var(--bs-body-font-family);
 }
 
 .facility-map-title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .facility-map-info {

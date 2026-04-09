@@ -14,7 +14,6 @@ internal static partial class AppSettings
 
         builder.Configuration.GetSection(nameof(Support)).Bind(Support);
         builder.Configuration.GetSection(nameof(OrganizationInfo)).Bind(OrganizationInfo);
-        builder.Configuration.GetSection(nameof(GooglePlatform)).Bind(GooglePlatform);
         builder.Configuration.GetSection(nameof(RaygunSettings)).Bind(RaygunSettings);
         builder.Configuration.GetSection(nameof(DataDogSettings)).Bind(DataDogSettings);
         OrgNotificationsApiUrl = builder.Configuration.GetValue<string>(nameof(OrgNotificationsApiUrl));

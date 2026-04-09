@@ -18,10 +18,16 @@
 @section Scripts {
     <script>
         const facilities = @Html.Raw(Model.FacilitiesAsJson);
-        const apiKey = "@AppSettings.GooglePlatform.ApiKey"
     </script>
-    <script src="https://unpkg.com/@@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
+    <script src="~/lib/leaflet.markercluster/dist/leaflet.markercluster.min.js"></script>
     <script src="~/js/facilities/mapInit.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/dist/MarkerCluster.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/dist/MarkerCluster.Default.min.css" />
 }
 
 @section Footer {
