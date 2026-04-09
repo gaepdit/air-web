@@ -22,10 +22,10 @@ async function initMap() {
             title: `${f.Id} – ${f.Name}`
         });
         const header = document.createElement("div");
-        header.innerHTML = `<div class="agm-title">${f.Name}</div>`;
-        const info = '<div class="agm-info">' +
+        header.innerHTML = `<div class="facility-map-title">${f.Name}</div>`;
+        const info = '<div class="facility-map-info">' +
             `<div>${f.Location}</div>` +
-            `<div class="agm-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
+            `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
             '</div>';
         marker.addListener("gmp-click", () => {
             infoWindow.setValues({
