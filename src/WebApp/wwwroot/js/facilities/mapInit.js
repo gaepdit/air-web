@@ -10,27 +10,17 @@ function initMap() {
     // Fix the marker icon path.
     L.Icon.Default.prototype.options.imagePath = "/lib/leaflet/dist/images/"
 
-    // Add a locate control.
+    // Add a location control.
     L.control.locate({ initialZoomLevel: 13 }).addTo(map);
 
-    // Mark the current location when found.
-    // Star icon created by Pixel perfect - Flaticon: https://www.flaticon.com/free-icons/star
-    const star = L.icon({ iconUrl: '/images/star.png', iconSize: [24, 24] });
-    map.on('locatelocationfound', function (e) {
-        L.marker(e.latlng, { title: "You are here", icon: star }).addTo(map);
-    });
-
-    // Add markers.
+    // Add facility markers.
     function makeMarker(f) {
         const info = '<div class="facility-map-info">' +
             `<div class="facility-map-title">${f.Name}</div>` +
             `<div>${f.Location}</div>` +
             `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
             '</div>';
-        const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], {
-            title: f.Name,
-            riseOnHover: true,
-        });
+        const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], { title: f.Name });
         marker.bindPopup(info);
         markers.addLayer(marker);
     }
