@@ -38,5 +38,7 @@ public interface IFacilityService
     /// Retrieves all facilities as a Facility summary.
     /// </summary>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
-    Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false);
+    /// <param name="includePortableSources">Whether to include Portable Sources (county code of "777").</param>
+    Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
+        bool includePortableSources = true);
 }

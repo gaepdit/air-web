@@ -2,6 +2,7 @@ USE AIRBRANCH
 GO
 
 CREATE OR ALTER PROCEDURE air.GetIaipFacilityList
+    @includePortableSources bit
 AS
 
 /**************************************************************************************************
@@ -15,6 +16,7 @@ When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-11-21  DWaldron            Initial version
 2026-04-08  DWaldron            Refactored to include more information for each facility (#545)
+2026-04-10  DWaldron            Add option to exclude portable sources (county code = "777") (#559)
 
 ***************************************************************************************************/
 
@@ -32,6 +34,7 @@ BEGIN
         inner join dbo.AFSFACILITYDATA a
             on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     where a.STRUPDATESTATUS in ('A', 'C')
+        and (@includePortableSources = 1 or left(f.STRAIRSNUMBER, 7) <> '0413777')
     order by f.STRAIRSNUMBER;
 
 END;

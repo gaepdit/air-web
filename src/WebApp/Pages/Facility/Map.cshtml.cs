@@ -21,7 +21,7 @@ public class MapModel(IFacilityService service) : PageModel
             return RedirectToPage();
         }
 
-        Facilities = await service.GetAllAsync(RefreshIaipData);
+        Facilities = await service.GetAllAsync(forceRefresh: RefreshIaipData, includePortableSources: false);
         return Page();
     }
 }

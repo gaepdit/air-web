@@ -294,7 +294,7 @@ public static class FacilityData
             GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
             RegulatoryData = SampleRegulatoryData,
         },
-        new("31300062")
+        new("77700062")
         {
             Name = "Nectarine Corp.",
             County = "Newton",
@@ -307,7 +307,7 @@ public static class FacilityData
                 State = "GA",
                 PostalCode = "30000",
             },
-            GeoCoordinates = new GeoCoordinates(34.1M, -84.5M),
+            GeoCoordinates = new GeoCoordinates(33.1M, -83.5M),
             RegulatoryData = SampleRegulatoryData,
         },
     ];
