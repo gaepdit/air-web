@@ -5,13 +5,32 @@ function initMap() {
         detectRetina: true,
         className: "map-tiles",
     });
-    const map = L.map('FacilityMap', { center: [32.9, -83.3], zoom: 7, layers: [tiles] });
+    const map = L.map('facility-map', { center: [32.9, -83.3], zoom: 7, layers: [tiles] });
 
     // Fix the marker icon path.
     L.Icon.Default.prototype.options.imagePath = "/lib/leaflet/dist/images/"
 
     // Add a location control.
-    L.control.locate({ initialZoomLevel: 13 }).addTo(map);
+    L.control.locate({
+        initialZoomLevel: 13,
+        onLocationError: function () {
+            const warningElement = document.createElement("div")
+            warningElement.innerText = "Warning: Could not access location.";
+            warningElement.classList.add("alert", "alert-warning");
+            warningElement.setAttribute("id", "map-warning")
+            warningElement.setAttribute("role", "alert");
+
+            const mapElement = document.getElementById("facility-map");
+            mapElement.parentNode.insertBefore(warningElement, mapElement);
+
+            new bootstrap.Alert('#map-warning');
+        }
+    }).addTo(map);
+
+    map.on("locateactivate", () => {
+        const alert = bootstrap.Alert.getInstance('#map-warning');
+        if (alert !== null) alert.close();
+    });
 
     // Add facility markers.
     function makeMarker(f) {
