@@ -1,11 +1,13 @@
 ﻿@page "{id:int?}"
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.AppServices.Core.Utilities
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
-    var report = Model.Item!;
+    var report = Model.FceView!;
+    var supportingData = Model.SupportingData!;
     ViewData["Title"] = $"{report.Year.ToString()} FCE Report for Facility {report.FacilityId}";
 }
 
@@ -47,19 +49,15 @@
     @if (!report.IsDeleted)
     {
         <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="btn-group">
                 @if (Model.UserCan[ComplianceOperation.Edit])
                 {
                     <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
                 }
-                <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id" target="_blank" rel="noopener"
-                   class="btn btn-outline-secondary icon-link justify-content-center no-external-link">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                    </svg>
+            <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id"
+                   class="btn btn-outline-secondary icon-link justify-content-center no-external-link ms-1">
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
                     Print
                 </a>
-            </div>
         </div>
     }
 </div>
@@ -114,17 +112,41 @@
             </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Compliance/Work/Index" asp-route-FacilityId="@Model.Item!.FacilityId"
-               asp-route-EventDateFrom="@Model.Item!.SupportingDataStartDate.ToShortDateString()"
-               asp-route-EventDateTo="@Model.Item!.CompletedDate.ToString()"
+            <a asp-page="/Compliance/Work/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
+               asp-route-EventDateFrom="@Model.FceView!.SupportingDataStartDate.ToShortDateString()"
+               asp-route-EventDateTo="@Model.FceView!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
                class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                 Open in search
             </a>
         </div>
     </div>
-    <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.ComplianceSummary"
-             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+
+    @if (!supportingData.ComplianceSummary.Any())
+    {
+        <div class="border rounded-2 p-3">
+            <p class="lead mb-0">No compliance data found in date range.</p>
+        </div>
+    }
+    else
+    {
+        <div id="supportingComplianceDataAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                            data-bs-target="#supportingComplianceDataBody" aria-controls="supportingComplianceDataBody">
+                        View supporting data
+                    </button>
+                </h3>
+                <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
+                     data-bs-parent="supportingComplianceDataAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="supportingData.ComplianceSummary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </section>
 
 <section class="my-4">
@@ -136,17 +158,41 @@
             </h3>
         </div>
         <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Enforcement/Index" asp-route-FacilityId="@Model.Item!.FacilityId"
-               asp-route-EnforcementDateFrom="@Model.Item!.ExtendedDataStartDate.ToShortDateString()"
-               asp-route-EnforcementDateTo="@Model.Item!.CompletedDate.ToString()"
+            <a asp-page="/Enforcement/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
+               asp-route-EnforcementDateFrom="@Model.FceView!.ExtendedDataStartDate.ToShortDateString()"
+               asp-route-EnforcementDateTo="@Model.FceView!.CompletedDate.ToString()"
                asp-page-handler="Search" asp-fragment="search-results" target="_blank"
                class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                 Open in search
             </a>
         </div>
     </div>
-    <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.CaseFileSummary"
-             view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+
+    @if (!supportingData.CaseFileSummary.Any())
+    {
+        <div class="border rounded-2 p-3">
+            <p class="lead mb-0">No enforcement found in date range.</p>
+        </div>
+    }
+    else
+    {
+        <div id="supportingCaseFileDataAccordion" class="accordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header no-anchor">
+                    <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                            data-bs-target="#supportingCaseFileDataBody" aria-controls="supportingCaseFileDataBody">
+                        View supporting data
+                    </button>
+                </h3>
+                <div id="supportingCaseFileDataBody" class="accordion-collapse collapse"
+                     data-bs-parent="supportingCaseFileDataAccordion">
+                    <div class="accordion-body">
+                        <partial name="Shared/CompliancePartials/_CaseFileTable" model="supportingData.CaseFileSummary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </section>
 
 <section class="my-4">
@@ -159,7 +205,7 @@
         </div>
     </div>
 
-    @if (Model.AnnualFeesSummary.Count == 0)
+    @if (!supportingData.AnnualFeesSummary.Any())
     {
         <div class="border rounded-2 p-3">
             <p class="lead mb-0">No annual fees data found in date range.</p>
@@ -178,7 +224,7 @@
                 <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
                      data-bs-parent="supportingAnnualFeesDataAccordion">
                     <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="Model.AnnualFeesSummary" />
+                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="supportingData.AnnualFeesSummary" />
                     </div>
                 </div>
             </div>
@@ -217,9 +263,7 @@
                     <div class="col-auto my-0 ms-3">
                         <a asp-route-id="@Model.Id" asp-route-refresh="true"
                            class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
                             Refresh IAIP Data
                         </a>
                     </div>

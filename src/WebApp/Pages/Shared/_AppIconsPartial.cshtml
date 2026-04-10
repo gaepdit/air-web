@@ -1,0 +1,30 @@
+﻿@model AppIcon
+@{
+    var css = (string?)ViewData["CssClass"] ?? null;
+    var icon = Model switch
+    {
+            AppIcon.AutoDarkMode => "app-icon-circle-half",
+            AppIcon.LightMode => "app-icon-sun-fill",
+            AppIcon.DarkMode => "app-icon-moon-stars-fill",
+            AppIcon.CheckMark => "app-icon-check2",
+            AppIcon.Plus => "app-icon-plus-lg",
+            AppIcon.GoBack => "app-icon-arrow-90deg-up",
+            AppIcon.InfoIcon => "app-icon-info-circle-fill",
+            AppIcon.CheckIcon => "app-icon-check-circle-fill",
+            AppIcon.WarningIcon => "app-icon-exclamation-triangle-fill",
+            AppIcon.Download => "app-icon-download",
+            AppIcon.People => "app-icon-people-fill",
+            AppIcon.Badge => "app-icon-person-badge",
+            AppIcon.UpTop => "app-icon-arrow-bar-up",
+            AppIcon.Print => "app-icon-printer-fill",
+            AppIcon.Search => "app-icon-search",
+            AppIcon.Refresh => "app-icon-arrow-clockwise",
+            AppIcon.QuestionIcon => "app-icon-question-circle",
+            AppIcon.Trash => "app-icon-trash3",
+            AppIcon.Switch => "app-icon-shuffle",
+            _ => throw new ArgumentOutOfRangeException(nameof(Model)),
+    };
+}
+<svg class="bi @css" role="img">
+    <use href="@Url.Content("~/images/app-icons.svg?20260313")#@icon"></use>
+</svg>

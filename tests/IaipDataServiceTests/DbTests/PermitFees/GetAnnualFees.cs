@@ -13,9 +13,8 @@ public class GetAnnualFees
         // Arrange
         using var cache = Substitute.For<IMemoryCache>();
         var facilityServiceLogger = Substitute.For<ILogger<IaipFacilityService>>();
-        var permitFeesServiceLogger = Substitute.For<ILogger<IaipPermitFeesService>>();
         var facilityService = new IaipFacilityService(Config.DbConnectionFactory!, cache, facilityServiceLogger);
-        _sut = new IaipPermitFeesService(facilityService, Config.DbConnectionFactory!, cache, permitFeesServiceLogger);
+        _sut = new IaipPermitFeesService(facilityService, Config.DbConnectionFactory!);
     }
 
     [Test]

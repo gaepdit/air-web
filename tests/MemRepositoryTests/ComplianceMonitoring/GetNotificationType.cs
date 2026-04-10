@@ -1,5 +1,5 @@
-using AirWeb.MemRepository.Repositories;
-using AirWeb.TestData.Lookups;
+using AirWeb.MemRepository.ComplianceRepositories;
+using AirWeb.TestData.Compliance;
 
 namespace MemRepositoryTests.ComplianceMonitoring;
 

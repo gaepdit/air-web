@@ -1,4 +1,5 @@
 ﻿@page
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
 @{
@@ -7,15 +8,22 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form method="post" class="row my-3" role="search">
-    <label class="visually-hidden" for="FindId">Find by Facility ID</label>
-    <div class="input-group w-auto my-2">
-        <input id="FindId" asp-for="Id" type="search" aria-label="Search"
-               placeholder="Find by Facility ID" class="form-control" />
-        <button class="btn btn-primary" type="submit">View</button>
-    </div>
-    <span asp-validation-for="Id" class="text-danger-emphasis"></span>
-</form>
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
+    <form method="post" role="search" class="my-1">
+        <div class="row row-cols-sm-auto align-items-center">
+            <div class="col-12 mb-2 mb-sm-0">
+                <label for="FindId">Find by Facility ID</label>
+            </div>
+            <div class="col-12">
+                <div class="input-group input-group-sm">
+                    <input id="FindId" asp-for="FindId" class="form-control" type="search" placeholder="Enter ID" aria-label="Search" />
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2 mt-sm-0"><span asp-validation-for="FindId" class="text-danger-emphasis"></span></div>
+    </form>
+</div>
 
 @if (AppSettings.ConnectToIaip)
 {
@@ -30,23 +38,27 @@ else
     <p>Here is a short list of facilities for testing purposes.</p>
 }
 
-<form class="container my-3">
+<form class="my-3">
     <label class="visually-hidden" for="facility-list-filter">Filter facility list</label>
-    <div class="row row-cols-sm-auto align-items-center">
-        <input id="facility-list-filter" class="form-control col-12 w-auto" placeholder="Filter facility list" />
-        <span id="filtered-facility-list-count" class="col-12 text-body-secondary">
+    <div class="row row-cols-auto g-2 align-items-center">
+        <div>
+            <input id="facility-list-filter" class="form-control form-control-sm col-12 w-auto" placeholder="Filter facility list" aria-describedby="filtered-facility-list-count" />
+        </div>
+        <div>
+        <span id="filtered-facility-list-count" class="form-text col-12 text-body-secondary">
             (@(Model.Facilities.Count > 0 ? Model.Facilities.Count.ToString() : "none") found)
         </span>
+        </div>
     </div>
 </form>
 
 <ul id="facility-list">
-    @foreach (var (facilityId, facilityName) in Model.Facilities)
+    @foreach (var facility in Model.Facilities)
     {
         <li>
-            <a asp-page="/Facility/Details" asp-route-id="@facilityId"
+            <a asp-page="/Facility/Details" asp-route-id="@facility.FacilityId"
                class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-offset-1">
-                @facilityId <span class="link-body-emphasis">–</span> @facilityName
+                @facility.FacilityId <span class="link-body-emphasis">–</span> @facility.Name
             </a>
         </li>
     }
@@ -67,9 +79,7 @@ else
                     </div>
                     <div class="col-auto my-0 ms-3">
                         <a asp-route-refresh="true" class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
                             Refresh IAIP Data
                         </a>
                     </div>

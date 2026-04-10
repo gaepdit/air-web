@@ -69,7 +69,8 @@
                 }
                 <td>@item.CaseFileStatus.GetDisplayName()</td>
                 <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable, new { Placeholder = DefaultText.NotAvailable })</span>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable,
+                                additionalViewData: new { Placeholder = DefaultText.NotAvailable })</span>
                 </td>
                 @if (!hideStaff)
                 {

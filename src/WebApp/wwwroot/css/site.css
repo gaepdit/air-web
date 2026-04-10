@@ -3,26 +3,27 @@
 
 /* Change the base-hue variable to set all branding colors. */
 :root, [data-bs-theme="light"] {
-    --callout-link: 10, 88, 202;
     --base-hue: 200deg;
-}
-
-/* Light mode theme colors */
-.navbar {
-    background-color: hsl(var(--base-hue), 75%, 91%);
+    --callout-link: 10, 88, 202;
     --bs-gradient: linear-gradient(180deg,
     hsl(200, 93%, 73%) 0%,
     hsl(247, 55%, 80%) 70%,
     hsl(295, 42%, 78%) 100%);
 }
 
+/* Light mode theme colors */
+.navbar {
+    background-color: hsl(var(--base-hue), 75%, 91%);
+}
+
 .navbar a {
     color: hsl(var(--base-hue), 75%, 23%);
 }
 
-.navbar a:hover,
-.navbar a:focus {
-    color: hsl(var(--base-hue), 100%, 25%);
+.navbar a:hover, .navbar a:focus,
+.navbar button:hover, .navbar button:focus,
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+    color: hsl(var(--base-hue), 80%, 25%);
 }
 
 .navbar a:active {
@@ -46,11 +47,13 @@
 }
 
 .navbar .nav-link,
-.navbar .nav-link:hover,
-.navbar .nav-link:focus,
 .navbar .navbar-nav .nav-link.active,
 .navbar .navbar-nav .nav-link.show {
     color: hsl(var(--base-hue), 20%, 20%);
+}
+
+.navbar .nav-link.border {
+    border-color: hsl(var(--base-hue), 20%, 50%) !important;
 }
 
 .navbar .navbar-brand:focus-visible,
@@ -63,15 +66,15 @@
 [data-bs-theme="dark"] {
     --callout-link: 110, 168, 254;
     --bs-success-bg-subtle: hsl(153, 92%, 10%);
+    --bs-gradient: linear-gradient(180deg,
+    hsl(212, 72%, 30%) 0%,
+    hsl(234, 22%, 41%) 50%,
+    hsl(355.3, 30.9%, 51.2%) 100%);
 }
 
 [data-bs-theme="dark"] .navbar {
     background-color: hsl(var(--base-hue), 75%, 13%);
     color: hsl(var(--base-hue), 0%, 100%);
-    --bs-gradient: linear-gradient(180deg,
-    hsl(212, 72%, 30%) 0%,
-    hsl(234, 22%, 41%) 50%,
-    hsl(355.3, 30.9%, 51.2%) 100%);
 }
 
 [data-bs-theme="dark"] .navbar a {
@@ -79,8 +82,12 @@
 }
 
 [data-bs-theme="dark"] .navbar a:hover,
-[data-bs-theme="dark"] .navbar a:focus {
-    color: hsl(var(--base-hue), 100%, 85%);
+[data-bs-theme="dark"] .navbar a:focus,
+[data-bs-theme="dark"] .navbar button:hover,
+[data-bs-theme="dark"] .navbar button:focus,
+[data-bs-theme="dark"] .navbar .nav-link:hover,
+[data-bs-theme="dark"] .navbar .nav-link:focus {
+    color: hsl(var(--base-hue), 100%, 95%);
 }
 
 [data-bs-theme="dark"] .navbar a:active {
@@ -94,7 +101,7 @@
 [data-bs-theme="dark"] .navbar .dropdown-item:focus,
 [data-bs-theme="dark"] .navbar .dropdown-item:hover {
     color: hsl(var(--base-hue), 75%, 90%);
-    background-color: hsl(var(--base-hue), 10%, 19%);
+    background-color: hsl(var(--base-hue), 10%, 23%);
 }
 
 [data-bs-theme="dark"] .navbar .dropdown-item.active,
@@ -120,23 +127,6 @@
 /* Dark mode fix for table rows with "secondary" background color */
 .table > :not(caption) > .bg-secondary-subtle > * {
     background-color: var(--bs-secondary-bg-subtle) !important;
-}
-
-/* Accessibility fixes for outlined buttons
--------------------------------------------------------------------- */
-html:not([data-bs-theme="dark"]) .btn-outline-warning {
-    --bs-btn-color: #b98b00;
-    --bs-btn-border-color: #b98b00;
-    --bs-btn-bg: #fff;
-}
-
-.btn-outline-info {
-    --bs-btn-color: var(--bs-body-color);
-}
-
-.btn-outline-primary {
-    --bs-btn-color: rgb(var(--bs-link-color-rgb));
-    --bs-btn-border-color: rgb(var(--bs-link-color-rgb));
 }
 
 /* Adjust font sizing
@@ -165,10 +155,50 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     color: hsl(355, 98%, 24%) !important;
 }
 
+/* Accessibility fixes for outlined buttons */
+html:not([data-bs-theme="dark"]) .btn-outline-warning {
+    --bs-btn-color: oklch(0.6 0.17 84.92 / 1);
+    --bs-btn-border-color: oklch(0.75 0.17 84.92 / 1);
+}
+
+.btn-outline-info {
+    --bs-btn-color: oklch(0.46 0.14 218.06 / 1);
+}
+
+[data-bs-theme="dark"] .btn-outline-info {
+    --bs-btn-color: oklch(0.9 0.14 218.06 / 1);
+}
+
 /* Navbar logo
 -------------------------------------------------- */
 .img-logo {
     height: 40px;
+}
+
+/* Off-canvas toggle
+-------------------------------------------------- */
+.offcanvas-toggler {
+    padding: .25rem .5rem;
+    margin-right: .5rem;
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-navbar-toggler-border-color);
+    border-radius: var(--bs-border-radius);
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+.offcanvas-toggler .bi {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.navbar .navbar-toggler:hover,
+.offcanvas-toggler:hover {
+    border-color: rgba(var(--bs-emphasis-color-rgb), 0.4);
+}
+
+[data-bs-theme="dark"] .navbar .navbar-toggler,
+[data-bs-theme="dark"] .offcanvas-toggler {
+    color: hsla(var(--base-hue), 0%, 100%, 0.7);
 }
 
 /* Skip to content link
@@ -277,13 +307,16 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 
 /* External links
 -------------------------------------------------- */
-a[target]::after {
+a[target]::after,
+.facility-map .facility-map-info a[target]::after {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
     margin-left: .2em;
 }
 
-/* Optionally suppress external link icon */
-footer a[target]::after, a[target].no-external-link::after {
+/* Suppress some external link icons */
+footer a[target]::after,
+.facility-map a::after,
+a[target].no-external-link::after {
     content: none;
 }
 
@@ -517,6 +550,56 @@ svg:not(:root) {
     }
 }
 
+/* Facility Map
+-------------------------------------------------- */
+.facility-map {
+    height: 500px;
+    font-family: var(--bs-body-font-family);
+}
+
+.facility-map-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.facility-map-info {
+    font-size: 14px;
+}
+
+.facility-map-link {
+    padding-top: 8px;
+}
+
+/* Map dark mode */
+:root[data-bs-theme="dark"] .leaflet-control-locate {
+    --locate-control-icon-color: #fff;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a,
+:root[data-bs-theme="dark"] .leaflet-popup-content-wrapper,
+:root[data-bs-theme="dark"] .leaflet-popup-tip,
+:root[data-bs-theme="dark"] .leaflet-control-attribution {
+    background-color: #3a3a3a !important;
+    color: #fff !important;
+}
+
+:root[data-bs-theme="dark"] .leaflet-control-attribution a {
+    color: #6db3f2;
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-bs-theme="dark"] .leaflet-bar a:hover {
+    background-color: #555;
+}
+
+/* Tile filter for dark mode */
+:root[data-bs-theme="dark"] .map-tiles {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) saturate(0.85);
+}
+
 /* Input highlighter
     (Use JavaScript to add this class to briefly flash an animated outline.)
 -------------------------------------------------- */
@@ -534,6 +617,28 @@ svg:not(:root) {
     100% {
         outline: 4px solid rgba(var(--bs-warning-rgb), 0);
     }
+}
+
+/* Icons by SVGBackgrounds.com
+   https://www.svgbackgrounds.com/elements/triple-threat-svg-icons/
+   
+-------------------------------------------------- */
+.SVGBGI {
+    height: 1rem;
+    width: 1rem;
+    fill: var(--bs-body-color);
+}
+
+.SVGBGI .accent, .SVGBGI .solid {
+    fill: none;
+}
+
+.SVGBGI .accent {
+    fill: var(--bs-warning-border-subtle);
+}
+
+.SVGBGI.complete .accent {
+    fill: var(--bs-success-border-subtle)
 }
 
 /* ==================================================

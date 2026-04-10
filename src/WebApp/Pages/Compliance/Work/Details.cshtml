@@ -7,6 +7,7 @@
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
 @{
@@ -54,22 +55,10 @@
     @if (!report.IsDeleted)
     {
         <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="btn-group">
-                @if (Model.UserCan[ComplianceOperation.Edit])
-                {
-                    <a asp-page="Edit/Index" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-                }
-                @if (report.HasPrintout)
-                {
-                    <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
-                       class="btn btn-outline-secondary icon-link no-external-link">
-                        <svg class="bi">
-                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                        </svg>
-                        Print
-                    </a>
-                }
-            </div>
+            @if (Model.UserCan[ComplianceOperation.Edit])
+            {
+                <a asp-page="Edit/Index" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
             @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
             {
                 <form method="post" class="d-inline ms-1">
@@ -82,6 +71,14 @@
                         <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
                     }
                 </form>
+            }
+            @if (report.HasPrintout)
+            {
+                <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id"
+                   class="btn btn-outline-secondary icon-link no-external-link ms-1">
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
+                    Print
+                </a>
             }
         </div>
     }
@@ -96,9 +93,7 @@
         <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
             <a asp-page="/Enforcement/Begin" asp-route-facilityId="@report.FacilityId" asp-route-eventId="@Model.Id.ToString()"
                class="btn btn-sm btn-outline-primary icon-link">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                </svg>
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                 Enforcement Case
             </a>
         </div>

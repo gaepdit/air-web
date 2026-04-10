@@ -20,6 +20,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
 
     // Update
     Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, LetterOfNoncomplianceEditDto resource, CancellationToken token = default);
     Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default);
     Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 

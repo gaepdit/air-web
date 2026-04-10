@@ -5,7 +5,7 @@
     <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
         <div class="container">
             <details>
-                <summary class="rounded-1 p-1"><span class="ps-1">Show EPA Data Exchange info</span></summary>
+                <summary class="rounded-1 p-1"><span class="ps-1">Show EPA data exchange info</span></summary>
                 <dl class="row mt-2 mb-0">
                     <dt class="col-sm-3">EPA Facility ID</dt>
                     <dd class="col-sm-9">@Model.EpaFacilityId</dd>
@@ -17,8 +17,8 @@
                     <dd class="col-sm-9">@Model.DataExchangeStatus.GetDescription()</dd>
 
                     <dt class="col-sm-3">Data Exchange Status Date</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(m => m.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
-                            additionalViewData: new { Placeholder = "none" })</dd>
+                    <dd class="col-sm-9">@Html.DisplayFor(m => m.DataExchangeStatusDate,
+                                DisplayTemplate.LongDateTimeOffsetNullable, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
                 </dl>
             </details>
         </div>

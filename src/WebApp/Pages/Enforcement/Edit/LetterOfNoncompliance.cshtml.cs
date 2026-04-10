@@ -1,0 +1,75 @@
+﻿using AirWeb.AppServices.Compliance.Enforcement;
+using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.WebApp.Models;
+using AutoMapper;
+using FluentValidation;
+
+namespace AirWeb.WebApp.Pages.Enforcement.Edit;
+
+public class LetterOfNoncomplianceEditModel(
+    IEnforcementActionService actionService, 
+    ICaseFileService caseFileService,
+    IValidator<LetterOfNoncomplianceEditDto> validator,
+    IMapper mapper) : PageModel, ISubmitCancelButtons
+{
+    [FromRoute]
+    public Guid Id { get; set; }
+
+    [BindProperty]
+    public LetterOfNoncomplianceEditDto Item { get; set; } = null!;
+
+    public CaseFileSummaryDto? CaseFile { get; set; }
+
+    // Form buttons
+    public string SubmitText => "Save Changes";
+    public string CancelRoute => "../Details";
+    public string RouteId => CaseFile?.Id.ToString() ?? string.Empty;
+
+    [TempData]
+    public Guid? HighlightEnforcementId { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(CancellationToken token)
+    {
+        if (Id == Guid.Empty) return RedirectToPage("../Index");
+
+        var itemView = await actionService.FindAsync(Id, token);
+        if (itemView is null) return NotFound();
+        if (itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+            return RedirectToPage("Index", new { Id });
+        if (!User.CanEdit(itemView)) return Forbid();
+
+        CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (CaseFile is null) return NotFound();
+        if (!User.CanEditCaseFile(CaseFile)) return Forbid();
+
+        Item = mapper.Map<LetterOfNoncomplianceEditDto>(itemView);
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(CancellationToken token)
+    {
+        var itemView = await actionService.FindAsync(Id, token);
+        if (itemView is null || !User.CanEdit(itemView) ||
+            itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+            return BadRequest();
+
+        CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+
+        await validator.ApplyValidationAsync(Item, ModelState);
+
+        if (!ModelState.IsValid)
+            return Page();
+
+        await actionService.UpdateAsync(Id, Item, token);
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            $"{itemView.ActionType.GetDisplayName()} successfully updated.");
+        HighlightEnforcementId = Id;
+        return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
+            fragment: Id.ToString());
+    }
+}

@@ -8,8 +8,10 @@ public class ComplianceWorkCommandValidator : AbstractValidator<IComplianceWorkC
     public ComplianceWorkCommandValidator()
     {
         RuleFor(dto => dto.ResponsibleStaffId).NotEmpty();
+
         RuleFor(dto => dto.AcknowledgmentLetterDate)
-            .Must(date => date is null || date <= DateOnly.FromDateTime(DateTime.Today))
+            .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
+            .When(dto => dto.AcknowledgmentLetterDate.HasValue)
             .WithMessage("The Acknowledgment Letter Date cannot be in the future.");
     }
 }

@@ -132,6 +132,17 @@ public sealed class EnforcementActionService(
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
 
+    public async Task UpdateAsync(Guid id, LetterOfNoncomplianceEditDto resource, CancellationToken token = default)
+    {
+        var entity = (LetterOfNoncompliance)await actionRepository
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+        entity.Notes = resource.Notes;
+        entity.IssueDate = resource.IssueDate;
+        entity.ResolvedDate = resource.ResolvedDate;
+        entity.ResponseRequested = resource.ResponseRequested;
+        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+    }
+
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (ConsentOrder)await actionRepository

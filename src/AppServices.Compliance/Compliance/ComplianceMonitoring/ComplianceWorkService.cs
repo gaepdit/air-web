@@ -79,6 +79,9 @@ public sealed partial class ComplianceWorkService(
             ? await repository.GetComplianceWorkTypeAsync(id, token).ConfigureAwait(false)
             : null;
 
+    public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
+        repository.ExistsAsync(id, token);
+
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>
         (await repository.FindAsync(work => work.Id == id && work.IsComplianceEvent,

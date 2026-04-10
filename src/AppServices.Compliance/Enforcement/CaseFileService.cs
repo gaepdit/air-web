@@ -75,6 +75,9 @@ public sealed class CaseFileService(
         return caseFile;
     }
 
+    public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
+        caseFileRepository.ExistsAsync(id, token);
+
     public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)
     {
@@ -180,7 +183,7 @@ public sealed class CaseFileService(
         caseFileRepository.GetAirProgramsAsync(id, token);
 
     public async Task SaveCaseFileExtraDataAsync(int id, IEnumerable<string> pollutants,
-        IEnumerable<AirProgram> airPrograms, string? violationTypeCode, CancellationToken token = default)
+        IEnumerable<string> airPrograms, string? violationTypeCode, CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);

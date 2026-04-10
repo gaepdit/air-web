@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;
@@ -14,15 +14,15 @@ public sealed class IaipFacilityService(
     IMemoryCache cache,
     ILogger<IaipFacilityService> logger) : IFacilityService
 {
+    public Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false) =>
+        GetFacilityAsync(id, forceRefresh, loadDetails: false);
+
     public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
         GetFacilityAsync(id, forceRefresh, loadDetails: true);
 
-    public Task<Facility?> FindFacilitySummaryAsync(FacilityId id, bool forceRefresh = false) =>
-        GetFacilityAsync(id, forceRefresh, loadDetails: false);
-
     private async Task<Facility?> GetFacilityAsync(FacilityId id, bool forceRefresh, bool loadDetails)
     {
-        if (!await ExistsAsync(id)) return null;
+        if (!await ExistsAsync(id).ConfigureAwait(false)) return null;
 
         var facilityDetailsCacheKey = FacilityDetailsCacheKey(id);
         var facilitySummaryCacheKey = FacilitySummaryCacheKey(id);
@@ -39,14 +39,15 @@ public sealed class IaipFacilityService(
             if (cache.TryGetValue(facilityDetailsCacheKey, logger, out cachedValue))
                 return loadDetails
                     ? cachedValue
-                    : cache.Set(cacheKey, cachedValue, CacheConstants.FacilityExpiration, logger);
+                    : cache.Set(cachedValue, cacheKey, CacheConstants.FacilityExpiration, logger);
         }
 
         using var db = dbf.Create();
         var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
 
-        await using var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
-            commandType: CommandType.StoredProcedure);
+        var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
         var facility = multi.Read<Facility, Address, GeoCoordinates, RegulatoryData, Facility>(
             (facility, facilityAddress, geoCoordinates, regulatoryData) =>
@@ -59,53 +60,58 @@ public sealed class IaipFacilityService(
 
         if (loadDetails)
         {
-            facility.RegulatoryData!.AirPrograms.AddRange(await multi.ReadAsync<AirProgram>());
+            facility.RegulatoryData!.AirPrograms.AddRange(
+                await multi.ReadAsync<AirProgram>().ConfigureAwait(false));
             facility.RegulatoryData!.ProgramClassifications.AddRange(
-                await multi.ReadAsync<AirProgramClassification>());
-            facility.RegulatoryData!.Pollutants.AddRange(await multi.ReadAsync<Pollutant>());
+                await multi.ReadAsync<AirProgramClassification>().ConfigureAwait(false));
+            facility.RegulatoryData!.Pollutants.AddRange(
+                await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
         }
 
-        return cache.Set(cacheKey, facility, CacheConstants.FacilityExpiration, logger, forceRefresh);
+        return cache.Set(facility, cacheKey, CacheConstants.FacilityExpiration, logger, forceRefresh);
     }
 
     private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
     private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
-    public async Task<string> GetNameAsync(string id)
-    {
-        var facilityList = await GetListAsync();
-        return facilityList.TryGetValue((FacilityId)id, out var name)
-            ? name
-            : throw new InvalidOperationException("Facility not found.");
-    }
+    public async Task<string> GetNameAsync(string id) =>
+        (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.FacilityId == id)?.Name ??
+            throw new InvalidOperationException("Facility not found.");
 
     public async Task<bool> ExistsAsync(FacilityId id)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<bool>("air.IaipFacilityExists",
-            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     public async Task<ushort> GetNextActionNumberAsync(FacilityId id)
     {
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<ushort>("air.GetIaipFacilityNextActionNumber",
-            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure);
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     private const string FacilityListCacheKey = "IaipFacilityList";
 
-    public async Task<ReadOnlyDictionary<FacilityId, string>> GetListAsync(bool forceRefresh = false)
+    public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false)
     {
         if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
-                out ReadOnlyDictionary<FacilityId, string>? cachedValue))
-            return cachedValue;
+                out IReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
-        var facilityList = new ReadOnlyDictionary<FacilityId, string>(
-            (await db.QueryAsync<KeyValuePair<FacilityId, string>>(
-                sql: "air.GetIaipFacilityList", commandType: CommandType.StoredProcedure)).ToDictionary());
 
-        return cache.Set(FacilityListCacheKey, facilityList, CacheConstants.FacilityListExpiration, logger);
+        var facilityList = (await db.QueryAsync<FacilitySummary, GeoCoordinates, FacilitySummary>(
+                sql: "air.GetIaipFacilityList",
+                (facility, geoCoordinates) =>
+                {
+                    facility.GeoCoordinates = geoCoordinates;
+                    return facility;
+                }, splitOn: "GeoCoordinatesId",
+                commandType: CommandType.StoredProcedure
+            )
+            .ConfigureAwait(false)).ToList();
+
+        return cache.Set(facilityList, FacilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
     }
 }
