@@ -42,7 +42,8 @@ else
     <label class="visually-hidden" for="facility-list-filter">Filter facility list</label>
     <div class="row row-cols-auto g-2 align-items-center">
         <div>
-            <input id="facility-list-filter" class="form-control form-control-sm col-12 w-auto" placeholder="Filter facility list" aria-describedby="filtered-facility-list-count" />
+            <input id="facility-list-filter" class="form-control form-control-sm col-12 w-auto" 
+                placeholder="Filter facility list" aria-describedby="filtered-facility-list-count" />
         </div>
         <div>
         <span id="filtered-facility-list-count" class="form-text col-12 text-body-secondary">
@@ -78,6 +79,10 @@ else
             const originalList = document.getElementById('facility-list');
             const originalListItems = originalList.getElementsByTagName('li');
             const filteredList = document.getElementById('filtered-facility-list');
+
+            filterInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') { event.preventDefault(); }
+            });
 
             filterInput.addEventListener('input', () => {
                 const filter = filterInput.value.toLowerCase();
