@@ -1,4 +1,4 @@
-@page "{referenceNumber:int?}"
+﻿@page "{referenceNumber:int?}"
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
@@ -9,6 +9,10 @@
     var summary = Model.TestSummary!;
     ViewData["Title"] = $"STR {summary.ReferenceNumber} – Facility {summary.Facility?.FacilityId}";
 }
+
+<div class="container">
+<div class="row">
+<div class="col-12 col-md-10 order-1 order-md-1">
 
 <div class="row justify-content-between align-items-center mb-2">
     <div class="col-md">
@@ -27,41 +31,58 @@
     </div>
 </div>
 
-<div class="container">
-    <dl class="row mt-3">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
-        <dd class="col-sm-8 col-lg-9">
-            <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
-        </dd>
-        <dt class="col-sm-4 col-lg-3">Facility</dt>
-        <dd class="col-sm-8 col-lg-9">
-            <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
-                     model="(summary.Facility!.FacilityId,summary.Facility.Name)" />
-        </dd>
-    </dl>
-    <dl class="row mt-3 bg-body-tertiary py-2 border border-info rounded-1">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestType)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.TestType</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Source)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.Source</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Pollutant)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.Pollutant</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ComplianceStatus)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.ComplianceStatus</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.FullName</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>
-        <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
-    </dl>
+<dl class="row mt-3">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
+    </dd>
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(summary.Facility!.FacilityId,summary.Facility.Name)" />
+    </dd>
+</dl>
+
 </div>
+
+<div class="col-12 col-md-2 order-2 order-md-3 d-print-none">
+    <div class="sticky-md-top pt-2" id="toc-container">
+        <div class="pb-2 d-grid d-md-none">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#toc" aria-expanded="false" aria-controls="toc">
+                On This Page
+            </button>
+        </div>
+        <h6 class="h5 d-none d-md-block no-anchor">On This Page</h6>
+        <div class="list-group list-group-flush collapse d-md-block" id="toc"></div>
+    </div>
+</div>
+
+<div class="col-12 col-md-10 order-3 order-md-2">
+
+
+<h2 class="visually-hidden">Information</h2>
+<dl class="row mt-3 bg-body-tertiary py-2 border border-info rounded-1">
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReportClosed)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolClosed)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestType)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.TestType</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Source)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Source</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.Pollutant)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.Pollutant</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ComplianceStatus)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ComplianceStatus</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.TestDates)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateReceivedByApb)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateReceivedByApb, DisplayTemplate.DateTimeLong)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.DateTestReviewComplete)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReviewedByStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ReviewedByStaff.FullName</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ApplicableRequirement)</dt>
+    <dd class="col-sm-8 col-lg-9">@summary.ApplicableRequirement</dd>
+</dl>
 
 @if (Model.ComplianceReview is null)
 {
@@ -207,7 +228,7 @@ else
         }
     </dl>
 
-    <h3 class="mt-4">Details</h3>
+    <h2 class="mt-4">Details</h2>
     <dl class="row my-3">
         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => review.ReceivedByComplianceDate)</dt>
         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => review.ReceivedByComplianceDate, DisplayTemplate.ShortDateOnly)</dd>
@@ -236,6 +257,10 @@ else
         </a>
     </div>
 }
+
+</div>
+</div>
+</div>
 
 @section Footer {
     @if (AppSettings.ConnectToIaip)
@@ -270,4 +295,10 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/table-of-contents.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            createTOC(['h2', 'h3']);
+        });
+    </script>
 }

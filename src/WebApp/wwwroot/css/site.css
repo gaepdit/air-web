@@ -1,4 +1,4 @@
-/* Branding colors
+﻿/* Branding colors
 -------------------------------------------------- */
 
 /* Change the base-hue variable to set all branding colors. */
@@ -661,4 +661,11 @@ Print styles
     .banner-test-site::after {
         content: "— Not for public distribution";
     }
+}
+
+/* Footer links
+-------------------------------------------------- */
+.toc-item {
+    padding: 0;
+    border: none;
 }
