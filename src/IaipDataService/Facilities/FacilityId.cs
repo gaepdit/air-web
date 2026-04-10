@@ -38,6 +38,14 @@ public partial record FacilityId
     /// </summary>
     public string EpaFacilityId => $"GA00000013{Id}";
 
+    /// <summary>
+    /// The 3-digit FIPS county code.
+    /// </summary>
+    public string CountyCode => Id[..3];
+    
+    public const string PortableSourceCountyCode = "777";
+    public bool IsPortableSource => CountyCode == PortableSourceCountyCode;
+
     // Operators
     public static implicit operator string(FacilityId id) => id.FormattedId;
     public static explicit operator FacilityId(string id) => new(id);

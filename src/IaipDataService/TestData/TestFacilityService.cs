@@ -30,6 +30,10 @@ public sealed class TestFacilityService : IFacilityService
             : facility.NextActionNumber++;
     }
 
-    public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false) =>
-        Task.FromResult(Items.Select(f => new FacilitySummary(f)).ToList() as IReadOnlyCollection<FacilitySummary>);
+    public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
+        bool includePortableSources = true) =>
+        Task.FromResult(Items
+            .Where(f => includePortableSources || f.Id.CountyCode != "777")
+            .Select(f => new FacilitySummary(f))
+            .ToList() as IReadOnlyCollection<FacilitySummary>);
 }
