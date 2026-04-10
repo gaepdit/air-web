@@ -105,8 +105,20 @@
     }
 </div>
 
-@*Section 1 end and section 2 start*@
 </div>
+
+<div class="col-12 col-md-2 order-2 order-md-3 d-print-none">
+    <div class="sticky-md-top pt-2" id="toc-container">
+        <div class="pb-2 d-grid d-md-none">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#toc" aria-expanded="false" aria-controls="toc">
+                On This Page
+            </button>
+        </div>
+        <h6 class="h5 d-none d-md-block no-anchor">On This Page</h6>
+        <div class="list-group list-group-flush collapse d-md-block" id="toc"></div>
+    </div>
+</div>
+
 <div class="col-12 col-md-10 order-3 order-md-2">
 
 <dl class="row mt-3">
@@ -195,18 +207,7 @@
     </div>
 }
 
-@*Table of Contents*@
 </div>
-<div class="col-12 col-md-2 order-2 order-md-3">
-    <div class="sticky-md-top pt-2 pt-md-2">
-        <div id="toc-container">
-            <h6>On this Page</h6>
-            <div class="list-group list-group-flush " id="toc"></div>
-        </div>
-    </div>
-</div>
-
-@*container and row end div*@
 </div>
 </div>
 
@@ -222,4 +223,9 @@
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
     <script src="~/js/table-of-contents.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            createTOC(['h2', 'h3']);
+        });
+    </script>
 }
