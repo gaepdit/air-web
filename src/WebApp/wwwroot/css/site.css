@@ -645,20 +645,42 @@ svg:not(:root) {
 Print styles
 ================================================== */
 @media print {
+    @page {
+        margin: .5in;
+    }
+
+    :root,
+    :root[data-bs-theme="dark"] {
+        --bs-body-color: #000;
+        --bs-body-bg: #fff;
+        --bs-secondary-color: #333;
+    }
+
+    :root {
+        color-scheme: only light;
+    }
+
     header.sticky-top {
         position: static;
     }
 
-    .banner-test-site {
+    .banner-test-site,
+    [data-bs-theme="dark"] .banner-test-site {
         position: static;
         text-shadow: none;
         box-shadow: none;
         border: 1px solid;
         margin-bottom: 1rem;
         background: hsl(45, 100%, 80%);
+        color: var(--bs-body-color);
     }
 
     .banner-test-site::after {
         content: "— Not for public distribution";
+    }
+
+    .accordion-item, .table * {
+        color: var(--bs-body-color) !important;
+        background-color: var(--bs-body-bg) !important;
     }
 }

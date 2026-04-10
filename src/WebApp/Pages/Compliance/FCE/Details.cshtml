@@ -225,31 +225,9 @@
 }
 
 @section Footer {
-    @if (AppSettings.ConnectToIaip)
-    {
-        <div class="bg-info-subtle py-2 border-bottom d-print-none">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col">
-                        <small>
-                            * <em>Note:</em> This page displays annual fees data from the IAIP, which is refreshed
-                            every 24&nbsp;hours. If it appears out of date, you can manually refresh the data.
-                        </small>
-                    </div>
-                    <div class="col-auto my-0 ms-3">
-                        <a asp-route-id="@Model.Id" asp-route-refresh="true"
-                           class="btn btn-sm btn-outline-info icon-link">
-                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
-                            Refresh IAIP Data
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
     <partial name="Shared/_DataExchangePartial" model="report" />
     <partial name="Shared/_AuditPointsPartial" model="report.AuditPoints" />
+    <partial name="Shared/_IaipReloadPartial" />
 }
 
 @section Scripts {
