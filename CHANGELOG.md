@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.4.10] - 2026-04-10
+
+- Fixed some minor layout issues.
+- Changed some default values when adding a new RMP inspection.
+
 ## [2026.4.9] - 2026-04-09
 
 - Added a facility map page.
@@ -47,3 +52,4 @@
 [2026.3.11]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.11
 [2026.3.19]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.19
 [2026.4.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.9
+[2026.4.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.10
