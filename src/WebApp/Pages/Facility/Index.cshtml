@@ -79,15 +79,19 @@ else
             const originalList = document.getElementById('facility-list');
             const originalListItems = originalList.getElementsByTagName('li');
             const filteredList = document.getElementById('filtered-facility-list');
+            let count = 0;
 
-            filterInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') { event.preventDefault(); }
+            filterInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (count == 1) filteredList.querySelector('a').click();
+                    e.preventDefault();
+                }
             });
 
             filterInput.addEventListener('input', () => {
                 const filter = filterInput.value.toLowerCase();
                 const fragment = document.createDocumentFragment();
-                let count = 0;
+                count = 0;
 
                 for (let i = 0; i < originalListItems.length; i++) {
                     const a = originalListItems[i].getElementsByTagName('a')[0];
