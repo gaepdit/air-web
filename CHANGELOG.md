@@ -1,5 +1,15 @@
 # Changelog
 
+## [2026.4.13] - 2026-04-13
+
+- Improved useability of the map page:
+    - Better handling of failed location requests.
+    - Excluded portable sources from the map.
+    - Added a permalink for the current map view.
+    - Resized the map to fit screen height.
+- Improved useability of the facility page text filter:
+    - Hint: once only a single facility is shown, press the <kbd>Enter</kbd> key to open that facility.
+
 ## [2026.4.10] - 2026-04-10
 
 - Fixed some minor layout issues.
