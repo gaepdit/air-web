@@ -80,11 +80,11 @@
     <div id="facilityDetailsAccordion" class="accordion">
         <div class="accordion-item border-info">
             <h2 class="accordion-header no-anchor">
-                <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#facilityDetailsBody" aria-expanded="false" aria-controls="facilityDetailsBody">
+                <button class="accordion-button shadow-sm" type="button" data-bs-toggle="collapse" data-bs-target="#facilityDetailsBody" aria-expanded="false" aria-controls="facilityDetailsBody">
                     Facility Details
                 </button>
             </h2>
-            <div id="facilityDetailsBody" class="accordion-collapse collapse" data-bs-parent="facilityDetailsAccordion">
+            <div id="facilityDetailsBody" class="accordion-collapse" data-bs-parent="facilityDetailsAccordion">
                 <div class="accordion-body">
                     <partial name="_Partials/_FacilityDetails" model="Model.Facility" />
                 </div>
@@ -159,6 +159,21 @@
     <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.SourceTests"
              view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
+
+@if (!Model.Facility.IsPortableSource && Model.Facility.GeoCoordinates.HasValue)
+{
+    @section Scripts {
+        <script>
+            const Facility = @Html.Raw(Model.FacilityJson)
+        </script>
+        <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
+        <script src="~/js/facilities/mapInit.js"></script>
+    }
+
+    @section Styles {
+        <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.min.css" />
+    }
+}
 
 @section Footer {
     <partial name="Shared/_IaipReloadPartial" />

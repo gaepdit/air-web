@@ -2,35 +2,55 @@
 @model IaipDataService.Facilities.Facility
 
 <div class="container mt-2">
-    <h2 class="h3">Status</h2>
-    <dl class="row">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.Description)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.Description)</dd>
-        @if (Model.RegulatoryData != null)
-        {
-            var regulatoryData = Model.RegulatoryData;
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.OperatingStatus)</dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Classification)</dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.CmsClassification)</dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.StartupDate)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.StartupDate, DisplayTemplate.DateTimeNullableShort)</dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.PermitRevocationDate)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
-        }
-    </dl>
+    <div class="row justify-content-between">
+        <div class="col-md">
+            <h2 class="h3">Status</h2>
+            <dl class="row">
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.Description)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.Description)</dd>
+                @if (Model.RegulatoryData != null)
+                {
+                    var regulatoryData = Model.RegulatoryData;
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.OperatingStatus)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Classification)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.CmsClassification)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.StartupDate)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.StartupDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.PermitRevocationDate)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                }
+            </dl>
 
-    <h2 class="h3">Location</h2>
-    <dl class="row">
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.FacilityAddress)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.County)</dt>
-        <dd class="col-sm-8 col-lg-9">@Model.County</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.GeoCoordinates)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)</dd>
-    </dl>
+            <h2 class="h3">Location</h2>
+            <dl class="row">
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.FacilityAddress)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(facility => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.County)</dt>
+                <dd class="col-sm-8 col-lg-9">@Model.County</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(facility => facility.GeoCoordinates)</dt>
+                <dd class="col-sm-8 col-lg-9">
+                    @if (Model.IsPortableSource)
+                    {
+                        <em class="text-body-secondary">Portable source</em>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(facility => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
+                    }
+                </dd>
+            </dl>
+        </div>
+
+        @if (!Model.IsPortableSource && Model.GeoCoordinates.HasValue)
+        {
+            <div class="col-md-6 mt-2 mb-3 my-md-0">
+                <div id="single-facility-map" class="border border-secondary"></div>
+            </div>
+        }
+    </div>
 
     <h2 class="h3">Regulatory Data</h2>
     @if (Model.RegulatoryData is null)
