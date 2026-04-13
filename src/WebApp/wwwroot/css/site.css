@@ -304,18 +304,17 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
     }
 }
 
-
 /* External links
 -------------------------------------------------- */
 a[target]::after,
-.facility-map .facility-map-info a[target]::after {
+#facility-map .facility-map-info a[target]::after {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
     margin-left: .2em;
 }
 
 /* Suppress some external link icons */
 footer a[target]::after,
-.facility-map a::after,
+#facility-map a::after,
 a[target].no-external-link::after {
     content: none;
 }
@@ -552,18 +551,18 @@ svg:not(:root) {
 
 /* Facility Map
 -------------------------------------------------- */
-.facility-map {
-    height: 500px;
+#facility-map {
+    height: calc(90vh - 1rem);
+}
+
+.facility-map-info {
     font-family: var(--bs-body-font-family);
+    font-size: 14px;
 }
 
 .facility-map-title {
     font-size: 14px;
     font-weight: 700;
-}
-
-.facility-map-info {
-    font-size: 14px;
 }
 
 .facility-map-link {
