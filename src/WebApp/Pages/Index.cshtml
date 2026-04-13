@@ -1,5 +1,6 @@
-@page
+﻿@page
 @model IndexModel
+
 @{
     ViewData["Title"] = "Air Branch Web Application";
 }
@@ -12,6 +13,24 @@
         @:— User&nbsp;Dashboard
     }
 </h1>
+
+<div class="container">
+<div class = "row">
+
+<div class="col-12 col-md-2 order-1 order-md-2 d-print-none">
+    <div class="sticky-md-top pt-2" id="toc-container">
+        <div class="pb-2 d-grid d-md-none">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#toc" aria-expanded="false" aria-controls="toc">
+                On This Page
+            </button>
+        </div>
+        <h6 class="h5 d-none d-md-block no-anchor">On This Page</h6>
+        <div class="list-group list-group-flush collapse d-md-block" id="toc"></div>
+    </div>
+</div>
+
+<div class="col-12 col-md-10 order-2 order-md-1">
+
 
 @if (!Model.IsComplianceStaff && !Model.IsComplianceManager && !Model.IsEnforcementReviewer)
 {
@@ -151,4 +170,17 @@
                      view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
         </section>
     }
+}
+
+</div>
+</div>
+</div>
+
+@section Scripts {
+    <script src="~/js/table-of-contents.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            createTOC(['h2', 'h3']);
+        });
+    </script>
 }
