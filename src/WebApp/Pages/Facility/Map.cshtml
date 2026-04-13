@@ -10,10 +10,11 @@
 
 <p class="lead">
     This tool displays facilities from the IAIP that have been approved within the IAIP facility creator
-    tool and have latitude/longitude data. If any location data is incorrect, it can be corrected in the IAIP.
+    tool and have latitude/longitude data. 
+    If any location data is incorrect, it can be corrected in the IAIP.
 </p>
-
-<div id="FacilityMap" class="facility-map"></div>
+<div id="facility-map" class="border border-secondary"></div>
+<p class="mt-3"><em>Note: Portable sources (county code 777) are excluded.</em></p>
 
 @section Scripts {
     <script>
@@ -22,6 +23,7 @@
     <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
     <script src="~/lib/leaflet.markercluster/dist/leaflet.markercluster.min.js"></script>
     <script src="~/lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+    <script src="~/js/facilities/leaflet.permalink.min.js"></script>
     <script src="~/js/facilities/mapInit.js"></script>
 }
 

@@ -92,11 +92,13 @@ public sealed class IaipFacilityService(
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
-    private const string FacilityListCacheKey = "IaipFacilityList";
 
-    public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false)
+    public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
+        bool includePortableSources = true)
     {
-        if (!forceRefresh && cache.TryGetValue(FacilityListCacheKey, logger,
+        string facilityListCacheKey = $"IaipFacilityList{(includePortableSources ? "" : "_ExcludingPortable")}";
+
+        if (!forceRefresh && cache.TryGetValue(facilityListCacheKey, logger,
                 out IReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
 
         using var db = dbf.Create();
@@ -107,11 +109,13 @@ public sealed class IaipFacilityService(
                 {
                     facility.GeoCoordinates = geoCoordinates;
                     return facility;
-                }, splitOn: "GeoCoordinatesId",
+                },
+                param: new { includePortableSources },
+                splitOn: "GeoCoordinatesId",
                 commandType: CommandType.StoredProcedure
             )
             .ConfigureAwait(false)).ToList();
 
-        return cache.Set(facilityList, FacilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
+        return cache.Set(facilityList, facilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
     }
 }
