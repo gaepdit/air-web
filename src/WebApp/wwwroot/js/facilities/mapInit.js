@@ -3,56 +3,63 @@ function initMap() {
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         detectRetina: true,
-        className: "map-tiles",
+        className: 'map-tiles',
     });
     const map = L.map('facility-map', { center: [32.9, -83.3], zoom: 7, layers: [tiles] });
 
+    // Fix the marker icon path.
+    L.Icon.Default.prototype.options.imagePath = '/lib/leaflet/dist/images/';
+
+    // Define alert functions.
+    const removeAlert = function () {
+        const alertElement = document.getElementById('map-warning');
+        if (alertElement !== null) alertElement.remove();
+    }
+
+    const showAlert = function () {
+        const alertElement = document.createElement('div');
+        alertElement.innerText = 'Warning: Could not access location.';
+        alertElement.classList.add('alert', 'alert-warning', 'alert-dismissible', 'fade', 'show');
+        alertElement.setAttribute('id', 'map-warning');
+        alertElement.setAttribute('role', 'alert');
+
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('btn-close');
+        closeButton.setAttribute('type', 'button');
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+        alertElement.insertAdjacentElement('beforeend', closeButton);
+
+        const mapElement = document.getElementById('facility-map');
+        mapElement.parentNode.insertBefore(alertElement, mapElement);
+    }
+
+    // Define new marker function.
+    const newMarker = function (f) {
+        const info = '<div class="facility-map-info">' +
+            `<div class="facility-map-title">${f.Name}</div>` +
+            `<div>${f.Location}</div>` +
+            `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
+            '</div>';
+        const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], { title: f.Name });
+        marker.bindPopup(info);
+        return marker;
+    }
+
     map.whenReady(function () {
-        // Fix the marker icon path.
-        L.Icon.Default.prototype.options.imagePath = "/lib/leaflet/dist/images/"
-
         // Add a location control.
-        L.control.locate({
-            initialZoomLevel: 13,
-            onLocationError: function () {
-                const warningElement = document.createElement("div")
-                warningElement.innerText = "Warning: Could not access location.";
-                warningElement.classList.add("alert", "alert-warning");
-                warningElement.setAttribute("id", "map-warning")
-                warningElement.setAttribute("role", "alert");
+        L.control.locate({ initialZoomLevel: 13, onLocationError: showAlert }).addTo(map);
+        map.on('locateactivate', removeAlert);
 
-                const mapElement = document.getElementById("facility-map");
-                mapElement.parentNode.insertBefore(warningElement, mapElement);
-
-                new bootstrap.Alert('#map-warning');
-            }
-        }).addTo(map);
-
-        map.on("locateactivate", () => {
-            const alert = bootstrap.Alert.getInstance('#map-warning');
-            if (alert !== null) alert.close();
-        });
-
-        // Add permalink.
+        // Enable permalinks.
         L.Permalink.setup(map);
 
-        // Add facility markers.
-        function makeMarker(f) {
-            const info = '<div class="facility-map-info">' +
-                `<div class="facility-map-title">${f.Name}</div>` +
-                `<div>${f.Location}</div>` +
-                `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
-                '</div>';
-            const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], { title: f.Name });
-            marker.bindPopup(info);
-            markers.addLayer(marker);
-        }
-
+        // Add markers for facilities with geocoordinates.
         const markers = L.markerClusterGroup({
             chunkedLoading: true,
-            spiderLegPolylineOptions: { weight: 2, color: '#1d78c9', opacity: 0.5 }
+            spiderLegPolylineOptions: { weight: 2, color: '#1d78c9', opacity: 0.5 },
         });
-        facilities.flatMap((f) => f.GeoCoordinates ? makeMarker(f) : []);
+        for (const f of facilities) if (f.GeoCoordinates) markers.addLayer(newMarker(f));
         map.addLayer(markers);
     });
 }
