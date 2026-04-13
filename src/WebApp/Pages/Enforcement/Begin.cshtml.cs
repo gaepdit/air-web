@@ -78,7 +78,7 @@ public class BeginModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)NewCaseFile.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)NewCaseFile.FacilityId);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
             if (EventId != null)
@@ -101,6 +101,6 @@ public class BeginModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole)).ToSelectList();
 }

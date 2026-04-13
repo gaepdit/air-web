@@ -6,7 +6,7 @@ using AirWeb.WebApp.Pages.Admin.Maintenance.MaintenanceBase;
 namespace AirWeb.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Policy = nameof(Policies.ViewSiteMaintenancePage))]
-public class OfficeIndexModel : IndexBase
+public class IndexModel : IndexBase
 {
     public override MaintenanceOption ThisOption => MaintenanceOption.Office;
     public override AuthorizationPolicy Policy => Policies.SiteMaintainer;

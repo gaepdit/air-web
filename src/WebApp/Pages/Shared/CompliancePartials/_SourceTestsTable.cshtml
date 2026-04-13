@@ -48,7 +48,7 @@
                 }
                 <td>@summary.Source</td>
                 <td>@summary.Pollutant</td>
-                <td>@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, new { Connector = " – " })</td>
+                <td>@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</td>
             </tr>
         }
         </tbody>

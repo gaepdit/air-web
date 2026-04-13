@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
@@ -7,15 +8,21 @@ using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work;
 
 [Authorize(Policy = nameof(Policies.Staff))]
 public class ComplianceIndexModel(
     IComplianceWorkSearchService searchService,
+    IComplianceWorkService complianceService,
     IStaffService staff,
     IOfficeService offices) : PageModel
 {
+    [BindProperty]
+    [Required(ErrorMessage = "Enter a Compliance ID.")]
+    public string? FindId { get; set; }
+
     public ComplianceWorkSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
     public bool UserCanViewDeletedRecords { get; private set; }
@@ -49,9 +56,32 @@ public class ComplianceIndexModel(
         ShowResults = true;
     }
 
+    public async Task<IActionResult> OnPostAsync(CancellationToken token)
+    {
+        if (!ModelState.IsValid)
+        {
+            Spec = new ComplianceWorkSearchDto();
+            UserCanViewDeletedRecords = User.CanManageDeletions();
+            await PopulateSelectListsAsync(token);
+            return Page();
+        }
+
+        if (!int.TryParse(FindId, out var id))
+            ModelState.AddModelError(nameof(FindId), "Compliance ID must be a number.");
+        else if (!await complianceService.ExistsAsync(id, token: token))
+            ModelState.AddModelError(nameof(FindId), "The Compliance ID entered does not exist.");
+
+        if (ModelState.IsValid) return RedirectToPage("Details", routeValues: new { id });
+
+        Spec = new ComplianceWorkSearchDto();
+        UserCanViewDeletedRecords = User.CanManageDeletions();
+        await PopulateSelectListsAsync(token);
+        return Page();
+    }
+
     private async Task PopulateSelectListsAsync(CancellationToken token = default)
     {
-        StaffSelectList = (await staff.GetUsersAsync(includeInactive: true)).ToSelectList();
+        StaffSelectList = staff.GetAllStaff().ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
     }
 }

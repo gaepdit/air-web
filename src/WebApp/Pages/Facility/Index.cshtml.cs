@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using IaipDataService.Facilities;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Facility;
@@ -8,7 +7,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class IndexModel(IFacilityService service) : PageModel
 {
-    public ReadOnlyDictionary<FacilityId, string> Facilities { get; private set; } = null!;
+    public IReadOnlyCollection<FacilitySummary> Facilities { get; private set; } = null!;
 
     [TempData]
     public bool RefreshIaipData { get; set; }
@@ -16,7 +15,7 @@ public class IndexModel(IFacilityService service) : PageModel
     [BindProperty]
     [Required(ErrorMessage = "Enter a facility ID.")]
     [RegularExpression(FacilityId.FacilityIdEnclosedPattern, ErrorMessage = FacilityId.FacilityIdFormatError)]
-    public string? Id { get; set; }
+    public string? FindId { get; set; }
 
     public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
     {
@@ -26,7 +25,7 @@ public class IndexModel(IFacilityService service) : PageModel
             return RedirectToPage();
         }
 
-        Facilities = await service.GetListAsync(RefreshIaipData);
+        Facilities = await service.GetAllAsync(RefreshIaipData);
         return Page();
     }
 
@@ -34,20 +33,20 @@ public class IndexModel(IFacilityService service) : PageModel
     {
         if (!ModelState.IsValid)
         {
-            Facilities = await service.GetListAsync(RefreshIaipData);
+            Facilities = await service.GetAllAsync(RefreshIaipData);
             return Page();
         }
 
-        if (Id == null || !FacilityId.IsValidFormat(Id))
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-        else if (!await service.ExistsAsync((FacilityId)Id))
-            ModelState.AddModelError(nameof(Id),
+        if (FindId == null || !FacilityId.IsValidFormat(FindId))
+            ModelState.AddModelError(nameof(FindId), FacilityId.FacilityIdFormatError);
+        else if (!await service.ExistsAsync((FacilityId)FindId))
+            ModelState.AddModelError(nameof(FindId),
                 "A Facility with that ID does not exist or has not been approved in the IAIP.");
 
         if (ModelState.IsValid)
-            return RedirectToPage("Details", routeValues: new { id = Id });
+            return RedirectToPage("Details", routeValues: new { id = FindId });
 
-        Facilities = await service.GetListAsync(RefreshIaipData);
+        Facilities = await service.GetAllAsync(RefreshIaipData);
         return Page();
     }
 }

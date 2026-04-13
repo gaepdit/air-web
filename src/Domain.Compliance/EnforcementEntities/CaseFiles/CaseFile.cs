@@ -1,4 +1,4 @@
-using AirWeb.Domain.Compliance.AuditPoints;
+﻿using AirWeb.Domain.Compliance.AuditPoints;
 using AirWeb.Domain.Compliance.Comments;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.Data;
@@ -122,12 +122,14 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     // are required if the data exchange is enabled.
     public ICollection<Pollutant> GetPollutants() => PollutantIds.AsPollutants();
     public List<string> PollutantIds { get; } = [];
-    public List<AirProgram> AirPrograms { get; } = [];
+
+    public ICollection<AirProgram> GetAirPrograms() => AirProgramCodes.AsAirPrograms();
+    public List<string> AirProgramCodes { get; } = [];
 
     public bool MissingData =>
-        !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0 ||
-                      ComplianceEvents.All(dto => dto.IsDeleted) ||
-                      ViolationType == null);
+        !IsClosed && IsReportable &&
+        (PollutantIds.Count == 0 || AirProgramCodes.Count == 0 ||
+        ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];

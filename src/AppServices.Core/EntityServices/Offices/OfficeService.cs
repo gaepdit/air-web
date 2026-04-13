@@ -5,6 +5,8 @@ using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Core.EntityServices.Offices;
 
@@ -13,10 +15,11 @@ public class OfficeService(
     IOfficeRepository repository,
     IOfficeManager manager,
     IUserService userService,
-    IAuthorizationService authorization)
+    IAuthorizationService authorization,
+    IMemoryCache cache,
+    ILogger<OfficeService> logger)
     : LookupService<Office, OfficeViewDto, OfficeUpdateDto>
-        (mapper, repository, manager, userService),
-        IOfficeService
+        (mapper, repository, manager, userService, cache, logger), IOfficeService
 {
     private readonly IUserService _userService = userService;
 

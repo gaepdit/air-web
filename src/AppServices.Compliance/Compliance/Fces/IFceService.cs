@@ -11,8 +11,11 @@ public interface IFceService : IDisposable, IAsyncDisposable
     Task<FceViewDto?> FindAsync(int id, CancellationToken token = default);
     Task<FceSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
 
-    Task<SupportingDataSummary> GetSupportingDataAsync(FacilityId facilityId, DateOnly completedDate,
+    Task<SupportingDataPrintout> GetSupportingPrintoutDataAsync(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token = default);
+
+    Task<SupportingDataDetails> GetSupportingDetailsAsync(FacilityId facilityId, DateOnly completedDate,
+        bool forceRefresh = false, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);
@@ -20,6 +23,7 @@ public interface IFceService : IDisposable, IAsyncDisposable
     Task<CommandResult> DeleteAsync(int id, NotesDto resource, CancellationToken token = default);
     Task<CommandResult> RestoreAsync(int id, CancellationToken token = default);
     Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default);
+    Task<bool> ExistsAsync(int id, CancellationToken token = default);
 
     // Comments
     Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource, CancellationToken token = default);

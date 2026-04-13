@@ -1,5 +1,19 @@
 # Changelog
 
+## [2026.4.9] - 2026-04-09
+
+- Added a facility map page.
+- Enabled editing LON resolved dates.
+- Combined SBEAP and Air Web into one application, Voltron-style.
+- Fixed incorrect validation logic for some date fields.
+- Improved performance on several pages.
+
+## [2026.3.19] - 2026-03-19
+
+- Fixed incorrect Air Programs displayed in Facilities and Case Files.
+- Added quick access fields to all search forms.
+- Improved the display of enforcement action reviews.
+
 ## [2026.3.11] - 2026-03-11
 
 - Automatically set reporting period dates when changing the report type.
@@ -31,3 +45,5 @@
 [2026.3.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.4
 [2026.3.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.6
 [2026.3.11]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.11
+[2026.3.19]: https://github.com/gaepdit/air-web/releases/tag/v2026.3.19
+[2026.4.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.9

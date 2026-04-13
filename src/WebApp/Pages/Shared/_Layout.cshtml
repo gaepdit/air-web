@@ -10,8 +10,13 @@
     <partial name="Shared/_FaviconPartial" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @if ((bool)(ViewData["SBEAP"] ?? false))
+    {
+        <link rel="stylesheet" href="~/css/sbeap.css" asp-append-version="true" />
+    }
     <partial name="Shared/_MonitoringScriptsPartial" />
     <script src="~/js/color-modes.js"></script>
+    @await RenderSectionAsync("Styles", false)
 </head>
 
 <body id="top" class="d-flex flex-column vh-100">
@@ -31,9 +36,8 @@
     <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
             <a href="#top" class="footer-link link-body-emphasis icon-link ms-n1">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-bar-up"></use>
-                </svg> Return to top
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpTop" />
+                Return to top
             </a>
         </div>
     </div>

@@ -1,6 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Core.Entities.ValueObjects;
+using AirWeb.Domain.Core.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
 

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <InformationalVersion>2026.3.11</InformationalVersion>
+        <InformationalVersion>2026.4.9</InformationalVersion>
         <RootNamespace>AirWeb.WebApp</RootNamespace>
         <AssemblyName>AirWeb.WebApp</AssemblyName>
     </PropertyGroup>
@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AppServices.Compliance\AppServices.Compliance.csproj" />
+        <ProjectReference Include="..\AppServices.Sbeap\AppServices.Sbeap.csproj" />
         <ProjectReference Include="..\MemRepository\MemRepository.csproj" />
         <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
     </ItemGroup>

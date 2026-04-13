@@ -17,12 +17,13 @@ public record EnforcementActionEditDto : NotesDto
     public DateOnly? IssueDate { get; init; }
 }
 
-public abstract class EnforcementActionEditValidator : AbstractValidator<EnforcementActionEditDto>
+public class EnforcementActionEditValidator : AbstractValidator<EnforcementActionEditDto>
 {
-    protected EnforcementActionEditValidator()
+    public EnforcementActionEditValidator()
     {
         RuleFor(dto => dto.IssueDate)
             .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The issue date cannot be in the future.");
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be in the future.");
     }
 }

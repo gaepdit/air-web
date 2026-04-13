@@ -1,32 +1,21 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Compliance.Compliance.Fces;
+﻿using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Compliance.Compliance.Permissions;
-using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Comments;
-using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
-using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
-using IaipDataService.PermitFees;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class DetailsModel(
-    IFceService fceService,
-    IComplianceWorkSearchService complianceWorkSearchService,
-    ICaseFileSearchService caseFileSearchService,
-    IPermitFeesService permitFeesService,
-    IAuthorizationService authorization) : PageModel
+public class DetailsModel(IFceService fceService, IAuthorizationService authorization) : PageModel
 {
     [FromRoute]
     public int Id { get; set; }
 
-    public FceViewDto? Item { get; private set; }
-    public IPaginatedResult<ComplianceWorkSearchResultDto> ComplianceSummary { get; private set; } = null!;
-    public IPaginatedResult<CaseFileSearchResultDto> CaseFileSummary { get; private set; } = null!;
-    public List<AnnualFeeSummary> AnnualFeesSummary { get; private set; } = null!;
+    public FceViewDto? FceView { get; private set; }
+    public SupportingDataDetails? SupportingData { get; set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -49,19 +38,21 @@ public class DetailsModel(
             return RedirectToPage();
         }
 
-        Item = await fceService.FindAsync(Id, token);
-        if (Item is null) return NotFound();
+        FceView = await fceService.FindAsync(Id, token);
+        if (FceView is null) return NotFound();
 
         await SetPermissionsAsync();
 
         // FUTURE: Replace with ComplianceOperation.View? See Case File permissions for example. 
         //   And see `CompliancePermissions.CanView` for use.
-        if (Item.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
+        if (FceView.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
-        await LoadSupportingData(token);
+        SupportingData = await fceService.GetSupportingDetailsAsync((FacilityId)FceView.FacilityId,
+            FceView.CompletedDate, RefreshIaipData, token);
+
         CommentSection = new CommentsSectionModel
         {
-            Comments = Item.Comments,
+            Comments = FceView.Comments,
             NewComment = new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,
@@ -71,21 +62,22 @@ public class DetailsModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
-        CancellationToken token)
+    public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment, CancellationToken token)
     {
-        Item = await fceService.FindAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        FceView = await fceService.FindAsync(Id, token);
+        if (FceView is null || FceView.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[ComplianceOperation.AddComment]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
-            await LoadSupportingData(token);
+            SupportingData = await fceService.GetSupportingDetailsAsync((FacilityId)FceView.FacilityId,
+                FceView.CompletedDate, token: token);
+
             CommentSection = new CommentsSectionModel
             {
-                Comments = Item.Comments,
+                Comments = FceView.Comments,
                 NewComment = newComment,
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
@@ -101,8 +93,8 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        Item = await fceService.FindAsync(Id, token);
-        if (Item is null || Item.IsDeleted) return BadRequest();
+        FceView = await fceService.FindAsync(Id, token);
+        if (FceView is null || FceView.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync();
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
@@ -111,46 +103,6 @@ public class DetailsModel(
         return RedirectToPage("Details", pageHandler: null, fragment: "comments");
     }
 
-    private async Task LoadSupportingData(CancellationToken token)
-    {
-        // FUTURE: Should these be replaced by `IFceService.GetSupportingDataAsync`?
-        await LoadComplianceData(token);
-        await LoadEnforcementData(token);
-        await LoadAnnualFeesData();
-    }
-
-    private async Task LoadComplianceData(CancellationToken token)
-    {
-        var spec = new ComplianceWorkSearchDto
-        {
-            FacilityId = Item!.FacilityId,
-            EventDateTo = Item.CompletedDate,
-            EventDateFrom = Item.SupportingDataStartDate,
-        };
-        var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
-            sorting: ComplianceWorkSortBy.WorkTypeAsc.GetDescription());
-        ComplianceSummary = await complianceWorkSearchService.SearchAsync(spec, paging, token: token);
-    }
-
-    private async Task LoadEnforcementData(CancellationToken token)
-    {
-        var spec = new CaseFileSearchDto
-        {
-            FacilityId = Item!.FacilityId,
-            EnforcementDateTo = Item.CompletedDate,
-            EnforcementDateFrom = Item.ExtendedDataStartDate,
-        };
-        var paging = new PaginatedRequest(pageNumber: 1, pageSize: 100,
-            sorting: CaseFileSortBy.IdAsc.GetDescription());
-        CaseFileSummary = await caseFileSearchService.SearchAsync(spec, paging, token: token);
-    }
-
-    private async Task LoadAnnualFeesData()
-    {
-        AnnualFeesSummary = await permitFeesService.GetAnnualFeesAsync((FacilityId)Item!.FacilityId,
-            Item.CompletedDate, Fce.ExtendedDataPeriod, RefreshIaipData);
-    }
-
     private async Task SetPermissionsAsync() =>
-        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, Item);
+        UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, FceView);
 }

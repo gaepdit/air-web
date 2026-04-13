@@ -1,0 +1,4 @@
+﻿global using GaEpd.AppLibrary.Domain.Entities;
+global using GaEpd.AppLibrary.Domain.Repositories;
+global using JetBrains.Annotations;
+global using System.ComponentModel.DataAnnotations;
