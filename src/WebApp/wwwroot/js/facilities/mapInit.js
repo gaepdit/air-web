@@ -25,8 +25,4 @@ function initMap() {
     });
 }
 
-// New marker function.
-function newMarker(f) {
-}
-
 initMap();
