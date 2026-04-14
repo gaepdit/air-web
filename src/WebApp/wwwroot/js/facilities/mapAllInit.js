@@ -18,6 +18,11 @@ function initMap() {
         // Enable permalinks.
         L.Permalink.setup(map);
 
+        // Add Georgia outline. File source: https://eric.clst.org/tech/usgeojson/ Original data from U.S. Census Bureau.
+        const geoJson = L.geoJson(georgiaGeoJson, {
+            style: { opacity: 0.4, fill: false, color:'#1e5146' }
+        }).bindPopup('Georgia').addTo(map);
+
         // Add markers for facilities with geocoordinates.
         const markers = L.markerClusterGroup({
             chunkedLoading: true,
