@@ -135,13 +135,15 @@
                             {
                                 <div class="col-md-6 mt-2 mb-3 my-md-0 d-flex flex-column">
                                     <div class="flex-grow-1">
-                                    <div id="single-facility-map" class="border border-secondary"></div>
-                                </div>
+                                        <div id="single-facility-map" class="border border-secondary"></div>
+                                    </div>
                                     <div class="mt-2">
-                                        Open in:
-                                        <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a> 
-                                        <span class="px-1 text-body-secondary">|</span>
-                                        <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                        <small>
+                                            Open in:
+                                            <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                            <span class="px-1 text-body-secondary">|</span>
+                                            <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                        </small>
                                     </div>
                                 </div>
                             }
@@ -266,7 +268,7 @@
             const Facility = @Html.Raw(Model.FacilityJson)
         </script>
         <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
-        <script src="~/js/facilities/mapInit.js"></script>
+        <script src="~/js/maps/mapInit.js"></script>
     }
 
     @section Styles {
