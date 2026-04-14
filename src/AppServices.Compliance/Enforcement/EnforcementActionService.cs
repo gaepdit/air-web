@@ -41,10 +41,8 @@ public sealed class EnforcementActionService(
 
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
-        await appNotificationService
-            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
-                caseFileId)
-            .ConfigureAwait(false);
+        await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded,
+            caseFile.ResponsibleStaff, token, caseFileId).ConfigureAwait(false);
 
         return enforcementAction.Id;
     }

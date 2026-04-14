@@ -105,8 +105,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
         // Enforcement Date is the earliest date of the issued enforcement actions.
         get => EnforcementActions
             .Where(action => action is { IsDeleted: false, IsIssued: true, IssueDate: not null })
-            .Select(action => action.IssueDate)
-            .Min();
+            .Min(action => action.IssueDate);
 
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
