@@ -1,9 +1,11 @@
 ﻿@page "{id?}"
 @using AirWeb.WebApp.Pages.Shared
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
+    var facility = Model.Facility!;
 }
 
 <div class="row justify-content-between align-items-baseline mb-2">
@@ -86,7 +88,96 @@
             </h2>
             <div id="facilityDetailsBody" class="accordion-collapse" data-bs-parent="facilityDetailsAccordion">
                 <div class="accordion-body">
-                    <partial name="_Partials/_FacilityDetails" model="Model.Facility" />
+                    <div class="container mt-2">
+                        <div class="row justify-content-between">
+                            <div class="col-md">
+                                <h2 class="h3">Status</h2>
+                                <dl class="row">
+                                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.Description)</dt>
+                                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.Description)</dd>
+                                    @if (Model.Facility.RegulatoryData != null)
+                                    {
+                                        var regulatoryData = Model.Facility.RegulatoryData;
+                                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
+                                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.OperatingStatus)</dd>
+                                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
+                                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Classification)</dd>
+                                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
+                                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.CmsClassification)</dd>
+                                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.StartupDate)</dt>
+                                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.StartupDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.PermitRevocationDate)</dt>
+                                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                                    }
+                                </dl>
+
+                                <h2 class="h3">Location</h2>
+                                <dl class="row">
+                                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.FacilityAddress)</dt>
+                                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
+                                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.County)</dt>
+                                    <dd class="col-sm-8 col-lg-9">@Model.Facility.County</dd>
+                                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.GeoCoordinates)</dt>
+                                    <dd class="col-sm-8 col-lg-9">
+                                        @if (Model.Facility.IsPortableSource)
+                                        {
+                                            <em class="text-body-secondary">Portable source</em>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(_ => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+
+                            @if (!Model.Facility.IsPortableSource && Model.Facility.GeoCoordinates.HasValue)
+                            {
+                                <div class="col-md-6 mt-2 mb-3 my-md-0">
+                                    <div id="single-facility-map" class="border border-secondary"></div>
+                                </div>
+                            }
+                        </div>
+
+                        <h2 class="h3">Regulatory Data</h2>
+                        @if (Model.Facility.RegulatoryData is null)
+                        {
+                            <p>
+                                <span class="text-body-secondary fw-lighter">Not Available.</span>
+                            </p>
+                        }
+                        else
+                        {
+                            var regulatoryData = Model.Facility.RegulatoryData;
+                            <dl class="row">
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Sic)</dt>
+                                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Sic, DisplayTemplate.TextOrPlaceholder)</dd>
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
+                                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.RmpId)</dt>
+                                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.RmpId, DisplayTemplate.TextOrPlaceholder)</dd>
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Pollutants)</dt>
+                                <dd class="col-sm-8 col-lg-9">
+                                    <partial name="Facility/_Partials/_Pollutants" model="regulatoryData.Pollutants" />
+                                </dd>
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
+                                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
+                                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
+                                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
+                                <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
+                                <dd class="col-sm-8 col-lg-9">
+                                    <dl class="row">
+                                        <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.OneHourOzoneNonattainment)</dt>
+                                        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.OneHourOzoneNonattainment)</dd>
+                                        <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.EightHourOzoneNonattainment)</dt>
+                                        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.EightHourOzoneNonattainment)</dd>
+                                        <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.PmFineNonattainment)</dt>
+                                        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.PmFineNonattainment)</dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
