@@ -110,9 +110,8 @@ public sealed class CaseFileService(
         CancellationToken token = default)
     {
         var caseFile = await caseFileRepository.GetAsync(id,
-        [
-            nameof(CaseFile.ViolationType), nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions),
-        ], token: token).ConfigureAwait(false);
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         // Update the case file properties
@@ -148,7 +147,9 @@ public sealed class CaseFileService(
 
     public async Task<bool> LinkComplianceEventAsync(int caseFileId, int eventId, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, 
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent ce)
             return false;
         if (ce.FacilityId != caseFile.FacilityId || caseFile.ComplianceEvents.Contains(ce))
@@ -163,7 +164,9 @@ public sealed class CaseFileService(
     public async Task<bool> UnLinkComplianceEventAsync(int caseFileId, int eventId, bool autoSave = true,
         CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(caseFileId, [nameof(CaseFile.ComplianceEvents)], token: token)
+        var caseFile = await caseFileRepository.GetAsync(caseFileId, 
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token)
             .ConfigureAwait(false);
         if (await repository.GetAsync(eventId, token: token).ConfigureAwait(false) is not ComplianceEvent ce)
             return false;
@@ -185,7 +188,9 @@ public sealed class CaseFileService(
     public async Task SaveCaseFileExtraDataAsync(int id, IEnumerable<string> pollutants,
         IEnumerable<string> airPrograms, string? violationTypeCode, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id,
+            includeProperties: [nameof(CaseFile.EnforcementActions), nameof(CaseFile.ComplianceEvents)], 
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFile.ViolationType =
@@ -196,7 +201,9 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> CloseAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, 
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Close(caseFile, currentUser);
@@ -211,8 +218,9 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> ReopenAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, includeProperties: ["EnforcementActions"], token: token)
-            .ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id,
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Reopen(caseFile, currentUser);
@@ -229,7 +237,9 @@ public sealed class CaseFileService(
     public async Task<CommandResult> DeleteAsync(int id, NotesDto resource,
         CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, 
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Delete(caseFile, resource.Notes, currentUser);
@@ -245,7 +255,9 @@ public sealed class CaseFileService(
 
     public async Task<CommandResult> RestoreAsync(int id, CancellationToken token = default)
     {
-        var caseFile = await caseFileRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var caseFile = await caseFileRepository.GetAsync(id, 
+            includeProperties: [nameof(CaseFile.ComplianceEvents), nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
         caseFileManager.Restore(caseFile, currentUser);
@@ -253,8 +265,7 @@ public sealed class CaseFileService(
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementRestored, caseFile.ResponsibleStaff, token,
-                caseFile.Id)
-            .ConfigureAwait(false);
+                caseFile.Id).ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
     }
@@ -270,8 +281,7 @@ public sealed class CaseFileService(
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementCommentAdded, caseFile.ResponsibleStaff, token,
-                itemId)
-            .ConfigureAwait(false);
+                itemId).ConfigureAwait(false);
 
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);
     }

@@ -57,8 +57,8 @@ internal static class DataExchangeExtensions
 public enum DataExchangeStatus
 {
     [Description("Not Applicable")] N,
-    [Description("Updated")] U,
+    [Description("Update Pending")] U,
     [Description("Update Processed")] P,
-    [Description("Deleted")] D,
+    [Description("Deletion Pending")] D,
     [Description("Deletion Processed")] X,
 }
