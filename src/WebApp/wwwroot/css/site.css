@@ -486,19 +486,26 @@ label:has([disabled]), label:has(:disabled) {
     margin-bottom: 0;
 }
 
-/* Footer links
+/* Subtle button-like links
 -------------------------------------------------- */
-.footer-link {
-    text-decoration: none;
+.btn-subtle {
     padding: .25rem;
     border-radius: 8px;
+    text-decoration: none;
+    text-underline-offset: 0.125em;
 }
 
-.footer-link:hover {
+.btn-subtle:hover {
+    text-decoration: underline;
+}
+
+.btn-subtle:hover,
+.btn-subtle:focus {
     background: hsla(0, 0%, 0%, 0.04);
 }
 
-[data-bs-theme="dark"] .footer-link:hover {
+[data-bs-theme="dark"] .btn-subtle:hover,
+[data-bs-theme="dark"] .btn-subtle:focus {
     background: hsla(0, 0%, 100%, 0.04);
 }
 
@@ -553,6 +560,13 @@ svg:not(:root) {
 -------------------------------------------------- */
 #facility-map {
     height: calc(90vh - 1rem);
+}
+
+#single-facility-map {
+    min-height: 300px;
+    height: 100%;
+    min-width: 250px;
+    width: 100%;
 }
 
 .facility-map-info {
