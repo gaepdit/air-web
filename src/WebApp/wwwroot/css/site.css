@@ -489,7 +489,6 @@ label:has([disabled]), label:has(:disabled) {
 /* Subtle button-like links
 -------------------------------------------------- */
 .btn-subtle {
-    text-decoration: none;
     padding: .25rem;
     border-radius: 8px;
     text-decoration: none;
