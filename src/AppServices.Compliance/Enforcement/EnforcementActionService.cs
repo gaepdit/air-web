@@ -200,7 +200,8 @@ public sealed class EnforcementActionService(
     public async Task CancelAsync(Guid id, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository.GetAsync(id,
+            includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
         actionManager.Cancel(enforcementAction, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
@@ -217,7 +218,8 @@ public sealed class EnforcementActionService(
     public async Task AppealOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
+        var enforcementAction = await actionRepository
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
         actionManager.AppealOrder((AdministrativeOrder)enforcementAction, resource.Date, currentUser);
         await actionRepository.UpdateAsync(enforcementAction, token: token).ConfigureAwait(false);
     }
