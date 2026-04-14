@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.4.14.1] - 2026-04-14
+
+- Fixed a bug that prevented some Case Files from being staged for the EPA data exchange.
+- Added a Georgia state outline to the Facility Map page.
+
 ## [2026.4.14] - 2026-04-14
 
 - Added maps to the individual facility details pages.
@@ -69,3 +74,4 @@
 [2026.4.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.10
 [2026.4.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.13
 [2026.4.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14
+[2026.4.14.1]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14.1
