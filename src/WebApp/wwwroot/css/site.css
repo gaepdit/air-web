@@ -493,6 +493,7 @@ label:has([disabled]), label:has(:disabled) {
     border-radius: 8px;
     text-decoration: none;
     text-underline-offset: 0.125em;
+    white-space: nowrap;
 }
 
 .btn-subtle:hover {
@@ -559,7 +560,7 @@ svg:not(:root) {
 /* Facility Map
 -------------------------------------------------- */
 #facility-map {
-    height: calc(90vh - 1rem);
+    height: calc(90vh - 2rem);
 }
 
 #single-facility-map {

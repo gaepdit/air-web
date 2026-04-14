@@ -7,7 +7,7 @@ function initMap() {
     });
     const map = L.map('single-facility-map', {
         center: [Facility.GeoCoordinates.Latitude, Facility.GeoCoordinates.Longitude],
-        zoom: 16,
+        zoom: 14,
         layers: [tiles],
     });
 
