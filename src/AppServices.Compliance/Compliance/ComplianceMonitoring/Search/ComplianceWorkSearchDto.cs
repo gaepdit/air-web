@@ -26,17 +26,14 @@ public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISe
 
     // == Facility ==
 
-    private string? _facilityId;
-
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
     [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
         ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
     public string? FacilityId
     {
-        get => _facilityId;
-        init => _facilityId = IaipDataService.Facilities.FacilityId
-            .FacilityIdFormatter.Format(value);
+        get;
+        init => field = IaipDataService.Facilities.FacilityId.TryFormat(value);
     }
 
     // == Staff ==
