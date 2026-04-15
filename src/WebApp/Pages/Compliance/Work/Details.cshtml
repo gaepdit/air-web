@@ -96,98 +96,91 @@
     }
 </div>
 
-<div class="row">
-    <partial name="Shared/_TableOfContentsPartial" />
-
-    <div class="col-12 col-md-10 order-3 order-md-2">
-        <dl class="row mt-3">
-            <dt class="col-sm-4 col-lg-3">Facility</dt>
-            <dd class="col-sm-8 col-lg-9">
-                <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
-                         model="(report.FacilityId, report.FacilityName)" />
-            </dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ResponsibleStaff)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
-            <dt class="col-sm-4 col-lg-3">Status</dt>
-            <dd class="col-sm-8 col-lg-9">
-                @if (report.IsClosed)
-                {
-                    @:Closed
-                    if (report.ClosedBy is not null)
-                    {
-                        @:by @report.ClosedBy.Name
-                    }
-
-                    @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
-                }
-                else
-                {
-                    @:Open
-                }
-            </dd>
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
-            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-            @if (Model.CaseFileIds.Any())
+<dl class="row mt-3">
+    <dt class="col-sm-4 col-lg-3">Facility</dt>
+    <dd class="col-sm-8 col-lg-9">
+        <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                 model="(report.FacilityId, report.FacilityName)" />
+    </dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ResponsibleStaff)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
+    <dt class="col-sm-4 col-lg-3">Status</dt>
+    <dd class="col-sm-8 col-lg-9">
+        @if (report.IsClosed)
+        {
+            @:Closed
+            if (report.ClosedBy is not null)
             {
-                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.CaseFileIds)</dt>
-                <dd class="col-sm-8 col-lg-9">
-                    <ul class="mb-0 p-0 ps-1">
-                        @foreach (var id in Model.CaseFileIds)
-                        {
-                            <li class="float-start me-4 ms-2">
-                                <a asp-page="/Enforcement/Details" asp-route-id="@id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">@id</a>
-                            </li>
-                        }
-                    </ul>
-                </dd>
+                @:by @report.ClosedBy.Name
             }
-        </dl>
 
-        <h2>Details</h2>
-
-        @switch (report)
-        {
-            case AccViewDto dto:
-                <partial name="_Partials/_AccDetails" model="dto" />
-                break;
-            case InspectionViewDto dto:
-                <partial name="_Partials/_InspectionDetails" model="dto" />
-                break;
-            case NotificationViewDto dto:
-                <partial name="_Partials/_NotificationDetails" model="dto" />
-                break;
-            case PermitRevocationViewDto dto:
-                <partial name="_Partials/_PermitRevocationDetails" model="dto" />
-                break;
-            case ReportViewDto dto:
-                <partial name="_Partials/_ReportDetails" model="dto" />
-                break;
-            case SourceTestReviewViewDto dto:
-                <partial name="_Partials/_SourceTestReviewDetails" model="dto" />
-                break;
+            @:on @Html.DisplayFor(_ => report.ClosedDate, DisplayTemplate.ShortDateOnlyNullable)
         }
-
-        <dl class="row">
-            <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-            <dd>
-                <div class="border rounded-1 p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</div>
-            </dd>
-        </dl>
-
-        <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
-
-        @if (Model.UserCan[ComplianceOperation.Delete])
+        else
         {
-            <div class="mt-4 text-end d-print-none">
-                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
-                   class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
-                    Delete @workTypeName
-                </a>
-            </div>
+            @:Open
         }
+    </dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+    @if (Model.CaseFileIds.Any())
+    {
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(model => model.CaseFileIds)</dt>
+        <dd class="col-sm-8 col-lg-9">
+            <ul class="mb-0 p-0 ps-1">
+                @foreach (var id in Model.CaseFileIds)
+                {
+                    <li class="float-start me-4 ms-2">
+                        <a asp-page="/Enforcement/Details" asp-route-id="@id" class="link-underline link-underline-opacity-25 link-underline-opacity-100-hover link-offset-2">@id</a>
+                    </li>
+                }
+            </ul>
+        </dd>
+    }
+</dl>
 
+<h2>Details</h2>
+
+@switch (report)
+{
+    case AccViewDto dto:
+        <partial name="_Partials/_AccDetails" model="dto" />
+        break;
+    case InspectionViewDto dto:
+        <partial name="_Partials/_InspectionDetails" model="dto" />
+        break;
+    case NotificationViewDto dto:
+        <partial name="_Partials/_NotificationDetails" model="dto" />
+        break;
+    case PermitRevocationViewDto dto:
+        <partial name="_Partials/_PermitRevocationDetails" model="dto" />
+        break;
+    case ReportViewDto dto:
+        <partial name="_Partials/_ReportDetails" model="dto" />
+        break;
+    case SourceTestReviewViewDto dto:
+        <partial name="_Partials/_SourceTestReviewDetails" model="dto" />
+        break;
+}
+
+<dl class="row">
+    <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
+    <dd>
+        <div class="border rounded-1 p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</div>
+    </dd>
+</dl>
+
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+
+@if (Model.UserCan[ComplianceOperation.Delete])
+{
+    <div class="mt-4 text-end d-print-none">
+        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
+           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
+            Delete @workTypeName
+        </a>
     </div>
-</div>
+}
 
 @section Footer {
     @if (report is IDataExchangeAction)
@@ -200,10 +193,4 @@
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
-    <script src="~/js/table-of-contents.js" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            createTOC(['h2', 'h3']);
-        });
-    </script>
 }
