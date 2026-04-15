@@ -10,9 +10,12 @@
     ViewData["Title"] = $"STR {summary.ReferenceNumber} – Facility {summary.Facility?.FacilityId}";
 }
 
-<div class="row justify-content-between align-items-center mb-2">
+<div class="row justify-content-between align-items-baseline">
     <div class="col">
-        <h1 class="mb-0">Source Test Summary</h1>
+        <h1 class="mb-2">Source Test Summary</h1>
+        <div class="lead mb-2">Reference Number
+            <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
+        </div>
     </div>
     <div class="col-auto ms-3 d-print-none">
         @if (Model.TestSummary!.HasPrintout)
@@ -32,10 +35,6 @@
 
     <div class="col-12 col-md-9">
         <dl class="row mt-0 mt-md-3">
-            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => summary.ReferenceNumber)</dt>
-            <dd class="col-sm-8 col-lg-9">
-                <strong class="text-info-emphasis">@summary.ReferenceNumber.ToString()</strong>
-            </dd>
             <dt class="col-sm-4 col-lg-3">Facility</dt>
             <dd class="col-sm-8 col-lg-9">
                 <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
@@ -131,48 +130,48 @@
         }
         else
         {
-            <div class="row justify-content-between align-items-center mb-2">
-                <div class="col-md">
-                    <h2 id="compliance-review" class="mb-md-0">Compliance Review</h2>
-                </div>
-                <div class="col-md-auto ms-md-3 d-print-none">
-                    @if (Model.UserCan[ComplianceOperation.Edit])
-                    {
-                        <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
-                           class="btn btn-outline-primary">Edit</a>
-                    }
-                    @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
-                    {
-                        <form method="post" class="d-inline ms-1">
-                            @if (Model.UserCan[ComplianceOperation.Close])
-                            {
-                                <button asp-page-handler="Close" type="submit" class="btn btn-primary">Close</button>
-                            }
-                            @if (Model.UserCan[ComplianceOperation.Reopen])
-                            {
-                                <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
-                            }
-                        </form>
-                    }
-                </div>
-            </div>
-
             var review = Model.ComplianceReview!;
 
-            <div class="row justify-content-between align-items-center">
+            <div class="row justify-content-between align-items-baseline mb-2">
                 <div class="col-md">
-                    <div class="lead">Compliance Tracking #@review.Id.ToString()</div>
-                </div>
-                @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
-                {
-                    <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
-                        <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
-                           class="btn btn-sm btn-outline-primary icon-link">
-                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
-                            Enforcement Case
-                        </a>
+                    <h2 id="compliance-review" class="mb-2">Compliance Review</h2>
+                    <div class="lead mb-2">Compliance Tracking
+                        <strong class="text-info-emphasis">#@review.Id.ToString()</strong>
                     </div>
-                }
+                </div>
+                <div class="col-md-auto ms-md-3 d-flex flex-md-column justify-content-between align-items-baseline align-items-md-end d-print-none">
+                    <div>
+                        @if (Model.UserCan[ComplianceOperation.Edit])
+                        {
+                            <a asp-page="../Work/Edit/Index" asp-route-id="@Model.ComplianceReview.Id.ToString()"
+                               class="btn btn-outline-primary me-1">Edit</a>
+                        }
+                        @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
+                        {
+                            <form method="post" class="d-inline">
+                                @if (Model.UserCan[ComplianceOperation.Close])
+                                {
+                                    <button asp-page-handler="Close" type="submit" class="btn btn-primary">Close</button>
+                                }
+                                @if (Model.UserCan[ComplianceOperation.Reopen])
+                                {
+                                    <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
+                                }
+                            </form>
+                        }
+                    </div>
+
+                    @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
+                    {
+                        <div class="mt-md-2">
+                            <a asp-page="/Enforcement/Begin" asp-route-facilityId="@summary.Facility!.FacilityId" asp-route-eventId="@review.Id.ToString()"
+                               class="btn btn-sm btn-outline-primary icon-link">
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
+                                Enforcement Case
+                            </a>
+                        </div>
+                    }
+                </div>
             </div>
 
             <dl class="row mt-3">

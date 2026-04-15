@@ -38,10 +38,14 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center mb-2">
+<div class="row justify-content-between align-items-baseline">
     <div class="col">
-        <h1 class="mb-0">Full Compliance Evaluation</h1>
+        <h1 class="mb-2">Full Compliance Evaluation</h1>
+        <div class="lead mb-2">FCE Tracking
+            <strong class="text-info-emphasis">#@Model.Id.ToString()</strong>
+        </div>
     </div>
+
     @if (!report.IsDeleted)
     {
         <div class="col-auto ms-3 d-print-none">
@@ -57,7 +61,6 @@
         </div>
     }
 </div>
-<div class="lead mb-2">FCE Tracking #@Model.Id.ToString()</div>
 
 <div class="row align-items-baseline">
     <partial name="Shared/_TableOfContentsPartial" />
