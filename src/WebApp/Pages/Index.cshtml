@@ -1,5 +1,6 @@
-@page
+﻿@page
 @model IndexModel
+
 @{
     ViewData["Title"] = "Air Branch Web Application";
 }
@@ -13,142 +14,158 @@
     }
 </h1>
 
-@if (!Model.IsComplianceStaff && !Model.IsComplianceManager && !Model.IsEnforcementReviewer)
-{
-    <p>There is no data to display. If this is unexpected, see your manager to request additional roles.</p>
-}
+<div class="row align-items-baseline">
+    <partial name="Shared/_TableOfContentsPartial" />
 
-@if (Model.IsComplianceStaff)
-{
-    <h2 class="h3">Compliance Staff Work</h2>
+    <div class="col-12 col-md-9 ">
+        @if (!Model.IsComplianceStaff && !Model.IsComplianceManager && !Model.IsEnforcementReviewer)
+        {
+            <p>There is no data to display. If this is unexpected, see your manager to request additional roles.</p>
+        }
 
-    <section class="my-4">
-        <h3 class="h5">Compliance work</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>Most recent open compliance work assigned to you</em></div>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/Work/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    Open in search
-                </a>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.StaffComplianceWork"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
-    </section>
+        @if (Model.IsComplianceStaff)
+        {
+            <h2 class="h3">Compliance Staff Work</h2>
 
-    <section class="my-4">
-        <h3 class="h5">Enforcement cases</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>Most recent open enforcement cases assigned to you</em></div>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    Open in search
-                </a>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.StaffCaseFiles"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
-    </section>
-
-    <section class="my-4">
-        <h3 class="h5">Source tests</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>Most recent open source tests assigned to you</em></div>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/SourceTest/Index"
-                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    View all
-                </a>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.StaffSourceTests"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
-    </section>
-}
-
-@if (Model.IsComplianceManager && Model.UserOfficeId != null)
-{
-    <h2 class="h3">Compliance Management Work</h2>
-
-    <section class="my-4">
-        <h3 class="h5">Office compliance work</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>Most recent open compliance work assigned to your office</em></div>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/Work/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
-                   asp-page-handler="Search" asp-fragment="search-results"
-                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    Open in search
-                </a>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.OfficeComplianceWork"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
-    </section>
-
-    <section class="my-4">
-        <h3 class="h5">Source tests</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>Most recent open source tests</em></div>
-            </div>
-            <div class="col-auto ms-md-3 d-print-none">
-                <a asp-page="/Compliance/SourceTest/Index" asp-route-showAll="true"
-                   class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    View all
-                </a>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.OfficeSourceTests"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
-    </section>
-}
-
-@if (Model.IsEnforcementReviewer)
-{
-    <h2 class="h3">Enforcement Management Work</h2>
-
-    <section class="my-4">
-        <h3 class="h5">Review requests</h3>
-        <div class="row justify-content-between align-items-baseline mb-2">
-            <div class="col">
-                <div><em>All enforcement cases requesting your review</em></div>
-            </div>
-        </div>
-        <partial name="Shared/CompliancePartials/_EnforcementActionAccordion" model="Model.EnforcementReviews"
-                 view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
-    </section>
-
-    @if (Model.UserOfficeId != null)
-    {
-        <section class="my-4">
-            <h3 class="h5">Office enforcement cases</h3>
-            <div class="row justify-content-between align-items-baseline mb-2">
-                <div class="col">
-                    <div><em>Most recent open enforcement cases assigned to your office</em></div>
+            <section class="my-4">
+                <h3 class="h5">Compliance work</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>Most recent open compliance work assigned to you</em></div>
+                    </div>
+                    <div class="col-auto ms-md-3 d-print-none">
+                        <a asp-page="/Compliance/Work/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
+                           asp-page-handler="Search" asp-fragment="search-results"
+                           class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                            Open in search
+                        </a>
+                    </div>
                 </div>
-                <div class="col-auto ms-md-3 d-print-none">
-                    <a asp-page="/Enforcement/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
-                       asp-page-handler="Search" asp-fragment="search-results"
-                       class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                        Open in search
-                    </a>
+                <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.StaffComplianceWork"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
+            </section>
+
+            <section class="my-4">
+                <h3 class="h5">Enforcement cases</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>Most recent open enforcement cases assigned to you</em></div>
+                    </div>
+                    <div class="col-auto ms-md-3 d-print-none">
+                        <a asp-page="/Enforcement/Index" asp-route-Staff="@Model.UserId" asp-route-Closed="0"
+                           asp-page-handler="Search" asp-fragment="search-results"
+                           class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                            Open in search
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.OfficeCaseFiles"
-                     view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
-        </section>
-    }
+                <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.StaffCaseFiles"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" view-data-HideStaff="true" />
+            </section>
+
+            <section class="my-4">
+                <h3 class="h5">Source tests</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>Most recent open source tests assigned to you</em></div>
+                    </div>
+                    <div class="col-auto ms-md-3 d-print-none">
+                        <a asp-page="/Compliance/SourceTest/Index"
+                           class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                            View all
+                        </a>
+                    </div>
+                </div>
+                <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.StaffSourceTests"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+            </section>
+        }
+
+        @if (Model.IsComplianceManager && Model.UserOfficeId != null)
+        {
+            <h2 class="h3">Compliance Management Work</h2>
+
+            <section class="my-4">
+                <h3 class="h5">Office compliance work</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>Most recent open compliance work assigned to your office</em></div>
+                    </div>
+                    <div class="col-auto ms-md-3 d-print-none">
+                        <a asp-page="/Compliance/Work/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
+                           asp-page-handler="Search" asp-fragment="search-results"
+                           class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                            Open in search
+                        </a>
+                    </div>
+                </div>
+                <partial name="Shared/CompliancePartials/_ComplianceWorkAccordion" model="Model.OfficeComplianceWork"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+            </section>
+
+            <section class="my-4">
+                <h3 class="h5">Source tests</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>Most recent open source tests</em></div>
+                    </div>
+                    <div class="col-auto ms-md-3 d-print-none">
+                        <a asp-page="/Compliance/SourceTest/Index" asp-route-showAll="true"
+                           class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                            View all
+                        </a>
+                    </div>
+                </div>
+                <partial name="Shared/CompliancePartials/_SourceTestsAccordion" model="Model.OfficeSourceTests"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+            </section>
+        }
+
+        @if (Model.IsEnforcementReviewer)
+        {
+            <h2 class="h3">Enforcement Management Work</h2>
+
+            <section class="my-4">
+                <h3 class="h5">Review requests</h3>
+                <div class="row justify-content-between align-items-baseline mb-2">
+                    <div class="col">
+                        <div><em>All enforcement cases requesting your review</em></div>
+                    </div>
+                </div>
+                <partial name="Shared/CompliancePartials/_EnforcementActionAccordion" model="Model.EnforcementReviews"
+                         view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+            </section>
+
+            @if (Model.UserOfficeId != null)
+            {
+                <section class="my-4">
+                    <h3 class="h5">Office enforcement cases</h3>
+                    <div class="row justify-content-between align-items-baseline mb-2">
+                        <div class="col">
+                            <div><em>Most recent open enforcement cases assigned to your office</em></div>
+                        </div>
+                        <div class="col-auto ms-md-3 d-print-none">
+                            <a asp-page="/Enforcement/Index" asp-route-Office="@Model.UserOfficeId" asp-route-Closed="0"
+                               asp-page-handler="Search" asp-fragment="search-results"
+                               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                Open in search
+                            </a>
+                        </div>
+                    </div>
+                    <partial name="Shared/CompliancePartials/_CaseFileAccordion" model="Model.OfficeCaseFiles"
+                             view-data="new ViewDataDictionary(ViewData)" view-data-expanded="true" />
+                </section>
+            }
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/table-of-contents.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            createTOC(['h2', 'h3']);
+        });
+    </script>
 }

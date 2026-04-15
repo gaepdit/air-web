@@ -38,191 +38,201 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center mb-2">
-    <div class="col-md">
-        <h1 class="mb-md-0">Full Compliance Evaluation</h1>
+<div class="row justify-content-between align-items-baseline">
+    <div class="col">
+        <h1 class="mb-2">Full Compliance Evaluation</h1>
+        <div class="lead mb-2">FCE Tracking
+            <strong class="text-info-emphasis">#@Model.Id.ToString()</strong>
+        </div>
     </div>
+
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 d-print-none">
-                @if (Model.UserCan[ComplianceOperation.Edit])
-                {
-                    <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
-                }
+        <div class="col-auto ms-3 d-print-none">
+            @if (Model.UserCan[ComplianceOperation.Edit])
+            {
+                <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
+            }
             <a asp-page="/Print/FCE/Index" asp-route-id="@Model.Id"
-                   class="btn btn-outline-secondary icon-link justify-content-center no-external-link ms-1">
-                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
-                    Print
-                </a>
+               class="btn btn-outline-secondary icon-link justify-content-center no-external-link ms-1">
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
+                Print
+            </a>
         </div>
     }
 </div>
-<p class="lead">FCE Tracking #@Model.Id.ToString()</p>
 
-<section class="mt-2">
-    <dl class="row mt-3 mb-0">
-        <dt class="col-sm-4 col-lg-3">Facility</dt>
-        <dd class="col-sm-8 col-lg-9">
-            <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
-                     model="(report.FacilityId, report.FacilityName)" />
-        </dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
-        <dd class="col-sm-8 col-lg-9">
-            <strong class="text-info-emphasis">@report.Year.ToString()</strong>
-        </dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
-        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
-        <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
-        <dd>
-            <div class="border rounded-1 p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</div>
-        </dd>
-    </dl>
-</section>
+<div class="row align-items-baseline">
+    <partial name="Shared/_TableOfContentsPartial" />
 
-<section class="my-4">
-    <h2 class="h5 mb-0">Supporting compliance data (one year):</h2>
-    <div class="row justify-content-between align-items-baseline mb-2">
-        <div class="col">
-            <h3 class="h5 mb-md-0 text-info-emphasis">
-                @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-            </h3>
-        </div>
-        <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Compliance/Work/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
-               asp-route-EventDateFrom="@Model.FceView!.SupportingDataStartDate.ToShortDateString()"
-               asp-route-EventDateTo="@Model.FceView!.CompletedDate.ToString()"
-               asp-page-handler="Search" asp-fragment="search-results" target="_blank"
-               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                Open in search
-            </a>
-        </div>
-    </div>
+    <div class="col-12 col-md-9">
+        <section>
+            <dl class="row mt-3 mb-0">
+                <dt class="col-sm-4 col-lg-3">Facility</dt>
+                <dd class="col-sm-8 col-lg-9">
+                    <partial name="Shared/FacilityPartials/_FacilityAirsNameLink"
+                             model="(report.FacilityId, report.FacilityName)" />
+                </dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.Year)</dt>
+                <dd class="col-sm-8 col-lg-9">
+                    <strong class="text-info-emphasis">@report.Year.ToString()</strong>
+                </dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.ReviewedBy)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.CompletedDate)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.CompletedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.OnsiteInspection)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.OnsiteInspection, DisplayTemplate.BoolYesNo)</dd>
+                <dt class="mb-2">@Html.DisplayNameFor(_ => report.Notes)</dt>
+                <dd>
+                    <div class="border rounded-1 p-3">@Html.DisplayFor(_ => report.Notes, DisplayTemplate.TextWithLinebreaks)</div>
+                </dd>
+            </dl>
+        </section>
 
-    @if (!supportingData.ComplianceSummary.Any())
-    {
-        <div class="border rounded-2 p-3">
-            <p class="lead mb-0">No compliance data found in date range.</p>
-        </div>
-    }
-    else
-    {
-        <div id="supportingComplianceDataAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-                            data-bs-target="#supportingComplianceDataBody" aria-controls="supportingComplianceDataBody">
-                        View supporting data
-                    </button>
-                </h3>
-                <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
-                     data-bs-parent="supportingComplianceDataAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="supportingData.ComplianceSummary" />
-                    </div>
+        <section class="my-4">
+            <h2 class="h5 mb-0">Supporting compliance data (one year):</h2>
+            <div class="row justify-content-between align-items-baseline mb-2">
+                <div class="col">
+                    <h3 class="h5 mb-md-0 text-info-emphasis">
+                        @Html.DisplayFor(_ => report.SupportingDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+                    </h3>
+                </div>
+                <div class="col-auto ms-3 d-print-none">
+                    <a asp-page="/Compliance/Work/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
+                       asp-route-EventDateFrom="@Model.FceView!.SupportingDataStartDate.ToShortDateString()"
+                       asp-route-EventDateTo="@Model.FceView!.CompletedDate.ToString()"
+                       asp-page-handler="Search" asp-fragment="search-results" target="_blank"
+                       class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                        Open in search
+                    </a>
                 </div>
             </div>
-        </div>
-    }
-</section>
 
-<section class="my-4">
-    <h2 class="h5 mb-0">Enforcement cases (five years):</h2>
-    <div class="row justify-content-between align-items-baseline mb-2">
-        <div class="col">
-            <h3 class="h5 mb-md-0 text-info-emphasis">
-                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-            </h3>
-        </div>
-        <div class="col-auto ms-3 d-print-none">
-            <a asp-page="/Enforcement/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
-               asp-route-EnforcementDateFrom="@Model.FceView!.ExtendedDataStartDate.ToShortDateString()"
-               asp-route-EnforcementDateTo="@Model.FceView!.CompletedDate.ToString()"
-               asp-page-handler="Search" asp-fragment="search-results" target="_blank"
-               class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                Open in search
-            </a>
-        </div>
-    </div>
-
-    @if (!supportingData.CaseFileSummary.Any())
-    {
-        <div class="border rounded-2 p-3">
-            <p class="lead mb-0">No enforcement found in date range.</p>
-        </div>
-    }
-    else
-    {
-        <div id="supportingCaseFileDataAccordion" class="accordion">
-            <div class="accordion-item">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-                            data-bs-target="#supportingCaseFileDataBody" aria-controls="supportingCaseFileDataBody">
-                        View supporting data
-                    </button>
-                </h3>
-                <div id="supportingCaseFileDataBody" class="accordion-collapse collapse"
-                     data-bs-parent="supportingCaseFileDataAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_CaseFileTable" model="supportingData.CaseFileSummary" />
+            @if (!supportingData.ComplianceSummary.Any())
+            {
+                <div class="border rounded-2 p-3">
+                    <p class="lead mb-0">No compliance data found in date range.</p>
+                </div>
+            }
+            else
+            {
+                <div id="supportingComplianceDataAccordion" class="accordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header no-anchor">
+                            <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                                    data-bs-target="#supportingComplianceDataBody" aria-controls="supportingComplianceDataBody">
+                                View supporting data
+                            </button>
+                        </h3>
+                        <div id="supportingComplianceDataBody" class="accordion-collapse collapse"
+                             data-bs-parent="supportingComplianceDataAccordion">
+                            <div class="accordion-body">
+                                <partial name="Shared/CompliancePartials/_ComplianceWorkTable" model="supportingData.ComplianceSummary" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
-</section>
+            }
+        </section>
 
-<section class="my-4">
-    <div class="mb-2">
-        <h2 class="h5 mb-md-0">
-            Annual permit fees (five years):
-            <div class="text-info-emphasis">
-                @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
-            </div>
-        </h2>
-    </div>
-
-    @if (!supportingData.AnnualFeesSummary.Any())
-    {
-        <div class="border rounded-2 p-3">
-            <p class="lead mb-0">No annual fees data found in date range.</p>
-        </div>
-    }
-    else
-    {
-        <div id="supportingAnnualFeesDataAccordion" class="accordion">
-            <div class="accordion-item border-info">
-                <h3 class="accordion-header no-anchor">
-                    <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-                            data-bs-target="#supportingAnnualFeesDataBody" aria-controls="supportingAnnualFeesDataBody">
-                        View supporting data
-                    </button>
-                </h3>
-                <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
-                     data-bs-parent="supportingAnnualFeesDataAccordion">
-                    <div class="accordion-body">
-                        <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="supportingData.AnnualFeesSummary" />
-                    </div>
+        <section class="my-4">
+            <h2 class="h5 mb-0">Enforcement cases (five years):</h2>
+            <div class="row justify-content-between align-items-baseline mb-2">
+                <div class="col">
+                    <h3 class="h5 mb-md-0 text-info-emphasis">
+                        @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+                    </h3>
+                </div>
+                <div class="col-auto ms-3 d-print-none">
+                    <a asp-page="/Enforcement/Index" asp-route-FacilityId="@Model.FceView!.FacilityId"
+                       asp-route-EnforcementDateFrom="@Model.FceView!.ExtendedDataStartDate.ToShortDateString()"
+                       asp-route-EnforcementDateTo="@Model.FceView!.CompletedDate.ToString()"
+                       asp-page-handler="Search" asp-fragment="search-results" target="_blank"
+                       class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                        Open in search
+                    </a>
                 </div>
             </div>
-        </div>
-    }
-</section>
 
-<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+            @if (!supportingData.CaseFileSummary.Any())
+            {
+                <div class="border rounded-2 p-3">
+                    <p class="lead mb-0">No enforcement found in date range.</p>
+                </div>
+            }
+            else
+            {
+                <div id="supportingCaseFileDataAccordion" class="accordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header no-anchor">
+                            <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                                    data-bs-target="#supportingCaseFileDataBody" aria-controls="supportingCaseFileDataBody">
+                                View supporting data
+                            </button>
+                        </h3>
+                        <div id="supportingCaseFileDataBody" class="accordion-collapse collapse"
+                             data-bs-parent="supportingCaseFileDataAccordion">
+                            <div class="accordion-body">
+                                <partial name="Shared/CompliancePartials/_CaseFileTable" model="supportingData.CaseFileSummary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
 
-@if (Model.UserCan[ComplianceOperation.Delete])
-{
-    <div class="mt-4 text-end d-print-none">
-        <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
-           class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
-            Delete FCE
-        </a>
+        <section class="my-4">
+            <h2 class="h5 mb-0">Annual permit fees (five years)</h2>
+            <div class="row justify-content-between align-items-baseline mb-2">
+                <div class="col">
+                    <h3 class="h5 mb-md-0 text-info-emphasis">
+                        @Html.DisplayFor(_ => report.ExtendedDataDateRange, additionalViewData: new { Connector = " through ", Format = DateTimeFormats.ShortDate })
+                    </h3>
+                </div>
+            </div>
+
+            @if (!supportingData.AnnualFeesSummary.Any())
+            {
+                <div class="border rounded-2 p-3">
+                    <p class="lead mb-0">No annual fees data found in date range.</p>
+                </div>
+            }
+            else
+            {
+                <div id="supportingAnnualFeesDataAccordion" class="accordion">
+                    <div class="accordion-item border-info">
+                        <h3 class="accordion-header no-anchor">
+                            <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+                                    data-bs-target="#supportingAnnualFeesDataBody" aria-controls="supportingAnnualFeesDataBody">
+                                View supporting data
+                            </button>
+                        </h3>
+                        <div id="supportingAnnualFeesDataBody" class="accordion-collapse collapse"
+                             data-bs-parent="supportingAnnualFeesDataAccordion">
+                            <div class="accordion-body">
+                                <partial name="Shared/CompliancePartials/_AnnualFeesTable" model="supportingData.AnnualFeesSummary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+
+        <partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection" />
+
+        @if (Model.UserCan[ComplianceOperation.Delete])
+        {
+            <div class="mt-4 text-end d-print-none">
+                <a asp-page="Delete" asp-route-id="@Model.Id.ToString()"
+                   class="btn btn-sm btn-link px-0 link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
+                    Delete FCE
+                </a>
+            </div>
+        }
+
     </div>
-}
+</div>
 
 @section Footer {
     <partial name="Shared/_DataExchangePartial" model="report" />
@@ -232,4 +242,10 @@
 
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
+    <script src="~/js/table-of-contents.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            createTOC(['h2']);
+        });
+    </script>
 }
