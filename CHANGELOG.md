@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.4.15] - 2026-04-15
+
+- Added a Table of Contents to some pages.
+
 ## [2026.4.14.1] - 2026-04-14
 
 - Fixed a bug that prevented some Case Files from being staged for the EPA data exchange.
@@ -75,3 +79,4 @@
 [2026.4.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.13
 [2026.4.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14
 [2026.4.14.1]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14.1
+[2026.4.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.15
