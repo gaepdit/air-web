@@ -115,21 +115,16 @@ public partial record FacilityId
     {
         public static string? Format(string? input)
         {
+
             if (string.IsNullOrWhiteSpace(input))
                 return input;
 
-            var parts = input.Split('-');
-
-            // check to see if both parts are integers
-            if (!int.TryParse(parts[0], out int part1))
-                return input;
-
-            //default part2 to 0 means 5 => 005-0000
-            int part2 = 0;
-            if (parts.Length > 1)
-                int.TryParse(parts[1], out part2);
-
-            return $"{part1:D3}-{part2:D4}";
+            if (FacilityId.TryParse(input, out var facilityId))
+            {
+                return facilityId.FormattedId;
+            }
+            // If FacilityId does not exist, return original input
+            return input;
         }
     }
 }
