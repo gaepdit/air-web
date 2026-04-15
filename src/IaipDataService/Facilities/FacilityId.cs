@@ -56,7 +56,7 @@ public partial record FacilityId
 
     public static bool TryParse([NotNullWhen(true)] string? s, [NotNullWhen(true)] out FacilityId? result)
     {
-        if (s is null)
+        if (string.IsNullOrEmpty(s))
         {
             result = null;
             return false;
@@ -117,4 +117,8 @@ public partial record FacilityId
     // language:regex
     public const string SimplifiedFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
     public const string SimplifiedFormatError = "Invalid AIRS Number format.";
+
+    // Format as Facility ID if possible, otherwise return original input.
+    public static string? TryFormat(string? input) =>
+        TryParse(input, out var facilityId) ? facilityId.FormattedId : input;
 }
