@@ -659,6 +659,7 @@ svg:not(:root) {
 -------------------------------------------------- */
 #toc-container {
     top: 2rem;
+    z-index: 900;
 }
 
 .toc-item {
