@@ -243,7 +243,7 @@
 @section Scripts {
     <partial name="Shared/_ValidationScriptsPartial" />
     <script src="~/js/table-of-contents.js" defer></script>
-    <script>
+    <script asp-add-content-to-csp>
         document.addEventListener("DOMContentLoaded", function () {
             createTOC(['h2']);
         });

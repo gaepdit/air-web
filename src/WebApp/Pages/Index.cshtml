@@ -163,7 +163,7 @@
 
 @section Scripts {
     <script src="~/js/table-of-contents.js" defer></script>
-    <script>
+    <script asp-add-content-to-csp>
         document.addEventListener("DOMContentLoaded", function () {
             createTOC(['h2', 'h3']);
         });
