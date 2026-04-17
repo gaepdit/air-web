@@ -24,12 +24,7 @@
         <ProjectReference Include="..\MemRepository\MemRepository.csproj" />
         <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <None Include="../../CHANGELOG.md"/>
-        <None Include="../../README.md"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <Content Update="appsettings.Development.json">
             <DependentUpon>appsettings.json</DependentUpon>
