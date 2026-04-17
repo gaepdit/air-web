@@ -15,13 +15,16 @@ function initMap() {
     L.Icon.Default.prototype.options.imagePath = '/lib/leaflet/dist/images/';
 
     map.whenReady(function () {
-        // Add facility marker to map.
+        // Add facility popup to map.
         const info = '<div class="facility-map-info">' +
             `<div class="facility-map-title">${Facility.Name}</div>` +
             `<div>${Facility.Location}</div>` +
             '</div>';
-        L.marker([Facility.GeoCoordinates.Latitude, Facility.GeoCoordinates.Longitude], { title: Facility.Name })
-            .bindPopup(info).addTo(map);
+        L.popup([Facility.GeoCoordinates.Latitude, Facility.GeoCoordinates.Longitude], {
+            closeOnEscapeKey: false,
+            closeButton: false,
+            closeOnClick: false,
+        }).setContent(info).addTo(map);
     });
 }
 

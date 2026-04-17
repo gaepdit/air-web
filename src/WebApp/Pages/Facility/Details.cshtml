@@ -1,7 +1,6 @@
 ﻿@page "{id?}"
 @using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
@@ -144,6 +143,9 @@
                                             <span class="px-1 text-body-secondary">|</span>
                                             <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
                                         </small>
+                                    </div>
+                                    <div class="mt-1">
+                                        <small><em>Note: Map shows geographic coordinates which may not match postal address.</em></small>
                                     </div>
                                 </div>
                             }
