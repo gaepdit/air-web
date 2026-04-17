@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.4.17] - 2026-04-17
+
+- Fixed a layout issue where a page TOC conflicted with the navbar dropdowns.
+- Improved the Facility Maps layout.
+
 ## [2026.4.15] - 2026-04-15
 
 - Added a Table of Contents to some pages.
@@ -80,3 +85,4 @@
 [2026.4.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14
 [2026.4.14.1]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14.1
 [2026.4.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.15
+[2026.4.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.17
