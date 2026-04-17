@@ -264,7 +264,7 @@
 @if (!Model.Facility.IsPortableSource && Model.Facility.GeoCoordinates.HasValue)
 {
     @section Scripts {
-        <script>
+        <script asp-add-content-to-csp>
             const Facility = @Html.Raw(Model.FacilityJson)
         </script>
         <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
