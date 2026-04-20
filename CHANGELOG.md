@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.4.20] - 2026-04-20
+
+- Added links to map the company address on Facility pages.
+
 ## [2026.4.17] - 2026-04-17
 
 - Fixed a layout issue where a page TOC conflicted with the navbar dropdowns.
@@ -86,3 +90,4 @@
 [2026.4.14.1]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.14.1
 [2026.4.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.15
 [2026.4.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.17
+[2026.4.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.20
