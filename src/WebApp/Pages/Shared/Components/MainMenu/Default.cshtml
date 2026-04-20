@@ -4,7 +4,8 @@
 }
 
 <header role="banner">
-    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+    <nav id="main-nav" aria-label="Main site navigation"
+         class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
             <div>
                 @if (Model.ShowSbeapSwitch)
@@ -194,7 +195,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <nav class="navbar nav-underline bg-body-tertiary">
+        <nav class="navbar nav-underline bg-body-tertiary" aria-labelledby="orgNavLabel">
             <ul class="navbar-nav justify-content-end flex-grow-1">
                 <li class="nav-item"><a class="nav-link px-1" asp-page="/Index">Air Web Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link px-1" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
