@@ -24,10 +24,13 @@ public readonly record struct Address
     public string PostalCode { get; [UsedImplicitly] init; }
 
     // Readonly properties
-    public string OneLine => new[]
+    private string OneLine => new[]
         {
             Street, Street2, City,
             new[] { State, PostalCode }.ConcatWithSeparator(),
         }
         .ConcatWithSeparator(", ");
+
+    public string GoogleMapsUrl => $"https://www.google.com/maps/search/?api=1&query={OneLine}";
+    public string AppleMapsUrl => $"https://maps.apple.com/?q={OneLine}";
 }
