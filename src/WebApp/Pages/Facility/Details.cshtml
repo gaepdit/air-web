@@ -114,6 +114,21 @@
                                 <dl class="row">
                                     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.FacilityAddress)</dt>
                                     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
+                                    @if (facility.FacilityAddress.HasValue)
+                                    {
+                                        <div class="col-sm-12 mb-2">
+                                            <div class="p-1 bg-body-tertiary rounded-1">
+                                                <small>
+                                                    Open address in:
+                                                    <span class="d-inline-block">
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                                <span class="px-1 text-body-secondary">|</span>
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                                    </span>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    }
                                     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.County)</dt>
                                     <dd class="col-sm-8 col-lg-9">@Model.Facility.County</dd>
                                     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.GeoCoordinates)</dt>
@@ -137,15 +152,19 @@
                                         <div id="single-facility-map" class="border border-secondary"></div>
                                     </div>
                                     <div class="mt-2">
-                                        <small>
-                                            Open in:
+                                        <small><em>Note: Map shows geographic coordinates which may not match company address.</em></small>
+                                    </div>
+                                    <div class="mt-1 bg-body-tertiary">
+                                        <div class="p-1 bg-body-tertiary rounded-1">
+                                            <small>
+                                                Open geocoordinates in:
+                                                <span class="d-inline-block">
                                             <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
                                             <span class="px-1 text-body-secondary">|</span>
                                             <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
-                                        </small>
-                                    </div>
-                                    <div class="mt-1">
-                                        <small><em>Note: Map shows geographic coordinates which may not match postal address.</em></small>
+                                            </span>
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
                             }
