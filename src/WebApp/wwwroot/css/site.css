@@ -21,7 +21,8 @@
 }
 
 .navbar a:hover, .navbar a:focus,
-.navbar button:hover, .navbar button:focus,
+.navbar button.offcanvas-toggler:hover svg,
+.navbar button.offcanvas-toggler:focus svg,
 .navbar .nav-link:hover, .navbar .nav-link:focus {
     color: hsl(var(--base-hue), 80%, 25%);
 }
@@ -83,8 +84,8 @@
 
 [data-bs-theme="dark"] .navbar a:hover,
 [data-bs-theme="dark"] .navbar a:focus,
-[data-bs-theme="dark"] .navbar button:hover,
-[data-bs-theme="dark"] .navbar button:focus,
+[data-bs-theme="dark"] .navbar button:hover svg,
+[data-bs-theme="dark"] .navbar button:focus svg,
 [data-bs-theme="dark"] .navbar .nav-link:hover,
 [data-bs-theme="dark"] .navbar .nav-link:focus {
     color: hsl(var(--base-hue), 100%, 95%);

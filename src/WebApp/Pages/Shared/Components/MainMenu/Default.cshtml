@@ -12,7 +12,7 @@
                     <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#orgNav" aria-controls="orgNav"
                             aria-label="Toggle organization navigation" title="Switch Dashboard">
-                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Switch"/>
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Switch" />
                         <span class="visually-hidden">Switch Dashboard</span>
                     </button>
                 }
@@ -62,7 +62,7 @@
                                             <hr class="dropdown-divider">
                                         </li>
                                         <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Add">
-                                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus"/>
+                                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                                                 New Customer
                                             </a></li>
                                     }
@@ -73,10 +73,16 @@
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a></li>
-                                        <li><a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
+                                        </li>
                                         <li><a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement</a></li>
-                                        <li><a class="dropdown-item" asp-page="/Compliance/SourceTest/Index">Source Tests</a></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/SourceTest/Index">Source Tests</a>
+                                        </li>
                                     }
                                 </ul>
                             </li>
@@ -141,35 +147,35 @@
                         <li class="nav-item dropdown">
                             <button class="nav-link dropdown-toggle" id="bd-theme" type="button"
                                     aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
                                          view-data-CssClass="@("me-1 theme-icon-active")" />
                                 <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("me-2 opacity-50")" />
                                         Light
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("me-2 opacity-50")" />
                                         Dark
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("me-2 opacity-50")" />
                                         Auto
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)" 
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
                                                  view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
@@ -188,9 +194,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item"><a class="nav-link" asp-page="/Index">Air Web Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
-        </ul>
+        <nav class="navbar nav-underline bg-body-tertiary">
+            <ul class="navbar-nav justify-content-end flex-grow-1">
+                <li class="nav-item"><a class="nav-link px-1" asp-page="/Index">Air Web Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link px-1" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
