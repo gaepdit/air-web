@@ -335,7 +335,8 @@
                             actionButtons.forEach(button => {
                                 button.addEventListener('click', function () {
                                     const actionType = this.value;
-                                    label.textContent = this.textContent.trim();
+                                    const modalTitle = button.dataset.modalTitle;
+                                    label.textContent = modalTitle ?? this.textContent.trim();
                                     actionTypeHidden.value = actionType;
 
                                     if (['LetterOfNoncompliance', 'InformationalLetter', 'NovNfaLetter'].includes(actionType)) {
@@ -458,10 +459,20 @@
                                                         </button>
                                                     </li>
                                                 }
+                                                @if (User.CanProposeCo(action))
+                                                {
+                                                    <li>
+                                                        <button class="dropdown-item" type="button" name="newEnforcementAction"
+                                                                data-modal-title="Proposed Consent Order" value="ProposedConsentOrder">
+                                                            Propose Consent Order
+                                                        </button>
+                                                    </li>
+                                                }
                                                 @if (User.CanResolveWithNfa(action))
                                                 {
                                                     <li>
-                                                        <button class="dropdown-item" type="button" name="newEnforcementAction" value="NoFurtherActionLetter">
+                                                        <button class="dropdown-item" type="button" name="newEnforcementAction"
+                                                                data-modal-title="No Further Action Letter" value="NoFurtherActionLetter">
                                                             Resolve with No Further Action
                                                         </button>
                                                     </li>

@@ -42,6 +42,15 @@ public static class EnforcementActionPermissions
             (item is not IIsExecuted executed || executed.IsExecuted) &&
             user.CanFinalize(item);
 
+        public bool CanProposeCo(IActionViewDto item) =>
+            user.CanEdit(item) &&
+            item is
+            {
+                Status: EnforcementActionStatus.Issued,
+                ActionType: EnforcementActionType.NoticeOfViolation,
+                IsUnderReview: false,
+            };
+
         public bool CanProceedToCo(IActionViewDto item) =>
             user.CanEdit(item) &&
             item is
