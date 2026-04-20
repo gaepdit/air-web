@@ -21,7 +21,8 @@
 }
 
 .navbar a:hover, .navbar a:focus,
-.navbar button:hover, .navbar button:focus,
+.navbar button.offcanvas-toggler:hover svg,
+.navbar button.offcanvas-toggler:focus svg,
 .navbar .nav-link:hover, .navbar .nav-link:focus {
     color: hsl(var(--base-hue), 80%, 25%);
 }
@@ -83,8 +84,8 @@
 
 [data-bs-theme="dark"] .navbar a:hover,
 [data-bs-theme="dark"] .navbar a:focus,
-[data-bs-theme="dark"] .navbar button:hover,
-[data-bs-theme="dark"] .navbar button:focus,
+[data-bs-theme="dark"] .navbar button:hover svg,
+[data-bs-theme="dark"] .navbar button:focus svg,
 [data-bs-theme="dark"] .navbar .nav-link:hover,
 [data-bs-theme="dark"] .navbar .nav-link:focus {
     color: hsl(var(--base-hue), 100%, 95%);
@@ -304,12 +305,12 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
     }
 }
 
-/* External links
+/* External link indicator icon
 -------------------------------------------------- */
 a[target]::after,
 #facility-map .facility-map-info a[target]::after {
-    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
-    margin-left: .2em;
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgb(60,140,253)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
+    margin-left: .4em;
 }
 
 /* Suppress some external link icons */
@@ -573,6 +574,11 @@ svg:not(:root) {
 .facility-map-info {
     font-family: var(--bs-body-font-family);
     font-size: 14px;
+}
+
+.facility-map-info .facility-map-link a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: none;
 }
 
 .facility-map-title {
