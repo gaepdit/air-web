@@ -3,28 +3,30 @@
     var css = (string?)ViewData["CssClass"] ?? null;
     var icon = Model switch
     {
-            AppIcon.AutoDarkMode => "app-icon-circle-half",
-            AppIcon.LightMode => "app-icon-sun-fill",
-            AppIcon.DarkMode => "app-icon-moon-stars-fill",
-            AppIcon.CheckMark => "app-icon-check2",
-            AppIcon.Plus => "app-icon-plus-lg",
-            AppIcon.GoBack => "app-icon-arrow-90deg-up",
-            AppIcon.InfoIcon => "app-icon-info-circle-fill",
-            AppIcon.CheckIcon => "app-icon-check-circle-fill",
-            AppIcon.WarningIcon => "app-icon-exclamation-triangle-fill",
-            AppIcon.Download => "app-icon-download",
-            AppIcon.People => "app-icon-people-fill",
-            AppIcon.Badge => "app-icon-person-badge",
-            AppIcon.UpTop => "app-icon-arrow-bar-up",
-            AppIcon.Print => "app-icon-printer-fill",
-            AppIcon.Search => "app-icon-search",
-            AppIcon.Refresh => "app-icon-arrow-clockwise",
-            AppIcon.QuestionIcon => "app-icon-question-circle",
-            AppIcon.Trash => "app-icon-trash3",
-            AppIcon.Switch => "app-icon-shuffle",
-            _ => throw new ArgumentOutOfRangeException(nameof(Model)),
+        AppIcon.AutoDarkMode => "app-icon-circle-half",
+        AppIcon.Badge => "app-icon-person-badge",
+        AppIcon.CheckIcon => "app-icon-check-circle-fill",
+        AppIcon.CheckMark => "app-icon-check2",
+        AppIcon.DarkMode => "app-icon-moon-stars-fill",
+        AppIcon.Download => "app-icon-download",
+        AppIcon.GeoPin => "app-icon-geo-alt",
+        AppIcon.GoBack => "app-icon-arrow-90deg-up",
+        AppIcon.InfoIcon => "app-icon-info-circle-fill",
+        AppIcon.LightMode => "app-icon-sun-fill",
+        AppIcon.MapPin => "app-icon-pin-map",
+        AppIcon.People => "app-icon-people-fill",
+        AppIcon.Plus => "app-icon-plus-lg",
+        AppIcon.Print => "app-icon-printer-fill",
+        AppIcon.QuestionIcon => "app-icon-question-circle",
+        AppIcon.Refresh => "app-icon-arrow-clockwise",
+        AppIcon.Search => "app-icon-search",
+        AppIcon.Switch => "app-icon-shuffle",
+        AppIcon.Trash => "app-icon-trash3",
+        AppIcon.UpTop => "app-icon-arrow-bar-up",
+        AppIcon.WarningIcon => "app-icon-exclamation-triangle-fill",
+        _ => throw new ArgumentOutOfRangeException(nameof(Model)),
     };
 }
 <svg class="bi @css" role="img">
-    <use href="@Url.Content("~/images/app-icons.svg?20260313")#@icon"></use>
+    <use href="@Url.Content("~/images/app-icons.svg?20260421")#@icon"></use>
 </svg>
