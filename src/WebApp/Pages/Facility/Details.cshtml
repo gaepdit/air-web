@@ -117,8 +117,9 @@
                                     @if (facility.FacilityAddress.HasValue)
                                     {
                                         <div class="col-sm-12 mb-2">
-                                            <div class="p-1 bg-body-tertiary rounded-1">
+                                            <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                                                 <small>
+                                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.MapPin" />
                                                     Open address in:
                                                     <span class="d-inline-block">
                                                 <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
@@ -155,14 +156,15 @@
                                         <small><em>Note: Map shows geographic coordinates which may not match company address.</em></small>
                                     </div>
                                     <div class="mt-1 bg-body-tertiary">
-                                        <div class="p-1 bg-body-tertiary rounded-1">
+                                        <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                                             <small>
-                                                Open geocoordinates in:
+                                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.GeoPin" />
+                                                Open geo-coordinates in:
                                                 <span class="d-inline-block">
-                                            <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
-                                            <span class="px-1 text-body-secondary">|</span>
-                                            <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
-                                            </span>
+                                                    <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                                    <span class="px-1 text-body-secondary">|</span>
+                                                    <a class="btn-subtle" href="@Model.Facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                                </span>
                                             </small>
                                         </div>
                                     </div>

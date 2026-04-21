@@ -448,15 +448,11 @@ footer summary:hover, footer summary:focus,
 /* Bootstrap Icons
 -------------------------------------------------- */
 .bi {
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     fill: currentColor;
-    vertical-align: -.125em;
+    vertical-align: text-bottom;
     overflow: visible !important;
-}
-
-.icon-link .bi {
-    vertical-align: middle;
 }
 
 /* Fix for Bootstrap textarea with "floating" label
