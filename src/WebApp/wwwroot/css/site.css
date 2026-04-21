@@ -414,6 +414,7 @@ a[target].no-external-link::after {
     color: hsl(var(--base-hue), 0%, 100%);
     text-shadow: 0 0 6px hsl(var(--base-hue), 0%, 0%);
     background: repeating-linear-gradient(135deg, hsl(50, 90%, 36%), hsl(50, 90%, 36%) 10px, hsl(50, 40%, 25%) 10px, hsl(50, 40%, 25%) 20px);
+    box-shadow: 0 3px 7px oklch(0.18 0.03 91.75 / 0.8);
 }
 
 /* Prevent banner from covering up link target elements. 
