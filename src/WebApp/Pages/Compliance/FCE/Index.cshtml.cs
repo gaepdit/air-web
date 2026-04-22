@@ -77,9 +77,6 @@ public class FceIndexModel(
         else if (!await fceService.ExistsAsync(id, token: token))
             ModelState.AddModelError(nameof(FindId), "The FCE ID entered does not exist.");
 
-        if (!await fceService.ExistsAsync(id, token: token))
-            ModelState.AddModelError(nameof(Spec.FacilityId), "The Facility ID entered does not exist.");
-
         if (ModelState.IsValid) return RedirectToPage("Details", routeValues: new { id });
 
         UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
