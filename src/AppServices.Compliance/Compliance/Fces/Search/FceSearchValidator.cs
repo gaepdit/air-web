@@ -13,13 +13,14 @@ public class FceSearchValidator : AbstractValidator<FceSearchDto>
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         RuleFor(dto => dto.DateFrom)
-            .Must(date => date <= today)
+            .Must(date => date <= today || date == null)
             .WithMessage("The FCE From Date cannot be in the future.");
 
         RuleFor(dto => dto.DateTo)
-            .Must(date => date <= today)
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date <= today || date == null)
             .WithMessage("The FCE To Date cannot be in the future.")
-            .Must((dto, date) => date >= dto.DateFrom)
+            .Must((dto, date) => dto.DateFrom == default || date >= dto.DateFrom || date == null)
             .WithMessage("The FCE To Date must be later than the From Date.");
     }
 
