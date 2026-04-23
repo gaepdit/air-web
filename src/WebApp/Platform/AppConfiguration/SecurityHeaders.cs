@@ -72,7 +72,8 @@ internal static class SecurityHeaders
         builder.AddStyleSrc().Self()
             .UnsafeInline()
             .ReportSample();
-        builder.AddImgSrc().Self().Data();
+        builder.AddImgSrc().Self().Data()
+            .From("https://tile.openstreetmap.org");
         builder.AddConnectSrc().Self()
             .From("https://browser-intake-us3-datadoghq.com");
         builder.AddFontSrc().Self().Data();
