@@ -26,8 +26,8 @@ public class FceSearchValidator : AbstractValidator<FceSearchDto>
 
         RuleFor(dto => dto.FacilityId)
             .MustAsync(async (id, cancellation) =>
-            await service.ExistsAsync((FacilityId)id!))
-            .WithMessage("A Facility with that ID does not exist or has not been approved in the IAIP.")
+                await service.ExistsAsync((FacilityId)id!))
+            .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.")
             .When(dto => !string.IsNullOrWhiteSpace(dto.FacilityId));
     }
 
