@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.4.24] - 2026-04-24
+
+- Added the ability to track the initial review date for reports and ACCs.
+
 ## [2026.4.21] - 2026-04-21
 
 - Added icons to the map links.
@@ -96,3 +100,4 @@
 [2026.4.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.17
 [2026.4.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.20
 [2026.4.21]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.21
+[2026.4.24]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.24
