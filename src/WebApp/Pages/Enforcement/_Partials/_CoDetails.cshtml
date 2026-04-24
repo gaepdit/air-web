@@ -1,5 +1,5 @@
-﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
-@using AirWeb.WebApp.Platform.Settings
+﻿@using AirWeb.Domain.Compliance
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery.CoViewDto
 
 <dl class="row mt-3 mb-0">
@@ -33,11 +33,11 @@
     }
     else
     {
-        @if (Model.IsExecuted && Model.ExecutedDate < GlobalConstants.ComplianceDataMigrationDate)
+        @if (Model.IsExecuted && Model.ExecutedDate < ComplianceConstants.ComplianceDataMigrationDate)
         {
             <p class="text-info-emphasis fw-lighter">
                 Note: Dates listed for stipulated penalties received before
-                @Html.DisplayFor(_ => GlobalConstants.ComplianceDataMigrationDate, DisplayTemplate.ShortDateOnly)
+                @Html.DisplayFor(_ => ComplianceConstants.ComplianceDataMigrationDate, DisplayTemplate.ShortDateOnly)
                 are approximate.
             </p>
         }
