@@ -4,10 +4,12 @@ using AirWeb.Domain.Core.ValueObjects;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
 
-public record ReportViewDto : ComplianceEventViewDto
+public record ReportViewDto : ComplianceEventViewDto, IReviewedDate
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
+
+    public DateOnly? ReviewedDate { get; init; }
 
     [Display(Name = "Report Type")]
     public ReportingPeriodType ReportingPeriodType { get; init; }

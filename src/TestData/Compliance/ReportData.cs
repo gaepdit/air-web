@@ -17,7 +17,6 @@ internal static partial class ComplianceMonitoringData
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-10)),
             Notes = "In compliance",
-            ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Annual,
@@ -38,9 +37,11 @@ internal static partial class ComplianceMonitoringData
             AcknowledgmentLetterDate =
                 DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
             Notes = "Not in compliance",
+            ClosedBy = UserData.GetRandomUser(),
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            ReviewedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             ReportingPeriodType = ReportingPeriodType.Other,
             ReportingPeriodStart = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
             ReportingPeriodEnd = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),

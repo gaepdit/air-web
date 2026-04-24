@@ -19,6 +19,7 @@ internal static partial class ComplianceMonitoringData
             Notes = "Open ACC",
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            ReviewedDate = null,
             AccReportingYear = 2000,
             PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-21)),
             PostmarkedOnTime = true,
@@ -44,6 +45,7 @@ internal static partial class ComplianceMonitoringData
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            ReviewedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-10)),
             AccReportingYear = 2002,
             PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
             PostmarkedOnTime = false,
@@ -67,6 +69,7 @@ internal static partial class ComplianceMonitoringData
             DeleteComments = SampleText.GetRandomText(SampleText.TextLength.Paragraph),
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
+            ReviewedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-11)),
             AccReportingYear = 2002,
             PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
         },

@@ -28,6 +28,8 @@ public class Report : ComplianceEvent, IDataExchangeAction
         }
     }
 
+    public DateOnly? ReviewedDate { get; set; }
+
     [StringLength(29)]
     public ReportingPeriodType ReportingPeriodType { get; set; }
 

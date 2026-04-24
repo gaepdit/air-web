@@ -14,6 +14,12 @@ public abstract record ReportCommandDto : ComplianceWorkCommandDto, IReportComma
     [MaxDate]
     public DateOnly ReceivedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [Display(Name = "Date Initial Review Complete")]
+    [MaxDate]
+    public DateOnly? ReviewedDate { get; init; }
+
     [Display(Name = "Type")]
     [RequiredLabel]
     public ReportingPeriodType ReportingPeriodType { get; init; } = ReportingPeriodType.Other;

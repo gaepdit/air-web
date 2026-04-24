@@ -5,6 +5,7 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
 public interface IReportCommandDto
 {
     public DateOnly ReceivedDate { get; }
+    public DateOnly? ReviewedDate { get; }
     public ReportingPeriodType ReportingPeriodType { get; }
     public DateOnly ReportingPeriodStart { get; }
     public DateOnly ReportingPeriodEnd { get; }

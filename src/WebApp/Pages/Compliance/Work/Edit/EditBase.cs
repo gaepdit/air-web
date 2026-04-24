@@ -59,9 +59,9 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
         }
 
         var result = await service.UpdateAsync(Id, item, token);
-        var workType = await service.GetComplianceWorkTypeAsync(Id, token);
+        var workType = (await service.GetComplianceWorkTypeAsync(Id, token))!.Value.GetDisplayName();
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{workType!.Value.GetDisplayName()} successfully updated.");
+            $"{workType} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { Id });
     }

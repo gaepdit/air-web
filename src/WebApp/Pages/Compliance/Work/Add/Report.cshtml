@@ -72,6 +72,9 @@
                         Report Analysis
                     </legend>
                     <div class="mb-3">
+                        @Html.EditorFor(m => m.Item.ReviewedDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
+                    <div class="mb-3">
                         @Html.EditorFor(m => m.Item.ReportComplete, EditorTemplate.Checkbox)
                     </div>
                     <div class="mb-3">

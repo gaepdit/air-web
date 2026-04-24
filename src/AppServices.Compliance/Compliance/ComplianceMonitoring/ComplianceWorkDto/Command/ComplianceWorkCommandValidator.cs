@@ -12,6 +12,6 @@ public class ComplianceWorkCommandValidator : AbstractValidator<IComplianceWorkC
         RuleFor(dto => dto.AcknowledgmentLetterDate)
             .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
             .When(dto => dto.AcknowledgmentLetterDate.HasValue)
-            .WithMessage("The Acknowledgment Letter Date cannot be in the future.");
+            .WithMessage("The acknowledgment letter date cannot be in the future.");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.Domain.Core.BaseEntities;
 using System.Security.Claims;
 
@@ -21,7 +22,12 @@ public static class CompliancePermissions
 
         public bool CanEdit(IIsDeleted item) => !item.IsDeleted && user.IsComplianceStaff();
 
-        public bool CanFinalize(IIsDeleted item) => !item.IsDeleted && user.IsComplianceStaff();
+        public bool CanFinalize(IIsDeleted item) =>
+            !item.IsDeleted && user.IsComplianceStaff() &&
+            item is not IReviewedDate
+            {
+                ReviewedDate: null
+            }; // A reviewable item can only be closed if it has been reviewed.
 
         public bool CanManageDeletions() => user.IsComplianceStaff();
 
