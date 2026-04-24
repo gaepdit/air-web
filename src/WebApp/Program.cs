@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders().AddZLoggerConsole(options => options.UseJsonFormatter());
 
 // Configure basic settings.
-builder.BindAppSettings().AddSecurityHeaders().AddErrorLogging();
+builder.BindAppSettings().AddHttpSecurity().AddErrorLogging();
 builder.Services.AddDataProtection();
 
 // Configure authentication and authorization.
