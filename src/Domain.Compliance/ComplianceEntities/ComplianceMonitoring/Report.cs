@@ -14,7 +14,6 @@ public class Report : ComplianceEvent, IDataExchangeAction
         : base(id, facilityId, user)
     {
         ComplianceWorkType = ComplianceWorkType.Report;
-        Close(user);
     }
 
     // Properties
