@@ -5,6 +5,7 @@ public interface IAccCommandDto
     public DateOnly ReceivedDate { get; }
     public int AccReportingYear { get; }
     public DateOnly PostmarkDate { get; }
+    public DateOnly? ReviewedDate { get; }
     public bool PostmarkedOnTime { get; }
     public bool SignedByRo { get; }
     public bool OnCorrectForms { get; }

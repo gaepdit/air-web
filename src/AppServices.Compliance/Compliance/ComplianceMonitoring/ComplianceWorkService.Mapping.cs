@@ -111,6 +111,7 @@ public sealed partial class ComplianceWorkService
         work.ReceivedDate = resource.ReceivedDate;
         work.AccReportingYear = resource.AccReportingYear;
         work.PostmarkDate = resource.PostmarkDate;
+        work.ReviewedDate = resource.ReviewedDate;
         work.PostmarkedOnTime = resource.PostmarkedOnTime;
         work.SignedByRo = resource.SignedByRo;
         work.OnCorrectForms = resource.OnCorrectForms;
@@ -157,6 +158,7 @@ public sealed partial class ComplianceWorkService
     private static void MapReport(IReportCommandDto resource, Report work)
     {
         work.ReceivedDate = resource.ReceivedDate;
+        work.ReviewedDate = resource.ReviewedDate;
         work.ReportingPeriodType = resource.ReportingPeriodType;
         work.ReportingPeriodStart = resource.ReportingPeriodStart;
         work.ReportingPeriodEnd = resource.ReportingPeriodEnd;

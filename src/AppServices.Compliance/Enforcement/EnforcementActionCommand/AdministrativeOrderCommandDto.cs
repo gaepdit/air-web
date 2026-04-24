@@ -86,8 +86,8 @@ public class AdministrativeOrderCommandValidator : AbstractValidator<Administrat
             .When(dto => dto.ResolvedDate.HasValue)
             .WithMessage("The resolved date cannot be entered without an issued date.");
 
-        RuleFor(dto => dto)
-            .Must(dto => dto.ResolvedDate >= dto.AppealedDate)
+        RuleFor(dto => dto.ResolvedDate)
+            .Must((dto, date) => date >= dto.AppealedDate)
             .When(dto => dto.ResolvedDate.HasValue && dto.AppealedDate.HasValue)
             .WithMessage("The appealed date cannot be after the resolved date.");
     }

@@ -47,6 +47,9 @@
                         <partial name="Shared/_RequiredLabelPartial" />
                         ACC Analysis
                     </legend>
+                    <div class="mb-3">
+                        @Html.EditorFor(m => m.Item.ReviewedDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
                     <div class="row row-cols-auto">
                         <div class="col columns-md-2">
                             <div class="mb-3">

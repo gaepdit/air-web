@@ -45,6 +45,20 @@ public class ReportCommandValidator : AbstractValidator<ReportCommandDto>
             .Must((dto, date) => date is null || date >= dto.ReportingPeriodEnd)
             .WithMessage("The Sent Date must be later than the Reporting Period End Date.");
 
+        RuleFor(dto => dto.ReviewedDate)
+            .Must(date => date <= today)
+            .When(dto => dto.ReviewedDate.HasValue)
+            .WithMessage("The date reviewed cannot be in the future.");
+
+        RuleFor(dto => dto.ReviewedDate)
+            .Must(date => date is null || date.Value.Year >= ComplianceConstants.EarliestComplianceWorkYear)
+            .WithMessage($"The date reviewed cannot be earlier than {ComplianceConstants.EarliestComplianceWorkYear}.");
+
+        RuleFor(dto => dto.ReviewedDate)
+            .Must((dto, date) => date >= dto.ReceivedDate)
+            .When(dto => dto.ReviewedDate.HasValue)
+            .WithMessage("The date reviewed cannot be earlier than the date received.");
+
         RuleFor(dto => dto.AcknowledgmentLetterDate)
             .Must((dto, date) => date is null || date >= dto.ReceivedDate)
             .WithMessage("The Acknowledgment Letter Date cannot be earlier than the Received Date.");

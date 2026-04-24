@@ -1,22 +1,13 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
-using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.Domain.Compliance;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
 namespace AppServicesTests.Compliance.ComplianceMonitoring.Validators;
 
-public class ReportCreateValidatorTests
+public class ReportCommandValidatorTests
 {
-    private static readonly ComplianceWorkCommandValidator ComplianceWorkCommandValidator = new();
-
-    private static readonly ComplianceWorkCreateValidator ComplianceWorkCreateValidator =
-        new(ComplianceWorkCommandValidator);
-
-    private static readonly ReportCommandValidator ReportCommandValidator = new();
-
-    private static readonly ReportCreateValidator CreateValidator =
-        new(ComplianceWorkCreateValidator, ReportCommandValidator);
+    private static readonly ReportCommandValidator Validator = new();
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -29,7 +20,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -47,7 +38,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -67,7 +58,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -88,7 +79,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -108,7 +99,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -128,7 +119,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -149,7 +140,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -169,7 +160,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -189,7 +180,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -209,7 +200,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -229,7 +220,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -250,7 +241,7 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -271,11 +262,74 @@ public class ReportCreateValidatorTests
         };
 
         // Act
-        var result = await CreateValidator.TestValidateAsync(model);
+        var result = await Validator.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.AcknowledgmentLetterDate);
+    }
+
+    [Test]
+    public async Task ReviewedDateInFuture_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ReportCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReviewedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+        };
+
+        // Act
+        var result = await Validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.ReviewedDate);
+    }
+
+    [Test]
+    public async Task ReviewedDateTooOld_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ReportCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReceivedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
+            ReviewedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
+        };
+
+        // Act
+        // ReviewedDate
+        var result = await Validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.ReviewedDate);
+    }
+
+    [Test]
+    public async Task ReviewedDateBeforePostmarkDate_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ReportCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReviewedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+        };
+
+        // Act
+        var result = await Validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.ReviewedDate);
     }
 }

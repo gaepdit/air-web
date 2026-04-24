@@ -2,7 +2,7 @@
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 
-public record AccViewDto : ComplianceEventViewDto
+public record AccViewDto : ComplianceEventViewDto, IReviewedDate
 {
     [Display(Name = "Date Received")]
     public DateOnly ReceivedDate { get; init; }
@@ -12,6 +12,8 @@ public record AccViewDto : ComplianceEventViewDto
 
     [Display(Name = "Date Postmarked")]
     public DateOnly? PostmarkDate { get; init; }
+
+    public DateOnly? ReviewedDate { get; init; }
 
     [Display(Name = "Postmarked By Deadline")]
     public bool? PostmarkedOnTime { get; init; }

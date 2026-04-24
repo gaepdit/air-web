@@ -105,6 +105,10 @@ internal static class AppDbContextConfiguration
         repEntity.Property(e => e.ReceivedDate).HasColumnName(nameof(Report.ReceivedDate));
         revEntity.Property(e => e.ReceivedDate).HasColumnName(nameof(PermitRevocation.ReceivedDate));
 
+        // ReviewedDate
+        accEntity.Property(e => e.ReviewedDate).HasColumnName(nameof(AnnualComplianceCertification.ReviewedDate));
+        repEntity.Property(e => e.ReviewedDate).HasColumnName(nameof(Report.ReviewedDate));
+
         // EnforcementNeeded
         accEntity.Property(e => e.EnforcementNeeded)
             .HasColumnName(nameof(AnnualComplianceCertification.EnforcementNeeded));
