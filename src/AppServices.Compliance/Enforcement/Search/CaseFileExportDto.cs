@@ -14,9 +14,7 @@ public record CaseFileExportDto : IFacilitySearchResult
         FacilityId = caseFile.FacilityId;
         ResponsibleStaff = caseFile.ResponsibleStaff?.SortableFullName;
         CaseFileStatus = caseFile.CaseFileStatus.GetDisplayName();
-        ViolationType = caseFile.ViolationType == null
-            ? ""
-            : caseFile.ViolationType.Display;
+        ViolationType = caseFile.ViolationType == null ? "" : caseFile.ViolationType.Display;
         DiscoveryDate = caseFile.DiscoveryDate;
         DayZero = caseFile.DayZero;
         EnforcementDate = caseFile.EnforcementDate;

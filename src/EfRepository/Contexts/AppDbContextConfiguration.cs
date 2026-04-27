@@ -3,7 +3,6 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
@@ -31,7 +30,6 @@ internal static class AppDbContextConfiguration
 
         // -- Compliance lookups
         builder.Entity<Notification>().Navigation(notification => notification.NotificationType).AutoInclude();
-        builder.Entity<CaseFile>().Navigation(caseFile => caseFile.ViolationType).AutoInclude();
 
         // User data should be included in all entities.
 
@@ -248,7 +246,6 @@ internal static class AppDbContextConfiguration
         builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
         builder.Entity<EnforcementAction>().Property(e => e.Status).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Result).HasConversion<string>();
-        builder.Entity<ViolationType>().Property(e => e.SeverityCode).HasConversion<string>();
 
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();

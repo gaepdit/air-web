@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.EfRepository.Contexts;
 using IaipDataService.Facilities;
 
@@ -20,7 +19,6 @@ public sealed class CaseFileRepository(AppDbContext context)
             .Include(caseFile => caseFile.AuditPoints
                 .OrderBy(audit => audit.When).ThenBy(audit => audit.Id))
             .Include(caseFile => caseFile.ComplianceEvents)
-            .Include(caseFile => caseFile.ViolationType)
             .Include(caseFile => caseFile.EnforcementActions)
             .ThenInclude(action => action.Reviews).ThenInclude(review => review.RequestedBy)
             .Include(caseFile => caseFile.EnforcementActions)
@@ -28,10 +26,6 @@ public sealed class CaseFileRepository(AppDbContext context)
             .Include(caseFile => caseFile.EnforcementActions)
             .ThenInclude(action => ((ConsentOrder)action).StipulatedPenalties)
             .SingleOrDefaultAsync(fce => fce.Id.Equals(id), token);
-
-    public async Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default) =>
-        await Context.ViolationTypes.AsTracking().SingleOrDefaultAsync(v => v.Code == code, token)
-            .ConfigureAwait(false);
 
     public async Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>
         (await GetAsync(id, token).ConfigureAwait(false)).GetPollutants();

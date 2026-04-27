@@ -1,22 +1,9 @@
 ﻿namespace AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 
-// ReSharper disable StringLiteralTypo
-// Source of data from IAIP DB:
-//
-// ```sql
-// select AIRVIOLATIONTYPECODE as Code,
-//        VIOLATIONTYPEDESC    as Description,
-//        SEVERITYCODE         as SeverityCode,
-//        lower(DEPRECATED)    as Deprecated
-// from dbo.LK_VIOLATION_TYPE
-// where STATUS = 'A'
-// order by SEVERITYCODE, DEPRECATED, VIOLATIONTYPEDESC
-// ```
-
 public static class ViolationTypeData
 {
     public static ViolationType? GetViolationType(string? code) =>
-        ViolationTypes.Find(type => type.Code == code);
+        code is null ? null : ViolationTypes.Find(type => type.Code == code);
 
     public static IReadOnlyList<ViolationType> GetAll() =>
         ViolationTypes
@@ -36,7 +23,7 @@ public static class ViolationTypeData
         ViolationTypes.Where(type => !type.Deprecated).OrderBy(_ => Guid.NewGuid()).First();
 
     // ReSharper disable StringLiteralTypo
-    public static List<ViolationType> ViolationTypes { get; } =
+    private static List<ViolationType> ViolationTypes { get; } =
     [
         new()
         {

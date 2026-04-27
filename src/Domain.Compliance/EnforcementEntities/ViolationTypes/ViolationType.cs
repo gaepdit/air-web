@@ -5,8 +5,6 @@ namespace AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 
 public record ViolationType
 {
-    internal ViolationType() { }
-
     [Key]
     [StringLength(5)]
     public required string Code { get; init; }

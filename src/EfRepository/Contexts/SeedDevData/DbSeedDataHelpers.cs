@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
-using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Sbeap.ValueObjects;
 using AirWeb.TestData.Compliance;
 using AirWeb.TestData.Enforcement;
@@ -17,7 +16,6 @@ public static class DbSeedDataHelpers
         SeedOfficeData(context);
         SeedIdentityData(context);
 
-        SeedViolationTypeData(context);
         SeedFceData(context);
         SeedNotificationTypeData(context);
         SeedComplianceWorkData(context);
@@ -44,13 +42,6 @@ public static class DbSeedDataHelpers
 
         OfficeData.ClearData();
         UserData.ClearData();
-    }
-
-    private static void SeedViolationTypeData(AppDbContext context)
-    {
-        if (context.ViolationTypes.Any()) return;
-        context.ViolationTypes.AddRange(ViolationTypeData.ViolationTypes);
-        context.SaveChanges();
     }
 
     private static void SeedCaseFileData(AppDbContext context)

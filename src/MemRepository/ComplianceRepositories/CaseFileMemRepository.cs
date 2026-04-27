@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.TestData.Enforcement;
 using IaipDataService.Facilities;
 
@@ -18,9 +17,6 @@ public sealed class CaseFileMemRepository : BaseRepositoryWithMapping<CaseFile, 
         caseFile?.Comments.RemoveAll(comment => comment.IsDeleted);
         return caseFile;
     }
-
-    public Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default) =>
-        Task.FromResult(ViolationTypeData.GetViolationType(code));
 
     // Pollutants & Air Programs
     public Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default) =>

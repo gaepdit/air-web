@@ -37,7 +37,10 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public string? Notes { get; set; }
 
     // Required if the data exchange is enabled.
-    public ViolationType? ViolationType { get; set; }
+    [StringLength(5)]
+    public string? ViolationTypeCode { get; set; }
+
+    public ViolationType? ViolationType => ViolationTypeData.GetViolationType(ViolationTypeCode);
 
     // Status
 

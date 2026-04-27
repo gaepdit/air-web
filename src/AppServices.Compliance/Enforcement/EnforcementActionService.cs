@@ -179,7 +179,6 @@ public sealed class EnforcementActionService(
             includeProperties:
             [
                 nameof(EnforcementAction.CaseFile),
-                $"{nameof(CaseFile)}.{nameof(CaseFile.ViolationType)}",
                 $"{nameof(CaseFile)}.{nameof(CaseFile.ComplianceEvents)}",
             ],
             token: token).ConfigureAwait(false);
