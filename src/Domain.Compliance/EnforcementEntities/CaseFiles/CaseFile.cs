@@ -77,12 +77,12 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Computed dates
 
-    // HPV Day Zero is required if the data exchange is enabled and the Violation Severity is "HPV".
+    // HPV Day Zero is required if the data exchange is enabled, and the Violation Severity is "HPV".
     public DateOnly? DayZero
     {
         get
         {
-            if (ViolationType is not { SeverityCode: "HPV" }) return null;
+            if (ViolationType is not { SeverityCode: ViolationSeverity.HPV }) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsReportable)
                 .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
