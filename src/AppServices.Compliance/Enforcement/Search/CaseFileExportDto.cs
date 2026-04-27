@@ -45,7 +45,7 @@ public record CaseFileExportDto : IFacilitySearchResult
     [XLColumn(Header = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
 
-    [XLColumn(Header = "Day Zero")]
+    [XLColumn(Header = "HPV Day Zero")]
     public DateOnly? DayZero { get; init; }
 
     [XLColumn(Header = "Date of Initial Enforcement Action")]

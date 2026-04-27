@@ -77,11 +77,12 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Computed dates
 
-    // Required if the data exchange is enabled.
+    // HPV Day Zero is required if the data exchange is enabled and the Violation Severity is "HPV".
     public DateOnly? DayZero
     {
         get
         {
+            if (ViolationType is not { SeverityCode: "HPV" }) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsReportable)
                 .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
@@ -128,7 +129,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public bool MissingData =>
         !IsClosed && IsReportable &&
         (PollutantIds.Count == 0 || AirProgramCodes.Count == 0 ||
-        ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
+         ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];

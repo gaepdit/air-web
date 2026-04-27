@@ -165,9 +165,13 @@
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
                 @if (caseFile.HasReportableEnforcement)
                 {
-                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
-                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable,
-                            additionalViewData: new { Placeholder = DefaultText.NotAvailable })</dd>
+                    @if (caseFile.ViolationType is { SeverityCode: "HPV" })
+                    {
+                        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
+                        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable,
+                                additionalViewData: new { Placeholder = DefaultText.NotAvailable })</dd>
+                    }
+
                     <dt class="col-sm-4 col-lg-3" id="violation-type">@Html.DisplayNameFor(_ => caseFile.ViolationType)</dt>
                     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ViolationType)</dd>
                 }

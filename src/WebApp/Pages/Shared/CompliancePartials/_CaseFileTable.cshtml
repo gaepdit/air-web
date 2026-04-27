@@ -40,7 +40,6 @@
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Case File Status")" view-data-Ascender="@nameof(CaseFileSortBy.CaseFileStatusAsc)" view-data-Descender="@nameof(CaseFileSortBy.CaseFileStatusDesc)" />
             }
-            <th scope="col">Day Zero</th>
             @if (!hideStaff)
             {
                 <th scope="col">Responsible Staff</th>
@@ -68,10 +67,6 @@
                     <td><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
                 }
                 <td>@item.CaseFileStatus.GetDisplayName()</td>
-                <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.DayZero, DisplayTemplate.ShortDateOnlyNullable,
-                                additionalViewData: new { Placeholder = DefaultText.NotAvailable })</span>
-                </td>
                 @if (!hideStaff)
                 {
                     <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>

@@ -39,7 +39,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
 
-    [Display(Name = "Day Zero")]
+    [Display(Name = "HPV Day Zero")]
     public DateOnly? DayZero { get; init; }
 
     public string Notes { get; init; } = null!;

@@ -11,7 +11,6 @@ public record CaseFileSearchResultDto : IFacilitySearchResult
     public string? FacilityName { get; set; }
     public CaseFileStatus CaseFileStatus { get; init; }
     public DateOnly? DiscoveryDate { get; init; }
-    public DateOnly? DayZero { get; init; }
     public StaffViewDto? ResponsibleStaff { get; init; }
     public bool IsDeleted { get; init; }
 }
