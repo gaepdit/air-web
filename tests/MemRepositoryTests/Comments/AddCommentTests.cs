@@ -13,8 +13,8 @@ public class AddCommentTests
     public async Task AddFceComment_AddsComment()
     {
         // Arrange
-        await using var repository = new FceCommentMemRepository();
         await using var fceRepository = RepositoryHelper.GetFceRepository();
+        await using var repository = new FceCommentMemRepository(fceRepository);
 
         var id = FceData.GetData.First().Id;
         var newComment = new FceComment(new Comment(SampleText.ValidName, null), id);
@@ -32,8 +32,8 @@ public class AddCommentTests
     public async Task AddComplianceWorkComment_AddsComment()
     {
         // Arrange
-        await using var repository = new ComplianceWorkCommentMemRepository();
         await using var complianceWorkRepository = RepositoryHelper.GetComplianceWorkRepository();
+        await using var repository = new ComplianceWorkCommentMemRepository(complianceWorkRepository);
 
         var id = ComplianceWorkData.GetData.First().Id;
         var newComment = new ComplianceWorkComment(new Comment(SampleText.ValidName, null), id);
@@ -51,8 +51,8 @@ public class AddCommentTests
     public async Task AddCaseFileComment_AddsComment()
     {
         // Arrange
-        await using var repository = new CaseFileCommentMemRepository();
         await using var caseFileRepository = RepositoryHelper.GetCaseFileRepository();
+        await using var repository = new CaseFileCommentMemRepository(caseFileRepository);
 
         var id = CaseFileData.GetData.First().Id;
         var newComment = new CaseFileComment(new Comment(SampleText.ValidName, null), id);
