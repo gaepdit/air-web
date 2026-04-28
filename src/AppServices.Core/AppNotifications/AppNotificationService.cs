@@ -110,11 +110,11 @@ public static class AppNotificationExtensions
         Template template, ApplicationUser? recipient, CancellationToken token, params object?[] values)
     {
         if (recipient is null)
-            return AppNotificationResult.Failed("No recipient specified.");
+            return AppNotificationResult.Failed("No notification sent: No recipient specified.");
         if (!recipient.Active)
-            return AppNotificationResult.Failed("The recipient is not an active user.");
+            return AppNotificationResult.Failed("No notification sent: The recipient is not an active user.");
         if (recipient.Email is null)
-            return AppNotificationResult.Failed("The recipient has no email address.");
+            return AppNotificationResult.Failed("No notification sent: The recipient has no email address.");
 
         return await service.SendNotificationAsync(template, recipient.Email, token, values).ConfigureAwait(false);
     }
