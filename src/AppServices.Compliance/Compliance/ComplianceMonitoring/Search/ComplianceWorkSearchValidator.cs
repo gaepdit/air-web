@@ -20,5 +20,12 @@ public class ComplianceWorkValidator : AbstractValidator<ComplianceWorkSearchDto
         RuleFor(dto => dto.EventDateFrom)
             .Must(date => date <= today || date == null)
             .WithMessage("The Event From Date cannot be in the future.");
+
+        RuleFor(dto => dto.EventDateTo)
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Event To Date cannot be in the future")
+            .Must((dto, date) => dto.EventDateFrom == default || date >= dto.EventDateFrom || date == null)
+            .WithMessage("The Even To Date must be later than the From Date");
     }
 }
