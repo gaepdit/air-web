@@ -12,6 +12,8 @@ public enum AppIcon
     GoBack,
     InfoIcon,
     LightMode,
+    List,
+    Map,
     MapPin,
     People,
     Plus,
