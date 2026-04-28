@@ -114,8 +114,8 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkCreated, work.ResponsibleStaff, token, work.Id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkCreated, work.ResponsibleStaff, token,
+                work.Id, work.FacilityId, currentUser?.FullName).ConfigureAwait(false);
         return CreateResult<int>.Create(work.Id, notificationResult.FailureReason);
     }
 
@@ -138,8 +138,8 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkUpdated, work.ResponsibleStaff, token, id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkUpdated, work.ResponsibleStaff, token,
+                id, currentUser?.FullName).ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
     }
@@ -161,8 +161,8 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkClosed, work.ResponsibleStaff, token, work.Id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkClosed, work.ResponsibleStaff, token,
+                work.Id, currentUser?.FullName).ConfigureAwait(false);
 
         return CommandResult.Create(notificationResult.FailureReason);
     }
@@ -184,8 +184,9 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkReopened, work.ResponsibleStaff, token, work.Id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkReopened, work.ResponsibleStaff, token,
+                work.Id, currentUser?.FullName).ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -217,8 +218,9 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkDeleted, work.ResponsibleStaff, token, work.Id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkDeleted, work.ResponsibleStaff, token,
+                work.Id, currentUser?.FullName).ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -239,8 +241,9 @@ public sealed partial class ComplianceWorkService(
         }
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkRestored, work.ResponsibleStaff, token, work.Id)
-            .ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkRestored, work.ResponsibleStaff, token,
+                work.Id, currentUser?.FullName).ConfigureAwait(false);
+
         return CommandResult.Create(notificationResult.FailureReason);
     }
 
@@ -255,8 +258,8 @@ public sealed partial class ComplianceWorkService(
         var work = await repository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService
-            .SendNotificationAsync(ComplianceTemplate.WorkCommentAdded, work.ResponsibleStaff, token, work.Id,
-                resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false);
+            .SendNotificationAsync(ComplianceTemplate.WorkCommentAdded, work.ResponsibleStaff, token,
+                work.Id, resource.Comment, result.CommentUser?.FullName).ConfigureAwait(false);
         return CreateResult<Guid>.Create(result.CommentId, notificationResult.FailureReason);
     }
 

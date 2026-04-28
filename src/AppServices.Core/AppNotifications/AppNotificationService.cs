@@ -1,4 +1,5 @@
-﻿using AirWeb.Domain.Core.Entities;
+﻿using AirWeb.AppServices.Core.EntityServices.Users;
+using AirWeb.Domain.Core.Entities;
 using GaEpd.AppLibrary.Extensions;
 using GaEpd.EmailService;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ public interface IAppNotificationService : IDisposable, IAsyncDisposable
 public sealed class AppNotificationService(
     IEmailService emailService,
     IEmailLogRepository emailLogRepository,
+    IUserService userService,
     IHostEnvironment environment,
     IConfiguration configuration,
     ILogger<AppNotificationService> logger) : IAppNotificationService
@@ -27,6 +29,9 @@ public sealed class AppNotificationService(
     public async Task<AppNotificationResult> SendNotificationAsync(Template template, string recipientEmail,
         CancellationToken token, params object?[] values)
     {
+        var originator = await userService.GetCurrentUserAsync().ConfigureAwait(false);
+        if (recipientEmail == originator?.Email) return AppNotificationResult.NotAttempted();
+
         var subjectPrefix = environment.EnvironmentName switch
         {
             "Development" => "[DEV] ",
@@ -36,7 +41,9 @@ public sealed class AppNotificationService(
 
         var subject = $"{subjectPrefix} {template.Subject}";
         var textBody = string.Format(template.TextBody + Template.TextSignature, values);
-        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, values);
+        var htmlBody = template.HtmlBody is null
+            ? null
+            : string.Format(template.HtmlBody + Template.HtmlSignature, values);
 
         var settings = new EmailServiceSettings();
         configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);
@@ -103,11 +110,11 @@ public static class AppNotificationExtensions
         Template template, ApplicationUser? recipient, CancellationToken token, params object?[] values)
     {
         if (recipient is null)
-            return AppNotificationResult.NotAttempted();
+            return AppNotificationResult.Failed("No notification sent: No recipient specified.");
         if (!recipient.Active)
-            return AppNotificationResult.Failed("The recipient is not an active user.");
+            return AppNotificationResult.Failed("No notification sent: The recipient is not an active user.");
         if (recipient.Email is null)
-            return AppNotificationResult.Failed("The recipient has no email address.");
+            return AppNotificationResult.Failed("No notification sent: The recipient has no email address.");
 
         return await service.SendNotificationAsync(template, recipient.Email, token, values).ConfigureAwait(false);
     }

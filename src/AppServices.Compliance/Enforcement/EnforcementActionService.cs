@@ -41,8 +41,9 @@ public sealed class EnforcementActionService(
 
         await actionRepository.InsertAsync(enforcementAction, token: token).ConfigureAwait(false);
 
-        await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded,
-            caseFile.ResponsibleStaff, token, caseFileId).ConfigureAwait(false);
+        await appNotificationService
+            .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
+                caseFileId, currentUser?.FullName).ConfigureAwait(false);
 
         return enforcementAction.Id;
     }
@@ -60,8 +61,7 @@ public sealed class EnforcementActionService(
 
         await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
-                caseFileId)
-            .ConfigureAwait(false);
+                caseFileId, currentUser?.FullName).ConfigureAwait(false);
 
         return enforcementAction.Id;
     }
@@ -79,8 +79,7 @@ public sealed class EnforcementActionService(
 
         await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementActionAdded, caseFile.ResponsibleStaff, token,
-                caseFileId)
-            .ConfigureAwait(false);
+                caseFileId, currentUser?.FullName).ConfigureAwait(false);
 
         return enforcementAction.Id;
     }
@@ -189,8 +188,9 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)
-            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementClosed,
-                action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
+            await appNotificationService
+                .SendNotificationAsync(EnforcementTemplate.EnforcementClosed, action.CaseFile.ResponsibleStaff, token,
+                    action.CaseFile.Id, currentUser?.FullName).ConfigureAwait(false);
 
         return caseFileClosed;
     }
@@ -233,8 +233,9 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         if (caseFileClosed)
-            await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementClosed,
-                action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
+            await appNotificationService
+                .SendNotificationAsync(EnforcementTemplate.EnforcementClosed, action.CaseFile.ResponsibleStaff, token,
+                    action.CaseFile.Id, currentUser?.FullName).ConfigureAwait(false);
 
         return caseFileClosed;
     }
@@ -249,8 +250,7 @@ public sealed class EnforcementActionService(
 
         await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementActionDeleted, caseFile.ResponsibleStaff, token,
-                caseFile.Id)
-            .ConfigureAwait(false);
+                caseFileId, currentUser?.FullName).ConfigureAwait(false);
     }
 
     public async Task AddStipulatedPenalty(Guid id, StipulatedPenaltyAddDto resource, CancellationToken token)
@@ -294,8 +294,7 @@ public sealed class EnforcementActionService(
 
         await appNotificationService
             .SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested, reviewer, token,
-                action.CaseFile.Id)
-            .ConfigureAwait(false);
+                action.CaseFile.Id, currentUser?.FullName).ConfigureAwait(false);
     }
 
     public async Task SubmitReviewAsync(Guid id, EnforcementActionSubmitReviewDto resource, CancellationToken token)
@@ -313,12 +312,13 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewCompleted,
-            action.CaseFile.ResponsibleStaff, token, action.CaseFile.Id).ConfigureAwait(false);
+            action.CaseFile.ResponsibleStaff, token,
+            action.CaseFile.Id, currentUser?.FullName).ConfigureAwait(false);
 
         if (nextReviewer is not null)
             await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewRequested,
-                nextReviewer,
-                token, action.CaseFile.Id).ConfigureAwait(false);
+                nextReviewer, token,
+                action.CaseFile.Id, currentUser?.FullName).ConfigureAwait(false);
     }
 
     public async Task<IPaginatedResult<ActionViewDto>> GetReviewRequestsAsync(string userId, PaginatedRequest paging,

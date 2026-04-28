@@ -5,7 +5,7 @@ public abstract class Template
     // Email template properties
     public required string Subject { get; init; }
     public required string TextBody { get; init; }
-    public required string HtmlBody { get; init; }
+    public string? HtmlBody { get; protected init; }
 
     // Email signatures
     public const string TextSignature =
