@@ -36,7 +36,9 @@ public sealed class AppNotificationService(
 
         var subject = $"{subjectPrefix} {template.Subject}";
         var textBody = string.Format(template.TextBody + Template.TextSignature, values);
-        var htmlBody = string.Format(template.HtmlBody + Template.HtmlSignature, values);
+        var htmlBody = template.HtmlBody is null
+            ? null
+            : string.Format(template.HtmlBody + Template.HtmlSignature, values);
 
         var settings = new EmailServiceSettings();
         configuration.GetSection(nameof(EmailServiceSettings)).Bind(settings);
