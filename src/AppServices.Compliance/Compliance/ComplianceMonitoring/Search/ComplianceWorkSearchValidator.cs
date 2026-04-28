@@ -26,6 +26,17 @@ public class ComplianceWorkValidator : AbstractValidator<ComplianceWorkSearchDto
             .Must(date => date <= today || date == null)
             .WithMessage("The Event To Date cannot be in the future")
             .Must((dto, date) => dto.EventDateFrom == default || date >= dto.EventDateFrom || date == null)
-            .WithMessage("The Even To Date must be later than the From Date");
+            .WithMessage("The Event To Date must be later than the From Date");
+
+        RuleFor(dto => dto.ClosedDateFrom)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Closed From Date cannot be in the future");
+
+        RuleFor(dto => dto.ClosedDateTo)
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Closed To Date cannot be in the future")
+            .Must((dto, date) => dto.ClosedDateFrom == default || date >= dto.ClosedDateFrom || date == null)
+            .WithMessage("The Closed To Date must be later than the From Date");
     }
 }
