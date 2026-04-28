@@ -6,30 +6,29 @@ using System.Diagnostics.CodeAnalysis;
 namespace AirWeb.MemRepository.CommonRepositories;
 
 [SuppressMessage("", "S2436")]
-public abstract class CommentMemRepository<TEntity, TKey, TComment>(IEnumerable<TEntity> items)
+public abstract class CommentMemRepository<TEntity, TKey, TComment>(IReadRepository<TEntity, TKey> itemRepository)
     : ICommentRepository<TKey, TComment>
     where TEntity : class, IEntity<TKey>, IComments<TComment>
     where TKey : IEquatable<TKey>
     where TComment : Comment
 {
-    private IEnumerable<TEntity> Items { get; } = items;
-
-    public Task AddCommentAsync(TKey itemId, TComment comment, CancellationToken token = default)
+    public async Task AddCommentAsync(TKey itemId, TComment comment, CancellationToken token = default)
     {
-        var entity = Items.SingleOrDefault(entity => entity.Id.Equals(itemId)) ??
+        var entity = await itemRepository
+                         .FindAsync(entity => entity.Id.Equals(itemId), token).ConfigureAwait(false) ??
                      throw new EntityNotFoundException<TEntity>(itemId);
         entity.Comments.Add(comment);
-        return Task.CompletedTask;
     }
 
-    public Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
+    public async Task DeleteCommentAsync(Guid commentId, string? userId, CancellationToken token = default)
     {
-        var comment = Items.SelectMany(entity => entity.Comments).FirstOrDefault(comment => comment.Id == commentId);
-        if (comment == null) return Task.CompletedTask;
+        var entity = await itemRepository
+            .FindAsync(entity => entity.Comments.Any(comment => comment.Id == commentId), token).ConfigureAwait(false);
 
-        var entity = Items.First(entity => entity.Comments.Contains(comment));
-        entity.Comments.Remove(comment);
-        return Task.CompletedTask;
+        var comment = entity?.Comments.FirstOrDefault(comment => comment.Id == commentId);
+        if (comment == null) return;
+
+        entity!.Comments.Remove(comment);
     }
 
     #region IDisposable,  IAsyncDisposable
@@ -53,7 +52,7 @@ public abstract class CommentMemRepository<TEntity, TKey, TComment>(IEnumerable<
     #endregion
 }
 
-public abstract class CommentMemRepository<TEntity, TComment>(IEnumerable<TEntity> items)
-    : CommentMemRepository<TEntity, int, TComment>(items), ICommentRepository<TComment>
+public abstract class CommentMemRepository<TEntity, TComment>(IReadRepository<TEntity, int> itemRepository)
+    : CommentMemRepository<TEntity, int, TComment>(itemRepository), ICommentRepository<TComment>
     where TEntity : class, IEntity<int>, IComments<TComment>
     where TComment : Comment;
