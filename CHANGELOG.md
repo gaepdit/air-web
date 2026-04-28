@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.4.28] - 2026-04-28
+
+- Only show Day Zero for HPV Case Files.
+- Reduce the amount of unnecessary email notifications.
+
 ## [2026.4.24] - 2026-04-24
 
 - Added the ability to track the initial review date for reports and ACCs.
@@ -101,3 +106,4 @@
 [2026.4.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.20
 [2026.4.21]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.21
 [2026.4.24]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.24
+[2026.4.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.28
