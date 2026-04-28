@@ -89,7 +89,7 @@ else
 
             filterInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    if (count == 1) {
+                    if (count === 1) {
                         filteredList.querySelector('a').click();
                         filterInput.value = '';
                     }
@@ -115,7 +115,7 @@ else
                 filteredList.innerHTML = '';
                 filteredList.appendChild(fragment);
                 let countLabel = count > 0 ? ` (${count} found)` : ' (none found)';
-                if(count == 1) countLabel = '(1 found) <em>Press <code>Enter</code> to open.</em>'
+                if (count === 1) countLabel = '(1 found) <em>Press <code>Enter</code> to open.</em>'
                 countOutput.innerHTML = countLabel;
             });
         });
