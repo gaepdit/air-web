@@ -17,5 +17,12 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
         RuleFor(dto => dto.DiscoveryDateFrom)
             .Must(date => date <= today || date == null)
             .WithMessage("The Discovery Date cannot be in the future");
+
+        RuleFor(dto => dto.DiscoveryDateTo)
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Discovery To Date cannot be in the future")
+            .Must((dto, date) => dto.DiscoveryDateFrom == default || date >= dto.DiscoveryDateFrom || date == null)
+            .WithMessage("The Discovery To Date must be later than the From Date");
     }
 }
