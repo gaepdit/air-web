@@ -38,5 +38,11 @@ public class ComplianceWorkValidator : AbstractValidator<ComplianceWorkSearchDto
             .WithMessage("The Closed To Date cannot be in the future")
             .Must((dto, date) => dto.ClosedDateFrom == default || date >= dto.ClosedDateFrom || date == null)
             .WithMessage("The Closed To Date must be later than the From Date");
+        
+        RuleFor(dto => dto.FacilityId)
+            .MustAsync(async (id, cancellation) =>
+                await service.ExistsAsync((FacilityId)id!))
+            .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.")
+            .When(dto => !string.IsNullOrWhiteSpace(dto.FacilityId));
     }
 }
