@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using AirWeb.Domain.Compliance;
+﻿using AirWeb.Domain.Compliance;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using FluentValidation;
 using IaipDataService.Facilities;

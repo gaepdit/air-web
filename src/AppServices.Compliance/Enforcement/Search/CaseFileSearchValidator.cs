@@ -1,10 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AirWeb.Domain.Compliance;
+using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
+using FluentValidation;
+using IaipDataService.Facilities;
 
-namespace AirWeb.AppServices.Compliance.Enforcement.Search
+namespace AirWeb.AppServices.Compliance.Enforcement.Search;
+
+public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
 {
-    internal class CaseFileSearchValidator
+    private readonly IFacilityService _service;
+
+    public CaseFileSearchValidator(IFacilityService service)
     {
+        _service = service;
+        var today = DateOnly.FromDateTime(DateTime.Today);
     }
 }
