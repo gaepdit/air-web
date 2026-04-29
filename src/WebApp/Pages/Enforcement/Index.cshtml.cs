@@ -7,6 +7,7 @@ using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
+using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,8 @@ public class EnforcementIndexModel(
     ICaseFileSearchService searchService,
     ICaseFileService caseFileService,
     IStaffService staff,
-    IOfficeService offices) : PageModel
+    IOfficeService offices,
+    IValidator<CaseFileSearchDto> validator) : PageModel
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter an Enforcement ID.")]
@@ -43,6 +45,7 @@ public class EnforcementIndexModel(
 
     public async Task OnGetSearchAsync(CaseFileSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
+        await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
         UserCanViewDeletedRecords = User.CanManageCaseFileDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
