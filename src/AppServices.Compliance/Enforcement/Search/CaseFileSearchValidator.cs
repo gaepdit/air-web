@@ -13,5 +13,9 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
     {
         _service = service;
         var today = DateOnly.FromDateTime(DateTime.Today);
+
+        RuleFor(dto => dto.DiscoveryDateFrom)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Discovery Date cannot be in the future");
     }
 }
