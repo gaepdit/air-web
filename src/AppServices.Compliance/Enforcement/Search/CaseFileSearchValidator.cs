@@ -28,5 +28,12 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
         RuleFor(dto => dto.EnforcementDateFrom)
             .Must(date => date <= today || date == null)
             .WithMessage("The Enforcement Date cannot be in the future");
+
+        RuleFor(dto => dto.EnforcementDateTo)
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date <= today || date == null)
+            .WithMessage("The Enforcement To Date cannot be in the future")
+            .Must((dto, date) => dto.EnforcementDateFrom == default || date >= dto.EnforcementDateFrom || date == null)
+            .WithMessage("The Enforcement To Date must be later than the From Date");
     }
 }
