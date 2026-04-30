@@ -106,11 +106,13 @@
                                 <input asp-for="Spec.EnforcementDateFrom" name="@nameof(Model.Spec.EnforcementDateFrom)"
                                        class="form-control" />
                                 <label asp-for="Spec.EnforcementDateFrom" class="form-label"></label>
+                                <span asp-validation-for="Spec.EnforcementDateFrom" class="invalid-feedback"></span>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.EnforcementDateTo" name="@nameof(Model.Spec.EnforcementDateTo)"
                                        class="form-control" />
                                 <label asp-for="Spec.EnforcementDateTo" class="form-label"></label>
+                                <span asp-validation-for="Spec.EnforcementDateTo" class="invalid-feedback"></span>
                             </div>
                         </div>
                     </div>
