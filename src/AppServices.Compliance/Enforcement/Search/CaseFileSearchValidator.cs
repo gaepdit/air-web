@@ -35,5 +35,11 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
             .WithMessage("The Enforcement To Date cannot be in the future")
             .Must((dto, date) => dto.EnforcementDateFrom == default || date >= dto.EnforcementDateFrom || date == null)
             .WithMessage("The Enforcement To Date must be later than the From Date");
+
+        RuleFor(dto => dto.FacilityId)
+           .MustAsync(async (id, cancellation) =>
+               await service.ExistsAsync((FacilityId)id!))
+           .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.")
+           .When(dto => !string.IsNullOrWhiteSpace(dto.FacilityId));
     }
 }
