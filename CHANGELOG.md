@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.5.5] - 2026-05-05
+
+- Improve performance and usability on the facility list and maps pages.
+- Improve performance of Case File violation types.
+
 ## [2026.4.28] - 2026-04-28
 
 - Only show Day Zero for HPV Case Files.
@@ -107,3 +112,4 @@
 [2026.4.21]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.21
 [2026.4.24]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.24
 [2026.4.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.28
+[2026.5.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.5
