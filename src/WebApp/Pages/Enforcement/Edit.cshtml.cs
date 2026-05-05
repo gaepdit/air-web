@@ -72,6 +72,6 @@ public class EditModel(
             ComplianceRole.ComplianceManagerRole)).ToSelectList();
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
             nameof(ViolationType.Code), nameof(ViolationType.Display),
-            null, nameof(ViolationType.SeverityCode));
+            null, nameof(ViolationType.SeverityCodeDisplay));
     }
 }

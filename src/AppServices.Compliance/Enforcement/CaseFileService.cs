@@ -66,7 +66,7 @@ public sealed class CaseFileService(
     public async Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default)
     {
         var caseFile = mapper.Map<CaseFileSummaryDto?>(await caseFileRepository
-            .FindAsync(id, includeProperties: [nameof(CaseFile.ViolationType), nameof(CaseFile.EnforcementActions)],
+            .FindAsync(id, includeProperties: [nameof(CaseFile.EnforcementActions)],
                 token: token).ConfigureAwait(false));
 
         caseFile?.FacilityName = await facilityService.GetNameAsync((FacilityId)caseFile.FacilityId)
@@ -117,8 +117,7 @@ public sealed class CaseFileService(
         caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
         caseFile.Notes = resource.Notes ?? string.Empty;
-        caseFile.ViolationType = await caseFileRepository.GetViolationTypeAsync(resource.ViolationTypeCode, token)
-            .ConfigureAwait(false);
+        caseFile.ViolationTypeCode = resource.ViolationTypeCode;
 
         caseFileManager.Update(caseFile, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
@@ -191,8 +190,7 @@ public sealed class CaseFileService(
             token: token).ConfigureAwait(false);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
 
-        caseFile.ViolationType =
-            await caseFileRepository.GetViolationTypeAsync(violationTypeCode, token).ConfigureAwait(false);
+        caseFile.ViolationTypeCode = violationTypeCode;
         caseFileManager.UpdatePollutantsAndPrograms(caseFile, pollutants, airPrograms, currentUser);
         await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
     }

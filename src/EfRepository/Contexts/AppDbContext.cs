@@ -5,7 +5,6 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
@@ -33,7 +32,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     // -- Compliance lookup tables (stored in the `Lookups` table)
     public DbSet<NotificationType> NotificationTypes { get; set; } = null!;
-    public DbSet<ViolationType> ViolationTypes { get; set; } = null!;
 
     // FCEs
     public DbSet<Fce> Fces { get; set; } = null!;

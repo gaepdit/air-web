@@ -1,6 +1,4 @@
-﻿using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
-
-namespace AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+﻿namespace AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 
 public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>
 {
@@ -16,9 +14,8 @@ public interface ICaseFileRepository : IRepositoryWithMapping<CaseFile, int>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <returns>A Case File with included details or null.</returns>
     Task<CaseFile?> FindWithDetailsAsync(int id, CancellationToken token = default);
-    
+
     // Case File details
-    Task<ViolationType?> GetViolationTypeAsync(string? code, CancellationToken token = default);
     Task<IEnumerable<Pollutant>> GetPollutantsAsync(int id, CancellationToken token = default);
     Task<IEnumerable<AirProgram>> GetAirProgramsAsync(int id, CancellationToken token = default);
 }

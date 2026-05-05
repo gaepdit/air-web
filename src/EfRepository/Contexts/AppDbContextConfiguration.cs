@@ -30,7 +30,6 @@ internal static class AppDbContextConfiguration
 
         // -- Compliance lookups
         builder.Entity<Notification>().Navigation(notification => notification.NotificationType).AutoInclude();
-        builder.Entity<CaseFile>().Navigation(caseFile => caseFile.ViolationType).AutoInclude();
 
         // User data should be included in all entities.
 
