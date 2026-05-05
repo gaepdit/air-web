@@ -3,10 +3,17 @@
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
 @{
-    ViewData["Title"] = "Facilities";
+    ViewData["Title"] = "Facility List";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="d-flex justify-content-between align-items-center">
+    <h1>@ViewData["Title"]</h1>
+    <div><a asp-page="Map" class="btn btn-outline-secondary d-flex align-items-center">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Map" />
+            <span class="ms-1">View Map</span>
+        </a>
+    </div>
+</div>
 
 <div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
     <form method="post" role="search" class="my-1">
@@ -27,7 +34,6 @@
 
 @if (AppSettings.ConnectToIaip)
 {
-    <h2 class="h3">All Facilities</h2>
     <p class="lead">
         The following list includes all facilities in the IAIP that have been approved within the IAIP facility creator
         tool.
@@ -35,15 +41,15 @@
 }
 else
 {
-    <p>Here is a short list of facilities for testing purposes.</p>
+    <p class="lead">Here is a short list of facilities for testing purposes.</p>
 }
 
-<form class="my-3">
+<form class="my-3 ms-4">
     <label class="visually-hidden" for="facility-list-filter">Filter facility list</label>
     <div class="row row-cols-auto g-2 align-items-center">
         <div>
-            <input id="facility-list-filter" class="form-control form-control-sm col-12 w-auto" 
-                placeholder="Filter facility list" aria-describedby="filtered-facility-list-count" />
+            <input id="facility-list-filter" class="form-control form-control-sm col-12 w-auto"
+                   placeholder="Filter facility list" aria-describedby="filtered-facility-list-count" />
         </div>
         <div>
         <span id="filtered-facility-list-count" class="form-text col-12 text-body-secondary">
@@ -83,7 +89,7 @@ else
 
             filterInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    if (count == 1) {
+                    if (count === 1) {
                         filteredList.querySelector('a').click();
                         filterInput.value = '';
                     }
@@ -109,7 +115,7 @@ else
                 filteredList.innerHTML = '';
                 filteredList.appendChild(fragment);
                 let countLabel = count > 0 ? ` (${count} found)` : ' (none found)';
-                if(count == 1) countLabel = '(1 found) <em>Press <code>Enter</code> to open.</em>'
+                if (count === 1) countLabel = '(1 found) <em>Press <code>Enter</code> to open.</em>'
                 countOutput.innerHTML = countLabel;
             });
         });
