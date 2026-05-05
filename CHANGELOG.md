@@ -1,63 +1,68 @@
 # Changelog
 
+## [2026.4.28] - 2026-04-28
+
+- Only show Day Zero for HPV Case Files.
+- Reduce the number of unnecessary email notifications.
+
 ## [2026.4.24] - 2026-04-24
 
-- Added the ability to track the initial review date for reports and ACCs.
+- Add the ability to track the initial review date for reports and ACCs.
 
 ## [2026.4.21] - 2026-04-21
 
-- Added icons to the map links.
+- Add icons to the map links.
 
 ## [2026.4.20] - 2026-04-20
 
-- Added links to map the company address on Facility pages.
+- Add links to map the company address on Facility pages.
 
 ## [2026.4.17] - 2026-04-17
 
-- Fixed a layout issue where a page TOC conflicted with the navbar dropdowns.
+- Fix a layout issue where a page TOC conflicted with the navbar dropdowns.
 - Improved the Facility Maps layout.
 
 ## [2026.4.15] - 2026-04-15
 
-- Added a Table of Contents to some pages.
+- Add a Table of Contents to some longer pages.
 
 ## [2026.4.14.1] - 2026-04-14
 
-- Fixed a bug that prevented some Case Files from being staged for the EPA data exchange.
-- Added a Georgia state outline to the Facility Map page.
+- Fix a bug that prevented some Case Files from being staged for the EPA data exchange.
+- Add a Georgia state outline to the Facility Map page.
 
 ## [2026.4.14] - 2026-04-14
 
-- Added maps to the individual facility details pages.
+- Add maps to the individual facility details pages.
 
 ## [2026.4.13] - 2026-04-13
 
-- Improved useability of the map page:
+- Improve the usability of the map page:
     - Better handling of failed location requests.
     - Excluded portable sources from the map.
     - Added a permalink for the current map view.
     - Resized the map to fit screen height.
-- Improved useability of the facility page text filter:
+- Improve the usability of the facility page text filter:
     - Hint: once only a single facility is shown, press the <kbd>Enter</kbd> key to open that facility.
 
 ## [2026.4.10] - 2026-04-10
 
-- Fixed some minor layout issues.
-- Changed some default values when adding a new RMP inspection.
+- Fix some minor layout issues.
+- Change some default values when adding a new RMP inspection.
 
 ## [2026.4.9] - 2026-04-09
 
-- Added a facility map page.
-- Enabled editing LON resolved dates.
-- Combined SBEAP and Air Web into one application, Voltron-style.
-- Fixed incorrect validation logic for some date fields.
-- Improved performance on several pages.
+- Add a facility map page.
+- Enable editing LON resolved dates.
+- Combine SBEAP and Air Web into one application, Voltron-style.
+- Fix incorrect validation logic for some date fields.
+- Improve performance on several pages.
 
 ## [2026.3.19] - 2026-03-19
 
-- Fixed incorrect Air Programs displayed in Facilities and Case Files.
-- Added quick access fields to all search forms.
-- Improved the display of enforcement action reviews.
+- Fix incorrect Air Programs displayed in Facilities and Case Files.
+- Add quick access fields to all search forms.
+- Improve the display of enforcement action reviews.
 
 ## [2026.3.11] - 2026-03-11
 
@@ -101,3 +106,4 @@
 [2026.4.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.20
 [2026.4.21]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.21
 [2026.4.24]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.24
+[2026.4.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.28

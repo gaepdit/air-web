@@ -3,17 +3,15 @@ using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.MemRepository.CommonRepositories;
-using AirWeb.TestData.Compliance;
-using AirWeb.TestData.Enforcement;
 
 namespace AirWeb.MemRepository.ComplianceRepositories;
 
-public class CaseFileCommentMemRepository()
-    : CommentMemRepository<CaseFile, CaseFileComment>(CaseFileData.GetData), ICaseFileCommentRepository;
+public class CaseFileCommentMemRepository(ICaseFileRepository repository)
+    : CommentMemRepository<CaseFile, CaseFileComment>(repository), ICaseFileCommentRepository;
 
-public class ComplianceWorkCommentMemRepository()
-    : CommentMemRepository<ComplianceWork, ComplianceWorkComment>(ComplianceWorkData.GetData),
+public class ComplianceWorkCommentMemRepository(IComplianceWorkRepository repository)
+    : CommentMemRepository<ComplianceWork, ComplianceWorkComment>(repository),
         IComplianceWorkCommentRepository;
 
-public class FceCommentMemRepository()
-    : CommentMemRepository<Fce, FceComment>(FceData.GetData), IFceCommentRepository;
+public class FceCommentMemRepository(IFceRepository repository)
+    : CommentMemRepository<Fce, FceComment>(repository), IFceCommentRepository;
