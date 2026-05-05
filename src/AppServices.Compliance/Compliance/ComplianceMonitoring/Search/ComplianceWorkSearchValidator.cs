@@ -37,7 +37,7 @@ public class ComplianceWorkValidator : AbstractValidator<ComplianceWorkSearchDto
         
         RuleFor(dto => dto.FacilityId)
             .MustAsync(async (id, cancellation) =>
-                await service.ExistsAsync((FacilityId)id!))
+                await _service.ExistsAsync((FacilityId)id!))
             .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.")
             .When(dto => !string.IsNullOrWhiteSpace(dto.FacilityId));
     }
