@@ -166,7 +166,7 @@
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
                 @if (caseFile.HasReportableEnforcement)
                 {
-                    @if (caseFile.ViolationType is { SeverityCode: ViolationSeverity.HPV })
+                    @if (caseFile.ViolationType is { Severity: ViolationSeverity.HPV })
                     {
                         <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DayZero)</dt>
                         <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DayZero, DisplayTemplate.ShortDateOnlyNullable,

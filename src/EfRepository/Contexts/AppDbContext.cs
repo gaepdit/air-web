@@ -5,6 +5,7 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
@@ -58,9 +59,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<NovNfaLetter> NovNfaLetters { get; set; } = null!;
     public DbSet<ProposedConsentOrder> ProposedConsentOrders { get; set; } = null!;
 
-    // Enforcement Action property entities
+    // Case File/Enforcement Action property entities
     public DbSet<EnforcementActionReview> EnforcementActionReviews { get; set; } = null!;
     public DbSet<StipulatedPenalty> StipulatedPenalties { get; set; } = null!;
+    public DbSet<ViolationType> ViolationTypes { get; set; } = null!;
 
     // Comments (stored in the `Comments` table)
     public DbSet<FceComment> FceComments { get; set; } = null!;
@@ -99,7 +101,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureImpliedAddedChildEntities()
             .ConfigureLookupTableNameMaxLength()
             .ConfigureCollectionPropertySerialization()
-            .ConfigureDataExchangeIndexes();
+            .ConfigureDataExchangeIndexes()
+            .ConfigureModelManagedData();
 
         // SQLite-only configuration
         if (Database.ProviderName == SqliteProvider)

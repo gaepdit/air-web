@@ -13,13 +13,13 @@ public record ViolationType
     public required string Description { get; init; }
 
     [StringLength(3)]
-    public required ViolationSeverity SeverityCode { get; init; }
+    public required ViolationSeverity Severity { get; init; }
 
     public bool Deprecated { get; init; }
 
     public string Current => Deprecated ? "Historic" : "Current";
-    public string Display => $"{SeverityCode}: {Description} ({Code})";
-    public string SeverityCodeDisplay => SeverityCode.GetDisplayName();
+    public string Display => $"{Severity}: {Description} ({Code})";
+    public string SeverityDisplay => Severity.GetDisplayName();
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
