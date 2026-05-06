@@ -3,6 +3,7 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.ActionItems;
@@ -241,11 +242,12 @@ internal static class AppDbContextConfiguration
         builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
         builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();
 
-        // Enforcement
+        // Case Files/Enforcement
         builder.Entity<CaseFile>().Property(e => e.CaseFileStatus).HasConversion<string>();
         builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
         builder.Entity<EnforcementAction>().Property(e => e.Status).HasConversion<string>();
         builder.Entity<EnforcementActionReview>().Property(e => e.Result).HasConversion<string>();
+        builder.Entity<ViolationType>().Property(e => e.Severity).HasConversion<string>();
 
         // Data exchange status
         builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
@@ -379,6 +381,13 @@ internal static class AppDbContextConfiguration
     {
         // SQLite-only configuration!
         builder.Entity<IdentityPasskeyData>(e => e.HasNoKey());
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureModelManagedData(this ModelBuilder builder)
+    {
+        // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding#model-managed-data
+        builder.Entity<ViolationType>(e => e.HasData(ViolationTypeData.GetAll()));
         return builder;
     }
 }
