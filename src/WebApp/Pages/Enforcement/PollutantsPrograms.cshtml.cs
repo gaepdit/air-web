@@ -58,7 +58,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
         ViolationTypesSelectList = new SelectList(ViolationTypeData.GetCurrent(),
             nameof(ViolationType.Code), nameof(ViolationType.Display),
-            null, nameof(ViolationType.SeverityCode));
+            null, nameof(ViolationType.Severity));
         return Page();
     }
 
