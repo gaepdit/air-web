@@ -16,7 +16,7 @@ public record ConsentOrderCommandDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Executed")]
+    [Display(Name = "Executed by Director's Office")]
     [MaxDate]
     public DateOnly? ExecutedDate { get; init; }
 
@@ -28,7 +28,7 @@ public record ConsentOrderCommandDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Issued")]
+    [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
     public DateOnly? IssueDate { get; init; }
 
