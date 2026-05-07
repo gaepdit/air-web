@@ -8,7 +8,6 @@ namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 
 public record ConsentOrderCommandDto : NotesDto
 {
-    [Required]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Signed Copy Received From Facility")]
@@ -17,7 +16,7 @@ public record ConsentOrderCommandDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Executed")]
+    [Display(Name = "Executed by Director's Office")]
     [MaxDate]
     public DateOnly? ExecutedDate { get; init; }
 
@@ -29,7 +28,7 @@ public record ConsentOrderCommandDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Issued")]
+    [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
     public DateOnly? IssueDate { get; init; }
 
@@ -110,7 +109,7 @@ public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderComman
             .WithMessage(
                 "The order cannot be received from the Director's Office before it is received from the facility.");
 
-       RuleFor(dto => dto.ExecutedDate)
+        RuleFor(dto => dto.ExecutedDate)
             .NotNull()
             .When(dto => dto.ResolvedDate.HasValue)
             .WithMessage("The resolved date cannot be entered if no executed date is entered.");
@@ -120,7 +119,7 @@ public class ConsentOrderCommandValidator : AbstractValidator<ConsentOrderComman
             .When(dto => dto.ResolvedDate.HasValue && dto.ExecutedDate.HasValue)
             .WithMessage("The resolved date cannot be before the executed date.");
 
-       RuleFor(dto => dto.IssueDate)
+        RuleFor(dto => dto.IssueDate)
             .NotNull()
             .When(dto => dto.ResolvedDate.HasValue)
             .WithMessage("The resolved date cannot be entered if no issued date is entered.");

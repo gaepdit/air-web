@@ -12,7 +12,7 @@ public record EnforcementActionEditDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Issued")]
+    [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
     public DateOnly? IssueDate { get; init; }
 }

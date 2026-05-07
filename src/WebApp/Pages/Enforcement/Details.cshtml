@@ -589,7 +589,7 @@
                             else if (action.Status == EnforcementActionStatus.Issued)
                             {
                                 <div>
-                                    Issued on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
+                                    Issued/sent on @Html.DisplayFor(_ => action.IssueDate, DisplayTemplate.ShortDateOnlyNullable)
                                 </div>
                             }
                             else if (action.Status == EnforcementActionStatus.Canceled)
