@@ -123,8 +123,12 @@ public sealed class EnforcementActionService(
         var entity = await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IssueDate.HasValue && resource.IssueDate.HasValue)
+            entity.IssueDate = resource.IssueDate;
+
         entity.Notes = resource.Notes;
-        if (entity.IsIssued) entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
@@ -135,7 +139,11 @@ public sealed class EnforcementActionService(
         var entity = (LetterOfNoncompliance)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
-        if (!entity.IsIssued) resource.IssueDate = null;
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
@@ -145,7 +153,11 @@ public sealed class EnforcementActionService(
         var entity = (ConsentOrder)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
-        if (!entity.IsIssued) resource.IssueDate = null;
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
@@ -155,7 +167,11 @@ public sealed class EnforcementActionService(
         var entity = (AdministrativeOrder)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
-        if (!entity.IsIssued) resource.IssueDate = null;
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
