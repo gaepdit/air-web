@@ -41,8 +41,8 @@ flowchart LR
 * An Enforcement Action can be submitted for review, creating an Enforcement Action Review.
 * An Enforcement Action Review can be completed, updating the Enforcement Action status.
 * An Enforcement Action can be issued (sent to facility) or canceled (closed as unsent), both of which disable the
-  review
-  process.
+  review process.
+* An Enforcement Action cannot be issued if a review has been requested but not completed.
 * An Enforcement Action can be deleted *(not shown in diagram)*.
 
 ### Enforcement Action Types

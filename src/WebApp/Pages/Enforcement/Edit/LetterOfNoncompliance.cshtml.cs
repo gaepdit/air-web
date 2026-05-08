@@ -10,7 +10,7 @@ using FluentValidation;
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
 public class LetterOfNoncomplianceEditModel(
-    IEnforcementActionService actionService, 
+    IEnforcementActionService actionService,
     ICaseFileService caseFileService,
     IValidator<LetterOfNoncomplianceEditDto> validator,
     IMapper mapper) : PageModel, ISubmitCancelButtons
@@ -21,6 +21,7 @@ public class LetterOfNoncomplianceEditModel(
     [BindProperty]
     public LetterOfNoncomplianceEditDto Item { get; set; } = null!;
 
+    public bool ShowIssueDate { get; private set; }
     public CaseFileSummaryDto? CaseFile { get; set; }
 
     // Form buttons
@@ -40,6 +41,7 @@ public class LetterOfNoncomplianceEditModel(
         if (itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
             return RedirectToPage("Index", new { Id });
         if (!User.CanEdit(itemView)) return Forbid();
+        if (itemView.IsIssued) ShowIssueDate = true;
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
@@ -63,7 +65,10 @@ public class LetterOfNoncomplianceEditModel(
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
+        {
+            if (itemView.IsIssued) ShowIssueDate = true;
             return Page();
+        }
 
         await actionService.UpdateAsync(Id, Item, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,

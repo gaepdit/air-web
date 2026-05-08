@@ -104,7 +104,7 @@ public sealed class EnforcementActionService(
                 .FindAsync<NovViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.ProposedConsentOrder => await actionRepository
                 .FindAsync<ProposedCoViewDto, ProposedConsentOrder>(id, mapper, token).ConfigureAwait(false),
-            _ => throw new InvalidOperationException("Unknown enforcement action type")
+            _ => throw new InvalidOperationException("Unknown enforcement action type"),
         };
 
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
@@ -124,7 +124,7 @@ public sealed class EnforcementActionService(
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
         entity.Notes = resource.Notes;
-        entity.IssueDate = resource.IssueDate;
+        if (entity.IsIssued) entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
@@ -135,6 +135,7 @@ public sealed class EnforcementActionService(
         var entity = (LetterOfNoncompliance)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
+        if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
@@ -144,6 +145,7 @@ public sealed class EnforcementActionService(
         var entity = (ConsentOrder)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
+        if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
@@ -153,6 +155,7 @@ public sealed class EnforcementActionService(
         var entity = (AdministrativeOrder)await actionRepository
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
                 token: token).ConfigureAwait(false);
+        if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }

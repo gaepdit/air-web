@@ -91,6 +91,9 @@ public class EnforcementActionManager(
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
+        if (action.IsUnderReview)
+            throw new InvalidOperationException("Enforcement Action requires a review before it can be issued.");
+
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
         action.Status = EnforcementActionStatus.Issued;

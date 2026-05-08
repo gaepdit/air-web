@@ -38,14 +38,17 @@
             @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
         </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+        @if (Model.ShowIssueDate)
+        {
+            <div class="row">
+                <div class="col-md mb-3">
+                    @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="col-md mb-3">
+                    @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
             </div>
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
-        </div>
+        }
 
         <partial name="Shared/_SubmitCancelButtons" />
     </form>

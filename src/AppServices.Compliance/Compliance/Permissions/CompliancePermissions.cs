@@ -22,12 +22,10 @@ public static class CompliancePermissions
 
         public bool CanEdit(IIsDeleted item) => !item.IsDeleted && user.IsComplianceStaff();
 
-        public bool CanFinalize(IIsDeleted item) =>
+        private bool CanFinalize(IIsDeleted item) =>
             !item.IsDeleted && user.IsComplianceStaff() &&
-            item is not IReviewedDate
-            {
-                ReviewedDate: null
-            }; // A reviewable item can only be closed if it has been reviewed.
+            // A reviewable item can only be closed if it has been reviewed.
+            item is not IReviewedDate { ReviewedDate: null };
 
         public bool CanManageDeletions() => user.IsComplianceStaff();
 

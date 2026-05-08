@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using Microsoft.Identity.Web;
@@ -38,9 +37,9 @@ public static class EnforcementActionPermissions
                 and IIsExecuted { IsExecuted: true };
 
         public bool CanFinalizeAction(IActionViewDto item) =>
-            item is { IsIssued: false, IsCanceled: false, IsUnderReview: false } &&
+            item is { IsIssued: false, IsCanceled: false, IsDeleted: false, IsUnderReview: false } &&
             (item is not IIsExecuted executed || executed.IsExecuted) &&
-            user.CanFinalize(item);
+            user.IsComplianceStaff();
 
         public bool CanProposeCo(IActionViewDto item) =>
             user.CanEdit(item) &&

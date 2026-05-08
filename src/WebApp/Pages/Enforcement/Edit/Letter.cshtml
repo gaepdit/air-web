@@ -41,9 +41,12 @@
             </div>
         }
 
-        <div class="mb-3">
-            @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
-        </div>
+        @if (Model.ShowIssueDate)
+        {
+            <div class="mb-3">
+                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+        }
 
         <partial name="Shared/_SubmitCancelButtons" />
     </form>
