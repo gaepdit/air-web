@@ -14,6 +14,8 @@ public interface IActionViewDto : IDeletable
     // Status
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
+
+    // Metadata
     public bool IsReportableAction { get; }
     public DateTimeOffset? CreatedAt { get; }
 
@@ -28,9 +30,9 @@ public interface IActionViewDto : IDeletable
 
     // -- Issued
     public DateOnly? IssueDate { get; }
-    public bool IsIssued => IssueDate.HasValue;
+    public bool IsIssued => Status == EnforcementActionStatus.Issued;
 
     // -- Canceled (closed as unsent)
     public DateTime? CanceledDate { get; }
-    public bool IsCanceled => CanceledDate.HasValue;
+    public bool IsCanceled => Status == EnforcementActionStatus.Canceled;
 }

@@ -127,7 +127,7 @@ public sealed class EnforcementActionService(
         if (entity.IsIssued) entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, LetterOfNoncomplianceEditDto resource, CancellationToken token = default)
@@ -137,7 +137,7 @@ public sealed class EnforcementActionService(
                 token: token).ConfigureAwait(false);
         if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
@@ -147,7 +147,7 @@ public sealed class EnforcementActionService(
                 token: token).ConfigureAwait(false);
         if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
@@ -157,12 +157,12 @@ public sealed class EnforcementActionService(
                 token: token).ConfigureAwait(false);
         if (!entity.IsIssued) resource.IssueDate = null;
         mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
-    private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
+    private async Task FinishUpdateAsync(EnforcementAction entity, CancellationToken token)
     {
-        await actionManager.SetStatusAsync(entity, issueDate,
+        await actionManager.UpdateStatusAsync(entity,
             await userService.GetCurrentUserAsync().ConfigureAwait(false)).ConfigureAwait(false);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }

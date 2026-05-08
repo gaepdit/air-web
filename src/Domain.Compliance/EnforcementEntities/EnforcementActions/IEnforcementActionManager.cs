@@ -10,7 +10,7 @@ public interface IEnforcementActionManager
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
-    Task SetStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+    Task UpdateStatusAsync(EnforcementAction action, ApplicationUser? user);
 
     Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
         bool tryCloseCaseFile = false);
