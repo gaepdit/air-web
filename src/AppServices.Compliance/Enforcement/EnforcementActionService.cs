@@ -159,7 +159,7 @@ public sealed class EnforcementActionService(
 
     private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
     {
-        await actionManager.SetIssuedStatusAsync(entity, issueDate,
+        await actionManager.SetStatusAsync(entity, issueDate,
             await userService.GetCurrentUserAsync().ConfigureAwait(false)).ConfigureAwait(false);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
