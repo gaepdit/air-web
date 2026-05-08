@@ -20,7 +20,7 @@ public interface IActionViewDto : IDeletable
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; }
     public ReviewDto? CurrentOpenReview { get; }
-    public bool IsUnderReview { get; }
+    public bool IsUnderReview => Status == EnforcementActionStatus.ReviewRequested;
     public ICollection<ReviewDto> Reviews { get; }
 
     // -- Approved
@@ -28,9 +28,9 @@ public interface IActionViewDto : IDeletable
 
     // -- Issued
     public DateOnly? IssueDate { get; }
-    public bool IsIssued { get; }
+    public bool IsIssued => IssueDate.HasValue;
 
     // -- Canceled (closed as unsent)
     public DateTime? CanceledDate { get; }
-    public bool IsCanceled { get; }
+    public bool IsCanceled => CanceledDate.HasValue;
 }

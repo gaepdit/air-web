@@ -11,16 +11,17 @@ public static class EnforcementActionPermissions
     extension(IActionViewDto item)
     {
         public bool CanAddResponse() =>
-            item is { IsDeleted: false, Status: EnforcementActionStatus.Issued, IsUnderReview: false }
+            item is { IsIssued: true, IsDeleted: false }
                 and ResponseRequestedViewDto { IsResponseReceived: false };
 
         public bool CanBeAppealed() =>
-            item is { IsIssued: true, IsCanceled: false, IsDeleted: false, IsUnderReview: false }
+            item is { IsIssued: true, IsDeleted: false }
                 and IIsExecuted { IsExecuted: true }
                 and IIsAppealed { IsAppealed: false };
 
         public bool CanBeExecuted() =>
-            item is { IsCanceled: false, IsDeleted: false, IsUnderReview: false } and IIsExecuted { IsExecuted: false };
+            item is { IsCanceled: false, IsDeleted: false, IsUnderReview: false }
+                and IIsExecuted { IsExecuted: false };
     }
 
     extension(ClaimsPrincipal user)
@@ -37,47 +38,34 @@ public static class EnforcementActionPermissions
                 and IIsExecuted { IsExecuted: true };
 
         public bool CanFinalizeAction(IActionViewDto item) =>
-            item is { IsIssued: false, IsCanceled: false, IsDeleted: false, IsUnderReview: false } &&
-            (item is not IIsExecuted executed || executed.IsExecuted) &&
-            user.IsComplianceStaff();
+            user.CanEdit(item) &&
+            item is { IsIssued: false, IsUnderReview: false } &&
+            (item is not IIsExecuted executed || executed.IsExecuted);
 
         public bool CanProposeCo(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is
-            {
-                Status: EnforcementActionStatus.Issued,
-                ActionType: EnforcementActionType.NoticeOfViolation,
-                IsUnderReview: false,
-            };
+            item is { ActionType: EnforcementActionType.NoticeOfViolation, IsIssued: true };
 
         public bool CanProceedToCo(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is
-            {
-                Status: EnforcementActionStatus.Issued,
-                ActionType: EnforcementActionType.ProposedConsentOrder,
-                IsUnderReview: false,
-            };
+            item is { ActionType: EnforcementActionType.ProposedConsentOrder, IsIssued: true };
 
         public bool CanResolve(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is { Status: EnforcementActionStatus.Issued, IsUnderReview: false }
+            item is { IsIssued: true }
                 and IIsResolved { IsResolved: false };
 
         public bool CanResolveWithNfa(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is
-            {
-                Status: EnforcementActionStatus.Issued,
-                ActionType: EnforcementActionType.NoticeOfViolation,
-                IsUnderReview: false,
-            };
+            item is { ActionType: EnforcementActionType.NoticeOfViolation, IsIssued: true };
 
         public bool CanRequestReview(IActionViewDto item) =>
-            user.CanEdit(item) && item is { Status: EnforcementActionStatus.Draft, IsUnderReview: false };
+            user.CanEdit(item) &&
+            item is { Status: EnforcementActionStatus.Draft };
 
         public bool CanReview(IActionViewDto item) =>
-            user.CanEdit(item) && item is { Status: EnforcementActionStatus.ReviewRequested, IsUnderReview: true } &&
+            user.CanEdit(item) &&
+            item is { IsUnderReview: true } &&
             (user.IsReviewerFor(item) || user.IsEnforcementReviewer());
 
         private bool IsReviewerFor(IActionViewDto item) =>

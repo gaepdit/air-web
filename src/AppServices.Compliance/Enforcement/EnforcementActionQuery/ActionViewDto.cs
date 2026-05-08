@@ -31,7 +31,6 @@ public record ActionViewDto : IActionViewDto
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
     public ReviewDto? CurrentOpenReview { get; init; }
-    public bool IsUnderReview { get; init; }
     public DateTime? ReviewRequestedDate { get; init; }
     public ICollection<ReviewDto> Reviews { get; } = [];
 
@@ -40,11 +39,9 @@ public record ActionViewDto : IActionViewDto
 
     // -- Issued
     public DateOnly? IssueDate { get; init; }
-    public bool IsIssued => IssueDate.HasValue;
 
     // -- Canceled (closed as unsent)
     public DateTime? CanceledDate { get; init; }
-    public bool IsCanceled => CanceledDate.HasValue;
 
     // -- Deleted
     public bool IsDeleted { get; init; }
