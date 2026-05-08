@@ -8,8 +8,34 @@ namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
 public class ComplianceWorkSearchValidatorTests
 {
     private readonly IFacilityService _service;
+    private readonly ComplianceWorkValidator _validator;
 
-    private static readonly ComplianceWorkValidator _validator = new(_service);
+    public ComplianceWorkSearchValidatorTests()
+    {
+        _service = Substitute.For<IFacilityService>();
+
+        _service.ExistsAsync(Arg.Any<FacilityId>())
+            .Returns(true);
+
+        _validator = new ComplianceWorkValidator(_service);
+    }
+    [Test]
+    public async Task ValidDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            EventDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
+            EventDateTo = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
 
     [Test]
     public async Task EventDateFromInFuture_ReturnsAsInvalid()
@@ -26,7 +52,9 @@ public class ComplianceWorkSearchValidatorTests
 
         // Assert
         using var scope = new AssertionScope();
+
         result.IsValid.Should().BeFalse();
+
         result.ShouldHaveValidationErrorFor(dto => dto.EventDateFrom);
     }
 }
