@@ -121,7 +121,8 @@ public sealed class EnforcementActionService(
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {
         var entity = await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
         entity.Notes = resource.Notes;
         entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
@@ -132,18 +133,17 @@ public sealed class EnforcementActionService(
     public async Task UpdateAsync(Guid id, LetterOfNoncomplianceEditDto resource, CancellationToken token = default)
     {
         var entity = (LetterOfNoncompliance)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
-        entity.Notes = resource.Notes;
-        entity.IssueDate = resource.IssueDate;
-        entity.ResolvedDate = resource.ResolvedDate;
-        entity.ResponseRequested = resource.ResponseRequested;
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
+        mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (ConsentOrder)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
@@ -151,7 +151,8 @@ public sealed class EnforcementActionService(
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (AdministrativeOrder)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
         mapper.Map(resource, entity);
         await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
     }
