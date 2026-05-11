@@ -10,7 +10,7 @@ namespace AirWeb.WebApp.Pages.Admin.Maintenance.Agencies;
 [Authorize(Policy = nameof(Policies.ViewSiteMaintenancePage))]
 public class IndexModel : IndexBase
 {
-    public override MaintenanceOption ThisOption => MaintenanceOption.Agency;
+    public override MaintenanceOption ThisOption => MaintenanceOption.SbeapAgency;
     public override AuthorizationPolicy Policy => SbeapPolicies.SbeapSiteMaintainer;
     public override AppRole AppRole => SbeapRole.SbeapSiteMaintenanceRole;
 
