@@ -123,4 +123,22 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
     }
+    [Test]
+    public async Task ClosedDateToIsBeforeClosedDateFrom_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            ClosedDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+        };
+
+        // Act
+        var results = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
+    }
 }
