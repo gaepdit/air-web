@@ -89,5 +89,38 @@ public class ComplianceWorkSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
     }
+    [Test]
+    public async Task ClosedDateFromInFuture_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            ClosedDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+        };
 
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateFrom);
+    }
+    [Test]
+    public async Task ClosedDateToInFuture_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
+    }
 }
