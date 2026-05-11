@@ -2,7 +2,6 @@ using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notification
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.SampleData;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Compliance.NotificationTypes;
@@ -19,9 +18,8 @@ public class GetListTests
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>())
             .Returns(itemList);
 
-        using var cache = Substitute.For<IMemoryCache>();
         var appService = new NotificationTypeService(Setup.Mapper!, repoMock,
-            Substitute.For<INotificationTypeManager>(), Substitute.For<IUserService>(), cache,
+            Substitute.For<INotificationTypeManager>(), Substitute.For<IUserService>(), Setup.FakeCache!,
             Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act

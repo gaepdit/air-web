@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
@@ -7,8 +8,8 @@ namespace AirWeb.AppServices.Core.Caching;
 
 public static class CacheLoggingHelpers
 {
-    private static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
-    private static readonly EventId AirWebCacheMiss = new(2504, nameof(AirWebCacheMiss));
+    public static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
+    public static readonly EventId AirWebCacheMiss = new(2504, nameof(AirWebCacheMiss));
 
     extension(ILogger logger)
     {
@@ -17,6 +18,22 @@ public static class CacheLoggingHelpers
 
         private void LogCacheMiss(string cacheKey) =>
             logger.ZLogInformation(AirWebCacheMiss, $"Cache miss for key: {cacheKey}");
+    }
+
+    extension(HybridCache cache)
+    {
+        public async Task<TItem> GetOrCreateAsync<TItem>(string key, Func<CancellationToken, Task<TItem>> factory,
+            TimeSpan expiration, ILogger logger, string? tag = null, CancellationToken token = default)
+        {
+            logger.ZLogInformation(AirWebCacheHit, $"Cache search for key: {key}");
+            string[]? tags = string.IsNullOrEmpty(tag) ? null : [tag];
+
+            return await cache.GetOrCreateAsync(key, factory: async ct =>
+            {
+                logger.ZLogInformation(AirWebCacheMiss, $"Cache miss for key: {key}");
+                return await factory(ct).ConfigureAwait(false);
+            }, CacheUtilities.GetHybridCacheOptions(expiration), tags, token).ConfigureAwait(false);
+        }
     }
 
     extension(IMemoryCache cache)
