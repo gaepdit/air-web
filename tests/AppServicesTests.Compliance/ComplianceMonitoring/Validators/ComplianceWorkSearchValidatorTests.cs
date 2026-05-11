@@ -19,6 +19,7 @@ public class ComplianceWorkSearchValidatorTests
 
         _validator = new ComplianceWorkValidator(_service);
     }
+
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
@@ -42,7 +43,6 @@ public class ComplianceWorkSearchValidatorTests
         // Arrange
         var model = new ComplianceWorkSearchDto
         {
-            FacilityId = SampleText.ValidFacilityId,
             EventDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
 
@@ -60,7 +60,6 @@ public class ComplianceWorkSearchValidatorTests
         // Arrange
         var model = new ComplianceWorkSearchDto
         {
-            FacilityId = SampleText.ValidFacilityId,
             EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
         };
 
@@ -70,6 +69,25 @@ public class ComplianceWorkSearchValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.EventDateFrom);
+        result.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
     }
+    [Test]
+    public async Task EventDateToIsBeforeEventDateFrom_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            EventDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+        };
+
+        // Act
+        var results = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
+    }
+
 }
