@@ -3,6 +3,7 @@
 ## [2026.5.12] - 2026-05-12
 
 - Prevent issuing an Enforcement Action if a review has been requested but not yet completed.
+- Don't show the "Submit review" button on Enforcement Actions if the Case File has been deleted.
 
 ## [2026.5.7] - 2026-05-07
 
@@ -123,5 +124,4 @@
 [2026.4.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.28
 [2026.5.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.5
 [2026.5.7]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.7
-
 [2026.5.12]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.12
