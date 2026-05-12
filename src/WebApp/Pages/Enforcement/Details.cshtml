@@ -530,14 +530,14 @@
                                             </ul>
                                         </div>
                                     </div>
-                                }
-                                @if (User.CanReview(action))
-                                {
-                                    <div class="col-auto d-print-none">
-                                        <a asp-page="SubmitReview" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-success">
-                                            Submit review
-                                        </a>
-                                    </div>
+                                    @if (User.CanReview(action))
+                                    {
+                                        <div class="col-auto d-print-none">
+                                            <a asp-page="SubmitReview" asp-route-id="@action.Id.ToString()" class="btn btn-sm btn-success">
+                                                Submit review
+                                            </a>
+                                        </div>
+                                    }
                                 }
                             </div>
                         </div>
