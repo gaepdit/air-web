@@ -141,4 +141,21 @@ public class ComplianceWorkSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
     }
+    [Test]
+    public async Task FacilityIdDoesNotExist_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            FacilityId = "00999999",
+        };
+
+        // Act
+        var results = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
 }
