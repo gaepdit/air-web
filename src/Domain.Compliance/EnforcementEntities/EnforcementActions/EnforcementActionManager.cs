@@ -42,14 +42,9 @@ public class EnforcementActionManager(
         responseRequested.ResponseComment = comment;
     }
 
-    public async Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public async Task UpdateStatusAsync(EnforcementAction action, ApplicationUser? user)
     {
-        if (action.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has been canceled.");
-
         action.SetUpdater(user?.Id);
-        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
-
         await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
     }
 
@@ -80,6 +75,9 @@ public class EnforcementActionManager(
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
+
+        if (action.IsUnderReview)
+            throw new InvalidOperationException("Enforcement Action requires a review before it can be issued.");
 
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;

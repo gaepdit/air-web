@@ -104,7 +104,7 @@ public sealed class EnforcementActionService(
                 .FindAsync<NovViewDto, NovNfaLetter>(id, mapper, token).ConfigureAwait(false),
             EnforcementActionType.ProposedConsentOrder => await actionRepository
                 .FindAsync<ProposedCoViewDto, ProposedConsentOrder>(id, mapper, token).ConfigureAwait(false),
-            _ => throw new InvalidOperationException("Unknown enforcement action type")
+            _ => throw new InvalidOperationException("Unknown enforcement action type"),
         };
 
     public async Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default) =>
@@ -121,44 +121,64 @@ public sealed class EnforcementActionService(
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {
         var entity = await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IssueDate.HasValue && resource.IssueDate.HasValue)
+            entity.IssueDate = resource.IssueDate;
+
         entity.Notes = resource.Notes;
-        entity.IssueDate = resource.IssueDate;
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, LetterOfNoncomplianceEditDto resource, CancellationToken token = default)
     {
         var entity = (LetterOfNoncompliance)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
-        entity.Notes = resource.Notes;
-        entity.IssueDate = resource.IssueDate;
-        entity.ResolvedDate = resource.ResolvedDate;
-        entity.ResponseRequested = resource.ResponseRequested;
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
+        mapper.Map(resource, entity);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, ConsentOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (ConsentOrder)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
         mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
     public async Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default)
     {
         var entity = (AdministrativeOrder)await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile)], token: token).ConfigureAwait(false);
+            .GetAsync(id, includeProperties: [nameof(EnforcementAction.CaseFile), nameof(EnforcementAction.Reviews)],
+                token: token).ConfigureAwait(false);
+
+        // Don't allow issued date to be changed from null to not-null or vice versa.
+        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
+        else resource.IssueDate = null;
+
         mapper.Map(resource, entity);
-        await FinishUpdateAsync(entity, resource.IssueDate, token).ConfigureAwait(false);
+        await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
-    private async Task FinishUpdateAsync(EnforcementAction entity, DateOnly? issueDate, CancellationToken token)
+    private async Task FinishUpdateAsync(EnforcementAction entity, CancellationToken token)
     {
-        await actionManager.SetIssuedStatusAsync(entity, issueDate,
+        await actionManager.UpdateStatusAsync(entity,
             await userService.GetCurrentUserAsync().ConfigureAwait(false)).ConfigureAwait(false);
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }

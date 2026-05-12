@@ -30,7 +30,7 @@ public record ConsentOrderCommandDto : NotesDto
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
-    public DateOnly? IssueDate { get; init; }
+    public DateOnly? IssueDate { get; set; }
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
