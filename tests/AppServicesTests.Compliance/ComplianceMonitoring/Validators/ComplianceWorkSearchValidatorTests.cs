@@ -10,17 +10,22 @@ public class ComplianceWorkSearchValidatorTests
 {
     private IFacilityService _service = null!;
     private ComplianceWorkValidator _sut;
+    private IFacilityService _serviceFalse = null!;
+    private ComplianceWorkValidator _sutFalse;
 
     [SetUp]
     public void SetUp()
     {
         // Arrange
         _service = Substitute.For<IFacilityService>();
-
         _service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
-
         _sut = new ComplianceWorkValidator(_service);
+
+        _serviceFalse = Substitute.For<IFacilityService>();
+        _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
+            .Returns(false);
+        _sutFalse = new ComplianceWorkValidator(_serviceFalse);
     }
 
     [Test]
@@ -150,16 +155,13 @@ public class ComplianceWorkSearchValidatorTests
     public async Task FacilityIdDoesNotExist_ReturnsAsInvalid()
     {
         // Arrange
-        _service.ExistsAsync(Arg.Any<FacilityId>())
-            .Returns(false);
-
         var model = new ComplianceWorkSearchDto
         {
             FacilityId = "00999999",
         };
 
         // Act
-        var results = await _sut.TestValidateAsync(model);
+        var results = await _sutFalse.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
