@@ -4,6 +4,16 @@ using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.Domain.Core.Data;
 
+public record Sic
+{
+    [Key, StringLength(4)]
+    public required string Code { get; init; }
+
+    public required string Description { get; init; }
+    public bool Active { get; init; } = true;
+    public string Display => $"{Code} – {Description}{(Active ? "" : " [Inactive]")}";
+}
+
 public static class SicData
 {
     public static bool Exists(string code) => Sics.Any(sicCode => sicCode.Code == code && sicCode.Active);

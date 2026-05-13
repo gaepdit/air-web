@@ -1,4 +1,5 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.Domain.Core.Data;
 using IaipDataService.Facilities;
 using System.Text.Json;
 
@@ -9,6 +10,7 @@ public class MapModel(IFacilityService service) : PageModel
 {
     public IReadOnlyCollection<FacilitySummary> Facilities { get; private set; } = null!;
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities);
+    public static List<CityLocation> CityLocations => CityLocationData.GetAll;
 
     [TempData]
     public bool RefreshIaipData { get; set; }

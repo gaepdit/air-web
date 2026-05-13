@@ -1,18 +1,18 @@
 function initMap() {
     // Initialize the map.
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: 'Map data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         detectRetina: true,
         className: 'map-tiles',
     });
-    const map = L.map('facility-map', { center: [32.9, -83.3], zoom: 7, layers: [tiles] });
+    const map = L.map('facility-map', {center: [32.9, -83.3], zoom: 7, layers: [tiles]});
 
     // Fix the marker icon path.
     L.Icon.Default.prototype.options.imagePath = '/lib/leaflet/dist/images/';
 
     map.whenReady(function () {
         // Add a location control.
-        L.control.locate({ initialZoomLevel: 13, onLocationError: showAlert }).addTo(map);
+        L.control.locate({initialZoomLevel: 13, onLocationError: showAlert}).addTo(map);
         map.on('locateactivate', removeAlert);
 
         // Enable permalinks.
@@ -26,7 +26,7 @@ function initMap() {
         // Add markers for facilities with geocoordinates.
         const markers = L.markerClusterGroup({
             chunkedLoading: true,
-            spiderLegPolylineOptions: { weight: 2, color: '#1d78c9', opacity: 0.5 },
+            spiderLegPolylineOptions: {weight: 2, color: '#1d78c9', opacity: 0.5},
         });
         for (const f of facilities) if (f.GeoCoordinates) markers.addLayer(newMarker(f));
         map.addLayer(markers);
@@ -64,9 +64,19 @@ function newMarker(f) {
         `<div>${f.Location}</div>` +
         `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
         '</div>';
-    const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], { title: f.Name });
+    const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], {title: f.Name});
     marker.bindPopup(info);
     return marker;
 }
 
 initMap();
+
+function initCitySelector() {
+    const citySelector = document.getElementById('city-selector');
+    citySelector.addEventListener('change', function () {
+        const selectedView = citySelector.value;
+        if (selectedView) globalThis.location.hash = selectedView;
+    });
+}
+
+initCitySelector();
