@@ -70,3 +70,13 @@ function newMarker(f) {
 }
 
 initMap();
+
+function initCitySelector() {
+    const citySelector = document.getElementById('city-selector');
+    citySelector.addEventListener('change', function () {
+        const selectedView = citySelector.value;
+        if (selectedView) window.location.href = selectedView;
+    });
+}
+
+initCitySelector();

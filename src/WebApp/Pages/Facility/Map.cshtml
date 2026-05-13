@@ -19,6 +19,25 @@
     latitude/longitude data. Portable sources (county code 777) are excluded. If location data is incorrect or missing,
     it can be corrected in the IAIP.
 </p>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mb-3 d-md-inline-block">
+    <div class="row row-cols-sm-auto align-items-center d-print-none">
+        <div>
+            <label for="city-selector" class="col-form-label">Zoom to:</label>
+        </div>
+        <div>
+            <select id="city-selector" class="form-select" aria-label="Zoom the map to a specific city">
+                <option value="#32.9,-83.3,7z">State of Georgia</option>
+                <hr />
+                @foreach (var city in MapModel.CityLocations)
+                {
+                    <option value="#@(city.Location)">@city.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
 <div id="facility-map" class="border border-secondary"></div>
 
 @section Scripts {

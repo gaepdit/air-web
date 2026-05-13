@@ -558,7 +558,7 @@ svg:not(:root) {
 /* Facility Map
 -------------------------------------------------- */
 #facility-map {
-    height: calc(90vh - 2rem);
+    height: calc(90vh - 4rem);
 }
 
 #single-facility-map {
