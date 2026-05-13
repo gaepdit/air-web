@@ -16,6 +16,10 @@ public class ComplianceWorkSearchValidatorTests
     {
         // Arrange
         _service = Substitute.For<IFacilityService>();
+
+        _service.ExistsAsync(Arg.Any<FacilityId>())
+            .Returns(true);
+
         _sut = new ComplianceWorkValidator(_service);
     }
 
@@ -33,10 +37,11 @@ public class ComplianceWorkSearchValidatorTests
         // Act
         var result = await _sut.TestValidateAsync(model);
 
-
         // Assert
         result.IsValid.Should().BeTrue();
     }
+
+
     [Test]
     public async Task EventDateFromInFuture_ReturnsAsInvalid()
     {
@@ -145,6 +150,9 @@ public class ComplianceWorkSearchValidatorTests
     public async Task FacilityIdDoesNotExist_ReturnsAsInvalid()
     {
         // Arrange
+        _service.ExistsAsync(Arg.Any<FacilityId>())
+            .Returns(false);
+
         var model = new ComplianceWorkSearchDto
         {
             FacilityId = "00999999",
