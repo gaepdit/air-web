@@ -2,13 +2,23 @@
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
 
 public class ComplianceWorkSearchValidatorTests
 {
-    private readonly IFacilityService _service;
-    private readonly ComplianceWorkValidator _validator;
+    private IFacilityService _service = null!;
+    private ComplianceWorkValidator _sut = null;
+
+    [SetUp]
+    public void SetUp()
+    {
+        // Arrange
+        _service = Substitute.For<IFacilityService>();
+        _service.ExistsAsync(Arg.Any<FacilityId>()).Returns(true);
+        _sut = new ComplianceWorkValidator(_service);
+    }
 
     public ComplianceWorkSearchValidatorTests()
     {
