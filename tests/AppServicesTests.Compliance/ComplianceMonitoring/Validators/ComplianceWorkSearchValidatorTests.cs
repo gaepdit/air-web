@@ -9,25 +9,14 @@ namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
 public class ComplianceWorkSearchValidatorTests
 {
     private IFacilityService _service = null!;
-    private ComplianceWorkValidator _sut = null;
+    private ComplianceWorkValidator _sut;
 
     [SetUp]
     public void SetUp()
     {
         // Arrange
         _service = Substitute.For<IFacilityService>();
-        _service.ExistsAsync(Arg.Any<FacilityId>()).Returns(true);
         _sut = new ComplianceWorkValidator(_service);
-    }
-
-    public ComplianceWorkSearchValidatorTests()
-    {
-        _service = Substitute.For<IFacilityService>();
-
-        _service.ExistsAsync(Arg.Any<FacilityId>())
-            .Returns(true);
-
-        _validator = new ComplianceWorkValidator(_service);
     }
 
     [Test]
@@ -42,7 +31,8 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await _sut.TestValidateAsync(model);
+
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -57,7 +47,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -74,7 +64,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -92,7 +82,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var results = await _validator.TestValidateAsync(model);
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -109,7 +99,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -126,7 +116,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var result = await _validator.TestValidateAsync(model);
+        var result = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -144,7 +134,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var results = await _validator.TestValidateAsync(model);
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
@@ -161,7 +151,7 @@ public class ComplianceWorkSearchValidatorTests
         };
 
         // Act
-        var results = await _validator.TestValidateAsync(model);
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
