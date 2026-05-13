@@ -1,7 +1,7 @@
 function initMap() {
     // Initialize the map.
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data from <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: 'Map data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         detectRetina: true,
         className: 'map-tiles',
     });
