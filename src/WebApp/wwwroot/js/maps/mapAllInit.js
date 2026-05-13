@@ -75,7 +75,7 @@ function initCitySelector() {
     const citySelector = document.getElementById('city-selector');
     citySelector.addEventListener('change', function () {
         const selectedView = citySelector.value;
-        if (selectedView) window.location.hash = selectedView;
+        if (selectedView) globalThis.location.hash = selectedView;
     });
 }
 
