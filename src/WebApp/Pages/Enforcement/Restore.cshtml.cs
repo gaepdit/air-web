@@ -6,7 +6,7 @@ using AirWeb.WebApp.Models;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
-[Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
+[Authorize(Policy = nameof(CompliancePolicies.UserCanManageCaseFileDeletions))]
 public class RestoreModel(ICaseFileService service) : PageModel
 {
     [FromRoute]

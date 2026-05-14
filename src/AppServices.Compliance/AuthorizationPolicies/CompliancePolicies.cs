@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
-using AirWeb.AppServices.Compliance.Compliance.Fces;
+﻿using AirWeb.AppServices.Compliance.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.AppServices.Core.AuthorizationServices;
@@ -19,7 +18,8 @@ public static class CompliancePolicies
             .AddPolicy(nameof(EnforcementReviewer), EnforcementReviewer)
             .AddPolicy(nameof(EnforcementManager), EnforcementManager)
             .AddPolicy(nameof(ComplianceSiteMaintainer), ComplianceSiteMaintainer)
-            .AddPolicy(nameof(UserCanManageComplianceDeletions), UserCanManageComplianceDeletions);
+            .AddPolicy(nameof(UserCanManageComplianceDeletions), UserCanManageComplianceDeletions)
+            .AddPolicy(nameof(UserCanManageCaseFileDeletions), UserCanManageCaseFileDeletions);
 
         // Requirements are added as scoped if they consume scoped services; otherwise as singletons.
         services
@@ -32,6 +32,7 @@ public static class CompliancePolicies
     }
 
     // Role-based policies
+
     public static AuthorizationPolicy ComplianceStaff { get; } = Policies.ActiveUserPolicyBuilder
         .RequireAssertion(context => context.User.IsComplianceStaff()).Build();
 
@@ -48,6 +49,10 @@ public static class CompliancePolicies
         .RequireRole(ComplianceRole.ComplianceSiteMaintenance).Build();
 
     // Permissions-based policies
+
     public static AuthorizationPolicy UserCanManageComplianceDeletions { get; } = Policies.ActiveUserPolicyBuilder
         .RequireAssertion(context => context.User.CanManageDeletions()).Build();
+
+    public static AuthorizationPolicy UserCanManageCaseFileDeletions { get; } = Policies.ActiveUserPolicyBuilder
+        .RequireAssertion(context => context.User.CanManageCaseFileDeletions()).Build();
 }

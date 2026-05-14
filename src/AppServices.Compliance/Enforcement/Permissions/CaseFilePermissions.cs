@@ -12,7 +12,7 @@ public static class CaseFilePermissions
     extension(ClaimsPrincipal user)
     {
         public bool CanViewCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
-            user.CanManageCaseFileDeletions() || !item.IsDeleted && (user.IsComplianceStaff() || user.IsStaff());
+            user.CanManageCaseFileDeletions() || !item.IsDeleted && (user.IsManager() || user.IsStaff());
 
         public bool CanCloseCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
             item is { IsClosed: false, IsDeleted: false } && user.IsEnforcementManager();
