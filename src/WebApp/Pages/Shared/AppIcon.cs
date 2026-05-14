@@ -8,6 +8,7 @@ public enum AppIcon
     CheckMark,
     DarkMode,
     Download,
+    FindBy,
     GeoPin,
     GoBack,
     InfoIcon,
