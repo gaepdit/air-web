@@ -18,8 +18,7 @@ public class FceIndexModel(
     IFceSearchService searchService,
     IFceService fceService,
     IStaffService staff,
-    IOfficeService offices,
-    IAuthorizationService authorization) : PageModel
+    IOfficeService offices) : PageModel
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter an FCE ID.")]
