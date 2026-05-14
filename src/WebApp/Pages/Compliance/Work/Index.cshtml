@@ -1,4 +1,4 @@
-@page "{handler?}"
+﻿@page "{handler?}"
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search
 @using AirWeb.AppServices.Core.Search
 @using AirWeb.WebApp.Pages.Shared
@@ -64,11 +64,15 @@
                                 <input asp-for="Spec.EventDateFrom" name="@nameof(Model.Spec.EventDateFrom)"
                                        class="form-control" />
                                 <label asp-for="Spec.EventDateFrom" class="form-label"></label>
+                                <span asp-validation-for="Spec.EventDateFrom" class="invalid-feedback"></span>
+
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.EventDateTo" name="@nameof(Model.Spec.EventDateTo)"
                                        class="form-control" />
                                 <label asp-for="Spec.EventDateTo" class="form-label"></label>
+                                <span asp-validation-for="Spec.EventDateTo" class="invalid-feedback"></span>
+
                             </div>
                         </div>
                     </div>
@@ -81,11 +85,13 @@
                                 <input asp-for="Spec.ClosedDateFrom" name="@nameof(Model.Spec.ClosedDateFrom)"
                                        class="form-control" />
                                 <label asp-for="Spec.ClosedDateFrom" class="form-label"></label>
+                                <span asp-validation-for="Spec.ClosedDateFrom" class="invalid-feedback"></span>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.ClosedDateTo" name="@nameof(Model.Spec.ClosedDateTo)"
                                        class="form-control" />
                                 <label asp-for="Spec.ClosedDateTo" class="form-label"></label>
+                                <span asp-validation-for="Spec.ClosedDateTo" class="invalid-feedback"></span>
                             </div>
                         </div>
                     </div>
