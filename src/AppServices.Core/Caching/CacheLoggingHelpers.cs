@@ -26,7 +26,7 @@ public static class CacheLoggingHelpers
             TimeSpan expiration, ILogger logger, string? tag = null, CancellationToken token = default)
         {
             logger.ZLogInformation(AirWebCacheHit, $"Cache search for key: {key}");
-            string[]? tags = string.IsNullOrEmpty(tag) ? null : [tag];
+            IEnumerable<string>? tags = string.IsNullOrEmpty(tag) ? null : [tag];
 
             return await cache.GetOrCreateAsync(key, factory: async ct =>
             {

@@ -7,14 +7,8 @@ public interface IFacilityService
     /// </summary>
     /// <param name="id">The Facility ID.</param>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
-    Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false);
-
-    /// <summary>
-    /// Gets full facility details for the facility with the given facility ID.
-    /// </summary>
-    /// <param name="id">The Facility ID.</param>
-    /// <param name="forceRefresh">Whether to refresh cached data.</param>
-    Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false);
+    /// <param name="token"></param>
+    Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false, CancellationToken token = default);
 
     /// <summary>
     /// Gets the name of the facility with the given facility ID.
@@ -39,6 +33,7 @@ public interface IFacilityService
     /// </summary>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
     /// <param name="includePortableSources">Whether to include Portable Sources (county code of "777").</param>
+    /// <param name="token"></param>
     Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
-        bool includePortableSources = true);
+        bool includePortableSources = true, CancellationToken token = default);
 }

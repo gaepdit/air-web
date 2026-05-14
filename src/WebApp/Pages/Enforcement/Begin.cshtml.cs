@@ -45,7 +45,7 @@ public class BeginModel(
     {
         if (FacilityId == null || EventId == 0) return RedirectToPage("Index");
 
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
         if (Facility is null) return NotFound(FacilityIdNotFound);
 
         if (EventId != null)
@@ -78,7 +78,7 @@ public class BeginModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilityAsync((FacilityId)NewCaseFile.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)NewCaseFile.FacilityId, token: token);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
             if (EventId != null)

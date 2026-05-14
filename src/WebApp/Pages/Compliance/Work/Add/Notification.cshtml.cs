@@ -23,7 +23,7 @@ public class NotificationAddModel(
 
     public SelectList NotificationTypeSelectList { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         WorkType = ComplianceWorkType.Notification;
 
@@ -33,7 +33,7 @@ public class NotificationAddModel(
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
         };
 
-        return await DoGetAsync();
+        return await DoGetAsync(token);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

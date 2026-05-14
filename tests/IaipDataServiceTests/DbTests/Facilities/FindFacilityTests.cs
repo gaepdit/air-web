@@ -10,9 +10,8 @@ public class FindFacilityTests
     public void SetUp()
     {
         // Arrange
-        using var cache = Substitute.For<IMemoryCache>();
-        var logger = Substitute.For<ILogger<IaipFacilityService>>();
-        _sut = new IaipFacilityService(Config.DbConnectionFactory!, cache, logger);
+        _sut = new IaipFacilityService(Config.DbConnectionFactory!, Setup.FakeCache!,
+            Substitute.For<ILogger<IaipFacilityService>>());
     }
 
     [Test]

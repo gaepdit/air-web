@@ -18,7 +18,8 @@ public class IndexModel : PageModel
         [FromServices] ISourceTestService sourceTestService,
         [FromServices] IAuthorizationService authorizationService,
         [FromRoute] int referenceNumber,
-        [FromQuery] bool includeConfidentialInfo = false)
+        [FromQuery] bool includeConfidentialInfo = false,
+        CancellationToken token = default)
     {
         if (includeConfidentialInfo)
         {
@@ -26,7 +27,7 @@ public class IndexModel : PageModel
             if (!activeUser) return Challenge();
         }
 
-        Report = await sourceTestService.FindAsync(referenceNumber);
+        Report = await sourceTestService.FindAsync(referenceNumber, token);
         if (Report?.Facility == null) return NotFound();
 
         Report = includeConfidentialInfo ? Report : Report.RedactedStackTestReport();

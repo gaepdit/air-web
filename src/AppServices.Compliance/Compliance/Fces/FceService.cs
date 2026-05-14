@@ -98,7 +98,7 @@ public sealed class FceService(
                 .ConfigureAwait(false),
         };
 
-        await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
+        await FillStackTestDataAsync(summary.SourceTests, token).ConfigureAwait(false);
 
         return cache.Set(summary, cacheKey, FceSupportingDataCacheTime, logger);
 
@@ -114,7 +114,8 @@ public sealed class FceService(
         var cacheKey = $"FceSupportingDetails.{facilityId}.{completedDate:yyyy-MM-dd}";
         var printoutCacheKey = $"FceSupportingPrintout.{facilityId}.{completedDate:yyyy-MM-dd}";
 
-        if (forceRefresh) cache.RemoveAll([cacheKey, printoutCacheKey]);
+        if (forceRefresh)
+            cache.RemoveAll([cacheKey, printoutCacheKey]);
         else if (cache.TryGetValue(cacheKey, logger, out SupportingDataDetails? cachedValue))
             return cachedValue;
 
@@ -151,11 +152,12 @@ public sealed class FceService(
         return cache.Set(details, cacheKey, FceSupportingDataCacheTime, logger);
     }
 
-    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
+    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests, CancellationToken token)
     {
         foreach (var test in tests.Where(test => test.ReferenceNumber != null))
         {
-            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value).ConfigureAwait(false);
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value, token: token)
+                .ConfigureAwait(false);
             test.AddDetails(summary);
         }
     }

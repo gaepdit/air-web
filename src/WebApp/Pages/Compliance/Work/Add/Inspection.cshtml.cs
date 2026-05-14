@@ -19,7 +19,7 @@ public class InspectionAddModel(
     [BindProperty]
     public InspectionCreateDto Item { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync(bool isRmp = false)
+    public async Task<IActionResult> OnGetAsync(bool isRmp = false, CancellationToken token = default)
     {
         WorkType = isRmp ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
 
@@ -32,7 +32,7 @@ public class InspectionAddModel(
             FacilityOperating = isRmp,
         };
 
-        return await DoGetAsync();
+        return await DoGetAsync(token);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

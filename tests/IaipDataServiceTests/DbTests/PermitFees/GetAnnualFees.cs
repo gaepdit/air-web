@@ -11,9 +11,8 @@ public class GetAnnualFees
     public void SetUp()
     {
         // Arrange
-        using var cache = Substitute.For<IMemoryCache>();
-        var facilityServiceLogger = Substitute.For<ILogger<IaipFacilityService>>();
-        var facilityService = new IaipFacilityService(Config.DbConnectionFactory!, cache, facilityServiceLogger);
+        var facilityService = new IaipFacilityService(Config.DbConnectionFactory!, Setup.FakeCache!,
+            Substitute.For<ILogger<IaipFacilityService>>());
         _sut = new IaipPermitFeesService(facilityService, Config.DbConnectionFactory!);
     }
 

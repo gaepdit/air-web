@@ -6,7 +6,8 @@ public sealed class TestFacilityService : IFacilityService
 {
     internal IReadOnlyCollection<Facility> Items { get; } = [.. FacilityData.GetData];
 
-    public Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false) =>
+    public Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false,
+        CancellationToken token = default) =>
         FindFacility(id);
 
     public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
@@ -17,7 +18,7 @@ public sealed class TestFacilityService : IFacilityService
 
     public async Task<string> GetNameAsync(string id) =>
         (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.FacilityId == id)?.Name ??
-            throw new InvalidOperationException("Facility not found.");
+        throw new InvalidOperationException("Facility not found.");
 
     public Task<bool> ExistsAsync(FacilityId id) =>
         Task.FromResult(Items.Any(facility => facility.Id == id));
@@ -31,7 +32,7 @@ public sealed class TestFacilityService : IFacilityService
     }
 
     public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
-        bool includePortableSources = true) =>
+        bool includePortableSources = true, CancellationToken token = default) =>
         Task.FromResult(Items
             .Where(f => includePortableSources || f.Id.CountyCode != "777")
             .Select(f => new FacilitySummary(f))

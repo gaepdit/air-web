@@ -13,7 +13,7 @@ public class MapModel(IFacilityService service) : PageModel
     [TempData]
     public bool RefreshIaipData { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
         if (refresh)
         {
@@ -21,7 +21,7 @@ public class MapModel(IFacilityService service) : PageModel
             return RedirectToPage();
         }
 
-        Facilities = await service.GetAllAsync(forceRefresh: RefreshIaipData, includePortableSources: false);
+        Facilities = await service.GetAllAsync(RefreshIaipData, includePortableSources: false, token);
         return Page();
     }
 }

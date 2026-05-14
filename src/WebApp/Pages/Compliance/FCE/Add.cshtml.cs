@@ -34,10 +34,10 @@ public class AddModel(
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (FacilityId is null) return NotFound(FacilityIdNotFound);
-        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound(FacilityIdNotFound);
@@ -55,7 +55,7 @@ public class AddModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId, token: token);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
             await PopulateSelectListsAsync();

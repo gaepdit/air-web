@@ -66,7 +66,7 @@ public class DetailsModel(
             return RedirectToPage();
         }
 
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData, token);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -124,7 +124,7 @@ public class DetailsModel(
             ReferenceNumber != newComplianceReview.ReferenceNumber)
             return BadRequest();
 
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         await SetPermissionsAsync(token);
@@ -186,7 +186,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -219,7 +219,7 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);

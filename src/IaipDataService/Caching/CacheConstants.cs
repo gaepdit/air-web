@@ -1,4 +1,4 @@
-﻿namespace IaipDataService.Utilities;
+﻿namespace IaipDataService.Caching;
 
 public static class CacheConstants
 {
@@ -7,5 +7,4 @@ public static class CacheConstants
     public static TimeSpan FacilityListExpiration { get; } = TimeSpan.FromDays(1);
     public static TimeSpan SourceTestExpiration { get; } = TimeSpan.FromDays(1);
     public static TimeSpan SourceTestListExpiration { get; } = TimeSpan.FromDays(1);
-    public static TimeSpan FeesSummaryExpiration { get; } = TimeSpan.FromDays(1);
 }

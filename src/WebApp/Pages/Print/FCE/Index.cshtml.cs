@@ -20,7 +20,7 @@ public class IndexModel : PageModel
         FceView = await fceService.FindAsync(id, token);
         if (FceView == null || FceView.IsDeleted) return NotFound();
 
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FceView.FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FceView.FacilityId, token: token);
         if (Facility == null) return NotFound();
 
         SupportingData = await fceService.GetSupportingPrintoutDataAsync(Facility.Id, FceView.CompletedDate, token);

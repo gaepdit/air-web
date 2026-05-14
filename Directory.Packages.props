@@ -22,7 +22,6 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.7" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.5.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="10.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.7" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
