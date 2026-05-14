@@ -1,11 +1,11 @@
 using AirWeb.AppServices.Compliance.Comments;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Query;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews;
-using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
+namespace AirWeb.AppServices.Compliance.Compliance.Permissions;
 
 internal class ComplianceWorkRequirementsHandler(IComplianceWorkService service) :
     AuthorizationHandler<ComplianceOperation, IComplianceWorkSummaryDto>
@@ -37,8 +37,7 @@ internal class ComplianceWorkRequirementsHandler(IComplianceWorkService service)
 
     private async Task<bool> CanRestoreAsync(ClaimsPrincipal user, IComplianceWorkSummaryDto item) =>
         user.CanRestore(item) &&
-        (item is not SourceTestReviewViewDto dto || (dto.ReferenceNumber != null &&
-                                                     !await service
-                                                         .SourceTestReviewExistsAsync(dto.ReferenceNumber.Value)
-                                                         .ConfigureAwait(false)));
+        (item is not SourceTestReviewViewDto dto ||
+         (dto.ReferenceNumber != null &&
+          !await service.SourceTestReviewExistsAsync(dto.ReferenceNumber.Value).ConfigureAwait(false)));
 }
