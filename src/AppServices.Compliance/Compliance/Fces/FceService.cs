@@ -232,8 +232,8 @@ public sealed class FceService(
     public Task<bool> ExistsAsync(FacilityId facilityId, int year, int currentId, CancellationToken token = default) =>
         fceRepository.ExistsAsync(facilityId, year, currentId, token);
 
-    public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
-        fceRepository.ExistsAsync(id, token);
+    public Task<bool> ExistsAsync(int id, bool includeDeleted, CancellationToken token = default) =>
+        fceRepository.ExistsAsync(fce => fce.Id.Equals(id) && (!fce.IsDeleted || includeDeleted), token);
 
     public async Task<CreateResult<Guid>> AddCommentAsync(int itemId, CommentAddDto resource,
         CancellationToken token = default)
