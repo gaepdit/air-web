@@ -42,9 +42,6 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
         if (FceView is null) return NotFound();
 
         await SetPermissionsAsync();
-
-        // FUTURE: Replace with ComplianceOperation.View? See Case File permissions for example. 
-        //   And see `CompliancePermissions.CanView` for use.
         if (FceView.IsDeleted && !UserCan[ComplianceOperation.ViewDeleted]) return NotFound();
 
         SupportingData = await fceService.GetSupportingDetailsAsync((FacilityId)FceView.FacilityId,

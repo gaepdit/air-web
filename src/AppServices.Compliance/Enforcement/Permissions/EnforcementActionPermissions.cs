@@ -37,6 +37,7 @@ public static class EnforcementActionPermissions
             item is { ActionType: EnforcementActionType.ConsentOrder, IsUnderReview: false }
                 and IIsExecuted { IsExecuted: true };
 
+        // Finalize = Issue or Cancel
         public bool CanFinalizeAction(IActionViewDto item) =>
             user.CanEdit(item) &&
             item is { IsIssued: false, IsUnderReview: false } &&
@@ -71,6 +72,4 @@ public static class EnforcementActionPermissions
         private bool IsReviewerFor(IActionViewDto item) =>
             item.CurrentReviewer != null && item.CurrentReviewer.Id.Equals(user.GetNameIdentifierId());
     }
-
-    // Finalize = Issue or Cancel
 }
