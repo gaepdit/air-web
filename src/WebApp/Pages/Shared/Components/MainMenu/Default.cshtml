@@ -87,6 +87,19 @@
                                     }
                                 </ul>
                             </li>
+
+                            <li class="nav-item dropdown">
+                                <button class="nav-link icon-link"
+                                        type="button"
+                                        data-bs-toggle="offcanvas"
+                                        data-bs-target="#findByIdNav"
+                                        aria-controls="findByIdNav"
+                                        aria-label="Toggle form to find work by ID"
+                                        title="Find By ID">
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
+                                    Find By ID
+                                </button>
+                            </li>
                         </ul>
                     }
                 </div>
@@ -201,5 +214,68 @@
                 <li class="nav-item"><a class="nav-link px-1" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
             </ul>
         </nav>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end pt-4" tabindex="-1" id="findByIdNav">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="findByIdNavLabel">Find By ID</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Facility/Index" method="post">
+                <div class="input-group input-group-sm">
+                    <label for="FindIdFacility" class="input-group-text">Facility</label>
+                    <input id="FindIdFacility" class="form-control form-control-sm" type="search" placeholder="Enter AIRS #"
+                           aria-label="Find Compliance Work" data-val="true" data-val-required="Enter a Facility ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/Work/Index" method="post">
+                <div class="input-group input-group-sm">
+                    <label for="FindIdCompliance" class="input-group-text">Compliance</label>
+                    <input id="FindIdCompliance" class="form-control form-control-sm" type="search" placeholder="Enter Compliance ID"
+                           aria-label="Find Compliance Work" data-val="true" data-val-required="Enter a Compliance ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/FCE/Index" method="post">
+                <div class="input-group input-group-sm">
+                    <label for="FindIdFce" class="input-group-text">FCE</label>
+                    <input id="FindIdFce" class="form-control form-control-sm" type="search" placeholder="Enter FCE ID"
+                           aria-label="Find an FCE" data-val="true" data-val-required="Enter an FCE ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Enforcement/Index" method="post">
+                <div class="input-group input-group-sm">
+                    <label for="FindIdEnforcement" class="input-group-text">Case File</label>
+                    <input id="FindIdEnforcement" class="form-control form-control-sm" type="search" placeholder="Enter Case File ID"
+                           aria-label="Find an Enforcement Case" data-val="true" data-val-required="Enter a Case File ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/SourceTest/Index" method="post">
+                <div class="input-group input-group-sm">
+                    <label for="FindIdSourceTest" class="input-group-text">Source Test</label>
+                    <input id="FindIdSourceTest" class="form-control form-control-sm" type="search" placeholder="Enter Reference Number"
+                           aria-label="Find a Source Test" data-val="true" data-val-required="Enter a Source Test Reference Number" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
