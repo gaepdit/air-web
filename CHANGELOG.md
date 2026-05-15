@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.5.15] - 2026-05-15
+
+- Fix an issue that prevented FCEs from being deleted.
+- Add a quick-find menu for facilities and work items.
+
 ## [2026.5.13] - 2026-05-13
 
 - Add a city dropdown to the facility map page.
@@ -130,3 +135,4 @@
 [2026.5.7]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.7
 [2026.5.12]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.12
 [2026.5.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.13
+[2026.5.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.15
