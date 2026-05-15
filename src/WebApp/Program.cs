@@ -13,7 +13,7 @@ using ZLogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure logging
+// Configure logging.
 builder.Logging.ClearProviders().AddZLoggerConsole(options => options.UseJsonFormatter());
 
 // Configure basic settings.
@@ -31,8 +31,11 @@ builder.Services
     .AddAppServices()
     .AddIdentityStores()
     .AddAutoMapperProfiles()
-    .AddEmailService().AddApiDocumentation()
-    .AddWebOptimizer().AddMemoryCache().AddOrgNotifications();
+    .AddEmailService()
+    .AddApiDocumentation()
+    .AddWebOptimizer()
+    .AddCaching()
+    .AddOrgNotifications();
 
 // Add compliance/enforcement services.
 builder.Services

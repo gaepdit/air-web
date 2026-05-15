@@ -44,7 +44,7 @@ public class EditModel(
         ItemView = itemView;
         Item = new CaseFileUpdateDto(ItemView);
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
@@ -57,7 +57,7 @@ public class EditModel(
         if (!ModelState.IsValid)
         {
             ItemView = itemView;
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -66,12 +66,13 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task PopulateSelectListsAsync()
+    private async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
-            nameof(ViolationType.Code), nameof(ViolationType.Display),
-            null, nameof(ViolationType.SeverityDisplay));
+            dataValueField: nameof(ViolationType.Code), dataTextField: nameof(ViolationType.Display),
+            selectedValue: null, dataGroupField: nameof(ViolationType.SeverityDisplay));
     }
 }

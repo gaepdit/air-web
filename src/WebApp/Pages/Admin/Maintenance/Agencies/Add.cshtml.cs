@@ -13,7 +13,7 @@ public class AddModel : AddBase
 
     public void OnGet()
     {
-        ThisOption = MaintenanceOption.Agency;
+        ThisOption = MaintenanceOption.SbeapAgency;
         Item = new AgencyCreateDto();
     }
 
@@ -21,7 +21,7 @@ public class AddModel : AddBase
         [FromServices] IAgencyService service,
         [FromServices] IValidator<AgencyCreateDto> validator)
     {
-        ThisOption = MaintenanceOption.Agency;
+        ThisOption = MaintenanceOption.SbeapAgency;
         return await DoPostAsync(service, validator, Item);
     }
 }

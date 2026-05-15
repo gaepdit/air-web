@@ -11,14 +11,16 @@
 </p>
 
 <div class="list-group">
-    <a asp-page="./ActionItemTypes/Index" class="list-group-item list-group-item-action">
-        @MaintenanceOption.ActionItemType.PluralName
-    </a>
-    <a asp-page="./Agencies/Index" class="list-group-item list-group-item-action">
-        @MaintenanceOption.Agency.PluralName
-    </a>
     <a asp-page="./NotificationTypes/Index" class="list-group-item list-group-item-action">
         @MaintenanceOption.NotificationType.PluralName
     </a>
-    <a asp-page="./Offices/Index" class="list-group-item list-group-item-action">@MaintenanceOption.Office.PluralName</a>
+    <a asp-page="./Offices/Index" class="list-group-item list-group-item-action">
+        @MaintenanceOption.Office.PluralName
+    </a>
+    <a asp-page="./ActionItemTypes/Index" class="list-group-item list-group-item-action">
+        @MaintenanceOption.SbeapActionItemType.PluralName
+    </a>
+    <a asp-page="./Agencies/Index" class="list-group-item list-group-item-action">
+        @MaintenanceOption.SbeapAgency.PluralName
+    </a>
 </div>

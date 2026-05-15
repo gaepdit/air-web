@@ -79,10 +79,10 @@ public class EnforcementIndexModel(
 
     private async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        StaffSelectList = staff.GetAllStaff().ToSelectList();
-        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
+        StaffSelectList = (await staff.GetAllStaffAsync(token)).ToSelectList();
+        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token)).ToSelectList();
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetAll(),
-            nameof(ViolationType.Code), nameof(ViolationType.Display),
-            null, nameof(ViolationType.Current));
+            dataValueField: nameof(ViolationType.Code), dataTextField: nameof(ViolationType.Display),
+            selectedValue: null, dataGroupField: nameof(ViolationType.Current));
     }
 }

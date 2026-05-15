@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Core.AutoMapper;
 using AutoMapper;
 using AwesomeAssertions.Extensions;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace AppServicesTests.Sbeap;
 
@@ -9,6 +10,7 @@ public class Setup
 {
     internal static IMapper? Mapper;
     internal static MapperConfiguration? MapperConfiguration;
+    internal static HybridCache? FakeCache;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
@@ -21,6 +23,9 @@ public class Setup
         });
 
         Mapper = MapperConfiguration.CreateMapper();
+
+        // Add Fake HybridCache
+        FakeCache = new FakeHybridCache();
 
         // Configure assertion equivalency 
         AssertionConfiguration.Current.Equivalency.Modify(options => options

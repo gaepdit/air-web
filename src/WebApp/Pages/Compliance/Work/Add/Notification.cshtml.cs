@@ -23,7 +23,7 @@ public class NotificationAddModel(
 
     public SelectList NotificationTypeSelectList { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         WorkType = ComplianceWorkType.Notification;
 
@@ -33,7 +33,7 @@ public class NotificationAddModel(
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
         };
 
-        return await DoGetAsync();
+        return await DoGetAsync(token);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
@@ -42,9 +42,9 @@ public class NotificationAddModel(
         return await DoPostAsync(Item, service, validator, token);
     }
 
-    protected override async Task PopulateSelectListsAsync()
+    protected override async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        await base.PopulateSelectListsAsync();
-        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
+        await base.PopulateSelectListsAsync(token);
+        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync(token: token)).ToSelectList();
     }
 }

@@ -2,6 +2,7 @@ using IaipDataService.Facilities;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IaipDataService.SourceTests.Models;
 
@@ -30,9 +31,11 @@ public record SourceTestSummary
     [Display(Name = "Reference Number")]
     public int ReferenceNumber { get; init; }
 
-    private ReportType ReportType { get; init; }
+    [JsonInclude]
+    internal ReportType ReportType { get; init; }
 
-    private DocumentType DocumentType { get; init; }
+    [JsonInclude]
+    internal DocumentType DocumentType { get; init; }
 
     [Display(Name = "Source Test Type")]
     public string TestType => ReportType is ReportType.SourceTest or ReportType.NA

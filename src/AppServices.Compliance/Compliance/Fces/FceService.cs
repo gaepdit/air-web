@@ -17,7 +17,7 @@ using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.PermitFees;
 using IaipDataService.SourceTests;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
@@ -36,7 +36,7 @@ public sealed class FceService(
     IFceCommentService commentService,
     IUserService userService,
     IAppNotificationService appNotificationService,
-    IMemoryCache cache,
+    HybridCache cache,
     ILogger<FceService> logger) : IFceService
 #pragma warning restore S107
 {
@@ -56,16 +56,18 @@ public sealed class FceService(
         return fce;
     }
 
-    private static readonly TimeSpan FceSupportingDataCacheTime = TimeSpan.FromDays(2);
+    private static readonly TimeSpan FceExpiration = TimeSpan.FromDays(2);
 
     public async Task<SupportingDataPrintout> GetSupportingPrintoutDataAsync(FacilityId facilityId,
-        DateOnly completedDate, CancellationToken token = default)
-    {
-        // Check the cache first.
-        var cacheKey = $"FceSupportingPrintout.{facilityId}.{completedDate:yyyy-MM-dd}";
-        if (cache.TryGetValue(cacheKey, logger, out SupportingDataPrintout? cachedValue))
-            return cachedValue;
+        DateOnly completedDate, CancellationToken token = default) =>
+        await cache.GetOrCreateAsync($"FcePrintout.{facilityId}.{completedDate:yyyy-MM-dd}",
+            factory: async ct =>
+                await GetSupportingPrintoutDataFromDb(facilityId, completedDate, ct).ConfigureAwait(false),
+            expiration: FceExpiration, logger, tag: $"Fce.{facilityId}", token).ConfigureAwait(false);
 
+    private async Task<SupportingDataPrintout> GetSupportingPrintoutDataFromDb(FacilityId facilityId,
+        DateOnly completedDate, CancellationToken token)
+    {
         var summary = new SupportingDataPrintout
         {
             Accs = await complianceRepository.GetListAsync<AccSummaryDto, AnnualComplianceCertification>(
@@ -98,9 +100,8 @@ public sealed class FceService(
                 .ConfigureAwait(false),
         };
 
-        await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
-
-        return cache.Set(summary, cacheKey, FceSupportingDataCacheTime, logger);
+        await FillStackTestDataAsync(summary.SourceTests, token).ConfigureAwait(false);
+        return summary;
 
         Expression<Func<TSource, bool>> FilterFor<TSource>() where TSource : ComplianceWork =>
             source => source.FacilityId == facilityId && source.EventDate <= completedDate &&
@@ -111,13 +112,25 @@ public sealed class FceService(
         bool forceRefresh = false, CancellationToken token = default)
     {
         // Check the cache first.
-        var cacheKey = $"FceSupportingDetails.{facilityId}.{completedDate:yyyy-MM-dd}";
-        var printoutCacheKey = $"FceSupportingPrintout.{facilityId}.{completedDate:yyyy-MM-dd}";
+        var key = $"FceDetails.{facilityId}.{completedDate:yyyy-MM-dd}";
 
-        if (forceRefresh) cache.RemoveAll([cacheKey, printoutCacheKey]);
-        else if (cache.TryGetValue(cacheKey, logger, out SupportingDataDetails? cachedValue))
-            return cachedValue;
+        if (forceRefresh) await cache.RemoveByTagAsync($"Fce.{facilityId}", token).ConfigureAwait(false);
+        else logger.LogCacheSearch(key);
 
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                if (forceRefresh) logger.LogCacheRefresh(key);
+                else logger.LogCacheMiss(key);
+
+                return await GetSupportingDataFromDb(facilityId, completedDate, token).ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(FceExpiration),
+            tags: [$"Fce.{facilityId}"], token).ConfigureAwait(false);
+    }
+
+    private async Task<SupportingDataDetails> GetSupportingDataFromDb(FacilityId facilityId, DateOnly completedDate,
+        CancellationToken token)
+    {
         var complianceSpec = new ComplianceWorkSearchDto
         {
             FacilityId = facilityId,
@@ -147,15 +160,15 @@ public sealed class FceService(
                 .GetPagedListAsync<ComplianceWorkSearchResultDto>(ComplianceWorkFilters.SearchPredicate(complianceSpec),
                     compliancePagination, mapper, token: token).ConfigureAwait(false),
         };
-
-        return cache.Set(details, cacheKey, FceSupportingDataCacheTime, logger);
+        return details;
     }
 
-    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
+    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests, CancellationToken token)
     {
         foreach (var test in tests.Where(test => test.ReferenceNumber != null))
         {
-            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value).ConfigureAwait(false);
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value, token: token)
+                .ConfigureAwait(false);
             test.AddDetails(summary);
         }
     }

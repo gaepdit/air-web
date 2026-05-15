@@ -17,7 +17,7 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
     [TempData]
     public bool RefreshIaipData { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
         if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
 
@@ -31,10 +31,10 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
 
         if (facilityId.FormattedId != Id) return RedirectToPage(new { id = facilityId });
 
-        Facility = await facilityService.FindFacilityDetailsAsync(facilityId, RefreshIaipData);
+        Facility = await facilityService.FindFacilityAsync(facilityId, RefreshIaipData, token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData))
+        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData, token))
             .ToList();
 
         return Page();

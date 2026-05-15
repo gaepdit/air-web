@@ -19,7 +19,7 @@ public class ReportAddModel(
     [BindProperty]
     public ReportCreateDto Item { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         WorkType = ComplianceWorkType.Report;
 
@@ -32,7 +32,7 @@ public class ReportAddModel(
             ReportingPeriodEnd = yesterday,
         };
 
-        return await DoGetAsync();
+        return await DoGetAsync(token);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

@@ -13,7 +13,7 @@ public class AddModel : AddBase
 
     public void OnGet()
     {
-        ThisOption = MaintenanceOption.ActionItemType;
+        ThisOption = MaintenanceOption.SbeapActionItemType;
         Item = new ActionItemTypeCreateDto();
     }
 
@@ -21,7 +21,7 @@ public class AddModel : AddBase
         [FromServices] IActionItemTypeService service,
         [FromServices] IValidator<ActionItemTypeCreateDto> validator)
     {
-        ThisOption = MaintenanceOption.ActionItemType;
+        ThisOption = MaintenanceOption.SbeapActionItemType;
         return await DoPostAsync(service, validator, Item);
     }
 }

@@ -34,15 +34,15 @@ public class AddModel(
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (FacilityId is null) return NotFound(FacilityIdNotFound);
-        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
 
         // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound(FacilityIdNotFound);
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
         Item = new FceCreateDto((FacilityId)FacilityId, currentUserId);
         return Page();
@@ -55,10 +55,10 @@ public class AddModel(
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId, token: token);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -68,7 +68,7 @@ public class AddModel(
         return RedirectToPage("Details", new { result.Id });
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

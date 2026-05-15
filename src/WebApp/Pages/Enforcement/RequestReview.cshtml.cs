@@ -43,7 +43,7 @@ public class RequestReviewModel(
         ItemView = itemView;
         ItemReview = new EnforcementActionRequestReviewDto();
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
@@ -56,7 +56,7 @@ public class RequestReviewModel(
         if (!ModelState.IsValid)
         {
             ItemView = itemView;
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -70,7 +70,7 @@ public class RequestReviewModel(
             fragment: Id.ToString());
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.EnforcementReviewerRole,
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.EnforcementReviewerRole,
             ComplianceRole.EnforcementManagerRole)).ToSelectList();
 }

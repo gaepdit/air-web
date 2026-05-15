@@ -26,8 +26,8 @@ public class CreateTests
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
 
         using var cache = Substitute.For<IMemoryCache>();
-        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock, cache,
-            Substitute.For<ILogger<ActionItemTypeService>>());
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock,
+            Setup.FakeCache!, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.CreateAsync(item.Name);

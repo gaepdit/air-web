@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AutoMapper;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Sbeap.ActionItemTypes;
@@ -24,7 +24,7 @@ public class ActionItemTypeService(
     IActionItemTypeManager manager,
     IMapper mapper,
     IUserService userService,
-    IMemoryCache cache,
+    HybridCache cache,
     ILogger<ActionItemTypeService> logger)
     : LookupService<ActionItemType, ActionItemTypeViewDto, ActionItemTypeUpdateDto>
         (mapper, repository, manager, userService, cache, logger), IActionItemTypeService;

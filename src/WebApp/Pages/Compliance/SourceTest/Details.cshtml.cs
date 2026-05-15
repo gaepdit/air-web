@@ -66,7 +66,7 @@ public class DetailsModel(
             return RedirectToPage();
         }
 
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData, token);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -95,7 +95,7 @@ public class DetailsModel(
                 ResponsibleStaffId = defaultStaffId,
             };
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
         }
         else
         {
@@ -124,7 +124,7 @@ public class DetailsModel(
             ReferenceNumber != newComplianceReview.ReferenceNumber)
             return BadRequest();
 
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         await SetPermissionsAsync(token);
@@ -135,7 +135,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -186,7 +186,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -219,7 +219,7 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -244,7 +244,7 @@ public class DetailsModel(
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

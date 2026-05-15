@@ -16,12 +16,13 @@ public class IndexModel : PageModel
     public async Task<ActionResult> OnGetAsync(
         [FromServices] IComplianceWorkService complianceWorkService,
         [FromServices] IFacilityService facilityService,
-        [FromRoute] int id)
+        [FromRoute] int id,
+        CancellationToken token = default)
     {
-        Report = await complianceWorkService.FindAsync(id, false) as AccViewDto;
+        Report = await complianceWorkService.FindAsync(id, includeComments: false, token) as AccViewDto;
         if (Report == null || Report.IsDeleted) return NotFound();
 
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)Report.FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)Report.FacilityId, token: token);
         if (Facility == null) return NotFound();
 
         MemoHeader = new MemoHeader
