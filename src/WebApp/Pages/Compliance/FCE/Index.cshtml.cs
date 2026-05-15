@@ -83,7 +83,7 @@ public class FceIndexModel(
 
     private async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        StaffSelectList = staff.GetAllStaff().ToSelectList();
-        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
+        StaffSelectList = (await staff.GetAllStaffAsync(token)).ToSelectList();
+        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token)).ToSelectList();
     }
 }

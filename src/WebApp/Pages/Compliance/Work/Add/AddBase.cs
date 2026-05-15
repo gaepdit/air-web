@@ -33,7 +33,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
@@ -49,7 +49,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
             Facility = await facilityService.FindFacilityAsync((FacilityId)item.FacilityId, token: token);
             if (Facility is null) return BadRequest();
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -61,7 +61,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         return RedirectToPage("../Details", new { result.Id });
     }
 
-    protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    protected virtual async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

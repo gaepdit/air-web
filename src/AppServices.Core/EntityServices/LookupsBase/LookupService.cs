@@ -37,8 +37,8 @@ public abstract class LookupService<TEntity, TViewDto, TUpdateDto>(
 
     public async Task<IReadOnlyList<TViewDto>> GetListAsync(CancellationToken token = default) =>
         await cache.GetOrCreateAsync($"{LookupName}.List",
-            factory: async ct =>
-                mapper.Map<IReadOnlyList<TViewDto>>(await repository.GetOrderedListAsync(ct).ConfigureAwait(false)),
+            factory: async ct => mapper.Map<IReadOnlyList<TViewDto>>(await repository.GetOrderedListAsync(ct)
+                .ConfigureAwait(false)),
             expiration: CacheConstants.LookupsCacheTime, logger, tag: LookupName, token).ConfigureAwait(false);
 
     public async Task<IReadOnlyList<ListItem>> GetAsListItemsAsync(bool includeInactive = false,

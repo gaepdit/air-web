@@ -64,7 +64,7 @@ public class BeginModel(
             DiscoveryDate = ComplianceEvent?.EventDate ?? DateOnly.FromDateTime(DateTime.Today),
         };
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
@@ -90,7 +90,7 @@ public class BeginModel(
                     return BadRequest();
             }
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -100,7 +100,7 @@ public class BeginModel(
         return RedirectToPage("Details", new { result.Id });
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

@@ -42,9 +42,9 @@ public class NotificationAddModel(
         return await DoPostAsync(Item, service, validator, token);
     }
 
-    protected override async Task PopulateSelectListsAsync()
+    protected override async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        await base.PopulateSelectListsAsync();
-        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
+        await base.PopulateSelectListsAsync(token);
+        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync(token: token)).ToSelectList();
     }
 }

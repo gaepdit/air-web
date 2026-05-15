@@ -95,7 +95,7 @@ public class DetailsModel(
                 ResponsibleStaffId = defaultStaffId,
             };
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
         }
         else
         {
@@ -135,7 +135,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -244,7 +244,7 @@ public class DetailsModel(
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }
