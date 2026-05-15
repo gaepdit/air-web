@@ -9,7 +9,7 @@ public record Facility : IFacilityIdName
     [UsedImplicitly]
     private Facility() { } // Used by ORM.
 
-    public Facility(string id) => Id = (FacilityId)id;
+    public Facility(string facilityId) => Id = (FacilityId)facilityId;
 
     [Key]
     [JsonIgnore]

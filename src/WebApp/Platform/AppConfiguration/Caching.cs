@@ -7,7 +7,10 @@ internal static class Caching
     public static IServiceCollection AddCaching(this IServiceCollection services)
     {
         services.AddHybridCache(options =>
-            options.DefaultEntryOptions = CacheUtilities.GetHybridCacheOptions(TimeSpan.FromDays(1)));
+        {
+            options.MaximumPayloadBytes = 1 << 22; // 4MiB 
+            options.DefaultEntryOptions = CacheUtilities.GetHybridCacheOptions(TimeSpan.FromDays(1));
+        });
         return services;
     }
 }

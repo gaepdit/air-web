@@ -79,18 +79,17 @@ public class IaipSourceTestService(
 
         var multi = await db.QueryMultipleAsync("air.GetSourceTestSummary",
             param: new { referenceNumber }).ConfigureAwait(false);
+
         await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
-        var testSummary = multi
-            .Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary, facility,
-                testDates, reviewedByStaff) =>
-            {
-                summary.Facility = facility;
-                summary.TestDates = testDates;
-                summary.ReviewedByStaff = reviewedByStaff;
-                return summary;
-            }).SingleOrDefault();
-        return testSummary;
+        return multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary,
+            facility, testDates, reviewedByStaff) =>
+        {
+            summary.Facility = facility;
+            summary.TestDates = testDates;
+            summary.ReviewedByStaff = reviewedByStaff;
+            return summary;
+        }).SingleOrDefault();
     }
 
     public async Task<bool> SourceTestExistsAsync(int referenceNumber)
