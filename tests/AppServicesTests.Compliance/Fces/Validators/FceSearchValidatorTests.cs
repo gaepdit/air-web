@@ -1,4 +1,5 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
+using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
@@ -80,5 +81,24 @@ public class FceSearchValidatorTests
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.DateTo);
+    }
+
+    [Test]
+    public async Task DateToIsBeforeDateFrom_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            DateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            DateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+        };
+
+        // Act
+        var results = await _sut.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.DateTo);
     }
 }
