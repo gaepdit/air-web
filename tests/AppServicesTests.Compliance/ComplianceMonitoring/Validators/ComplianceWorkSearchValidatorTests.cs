@@ -46,7 +46,6 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeTrue();
     }
 
-
     [Test]
     public async Task EventDateFromInFuture_ReturnsAsInvalid()
     {
@@ -64,6 +63,7 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.EventDateFrom);
     }
+
     [Test]
     public async Task EventDateToInFuture_ReturnsAsInvalid()
     {
@@ -81,6 +81,7 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
     }
+
     [Test]
     public async Task EventDateToIsBeforeEventDateFrom_ReturnsAsInvalid()
     {
@@ -99,6 +100,7 @@ public class ComplianceWorkSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
     }
+
     [Test]
     public async Task ClosedDateFromInFuture_ReturnsAsInvalid()
     {
@@ -116,6 +118,7 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateFrom);
     }
+
     [Test]
     public async Task ClosedDateToInFuture_ReturnsAsInvalid()
     {
@@ -133,6 +136,7 @@ public class ComplianceWorkSearchValidatorTests
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
     }
+
     [Test]
     public async Task ClosedDateToIsBeforeClosedDateFrom_ReturnsAsInvalid()
     {
@@ -151,6 +155,7 @@ public class ComplianceWorkSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
     }
+
     [Test]
     public async Task FacilityIdDoesNotExist_ReturnsAsInvalid()
     {

@@ -23,9 +23,9 @@ public class FceSearchValidatorTests
         _sut = new FceSearchValidator(_service);
 
         _serviceFalse = Substitute.For<IFacilityService>();
-        _service.ExistsAsync(Arg.Any<FacilityId>())
+        _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sut = new FceSearchValidator(_serviceFalse);
+        _sutFalse = new FceSearchValidator(_serviceFalse);
     }
 
     [Test]
@@ -44,5 +44,22 @@ public class FceSearchValidatorTests
 
         // Assert
         result.IsValid.Should().BeTrue();
+    }
+    [Test]
+    public async Task DateFromInFuture_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            DateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+        };
+
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.DateFrom);
     }
 }
