@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+using AirWeb.TestData.SampleData;
+using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AppServicesTests.Compliance.Fces.Validators;
 
@@ -25,8 +25,24 @@ public class FceSearchValidatorTests
         _serviceFalse = Substitute.For<IFacilityService>();
         _service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sut = new FceSearchValidator( _serviceFalse);
+        _sut = new FceSearchValidator(_serviceFalse);
     }
 
+    [Test]
+    public async Task ValidDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            DateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
+            DateTo = DateOnly.FromDateTime(DateTime.Today),
+        };
 
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
 }
