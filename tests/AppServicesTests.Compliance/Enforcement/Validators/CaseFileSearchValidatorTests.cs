@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AppServicesTests.Compliance.Enforcement.Validators
 {
-    internal class CaseFileSearchValidator
+    internal class CaseFileSearchValidatorTests
     {
     }
 }

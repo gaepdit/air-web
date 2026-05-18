@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AppServicesTests.Compliance.Fces.Validators
 {
-    internal class FceSearchValidator
+    internal class FceSearchValidatorTests
     {
     }
 }
