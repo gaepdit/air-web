@@ -101,4 +101,22 @@ public class FceSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.DateTo);
     }
+
+    [Test]
+    public async Task FacilityIdDoesNotExist_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            FacilityId = "00999999",
+        };
+
+        // Act
+        var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
 }
