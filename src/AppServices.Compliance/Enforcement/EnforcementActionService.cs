@@ -7,6 +7,7 @@ using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;
@@ -323,11 +324,12 @@ public sealed class EnforcementActionService(
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
                 token: token).ConfigureAwait(false);
 
-        var nextReviewer = resource.RequestedOfId is null
-            ? null
-            : await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false);
+        var nextReviewer = resource is { Result: ReviewResult.Forwarded, RequestedOfId: not null }
+            ? await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false)
+            : null;
 
-        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, currentUser!, nextReviewer);
+        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, requester: currentUser!,
+            nextReviewer, resource.RequestedDate);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewCompleted,

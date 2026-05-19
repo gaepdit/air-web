@@ -33,6 +33,6 @@ public interface IEnforcementActionManager
     void RequestReview(EnforcementAction action, ApplicationUser reviewer, DateOnly dateRequested,
         ApplicationUser requester);
 
-    void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
-        ApplicationUser? nextReviewer = null);
+    void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser requester,
+        ApplicationUser? nextReviewer, DateOnly? dateRequested);
 }

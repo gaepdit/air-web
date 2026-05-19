@@ -209,8 +209,8 @@ public class EnforcementActionManager(
         action.Status = EnforcementActionStatus.ReviewRequested;
     }
 
-    public void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
-        ApplicationUser? nextReviewer = null)
+    public void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser requester,
+        ApplicationUser? nextReviewer, DateOnly? dateRequested)
     {
         if (action.Reviews.All(r => r.IsCompleted))
         {
@@ -218,24 +218,24 @@ public class EnforcementActionManager(
             return;
         }
 
-        action.CurrentOpenReview!.CompleteReview(user, result, comments);
-        action.SetUpdater(user.Id);
+        action.CurrentOpenReview!.CompleteReview(requester, result, comments);
+        action.SetUpdater(requester.Id);
         action.CaseFile.AuditPoints
-            .Add(CaseFileAuditPoint.EnforcementActionReviewed(action.ActionType, result, user));
+            .Add(CaseFileAuditPoint.EnforcementActionReviewed(action.ActionType, result, requester));
 
         switch (result)
         {
             case ReviewResult.Approved:
-                Approve(action, user);
+                Approve(action, requester);
                 break;
             case ReviewResult.Returned:
-                ReturnToDraft(action, user);
+                ReturnToDraft(action, requester);
                 break;
             case ReviewResult.Canceled:
-                Cancel(action, user);
+                Cancel(action, requester);
                 break;
             case ReviewResult.Forwarded:
-                RequestReview(action, nextReviewer!, DateOnly.FromDateTime(DateTime.Today), user);
+                RequestReview(action, nextReviewer!, dateRequested!.Value, requester);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(result), result, null);

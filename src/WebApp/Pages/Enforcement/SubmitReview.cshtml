@@ -44,6 +44,7 @@
         <div id="forwarded-select-container" class="mb-3 @(showForwardSelect ? "" : "d-none")">
             @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
                 additionalViewData: new { Items = Model.StaffSelectList })
+            @Html.EditorFor(m => m.ItemReview.RequestedDate, EditorTemplate.InputDateOnlyNullable)
         </div>
 
         <div class="row">

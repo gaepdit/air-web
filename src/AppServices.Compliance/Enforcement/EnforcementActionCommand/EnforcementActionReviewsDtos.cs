@@ -41,6 +41,12 @@ public record EnforcementActionSubmitReviewDto : NotesDto
 
     [Display(Name = "Request additional review from")]
     public string? RequestedOfId { get; init; }
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [Display(Name = "Date additional review requested")]
+    [MaxDate]
+    public DateOnly? RequestedDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 }
 
 public class SubmitReviewValidator : AbstractValidator<EnforcementActionSubmitReviewDto>
@@ -54,5 +60,10 @@ public class SubmitReviewValidator : AbstractValidator<EnforcementActionSubmitRe
             .NotEmpty()
             .When(dto => dto.Result == ReviewResult.Forwarded)
             .WithMessage("A reviewer must be selected.");
+
+        RuleFor(dto => dto.RequestedDate)
+            .NotNull()
+            .When(dto => dto.Result == ReviewResult.Forwarded)
+            .WithMessage("Requested date must be set.");
     }
 }
