@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
+using AirWeb.TestData.SampleData;
+using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
 
 namespace AppServicesTests.Compliance.Enforcement.Validators;
@@ -26,5 +29,23 @@ public class CaseFileSearchValidatorTests
         _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
         _sutFalse = new CaseFileSearchValidator(_serviceFalse);
+    }
+
+    [Test]
+    public async Task ValidDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new CaseFileSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            DiscoveryDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
+            DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
     }
 }
