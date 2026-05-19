@@ -308,7 +308,7 @@ public sealed class EnforcementActionService(
         }
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        actionManager.RequestReview(action, reviewer, currentUser!);
+        actionManager.RequestReview(action, reviewer, resource.RequestedDate, currentUser!);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService

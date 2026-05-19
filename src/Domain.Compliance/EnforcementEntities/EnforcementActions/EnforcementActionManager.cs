@@ -194,7 +194,8 @@ public class EnforcementActionManager(
     public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
         stipulatedPenalty.SetDeleted(user?.Id);
 
-    public void RequestReview(EnforcementAction action, ApplicationUser reviewer, ApplicationUser user)
+    public void RequestReview(EnforcementAction action, ApplicationUser reviewer, DateOnly dateRequested,
+        ApplicationUser requester)
     {
         if (action.Reviews.Any(r => !r.IsCompleted))
         {
@@ -202,8 +203,8 @@ public class EnforcementActionManager(
             return;
         }
 
-        action.SetUpdater(user.Id);
-        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), action, reviewer, requester: user);
+        action.SetUpdater(requester.Id);
+        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), action, reviewer, dateRequested, requester);
         action.Reviews.Add(reviewRequest);
         action.Status = EnforcementActionStatus.ReviewRequested;
     }
@@ -234,7 +235,7 @@ public class EnforcementActionManager(
                 Cancel(action, user);
                 break;
             case ReviewResult.Forwarded:
-                RequestReview(action, nextReviewer!, user);
+                RequestReview(action, nextReviewer!, DateOnly.FromDateTime(DateTime.Today), user);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(result), result, null);

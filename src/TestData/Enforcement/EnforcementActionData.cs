@@ -283,10 +283,9 @@ public static class EnforcementActionData
     {
         var requestedDate = DateTime.Now.AddDays(-10 * (i + 1));
         return new EnforcementActionReview(Guid.NewGuid(), enforcementAction,
-            incomplete ? UserData.Users[0] : UserData.GetRandomUser(),
+            incomplete ? UserData.Users[0] : UserData.GetRandomUser(), DateOnly.FromDateTime(requestedDate),
             UserData.GetRandomUser())
         {
-            RequestedDate = requestedDate,
             CompletedDate = incomplete ? null : requestedDate.AddDays(Random.Shared.Next(1, 5)),
             Result = incomplete ? null : (ReviewResult)Random.Shared.Next(0, 4), // Random status
             ReviewComments = incomplete ? null : SampleText.GetRandomText(SampleText.TextLength.Paragraph, true),

@@ -16,6 +16,7 @@
         <div class="mb-3">
             @Html.EditorFor(m => m.ItemReview.RequestedOfId, EditorTemplate.Select,
                     additionalViewData: new { Items = Model.StaffSelectList })
+            @Html.EditorFor(m => m.ItemReview.RequestedDate, EditorTemplate.InputDateOnly)
         </div>
         </div>
 
