@@ -67,13 +67,55 @@ public class EnforcementActionReviewValidatorTests
     {
         // Arrange
         var validator = new SubmitReviewValidator();
-        var model = new EnforcementActionSubmitReviewDto { Result = ReviewResult.Forwarded };
+        var model = new EnforcementActionSubmitReviewDto
+        {
+            Result = ReviewResult.Forwarded,
+            RequestedDate = DateOnly.FromDateTime(DateTime.Today),
+        };
 
         // Act
         var result = validator.Validate(model);
 
         // Assert
         result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public void SubmitDto_ForwardedMissingDate_ReturnsAsInvalid()
+    {
+        // Arrange
+        var validator = new SubmitReviewValidator();
+        var model = new EnforcementActionSubmitReviewDto
+        {
+            Result = ReviewResult.Forwarded,
+            RequestedOfId = "1",
+            RequestedDate = null,
+        };
+
+        // Act
+        var result = validator.Validate(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public void SubmitDto_Forwarded_NoMissingData_ReturnsAsValid()
+    {
+        // Arrange
+        var validator = new SubmitReviewValidator();
+        var model = new EnforcementActionSubmitReviewDto
+        {
+            Result = ReviewResult.Forwarded,
+            RequestedOfId = "1",
+            RequestedDate = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        // Act
+        var result = validator.Validate(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
     }
 
     [Test]

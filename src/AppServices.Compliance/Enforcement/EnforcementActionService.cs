@@ -7,6 +7,7 @@ using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using GaEpd.GuardClauses;
@@ -299,8 +300,9 @@ public sealed class EnforcementActionService(
         var action = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
             .ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
-
-        if (!await userService.UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer).ConfigureAwait(false))
+        if (!await userService
+                .UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer, ComplianceRole.ComplianceManager)
+                .ConfigureAwait(false))
         {
             logger.ZLogError(
                 $"User {reviewer.Id:@UserId} does not have the Enforcement Manager role and cannot review action {action.Id:@ActionId}.");
@@ -308,7 +310,7 @@ public sealed class EnforcementActionService(
         }
 
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        actionManager.RequestReview(action, reviewer, currentUser!);
+        actionManager.RequestReview(action, reviewer, resource.RequestedDate, currentUser!);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService
@@ -323,11 +325,12 @@ public sealed class EnforcementActionService(
             .GetAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
                 token: token).ConfigureAwait(false);
 
-        var nextReviewer = resource.RequestedOfId is null
-            ? null
-            : await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false);
+        var nextReviewer = resource is { Result: ReviewResult.Forwarded, RequestedOfId: not null }
+            ? await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false)
+            : null;
 
-        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, currentUser!, nextReviewer);
+        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, reviewer: currentUser!,
+            nextReviewer, resource.RequestedDate);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 
         await appNotificationService.SendNotificationAsync(EnforcementTemplate.EnforcementActionReviewCompleted,

@@ -17,7 +17,7 @@ public record ActionViewDto : IActionViewDto
 
     public DateOnly? StatusDate => Status switch
     {
-        EnforcementActionStatus.ReviewRequested => DateOnly.FromDateTime(ReviewRequestedDate!.Value),
+        EnforcementActionStatus.ReviewRequested => ReviewRequestedDate!.Value,
         EnforcementActionStatus.Approved => DateOnly.FromDateTime(ApprovedDate!.Value),
         EnforcementActionStatus.Issued => IssueDate,
         EnforcementActionStatus.Canceled => DateOnly.FromDateTime(CanceledDate!.Value),
@@ -31,7 +31,7 @@ public record ActionViewDto : IActionViewDto
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
     public ReviewDto? CurrentOpenReview { get; init; }
-    public DateTime? ReviewRequestedDate { get; init; }
+    public DateOnly? ReviewRequestedDate { get; init; }
     public ICollection<ReviewDto> Reviews { get; } = [];
 
     // -- Approved

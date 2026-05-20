@@ -4,6 +4,7 @@ public enum AppIcon
 {
     AutoDarkMode,
     Badge,
+    Canceled,
     CheckIcon,
     CheckMark,
     DarkMode,
@@ -21,6 +22,8 @@ public enum AppIcon
     Print,
     QuestionIcon,
     Refresh,
+    ReviewComplete,
+    ReviewPending,
     Search,
     Switch,
     Trash,

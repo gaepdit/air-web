@@ -53,7 +53,7 @@ public abstract class EnforcementAction : DeletableEntity<Guid>
         }
     }
 
-    [UsedImplicitly] public DateTime? ReviewRequestedDate
+    [UsedImplicitly] public DateOnly? ReviewRequestedDate
     {
         get => CurrentOpenReview?.RequestedDate;
 

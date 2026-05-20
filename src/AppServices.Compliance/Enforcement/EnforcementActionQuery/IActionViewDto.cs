@@ -8,6 +8,8 @@ public interface IActionViewDto : IDeletable
 {
     public Guid Id { get; }
     public int CaseFileId { get; }
+    public StaffViewDto? CaseFileResponsibleStaff { get; }
+
     public EnforcementActionType ActionType { get; }
     public string Notes { get; }
 

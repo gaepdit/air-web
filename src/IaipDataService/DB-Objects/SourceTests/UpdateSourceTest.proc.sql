@@ -10,10 +10,12 @@ AS
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:   Updates a source test record with compliance review data.
+Overview:   Used in the Air Web App to update a source test record with compliance review data
 
 Input Parameters:
-    @ReferenceNumber - The stack test reference number
+    @ReferenceNumber - The test reference number
+    @AssignmentEmail - The compliance staff assigned to the test
+    @ComplianceReviewDate - The date a compliance review was finished for the test
 
 Modification History:
 When        Who                 What

@@ -32,7 +32,7 @@
                 <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web
                     @if (Model.ShowStaffOptions)
                     {
-                        <span class="d-sm-none d-md-inline">Dashboard</span>
+                        <span class="d-sm-none d-lg-inline">Dashboard</span>
                     }</a>
             }
 
@@ -97,7 +97,7 @@
                                         aria-label="Toggle form to find work by ID"
                                         title="Find By ID">
                                     <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
-                                    Find By ID
+                                    Find <span class="d-sm-none d-md-inline">By ID</span>
                                 </button>
                             </li>
                         </ul>
