@@ -153,8 +153,6 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 }
 
 html:not([data-bs-theme="dark"]) .link-warning:focus, .link-warning:hover {
-    /*color: hsl(45 78% 31% / 1) !important;*/
-    /*color: RGBA(255,205,57,var(--bs-link-opacity,1))!important;*/
     color: RGBA(140, 110, 33, var(--bs-link-opacity, 1)) !important;
     text-decoration-color: RGBA(140, 110, 33, var(--bs-link-underline-opacity, 1)) !important;
 }
