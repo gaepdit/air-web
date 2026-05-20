@@ -5,7 +5,7 @@ namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 public record ReviewDto
 {
     public Guid Id { get; internal init; }
-    public DateTime RequestedDate { get; internal init; }
+    public DateOnly RequestedDate { get; internal init; }
     public string RequestedByFullName { get; internal init; } = null!;
     public string RequestedOfFullName { get; internal init; } = null!;
     public string? ReviewedByFullName { get; internal init; }
@@ -17,4 +17,6 @@ public record ReviewDto
 
     [StringLength(7000)]
     public string? ReviewComments { get; internal init; }
+
+    public DateTimeOffset? CreatedAt { get; internal init; }
 }

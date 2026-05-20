@@ -577,7 +577,7 @@
                                 var currentReview = action.CurrentOpenReview!;
 
                                 <div>
-                                    Review requested on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.DateTimeShort)
+                                    Review requested on @Html.DisplayFor(_ => currentReview.RequestedDate, DisplayTemplate.ShortDateOnly)
                                 </div>
                             }
                             else if (action.Status == EnforcementActionStatus.Approved)
@@ -620,10 +620,10 @@
                                 <details open="@(openReviews ? "" : "open")">
                                     <summary class="rounded-1 py-1"><span class="ps-1">Show reviews</span></summary>
                                     <ul class="list-group list-group-flush">
-                                        @foreach (var review in action.Reviews.OrderBy(r => r.RequestedDate))
+                                        @foreach (var review in action.Reviews.OrderBy(r => r.RequestedDate).ThenBy(r => r.CreatedAt))
                                         {
                                             <li class="list-group-item bg-transparent">
-                                                <em>@Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.DateTimeNullableShort):</em>
+                                                <em>@Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.ShortDateOnly):</em>
                                                 Review requested by @review.RequestedByFullName
                                                 from @review.RequestedOfFullName.
                                                 @if (review.IsCompleted)
