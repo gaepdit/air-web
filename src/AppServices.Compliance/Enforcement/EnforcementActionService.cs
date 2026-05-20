@@ -328,7 +328,7 @@ public sealed class EnforcementActionService(
             ? await userService.FindUserAsync(resource.RequestedOfId).ConfigureAwait(false)
             : null;
 
-        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, requester: currentUser!,
+        actionManager.SubmitReview(action, resource.Result!.Value, resource.Notes, reviewer: currentUser!,
             nextReviewer, resource.RequestedDate);
         await actionRepository.UpdateAsync(action, token: token).ConfigureAwait(false);
 

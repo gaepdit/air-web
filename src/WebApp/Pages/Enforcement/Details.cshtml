@@ -615,8 +615,9 @@
                         </div>
                         @if (action.Reviews.Any())
                         {
+                            var openReviews = !action.Reviews.All(r => r.IsCompleted);
                             <div class="card-footer small text-body-secondary py-1">
-                                <details>
+                                <details open="@(openReviews ? "" : "open")">
                                     <summary class="rounded-1 py-1"><span class="ps-1">Show reviews</span></summary>
                                     <ul class="list-group list-group-flush">
                                         @foreach (var review in action.Reviews.OrderBy(r => r.RequestedDate))
@@ -656,6 +657,13 @@
                                                             <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
                                                         </svg>
                                                         <em>Review not yet completed.</em>
+                                                        @if (User.CanWithdrawReviewRequest(action))
+                                                        {
+                                                            <button type="button" name="withdrawReviewRequest" class="btn btn-sm btn-outline-danger"
+                                                                    value="@review.Id.ToString()" data-ea-id="@action.Id">
+                                                                Withdraw request
+                                                            </button>
+                                                        }
                                                     </div>
                                                 }
                                             </li>
@@ -663,6 +671,50 @@
                                     </ul>
                                 </details>
                             </div>
+
+                            @if (openReviews)
+                            {
+                                // Modal form for withdrawing a review request.
+                                <div class="modal fade" id="withdrawReviewRequestModal" tabindex="-1" aria-labelledby="withdrawReviewRequestLabel" aria-modal="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-warning-emphasis" id="withdrawReviewRequestLabel">Withdraw review request</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" asp-page-handler="WithdrawReviewRequest" asp-fragment="enforcement-actions">
+                                                <div class="modal-body">
+                                                    Are you sure you want to withdraw this review request?<br>
+                                                    <strong>This cannot be undone!</strong>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="hidden" id="withdrawReviewRequestId" name="reviewRequestId" value="" />
+                                                    <input type="hidden" id="withdrawReviewRequestEaId" name="enforcementActionId" value="" />
+                                                    <button type="submit" class="btn btn-warning">Yes</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script asp-add-content-to-csp>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const actionButtons = document.querySelectorAll('button[name="withdrawReviewRequest"]');
+                                        const reviewIdHidden = document.getElementById('withdrawReviewRequestId');
+                                        const actionIdHidden = document.getElementById('withdrawReviewRequestEaId');
+                                        const modal = new bootstrap.Modal(document.getElementById("withdrawReviewRequestModal"));
+
+                                        actionButtons.forEach(button => {
+                                            button.addEventListener('click', function () {
+                                                reviewIdHidden.value = this.value;
+                                                actionIdHidden.value = button.getAttribute('data-ea-id').trim();
+                                                modal.show();
+                                            });
+                                        });
+                                    });
+                                </script>
+                            }
                         }
                     </div>
                 }

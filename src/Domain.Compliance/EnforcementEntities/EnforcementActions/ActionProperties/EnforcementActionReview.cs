@@ -67,4 +67,7 @@ public enum ReviewResult
     [Display(Name = "Approved and forwarded for additional review")]
     [Description("Approve and forward for additional review")]
     Forwarded,
+
+    // The review request was withdrawn
+    RequestWithdrawn,
 }

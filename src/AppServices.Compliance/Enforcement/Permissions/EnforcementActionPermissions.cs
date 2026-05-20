@@ -66,8 +66,15 @@ public static class EnforcementActionPermissions
 
         public bool CanReview(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is { IsUnderReview: true } &&
+            item.IsUnderReview &&
             (user.IsReviewerFor(item) || user.IsEnforcementReviewer());
+
+        public bool CanWithdrawReviewRequest(IActionViewDto item) =>
+            item.IsUnderReview &&
+            (user.IsResponsibleStaff(item) || user.IsEnforcementReviewer());
+
+        private bool IsResponsibleStaff(IActionViewDto item) =>
+            item.CaseFileResponsibleStaff?.Id.Equals(user.GetNameIdentifierId()) ?? false;
 
         private bool IsReviewerFor(IActionViewDto item) =>
             item.CurrentReviewer != null && item.CurrentReviewer.Id.Equals(user.GetNameIdentifierId());

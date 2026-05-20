@@ -4,6 +4,7 @@ namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 
 public record ReviewDto
 {
+    public Guid Id { get; internal init; }
     public DateTime RequestedDate { get; internal init; }
     public string RequestedByFullName { get; internal init; } = null!;
     public string RequestedOfFullName { get; internal init; } = null!;
