@@ -300,8 +300,9 @@ public sealed class EnforcementActionService(
         var action = await actionRepository.GetAsync(id, [nameof(EnforcementAction.CaseFile)], token: token)
             .ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
-
-        if (!await userService.UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer).ConfigureAwait(false))
+        if (!await userService
+                .UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer, ComplianceRole.ComplianceManager)
+                .ConfigureAwait(false))
         {
             logger.ZLogError(
                 $"User {reviewer.Id:@UserId} does not have the Enforcement Manager role and cannot review action {action.Id:@ActionId}.");
