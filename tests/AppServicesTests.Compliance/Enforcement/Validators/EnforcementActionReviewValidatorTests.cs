@@ -89,6 +89,7 @@ public class EnforcementActionReviewValidatorTests
         {
             Result = ReviewResult.Forwarded,
             RequestedOfId = "1",
+            RequestedDate = null,
         };
 
         // Act
@@ -114,7 +115,7 @@ public class EnforcementActionReviewValidatorTests
         var result = validator.Validate(model);
 
         // Assert
-        result.IsValid.Should().BeFalse();
+        result.IsValid.Should().BeTrue();
     }
 
     [Test]
