@@ -1,9 +1,7 @@
-﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+﻿using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace AppServicesTests.Compliance.Fces.Validators;
 
@@ -27,6 +25,19 @@ public class FceSearchValidatorTests
         _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
         _sutFalse = new FceSearchValidator(_serviceFalse);
+    }
+
+    [Test]
+    public async Task EmptyDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new FceSearchDto();
+
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
     }
 
     [Test]
@@ -71,7 +82,7 @@ public class FceSearchValidatorTests
         // Arrange
         var model = new FceSearchDto
         {
-            DateTo= DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+            DateTo = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
         };
 
         // Act
@@ -108,11 +119,67 @@ public class FceSearchValidatorTests
         // Arrange
         var model = new FceSearchDto
         {
-            FacilityId = "00999999",
+            FacilityId = SampleText.ValidFacilityId,
         };
 
         // Act
         var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task MultipleErrors_ReturnsValidationErrorsForAllFields()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            DateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            DateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+        };
+
+        // Act
+        var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.DateFrom);
+        results.ShouldHaveValidationErrorFor(dto => dto.DateTo);
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task GivenInvalidFacilityId_DoesNotThrowException()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var func = async () => await _sut.TestValidateAsync(model);
+
+        // Assert
+        await func.Should().NotThrowAsync<ArgumentException>();
+    }
+
+    [Test]
+    public async Task FacilityId_Invalid_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new FceSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

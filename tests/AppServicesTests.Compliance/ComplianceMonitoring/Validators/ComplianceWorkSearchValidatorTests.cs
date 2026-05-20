@@ -2,7 +2,6 @@
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
 
@@ -29,6 +28,19 @@ public class ComplianceWorkSearchValidatorTests
     }
 
     [Test]
+    public async Task EmptyDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto();
+
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
@@ -37,6 +49,8 @@ public class ComplianceWorkSearchValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             EventDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
             EventDateTo = DateOnly.FromDateTime(DateTime.Today),
+            ClosedDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
+            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today),
         };
 
         // Act
@@ -167,6 +181,66 @@ public class ComplianceWorkSearchValidatorTests
 
         // Act
         var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task MultipleErrors_ReturnsValidationErrorsForAllFields()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            EventDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            ClosedDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+        };
+
+        // Act
+        var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.EventDateFrom);
+        results.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
+        results.ShouldHaveValidationErrorFor(dto => dto.ClosedDateFrom);
+        results.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task GivenInvalidFacilityId_DoesNotThrowException()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var func = async () => await _sut.TestValidateAsync(model);
+
+        // Assert
+        await func.Should().NotThrowAsync<ArgumentException>();
+    }
+
+    [Test]
+    public async Task FacilityId_Invalid_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new ComplianceWorkSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
-using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
-using AirWeb.AppServices.Compliance.Enforcement.Search;
+﻿using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
@@ -33,6 +28,19 @@ public class CaseFileSearchValidatorTests
     }
 
     [Test]
+    public async Task EmptyDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new CaseFileSearchDto();
+
+        // Act
+        var result = await _sut.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         // Arrange
@@ -41,6 +49,8 @@ public class CaseFileSearchValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             DiscoveryDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
             DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today),
+            EnforcementDateFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
+            EnforcementDateTo = DateOnly.FromDateTime(DateTime.Today),
         };
 
         // Act
@@ -166,11 +176,71 @@ public class CaseFileSearchValidatorTests
         // Arrange
         var model = new CaseFileSearchDto
         {
-            FacilityId = "00999999",
+            FacilityId = SampleText.ValidFacilityId,
         };
 
         // Act
         var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task MultipleErrors_ReturnsValidationErrorsForAllFields()
+    {
+        // Arrange
+        var model = new CaseFileSearchDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            DiscoveryDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            EnforcementDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            EnforcementDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+        };
+
+        // Act
+        var results = await _sutFalse.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        results.IsValid.Should().BeFalse();
+        results.ShouldHaveValidationErrorFor(dto => dto.DiscoveryDateFrom);
+        results.ShouldHaveValidationErrorFor(dto => dto.DiscoveryDateTo);
+        results.ShouldHaveValidationErrorFor(dto => dto.EnforcementDateFrom);
+        results.ShouldHaveValidationErrorFor(dto => dto.EnforcementDateTo);
+        results.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
+    }
+
+    [Test]
+    public async Task GivenInvalidFacilityId_DoesNotThrowException()
+    {
+        // Arrange
+        var model = new CaseFileSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var func = async () => await _sut.TestValidateAsync(model);
+
+        // Assert
+        await func.Should().NotThrowAsync<ArgumentException>();
+    }
+
+    [Test]
+    public async Task FacilityId_Invalid_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new CaseFileSearchDto
+        {
+            FacilityId = SampleText.InvalidFacilityId,
+        };
+
+        // Act
+        var results = await _sut.TestValidateAsync(model);
 
         // Assert
         using var scope = new AssertionScope();
