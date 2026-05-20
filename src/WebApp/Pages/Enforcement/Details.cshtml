@@ -616,7 +616,7 @@
                         @if (action.Reviews.Any())
                         {
                             var openReviews = !action.Reviews.All(r => r.IsCompleted);
-                            <div class="card-footer small text-body-secondary py-1">
+                            <div class="card-footer small text-body-secondary py-1 pe-1">
                                 <details open="@openReviews">
                                     <summary class="rounded-1 py-1"><span class="ps-1">Show reviews</span></summary>
                                     <ul class="list-group list-group-flush">
@@ -663,7 +663,7 @@
                                                         <div class="row justify-content-between align-items-center g-0 my-1">
                                                             <div class="col">
                                                                 <span class="text-warning me-1"><partial name="Shared/_AppIconsPartial" model="@AppIcon.ReviewPending" /></span>
-                                                                <em>Review not yet completed.</em>
+                                                                <em>Review pending.</em>
                                                             </div>
                                                             @if (User.CanWithdrawReviewRequest(action))
                                                             {
