@@ -68,6 +68,6 @@ public enum ReviewResult
     [Description("Approve and forward for additional review")]
     Forwarded,
 
-    // The review request was withdrawn
-    RequestWithdrawn,
+    // The review request was withdrawn.
+    Withdrawn,
 }

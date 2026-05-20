@@ -617,7 +617,7 @@
                         {
                             var openReviews = !action.Reviews.All(r => r.IsCompleted);
                             <div class="card-footer small text-body-secondary py-1">
-                                <details open="@(openReviews ? "" : "open")">
+                                <details open="@openReviews">
                                     <summary class="rounded-1 py-1"><span class="ps-1">Show reviews</span></summary>
                                     <ul class="list-group list-group-flush">
                                         @foreach (var review in action.Reviews.OrderBy(r => r.RequestedDate).ThenBy(r => r.CreatedAt))
@@ -626,7 +626,24 @@
                                                 <em>@Html.DisplayFor(_ => review.RequestedDate, DisplayTemplate.ShortDateOnly):</em>
                                                 Review requested by @review.RequestedByFullName
                                                 from @review.RequestedOfFullName.
-                                                @if (review.IsCompleted)
+                                                @if (review.IsWithdrawn)
+                                                {
+                                                    <div class="mt-2">
+                                                        <div class="row justify-content-between align-items-center g-0 my-1">
+                                                            <div class="col">
+                                                                <svg class="SVGBGI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                    <path class="accent" d="m19 20-7-6-7 6L4 4h16l-1 16z" />
+                                                                    <path class="outline" d="M5.5 20.88a2.5 2.5 0 0 1-2.5-2.5V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v12.88a2.5 2.5 0 0 1-4.27 1.77l-4.38-4.38a.5.5 0 0 0-.71 0l-4.38 4.38a2.5 2.5 0 0 1-1.77.73Zm8.27-6.53 4.38 4.38a.5.5 0 0 0 .85-.35V5.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v12.88c0 .45.54.67.85.35l4.38-4.38a2.5 2.5 0 0 1 3.54 0Z" />
+                                                                    <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
+                                                                </svg>
+                                                                <em>Review request withdrawn
+                                                                    by @review.ReviewedByFullName
+                                                                    on @Html.DisplayFor(_ => review.CompletedDate, DisplayTemplate.DateTimeNullableShort).</em>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (review.IsCompleted)
                                                 {
                                                     <div class="mt-2">
                                                         <svg class="SVGBGI complete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -651,19 +668,25 @@
                                                 else
                                                 {
                                                     <div class="mt-2">
-                                                        <svg class="SVGBGI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                            <path class="accent" d="m19 20-7-6-7 6L4 4h16l-1 16z" />
-                                                            <path class="outline" d="M5.5 20.88a2.5 2.5 0 0 1-2.5-2.5V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v12.88a2.5 2.5 0 0 1-4.27 1.77l-4.38-4.38a.5.5 0 0 0-.71 0l-4.38 4.38a2.5 2.5 0 0 1-1.77.73Zm8.27-6.53 4.38 4.38a.5.5 0 0 0 .85-.35V5.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v12.88c0 .45.54.67.85.35l4.38-4.38a2.5 2.5 0 0 1 3.54 0Z" />
-                                                            <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
-                                                        </svg>
-                                                        <em>Review not yet completed.</em>
-                                                        @if (User.CanWithdrawReviewRequest(action))
-                                                        {
-                                                            <button type="button" name="withdrawReviewRequest" class="btn btn-sm btn-outline-danger"
-                                                                    value="@review.Id.ToString()" data-ea-id="@action.Id">
-                                                                Withdraw request
-                                                            </button>
-                                                        }
+                                                        <div class="row justify-content-between align-items-center g-0 my-1">
+                                                            <div class="col">
+                                                                <svg class="SVGBGI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                    <path class="accent" d="m19 20-7-6-7 6L4 4h16l-1 16z" />
+                                                                    <path class="outline" d="M5.5 20.88a2.5 2.5 0 0 1-2.5-2.5V5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v12.88a2.5 2.5 0 0 1-4.27 1.77l-4.38-4.38a.5.5 0 0 0-.71 0l-4.38 4.38a2.5 2.5 0 0 1-1.77.73Zm8.27-6.53 4.38 4.38a.5.5 0 0 0 .85-.35V5.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v12.88c0 .45.54.67.85.35l4.38-4.38a2.5 2.5 0 0 1 3.54 0Z" />
+                                                                    <path class="solid" d="m18.44 20.44-6.09-6.09a.5.5 0 0 0-.71 0l-6.09 6.09a1.5 1.5 0 0 1-2.56-1.06V5.5A2.5 2.5 0 0 1 5.49 3h13a2.5 2.5 0 0 1 2.5 2.5v13.88a1.5 1.5 0 0 1-2.56 1.06Z" />
+                                                                </svg>
+                                                                <em>Review not yet completed.</em>
+                                                            </div>
+                                                            @if (User.CanWithdrawReviewRequest(action))
+                                                            {
+                                                                <div class="col-auto d-print-none ms-2">
+                                                                    <button type="button" name="withdrawReviewRequest" value="@review.Id.ToString()" data-ea-id="@action.Id"
+                                                                            class="btn btn-sm btn-link px-0 link-warning link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover">
+                                                                        Withdraw request
+                                                                    </button>
+                                                                </div>
+                                                            }
+                                                        </div>
                                                     </div>
                                                 }
                                             </li>

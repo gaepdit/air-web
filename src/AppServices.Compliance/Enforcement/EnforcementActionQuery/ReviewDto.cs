@@ -14,6 +14,7 @@ public record ReviewDto
     public DateTime? CompletedDate { get; internal init; }
 
     public ReviewResult? Result { get; internal init; }
+    public bool IsWithdrawn => Result == ReviewResult.Withdrawn;
 
     [StringLength(7000)]
     public string? ReviewComments { get; internal init; }

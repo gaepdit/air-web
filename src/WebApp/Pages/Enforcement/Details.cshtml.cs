@@ -235,7 +235,7 @@ public class DetailsModel(
         var action = await actionService.FindAsync(enforcementActionId, token);
         if (action is null || !User.CanWithdrawReviewRequest(action)) return BadRequest();
 
-        var review = new EnforcementActionSubmitReviewDto { Result = ReviewResult.RequestWithdrawn };
+        var review = new EnforcementActionSubmitReviewDto { Result = ReviewResult.Withdrawn };
         await actionService.SubmitReviewAsync(enforcementActionId, review, token);
         return RedirectToPage();
     }

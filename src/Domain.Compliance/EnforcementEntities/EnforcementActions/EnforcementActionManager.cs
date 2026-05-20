@@ -228,7 +228,7 @@ public class EnforcementActionManager(
             case ReviewResult.Approved:
                 Approve(action, reviewer);
                 break;
-            case ReviewResult.Returned or ReviewResult.RequestWithdrawn:
+            case ReviewResult.Returned or ReviewResult.Withdrawn:
                 ReturnToDraft(action, reviewer);
                 break;
             case ReviewResult.Canceled:
