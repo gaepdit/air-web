@@ -12,17 +12,18 @@ public record EnforcementActionEditDto : NotesDto
 
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [Display(Name = "Issued")]
+    [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
-    public DateOnly? IssueDate { get; init; }
+    public DateOnly? IssueDate { get; set; }
 }
 
-public abstract class EnforcementActionEditValidator : AbstractValidator<EnforcementActionEditDto>
+public class EnforcementActionEditValidator : AbstractValidator<EnforcementActionEditDto>
 {
-    protected EnforcementActionEditValidator()
+    public EnforcementActionEditValidator()
     {
         RuleFor(dto => dto.IssueDate)
             .Must(date => date <= DateOnly.FromDateTime(DateTime.Today))
-            .WithMessage("The issue date cannot be in the future.");
+            .When(dto => dto.IssueDate.HasValue)
+            .WithMessage("The issued date cannot be in the future.");
     }
 }

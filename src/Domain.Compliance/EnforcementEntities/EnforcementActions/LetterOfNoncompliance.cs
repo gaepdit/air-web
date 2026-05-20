@@ -21,7 +21,7 @@ public class LetterOfNoncompliance : EnforcementAction, IResponseRequested, IRes
     [StringLength(7000)]
     public string? ResponseComment { get; set; }
 
-    public DateOnly? ResolvedDate { get; internal set; }
+    public DateOnly? ResolvedDate { get; set; }
     public bool IsResolved => ResolvedDate.HasValue;
     public void Resolve(DateOnly resolvedDate) => ResolvedDate = resolvedDate;
 }

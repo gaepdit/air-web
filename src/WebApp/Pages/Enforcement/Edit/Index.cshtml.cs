@@ -17,8 +17,8 @@ public class EditEnforcementActionRedirectModel : PageModel
         {
             EnforcementActionType.AdministrativeOrder => "AdministrativeOrder",
             EnforcementActionType.ConsentOrder => "ConsentOrder",
+            EnforcementActionType.LetterOfNoncompliance => "LetterOfNoncompliance",
             EnforcementActionType.InformationalLetter
-                or EnforcementActionType.LetterOfNoncompliance
                 or EnforcementActionType.NoFurtherActionLetter
                 or EnforcementActionType.NovNfaLetter
                 or EnforcementActionType.NoticeOfViolation

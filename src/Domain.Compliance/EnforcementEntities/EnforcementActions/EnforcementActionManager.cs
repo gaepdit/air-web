@@ -42,14 +42,9 @@ public class EnforcementActionManager(
         responseRequested.ResponseComment = comment;
     }
 
-    public async Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public async Task UpdateStatusAsync(EnforcementAction action, ApplicationUser? user)
     {
-        if (action.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has been canceled.");
-
         action.SetUpdater(user?.Id);
-        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
-
         await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
     }
 
@@ -81,11 +76,15 @@ public class EnforcementActionManager(
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
 
+        if (action.IsUnderReview)
+            throw new InvalidOperationException("Enforcement Action requires a review before it can be issued.");
+
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
         action.Status = EnforcementActionStatus.Issued;
 
         await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
+        action.CaseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionIssued(action.ActionType, user));
 
         if (tryCloseCaseFile && action is
             {
@@ -130,6 +129,7 @@ public class EnforcementActionManager(
         action.SetUpdater(user?.Id);
         action.CanceledDate = DateTime.Now;
         action.Status = EnforcementActionStatus.Canceled;
+        action.CaseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionCanceled(action.ActionType, user));
     }
 
     public void Delete(EnforcementAction action, CaseFile caseFile, ApplicationUser? user)
@@ -151,6 +151,7 @@ public class EnforcementActionManager(
 
         action.SetUpdater(user?.Id);
         resolvable.Resolve(resolvedDate);
+        action.CaseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionResolved(action.ActionType, user));
 
         if (action is DxActionEnforcementAction dx)
         {
@@ -170,6 +171,7 @@ public class EnforcementActionManager(
         ((DxActionEnforcementAction)action).UpdateDataExchange();
         action.CaseFile.UpdateDataExchange();
         action.Execute(executedDate);
+        action.CaseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionOrderExecuted(user));
     }
 
     public void AppealOrder(AdministrativeOrder action, DateOnly executedDate, ApplicationUser? user)
@@ -178,6 +180,7 @@ public class EnforcementActionManager(
         action.UpdateDataExchange();
         action.CaseFile.UpdateDataExchange();
         action.Appeal(executedDate);
+        action.CaseFile.AuditPoints.Add(CaseFileAuditPoint.EnforcementActionOrderAppealed(user));
     }
 
     public StipulatedPenalty AddStipulatedPenalty(ConsentOrder consentOrder, decimal amount, DateOnly receivedDate,
@@ -216,6 +219,8 @@ public class EnforcementActionManager(
 
         action.CurrentOpenReview!.CompleteReview(user, result, comments);
         action.SetUpdater(user.Id);
+        action.CaseFile.AuditPoints
+            .Add(CaseFileAuditPoint.EnforcementActionReviewed(action.ActionType, result, user));
 
         switch (result)
         {

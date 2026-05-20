@@ -28,6 +28,8 @@ public class InspectionAddModel(
             FacilityId = FacilityId,
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
             IsRmpInspection = isRmp,
+            InspectionReason = isRmp ? InspectionReason.PlannedAnnounced : InspectionReason.PlannedUnannounced,
+            FacilityOperating = isRmp,
         };
 
         return await DoGetAsync();

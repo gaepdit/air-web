@@ -21,6 +21,12 @@ public abstract record AccCommandDto : ComplianceWorkCommandDto, IAccCommandDto
     [MaxDate]
     public DateOnly PostmarkDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [Display(Name = "Date Initial Review Complete")]
+    [MaxDate]
+    public DateOnly? ReviewedDate { get; init; }
+
     [Display(Name = "Postmarked By Deadline")]
     public bool PostmarkedOnTime { get; init; }
 

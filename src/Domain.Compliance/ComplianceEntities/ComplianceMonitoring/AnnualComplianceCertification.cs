@@ -28,9 +28,12 @@ public class AnnualComplianceCertification : ComplianceEvent, IDataExchangeActio
         }
     }
 
+    public DateOnly? ReviewedDate { get; set; }
+
     // The following are required for new data but nullable for historical data.
     public int? AccReportingYear { get; set; }
     public DateOnly? PostmarkDate { get; set; }
+
     public bool? PostmarkedOnTime { get; set; }
     public bool? SignedByRo { get; set; }
     public bool? OnCorrectForms { get; set; }

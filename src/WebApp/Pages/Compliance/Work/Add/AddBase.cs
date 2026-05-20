@@ -47,7 +47,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilitySummaryAsync((FacilityId)item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)item.FacilityId);
             if (Facility is null) return BadRequest();
 
             await PopulateSelectListsAsync();
@@ -63,6 +63,6 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     }
 
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole)).ToSelectList();
 }

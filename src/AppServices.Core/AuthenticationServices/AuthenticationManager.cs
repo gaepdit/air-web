@@ -91,7 +91,7 @@ public sealed class AuthenticationManager(
                 NormalizedEmail = email.ToUpperInvariant(),
                 NormalizedUserName = email.ToUpperInvariant(),
             };
-            await userManager.CreateAsync(user);
+            await userManager.CreateAsync(user).ConfigureAwait(false);
         }
 
         logger.ZLogInformation($"Local user with ID {userId} signed in");

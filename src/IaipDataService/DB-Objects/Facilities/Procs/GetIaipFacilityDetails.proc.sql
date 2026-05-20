@@ -20,6 +20,7 @@ When        Who                 What
 2022-12-08  DWaldron            Update filter for approved facilities (IAIP-1177)
 2024-10-04  DWaldron            Change Facility ID to 8 characters and move data to Views (#162)
 2024-10-30  DWaldron            Add pollutant data (#66)
+2026-03-17  DWaldron            Change Air Programs from enum values to codes (#466)
 
 ***************************************************************************************************/
 
@@ -56,7 +57,7 @@ BEGIN
     from air.IaipFacilityData
     where Id = @FacilityId;
 
-    select AirProgram
+    select Code, Description
     from air.IaipFacilityAirProgramData
     where FacilityId = @FacilityId
     order by Sequence;
@@ -66,8 +67,7 @@ BEGIN
     where FacilityId = @FacilityId
     order by Sequence;
 
-    select Code,
-           Description
+    select Code, Description
     from air.IaipFacilityPollutantData
     where FacilityId = @FacilityId
     order by Description;

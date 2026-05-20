@@ -1,8 +1,3 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace IaipDataService.Facilities;
 
-namespace IaipDataService.Facilities;
-
-public record Pollutant(
-    [StringLength(9)] string Code,
-    string Description
-);
+public record Pollutant(string Code, string Description);

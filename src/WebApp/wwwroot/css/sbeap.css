@@ -1,0 +1,18 @@
+/* SBEAP branding colors
+-------------------------------------------------- */
+
+:root, [data-bs-theme="light"] {
+    --base-hue: 275deg;
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+}
+
+.navbar .dropdown-item:focus, .navbar .dropdown-item:hover {
+    color: hsl(var(--base-hue), 73%, 23%);
+    background-color: hsl(var(--base-hue), 100%, 95%);
+}
+
+/* Dark mode theme */
+
+[data-bs-theme="dark"] .navbar {
+    background-color: hsl(var(--base-hue), 42%, 23%);
+}

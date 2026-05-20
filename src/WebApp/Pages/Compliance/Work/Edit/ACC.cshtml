@@ -1,5 +1,6 @@
 ﻿@page "{id:int?}"
 @using AirWeb.Domain.Compliance
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AccEditModel
 @{
@@ -12,9 +13,8 @@
 <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle mb-3">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi me-2" role="img" aria-label="Danger:">
-                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-            </svg>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                     view-data-CssClass="@("me-2")" />
         </div>
         <dl class="row">
             <dt class="col-sm-4 col-lg-3">Facility</dt>
@@ -52,6 +52,9 @@
                         <partial name="Shared/_RequiredLabelPartial" />
                         ACC Analysis
                     </legend>
+                    <div class="mb-3">
+                        @Html.EditorFor(m => m.Item.ReviewedDate, EditorTemplate.InputDateOnlyNullable)
+                    </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="mb-3">
@@ -94,7 +97,7 @@
 
         <div class="row">
             <div class="mb-3">
-                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
+                @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
             </div>
         </div>
 
@@ -107,7 +110,3 @@
         <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

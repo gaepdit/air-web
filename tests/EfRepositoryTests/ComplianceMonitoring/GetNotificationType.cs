@@ -1,5 +1,5 @@
-using AirWeb.EfRepository.Repositories;
-using AirWeb.TestData.Lookups;
+using AirWeb.EfRepository.ComplianceRepositories;
+using AirWeb.TestData.Compliance;
 
 namespace EfRepositoryTests.ComplianceMonitoring;
 

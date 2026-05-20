@@ -21,6 +21,7 @@ public class AdministrativeOrderEditModel(
     [BindProperty]
     public AdministrativeOrderCommandDto Item { get; set; } = null!;
 
+    public bool ShowIssueDate { get; private set; }
     public CaseFileSummaryDto? CaseFile { get; set; }
 
     // Form buttons
@@ -40,6 +41,7 @@ public class AdministrativeOrderEditModel(
         if (itemView.ActionType != EnforcementActionType.AdministrativeOrder)
             return RedirectToPage("Index", new { Id });
         if (!User.CanEdit(itemView)) return Forbid();
+        if (itemView.IsIssued) ShowIssueDate = true;
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
@@ -62,7 +64,10 @@ public class AdministrativeOrderEditModel(
         await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
+        {
+            if (itemView.IsIssued) ShowIssueDate = true;
             return Page();
+        }
 
         await actionService.UpdateAsync(Id, Item, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,

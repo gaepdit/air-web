@@ -1,6 +1,11 @@
-﻿using AirWeb.EfRepository.Contexts;
+﻿using AirWeb.Domain.Sbeap.Entities.Cases;
+using AirWeb.Domain.Sbeap.Entities.Contacts;
+using AirWeb.Domain.Sbeap.Entities.Customers;
+using AirWeb.EfRepository.CommonRepositories;
+using AirWeb.EfRepository.ComplianceRepositories;
+using AirWeb.EfRepository.Contexts;
 using AirWeb.EfRepository.Contexts.SeedDevData;
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.SbeapRepositories;
 using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
@@ -124,7 +129,7 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         await Context.SaveChangesAsync();
         ClearChangeTracker();
     }
-    
+
     public FceRepository GetFceRepository()
     {
         Context = new AppDbContext(_options);
@@ -165,6 +170,24 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     {
         Context = new AppDbContext(_options);
         return new FceCommentRepository(Context);
+    }
+
+    public ICaseworkRepository GetCaseworkRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new CaseworkRepository(Context);
+    }
+
+    public ICustomerRepository GetCustomerRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new CustomerRepository(Context);
+    }
+
+    public IContactRepository GetContactRepository()
+    {
+        Context = new AppDbContext(_options);
+        return new ContactRepository(Context);
     }
 
     public void Dispose() => Context.Dispose();

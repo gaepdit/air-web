@@ -14,27 +14,25 @@ public interface IActionViewDto : IDeletable
     // Status
     public EnforcementActionStatus Status { get; }
     public DateOnly? StatusDate { get; }
-    public bool IsReportable { get; }
+
+    // Metadata
     public bool IsReportableAction { get; }
     public DateTimeOffset? CreatedAt { get; }
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; }
     public ReviewDto? CurrentOpenReview { get; }
-    public DateTime? ReviewRequestedDate { get; }
-    public bool IsUnderReview => ReviewRequestedDate.HasValue;
+    public bool IsUnderReview => Status == EnforcementActionStatus.ReviewRequested;
     public ICollection<ReviewDto> Reviews { get; }
 
     // -- Approved
     public DateTime? ApprovedDate { get; }
-    public StaffViewDto? ApprovedBy { get; }
-    public bool IsApproved { get; }
 
     // -- Issued
     public DateOnly? IssueDate { get; }
-    public bool IsIssued { get; }
+    public bool IsIssued => Status == EnforcementActionStatus.Issued;
 
     // -- Canceled (closed as unsent)
     public DateTime? CanceledDate { get; }
-    public bool IsCanceled { get; }
+    public bool IsCanceled => Status == EnforcementActionStatus.Canceled;
 }

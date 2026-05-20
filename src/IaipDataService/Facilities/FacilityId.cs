@@ -38,6 +38,13 @@ public partial record FacilityId
     /// </summary>
     public string EpaFacilityId => $"GA00000013{Id}";
 
+    /// <summary>
+    /// The 3-digit FIPS county code.
+    /// </summary>
+    public string CountyCode => Id[..3];
+    
+    public const string PortableSourceCountyCode = "777";
+
     // Operators
     public static implicit operator string(FacilityId id) => id.FormattedId;
     public static explicit operator FacilityId(string id) => new(id);
@@ -49,7 +56,7 @@ public partial record FacilityId
 
     public static bool TryParse([NotNullWhen(true)] string? s, [NotNullWhen(true)] out FacilityId? result)
     {
-        if (s is null)
+        if (string.IsNullOrEmpty(s))
         {
             result = null;
             return false;
@@ -110,4 +117,8 @@ public partial record FacilityId
     // language:regex
     public const string SimplifiedFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
     public const string SimplifiedFormatError = "Invalid AIRS Number format.";
+
+    // Format as Facility ID if possible, otherwise return original input.
+    public static string? TryFormat(string? input) =>
+        TryParse(input, out var facilityId) ? facilityId.FormattedId : input;
 }

@@ -19,7 +19,11 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [StringLength(9)]
     [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
         ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
-    public string? FacilityId { get; init; }
+    public string? FacilityId
+    {
+        get;
+        init => field = IaipDataService.Facilities.FacilityId.TryFormat(value);
+    }
 
     [Display(Name = "FCE Year")]
     public int? Year { get; init; }

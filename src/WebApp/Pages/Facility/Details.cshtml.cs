@@ -8,6 +8,7 @@ using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests.Models;
+using System.Text.Json;
 
 namespace AirWeb.WebApp.Pages.Facility;
 
@@ -25,7 +26,9 @@ public class DetailsModel(
     public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
-
+    public FacilitySummary? FacilitySummary => Facility is null ? null : new(Facility);
+    public string FacilityJson => JsonSerializer.Serialize(FacilitySummary);
+    
     // Data tables
     public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
     public IPaginatedResult<ComplianceWorkSearchResultDto> ComplianceWork { get; set; } = null!;

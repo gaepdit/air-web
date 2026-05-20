@@ -14,6 +14,7 @@ namespace AirWeb.WebApp.Pages.Enforcement;
 [Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class SubmitReviewModel(
     IEnforcementActionService actionService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<EnforcementActionSubmitReviewDto> validator) : PageModel, ISubmitCancelButtons
 {
@@ -42,6 +43,10 @@ public class SubmitReviewModel(
         if (itemView is null) return NotFound();
         if (!User.CanReview(itemView)) return Forbid();
 
+        var caseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (caseFile is null) return NotFound();
+        if (!User.CanEditCaseFile(caseFile)) return Forbid();
+
         ItemView = itemView;
         ItemReview = new EnforcementActionSubmitReviewDto();
 
@@ -53,6 +58,9 @@ public class SubmitReviewModel(
     {
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null || !User.CanReview(itemView)) return BadRequest();
+
+        var caseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
+        if (caseFile is null || !User.CanEditCaseFile(caseFile)) return BadRequest();
 
         await validator.ApplyValidationAsync(ItemReview, ModelState);
         if (!ModelState.IsValid)
@@ -73,6 +81,6 @@ public class SubmitReviewModel(
     }
 
     private async Task PopulateSelectListsAsync() => StaffSelectList =
-        (await staffService.GetUsersInRoleAsync(ComplianceRole.EnforcementReviewerRole,
+        (await staffService.GetStaffInRoleAsync(ComplianceRole.EnforcementReviewerRole,
             ComplianceRole.EnforcementManagerRole)).ToSelectList();
 }

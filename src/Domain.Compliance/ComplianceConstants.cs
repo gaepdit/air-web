@@ -10,4 +10,8 @@ public static class ComplianceConstants
 
     public static string EarliestComplianceDateHtmlString =>
         EarliestComplianceDate.ToString(MaxDateAttribute.HtmlInputDate);
+
+    // The date of the final data migration of SSCP compliance and enforcement data from the IAIP.
+    // 28-Feb-2026
+    public static readonly DateOnly ComplianceDataMigrationDate = new(year: 2026, month: 2, day: 28);
 }

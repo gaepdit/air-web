@@ -1,0 +1,64 @@
+﻿@page
+@using AirWeb.WebApp.Pages.Shared
+@model MapModel
+@{
+    ViewData["Title"] = "Facility Map";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>@ViewData["Title"]</h1>
+    <div><a asp-page="Index" class="btn btn-outline-info d-flex align-items-center">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.List" />
+            <span class="ms-1">View List</span>
+        </a>
+    </div>
+</div>
+
+<p class="lead">
+    This tool displays facilities from the IAIP that have been approved within the IAIP facility creator tool and have
+    latitude/longitude data. Portable sources (county code 777) are excluded. If location data is incorrect or missing,
+    it can be corrected in the IAIP.
+</p>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mb-3 d-md-inline-block">
+    <div class="row row-cols-sm-auto align-items-center d-print-none">
+        <div>
+            <label for="city-selector" class="col-form-label">Zoom to:</label>
+        </div>
+        <div>
+            <select id="city-selector" class="form-select" aria-label="Zoom the map to a specific city">
+                <option value="#32.9,-83.3,7z">State of Georgia</option>
+                <hr />
+                @foreach (var city in MapModel.CityLocations)
+                {
+                    <option value="#@(city.Location)">@city.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<div id="facility-map" class="border border-secondary"></div>
+
+@section Scripts {
+    <script asp-add-content-to-csp>
+        const facilities = @Html.Raw(Model.FacilitiesAsJson);
+    </script>
+    <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
+    <script src="~/lib/leaflet.markercluster/dist/leaflet.markercluster.min.js"></script>
+    <script src="~/lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+    <script src="~/js/maps/leaflet.permalink.min.js"></script>
+    <script src="~/js/maps/georgiaGeoJson.js"></script>
+    <script src="~/js/maps/mapAllInit.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/dist/MarkerCluster.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/dist/MarkerCluster.Default.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+}
+
+@section Footer {
+    <partial name="Shared/_IaipReloadPartial" />
+}

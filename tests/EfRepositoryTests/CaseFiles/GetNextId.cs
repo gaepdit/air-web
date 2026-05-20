@@ -1,5 +1,5 @@
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
-using AirWeb.EfRepository.Repositories;
+using AirWeb.EfRepository.ComplianceRepositories;
 
 namespace EfRepositoryTests.CaseFiles;
 

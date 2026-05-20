@@ -59,15 +59,15 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
         }
 
         var result = await service.UpdateAsync(Id, item, token);
-        var workType = await service.GetComplianceWorkTypeAsync(Id, token);
+        var workType = (await service.GetComplianceWorkTypeAsync(Id, token))!.Value.GetDisplayName();
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
-            $"{workType!.Value.GetDisplayName()} successfully updated.");
+            $"{workType} successfully updated.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage("../Details", new { Id });
     }
 
     // FUTURE: Allow for editing a Compliance Work entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetUsersInRoleAsync(ComplianceRole.ComplianceStaffRole,
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole)).ToSelectList();
 }

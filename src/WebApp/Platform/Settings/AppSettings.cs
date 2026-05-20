@@ -1,4 +1,4 @@
-﻿using AirWeb.WebApp.Platform.PrintoutModels;
+﻿using AirWeb.WebApp.Pages.Print.PrintSectionModels;
 using JetBrains.Annotations;
 
 namespace AirWeb.WebApp.Platform.Settings;

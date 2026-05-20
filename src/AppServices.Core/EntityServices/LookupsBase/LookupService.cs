@@ -1,8 +1,11 @@
+using AirWeb.AppServices.Core.Caching;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AutoMapper;
 using GaEpd.AppLibrary.Domain.Entities;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.ListItems;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Core.EntityServices.LookupsBase;
 
@@ -12,26 +15,57 @@ public abstract class LookupService<TEntity, TViewDto, TUpdateDto>(
     IMapper mapper,
     INamedEntityRepository<TEntity> repository,
     INamedEntityManager<TEntity> manager,
-    IUserService userService)
+    IUserService userService,
+    IMemoryCache cache,
+    ILogger logger)
     : ILookupService<TViewDto, TUpdateDto>
     where TEntity : StandardNamedEntity
     where TUpdateDto : LookupUpdateDto
 #pragma warning restore S2436
 {
-    public async Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<TViewDto>(await repository.FindAsync(id, token: token).ConfigureAwait(false));
+    private static string LookupName => typeof(TEntity).Name;
 
-    public async Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<TUpdateDto>(await repository.FindAsync(id, token: token).ConfigureAwait(false));
+    public async Task<TViewDto?> FindAsync(Guid id, CancellationToken token = default)
+    {
+        var cacheKey = $"{LookupName}.{id}";
+        if (cache.TryGetValue(cacheKey, logger, out TViewDto? cachedValue)) return cachedValue;
 
-    public async Task<IReadOnlyList<TViewDto>> GetListAsync(CancellationToken token = default) =>
-        mapper.Map<IReadOnlyList<TViewDto>>(await repository.GetOrderedListAsync(token).ConfigureAwait(false));
+        return cache.Set(
+            mapper.Map<TViewDto>(await repository.FindAsync(id, token: token).ConfigureAwait(false)),
+            cacheKey, CacheConstants.LookupsCacheTime, logger);
+    }
+
+    public async Task<TUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
+    {
+        var cacheKey = $"{LookupName}.Update.{id}";
+        if (cache.TryGetValue(cacheKey, logger, out TUpdateDto? cachedValue)) return cachedValue;
+
+        return cache.Set(
+            mapper.Map<TUpdateDto>(await repository.FindAsync(id, token: token).ConfigureAwait(false)),
+            cacheKey, CacheConstants.LookupsCacheTime, logger);
+    }
+
+    public async Task<IReadOnlyList<TViewDto>> GetListAsync(CancellationToken token = default)
+    {
+        var cacheKey = $"{LookupName}.List";
+        if (cache.TryGetValue(cacheKey, logger, out IReadOnlyList<TViewDto>? cachedValue)) return cachedValue;
+
+        return cache.Set(
+            mapper.Map<IReadOnlyList<TViewDto>>(await repository.GetOrderedListAsync(token).ConfigureAwait(false)),
+            cacheKey, CacheConstants.LookupsCacheTime, logger);
+    }
 
     public async Task<IReadOnlyList<ListItem>> GetAsListItemsAsync(bool includeInactive = false,
-        CancellationToken token = default) =>
-        (await repository.GetOrderedListAsync(entity => includeInactive || entity.Active, token).ConfigureAwait(false))
-        .Select(entity => new ListItem(entity.Id, entity.Name))
-        .ToList();
+        CancellationToken token = default)
+    {
+        var cacheKey = $"{LookupName}.ListItems{(includeInactive ? ".includeInactive" : "")}";
+        if (cache.TryGetValue(cacheKey, logger, out IReadOnlyList<ListItem>? cachedValue)) return cachedValue;
+
+        return cache.Set(
+            (await repository.GetOrderedListAsync(entity => includeInactive || entity.Active, token)
+                .ConfigureAwait(false)).Select(entity => new ListItem(entity.Id, entity.NameWithActivity)).ToList(),
+            cacheKey, CacheConstants.LookupsCacheTime, logger);
+    }
 
     public async Task<Guid> CreateAsync(string name, CancellationToken token = default)
     {
@@ -39,6 +73,8 @@ public abstract class LookupService<TEntity, TViewDto, TUpdateDto>(
             .CreateAsync(name, (await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id, token)
             .ConfigureAwait(false);
         await repository.InsertAsync(entity, token: token).ConfigureAwait(false);
+
+        RemoveCaches();
         return entity.Id;
     }
 
@@ -50,6 +86,15 @@ public abstract class LookupService<TEntity, TViewDto, TUpdateDto>(
         entity.Active = resource.Active;
         entity.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
         await repository.UpdateAsync(entity, token: token).ConfigureAwait(false);
+
+        RemoveCaches(id);
+    }
+
+    private void RemoveCaches(Guid? id = null)
+    {
+        cache.RemoveAll([$"{LookupName}.List", $"{LookupName}.ListItems.includeInactive", $"{LookupName}.ListItems"]);
+
+        if (id != null) cache.RemoveAll([$"{LookupName}.{id}", $"{LookupName}.Update.{id}"]);
     }
 
     #region IDisposable,  IAsyncDisposable

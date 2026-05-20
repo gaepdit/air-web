@@ -18,7 +18,7 @@ $(document).ready(function () {
                 return false;
             }
         }
-        // Only disable inputs if form is valid (or if no validator)
+        // Only disable inputs if the form is valid or if no validator exists
         $('input').each(disableEmptyInput);
         $('select').each(disableEmptyInput);
         return true;

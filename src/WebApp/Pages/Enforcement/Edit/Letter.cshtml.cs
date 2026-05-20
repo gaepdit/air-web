@@ -4,13 +4,14 @@ using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
+using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
 public class LetterEditModel(
     IEnforcementActionService actionService,
-    ICaseFileService caseFileService)
-    : PageModel, ISubmitCancelButtons
+    ICaseFileService caseFileService,
+    IValidator<EnforcementActionEditDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public Guid Id { get; set; } // Enforcement Action ID
@@ -19,6 +20,7 @@ public class LetterEditModel(
     public EnforcementActionEditDto Item { get; set; } = null!;
 
     public bool ShowResponseRequested { get; private set; }
+    public bool ShowIssueDate { get; private set; }
     public string ItemName { get; private set; } = null!;
     public CaseFileSummaryDto? CaseFile { get; set; }
 
@@ -37,6 +39,7 @@ public class LetterEditModel(
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null) return NotFound();
         if (!User.CanEdit(itemView)) return Forbid();
+        if (itemView.IsIssued) ShowIssueDate = true;
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null) return NotFound();
@@ -65,6 +68,14 @@ public class LetterEditModel(
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
+
+        await validator.ApplyValidationAsync(Item, ModelState);
+
+        if (!ModelState.IsValid)
+        {
+            if (itemView.IsIssued) ShowIssueDate = true;
+            return Page();
+        }
 
         await actionService.UpdateAsync(Id, Item, token);
 

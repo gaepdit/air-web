@@ -1,21 +1,16 @@
 ﻿@model string
-@{
-    var iconsFile = Url.Content("~/images/app-icons.svg");
-}
 @if (Model == ViewData["ValidatingSection"]!.ToString())
 {
     <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-        <svg class="bi me-2" role="img" aria-label="Danger:">
-            <use href="@iconsFile#app-icon-exclamation-triangle-fill"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                 view-data-CssClass="@("me-2")" />
     </div>
 }
 else
 {
     <div class="alert alert-danger validation-summary-valid d-flex align-items-center" role="alert" data-valmsg-summary="true">
-        <svg class="bi me-2" role="img" aria-label="Danger:">
-            <use href="@iconsFile#app-icon-exclamation-triangle-fill"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                 view-data-CssClass="@("me-2")" />
         <ul>
             <li style="display:none"></li>
         </ul>

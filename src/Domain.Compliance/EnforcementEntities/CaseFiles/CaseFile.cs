@@ -1,4 +1,4 @@
-using AirWeb.Domain.Compliance.AuditPoints;
+﻿using AirWeb.Domain.Compliance.AuditPoints;
 using AirWeb.Domain.Compliance.Comments;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.Data;
@@ -37,7 +37,10 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public string? Notes { get; set; }
 
     // Required if the data exchange is enabled.
-    public ViolationType? ViolationType { get; set; }
+    [StringLength(5)]
+    public string? ViolationTypeCode { get; set; }
+
+    public ViolationType? ViolationType => ViolationTypeData.GetViolationType(ViolationTypeCode);
 
     // Status
 
@@ -77,11 +80,12 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Computed dates
 
-    // Required if the data exchange is enabled.
+    // HPV Day Zero is required if the data exchange is enabled, and the Violation Severity is "HPV".
     public DateOnly? DayZero
     {
         get
         {
+            if (ViolationType is not { Severity: ViolationSeverity.HPV }) return null;
             var actionDates = EnforcementActions
                 .Where(action => action.IsReportable)
                 .Select(action => action.IssueDate) // List the dates each formal enforcement action was issued.
@@ -105,8 +109,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
         // Enforcement Date is the earliest date of the issued enforcement actions.
         get => EnforcementActions
             .Where(action => action is { IsDeleted: false, IsIssued: true, IssueDate: not null })
-            .Select(action => action.IssueDate)
-            .Min();
+            .Min(action => action.IssueDate);
 
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
@@ -122,12 +125,14 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     // are required if the data exchange is enabled.
     public ICollection<Pollutant> GetPollutants() => PollutantIds.AsPollutants();
     public List<string> PollutantIds { get; } = [];
-    public List<AirProgram> AirPrograms { get; } = [];
+
+    public ICollection<AirProgram> GetAirPrograms() => AirProgramCodes.AsAirPrograms();
+    public List<string> AirProgramCodes { get; } = [];
 
     public bool MissingData =>
-        !IsClosed && (PollutantIds.Count == 0 || AirPrograms.Count == 0 ||
-                      ComplianceEvents.All(dto => dto.IsDeleted) ||
-                      ViolationType == null);
+        !IsClosed && IsReportable &&
+        (PollutantIds.Count == 0 || AirProgramCodes.Count == 0 ||
+         ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
     // Comments
     public List<CaseFileComment> Comments { get; } = [];

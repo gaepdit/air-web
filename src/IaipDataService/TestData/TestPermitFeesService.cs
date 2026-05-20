@@ -6,7 +6,7 @@ namespace IaipDataService.TestData;
 public class TestPermitFeesService : IPermitFeesService
 {
     public Task<List<AnnualFeeSummary>> GetAnnualFeesAsync(FacilityId facilityId, DateOnly cutoffDate,
-        int lookBackYears, bool forceRefresh = false)
+        int lookBackYears)
     {
         var annualFees = new List<AnnualFeeSummary>();
         var finalYear = (short)(cutoffDate.Month < 10 ? cutoffDate.Year - 1 : cutoffDate.Year);

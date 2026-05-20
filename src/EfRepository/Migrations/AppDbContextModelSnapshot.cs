@@ -17,7 +17,7 @@ namespace AirWeb.EfRepository.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -194,7 +194,7 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<int?>("ActionNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("AirPrograms")
+                    b.Property<string>("AirProgramCodes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -274,6 +274,7 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ViolationTypeCode")
+                        .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
                     b.HasKey("Id");
@@ -284,13 +285,11 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.HasIndex("ResponsibleStaffId");
 
-                    b.HasIndex("ViolationTypeCode");
-
                     b.HasIndex("FacilityId", "ActionNumber")
                         .IsUnique()
                         .HasFilter("[ActionNumber] IS NOT NULL");
 
-                    b.ToTable("CaseFiles");
+                    b.ToTable("EnforcementCaseFiles");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
@@ -499,7 +498,7 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("SeverityCode")
+                    b.Property<string>("Severity")
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
@@ -507,6 +506,358 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasKey("Code");
 
                     b.ToTable("ViolationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Code = "CRIT1",
+                            Deprecated = false,
+                            Description = "Criteria 1 - Failure to obtain NSR permit and/or install BACT/LAER",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "CRIT2",
+                            Deprecated = false,
+                            Description = "Criteria 2 - NSR/PSD/SIP, violation of emission limit, emission standard, or surrogate parameter",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "CRIT3",
+                            Deprecated = false,
+                            Description = "Criteria 3 - NSPS, violation of emission limit, emission standard, surrogate parameter",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "CRIT4",
+                            Deprecated = false,
+                            Description = "Criteria 4 - NESHAP, violation of emission limit, emission standard, surrogate parameter",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "CRIT5",
+                            Deprecated = false,
+                            Description = "Criteria 5 - Violation of work practice standard, testing requirements, monitoring requirements, recordkeeping or reporting requirements",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "CRIT6",
+                            Deprecated = false,
+                            Description = "Criteria 6 - Other HPV",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "FCIO",
+                            Deprecated = false,
+                            Description = "Failure to construct, install or operate facility/equipment in accordance with permit or regulation",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "FMPR",
+                            Deprecated = false,
+                            Description = "Failure to maintain records as required by permit or regulation",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "FOMP",
+                            Deprecated = false,
+                            Description = "Failure to obtain or maintain a current permit",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "FRPR",
+                            Deprecated = false,
+                            Description = "Failure to report as required by permit or regulation",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "FTCM",
+                            Deprecated = false,
+                            Description = "Failure to test or conduct monitoring as required by permit or regulation",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "VDOA",
+                            Deprecated = false,
+                            Description = "Violation of consent decree, court order, or administrative order",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "VLSP",
+                            Deprecated = false,
+                            Description = "Violation of emission limit, emission standard, surrogate parameter",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "VWPS",
+                            Deprecated = false,
+                            Description = "Violation of Work Practice Standard",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "VFEV",
+                            Deprecated = false,
+                            Description = "Violation of Federally-Enforceable Rule or Regulation that is not federally-reportable",
+                            Severity = "NFR"
+                        },
+                        new
+                        {
+                            Code = "VSTL",
+                            Deprecated = false,
+                            Description = "Violation of State, Tribal or Local Agency Only Regulation",
+                            Severity = "OTH"
+                        },
+                        new
+                        {
+                            Code = "M1A",
+                            Deprecated = true,
+                            Description = "Historic - Any violation of emission limit detected via stack testing",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3F",
+                            Deprecated = true,
+                            Description = "Historic - Any violation of non-opacity (>24 hours standard) via CEM",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC9",
+                            Deprecated = true,
+                            Description = "Historic - Chronic or Recalcitrant Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "DIS",
+                            Deprecated = true,
+                            Description = "Historic - Discretionary HPV",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC8",
+                            Deprecated = true,
+                            Description = "Historic - Emission Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC4",
+                            Deprecated = true,
+                            Description = "Historic - Enforcement Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC1",
+                            Deprecated = true,
+                            Description = "Historic - Fail to Obtain PSD or NSR Permit",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "G10",
+                            Deprecated = true,
+                            Description = "Historic - Section 112(r) Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC7",
+                            Deprecated = true,
+                            Description = "Historic - Testing, Monitoring, Recordkeeping, or Reporting Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC5",
+                            Deprecated = true,
+                            Description = "Historic - Title V Certification Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC6",
+                            Deprecated = true,
+                            Description = "Historic - Title V Permit Application Violation",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC2",
+                            Deprecated = true,
+                            Description = "Historic - Violation Of Air Toxics Requirements",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M2A",
+                            Deprecated = true,
+                            Description = "Historic - Violation of Direct Surrogate for >5% of limit for >3% of OT (operating time)",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M2B",
+                            Deprecated = true,
+                            Description = "Historic - Violation of Direct Surrogate for >50% of OT (operating time)",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M2C",
+                            Deprecated = true,
+                            Description = "Historic - Violation of Direct Surrogate of >25% for 2 reporting periods",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M1B",
+                            Deprecated = true,
+                            Description = "Historic - Violation of emission limits > 15% via sampling",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M1C",
+                            Deprecated = true,
+                            Description = "Historic - Violation of emission limits > the SST (Supplemental Significant Threshold)",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3B",
+                            Deprecated = true,
+                            Description = "Historic - Violation of non- opacity standard via CEM of the SST(Supplemental Significant Threshold)",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3A",
+                            Deprecated = true,
+                            Description = "Historic - Violation of non-opacity standard via CEM of >15% for >5% of operating time",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3C",
+                            Deprecated = true,
+                            Description = "Historic - Violation of non-opacity standard via CEM of >15% for 2 reporting periods",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3E",
+                            Deprecated = true,
+                            Description = "Historic - Violation of non-opacity standard via CEM of >25% during two consecutive reporting periods",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M3D",
+                            Deprecated = true,
+                            Description = "Historic - Violation of non-opacity standard via CEM of >50% of the operating time during the reporting period",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4C",
+                            Deprecated = true,
+                            Description = "Historic - Violation of opacity standards (> 20%) via Continuous Opacity Monitoring (COM) for >5% of operating Time",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4D",
+                            Deprecated = true,
+                            Description = "Historic - Violation of opacity standards (>20%) via Continuous Opacity Monitoring (COM) for 5% operating time",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4F",
+                            Deprecated = true,
+                            Description = "Historic - Violation of opacity standards (>20%) via Method 9 VE Readings",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4A",
+                            Deprecated = true,
+                            Description = "Historic - Violation of opacity standards (0-20%) via Continuous Opacity Monitoring (COM)",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4E",
+                            Deprecated = true,
+                            Description = "Historic - Violation of opacity standards (0-20%) via Method 9 VE Readings",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "GC3",
+                            Deprecated = true,
+                            Description = "Historic - Violation that Affects Synthetic Minor Status",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "M4B",
+                            Deprecated = true,
+                            Description = "Historic - Violations of opacity standards >3% of operating time via Continuous Opacity Monitoring during two consecutive reporting periods",
+                            Severity = "HPV"
+                        },
+                        new
+                        {
+                            Code = "VNS1",
+                            Deprecated = true,
+                            Description = "Historic - In Violation No Schedule (1)",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "NMS",
+                            Deprecated = true,
+                            Description = "Historic - In Violation Not Meeting Schedule (6)",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "URG",
+                            Deprecated = true,
+                            Description = "Historic - In Violation Unknown with Regard to Schedule (7)",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "VEPC",
+                            Deprecated = true,
+                            Description = "Historic - In Violation with Regard to Both Emissions and Procedural Compliance (B)",
+                            Severity = "FRV"
+                        },
+                        new
+                        {
+                            Code = "RPC",
+                            Deprecated = true,
+                            Description = "Historic - In Violation with Regard to Procedural Compliance (W)",
+                            Severity = "FRV"
+                        });
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Core.Entities.ApplicationUser", b =>
@@ -722,6 +1073,258 @@ namespace AirWeb.EfRepository.Migrations
                     b.ToTable("EmailLogs");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItems.ActionItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ActionDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("ActionItemTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CaseworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnteredById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("EnteredOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionItemTypeId");
+
+                    b.HasIndex("CaseworkId");
+
+                    b.HasIndex("EnteredById");
+
+                    b.ToTable("SbeapActionItems");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("CaseClosedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CaseClosureNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateOnly>("CaseOpenedDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeleteComments")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(7000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ReferralAgencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("ReferralDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ReferralNotes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ReferralAgencyId");
+
+                    b.ToTable("SbeapCases");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Contacts.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("EnteredById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("EnteredOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("FamilyName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("GivenName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Honorific")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EnteredById");
+
+                    b.ToTable("SbeapContacts");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("County")
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeleteComments")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeletedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("SicCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SbeapCustomers");
+                });
+
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
                 {
                     b.Property<int>("CaseFilesId")
@@ -761,7 +1364,8 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1136,6 +1740,20 @@ namespace AirWeb.EfRepository.Migrations
                     b.HasDiscriminator().HasValue("Office");
                 });
 
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItemTypes.ActionItemType", b =>
+                {
+                    b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
+
+                    b.HasDiscriminator().HasValue("ActionItemType");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Agencies.Agency", b =>
+                {
+                    b.HasBaseType("GaEpd.AppLibrary.Domain.Entities.StandardNamedEntity");
+
+                    b.HasDiscriminator().HasValue("Agency");
+                });
+
             modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.AnnualComplianceCertification", b =>
                 {
                     b.HasBaseType("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.ComplianceEvent");
@@ -1181,6 +1799,11 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<bool?>("ResubmittalRequired")
                         .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ReviewedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ReviewedDate");
 
                     b.Property<bool?>("SignedByRo")
                         .HasColumnType("bit");
@@ -1270,6 +1893,11 @@ namespace AirWeb.EfRepository.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("bit")
                         .HasColumnName("ReportsDeviations");
+
+                    b.Property<DateOnly?>("ReviewedDate")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("date")
+                        .HasColumnName("ReviewedDate");
 
                     b.Property<DateOnly?>("SentDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1519,17 +2147,11 @@ namespace AirWeb.EfRepository.Migrations
                         .WithMany()
                         .HasForeignKey("ResponsibleStaffId");
 
-                    b.HasOne("AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes.ViolationType", "ViolationType")
-                        .WithMany()
-                        .HasForeignKey("ViolationTypeCode");
-
                     b.Navigation("ClosedBy");
 
                     b.Navigation("DeletedBy");
 
                     b.Navigation("ResponsibleStaff");
-
-                    b.Navigation("ViolationType");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties.EnforcementActionReview", b =>
@@ -1626,6 +2248,216 @@ namespace AirWeb.EfRepository.Migrations
                         .HasForeignKey("CommentById");
 
                     b.Navigation("CommentBy");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.ActionItems.ActionItem", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.ActionItemTypes.ActionItemType", "ActionItemType")
+                        .WithMany()
+                        .HasForeignKey("ActionItemTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Cases.Casework", "Casework")
+                        .WithMany("ActionItems")
+                        .HasForeignKey("CaseworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "EnteredBy")
+                        .WithMany()
+                        .HasForeignKey("EnteredById");
+
+                    b.Navigation("ActionItemType");
+
+                    b.Navigation("Casework");
+
+                    b.Navigation("EnteredBy");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Customers.Customer", "Customer")
+                        .WithMany("Cases")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Agencies.Agency", "ReferralAgency")
+                        .WithMany()
+                        .HasForeignKey("ReferralAgencyId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ReferralAgency");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Contacts.Contact", b =>
+                {
+                    b.HasOne("AirWeb.Domain.Sbeap.Entities.Customers.Customer", "Customer")
+                        .WithMany("Contacts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AirWeb.Domain.Core.Entities.ApplicationUser", "EnteredBy")
+                        .WithMany()
+                        .HasForeignKey("EnteredById");
+
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("ContactId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("ContactId");
+
+                            b1.ToTable("SbeapContacts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
+                    b.OwnsMany("AirWeb.Domain.Sbeap.ValueObjects.PhoneNumber", "PhoneNumbers", b1 =>
+                        {
+                            b1.Property<Guid>("ContactId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("Number")
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)");
+
+                            b1.Property<string>("Type")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ContactId", "Id");
+
+                            b1.ToTable("PhoneNumber");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
+                    b.Navigation("Address")
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("EnteredBy");
+
+                    b.Navigation("PhoneNumbers");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "Location", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("CustomerId");
+
+                            b1.ToTable("SbeapCustomers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
+                    b.OwnsOne("AirWeb.Domain.Core.ValueObjects.Address", "MailingAddress", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.Property<string>("Street2")
+                                .HasMaxLength(4000)
+                                .HasColumnType("nvarchar(4000)");
+
+                            b1.HasKey("CustomerId");
+
+                            b1.ToTable("SbeapCustomers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
+                    b.Navigation("Location")
+                        .IsRequired();
+
+                    b.Navigation("MailingAddress")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CaseFileComplianceEvents", b =>
@@ -1785,6 +2617,18 @@ namespace AirWeb.EfRepository.Migrations
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.EnforcementAction", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Cases.Casework", b =>
+                {
+                    b.Navigation("ActionItems");
+                });
+
+            modelBuilder.Entity("AirWeb.Domain.Sbeap.Entities.Customers.Customer", b =>
+                {
+                    b.Navigation("Cases");
+
+                    b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ConsentOrder", b =>

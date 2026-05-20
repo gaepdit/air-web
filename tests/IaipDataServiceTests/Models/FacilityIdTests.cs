@@ -156,4 +156,32 @@ public class FacilityIdTests
         result.Should().BeFalse();
         facilityId.Should().BeNull();
     }
+
+    [Test]
+    public void TryFormat_ValidIdFormat_ReturnsFormatted()
+    {
+        var result = FacilityId.TryFormat("1-1");
+        result.Should().Be("001-00001");
+    }
+
+    [Test]
+    public void TryFormat_InvalidIdFormat_ReturnsOriginal()
+    {
+        var result = FacilityId.TryFormat("0-1");
+        result.Should().Be("0-1");
+    }
+
+    [Test]
+    public void TryFormat_EmptyString_ReturnsEmptyString()
+    {
+        var result = FacilityId.TryFormat(string.Empty);
+        result.Should().BeEmpty();
+    }
+
+    [Test]
+    public void TryFormat_NullInput_ReturnsNull()
+    {
+        var result = FacilityId.TryFormat(null);
+        result.Should().BeNull();
+    }
 }

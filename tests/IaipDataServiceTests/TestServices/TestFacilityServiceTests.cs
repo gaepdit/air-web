@@ -40,7 +40,7 @@ public class TestFacilityServiceTests
         var facility = _service.Items.ElementAt(0);
 
         // Act
-        var result = await _service.FindFacilitySummaryAsync(facility.Id);
+        var result = await _service.FindFacilityAsync(facility.Id);
 
         // Assert
         result.Should().BeEquivalentTo(facility);
@@ -50,7 +50,7 @@ public class TestFacilityServiceTests
     public async Task IfNotExists_FindSummary_ReturnsNull()
     {
         // Act
-        var result = await _service.FindFacilitySummaryAsync((FacilityId)"777-99999");
+        var result = await _service.FindFacilityAsync((FacilityId)"777-99999");
 
         // Assert
         result.Should().BeNull();

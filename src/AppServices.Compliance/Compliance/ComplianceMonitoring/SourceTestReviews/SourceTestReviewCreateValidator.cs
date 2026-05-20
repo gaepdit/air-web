@@ -16,7 +16,9 @@ public class SourceTestReviewCreateValidator : AbstractValidator<SourceTestRevie
 
         RuleFor(dto => dto).SetValidator(complianceWorkCreateValidator);
         RuleFor(dto => dto).SetValidator(sourceTestReviewCommandValidator);
+
         RuleFor(dto => dto.TestReportIsClosed).Equal(true);
+
         RuleFor(dto => dto.ReferenceNumber)
             .MustAsync(async (referenceNumber, token) =>
                 await NotExist(referenceNumber, token).ConfigureAwait(false))

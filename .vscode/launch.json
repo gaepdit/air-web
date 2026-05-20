@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "WebApp",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/WebApp/WebApp.csproj"
+        }
+    ]
+}

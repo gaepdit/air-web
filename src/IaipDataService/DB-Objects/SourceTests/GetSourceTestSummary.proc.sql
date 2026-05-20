@@ -18,6 +18,7 @@ When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-10-09  DWaldron            Initial version
 2025-09-11  DWaldron            Use a common view instead (#355)
+2026-04-08  DWaldron            Return a formatted Facility ID (#545)
 
 ***************************************************************************************************/
 
@@ -37,7 +38,8 @@ BEGIN
            IaipComplianceAssignment,
 
            -- Facility Summary
-           FacilityId        as Id,
+           iaip_facility.FormatAirsNumber(FacilityId) 
+                             as Id,
            Name,
            County,
            City,

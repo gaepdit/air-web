@@ -14,9 +14,7 @@ public record CaseFileExportDto : IFacilitySearchResult
         FacilityId = caseFile.FacilityId;
         ResponsibleStaff = caseFile.ResponsibleStaff?.SortableFullName;
         CaseFileStatus = caseFile.CaseFileStatus.GetDisplayName();
-        ViolationType = caseFile.ViolationType == null
-            ? ""
-            : caseFile.ViolationType.Display;
+        ViolationType = caseFile.ViolationType == null ? "" : caseFile.ViolationType.Display;
         DiscoveryDate = caseFile.DiscoveryDate;
         DayZero = caseFile.DayZero;
         EnforcementDate = caseFile.EnforcementDate;
@@ -45,7 +43,7 @@ public record CaseFileExportDto : IFacilitySearchResult
     [XLColumn(Header = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
 
-    [XLColumn(Header = "Day Zero")]
+    [XLColumn(Header = "HPV Day Zero")]
     public DateOnly? DayZero { get; init; }
 
     [XLColumn(Header = "Date of Initial Enforcement Action")]

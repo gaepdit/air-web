@@ -11,15 +11,13 @@ These pages are available to the public.
 
 ### Report Printouts
 
-*Note: URLs are changed from existing reporting app. Appropriate [redirects](Redirects.md) have been implemented.*
-
 * `/print/acc/{accId}` Printable ACC report page.
 * `/print/fce/{fcdId}` Printable FCE report page.
 * `/print/source-test/{referenceNumber}` Printable source test report page.
 
 ---
 
-## Staff Pages
+## Staff Pages — Compliance
 
 These pages are only available to logged-in staff.
 
@@ -28,7 +26,8 @@ These pages are only available to logged-in staff.
 ### Facility
 
 * `/Facility` Facility list and quick-find form.
-* `/Facility/Details/{facilityId}` Facility details page (some data retrieved from IAIP database).
+* `/Facility/Details/{facilityId}` Facility details page (some data retrieved from the IAIP database).
+* `/Facility/Map` Facility location search form.
 
 ### Compliance
 
@@ -59,7 +58,7 @@ These pages are only available to logged-in staff.
 * `/Compliance/SourceTest/Details/{referenceNumber}#compliance-review` Source test compliance review or embedded form
   for adding a review.
 
-### Enforcement Cases
+### Case Files
 
 * `/Enforcement` Enforcement case search form.
 * `/Enforcement/Details/{caseFileId}` Enforcement case details page.
@@ -88,6 +87,30 @@ These pages are only available to logged-in staff.
 
 **NOTE:** `/Enforcement/Edit/{id}` can result in editing either a case file or enforcement action depending on whether
 the ID is an integer or GUID.
+
+## Staff Pages — SBEAP
+
+### Customers
+
+* `/SBEAP/Customers` (Customer search)
+* `/SBEAP/Customers/Add` (Add new Customer with Contact)
+* `/SBEAP/Customers/Details/{id}` (Customer details; list of Contacts; list of Cases with a new Case form)
+* `/SBEAP/Customers/Edit/{id}` (Edit Customer details)
+* `/SBEAP/Customers/Delete/{id}` (Delete Customer)
+* `/SBEAP/Customers/Restore/{id}` (Restore Customer)
+* `/SBEAP/Customers/Details/{id}/AddContact` (Add new Contact)
+* `/SBEAP/Customers/EditContact/{contactId}` (Edit Contact)
+* `/SBEAP/Customers/DeleteContact/{contactId}` (Delete Contact)
+
+### Cases
+
+* `/SBEAP/Cases` (Case search)
+* `/SBEAP/Cases/Details/{id}` (Case details with list of Action Items and a new Action Item form)
+* `/SBEAP/Cases/Edit/{id}` (Edit Case details)
+* `/SBEAP/Cases/Delete/{id}` (Delete Case)
+* `/SBEAP/Cases/Restore/{id}` (Restore Case)
+* `/SBEAP/Cases/EditAction/{actionId}` (Edit Action Item)
+* `/SBEAP/Cases/DeleteAction/{actionId}` (Delete Action Item)
 
 ## User Account
 

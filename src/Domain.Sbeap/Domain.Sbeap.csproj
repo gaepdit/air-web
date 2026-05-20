@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>AirWeb.Domain.Sbeap</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
+    </ItemGroup>
+</Project>

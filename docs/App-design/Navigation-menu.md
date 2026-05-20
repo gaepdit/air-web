@@ -9,13 +9,14 @@ Shown when user is not logged in.
 * Agency Login (`/Account/Login`)
 * ◐ ▼ *(Theme toggle)*
 
-## Staff
+## Air Web Dashboard
 
-Shown when staff is logged in.
+Shown when staff is logged in and viewing the Air Web dashboard.
 
 * {Logo} Dashboard (`/`)
 * 🔍︎ Search ▼
     * Facilities (`/Facility`)
+    * Map (`/Map`)
     * —
     * Compliance Monitoring (`/Compliance/Work`)
     * Compliance FCEs (`/Compliance/FCE`)
@@ -39,3 +40,13 @@ Shown when staff is logged in.
     * —
   * Sign out *(button)*
 * ◐ ▼ *(Theme toggle)*
+
+## SBEAP Dashboard Search Menu Item
+
+Shown when staff is logged in and switched to the SBEAP dashboard.
+
+* 🔍︎ Search ▼
+    * Customer Search (`/SBEAP/Customers`)
+    * Case Search (`/SBEAP/Cases`)
+    * —
+    * `+` New Customer (`/SBEAP/Customers/Add`)

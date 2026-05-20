@@ -1,4 +1,5 @@
 @page
+@using AirWeb.WebApp.Pages.Shared
 @model ComplianceWorkDownload
 @{
     ViewData["Title"] = "Downloading Compliance Work Search Results";
@@ -28,9 +29,7 @@ else
 <p class="d-print-none">
     <a asp-page="../Compliance/Work/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
        class="lead icon-link">
-        <svg class="bi">
-            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-90deg-up"></use>
-        </svg>
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Return to search
     </a>
 </p>

@@ -1,19 +1,40 @@
-﻿@model MainMenuViewComponent.MenuParams
+@model MainMenuViewComponent.MenuParams
 @{
-    var iconsFile = Url.Content("~/images/app-icons.svg");
+    var onSbeapSite = (bool)(ViewData["SBEAP"] ?? false);
 }
 
 <header role="banner">
-    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+    <nav id="main-nav" aria-label="Main site navigation"
+         class="navbar nav-underline navbar-expand-sm bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
-            <a asp-page="/Index" title="Air Branch Web App">
-                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo pe-2" />
-            </a>
-            <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web
-                @if (Model.ShowStaffOptions)
+            <div>
+                @if (Model.ShowSbeapSwitch)
                 {
-                    <span class="d-sm-none d-md-inline">Dashboard</span>
-                }</a>
+                    <button class="offcanvas-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#orgNav" aria-controls="orgNav"
+                            aria-label="Toggle organization navigation" title="Switch Dashboard">
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Switch" />
+                        <span class="visually-hidden">Switch Dashboard</span>
+                    </button>
+                }
+                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo me-2" />
+            </div>
+            @if (onSbeapSite)
+            {
+                <a class="navbar-brand nav-link me-2" asp-page="/SBEAP/Index" title="Small Business Environmental Assistance Program">SBEAP
+                    @if (Model.ShowStaffOptions)
+                    {
+                        <span class="d-sm-none d-md-inline">Dashboard</span>
+                    }</a>
+            }
+            else
+            {
+                <a class="navbar-brand nav-link me-2" asp-page="/Index" title="Air Branch Web App">Air Web
+                    @if (Model.ShowStaffOptions)
+                    {
+                        <span class="d-sm-none d-md-inline">Dashboard</span>
+                    }</a>
+            }
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,31 +49,56 @@
                             <li class="nav-item dropdown">
                                 <button class="nav-link dropdown-toggle icon-link" id="searchDropdownMenuLink" type="button"
                                         data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of search pages">
-                                    <svg class="bi">
-                                        <use href="@iconsFile#app-icon-search"></use>
-                                    </svg>
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Search" />
                                     Search
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="searchDropdownMenuLink">
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Facility/Index">Facilities</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement Cases</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Compliance/SourceTest/Index">Source Tests</a>
-                                    </li>
+                                    @if (onSbeapSite)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/SBEAP/Customers/Index">Customer Search</a>
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/SBEAP/Cases/Index">Case Search</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/SBEAP/Customers/Add">
+                                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
+                                                New Customer
+                                            </a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Facility/Index">Facility List</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Facility/Map">Facility Map</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/Work/Index">Compliance Monitoring</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/FCE/Index">Compliance FCEs</a>
+                                        </li>
+                                        <li><a class="dropdown-item" asp-page="/Enforcement/Index">Enforcement</a></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Compliance/SourceTest/Index">Source Tests</a>
+                                        </li>
+                                    }
                                 </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <button class="nav-link icon-link"
+                                        type="button"
+                                        data-bs-toggle="offcanvas"
+                                        data-bs-target="#findByIdNav"
+                                        aria-controls="findByIdNav"
+                                        aria-label="Toggle form to find work by ID"
+                                        title="Find By ID">
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
+                                    Find By ID
+                                </button>
                             </li>
                         </ul>
                     }
@@ -115,43 +161,36 @@
                         <li class="nav-item dropdown">
                             <button class="nav-link dropdown-toggle" id="bd-theme" type="button"
                                     aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                                <svg class="bi me-1 theme-icon-active">
-                                    <use href="@iconsFile#app-icon-circle-half"></use>
-                                </svg>
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
+                                         view-data-CssClass="@("me-1 theme-icon-active")" />
                                 <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-sun-fill"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Light
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-moon-stars-fill"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Dark
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
-                                        <svg class="bi me-2 opacity-50">
-                                            <use href="@iconsFile#app-icon-circle-half"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("me-2 opacity-50")" />
                                         Auto
-                                        <svg class="bi ms-auto theme-checkmark d-none">
-                                            <use href="@iconsFile#app-icon-check2"></use>
-                                        </svg>
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
+                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
                                     </button>
                                 </li>
                             </ul>
@@ -162,3 +201,81 @@
         </div>
     </nav>
 </header>
+
+<div class="offcanvas offcanvas-start pt-4" tabindex="-1" id="orgNav">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="orgNavLabel">Switch Dashboard</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <nav class="navbar nav-underline bg-body-tertiary" aria-labelledby="orgNavLabel">
+            <ul class="navbar-nav justify-content-end flex-grow-1">
+                <li class="nav-item"><a class="nav-link px-1" asp-page="/Index">Air Web Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link px-1" asp-page="/SBEAP/Index">SBEAP Dashboard</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end pt-4" tabindex="-1" id="findByIdNav">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="findByIdNavLabel">Find By ID</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Facility/Index" method="post" aria-label="Facility quick find form">
+                <label for="FindIdFacility" class="input-group-text visually-hidden">Facility</label>
+                <div class="input-group input-group-sm">
+                    <input id="FindIdFacility" class="form-control form-control-sm" type="search" placeholder="Facility AIRS #"
+                           aria-label="Find Compliance Work" data-val="true" data-val-required="Enter a Facility ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/Work/Index" method="post" aria-label="Compliance Work quick find form">
+                <label for="FindIdCompliance" class="input-group-text visually-hidden">Compliance</label>
+                <div class="input-group input-group-sm">
+                    <input id="FindIdCompliance" class="form-control form-control-sm" type="search" placeholder="Compliance Work ID"
+                           aria-label="Find Compliance Work" data-val="true" data-val-required="Enter a Compliance Work ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/FCE/Index" method="post" aria-label="FCE quick find form">
+                <label for="FindIdFce" class="input-group-text visually-hidden">FCE</label>
+                <div class="input-group input-group-sm">
+                    <input id="FindIdFce" class="form-control form-control-sm" type="search" placeholder="FCE ID"
+                           aria-label="Find an FCE" data-val="true" data-val-required="Enter an FCE ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Enforcement/Index" method="post" aria-label="Case File quick find form">
+                <label for="FindIdEnforcement" class="input-group-text visually-hidden">Case File</label>
+                <div class="input-group input-group-sm">
+                    <input id="FindIdEnforcement" class="form-control form-control-sm" type="search" placeholder="Case File ID"
+                           aria-label="Find an Enforcement Case" data-val="true" data-val-required="Enter a Case File ID" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid mb-4">
+            <form role="search" asp-page="/Compliance/SourceTest/Index" method="post" aria-label="Source Test quick find form">
+                <label for="FindIdSourceTest" class="input-group-text visually-hidden">Source Test</label>
+                <div class="input-group input-group-sm">
+                    <input id="FindIdSourceTest" class="form-control form-control-sm" type="search" placeholder="Source Test Reference Number"
+                           aria-label="Find a Source Test" data-val="true" data-val-required="Enter a Source Test Reference Number" name="FindId" value="">
+                    <button class="btn btn-primary" type="submit">Open</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

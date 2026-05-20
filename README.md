@@ -20,34 +20,14 @@ This long-term project began with
 the [Small Business Environmental Assistance Program](https://github.com/gaepdit/sbeap) which was migrated into a
 standalone application.
 
-The current effort focuses on the Stationary Source Compliance Program, specifically the compliance monitoring and
-enforcement modules (which are also used by the EPD District Offices). This effort will also require updates to
-our [ICIS-Air data flows](https://github.com/gaepdit/icis-air-data-exchange).
-
-The remaining IAIP modules are described in [this discussion topic](https://github.com/gaepdit/air-web/discussions/50).
+The next effort focused on the Stationary Source Compliance Program, specifically the compliance monitoring and
+enforcement modules (which are also used by the EPD District Offices). This effort also required updates to
+the [ICIS-Air data flows](https://github.com/gaepdit/icis-air-data-exchange).
 
 ### Project ownership
 
 The overall project is owned by the Air Protection Branch. Various modules are owned by the appropriate Programs within
 the Branch.
-
-## Preparing for deployment
-
-Complete the following tasks when the application is ready for deployment.
-
-* Create server-specific settings and config files and add copies to the "app-config" repository.
-* Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
-* Configure the following external services as needed:
-    - [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to
-      manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
-      When configuring the app in the Azure Portal, add optional claims for "email", "family_name", and "given_name"
-      under "Token configuration".
-    - [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "
-      RaygunSettings" section in a server settings file.)*
-    - [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in
-      the "sonarcloud-scan.yml" workflow file and in the badges above.)*
-    - [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration
-      needed.)*
 
 ## Solution organization
 
@@ -55,10 +35,12 @@ The solution contains the following projects:
 
 * **Domain.&ast;** — Class libraries containing the data models, business logic, and repository interfaces.
     * *Domain.Core* — Core data models, etc.
-    * *Domain.Compliance* — Compliance/enforcement models.
+  * *Domain.Compliance* — Compliance/enforcement models
+  * *Domain.Sbeap* — SBEAP models
 * **AppServices.&ast;** — Class libraries containing the services used by an application to interact with the Domains.
     * *AppServices.Core* — Core app services
     * *AppServices.Compliance* — Compliance/enforcement app services
+  * *AppServices.Sbeap* — SBEAP app services
 * **IaipDataService** — A class library implementing data services for IAIP data.
 * **MemRepository** — A class library implementing the repositories and data stores using static in-memory test data
   (for local development).
@@ -76,16 +58,42 @@ flowchart TB
     I[IaipDataServices]
     DR[Domain.Core]
     DC[Domain.Compliance] --> I
+    DS[Domain.Sbeap]
     DC --> DR
+    DS ---> DR
     AR[AppServices.Core] --> DR
     AC[AppServices.Compliance] ---> DC
     AC --> AR
-    T[TestData] --> DC
+    AS[AppServices.Sbeap] ---> DS
+    AS --> AR
+    T[TestData] ----> DC
+    T ---> DS
     E[EfRepository] --> T
+    E --> DC
+    E --> DS
+    M --> DC
     M[MemRepository] --> T
+    M --> DS
     W[WebApp] --> M
     W --> E
     W --> AC
+    W --> AS
+```
+
+That's a little complicated; here's a simplified version:
+
+```mermaid
+flowchart TB
+    I[IaipDataServices]
+    DC[Domain.Core]
+    DB[Domain.BusinessUnits] --> I
+    DB --> DC
+    AC[AppServices.Core] ---> DC
+    AB[AppServices.BusinessUnits] ---> DB
+    AB --> AC
+    R[EF/Mem Repository] ---> DB
+    W[WebApp] --> R
+    W --> AB
 ```
 
 ## Development settings
@@ -114,6 +122,9 @@ Here's a sample `appsettings.Development.json` file to start out:
             "EnforcementManager",
             "EnforcementReviewer",
             "GeneralStaff",
+            "SbeapAdmin",
+            "SbeapSiteMaintenance",
+            "SbeapStaff",
             "SiteMaintenance"
         ],
         "EnableSecurityHeaders": false,
@@ -149,9 +160,9 @@ Here's a sample `appsettings.Development.json` file to start out:
 - *TestUserRoles* — Adds the listed App Roles to the logged-in account. (Only applies if `TestUserIsAuthenticated` is
   `true`.)
 
-  **Important warning:** Arrays in app settings are not simply replaced by the `appsettings.Development.json` file.
-  Rather, each index in the array is individually compared. So, for example, if you want to reduce the roles used by
-  your test user, you would add something similar to the following to your dev settings section:
+**Important warning:** In the app settings files, arrays are not replaced in whole by the `appsettings.Development.json`
+file. Rather, each index in the array is individually compared. So, for example, if you want to reduce the roles used by
+your test user, you would add something similar to the following to your dev settings section:
 
 ```json
 {
@@ -163,7 +174,10 @@ Here's a sample `appsettings.Development.json` file to start out:
             "",
             "",
             "",
-            "GeneralStaff",
+            "",
+            "SbeapAdmin",
+            "",
+            "SbeapStaff",
             "SiteMaintenance"
         ]
     }

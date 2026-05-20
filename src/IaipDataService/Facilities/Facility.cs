@@ -37,6 +37,8 @@ public record Facility : IFacilityIdName
     [Display(Name = "Geographic Coordinates")]
     public GeoCoordinates? GeoCoordinates { get; set; }
 
+    public bool IsPortableSource => Id.CountyCode == Facilities.FacilityId.PortableSourceCountyCode;
+
     // Regulatory data
 
     public RegulatoryData? RegulatoryData { get; set; }

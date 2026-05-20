@@ -1,9 +1,10 @@
-﻿namespace AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
+﻿using GaEpd.AppLibrary.Extensions;
+using System.Diagnostics.CodeAnalysis;
+
+namespace AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 
 public record ViolationType
 {
-    internal ViolationType() { }
-
     [Key]
     [StringLength(5)]
     public required string Code { get; init; }
@@ -12,10 +13,27 @@ public record ViolationType
     public required string Description { get; init; }
 
     [StringLength(3)]
-    public required string SeverityCode { get; init; }
+    public required ViolationSeverity Severity { get; init; }
 
     public bool Deprecated { get; init; }
-    public string Current => Deprecated ? "Historic" : "Current";
 
-    public string Display => $"{SeverityCode}: {Description} ({Code})";
+    public string Current => Deprecated ? "Historic" : "Current";
+    public string Display => $"{Severity}: {Description} ({Code})";
+    public string SeverityDisplay => Severity.GetDisplayName();
+}
+
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+public enum ViolationSeverity
+{
+    [Display(Name = "High Priority Violation")]
+    HPV,
+
+    [Display(Name = "Federally Reportable Violation")]
+    FRV,
+
+    [Display(Name = "Federally Enforceable Violation but not Federally Reportable")]
+    NFR,
+
+    [Display(Name = "Other")]
+    OTH,
 }

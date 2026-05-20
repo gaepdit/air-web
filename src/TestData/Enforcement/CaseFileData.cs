@@ -43,21 +43,21 @@ internal static class CaseFileData
         {
             ActionNumber = 304,
             Notes = "Canceled LON + NOV - draft",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-9)),
         },
         new(305, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 305,
             Notes = "NOV - no response",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-19)),
         },
         new(306, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 306,
             Notes = "NOV + NFA",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-100)),
         },
         new(307, DomainData.GetRandomFacility().Id, null)
@@ -66,42 +66,42 @@ internal static class CaseFileData
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-60)),
             ClosedBy = UserData.GetRandomUser(),
             Notes = "Combined NOV/NFA",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-100)),
         },
         new(308, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 308,
             Notes = "NOV + Proposed Consent Order - draft",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-41)),
         },
         new(309, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 309,
             Notes = "Straight to Proposed CO - no response received",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(41)),
         },
         new(310, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 310,
             Notes = "Proposed CO + signed Consent Order received",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-12)),
         },
         new(311, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 311,
             Notes = "Consent Order + Stipulated Penalties - executed",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(141)),
         },
         new(312, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 312,
             Notes = "Consent Order - closed",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-210)),
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddMonths(1)),
         },
@@ -109,14 +109,14 @@ internal static class CaseFileData
         {
             ActionNumber = 313,
             Notes = "Administrative Order - executed",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-200)),
         },
         new(314, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 314,
             Notes = "Administrative Order - closed",
-            ViolationType = ViolationTypeData.GetRandomViolationType(),
+            ViolationTypeCode = ViolationTypeData.GetRandomViolationType().Code,
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-320)),
             ClosedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-200)),
         },
@@ -145,7 +145,8 @@ internal static class CaseFileData
 
                 if (caseFile is not { Id: > 302 }) continue;
 
-                var randomComplianceEvent = ComplianceWorkData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
+                var randomComplianceEvent =
+                    ComplianceWorkData.GetRandomComplianceEvent((FacilityId)caseFile.FacilityId);
                 if (randomComplianceEvent != null)
                 {
                     caseFile.ComplianceEvents.Add(randomComplianceEvent);
@@ -155,9 +156,8 @@ internal static class CaseFileData
                 var facility = FacilityData.GetFacility(caseFile.FacilityId);
                 if (facility.RegulatoryData is null) continue;
 
-                caseFile.PollutantIds.AddRange(
-                    facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
-                caseFile.AirPrograms.AddRange(facility.RegulatoryData.AirPrograms);
+                caseFile.PollutantIds.AddRange(facility.RegulatoryData.Pollutants.Select(pollutant => pollutant.Code));
+                caseFile.AirProgramCodes.AddRange(facility.RegulatoryData.AirPrograms.Select(program => program.Code));
             }
 
             // Set as deleted

@@ -7,7 +7,7 @@ public record CoViewDto : ReportableActionViewDto, IIsResolved, IIsExecuted
     [Display(Name = "Signed Copy Received From Facility")]
     public DateOnly? ReceivedFromFacility { get; init; }
 
-    [Display(Name = "Executed")]
+    [Display(Name = "Executed by Director's Office")]
     public DateOnly? ExecutedDate { get; init; }
 
     public bool IsExecuted => ExecutedDate.HasValue;

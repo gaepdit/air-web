@@ -53,8 +53,8 @@ internal static class CaseFileFilters
         input is null
             ? predicate
             : predicate.And(caseFile =>
-                caseFile.ViolationType != null &&
-                caseFile.ViolationType.Code == input);
+                caseFile.ViolationTypeCode != null &&
+                caseFile.ViolationTypeCode == input);
 
     public static Expression<Func<CaseFile, bool>> MinDiscoveryDate(
         this Expression<Func<CaseFile, bool>> predicate,

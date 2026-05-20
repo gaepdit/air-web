@@ -14,7 +14,6 @@ public class Report : ComplianceEvent, IDataExchangeAction
         : base(id, facilityId, user)
     {
         ComplianceWorkType = ComplianceWorkType.Report;
-        Close(user);
     }
 
     // Properties
@@ -28,6 +27,8 @@ public class Report : ComplianceEvent, IDataExchangeAction
             EventDate = value;
         }
     }
+
+    public DateOnly? ReviewedDate { get; set; }
 
     [StringLength(29)]
     public ReportingPeriodType ReportingPeriodType { get; set; }

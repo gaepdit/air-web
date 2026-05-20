@@ -1,4 +1,5 @@
 ﻿@page "{id:int?}"
+@using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications
@@ -7,6 +8,7 @@
 @using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews
 @using AirWeb.AppServices.Compliance.Compliance.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
 @{
@@ -43,60 +45,55 @@
     </div>
 }
 
-<div class="row justify-content-between align-items-center mb-2">
+<div class="row justify-content-between align-items-baseline mb-2">
     <div class="col-md">
-        <h1 class="mb-md-0">Compliance Monitoring: @workTypeName</h1>
+        <h1 class="mb-2">Compliance Monitoring: @workTypeName</h1>
+        <div class="lead mb-2">Compliance Tracking
+            <strong class="text-info-emphasis">#@Model.Id.ToString()</strong>
+        </div>
     </div>
+
     @if (!report.IsDeleted)
     {
-        <div class="col-md-auto ms-md-3 d-print-none">
-            <div class="btn-group">
+        <div class="col-md-auto ms-md-3 d-flex flex-md-column justify-content-between align-items-baseline align-items-md-end d-print-none">
+            <div>
                 @if (Model.UserCan[ComplianceOperation.Edit])
                 {
                     <a asp-page="Edit/Index" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
                 }
+                @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
+                {
+                    <form method="post" class="d-inline ms-1">
+                        @if (Model.UserCan[ComplianceOperation.Close])
+                        {
+                            <button asp-page-handler="Close" type="submit" class="btn btn-primary">Close</button>
+                        }
+                        @if (Model.UserCan[ComplianceOperation.Reopen])
+                        {
+                            <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
+                        }
+                    </form>
+                }
                 @if (report.HasPrintout)
                 {
-                    <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id" target="_blank" rel="noopener"
-                       class="btn btn-outline-secondary icon-link no-external-link">
-                        <svg class="bi">
-                            <use href="@Url.Content("~/images/app-icons.svg")#app-icon-printer-fill"></use>
-                        </svg>
+                    <a asp-page="@report.PrintoutPath" asp-route-id="@Model.Id"
+                       class="btn btn-outline-secondary icon-link no-external-link ms-1">
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Print" />
                         Print
                     </a>
                 }
             </div>
-            @if (Model.UserCan[ComplianceOperation.Close] || Model.UserCan[ComplianceOperation.Reopen])
-            {
-                <form method="post" class="d-inline ms-1">
-                    @if (Model.UserCan[ComplianceOperation.Close])
-                    {
-                        <button asp-page-handler="Close" type="submit" class="btn btn-primary">Close</button>
-                    }
-                    @if (Model.UserCan[ComplianceOperation.Reopen])
-                    {
-                        <button asp-page-handler="Reopen" type="submit" class="btn btn-primary">Reopen</button>
-                    }
-                </form>
-            }
-        </div>
-    }
-</div>
 
-<div class="row justify-content-between align-items-center">
-    <div class="col-md">
-        <div class="lead">Compliance Tracking #@Model.Id.ToString()</div>
-    </div>
-    @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
-    {
-        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 d-print-none">
-            <a asp-page="/Enforcement/Begin" asp-route-facilityId="@report.FacilityId" asp-route-eventId="@Model.Id.ToString()"
-               class="btn btn-sm btn-outline-primary icon-link">
-                <svg class="bi">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                </svg>
-                Enforcement Case
-            </a>
+            @if (Model.UserCan[ComplianceOperation.BeginEnforcement])
+            {
+                <div class="mt-md-2">
+                    <a asp-page="/Enforcement/Begin" asp-route-facilityId="@report.FacilityId" asp-route-eventId="@Model.Id.ToString()"
+                       class="btn btn-sm btn-outline-primary icon-link">
+                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
+                        Enforcement Case
+                    </a>
+                </div>
+            }
         </div>
     }
 </div>
@@ -126,6 +123,11 @@
             @:Open
         }
     </dd>
+    @if (report is IReviewedDate rev)
+    {
+        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => rev.ReviewedDate)</dt>
+        <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => rev.ReviewedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+    }
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => report.AcknowledgmentLetterDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => report.AcknowledgmentLetterDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     @if (Model.CaseFileIds.Any())
@@ -194,8 +196,4 @@
     }
 
     <partial name="Shared/_AuditPointsPartial" model="report.AuditPoints" />
-}
-
-@section Scripts {
-    <partial name="Shared/_ValidationScriptsPartial" />
 }

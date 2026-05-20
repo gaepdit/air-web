@@ -54,6 +54,27 @@
         "sanitize.min.css",
         "sanitize.css"
       ]
+    },
+    {
+      "library": "leaflet@1.9.4",
+      "destination": "wwwroot/lib/leaflet",
+      "files": [
+        "dist/**"
+      ]
+    },
+    {
+      "library": "leaflet.markercluster@1.5.3",
+      "destination": "wwwroot/lib/leaflet.markercluster",
+      "files": [
+        "dist/**"
+      ]
+    },
+    {
+      "library": "leaflet.locatecontrol@0.89.0",
+      "destination": "wwwroot/lib/leaflet.locatecontrol",
+      "files": [
+        "dist/**"
+      ]
     }
   ]
 }

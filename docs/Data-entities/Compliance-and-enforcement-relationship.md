@@ -2,30 +2,30 @@
 
 ## Entities
 
-### Retrieved from IAIP
+### Air Web App
 
-- FAC: Facility
-- TST: Source Test Report (Performance Test/Stack Test)
+- Full Compliance Evaluation (FCE)
+- Compliance Work
+    - Compliance Event (a subset of Compliance Work)
+        - Annual Compliance Certification (ACC)
+        - Inspection
+        - Risk Management Plan Inspection
+        - Source Test Compliance Review
+        - Report
+    - Notification
+    - Permit revocation
+- Case File
+    - Enforcement Action
 
-### Migrated into the Air Web app
+### External Data Retrieved from IAIP
 
-- FCE: Full Compliance Evaluation (FCE)
-- WRK: Compliance Work
-    - CME: Compliance Event (a subset of Compliance Work)
-        - ACC: Annual Compliance Certification (ACC)
-        - INS: Inspection
-        - RMP: Risk Management Plan Inspection
-        - STR: Source Test Compliance Review
-        - REP: Report
-    - NOT: Notification
-    - REV: Permit revocation (formerly a type of Notification)
-- ENF: Enforcement Case File
+- Facility
+- Source Test Report
 
-## Entity Relationship Diagrams
+## Entity Relationship Diagram
 
 **Key:**<br>
-🔗 - Many-to-many linkage table<br>
-⚓ - Primary entities<br>
+⚓ - Air Web entities<br>
 🛩️ - External data (from the IAIP service)
 
 ```mermaid
@@ -42,14 +42,14 @@ erDiagram
         int Id PK
     }
 
-    CME["Compliance Event"]
+    CME["Compliance Event ⚓"]
 
     WRK["Compliance Work ⚓"] {
         int Id PK
         bool IsComplianceEvent
     }
 
-    ENF["Enforcement Case File ⚓"] {
+    ENF["Case File ⚓"] {
         int Id PK
     }
 

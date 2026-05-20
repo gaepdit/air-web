@@ -1,8 +1,10 @@
 ﻿@page "{id?}"
-@using AirWeb.WebApp.Platform.Settings
+@using AirWeb.WebApp.Pages.Shared
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id}";
+    var facility = Model.Facility!;
 }
 
 <div class="row justify-content-between align-items-baseline mb-2">
@@ -19,9 +21,7 @@
             <div class="btn-group">
                 <button class="btn btn-outline-primary dropdown-toggle icon-link" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg class="bi">
-                        <use href="@Url.Content("~/images/app-icons.svg")#app-icon-plus-lg"></use>
-                    </svg>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
                     Compliance Work
                 </button>
                 <ul class="dropdown-menu">
@@ -78,20 +78,131 @@
 </div>
 
 <section class="mt-3">
-    <div id="facilityDetailsAccordion" class="accordion">
-        <div class="accordion-item border-info">
-            <h2 class="accordion-header no-anchor">
-                <button class="accordion-button shadow-sm collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#facilityDetailsBody" aria-expanded="false" aria-controls="facilityDetailsBody">
-                    Facility Details
-                </button>
-            </h2>
-            <div id="facilityDetailsBody" class="accordion-collapse collapse" data-bs-parent="facilityDetailsAccordion">
-                <div class="accordion-body">
-                    <partial name="_Partials/_FacilityDetails" model="Model.Facility" />
+    <div class="row justify-content-between mb-3">
+        <div class="col-lg">
+            <h2 class="h3">Facility Status</h2>
+            <dl class="row">
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.Description)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.Description)</dd>
+                @if (facility.RegulatoryData != null)
+                {
+                    var regulatoryData = facility.RegulatoryData;
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.OperatingStatus)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.OperatingStatus)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Classification)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Classification)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.CmsClassification)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.CmsClassification)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.StartupDate)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.StartupDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.PermitRevocationDate)</dt>
+                    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
+                }
+            </dl>
+
+            <h2 class="h3">Location</h2>
+            <dl class="row">
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.County)</dt>
+                <dd class="col-sm-8 col-lg-9">@facility.County</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.FacilityAddress)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
+                @if (facility.FacilityAddress.HasValue)
+                {
+                    <div class="col-sm-12 mb-2">
+                        <div class="p-1 ps-2 bg-body-tertiary rounded-1">
+                            <small>
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.MapPin" />
+                                Open address in:
+                                <span class="d-inline-block">
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                                <span class="px-1 text-body-secondary">|</span>
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                                    </span>
+                            </small>
+                        </div>
+                    </div>
+                }
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.GeoCoordinates)</dt>
+                <dd class="col-sm-8 col-lg-9">
+                    @if (facility.IsPortableSource)
+                    {
+                        <em class="text-body-secondary">Portable source</em>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(_ => facility.GeoCoordinates, DisplayTemplate.IaipGeoCoordinates)
+                    }
+                </dd>
+                @if (facility is { IsPortableSource: false, GeoCoordinates: not null })
+                {
+                    <div class="col-sm-12 mb-2">
+                        <div class="p-1 ps-2 bg-body-tertiary rounded-1">
+                            <small>
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.GeoPin" />
+                                Open coordinates in:
+                                <span class="d-inline-block">
+                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                        <span class="px-1 text-body-secondary">|</span>
+                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                    </span>
+                            </small>
+                        </div>
+                    </div>
+                }
+            </dl>
+        </div>
+
+        @if (facility is { IsPortableSource: false, GeoCoordinates: not null })
+        {
+            <div class="col-lg mt-2 mt-md-0 d-flex flex-column">
+                <div class="flex-grow-1">
+                    <div id="single-facility-map" class="border border-secondary"></div>
+                </div>
+                <div class="mt-2">
+                    <small><em>Note: Map shows geographic coordinates which may not match company address.</em></small>
                 </div>
             </div>
-        </div>
+        }
     </div>
+
+    <h2 class="h3">Regulatory Data</h2>
+    @if (facility.RegulatoryData is null)
+    {
+        <p>
+            <span class="text-body-secondary fw-lighter">Not Available.</span>
+        </p>
+    }
+    else
+    {
+        var regulatoryData = facility.RegulatoryData;
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Sic)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Sic, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Naics)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.Naics, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.RmpId)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.RmpId, DisplayTemplate.TextOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.Pollutants)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <partial name="Facility/_Partials/_Pollutants" model="regulatoryData.Pollutants" />
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.AirPrograms)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.AirProgramsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => regulatoryData.ProgramClassifications)</dt>
+            <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
+            <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
+            <dd class="col-sm-8 col-lg-9">
+                <dl class="row">
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.OneHourOzoneNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.OneHourOzoneNonattainment)</dd>
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.EightHourOzoneNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.EightHourOzoneNonattainment)</dd>
+                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.PmFineNonattainment)</dt>
+                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.PmFineNonattainment)</dd>
+                </dl>
+            </dd>
+        </dl>
+    }
 </section>
 
 <section class="my-4">
@@ -161,29 +272,21 @@
              view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
-@section Footer {
-    @if (AppSettings.ConnectToIaip)
-    {
-        <div class="bg-info-subtle py-2 border-bottom d-print-none">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col">
-                        <small>
-                            * <em>Note:</em> This page displays data from the IAIP, which is refreshed every 24&nbsp;hours.
-                            If it appears out of date, you can manually refresh the data.
-                        </small>
-                    </div>
-                    <div class="col-auto my-0 ms-3">
-                        <a asp-route-facilityId="@Model.Id" asp-route-refresh="true"
-                           class="btn btn-sm btn-outline-info icon-link">
-                            <svg class="bi">
-                                <use href="/images/app-icons.svg#app-icon-arrow-clockwise"></use>
-                            </svg>
-                            Refresh IAIP Data
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+@if (facility is { IsPortableSource: false, GeoCoordinates: not null })
+{
+    @section Scripts {
+        <script asp-add-content-to-csp>
+            const Facility = @Html.Raw(Model.FacilityJson)
+        </script>
+        <script src="~/lib/leaflet/dist/leaflet.min.js"></script>
+        <script src="~/js/maps/mapInit.js"></script>
     }
+
+    @section Styles {
+        <link rel="stylesheet" href="~/lib/leaflet/dist/leaflet.min.css" />
+    }
+}
+
+@section Footer {
+    <partial name="Shared/_IaipReloadPartial" />
 }

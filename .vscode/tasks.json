@@ -1,0 +1,96 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "deployUserName",
+            "type": "promptString",
+            "description": "Enter deployment user name"
+        },
+        {
+            "id": "deployPassword",
+            "type": "promptString",
+            "description": "Enter deployment password",
+            "password": true
+        }
+    ],
+    "tasks": [
+        {
+            "label": "dotnet: build",
+            "type": "dotnet",
+            "task": "build",
+            "group": "build",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet: test",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "test"
+            ],
+            "group": "test",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "Publish: Dev",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/WebApp/WebApp.csproj",
+                "-c",
+                "Release",
+                "/p:PublishProfile=azure-dev-app",
+                "/p:UserName=${input:deployUserName}",
+                "/p:Password=${input:deployPassword}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Publish: Test",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/WebApp/WebApp.csproj",
+                "-c",
+                "Release",
+                "/p:PublishProfile=azure-test-app",
+                "/p:UserName=${input:deployUserName}",
+                "/p:Password=${input:deployPassword}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Publish: Prod",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/WebApp/WebApp.csproj",
+                "-c",
+                "Release",
+                "/p:PublishProfile=azure-prod-app",
+                "/p:UserName=${input:deployUserName}",
+                "/p:Password=${input:deployPassword}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

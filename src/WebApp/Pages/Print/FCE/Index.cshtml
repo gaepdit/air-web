@@ -1,4 +1,5 @@
 @page "~/print/fce/{id:int}"
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Platform.Settings
 @model IndexModel
@@ -11,6 +12,15 @@
     var regulatoryData = Model.Facility!.RegulatoryData!;
 
     ViewData["Title"] = $"Facility {facility.Id} - FCE Report: {report.Year.ToString()}";
+}
+@if (Model.ShowReturnLink)
+{
+    <div class="return-link">
+        <a asp-page="/Compliance/FCE/Details" asp-route-id="@report.Id" class="icon-link">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+            FCE Details Page
+        </a>
+    </div>
 }
 
 <div class="page-wrapper" aria-label="Document">

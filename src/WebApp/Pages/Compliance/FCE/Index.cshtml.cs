@@ -1,6 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
-using AirWeb.AppServices.Compliance.Compliance.Fces;
+﻿using AirWeb.AppServices.Compliance.Compliance.Fces;
 using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
+using AirWeb.AppServices.Compliance.Compliance.Permissions;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
@@ -43,7 +43,7 @@ public class FceIndexModel(
 
     public async Task OnGetAsync(CancellationToken token = default)
     {
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
+        UserCanViewDeletedRecords = User.CanManageDeletions();
         await PopulateSelectListsAsync(token);
     }
 
@@ -51,7 +51,7 @@ public class FceIndexModel(
     {
         await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
+        UserCanViewDeletedRecords = User.CanManageDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
 
         await PopulateSelectListsAsync(token);
@@ -65,28 +65,28 @@ public class FceIndexModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
+        UserCanViewDeletedRecords = User.CanManageDeletions();
+
         if (!ModelState.IsValid)
         {
-            UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
             await PopulateSelectListsAsync(token);
             return Page();
         }
 
         if (!int.TryParse(FindId, out var id))
             ModelState.AddModelError(nameof(FindId), "FCE ID must be a number.");
-        else if (!await fceService.ExistsAsync(id, token: token))
+        else if (!await fceService.ExistsAsync(id, UserCanViewDeletedRecords, token))
             ModelState.AddModelError(nameof(FindId), "The FCE ID entered does not exist.");
 
         if (ModelState.IsValid) return RedirectToPage("Details", routeValues: new { id });
 
-        UserCanViewDeletedRecords = await authorization.Succeeded(User, CompliancePolicies.ComplianceManager);
         await PopulateSelectListsAsync(token);
         return Page();
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        StaffSelectList = (await staff.GetUsersAsync(includeInactive: true)).ToSelectList();
+        StaffSelectList = staff.GetAllStaff().ToSelectList();
         OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: true, token: token)).ToSelectList();
     }
 }
