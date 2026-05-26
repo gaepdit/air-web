@@ -34,7 +34,7 @@ BEGIN
         inner join dbo.AFSFACILITYDATA a
             on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     where a.STRUPDATESTATUS in ('A', 'C')
-        and (@includePortableSources = 1 or left(f.STRAIRSNUMBER, 7) <> '0413777')
+      and (@includePortableSources = 1 or left(f.STRAIRSNUMBER, 7) <> '0413777')
     order by f.STRAIRSNUMBER;
 
 END;
