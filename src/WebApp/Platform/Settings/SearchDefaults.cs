@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.Search;
+using AirWeb.AppServices.Sbeap.Cases.Dto;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Platform.Settings;
@@ -34,6 +35,9 @@ internal static class SearchDefaults
 
     public static CaseFileSearchDto OfficeOpenEnforcement(Guid officeId) =>
         new() { Office = officeId, Closed = ClosedOpenAny.Open };
+
+    public static CaseworkSearchDto SbeapOpenCases() =>
+        new() { Status = CaseStatus.Open };
 }
 
 internal static class PaginationDefaults
@@ -55,4 +59,8 @@ internal static class PaginationDefaults
 
     public static PaginatedRequest EnforcementBulk { get; } =
         new(pageNumber: 1, pageSize: 1000, sorting: "ReviewRequestedDate");
+
+    public static PaginatedRequest SbeapCasesSummary { get; } =
+        new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
+            sorting: CaseworkSortBy.OpenedDate.GetDescription());
 }

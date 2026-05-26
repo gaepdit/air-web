@@ -6,6 +6,9 @@ using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthenticationServices;
 using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Sbeap.AuthorizationPolicies;
+using AirWeb.AppServices.Sbeap.Cases;
+using AirWeb.AppServices.Sbeap.Cases.Dto;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
@@ -19,13 +22,17 @@ public class IndexModel(
     ICaseFileSearchService caseFileSearchService,
     IEnforcementActionService enforcementActionService,
     ISourceTestAppService sourceTestService,
+    ICaseworkService cases,
     IAuthorizationService authorization) : PageModel
 {
     public bool ShowDashboard { get; private set; }
+
     public bool IsStaff { get; private set; }
     public bool IsComplianceStaff { get; private set; }
     public bool IsComplianceManager { get; private set; }
     public bool IsEnforcementReviewer { get; private set; }
+    public bool IsSbeapStaff { get; private set; }
+
     public string? UserId { get; set; }
     public string? UserEmail { get; set; }
     public Guid? UserOfficeId { get; set; }
@@ -44,6 +51,9 @@ public class IndexModel(
     // -- Enforcement reviewer/manager
     public IPaginatedResult<ActionViewDto> EnforcementReviews { get; private set; } = null!;
     public IPaginatedResult<CaseFileSearchResultDto> OfficeCaseFiles { get; private set; } = null!;
+
+    // -- SBEAP
+    public IPaginatedResult<CaseworkSearchResultDto> SbeapCases { get; private set; } = null!;
 
     public async Task<IActionResult> OnGet(CancellationToken token = default)
     {
@@ -76,6 +86,9 @@ public class IndexModel(
 
         IsEnforcementReviewer = await authorization.Succeeded(User, CompliancePolicies.EnforcementReviewer);
         if (IsEnforcementReviewer) await LoadEnforcementReviewerTables(token);
+
+        IsSbeapStaff = await authorization.Succeeded(User, SbeapPolicies.SbeapStaff);
+        if (IsSbeapStaff) await LoadSbeapTables(token);
 
         return Page();
     }
@@ -145,4 +158,9 @@ public class IndexModel(
             SearchDefaults.OfficeOpenEnforcement(UserOfficeId!.Value),
             PaginationDefaults.EnforcementSummary, token: token);
     }
+
+    // Load SBEAP staff data
+    private async Task LoadSbeapTables(CancellationToken token) =>
+        SbeapCases = await cases.SearchAsync(SearchDefaults.SbeapOpenCases(), PaginationDefaults.SbeapCasesSummary,
+            token);
 }

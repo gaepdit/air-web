@@ -14,7 +14,7 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
             ShowAdminOptions = await authorization.Succeeded(User, Policies.ViewAdminPages),
             ShowSiteMaintenancePage = await authorization.Succeeded(User, Policies.ViewSiteMaintenancePage),
             ShowUsersPage = await authorization.Succeeded(User, Policies.ViewUsersPage),
-            ShowSbeapSwitch = await authorization.Succeeded(User, SbeapPolicies.SbeapStaffOrMaintainer),
+            ShowSbeap = await authorization.Succeeded(User, SbeapPolicies.SbeapStaffOrMaintainer),
 
             ShowAccountMenu = User.Identity is { IsAuthenticated: true },
             ShowLoginLink = model is not LoginModel,
@@ -27,7 +27,7 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         public bool ShowAdminOptions { get; init; }
         public bool ShowSiteMaintenancePage { get; init; }
         public bool ShowUsersPage { get; init; }
-        public bool ShowSbeapSwitch { get; init; }
+        public bool ShowSbeap { get; init; }
         public bool ShowAccountMenu { get; init; }
         public bool ShowLoginLink { get; init; }
         public string? ReturnUrl { get; init; }
