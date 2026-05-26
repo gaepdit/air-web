@@ -28,3 +28,6 @@ Rules are approximately ordered from the most frequently matched rule to the lea
 | `/Enforcement/Edit/`               | `/Enforcement/Index`           |
 | `/Admin/Maintenance/[Type]/Edit`   | `/Admin/Maintenance/Index`     |
 | `/Admin/Users/[Edit,EditRoles]`    | `/Admin/Users/Index`           |
+| `/Admin/Index/`                    | `/Index`                       |
+| `/Compliance/Index/`               | `/Index`                       |
+| `/SBEAP/Index/`                    | `/Index`                       |
