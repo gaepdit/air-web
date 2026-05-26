@@ -88,18 +88,21 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item dropdown">
-                                <button class="nav-link icon-link"
-                                        type="button"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#findByIdNav"
-                                        aria-controls="findByIdNav"
-                                        aria-label="Toggle form to find work by ID"
-                                        title="Find By ID">
-                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
-                                    Find <span class="d-sm-none d-md-inline">By ID</span>
-                                </button>
-                            </li>
+                            @if (!onSbeapSite)
+                            {
+                                <li class="nav-item dropdown">
+                                    <button class="nav-link icon-link"
+                                            type="button"
+                                            data-bs-toggle="offcanvas"
+                                            data-bs-target="#findByIdNav"
+                                            aria-controls="findByIdNav"
+                                            aria-label="Toggle form to find work by ID"
+                                            title="Find By ID">
+                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
+                                        Find <span class="d-sm-none d-md-inline">By ID</span>
+                                    </button>
+                                </li>
+                            }
                         </ul>
                     }
                 </div>
