@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.5.26] - 2026-05-26
+
+- Enable setting the date an enforcement action review was requested.
+- Enable withdrawing an enforcement action review request.
+- Integrate the SBEAP dashboard and menu items into the main application.
+- Fix various layout issues.
+
 ## [2026.5.15] - 2026-05-15
 
 - Fix an issue that prevented FCEs from being deleted.
@@ -136,3 +143,5 @@
 [2026.5.12]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.12
 [2026.5.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.13
 [2026.5.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.15
+
+[2026.5.26]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.26
