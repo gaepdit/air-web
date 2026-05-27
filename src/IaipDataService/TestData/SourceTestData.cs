@@ -381,7 +381,7 @@ public static class SourceTestData
             ApplicableRequirement = "Permit Condition 3.1",
             Comments = TextData.ShortMultiline,
             ReportStatement = ReportStatement,
-            ReportClosed = true,
+            ReportClosed = false,
             ComplianceStatus = "In Compliance",
             TestDates = new DateRange(
                 new DateTime(2020, 9, 1, 0, 0, 0, DateTimeKind.Local),

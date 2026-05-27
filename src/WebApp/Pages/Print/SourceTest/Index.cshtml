@@ -13,11 +13,28 @@
 }
 @if (Model.ShowReturnLink)
 {
-    <div class="return-link">
+    <div class="metadata">
         <a asp-page="/Compliance/SourceTest/Details" asp-route-referenceNumber="@report.ReferenceNumber" class="icon-link">
             <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
             Source Test Summary Page
         </a>
+    </div>
+}
+@if (Model.ShowConfidentialWarning)
+{
+    <div class="metadata warning-label split-lr">
+        <div>Warning: This view displays confidential information.</div>
+        <div>
+            <a asp-page="/Print/SourceTest/Index" asp-route-referenceNumber="@report.ReferenceNumber">
+                Hide&nbsp;confidential&nbsp;info
+            </a>
+        </div>
+    </div>
+}
+@if (!report.ReportClosed)
+{
+    <div class="metadata warning-label">
+        Warning: This source test report is still open in the IAIP.
     </div>
 }
 <div class="page-wrapper">
