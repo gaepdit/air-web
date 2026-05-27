@@ -51,7 +51,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss">
+                <th scope="row" class="@rowCss" data-label="Tracking #">
                     <a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
                        class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
@@ -59,17 +59,17 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
-                <td>
+                <td data-label="Discovery Date">
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</span>
                 </td>
                 @if (!hideFacility)
                 {
-                    <td><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
+                    <td data-label="Facility"><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
                 }
-                <td>@item.CaseFileStatus.GetDisplayName()</td>
+                <td data-label="Case File Status">@item.CaseFileStatus.GetDisplayName()</td>
                 @if (!hideStaff)
                 {
-                    <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                    <td data-label="Responsible Staff">@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
                 }
             </tr>
         }
