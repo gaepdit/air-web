@@ -17,7 +17,7 @@ public record ActionViewDto : IActionViewDto
 
     public DateOnly? StatusDate => Status switch
     {
-        EnforcementActionStatus.ReviewRequested => DateOnly.FromDateTime(ReviewRequestedDate!.Value),
+        EnforcementActionStatus.ReviewRequested => ReviewRequestedDate!.Value,
         EnforcementActionStatus.Approved => DateOnly.FromDateTime(ApprovedDate!.Value),
         EnforcementActionStatus.Issued => IssueDate,
         EnforcementActionStatus.Canceled => DateOnly.FromDateTime(CanceledDate!.Value),
@@ -25,28 +25,23 @@ public record ActionViewDto : IActionViewDto
         _ => null,
     };
 
-    public bool IsReportable { get; init; }
     public bool IsReportableAction { get; init; }
     public DateTimeOffset? CreatedAt { get; init; }
 
     // -- Under Review
     public StaffViewDto? CurrentReviewer { get; init; }
     public ReviewDto? CurrentOpenReview { get; init; }
-    public DateTime? ReviewRequestedDate { get; init; }
+    public DateOnly? ReviewRequestedDate { get; init; }
     public ICollection<ReviewDto> Reviews { get; } = [];
 
     // -- Approved
     public DateTime? ApprovedDate { get; init; }
-    public StaffViewDto? ApprovedBy { get; init; }
-    public bool IsApproved => ApprovedDate.HasValue;
 
     // -- Issued
     public DateOnly? IssueDate { get; init; }
-    public bool IsIssued => IssueDate.HasValue;
 
     // -- Canceled (closed as unsent)
     public DateTime? CanceledDate { get; init; }
-    public bool IsCanceled => CanceledDate.HasValue;
 
     // -- Deleted
     public bool IsDeleted { get; init; }

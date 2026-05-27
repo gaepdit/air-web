@@ -1,5 +1,26 @@
 # Changelog
 
+## [2026.5.26] - 2026-05-26
+
+- Enable setting the date an enforcement action review was requested.
+- Enable withdrawing an enforcement action review request.
+- Integrate the SBEAP dashboard and menu items into the main application.
+- Fix various layout issues.
+
+## [2026.5.15] - 2026-05-15
+
+- Fix an issue that prevented FCEs from being deleted.
+- Add a quick-find menu for facilities and work items.
+
+## [2026.5.13] - 2026-05-13
+
+- Add a city dropdown to the facility map page.
+
+## [2026.5.12] - 2026-05-12
+
+- Prevent issuing an Enforcement Action if a review has been requested but not yet completed.
+- Don't show the "Submit review" button on Enforcement Actions if the Case File has been deleted.
+
 ## [2026.5.7] - 2026-05-07
 
 - Fix some EPA data exchange bugs.
@@ -118,5 +139,9 @@
 [2026.4.24]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.24
 [2026.4.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.4.28
 [2026.5.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.5
-
 [2026.5.7]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.7
+[2026.5.12]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.12
+[2026.5.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.13
+[2026.5.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.15
+
+[2026.5.26]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.26

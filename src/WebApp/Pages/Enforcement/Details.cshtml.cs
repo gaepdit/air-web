@@ -5,6 +5,7 @@ using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 
@@ -225,6 +226,17 @@ public class DetailsModel(
         if (action is null || !User.CanDeleteAction(action)) return BadRequest();
 
         await actionService.DeleteAsync(enforcementActionId, action.CaseFileId, token);
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostWithdrawReviewRequestAsync(Guid reviewRequestId, Guid enforcementActionId,
+        CancellationToken token)
+    {
+        var action = await actionService.FindAsync(enforcementActionId, token);
+        if (action is null || !User.CanWithdrawReviewRequest(action)) return BadRequest();
+
+        var review = new EnforcementActionSubmitReviewDto { Result = ReviewResult.Withdrawn };
+        await actionService.SubmitReviewAsync(enforcementActionId, review, token);
         return RedirectToPage();
     }
 

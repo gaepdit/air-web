@@ -36,10 +36,9 @@ public class AddModel(
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
-        if (FacilityId is null) return NotFound(FacilityIdNotFound);
+        if (FacilityId is null) return RedirectToPage("Index");
+        
         Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
-
-        // FUTURE: Add a facility search feature to the page?
         if (Facility is null) return NotFound(FacilityIdNotFound);
 
         await PopulateSelectListsAsync(token);

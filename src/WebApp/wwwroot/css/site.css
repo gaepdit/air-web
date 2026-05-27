@@ -5,6 +5,8 @@
 :root, [data-bs-theme="light"] {
     --base-hue: 200deg;
     --callout-link: 10, 88, 202;
+    --bs-warning-rgb: 145, 107, 0;
+    --bs-danger-text-emphasis: hsl(355, 65%, 40%);
     --bs-gradient: linear-gradient(180deg,
     hsl(200, 93%, 73%) 0%,
     hsl(247, 55%, 80%) 70%,
@@ -67,6 +69,8 @@
 [data-bs-theme="dark"] {
     --callout-link: 110, 168, 254;
     --bs-success-bg-subtle: hsl(153, 92%, 10%);
+    --bs-warning-rgb: 255, 193, 7;
+    --bs-danger-text-emphasis: #ea868f;
     --bs-gradient: linear-gradient(180deg,
     hsl(212, 72%, 30%) 0%,
     hsl(234, 22%, 41%) 50%,
@@ -144,16 +148,13 @@ html {
 
 /* Fix color accessibility
 -------------------------------------------------- */
-html:not([data-bs-theme="dark"]) .text-warning {
-    color: hsl(45, 100%, 29%) !important;
-}
-
-html:not([data-bs-theme="dark"]) .text-danger-emphasis {
-    color: hsl(355, 65%, 40%) !important;
-}
-
 html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     color: hsl(355, 98%, 24%) !important;
+}
+
+html:not([data-bs-theme="dark"]) .link-warning:focus, .link-warning:hover {
+    color: RGBA(140, 110, 33, var(--bs-link-opacity, 1)) !important;
+    text-decoration-color: RGBA(140, 110, 33, var(--bs-link-underline-opacity, 1)) !important;
 }
 
 /* Accessibility fixes for outlined buttons */
@@ -558,7 +559,7 @@ svg:not(:root) {
 /* Facility Map
 -------------------------------------------------- */
 #facility-map {
-    height: calc(90vh - 2rem);
+    height: calc(90vh - 4rem);
 }
 
 #single-facility-map {
@@ -634,28 +635,6 @@ svg:not(:root) {
     100% {
         outline: 4px solid rgba(var(--bs-warning-rgb), 0);
     }
-}
-
-/* Icons by SVGBackgrounds.com
-   https://www.svgbackgrounds.com/elements/triple-threat-svg-icons/
-   
--------------------------------------------------- */
-.SVGBGI {
-    height: 1rem;
-    width: 1rem;
-    fill: var(--bs-body-color);
-}
-
-.SVGBGI .accent, .SVGBGI .solid {
-    fill: none;
-}
-
-.SVGBGI .accent {
-    fill: var(--bs-warning-border-subtle);
-}
-
-.SVGBGI.complete .accent {
-    fill: var(--bs-success-border-subtle)
 }
 
 /* Table of Contents

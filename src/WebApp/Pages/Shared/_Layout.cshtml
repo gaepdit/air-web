@@ -10,10 +10,6 @@
     <partial name="Shared/_FaviconPartial" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    @if ((bool)(ViewData["SBEAP"] ?? false))
-    {
-        <link rel="stylesheet" href="~/css/sbeap.css" asp-append-version="true" />
-    }
     <partial name="Shared/_MonitoringScriptsPartial" />
     <script src="~/js/color-modes.js"></script>
     @await RenderSectionAsync("Styles", false)
@@ -71,6 +67,9 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/jquery.validate.options.js"></script>
 @if (!ViewData.ContainsKey("NoAnchors"))
 {
     <script src="~/lib/anchor-js/anchor.min.js"></script>

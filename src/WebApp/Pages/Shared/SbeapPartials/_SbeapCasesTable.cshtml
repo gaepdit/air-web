@@ -1,0 +1,29 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model IList<AirWeb.AppServices.Sbeap.Cases.Dto.CaseworkSearchResultDto>
+
+<div class="table-responsive">
+    <table class="table table-hover mb-0" aria-label="SBEAP Cases">
+        <thead>
+        <tr>
+            <th scope="col">Date Opened</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Case Description</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</th>
+                <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
+                <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                <td class="pe-3">
+                    <a asp-page="SBEAP/Cases/Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

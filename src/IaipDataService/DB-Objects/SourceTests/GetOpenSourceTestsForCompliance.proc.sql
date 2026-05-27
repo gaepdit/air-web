@@ -63,6 +63,6 @@ BEGIN
       and IaipComplianceComplete = convert(bit, 0)
       and DateTestReviewComplete > '2023-01-01'
       and (IaipComplianceAssignment = @AssignmentEmail or @AssignmentEmail is null);
-    
+
 END
 GO

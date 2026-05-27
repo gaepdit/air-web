@@ -254,7 +254,6 @@ public sealed partial class ComplianceWorkService(
         var result = await commentService.AddCommentAsync(itemId, resource, token)
             .ConfigureAwait(false);
 
-        // FUTURE: Replace with FindAsync using a query projection.
         var work = await repository.GetAsync(itemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

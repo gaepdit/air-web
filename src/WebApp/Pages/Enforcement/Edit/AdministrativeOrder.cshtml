@@ -38,21 +38,20 @@
             <div class="col-md-6 mb-3">
                 @Html.EditorFor(model => model.Item.ExecutedDate, EditorTemplate.InputDateOnlyNullable)
             </div>
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.AppealedDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
-            <div class="col-md-6 mb-3">
-                @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
-            </div>
+            @if (Model.ShowIssueDate)
+            {
+                <div class="col-md-6 mb-3">
+                    @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="col-md-6 mb-3">
+                    @Html.EditorFor(model => model.Item.AppealedDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="col-md-6 mb-3">
+                    @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
+                </div>
+            }
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />
     </form>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

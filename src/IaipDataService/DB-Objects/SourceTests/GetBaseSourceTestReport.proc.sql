@@ -35,11 +35,11 @@ BEGIN
            trim(r.STRAPPLICABLEREQUIREMENT)   as ApplicableRequirement,
            trim(char(13) + char(10) + ' ' from r.MMOCOMMENTAREA)
                                               as Comments,
-           convert(date, r.DATRECEIVEDDATE)  as DateReceivedByApb,
+           convert(date, r.DATRECEIVEDDATE)   as DateReceivedByApb,
            r.STRCONFIDENTIALDATA              as ConfidentialParametersCode,
-           r.STRCLOSED                       as ReportClosed,
-           s.STRCOMPLIANCESTATUS             as ComplianceStatus,
-           s.STRCOMPLIANCESTATEMENT          as ReportStatement,
+           r.STRCLOSED                        as ReportClosed,
+           s.STRCOMPLIANCESTATUS              as ComplianceStatus,
+           s.STRCOMPLIANCESTATEMENT           as ReportStatement,
            r.STRDIRECTOR                      as EpdDirector,
 
            -- Facility Summary
@@ -61,8 +61,8 @@ BEGIN
            pt.STRLASTNAME                     as FamilyName,
 
            'TestDates'                        as Id,
-           convert(date, r.DATTESTDATESTART) as StartDate,
-           convert(date, r.DATTESTDATEEND)   as EndDate
+           convert(date, r.DATTESTDATESTART)  as StartDate,
+           convert(date, r.DATTESTDATEEND)    as EndDate
     from dbo.ISMPREPORTINFORMATION r
         left join dbo.LOOKUPPOLLUTANTS lp
             on r.STRPOLLUTANT = lp.STRPOLLUTANTCODE

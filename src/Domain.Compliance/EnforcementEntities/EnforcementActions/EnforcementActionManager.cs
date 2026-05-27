@@ -42,14 +42,9 @@ public class EnforcementActionManager(
         responseRequested.ResponseComment = comment;
     }
 
-    public async Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user)
+    public async Task UpdateStatusAsync(EnforcementAction action, ApplicationUser? user)
     {
-        if (action.IsCanceled)
-            throw new InvalidOperationException("Enforcement Action has been canceled.");
-
         action.SetUpdater(user?.Id);
-        action.Status = issueDate.HasValue ? EnforcementActionStatus.Issued : EnforcementActionStatus.Draft;
-
         await UpdateDataExchangeStatusAsync(action).ConfigureAwait(false);
     }
 
@@ -80,6 +75,9 @@ public class EnforcementActionManager(
     {
         if (action.IsCanceled)
             throw new InvalidOperationException("Enforcement Action has been canceled.");
+
+        if (action.IsUnderReview)
+            throw new InvalidOperationException("Enforcement Action requires a review before it can be issued.");
 
         action.SetUpdater(user?.Id);
         action.IssueDate = issueDate;
@@ -196,7 +194,8 @@ public class EnforcementActionManager(
     public void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user) =>
         stipulatedPenalty.SetDeleted(user?.Id);
 
-    public void RequestReview(EnforcementAction action, ApplicationUser reviewer, ApplicationUser user)
+    public void RequestReview(EnforcementAction action, ApplicationUser reviewer, DateOnly dateRequested,
+        ApplicationUser requester)
     {
         if (action.Reviews.Any(r => !r.IsCompleted))
         {
@@ -204,14 +203,14 @@ public class EnforcementActionManager(
             return;
         }
 
-        action.SetUpdater(user.Id);
-        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), action, reviewer, requester: user);
+        action.SetUpdater(requester.Id);
+        var reviewRequest = new EnforcementActionReview(Guid.NewGuid(), action, reviewer, dateRequested, requester);
         action.Reviews.Add(reviewRequest);
         action.Status = EnforcementActionStatus.ReviewRequested;
     }
 
-    public void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
-        ApplicationUser? nextReviewer = null)
+    public void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser reviewer,
+        ApplicationUser? nextReviewer, DateOnly? dateRequested)
     {
         if (action.Reviews.All(r => r.IsCompleted))
         {
@@ -219,24 +218,24 @@ public class EnforcementActionManager(
             return;
         }
 
-        action.CurrentOpenReview!.CompleteReview(user, result, comments);
-        action.SetUpdater(user.Id);
+        action.CurrentOpenReview!.CompleteReview(reviewer, result, comments);
+        action.SetUpdater(reviewer.Id);
         action.CaseFile.AuditPoints
-            .Add(CaseFileAuditPoint.EnforcementActionReviewed(action.ActionType, result, user));
+            .Add(CaseFileAuditPoint.EnforcementActionReviewed(action.ActionType, result, reviewer));
 
         switch (result)
         {
             case ReviewResult.Approved:
-                Approve(action, user);
+                Approve(action, reviewer);
                 break;
-            case ReviewResult.Returned:
-                ReturnToDraft(action, user);
+            case ReviewResult.Returned or ReviewResult.Withdrawn:
+                ReturnToDraft(action, reviewer);
                 break;
             case ReviewResult.Canceled:
-                Cancel(action, user);
+                Cancel(action, reviewer);
                 break;
             case ReviewResult.Forwarded:
-                RequestReview(action, nextReviewer!, user);
+                RequestReview(action, nextReviewer!, dateRequested!.Value, reviewer);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(result), result, null);

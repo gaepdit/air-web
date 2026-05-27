@@ -23,7 +23,7 @@
                     </a>
                 </th>
                 <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.ReviewRequestedDate, DisplayTemplate.DateTimeNullableShort)</span>
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)</span>
                 </td>
                 <td>@item.ActionType.GetDisplayName()</td>
                 <td>@Html.DisplayFor(_ => item.CaseFileResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>

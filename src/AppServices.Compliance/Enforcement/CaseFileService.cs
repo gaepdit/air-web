@@ -269,7 +269,6 @@ public sealed class CaseFileService(
     {
         var result = await commentService.AddCommentAsync(itemId, resource, token).ConfigureAwait(false);
 
-        // FUTURE: Replace with FindAsync using a query projection.
         var caseFile = await caseFileRepository.GetAsync(resource.ItemId, token: token).ConfigureAwait(false);
 
         var notificationResult = await appNotificationService

@@ -10,7 +10,7 @@ public interface IEnforcementActionManager
 
     // Common update methods
     void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user);
-    Task SetIssuedStatusAsync(EnforcementAction action, DateOnly? issueDate, ApplicationUser? user);
+    Task UpdateStatusAsync(EnforcementAction action, ApplicationUser? user);
 
     Task<bool> IssueAsync(EnforcementAction action, DateOnly issueDate, ApplicationUser? user,
         bool tryCloseCaseFile = false);
@@ -30,8 +30,9 @@ public interface IEnforcementActionManager
     void DeleteStipulatedPenalty(StipulatedPenalty stipulatedPenalty, ApplicationUser? user);
 
     // Reviews
-    void RequestReview(EnforcementAction action, ApplicationUser reviewer, ApplicationUser user);
+    void RequestReview(EnforcementAction action, ApplicationUser reviewer, DateOnly dateRequested,
+        ApplicationUser requester);
 
-    void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser user,
-        ApplicationUser? nextReviewer = null);
+    void SubmitReview(EnforcementAction action, ReviewResult result, string? comments, ApplicationUser reviewer,
+        ApplicationUser? nextReviewer, DateOnly? dateRequested);
 }

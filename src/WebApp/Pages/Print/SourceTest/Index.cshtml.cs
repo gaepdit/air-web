@@ -29,6 +29,7 @@ public class IndexModel : PageModel
         Report = await sourceTestService.FindAsync(referenceNumber);
         if (Report?.Facility == null) return NotFound();
 
+        // FUTURE: Redact the source test in the service layer, not in the UI layer.
         Report = includeConfidentialInfo ? Report : Report.RedactedStackTestReport();
         MemoHeader = new MemoHeader
         {

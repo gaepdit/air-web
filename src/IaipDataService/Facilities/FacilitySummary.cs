@@ -11,7 +11,7 @@ public record FacilitySummary : IFacilityIdName
 
     public FacilitySummary(Facility facility)
     {
-        Id = facility.Id;
+        Id = facility.FacilityId;
         Name = facility.Name;
         City = facility.FacilityAddress?.City ?? string.Empty;
         State = facility.FacilityAddress?.State ?? string.Empty;

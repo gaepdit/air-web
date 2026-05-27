@@ -14,7 +14,7 @@ public record EnforcementActionEditDto : NotesDto
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     [Display(Name = "Issued (Sent to Facility)")]
     [MaxDate]
-    public DateOnly? IssueDate { get; init; }
+    public DateOnly? IssueDate { get; set; }
 }
 
 public class EnforcementActionEditValidator : AbstractValidator<EnforcementActionEditDto>

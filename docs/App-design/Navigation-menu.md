@@ -13,6 +13,9 @@ Shown when user is not logged in.
 
 Shown when staff is logged in and viewing the Air Web dashboard.
 
+* 🔀 Switch Dashboard *(offcanvas)*
+    * Air Web Dashboard 
+    * SBEAP Dashboard
 * {Logo} Dashboard (`/`)
 * 🔍︎ Search ▼
     * Facilities (`/Facility`)
@@ -21,14 +24,19 @@ Shown when staff is logged in and viewing the Air Web dashboard.
     * Compliance Monitoring (`/Compliance/Work`)
     * Compliance FCEs (`/Compliance/FCE`)
     * Enforcement (`/Compliance/Enforcement`)
+* 🔖 Find By ID *(offcanvas)*
+    * Facility
+    * Compliance
+    * FCE
+    * Case File
+    * Source Test
 * 🡽 Go To ▼ *(not implemented)*
     * Facility *(form)*
     * —
     * Compliance Event *(form)*
     * Source Test *(form)*
     * Enforcement *(form)*
-- ▭ *(flexible space)*
-
+* ▭ *(flexible space)*
 * More ▼
     * Reports (`/Admin/Reporting`) *(not implemented)*
     * Users (`/Admin/Users`)

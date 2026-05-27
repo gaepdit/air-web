@@ -10,11 +10,11 @@ public class EnforcementActionReview : AuditableEntity
     private EnforcementActionReview() { }
 
     internal EnforcementActionReview(Guid id, EnforcementAction enforcementAction, ApplicationUser reviewer,
-        ApplicationUser requester)
+        DateOnly dateRequested, ApplicationUser requester)
     {
         Id = id;
         EnforcementAction = enforcementAction;
-        RequestedDate = DateTime.Today;
+        RequestedDate = dateRequested;
         RequestedBy = requester;
         RequestedOf = reviewer;
         SetCreator(requester.Id);
@@ -22,7 +22,7 @@ public class EnforcementActionReview : AuditableEntity
 
     public EnforcementAction EnforcementAction { get; internal init; } = null!;
 
-    public DateTime RequestedDate { get; internal init; }
+    public DateOnly RequestedDate { get; internal init; }
 
     public ApplicationUser RequestedBy { get; internal init; } = null!;
     public ApplicationUser RequestedOf { get; internal init; } = null!;
@@ -67,4 +67,7 @@ public enum ReviewResult
     [Display(Name = "Approved and forwarded for additional review")]
     [Description("Approve and forward for additional review")]
     Forwarded,
+
+    // The review request was withdrawn.
+    Withdrawn,
 }
