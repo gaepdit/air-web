@@ -30,9 +30,6 @@ public class DetailsModel(
 
     public SourceTestSummary? TestSummary { get; private set; }
 
-    [TempData]
-    public bool RefreshIaipData { get; set; }
-
     // Compliance review
     public SourceTestReviewViewDto? ComplianceReview { get; private set; }
     public CommentsSectionModel? CommentSection { get; set; }
@@ -56,17 +53,11 @@ public class DetailsModel(
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (ReferenceNumber == 0) return RedirectToPage("./Index");
 
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
-
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData, token);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -124,7 +115,7 @@ public class DetailsModel(
             ReferenceNumber != newComplianceReview.ReferenceNumber)
             return BadRequest();
 
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
         await SetPermissionsAsync(token);
@@ -186,7 +177,7 @@ public class DetailsModel(
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment,
         CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -219,7 +210,7 @@ public class DetailsModel(
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(Guid commentId, CancellationToken token)
     {
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, token: token);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);

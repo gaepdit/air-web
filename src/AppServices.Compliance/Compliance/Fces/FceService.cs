@@ -100,7 +100,7 @@ public sealed class FceService(
                 .ConfigureAwait(false),
         };
 
-        await FillStackTestDataAsync(summary.SourceTests, token).ConfigureAwait(false);
+        await FillStackTestDataAsync(summary.SourceTests).ConfigureAwait(false);
         return summary;
 
         Expression<Func<TSource, bool>> FilterFor<TSource>() where TSource : ComplianceWork =>
@@ -163,11 +163,11 @@ public sealed class FceService(
         return details;
     }
 
-    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests, CancellationToken token)
+    private async Task FillStackTestDataAsync(IEnumerable<SourceTestSummaryDto> tests)
     {
         foreach (var test in tests.Where(test => test.ReferenceNumber != null))
         {
-            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value, token: token)
+            var summary = await sourceTestService.FindSummaryAsync(test.ReferenceNumber!.Value)
                 .ConfigureAwait(false);
             test.AddDetails(summary);
         }

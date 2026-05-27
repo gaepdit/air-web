@@ -30,7 +30,7 @@ public class SourceTestReviewEditModel(
 
         Item = Mapper.Map<SourceTestReviewUpdateDto>(ItemView);
 
-        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber, token: token);
+        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber);
         if (testSummary is null) return BadRequest();
         TestSummary = testSummary;
 
@@ -42,7 +42,7 @@ public class SourceTestReviewEditModel(
         var result = await DoPostAsync(Item, validator, token);
         if (result is not PageResult) return result;
 
-        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber, token: token);
+        var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber);
         if (testSummary is null || testSummary.ReferenceNumber != Item.ReferenceNumber) return BadRequest();
         TestSummary = testSummary;
 

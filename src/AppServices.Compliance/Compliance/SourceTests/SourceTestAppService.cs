@@ -21,7 +21,7 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
     public async Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default)
     {
-        var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, forceRefresh, token)
+        var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId)
             .ConfigureAwait(false);
 
         return new PaginatedResult<SourceTestSummary>(tests.Skip(paging.Skip).Take(paging.Take),

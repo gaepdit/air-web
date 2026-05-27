@@ -3,7 +3,6 @@
 @using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
-@using AirWeb.WebApp.Platform.Settings
 @model DetailsModel
 @{
     var summary = Model.TestSummary!;
@@ -251,8 +250,6 @@
         <partial name="Shared/_DataExchangePartial" model="Model.ComplianceReview" />
         <partial name="Shared/_AuditPointsPartial" model="Model.ComplianceReview.AuditPoints" />
     }
-
-    <partial name="Shared/_IaipReloadPartial" />
 }
 
 @section Scripts {

@@ -10,8 +10,7 @@ public class GetOpenSourceTestsForComplianceTests
     public void SetUp()
     {
         // Arrange
-        _sut = new IaipSourceTestService(Config.DbConnectionFactory!, Setup.FakeCache!,
-            Substitute.For<ILogger<IaipSourceTestService>>());
+        _sut = new IaipSourceTestService(Config.DbConnectionFactory!);
     }
 
     [Test]

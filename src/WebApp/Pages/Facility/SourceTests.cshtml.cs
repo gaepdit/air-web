@@ -14,27 +14,18 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
 
-    [TempData]
-    public bool RefreshIaipData { get; set; }
-
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
-
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
 
         if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
 
         if (facilityId.FormattedId != Id) return RedirectToPage(new { id = facilityId });
 
-        Facility = await facilityService.FindFacilityAsync(facilityId, RefreshIaipData, token);
+        Facility = await facilityService.FindFacilityAsync(facilityId, token: token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, RefreshIaipData, token))
+        SourceTests = (await sourceTestService.GetSourceTestsForFacilityAsync(facilityId))
             .ToList();
 
         return Page();

@@ -8,15 +8,14 @@ public class TestSourceTestService : ISourceTestService
 {
     internal IReadOnlyCollection<BaseSourceTestReport> Items { get; } = SourceTestData.GetData.ToList();
 
-    public Task<BaseSourceTestReport?> FindAsync(int referenceNumber, CancellationToken token = default)
+    public Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
     {
         var result = Items.SingleOrDefault(report => report.ReferenceNumber == referenceNumber);
         result?.ParseConfidentialParameters();
         return Task.FromResult(result);
     }
 
-    public Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber, bool forceRefresh = false,
-        CancellationToken token = default)
+    public Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber)
     {
         var result = Items.SingleOrDefault(report => report.ReferenceNumber == referenceNumber);
         return Task.FromResult(result is null ? null : new SourceTestSummary(result));
@@ -25,8 +24,7 @@ public class TestSourceTestService : ISourceTestService
     public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
         Task.FromResult(Items.Any(report => report.ReferenceNumber == referenceNumber));
 
-    public Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        bool forceRefresh = false, CancellationToken token = default) =>
+    public Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId) =>
         Task.FromResult<IReadOnlyCollection<SourceTestSummary>>(Items
             .Where(report => report.Facility?.FacilityId == facilityId)
             .OrderByDescending(report => report.TestDates.StartDate)
