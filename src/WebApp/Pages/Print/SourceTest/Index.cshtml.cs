@@ -20,14 +20,14 @@ public class IndexModel : PageModel
         [FromRoute] int referenceNumber,
         [FromQuery] bool includeConfidentialInfo = false)
     {
-        if (includeConfidentialInfo)
+        Report = await sourceTestService.FindAsync(referenceNumber);
+        if (Report?.Facility == null) return NotFound();
+
+        if (!Report.ReportClosed || includeConfidentialInfo)
         {
             var activeUser = await authorizationService.Succeeded(User, Policies.ActiveUser);
             if (!activeUser) return Challenge();
         }
-
-        Report = await sourceTestService.FindAsync(referenceNumber);
-        if (Report?.Facility == null) return NotFound();
 
         // FUTURE: Redact the source test in the service layer, not in the UI layer.
         Report = includeConfidentialInfo ? Report : Report.RedactedStackTestReport();
