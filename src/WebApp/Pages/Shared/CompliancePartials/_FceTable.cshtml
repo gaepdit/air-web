@@ -10,7 +10,7 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="FCE results table">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="FCE results table">
         <thead>
         <tr>
             @if (searchSpec is null)
@@ -45,7 +45,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss">
+                <th scope="row" class="@rowCss" data-label="Tracking #">
                     <a asp-page="/Compliance/FCE/Details" asp-route-id="@item.Id.ToString()"
                        class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
@@ -53,16 +53,16 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
-                <td class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
-                <td class="text-nowrap">@item.Year</td>
+                <td data-label="FCE Date" class="text-nowrap">@Html.DisplayFor(_ => item.CompletedDate, DisplayTemplate.ShortDateOnly) </td>
+                <td data-label="FCE Year" class="text-nowrap">@item.Year</td>
                 @if (!hideFacility)
                 {
-                    <td>
+                    <td data-label="Facility">
                         <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                     </td>
                 }
-                <td>@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
-                <td>@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
+                <td data-label="Onsite Inspection">@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>
+                <td data-label="Responsible Staff">@Html.DisplayFor(_ => item.ReviewedBy, DisplayTemplate.NameOrPlaceholder)</td>
             </tr>
         }
         </tbody>
