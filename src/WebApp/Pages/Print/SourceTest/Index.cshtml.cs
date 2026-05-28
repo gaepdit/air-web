@@ -38,7 +38,7 @@ public class IndexModel : PageModel
             Through = Report.TestingUnitManager.FullName,
             Subject = Report.ReportTypeSubject.ToUpperInvariant(),
         };
-        ShowConfidentialWarning = includeConfidentialInfo && Report.ConfidentialParameters.Count != 0;
+        ShowConfidentialWarning = includeConfidentialInfo && Report.HasConfidentialData;
         OrganizationInfo = AppSettings.OrganizationInfo with { NameOfDirector = Report.EpdDirector };
 
         ShowReturnLink = User.Identity is { IsAuthenticated: true };

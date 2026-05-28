@@ -460,7 +460,7 @@ dl.dl-inline dd {
     }
 
     .banner-test-site::after {
-        content: "— Not for public distribution";
+        content: "—Not for public distribution";
     }
 }
 
@@ -572,13 +572,18 @@ dl.dl-inline dd {
 /* Bootstrap Icons
 -------------------------------------------------- */
 .bi {
-    width: 1em;
-    height: 1em;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: currentColor;
     overflow: visible !important;
     vertical-align: middle;
 }
 
+.warning-label .bi {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+    
 .icon-link {
     display: inline-flex;
     gap: 0.375rem;

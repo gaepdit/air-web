@@ -23,7 +23,10 @@
 @if (Model.ShowConfidentialWarning)
 {
     <div class="metadata warning-label split-lr">
-        <div>Warning: This view displays confidential information.</div>
+        <div>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" />
+            Warning: This view displays confidential information.
+        </div>
         <div>
             <a asp-page="/Print/SourceTest/Index" asp-route-referenceNumber="@report.ReferenceNumber">
                 Hide&nbsp;confidential&nbsp;info
@@ -34,6 +37,7 @@
 @if (!report.ReportClosed)
 {
     <div class="metadata warning-label">
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" />
         Warning: This source test report is still open in the IAIP.
     </div>
 }
