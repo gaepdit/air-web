@@ -17,6 +17,7 @@ When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2025-09-11  DWaldron            Initial version (#355)
 2026-02-19  DWaldron            Filter by date and compliance assignment (#439)
+2026-05-28  DWaldron            Format the Facility ID
 
 ***************************************************************************************************/
 
@@ -36,17 +37,17 @@ BEGIN
            IaipComplianceAssignment,
 
            -- Facility Summary
-           FacilityId        as Id,
+           iaip_facility.FormatAirsNumber(FacilityId) as Id,
            Name,
            County,
            City,
            State,
 
-           'TestDates'       as Id,
+           'TestDates'                                as Id,
            StartDate,
            EndDate,
 
-           'ReviewedByStaff' as Id,
+           'ReviewedByStaff'                          as Id,
            GivenName,
            FamilyName
     from air.IaipSourceTestSummary
