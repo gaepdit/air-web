@@ -53,7 +53,7 @@ public record SourceTestReportFlare : BaseSourceTestReport
         ConfidentialParameters = new HashSet<string>();
         TestRuns = BaseTestRun.ParsedTestRuns(TestRuns);
 
-        if (NoConfidentialParameters()) return;
+        if (!HasConfidentialData) return;
         ParseBaseConfidentialParameters();
 
         AddIfConfidential(26, nameof(MaxOperatingCapacity));

@@ -15,7 +15,7 @@
 }
 @if (Model.ShowReturnLink)
 {
-    <div class="return-link">
+    <div class="metadata">
         <a asp-page="/Compliance/FCE/Details" asp-route-id="@report.Id" class="icon-link">
             <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
             FCE Details Page

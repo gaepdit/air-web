@@ -91,7 +91,7 @@ public abstract record BaseSourceTestReport
     [JsonIgnore]
     public string ConfidentialParametersCode { protected get; init; } = null!;
 
-    public ICollection<string> ConfidentialParameters { get; protected set; } = [];
+    internal ICollection<string> ConfidentialParameters { get; set; } = [];
 
     public abstract BaseSourceTestReport RedactedStackTestReport();
 
@@ -110,8 +110,8 @@ public abstract record BaseSourceTestReport
             TestingUnitManager = CheckConfidential(TestingUnitManager, nameof(TestingUnitManager)),
         };
 
-    protected bool NoConfidentialParameters() =>
-        string.IsNullOrEmpty(ConfidentialParametersCode) || ConfidentialParametersCode[0] == '0';
+    public bool HasConfidentialData =>
+        !string.IsNullOrEmpty(ConfidentialParametersCode) && ConfidentialParametersCode[0] == '1';
 
     protected string CheckConfidential(string input, string parameter) =>
         ConfidentialParameters.Contains(parameter)

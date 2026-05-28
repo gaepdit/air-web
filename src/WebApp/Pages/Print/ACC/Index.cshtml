@@ -16,7 +16,7 @@
 }
 @if (Model.ShowReturnLink)
 {
-    <div class="return-link">
+    <div class="metadata">
         <a asp-page="/Compliance/Work/Details" asp-route-id="@report.Id" class="icon-link">
             <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
             ACC Details Page

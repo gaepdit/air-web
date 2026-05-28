@@ -51,7 +51,7 @@ public record SourceTestReportOpacity : BaseSourceTestReport
         ConfidentialParameters = new HashSet<string>();
         TestRuns = BaseTestRun.ParsedTestRuns(TestRuns);
 
-        if (NoConfidentialParameters()) return;
+        if (!HasConfidentialData) return;
         ParseBaseConfidentialParameters();
 
         switch (DocumentType)

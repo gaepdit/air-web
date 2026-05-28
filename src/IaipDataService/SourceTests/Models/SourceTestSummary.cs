@@ -19,6 +19,7 @@ public record SourceTestSummary
         ReportType = report.ReportType;
         ApplicableRequirement = report.ApplicableRequirement;
         ComplianceStatus = report.ComplianceStatus;
+        HasConfidentialData = report.HasConfidentialData;
         ReportClosed = report.ReportClosed;
         DateTestReviewComplete = report.DateTestReviewComplete;
         IaipComplianceAssignment = report.IaipComplianceAssignment;
@@ -53,6 +54,8 @@ public record SourceTestSummary
     [Display(Name = "Compliance Determination")]
     public string ComplianceStatus { get; init; } = null!;
 
+    public bool HasConfidentialData { get; init; }
+
     [Display(Name = "Test Report Status")]
     public bool ReportClosed { get; init; }
 
@@ -71,6 +74,4 @@ public record SourceTestSummary
 
     [Display(Name = "Report Reviewed By")]
     public PersonName ReviewedByStaff { get; set; }
-
-    public bool HasPrintout => ReportClosed;
 }

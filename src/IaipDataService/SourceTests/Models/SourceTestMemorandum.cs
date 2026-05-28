@@ -43,7 +43,7 @@ public record SourceTestMemorandum : BaseSourceTestReport
     {
         ConfidentialParameters = new HashSet<string>();
 
-        if (NoConfidentialParameters()) return;
+        if (!HasConfidentialData) return;
         ParseBaseConfidentialParameters();
 
         switch (DocumentType)

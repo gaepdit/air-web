@@ -32,6 +32,7 @@ BEGIN
            Pollutant,
            ApplicableRequirement,
            ComplianceStatus,
+           HasConfidentialData,
            ReportClosed,
            DateReceivedByApb,
            DateTestReviewComplete,
