@@ -4,7 +4,7 @@ namespace IaipDataService.TestData;
 
 public static class StaffData
 {
-    public static Staff GetRandomStaff() => GetData[Random.Shared.Next(GetData.Count)];
+    internal static Staff GetRandomStaff() => GetData[Random.Shared.Next(GetData.Count)];
 
     private static IEnumerable<Staff> StaffSeedItems =>
     [

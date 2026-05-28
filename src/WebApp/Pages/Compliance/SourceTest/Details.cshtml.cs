@@ -63,32 +63,9 @@ public class DetailsModel(
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
         await SetPermissionsAsync(token);
 
-        if (ComplianceReview is null)
-        {
-            var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
+        if (ComplianceReview is null && !CanAddNewReview) return Page();
 
-            var defaultStaffId =
-                defaultStaff != null &&
-                await staffService.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceStaffRole)
-                    ? defaultStaff.Id
-                    : (await staffService.GetCurrentUserAsync()).Id;
-
-            var defaultReceivedDate = TestSummary.DateTestReviewComplete is null
-                ? DateOnly.FromDateTime(DateTime.Today)
-                : DateOnly.FromDateTime(TestSummary.DateTestReviewComplete.Value);
-
-            NewComplianceReview = new SourceTestReviewCreateDto
-            {
-                ReferenceNumber = ReferenceNumber,
-                TestReportIsClosed = TestSummary.ReportClosed,
-                FacilityId = TestSummary.Facility?.FacilityId,
-                ReceivedByComplianceDate = defaultReceivedDate,
-                ResponsibleStaffId = defaultStaffId,
-            };
-
-            await PopulateSelectListsAsync(token);
-        }
-        else
+        if (ComplianceReview is not null)
         {
             CaseFileIds = await service.GetCaseFileIdsAsync(ComplianceReview.Id, token);
 
@@ -101,7 +78,33 @@ public class DetailsModel(
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
+            return Page();
         }
+
+        var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
+
+        var defaultStaffId =
+            defaultStaff != null &&
+            (await staffService.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceStaffRole) ||
+             await staffService.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceManagerRole))
+                ? defaultStaff.Id
+                : (await staffService.GetCurrentUserAsync()).Id;
+
+        var defaultReceivedDate = TestSummary.DateTestReviewComplete is null
+            ? DateOnly.FromDateTime(DateTime.Today)
+            : DateOnly.FromDateTime(TestSummary.DateTestReviewComplete.Value);
+
+        NewComplianceReview = new SourceTestReviewCreateDto
+        {
+            ReferenceNumber = ReferenceNumber,
+            TestReportIsClosed = TestSummary.ReportClosed,
+            FacilityId = TestSummary.Facility?.FacilityId,
+            ReceivedByComplianceDate = defaultReceivedDate,
+            ResponsibleStaffId = defaultStaffId,
+        };
+
+        await PopulateSelectListsAsync(token);
 
         return Page();
     }

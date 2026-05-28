@@ -1,6 +1,7 @@
 ﻿using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
+using IaipDataService.Structs;
 
 namespace IaipDataService.TestData;
 
@@ -32,11 +33,18 @@ public class TestSourceTestService : ISourceTestService
             .Select(report => new SourceTestSummary(report)).ToList());
 
     public Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
-        string? assignmentEmail, int skip, int take)
+        string? assignmentUser, Guid? assignmentOffice, int skip, int take)
     {
+        // While the `IaipSourceTestService` can join the `AirWeb` database, this class does not have access to
+        // the test office data, so all tests are assumed to be assigned to one office for demonstration purposes.
+        var assignedOffice = new Guid("10000000-0000-0000-0000-000000000011");
+
+        var staff = StaffData.GetData.SingleOrDefault(s => s.IdAsGuid.ToString() == assignmentUser);
+
         var allTests = Items
             .Where(report => report is { ReportClosed: true, IaipComplianceComplete: false })
-            .Where(report => assignmentEmail is null || report.IaipComplianceAssignment == assignmentEmail)
+            .Where(report => assignmentUser is null || report.IaipComplianceAssignment == staff.EmailAddress)
+            .Where(_ => assignmentOffice is null || assignmentOffice == assignedOffice)
             .OrderByDescending(report => report.DateTestReviewComplete)
             .ThenByDescending(report => report.ReferenceNumber).ToList();
 

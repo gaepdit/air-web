@@ -10,8 +10,8 @@ public interface ISourceTestAppService
     Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default);
 
-    Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
-        PaginatedRequest paging);
+    Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentUser,
+        Guid? assignmentOffice, PaginatedRequest paging);
 
     Task<bool> SourceTestExistsAsync(int referenceNumber);
 }
@@ -28,11 +28,11 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
             tests.Count, paging);
     }
 
-    public async Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
-        PaginatedRequest paging)
+    public async Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentUser,
+        Guid? assignmentOffice, PaginatedRequest paging)
     {
         var tests = await sourceTestService
-            .GetOpenSourceTestsForComplianceAsync(assignmentEmail, paging.Skip, paging.Take)
+            .GetOpenSourceTestsForComplianceAsync(assignmentUser, assignmentOffice, paging.Skip, paging.Take)
             .ConfigureAwait(false);
 
         return new PaginatedResult<SourceTestSummary>(tests.Item1, tests.Item2, paging);

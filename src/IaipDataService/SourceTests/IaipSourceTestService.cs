@@ -85,12 +85,13 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
     }
 
     public async Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
-        string? assignmentEmail, int skip, int take)
+        string? assignmentUser, Guid? assignmentOffice, int skip, int take)
     {
         using var db = dbf.Create();
 
         var multi = await db.QueryMultipleAsync("air.GetOpenSourceTestsForCompliance",
-            param: new { assignmentEmail, skip, take }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+                param: new { assignmentUser, assignmentOffice, skip, take }, commandType: CommandType.StoredProcedure)
+            .ConfigureAwait(false);
         await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
         var sourceTests = multi
