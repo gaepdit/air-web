@@ -11,7 +11,7 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="Compliance Work results table">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="Compliance Work results table">
         <thead>
         <tr>
             @if (searchSpec is null)
@@ -50,7 +50,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss">
+                <th scope="row" class="@rowCss" data-label="Tracking #">
                     <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                        class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
@@ -58,18 +58,18 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
-                <td>
+                <td data-label="Event Date">
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
                     @item.EventDateName
                 </td>
                 @if (!hideFacility)
                 {
-                    <td>
+                    <td data-label="Facility">
                         <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
                     </td>
                 }
-                <td>@item.ComplianceWorkType.GetDisplayName()</td>
-                <td class="text-nowrap">
+                <td data-label="Work Type">@item.ComplianceWorkType.GetDisplayName()</td>
+                <td class="text-nowrap" data-label="Status">
                     @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                     @if (item.IsClosed)
                     {
@@ -79,7 +79,7 @@
                 </td>
                 @if (!hideStaff)
                 {
-                    <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                    <td data-label="Responsible Staff">@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
                 }
             </tr>
         }
