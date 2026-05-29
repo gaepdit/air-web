@@ -117,10 +117,12 @@ public class IaipSourceTestService(
         await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
         var sourceTests = multi
-            .Read<SourceTestSummary, DateRange, PersonName, SourceTestSummary>((summary, testDates, reviewedByStaff) =>
+            .Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary, facility,
+                dates, staff) =>
             {
-                summary.TestDates = testDates;
-                summary.ReviewedByStaff = reviewedByStaff;
+                summary.Facility = facility;
+                summary.TestDates = dates;
+                summary.ReviewedByStaff = staff;
                 return summary;
             }).ToList();
 
