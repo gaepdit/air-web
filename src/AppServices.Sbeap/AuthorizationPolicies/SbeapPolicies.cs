@@ -60,5 +60,5 @@ public static class SbeapPolicies
         .RequireAssertion(context => context.User.IsSbeapSiteMaintainer()).Build();
 
     public static AuthorizationPolicy SbeapStaff { get; } = Policies.ActiveUserPolicyBuilder
-        .RequireAssertion(context => context.User.IsStaff()).Build();
+        .RequireAssertion(context => context.User.IsSbeapStaff()).Build();
 }
