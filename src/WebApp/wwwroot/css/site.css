@@ -230,13 +230,13 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
 }
 
 .btn-img img {
-    height: 25px;
-    margin-right: 2px;
+    height: 35px;
 }
 
 .btn-img-bg {
     background: white;
     box-shadow: 0 0 1px white;
+    padding: 2px;
 }
 
 .btn-img svg {
@@ -253,12 +253,6 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
 .btn:active svg,
 .btn:focus-visible svg {
     fill: var(--bs-btn-hover-color);
-}
-
-.btn-img svg.okta {
-    fill: #00297A !important;
-    background: #fff !important;
-    border-radius: 3px;
 }
 
 /* Text utilities

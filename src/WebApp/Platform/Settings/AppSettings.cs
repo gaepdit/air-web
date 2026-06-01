@@ -8,10 +8,11 @@ internal static partial class AppSettings
     public static string? Version { get; private set; }
     public static string? SimpleVersion => Version?.Split('+')[0];
 
-    public static string Env { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";
+    private static string Env { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";
     public static string ShortEnv => Env switch { "Production" => "prod", "Staging" => "uat", _ => "dev" };
 
     public static Support Support { get; } = new();
+    public static EntraIdPhaseOut EntraIdPhaseOut { get; } = new();
     public static Raygun RaygunSettings { get; } = new();
     public static DataDog DataDogSettings { get; } = new();
     public static OrganizationInfo OrganizationInfo { get; } = new();
@@ -41,4 +42,10 @@ public record Support
     public string? TechnicalSupportEmail { get; init; }
     public string? TechnicalSupportSite { get; init; }
     public Uri? TechnicalSupportSiteUrl => TechnicalSupportSite is null ? null : new Uri(TechnicalSupportSite);
+}
+
+public record EntraIdPhaseOut
+{
+    public bool Enabled { get; [UsedImplicitly] init; }
+    public DateOnly EndDate { get; [UsedImplicitly] init; }
 }

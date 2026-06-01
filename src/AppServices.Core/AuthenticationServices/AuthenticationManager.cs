@@ -31,12 +31,11 @@ public sealed class AuthenticationManager(
             return MissingExternalLoginInfo();
 
         var loginProvider = externalLoginInfo.LoginProvider;
-        var identityProviderId = externalLoginInfo.Principal.GetIdentityProviderId();
+        var identityProviderId = externalLoginInfo.Principal.GetIdentityProviderId() ?? string.Empty;
         var userEmail = externalLoginInfo.Principal.GetEmail();
         var providerKey = externalLoginInfo.ProviderKey;
 
-        if (identityProviderId is null || userEmail is null)
-            return MissingExternalLoginInfo();
+        if (userEmail is null) return MissingExternalLoginInfo();
 
         if (!configuration.ValidateLoginProviderId(loginProvider, identityProviderId))
             return InvalidLoginProvider(loginProvider, identityProviderId);
@@ -111,7 +110,7 @@ public sealed class AuthenticationManager(
     {
         var user = new ApplicationUser
         {
-            UserName = info.Principal.GetDisplayName(),
+            UserName = info.Principal.GetEmail(),
             Email = info.Principal.GetEmail(),
             GivenName = info.Principal.GetGivenName(),
             FamilyName = info.Principal.GetFamilyName(),
