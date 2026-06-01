@@ -48,7 +48,7 @@ public class ComplianceWorkValidator : AbstractValidator<ComplianceWorkSearchDto
                 if (!FacilityId.TryParse(id, out var facilityId))
                     return false;
 
-                return await _service.ExistsAsync(facilityId);
+                return await _service.ExistsAsync(facilityId).ConfigureAwait(false);
             })
             .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.");
     }
