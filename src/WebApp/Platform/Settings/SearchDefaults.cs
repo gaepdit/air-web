@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Sbeap.Cases.Dto;
 using GaEpd.AppLibrary.Pagination;
+using System.Text.Json;
 
 namespace AirWeb.WebApp.Platform.Settings;
 
@@ -63,4 +64,11 @@ internal static class PaginationDefaults
     public static PaginatedRequest SbeapCasesSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
             sorting: CaseworkSortBy.OpenedDate.GetDescription());
+}
+
+internal static class SerializationDefaults
+{
+    public static JsonSerializerOptions Options { get; } = AppSettings.Env == "Development"
+        ? new JsonSerializerOptions { WriteIndented = true }
+        : new JsonSerializerOptions();
 }

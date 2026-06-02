@@ -18,7 +18,7 @@ function initMap() {
         // Add facility popup to map.
         const info = '<div class="facility-map-info">' +
             `<div class="facility-map-title">${Facility.Name}</div>` +
-            `<div>${Facility.Location}</div>` +
+            `<div>${Facility.City}, ${Facility.State}</div>` +
             '</div>';
         L.popup([Facility.GeoCoordinates.Latitude, Facility.GeoCoordinates.Longitude], {
             closeOnEscapeKey: false,

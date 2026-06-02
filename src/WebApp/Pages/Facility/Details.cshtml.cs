@@ -26,7 +26,7 @@ public class DetailsModel(
     public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
-    public FacilitySummary? FacilitySummary => Facility is null ? null : new(Facility);
+    public FacilitySummary? FacilitySummary => Facility is null ? null : new FacilitySummary(Facility);
     public string FacilityJson => JsonSerializer.Serialize(FacilitySummary);
 
     // Data tables
