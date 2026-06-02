@@ -31,6 +31,6 @@ public readonly record struct Address
         }
         .ConcatWithSeparator(", ");
 
-    public string GoogleMapsUrl => $"https://www.google.com/maps/search/?api=1&query={OneLine}";
-    public string AppleMapsUrl => $"https://maps.apple.com/?q={OneLine}";
+    public string GoogleMapsUrl() => $"https://www.google.com/maps/search/?api=1&query={OneLine}";
+    public string AppleMapsUrl() => $"https://maps.apple.com/?q={OneLine}";
 }

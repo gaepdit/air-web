@@ -61,7 +61,7 @@ function showAlert() {
 function newMarker(f) {
     const info = '<div class="facility-map-info">' +
         `<div class="facility-map-title">${f.Name}</div>` +
-        `<div>${f.Location}</div>` +
+        `<div>${f.City}, ${f.State}</div>` +
         `<div class="facility-map-link"><a target="_blank" href="Details/${f.Id}">${f.Id}</a></div>` +
         '</div>';
     const marker = L.marker([f.GeoCoordinates.Latitude, f.GeoCoordinates.Longitude], {title: f.Name});

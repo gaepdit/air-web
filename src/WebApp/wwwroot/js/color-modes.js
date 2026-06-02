@@ -1,6 +1,6 @@
 /*!
  * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
- * Copyright 2011-2023 The Bootstrap Authors
+ * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under the Creative Commons Attribution 3.0 Unported License.
  */
 
@@ -9,13 +9,21 @@
 
     const getStoredTheme = () => localStorage.getItem('theme')
     const setStoredTheme = theme => localStorage.setItem('theme', theme)
-    const getPreferredTheme = () => getStoredTheme() || 'auto'
+
+    const getPreferredTheme = () => {
+        const storedTheme = getStoredTheme()
+        if (storedTheme) {
+            return storedTheme
+        }
+
+        return globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    }
 
     const setTheme = theme => {
         if (theme === 'auto') {
-            document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
+            document.documentElement.dataset.bsTheme = globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         } else {
-            document.documentElement.setAttribute('data-bs-theme', theme)
+            document.documentElement.dataset.bsTheme = theme
         }
     }
 
@@ -52,27 +60,20 @@
         }
     }
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const listener = () => {
-        const storedTheme = getStoredTheme();
+    globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const storedTheme = getStoredTheme()
         if (storedTheme !== 'light' && storedTheme !== 'dark') {
-            setTheme(getPreferredTheme());
+            setTheme(getPreferredTheme())
         }
-    };
+    })
 
-    if (mediaQuery.addEventListener) {
-        mediaQuery.addEventListener('change', listener);
-    } else if (mediaQuery.addListener) {
-        mediaQuery.addListener(listener);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
+    globalThis.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(getPreferredTheme())
 
         document.querySelectorAll('[data-bs-theme-value]')
             .forEach(toggle => {
                 toggle.addEventListener('click', () => {
-                    const theme = toggle.getAttribute('data-bs-theme-value')
+                    const theme = toggle.dataset.bsThemeValue
                     setStoredTheme(theme)
                     setTheme(theme)
                     showActiveTheme(theme, true)
