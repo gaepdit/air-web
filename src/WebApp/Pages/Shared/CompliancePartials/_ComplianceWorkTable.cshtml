@@ -38,10 +38,10 @@
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Work Type")" view-data-Ascender="@nameof(ComplianceWorkSortBy.WorkTypeAsc)" view-data-Descender="@nameof(ComplianceWorkSortBy.WorkTypeDesc)" />
             }
-            <th scope="col" class="text-nowrap">Status</th>
+            <th scope="col" class="text-nowrap hide-mobile">Status</th>
             @if (!hideStaff)
             {
-                <th scope="col" class="text-nowrap">Responsible Staff</th>
+                <th scope="col" class="text-nowrap hide-mobile">Responsible Staff</th>
             }
         </tr>
         </thead>
