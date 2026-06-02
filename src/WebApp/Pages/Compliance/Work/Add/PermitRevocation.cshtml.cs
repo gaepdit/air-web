@@ -19,7 +19,7 @@ public class PermitRevocationAddModel(
     [BindProperty]
     public PermitRevocationCreateDto Item { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         WorkType = ComplianceWorkType.PermitRevocation;
 
@@ -29,7 +29,7 @@ public class PermitRevocationAddModel(
             ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
         };
 
-        return await DoGetAsync();
+        return await DoGetAsync(token);
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

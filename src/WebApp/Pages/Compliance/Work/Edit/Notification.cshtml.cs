@@ -33,9 +33,9 @@ public class NotificationEditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token) =>
         await DoPostAsync(Item, validator, token);
 
-    protected override async Task PopulateSelectListsAsync()
+    protected override async Task PopulateSelectListsAsync(CancellationToken token)
     {
-        await base.PopulateSelectListsAsync();
-        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync()).ToSelectList();
+        await base.PopulateSelectListsAsync(token);
+        NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync(token: token)).ToSelectList();
     }
 }

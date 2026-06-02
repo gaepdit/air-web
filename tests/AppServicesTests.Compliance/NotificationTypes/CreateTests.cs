@@ -3,7 +3,6 @@ using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.TestData.SampleData;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Compliance.NotificationTypes;
@@ -25,10 +24,8 @@ public class CreateTests
         userServiceMock.GetCurrentUserAsync()
             .Returns((ApplicationUser?)null);
 
-        using var cache = Substitute.For<IMemoryCache>();
-
-        var appService = new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock, cache,
-            Substitute.For<ILogger<NotificationTypeService>>());
+        var appService = new NotificationTypeService(Setup.Mapper!, repoMock, managerMock, userServiceMock,
+            Setup.FakeCache!, Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act
         var result = await appService.CreateAsync(item.Name);

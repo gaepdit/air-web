@@ -13,16 +13,14 @@ public class GetListTests
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
         // Arrange
-        var actionItemType = new ActionItemType(Guid.Empty, Constants.ValidName);
-        var itemList = new List<ActionItemType> { actionItemType };
+        var itemList = new List<ActionItemType> { new(Guid.Empty, Constants.ValidName) };
 
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.GetOrderedListAsync(Arg.Any<CancellationToken>())
             .Returns(itemList);
 
-        using var cache = Substitute.For<IMemoryCache>();
         var appService = new ActionItemTypeService(repoMock, Substitute.For<IActionItemTypeManager>(), Setup.Mapper!,
-            Substitute.For<IUserService>(), cache, Substitute.For<ILogger<ActionItemTypeService>>());
+            Substitute.For<IUserService>(), Setup.FakeCache!, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.GetListAsync();
@@ -41,8 +39,8 @@ public class GetListTests
         var userServiceMock = Substitute.For<IUserService>();
 
         using var cache = Substitute.For<IMemoryCache>();
-        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock, cache,
-            Substitute.For<ILogger<ActionItemTypeService>>());
+        var appService = new ActionItemTypeService(repoMock, managerMock, Setup.Mapper!, userServiceMock,
+            Setup.FakeCache!, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.GetListAsync();

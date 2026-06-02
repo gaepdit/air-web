@@ -45,7 +45,7 @@ public class AddTests
     {
         // Arrange
         var staffServiceMock = Substitute.For<IStaffService>();
-        staffServiceMock.GetAllStaff().Returns(new List<ListItem<string>>());
+        staffServiceMock.GetAllStaffAsync().Returns(new List<ListItem<string>>());
 
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
 

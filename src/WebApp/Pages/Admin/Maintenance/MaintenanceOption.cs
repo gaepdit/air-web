@@ -23,9 +23,9 @@ public record MaintenanceOption
             startsWithVowelSound: false);
 
     // SBEAP
-    public static MaintenanceOption ActionItemType =>
+    public static MaintenanceOption SbeapActionItemType =>
         new(singularName: "SBEAP Action Item Type", pluralName: "SBEAP Action Item Types", startsWithVowelSound: true);
 
-    public static MaintenanceOption Agency =>
+    public static MaintenanceOption SbeapAgency =>
         new(singularName: "SBEAP Agency", pluralName: "SBEAP Agencies", startsWithVowelSound: true);
 }

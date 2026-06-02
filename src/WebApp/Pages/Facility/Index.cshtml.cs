@@ -17,7 +17,7 @@ public class IndexModel(IFacilityService service) : PageModel
     [RegularExpression(FacilityId.FacilityIdEnclosedPattern, ErrorMessage = FacilityId.FacilityIdFormatError)]
     public string? FindId { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false)
+    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
     {
         if (refresh)
         {
@@ -25,15 +25,15 @@ public class IndexModel(IFacilityService service) : PageModel
             return RedirectToPage();
         }
 
-        Facilities = await service.GetAllAsync(RefreshIaipData);
+        Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         if (!ModelState.IsValid)
         {
-            Facilities = await service.GetAllAsync(RefreshIaipData);
+            Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
             return Page();
         }
 
@@ -46,7 +46,7 @@ public class IndexModel(IFacilityService service) : PageModel
         if (ModelState.IsValid)
             return RedirectToPage("Details", routeValues: new { id = FindId });
 
-        Facilities = await service.GetAllAsync(RefreshIaipData);
+        Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
         return Page();
     }
 }

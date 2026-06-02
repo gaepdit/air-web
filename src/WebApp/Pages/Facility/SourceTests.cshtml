@@ -1,6 +1,4 @@
 ﻿@page "{id?}"
-@using AirWeb.WebApp.Pages.Shared
-@using AirWeb.WebApp.Platform.Settings
 @model SourceTestsModel
 @{
     ViewData["Title"] = $"Facility {Model.Facility!.Id} Source Tests";
@@ -21,8 +19,4 @@ else
 {
     <partial name="Shared/CompliancePartials/_SourceTestsTable" model="Model.SourceTests"
              view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
-}
-
-@section Footer {
-    <partial name="Shared/_IaipReloadPartial" />
 }

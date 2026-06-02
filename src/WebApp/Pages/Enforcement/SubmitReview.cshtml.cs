@@ -50,7 +50,7 @@ public class SubmitReviewModel(
         ItemView = itemView;
         ItemReview = new EnforcementActionSubmitReviewDto();
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
@@ -66,7 +66,7 @@ public class SubmitReviewModel(
         if (!ModelState.IsValid)
         {
             ItemView = itemView;
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -80,7 +80,7 @@ public class SubmitReviewModel(
             fragment: Id.ToString());
     }
 
-    private async Task PopulateSelectListsAsync() => StaffSelectList =
-        (await staffService.GetStaffInRoleAsync(ComplianceRole.EnforcementReviewerRole,
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.EnforcementReviewerRole,
             ComplianceRole.EnforcementManagerRole)).ToSelectList();
 }

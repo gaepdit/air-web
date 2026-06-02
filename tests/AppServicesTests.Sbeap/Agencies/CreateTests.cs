@@ -3,7 +3,6 @@ using AirWeb.AppServices.Sbeap.Agencies;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.Domain.Sbeap.Entities.Agencies;
 using AppServicesTests.Sbeap.TestData;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Sbeap.Agencies;
@@ -24,8 +23,7 @@ public class CreateTests
         var userServiceMock = Substitute.For<IUserService>();
         userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
 
-        using var cache = Substitute.For<IMemoryCache>();
-        var appService = new AgencyService(repoMock, managerMock, Setup.Mapper!, userServiceMock, cache,
+        var appService = new AgencyService(repoMock, managerMock, Setup.Mapper!, userServiceMock, Setup.FakeCache!,
             Substitute.For<ILogger<AgencyService>>());
 
         // Act

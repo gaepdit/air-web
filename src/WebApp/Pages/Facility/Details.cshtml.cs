@@ -28,7 +28,7 @@ public class DetailsModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public FacilitySummary? FacilitySummary => Facility is null ? null : new(Facility);
     public string FacilityJson => JsonSerializer.Serialize(FacilitySummary);
-    
+
     // Data tables
     public IPaginatedResult<CaseFileSearchResultDto> CaseFiles { get; set; } = null!;
     public IPaginatedResult<ComplianceWorkSearchResultDto> ComplianceWork { get; set; } = null!;
@@ -56,12 +56,12 @@ public class DetailsModel(
 
         if (facilityId.FormattedId != Id) return RedirectToPage(new { id = facilityId });
 
-        Facility = await facilityService.FindFacilityDetailsAsync(facilityId, RefreshIaipData);
+        Facility = await facilityService.FindFacilityAsync(facilityId, RefreshIaipData, token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
         // Source Test service can be run in parallel with the search services.
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
-            PaginationDefaults.SourceTestSummary, RefreshIaipData);
+            PaginationDefaults.SourceTestSummary, RefreshIaipData, token);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         ComplianceWork = await searchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),

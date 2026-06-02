@@ -13,7 +13,7 @@ public class EditModel(IAgencyService service, IValidator<AgencyUpdateDto> valid
 
     public async Task<IActionResult> OnGetAsync()
     {
-        ThisOption = MaintenanceOption.Agency;
+        ThisOption = MaintenanceOption.SbeapAgency;
 
         if (Id is null) return RedirectToPage("Index");
         var originalItem = await service.FindForUpdateAsync(Id.Value);
@@ -27,7 +27,7 @@ public class EditModel(IAgencyService service, IValidator<AgencyUpdateDto> valid
 
     public async Task<IActionResult> OnPostAsync()
     {
-        ThisOption = MaintenanceOption.Agency;
+        ThisOption = MaintenanceOption.SbeapAgency;
         return await DoPostAsync(service, validator, Item);
     }
 }

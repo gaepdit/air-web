@@ -5,7 +5,7 @@ using AirWeb.Domain.Core.Entities;
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Core.EntityServices.Offices;
@@ -16,7 +16,7 @@ public class OfficeService(
     IOfficeManager manager,
     IUserService userService,
     IAuthorizationService authorization,
-    IMemoryCache cache,
+    HybridCache cache,
     ILogger<OfficeService> logger)
     : LookupService<Office, OfficeViewDto, OfficeUpdateDto>
         (mapper, repository, manager, userService, cache, logger), IOfficeService

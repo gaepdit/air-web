@@ -45,5 +45,5 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
 
     public Task<NotificationType> GetNotificationTypeAsync(Guid typeId, CancellationToken token = default) =>
         Context.Set<NotificationType>()
-            .SingleAsync(notificationType => notificationType.Id.Equals(typeId), cancellationToken: token);
+            .SingleAsync(notificationType => notificationType.Id.Equals(typeId), token);
 }

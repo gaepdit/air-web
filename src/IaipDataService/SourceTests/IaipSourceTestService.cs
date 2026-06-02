@@ -4,27 +4,19 @@ using IaipDataService.Facilities;
 using IaipDataService.SourceTests.Models;
 using IaipDataService.SourceTests.Models.TestRun;
 using IaipDataService.Structs;
-using IaipDataService.Utilities;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using System.Data;
 
 namespace IaipDataService.SourceTests;
 
-public class IaipSourceTestService(
-    IDbConnectionFactory dbf,
-    IMemoryCache cache,
-    ILogger<IaipSourceTestService> logger) : ISourceTestService
+public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestService
 {
-    public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber)
-    {
-        if (!await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)) return null;
+    public async Task<BaseSourceTestReport?> FindAsync(int referenceNumber) =>
+        !await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)
+            ? null
+            : await GetSourceTestReportFromDb(referenceNumber).ConfigureAwait(false);
 
-        var cacheKey = $"IaipSourceTestService.Find.{referenceNumber}";
-        if (cache.TryGetValue(cacheKey, logger, out BaseSourceTestReport? cachedValue))
-            return cachedValue;
-
-        BaseSourceTestReport? report = await GetDocumentTypeAsync(referenceNumber).ConfigureAwait(false) switch
+    private async Task<BaseSourceTestReport?> GetSourceTestReportFromDb(int referenceNumber) =>
+        await GetDocumentTypeAsync(referenceNumber).ConfigureAwait(false) switch
         {
             DocumentType.Unassigned => null,
             DocumentType.OneStackTwoRuns or DocumentType.OneStackThreeRuns or DocumentType.OneStackFourRuns =>
@@ -43,37 +35,28 @@ public class IaipSourceTestService(
             _ => null,
         };
 
-        return cache.Set(report, cacheKey, CacheConstants.SourceTestExpiration, logger);
-    }
+    public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber) =>
+        !await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)
+            ? null
+            : await GetSourceTestSummaryFromDb(referenceNumber).ConfigureAwait(false);
 
-    public async Task<SourceTestSummary?> FindSummaryAsync(int referenceNumber, bool forceRefresh = false)
+    private async Task<SourceTestSummary?> GetSourceTestSummaryFromDb(int referenceNumber)
     {
-        if (!await SourceTestExistsAsync(referenceNumber).ConfigureAwait(false)) return null;
-
-        var cacheKey = $"IaipSourceTestService.FindSummary.{referenceNumber}";
-        var printoutCacheKey = $"IaipSourceTestService.Find.{referenceNumber}";
-
-        if (forceRefresh) cache.RemoveAll([cacheKey, printoutCacheKey]);
-        else if (cache.TryGetValue(cacheKey, logger, out SourceTestSummary? cachedValue))
-            return cachedValue;
-
         using var db = dbf.Create();
 
         var multi = await db.QueryMultipleAsync("air.GetSourceTestSummary",
             param: new { referenceNumber }).ConfigureAwait(false);
+
         await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
-        var testSummary = multi
-            .Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary, facility,
-                testDates, reviewedByStaff) =>
-            {
-                summary.Facility = facility;
-                summary.TestDates = testDates;
-                summary.ReviewedByStaff = reviewedByStaff;
-                return summary;
-            }).SingleOrDefault();
-
-        return cache.Set(testSummary, cacheKey, CacheConstants.SourceTestExpiration, logger, forceRefresh);
+        return multi.Read<SourceTestSummary, FacilitySummary, DateRange, PersonName, SourceTestSummary>((summary,
+            facility, testDates, reviewedByStaff) =>
+        {
+            summary.Facility = facility;
+            summary.TestDates = testDates;
+            summary.ReviewedByStaff = reviewedByStaff;
+            return summary;
+        }).SingleOrDefault();
     }
 
     public async Task<bool> SourceTestExistsAsync(int referenceNumber)
@@ -83,13 +66,8 @@ public class IaipSourceTestService(
             param: new { referenceNumber }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        bool forceRefresh = false)
+    public async Task<IReadOnlyCollection<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId)
     {
-        var cacheKey = $"IaipSourceTestService.GetSourceTestsForFacilityAsync.{facilityId}";
-        if (!forceRefresh && cache.TryGetValue(cacheKey, logger,
-                out IReadOnlyCollection<SourceTestSummary>? cachedValue)) return cachedValue;
-
         using var db = dbf.Create();
 
         var multi = await db.QueryMultipleAsync("air.GetFacilitySourceTests",
@@ -103,8 +81,7 @@ public class IaipSourceTestService(
                 summary.ReviewedByStaff = reviewedByStaff;
                 return summary;
             }).ToList();
-
-        return cache.Set(sourceTests, cacheKey, CacheConstants.SourceTestListExpiration, logger, forceRefresh);
+        return sourceTests;
     }
 
     public async Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(

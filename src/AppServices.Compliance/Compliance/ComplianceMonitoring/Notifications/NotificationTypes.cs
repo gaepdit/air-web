@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
@@ -24,7 +24,7 @@ public class NotificationTypeService(
     INotificationTypeRepository repository,
     INotificationTypeManager manager,
     IUserService userService,
-    IMemoryCache cache,
+    HybridCache cache,
     ILogger<NotificationTypeService> logger)
     : LookupService<NotificationType, NotificationTypeViewDto, NotificationTypeUpdateDto>
         (mapper, repository, manager, userService, cache, logger), INotificationTypeService;

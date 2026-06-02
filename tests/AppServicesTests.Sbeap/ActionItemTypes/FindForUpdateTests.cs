@@ -2,7 +2,6 @@
 using AirWeb.AppServices.Sbeap.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AppServicesTests.Sbeap.TestData;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Sbeap.ActionItemTypes;
@@ -18,9 +17,8 @@ public class FindForUpdateTests
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindAsync(actionItemType.Id, Arg.Any<CancellationToken>()).Returns(actionItemType);
 
-        using var cache = Substitute.For<IMemoryCache>();
         var appService = new ActionItemTypeService(repoMock, Substitute.For<IActionItemTypeManager>(), Setup.Mapper!,
-            Substitute.For<IUserService>(), cache, Substitute.For<ILogger<ActionItemTypeService>>());
+            Substitute.For<IUserService>(), Setup.FakeCache!, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);
@@ -38,9 +36,8 @@ public class FindForUpdateTests
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
 
-        using var cache = Substitute.For<IMemoryCache>();
         var appService = new ActionItemTypeService(repoMock, Substitute.For<IActionItemTypeManager>(), Setup.Mapper!,
-            Substitute.For<IUserService>(), cache, Substitute.For<ILogger<ActionItemTypeService>>());
+            Substitute.For<IUserService>(), Setup.FakeCache!, Substitute.For<ILogger<ActionItemTypeService>>());
 
         // Act
         var result = await appService.FindForUpdateAsync(Guid.Empty);

@@ -10,9 +10,7 @@ public class GetOpenSourceTestsForComplianceTests
     public void SetUp()
     {
         // Arrange
-        using var cache = Substitute.For<IMemoryCache>();
-        var logger = Substitute.For<ILogger<IaipSourceTestService>>();
-        _sut = new IaipSourceTestService(Config.DbConnectionFactory!, cache, logger);
+        _sut = new IaipSourceTestService(Config.DbConnectionFactory!);
     }
 
     [Test]

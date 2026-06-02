@@ -1,51 +1,46 @@
 ﻿using Dapper;
+using IaipDataService.Caching;
 using IaipDataService.DbConnection;
 using IaipDataService.Structs;
-using IaipDataService.Utilities;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
-using System.Collections.ObjectModel;
 using System.Data;
 
 namespace IaipDataService.Facilities;
 
 public sealed class IaipFacilityService(
     IDbConnectionFactory dbf,
-    IMemoryCache cache,
+    HybridCache cache,
     ILogger<IaipFacilityService> logger) : IFacilityService
 {
-    public Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false) =>
-        GetFacilityAsync(id, forceRefresh, loadDetails: false);
+    private const string FacilityLists = nameof(FacilityLists);
 
-    public Task<Facility?> FindFacilityDetailsAsync(FacilityId id, bool forceRefresh = false) =>
-        GetFacilityAsync(id, forceRefresh, loadDetails: true);
-
-    private async Task<Facility?> GetFacilityAsync(FacilityId id, bool forceRefresh, bool loadDetails)
+    public async Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false,
+        CancellationToken token = default)
     {
         if (!await ExistsAsync(id).ConfigureAwait(false)) return null;
 
-        var facilityDetailsCacheKey = FacilityDetailsCacheKey(id);
-        var facilitySummaryCacheKey = FacilitySummaryCacheKey(id);
-        var cacheKey = loadDetails ? facilityDetailsCacheKey : facilitySummaryCacheKey;
+        var key = $"IaipFacilityDetails.{id}";
 
-        if (!forceRefresh)
-        {
-            // When requesting a facility summary, check the summary cache first.
-            if (!loadDetails && cache.TryGetValue(facilitySummaryCacheKey, logger, out Facility? cachedValue))
-                return cachedValue;
+        if (forceRefresh) await cache.RemoveByTagAsync([id.ToString(), FacilityLists], token).ConfigureAwait(false);
+        else logger.LogCacheSearch(key);
 
-            // Check the details cache when requesting facility details or
-            // when requesting a summary that is not in the summary cache.
-            if (cache.TryGetValue(facilityDetailsCacheKey, logger, out cachedValue))
-                return loadDetails
-                    ? cachedValue
-                    : cache.Set(cachedValue, cacheKey, CacheConstants.FacilityExpiration, logger);
-        }
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                if (forceRefresh) logger.LogCacheRefresh(key);
+                else logger.LogCacheMiss(key);
 
+                return await GetFacilityFromDb(id).ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityExpiration),
+            tags: [id.ToString(), FacilityLists], token).ConfigureAwait(false);
+    }
+
+    private async Task<Facility> GetFacilityFromDb(FacilityId id)
+    {
         using var db = dbf.Create();
-        var spName = loadDetails ? "air.GetIaipFacilityDetails" : "air.GetIaipFacility";
 
-        var multi = await db.QueryMultipleAsync(spName, param: new { FacilityId = id.Id },
+        var multi = await db.QueryMultipleAsync("air.GetIaipFacilityDetails", param: new { FacilityId = id.Id },
             commandType: CommandType.StoredProcedure).ConfigureAwait(false);
         await using var multiAsyncDisposable = multi.ConfigureAwait(false);
 
@@ -58,25 +53,19 @@ public sealed class IaipFacilityService(
                 return facility;
             }, splitOn: "FacilityAddressId,GeoCoordinatesId,RegulatoryDataId").Single();
 
-        if (loadDetails)
-        {
-            facility.RegulatoryData!.AirPrograms.AddRange(
-                await multi.ReadAsync<AirProgram>().ConfigureAwait(false));
-            facility.RegulatoryData!.ProgramClassifications.AddRange(
-                await multi.ReadAsync<AirProgramClassification>().ConfigureAwait(false));
-            facility.RegulatoryData!.Pollutants.AddRange(
-                await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
-        }
+        facility.RegulatoryData!.AirPrograms.AddRange(
+            await multi.ReadAsync<AirProgram>().ConfigureAwait(false));
+        facility.RegulatoryData!.ProgramClassifications.AddRange(
+            await multi.ReadAsync<AirProgramClassification>().ConfigureAwait(false));
+        facility.RegulatoryData!.Pollutants.AddRange(
+            await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
 
-        return cache.Set(facility, cacheKey, CacheConstants.FacilityExpiration, logger, forceRefresh);
+        return facility;
     }
-
-    private static string FacilityDetailsCacheKey(FacilityId id) => $"IaipFacilityDetails.{id}";
-    private static string FacilitySummaryCacheKey(FacilityId id) => $"IaipFacility.{id}";
 
     public async Task<string> GetNameAsync(string id) =>
         (await GetAllAsync().ConfigureAwait(false)).SingleOrDefault(f => f.FacilityId == id)?.Name ??
-            throw new InvalidOperationException("Facility not found.");
+        throw new InvalidOperationException("Facility not found.");
 
     public async Task<bool> ExistsAsync(FacilityId id)
     {
@@ -92,30 +81,39 @@ public sealed class IaipFacilityService(
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
-
     public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
-        bool includePortableSources = true)
+        bool includePortableSources = true, CancellationToken token = default)
     {
-        string facilityListCacheKey = $"IaipFacilityList{(includePortableSources ? "" : "_ExcludingPortable")}";
+        var key = $"IaipFacilityList{(includePortableSources ? "" : "_ExcludingPortable")}";
 
-        if (!forceRefresh && cache.TryGetValue(facilityListCacheKey, logger,
-                out IReadOnlyCollection<FacilitySummary>? cachedValue)) return cachedValue;
+        if (forceRefresh) await cache.RemoveByTagAsync(FacilityLists, token).ConfigureAwait(false);
+        else logger.LogCacheSearch(key);
 
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                if (forceRefresh) logger.LogCacheRefresh(key);
+                else logger.LogCacheMiss(key);
+
+                return await GetFacilitySummariesFromDb(includePortableSources).ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityListExpiration),
+            tags: [FacilityLists], token).ConfigureAwait(false);
+    }
+
+    private async Task<List<FacilitySummary>> GetFacilitySummariesFromDb(bool includePortableSources)
+    {
         using var db = dbf.Create();
 
-        var facilityList = (await db.QueryAsync<FacilitySummary, GeoCoordinates, FacilitySummary>(
-                sql: "air.GetIaipFacilityList",
-                (facility, geoCoordinates) =>
-                {
-                    facility.GeoCoordinates = geoCoordinates;
-                    return facility;
-                },
-                param: new { includePortableSources },
-                splitOn: "GeoCoordinatesId",
-                commandType: CommandType.StoredProcedure
-            )
-            .ConfigureAwait(false)).ToList();
-
-        return cache.Set(facilityList, facilityListCacheKey, CacheConstants.FacilityListExpiration, logger);
+        return (await db.QueryAsync<FacilitySummary, GeoCoordinates, FacilitySummary>(
+            sql: "air.GetIaipFacilityList",
+            map: (facility, geoCoordinates) =>
+            {
+                facility.GeoCoordinates = geoCoordinates;
+                return facility;
+            },
+            param: new { includePortableSources },
+            splitOn: "GeoCoordinatesId",
+            commandType: CommandType.StoredProcedure
+        ).ConfigureAwait(false)).ToList();
     }
 }

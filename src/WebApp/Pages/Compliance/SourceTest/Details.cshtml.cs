@@ -30,9 +30,6 @@ public class DetailsModel(
 
     public SourceTestSummary? TestSummary { get; private set; }
 
-    [TempData]
-    public bool RefreshIaipData { get; set; }
-
     // Compliance review
     public SourceTestReviewViewDto? ComplianceReview { get; private set; }
     public CommentsSectionModel? CommentSection { get; set; }
@@ -56,17 +53,11 @@ public class DetailsModel(
     [TempData]
     public string? NotificationFailureMessage { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (ReferenceNumber == 0) return RedirectToPage("./Index");
 
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
-
-        TestSummary = await testService.FindSummaryAsync(ReferenceNumber, RefreshIaipData);
+        TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return NotFound();
 
         ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
@@ -95,7 +86,7 @@ public class DetailsModel(
                 ResponsibleStaffId = defaultStaffId,
             };
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
         }
         else
         {
@@ -135,7 +126,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -244,7 +235,7 @@ public class DetailsModel(
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
-    private async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

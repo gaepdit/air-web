@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
@@ -7,16 +8,36 @@ namespace AirWeb.AppServices.Core.Caching;
 
 public static class CacheLoggingHelpers
 {
-    private static readonly EventId AirWebCacheHit = new(2503, nameof(AirWebCacheHit));
-    private static readonly EventId AirWebCacheMiss = new(2504, nameof(AirWebCacheMiss));
+    private static readonly EventId AirWebCacheSearch = new(2701, nameof(AirWebCacheSearch));
+    private static readonly EventId AirWebCacheMiss = new(2702, nameof(AirWebCacheMiss));
+    private static readonly EventId AirWebCacheRefresh = new(2703, nameof(AirWebCacheRefresh));
 
     extension(ILogger logger)
     {
-        private void LogCacheHit(string cacheKey) =>
-            logger.ZLogInformation(AirWebCacheHit, $"Cache hit for key: {cacheKey}");
+        public void LogCacheSearch(string key) =>
+            logger.ZLogInformation(AirWebCacheSearch, $"Cache search for key: {key}");
 
-        private void LogCacheMiss(string cacheKey) =>
-            logger.ZLogInformation(AirWebCacheMiss, $"Cache miss for key: {cacheKey}");
+        public void LogCacheRefresh(string key) =>
+            logger.ZLogInformation(AirWebCacheRefresh, $"Cache refresh for key: {key}");
+
+        public void LogCacheMiss(string key) =>
+            logger.ZLogInformation(AirWebCacheMiss, $"Cache miss for key: {key}");
+    }
+
+    extension(HybridCache cache)
+    {
+        public async Task<TItem> GetOrCreateAsync<TItem>(string key, Func<CancellationToken, Task<TItem>> factory,
+            TimeSpan expiration, ILogger logger, string? tag = null, CancellationToken token = default)
+        {
+            logger.LogCacheSearch(key);
+            IEnumerable<string>? tags = string.IsNullOrEmpty(tag) ? null : [tag];
+
+            return await cache.GetOrCreateAsync(key, factory: async ct =>
+            {
+                logger.LogCacheMiss(key);
+                return await factory(ct).ConfigureAwait(false);
+            }, CacheUtilities.GetHybridCacheOptions(expiration), tags, token).ConfigureAwait(false);
+        }
     }
 
     extension(IMemoryCache cache)
@@ -37,7 +58,7 @@ public static class CacheLoggingHelpers
             }
 
             value = result;
-            logger.LogCacheHit(key);
+            logger.LogCacheSearch(key);
             return true;
         }
 

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AppServicesTests.Compliance.NotificationTypes;
 
-public class FindForUpdateTests
+public class FindTests
 {
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
@@ -23,7 +23,7 @@ public class FindForUpdateTests
             Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act
-        var result = await appService.FindForUpdateAsync(Guid.Empty);
+        var result = await appService.FindAsync(Guid.Empty);
 
         //Assert
         result.Should().BeEquivalentTo(item);
@@ -44,7 +44,7 @@ public class FindForUpdateTests
             Substitute.For<ILogger<NotificationTypeService>>());
 
         // Act
-        var result = await appService.FindForUpdateAsync(Guid.Empty);
+        var result = await appService.FindAsync(Guid.Empty);
 
         //Assert
         result.Should().BeNull();

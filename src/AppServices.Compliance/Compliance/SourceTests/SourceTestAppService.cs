@@ -8,7 +8,7 @@ namespace AirWeb.AppServices.Compliance.Compliance.SourceTests;
 public interface ISourceTestAppService
 {
     Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false);
+        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default);
 
     Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
         PaginatedRequest paging);
@@ -19,9 +19,9 @@ public interface ISourceTestAppService
 public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
 {
     public async Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false)
+        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default)
     {
-        var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId, forceRefresh)
+        var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId)
             .ConfigureAwait(false);
 
         return new PaginatedResult<SourceTestSummary>(tests.Skip(paging.Skip).Take(paging.Take),

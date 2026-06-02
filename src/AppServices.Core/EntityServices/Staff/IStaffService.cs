@@ -12,8 +12,8 @@ public interface IStaffService : IDisposable, IAsyncDisposable
     Task<StaffViewDto?> FindAsync(string id);
     Task<StaffViewDto?> FindByEmailAsync(string? email);
     Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging);
-    IReadOnlyList<ListItem<string>> GetAllStaff();
-    Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(params AppRole[] role);
+    Task<IReadOnlyList<ListItem<string>>> GetAllStaffAsync(CancellationToken token = default);
+    Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(CancellationToken token, params AppRole[] role);
     Task<bool> IsInRoleAsync(string id, AppRole role);
     Task<IList<string>> GetRolesAsync(string id);
     Task<IReadOnlyList<AppRole>> GetAppRolesAsync(string id);

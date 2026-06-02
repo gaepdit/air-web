@@ -27,19 +27,18 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
     public string CancelRoute => "/Facility/Details";
     public string RouteId => FacilityId ?? string.Empty;
 
-    protected async Task<IActionResult> DoGetAsync()
+    protected async Task<IActionResult> DoGetAsync(CancellationToken token = default)
     {
         if (FacilityId is null) return NotFound("Facility ID not found.");
-        Facility = await facilityService.FindFacilityDetailsAsync((FacilityId)FacilityId);
+        Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        await PopulateSelectListsAsync();
+        await PopulateSelectListsAsync(token);
         return Page();
     }
 
     protected async Task<IActionResult> DoPostAsync<TDto>(
-        TDto item, IComplianceWorkService service,
-        IValidator<TDto> validator, CancellationToken token)
+        TDto item, IComplianceWorkService service, IValidator<TDto> validator, CancellationToken token = default)
         where TDto : IComplianceWorkCreateDto
     {
         if (item.FacilityId == null || FacilityId != item.FacilityId) return BadRequest();
@@ -47,10 +46,10 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
 
         if (!ModelState.IsValid)
         {
-            Facility = await facilityService.FindFacilityAsync((FacilityId)item.FacilityId);
+            Facility = await facilityService.FindFacilityAsync((FacilityId)item.FacilityId, token: token);
             if (Facility is null) return BadRequest();
 
-            await PopulateSelectListsAsync();
+            await PopulateSelectListsAsync(token);
             return Page();
         }
 
@@ -62,7 +61,7 @@ public abstract class AddBase(IFacilityService facilityService, IStaffService st
         return RedirectToPage("../Details", new { result.Id });
     }
 
-    protected virtual async Task PopulateSelectListsAsync() =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole)).ToSelectList();
+    protected virtual async Task PopulateSelectListsAsync(CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

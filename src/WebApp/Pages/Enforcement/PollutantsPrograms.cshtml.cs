@@ -26,7 +26,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
 
     public SelectList ViolationTypesSelectList { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
         var caseFile = await caseFileService.FindSummaryAsync(Id, token);
@@ -34,7 +34,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         if (caseFile.IsClosed) return BadRequest();
         if (!User.CanEditCaseFile(caseFile)) return Forbid();
 
-        var facilityData = (await facilityService.FindFacilityDetailsAsync((FacilityId)caseFile.FacilityId))
+        var facilityData = (await facilityService.FindFacilityAsync((FacilityId)caseFile.FacilityId, token: token))
             ?.RegulatoryData;
         if (facilityData is null) return NotFound();
 
