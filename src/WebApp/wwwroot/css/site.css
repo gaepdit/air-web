@@ -721,6 +721,10 @@ Print styles
         border: 0;
     }
 
+    .hide-mobile {
+        display: none !important;
+    }
+
     .table-collapsible thead th {
         display: table-cell;
     }
