@@ -34,6 +34,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Send to the Raygun Deployments API
+        if: ${{ false }}
         id: raygun_deployment
         uses: fjogeleit/http-request-action@551353b829c3646756b2ec2b3694f819d7957495
         with:
@@ -50,6 +51,7 @@ jobs:
             }
 
       - name: Show Raygun response
+        if: ${{ false }}
         run: echo ${{ steps.raygun_deployment.outputs.response }}
 
       - name: Check out repository
