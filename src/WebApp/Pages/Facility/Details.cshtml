@@ -114,9 +114,9 @@
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.MapPin" />
                                 Open address in:
                                 <span class="d-inline-block">
-                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
                                                 <span class="px-1 text-body-secondary">|</span>
-                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
                                                     </span>
                             </small>
                         </div>
@@ -141,9 +141,9 @@
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.GeoPin" />
                                 Open coordinates in:
                                 <span class="d-inline-block">
-                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.GoogleMapsUrl" target="_blank">Google Maps</a>
+                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
                                         <span class="px-1 text-body-secondary">|</span>
-                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.AppleMapsUrl" target="_blank">Apple Maps</a>
+                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
                                     </span>
                             </small>
                         </div>
