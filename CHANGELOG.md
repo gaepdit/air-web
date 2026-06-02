@@ -1,11 +1,12 @@
 # Changelog
 
-## [vNext]
+## [2026.6.2] - 2026-06-02
 
-- Fix the missing Facility column on the Source Tests page.
-- Restrict access to Source Test printouts while they are still open in the IAIP.
-- Show a warning on the Source Test printout if it is still open or if it is showing confidential information.
-- Add a button to the Source Test page to print with confidential info displayed.
+- Fix the missing Facility column on the source tests page.
+- Restrict access to source test printouts while they're still open in the IAIP.
+- Add a button to the source test page to print with confidential info displayed.
+- Show a warning on the source test printout if it's still open or is showing confidential information.
+- Remove caching from source tests so they always show the most current data from the IAIP.
 
 ## [2026.5.26] - 2026-05-26
 
@@ -151,3 +152,5 @@
 [2026.5.13]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.13
 [2026.5.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.15
 [2026.5.26]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.26
+
+[2026.6.2]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.2

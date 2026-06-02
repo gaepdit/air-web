@@ -28,10 +28,10 @@ select convert(int, r.STRREFERENCENUMBER)                      as ReferenceNumbe
        trim(r.STRAPPLICABLEREQUIREMENT)                        as ApplicableRequirement,
        s.STRCOMPLIANCESTATUS                                   as ComplianceStatus,
        iif(left(r.STRCONFIDENTIALDATA, 1) = '1', convert(bit, 1), convert(bit, 0))
-                                                              as HasConfidentialData,
+                                                               as HasConfidentialData,
        convert(bit, r.STRCLOSED)                               as ReportClosed,
        convert(date, r.DATRECEIVEDDATE)                        as DateReceivedByApb,
-       convert(date, nullif(r.DATCOMPLETEDATE, '1776-07-04')) as DateTestReviewComplete,
+       convert(date, nullif(r.DATCOMPLETEDATE, '1776-07-04'))  as DateTestReviewComplete,
        r.ComplianceAssignment                                  as IaipComplianceAssignment,
        convert(bit, IIF(r.ComplianceReviewDate is null, 0, 1)) as IaipComplianceComplete,
 
