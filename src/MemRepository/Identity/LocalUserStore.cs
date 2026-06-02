@@ -161,14 +161,6 @@ public sealed class LocalUserStore :
         return Task.FromResult(UserData.Users.SingleOrDefault(user => user.Id == userId));
     }
 
-    private sealed class UserLogin
-    {
-        public string LoginProvider { get; init; } = string.Empty;
-        public string ProviderKey { get; init; } = string.Empty;
-        public string? ProviderDisplayName { get; init; }
-        public string UserId { get; init; } = string.Empty;
-    }
-
     public Task SetEmailAsync(ApplicationUser user, string? email, CancellationToken cancellationToken)
     {
         // Not used
@@ -204,5 +196,13 @@ public sealed class LocalUserStore :
     {
         user.NormalizedEmail = normalizedEmail;
         return Task.CompletedTask;
+    }
+
+    private sealed class UserLogin
+    {
+        public string LoginProvider { get; init; } = string.Empty;
+        public string ProviderKey { get; init; } = string.Empty;
+        public string? ProviderDisplayName { get; init; }
+        public string UserId { get; init; } = string.Empty;
     }
 }
