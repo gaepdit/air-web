@@ -722,7 +722,7 @@ Print styles
     }
 
     .table-collapsible thead th {
-        display: none;
+        display: table-cell;
     }
 
     .table-collapsible thead tr::before {
