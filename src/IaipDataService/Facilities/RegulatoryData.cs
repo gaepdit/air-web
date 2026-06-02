@@ -1,6 +1,5 @@
 ﻿using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace IaipDataService.Facilities;
 
@@ -8,12 +7,10 @@ public record RegulatoryData
 {
     // Operating status
 
-    [JsonIgnore]
     public FacilityOperatingStatus OperatingStatusCode { get; init; }
 
     [Display(Name = "Operating Status")]
     public string OperatingStatus => OperatingStatusCode.GetDisplayName();
-
 
     [Display(Name = "Startup Date")]
     public DateTime? StartupDate { get; init; }
@@ -23,13 +20,11 @@ public record RegulatoryData
 
     // Classifications
 
-    [JsonIgnore]
     public FacilityClassification ClassificationCode { get; init; }
 
     [Display(Name = "Classification")]
     public string Classification => ClassificationCode.GetDisplayName();
 
-    [JsonIgnore]
     public FacilityCmsClassification CmsClassificationCode { get; init; }
 
     [Display(Name = "CMS Classification")]
