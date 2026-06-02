@@ -287,13 +287,6 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
     margin-left: -1.5rem !important;
 }
 
-.mx-neg {
-    margin-left: -.75rem !important;
-    margin-right: -.75rem !important;
-    padding-left: .75rem !important;
-    padding-right: .75rem !important;
-}
-
 /* Apply negative margin at the small breakpoint */
 @media (min-width: 576px) {
     .mx-sm-neg {
