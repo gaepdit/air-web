@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Web;
 using System.Security.Claims;
 using ZLogger;
 
@@ -194,7 +193,7 @@ public sealed class AuthenticationManager(
             FamilyName = user.FamilyName,
         };
 
-        user.UserName = info.Principal.GetDisplayName();
+        user.UserName = info.Principal.GetEmail();
         user.Email = info.Principal.GetEmail();
         user.GivenName = info.Principal.GetGivenName();
         user.FamilyName = info.Principal.GetFamilyName();
