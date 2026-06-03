@@ -301,7 +301,7 @@ public sealed class EnforcementActionService(
             .ConfigureAwait(false);
         var reviewer = await userService.GetUserAsync(resource.RequestedOfId!).ConfigureAwait(false);
         if (!await userService
-                .UserIsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer, ComplianceRole.ComplianceManager)
+                .IsInRoleAsync(reviewer, ComplianceRole.EnforcementReviewer, ComplianceRole.ComplianceManager)
                 .ConfigureAwait(false))
         {
             logger.ZLogError(
