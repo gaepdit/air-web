@@ -2,10 +2,10 @@
 GO
 
 CREATE OR ALTER PROCEDURE air.GetOpenSourceTestsForCompliance
-    @AssignmentUser nvarchar(450) = null,
+    @AssignmentUser   nvarchar(450) = null,
     @AssignmentOffice uniqueidentifier = null,
-    @Skip int,
-    @Take int
+    @Skip             int,
+    @Take             int
 AS
 
 /**************************************************************************************************
@@ -20,7 +20,7 @@ When        Who                 What
 2025-09-11  DWaldron            Initial version (#355)
 2026-02-19  DWaldron            Filter by date and compliance assignment (#439)
 2026-05-28  DWaldron            Format the Facility ID (#625)
-2026-05-28  DWaldron            Filter by Air Web User ID and Office ID (#613)
+2026-06-03  DWaldron            Filter by Air Web User ID and Office ID (#613)
 
 ***************************************************************************************************/
 

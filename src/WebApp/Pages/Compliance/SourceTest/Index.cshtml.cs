@@ -1,8 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.SourceTests;
 using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
-using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
@@ -13,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class SourceTestIndexModel(ISourceTestAppService service, IStaffService staff, IOfficeService offices)
+public class SourceTestIndexModel(ISourceTestAppService testsService, IStaffService staff)
     : PageModel
 {
     [BindProperty, Required(ErrorMessage = "Enter a Reference ID.")]
@@ -38,40 +36,50 @@ public class SourceTestIndexModel(ISourceTestAppService service, IStaffService s
     public SelectList StaffSelectList { get; private set; } = null!;
     public SelectList OfficesSelectList { get; set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1, CancellationToken token = default) =>
-        await PageWithSearchResultsAsync(p, token);
+    public async Task<IActionResult> OnGetAsync([FromQuery] int p = 1) =>
+        await PageWithSearchResultsAsync(p);
 
-    public async Task<IActionResult> OnPostAsync([FromQuery] int p = 1, CancellationToken token = default)
+    public async Task<IActionResult> OnPostAsync([FromQuery] int p = 1)
     {
-        if (!ModelState.IsValid) return await PageWithSearchResultsAsync(p, token);
+        if (!ModelState.IsValid) return await PageWithSearchResultsAsync(p);
 
         if (!int.TryParse(FindId, out var referenceNumber))
             ModelState.AddModelError(nameof(FindId), "Reference Number must be a number.");
-        else if (!await service.SourceTestExistsAsync(referenceNumber))
+        else if (!await testsService.SourceTestExistsAsync(referenceNumber))
             ModelState.AddModelError(nameof(FindId), "The Reference Number entered does not exist.");
 
         return ModelState.IsValid
             ? RedirectToPage("Details", routeValues: new { referenceNumber })
-            : await PageWithSearchResultsAsync(p, token);
+            : await PageWithSearchResultsAsync(p);
     }
 
-    private async Task<IActionResult> PageWithSearchResultsAsync(int p, CancellationToken token)
+    private async Task<IActionResult> PageWithSearchResultsAsync(int p)
     {
         var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
 
-        SearchResults = await service.GetOpenSourceTestsForComplianceAsync(assignmentUser: Staff,
+        SearchResults = await testsService.GetOpenSourceTestsForComplianceAsync(assignmentUser: Staff,
             assignmentOffice: Office, paging: paging);
 
         UserId = (await staff.GetCurrentUserAsync()).Id;
 
-        await PopulateSelectListsAsync(token);
+        await PopulateSelectListsAsync();
         return Page();
     }
 
-    private async Task PopulateSelectListsAsync(CancellationToken token)
+    private async Task PopulateSelectListsAsync()
     {
-        StaffSelectList = (await staff.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
-        OfficesSelectList = (await offices.GetAsListItemsAsync(includeInactive: false, token)).ToSelectList();
+        var assignments = await testsService.GetOpenSourceTestAssignmentsAsync().ConfigureAwait(false);
+
+        StaffSelectList = assignments
+            .Select(a => new ListItem<string>(a.UserId, a.SortableNameWithOffice))
+            .OrderBy(e => e.Name)
+            .ToSelectList();
+
+        OfficesSelectList = assignments
+            .Where(a => a is { OfficeId: not null, OfficeName: not null })
+            .Select(a => new ListItem(a.OfficeId!.Value, a.OfficeName!))
+            .Distinct()
+            .OrderBy(e => e.Name)
+            .ToSelectList();
     }
 }

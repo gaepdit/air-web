@@ -108,6 +108,14 @@ public class IaipSourceTestService(IDbConnectionFactory dbf) : ISourceTestServic
         return (sourceTests, count);
     }
 
+    public async Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync()
+    {
+        using var db = dbf.Create();
+
+        return (await db.QueryAsync<SourceTestAssignment>("air.GetOpenSourceTestAssignments",
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
+    }
+
     public async Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
     {
         using var db = dbf.Create();

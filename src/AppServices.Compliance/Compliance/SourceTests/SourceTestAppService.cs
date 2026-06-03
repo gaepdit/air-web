@@ -7,19 +7,24 @@ namespace AirWeb.AppServices.Compliance.Compliance.SourceTests;
 
 public interface ISourceTestAppService
 {
+    Task<bool> SourceTestExistsAsync(int referenceNumber);
+
     Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default);
+        PaginatedRequest paging);
 
     Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentUser,
         Guid? assignmentOffice, PaginatedRequest paging);
 
-    Task<bool> SourceTestExistsAsync(int referenceNumber);
+    Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync();
 }
 
 public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
 {
+    public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
+        sourceTestService.SourceTestExistsAsync(referenceNumber);
+
     public async Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default)
+        PaginatedRequest paging)
     {
         var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId)
             .ConfigureAwait(false);
@@ -38,6 +43,6 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
         return new PaginatedResult<SourceTestSummary>(tests.Item1, tests.Item2, paging);
     }
 
-    public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
-        sourceTestService.SourceTestExistsAsync(referenceNumber);
+    public async Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync() =>
+        await sourceTestService.GetOpenSourceTestAssignmentsAsync().ConfigureAwait(false);
 }
