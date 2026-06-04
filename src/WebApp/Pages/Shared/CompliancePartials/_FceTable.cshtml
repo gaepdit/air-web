@@ -57,7 +57,8 @@
                 @if (!hideFacility)
                 {
                     <td data-label="Facility">
-                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                        <span class="text-nowrap">@item.FacilityId</span>
+                        <span class="d-md-block">@item.FacilityName</span>
                     </td>
                 }
                 <td data-label="Onsite Inspection">@Html.DisplayFor(_ => item.OnsiteInspection, DisplayTemplate.BoolYesNo)</td>

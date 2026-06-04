@@ -63,7 +63,10 @@
                 </td>
                 @if (!hideFacility)
                 {
-                    <td data-label="Facility"><span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName</td>
+                    <td data-label="Facility">
+                        <span class="text-nowrap">@item.FacilityId</span>
+                        <span class="d-md-block">@item.FacilityName</span>
+                    </td>
                 }
                 <td data-label="Case File Status">@item.CaseFileStatus.GetDisplayName()</td>
                 @if (!hideStaff)

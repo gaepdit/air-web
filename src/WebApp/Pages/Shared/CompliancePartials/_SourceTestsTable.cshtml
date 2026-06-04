@@ -35,14 +35,14 @@
                     @Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolComplete)
                     @if (summary.DateTestReviewComplete != null)
                     {
-                        <br />
-                        @Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)
+                        <span class="d-md-block">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</span>
                     }
                 </td>
                 @if (!hideFacility)
                 {
                     <td data-label="Facility">
-                        <span class="text-nowrap">@summary.Facility?.FacilityId</span><br />@summary.Facility?.Name
+                        <span class="text-nowrap">@summary.Facility?.FacilityId</span>
+                        <span class="d-md-block">@summary.Facility?.Name</span>
                     </td>
                 }
                 <td data-label="Source Tested">@summary.Source</td>

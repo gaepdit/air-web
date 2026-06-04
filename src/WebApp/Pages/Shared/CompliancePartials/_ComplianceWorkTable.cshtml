@@ -58,13 +58,14 @@
                     }
                 </th>
                 <td data-label="Event Date">
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
-                    @item.EventDateName
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span>
+                    <span class="d-md-block">@item.EventDateName</span>
                 </td>
                 @if (!hideFacility)
                 {
                     <td data-label="Facility">
-                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                        <span class="text-nowrap">@item.FacilityId</span>
+                        <span class="d-md-block">@item.FacilityName</span>
                     </td>
                 }
                 <td data-label="Work Type">@item.ComplianceWorkType.GetDisplayName()</td>
@@ -72,8 +73,7 @@
                     @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                     @if (item.IsClosed)
                     {
-                        <br />
-                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                        <span class="d-md-block">@Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)</span>
                     }
                 </td>
                 @if (!hideStaff)
