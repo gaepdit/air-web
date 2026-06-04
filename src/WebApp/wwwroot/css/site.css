@@ -721,22 +721,18 @@ Print styles
         border: 0;
     }
 
-    .hide-mobile {
-        display: none !important;
-    }
-
     .table-collapsible thead th {
-        display: table-cell;
+        display: none;
     }
 
-    .table-collapsible thead tr::before {
+    .table-collapsible thead tr.sortable::before {
         content: "Sort by:";
         display: inline-block;
         padding: .5rem 0.5rem;
         font-weight: 700;
     }
 
-    .table-collapsible thead th.table-collapsible-sortable {
+    .table-collapsible thead th.sortable {
         display: inline-block;
         border-bottom: none;
     }
@@ -752,7 +748,7 @@ Print styles
     }
 
     .table-collapsible tbody th {
-        background: var(--bs-light-bg-subtle);
+        background-color: rgb(var(--bs-secondary-bg-rgb));
     }
 
     .table-collapsible th,

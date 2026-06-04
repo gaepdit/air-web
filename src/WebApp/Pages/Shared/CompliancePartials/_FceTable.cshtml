@@ -12,7 +12,7 @@
 <div class="table-responsive">
     <table class="table table-hover mb-0 table-collapsible" aria-label="FCE results table">
         <thead>
-        <tr>
+        <tr class="@(searchSpec is null ? "" : "sortable")">
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
@@ -27,7 +27,7 @@
             {
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Tracking #")" view-data-Ascender="@nameof(FceSortBy.IdAsc)" view-data-Descender="@nameof(FceSortBy.IdDesc)" />
-                <th scope="col" class="text-nowrap hide-mobile">FCE Date</th>
+                <th scope="col" class="text-nowrap">FCE Date</th>
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("FCE Year")" view-data-Ascender="@nameof(FceSortBy.YearAsc)" view-data-Descender="@nameof(FceSortBy.YearDesc)" />
                 @if (!hideFacility)
@@ -36,8 +36,8 @@
                              view-data-Heading="@("Facility")" view-data-Ascender="@nameof(FceSortBy.FacilityIdAsc)" view-data-Descender="@nameof(FceSortBy.FacilityIdDesc)" />
                 }
             }
-            <th scope="col" class="text-nowrap hide-mobile">Onsite Inspection</th>
-            <th scope="col" class="text-nowrap hide-mobile">Responsible Staff</th>
+            <th scope="col" class="text-nowrap">Onsite Inspection</th>
+            <th scope="col" class="text-nowrap">Responsible Staff</th>
         </tr>
         </thead>
 

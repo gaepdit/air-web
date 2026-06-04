@@ -13,7 +13,7 @@
 <div class="table-responsive">
     <table class="table table-hover mb-0 table-collapsible" aria-label="Compliance Work results table">
         <thead>
-        <tr>
+        <tr class="@(searchSpec is null ? "" : "sortable")">
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
@@ -38,10 +38,10 @@
                 <partial name="Shared/_SortableTableColHead" model="searchSpec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Work Type")" view-data-Ascender="@nameof(ComplianceWorkSortBy.WorkTypeAsc)" view-data-Descender="@nameof(ComplianceWorkSortBy.WorkTypeDesc)" />
             }
-            <th scope="col" class="text-nowrap hide-mobile">Status</th>
+            <th scope="col" class="text-nowrap">Status</th>
             @if (!hideStaff)
             {
-                <th scope="col" class="text-nowrap hide-mobile">Responsible Staff</th>
+                <th scope="col" class="text-nowrap">Responsible Staff</th>
             }
         </tr>
         </thead>

@@ -13,7 +13,7 @@
 <div class="table-responsive">
     <table class="table table-hover mb-0 table-collapsible" aria-label="Case File results table">
         <thead>
-        <tr>
+        <tr class="@(searchSpec is null ? "" : "sortable")">
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
@@ -42,7 +42,7 @@
             }
             @if (!hideStaff)
             {
-                <th scope="col" class="hide-mobile">Responsible Staff</th>
+                <th scope="col">Responsible Staff</th>
             }
         </tr>
         </thead>
