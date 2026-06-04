@@ -1,5 +1,11 @@
 # Changelog
 
+## [2026.6.4] - 2026-06-04
+
+- Add search filters to the source test page.
+- Improve the layout of the "Find By ID" menu.
+- Implement "collapsible" tables for search results (makes them easier to read on small screens).
+
 ## [2026.6.2] - 2026-06-02
 
 - Fix the missing Facility column on the source tests page.
@@ -155,3 +161,5 @@
 [2026.5.15]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.15
 [2026.5.26]: https://github.com/gaepdit/air-web/releases/tag/v2026.5.26
 [2026.6.2]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.2
+
+[2026.6.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.4
