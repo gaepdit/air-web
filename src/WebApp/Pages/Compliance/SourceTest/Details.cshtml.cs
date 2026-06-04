@@ -18,8 +18,8 @@ namespace AirWeb.WebApp.Pages.Compliance.SourceTest;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class DetailsModel(
     ISourceTestService testService,
-    IComplianceWorkService service,
-    IStaffService staffService,
+    IComplianceWorkService compliance,
+    IStaffService staff,
     IAuthorizationService authorization,
     IValidator<SourceTestReviewCreateDto> validator)
     : PageModel
@@ -60,37 +60,14 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return NotFound();
 
-        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await compliance.FindSourceTestReviewAsync(ReferenceNumber, token);
         await SetPermissionsAsync(token);
 
-        if (ComplianceReview is null)
+        if (ComplianceReview is null && !CanAddNewReview) return Page();
+
+        if (ComplianceReview is not null)
         {
-            var defaultStaff = await staffService.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
-
-            var defaultStaffId =
-                defaultStaff != null &&
-                await staffService.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceStaffRole)
-                    ? defaultStaff.Id
-                    : (await staffService.GetCurrentUserAsync()).Id;
-
-            var defaultReceivedDate = TestSummary.DateTestReviewComplete is null
-                ? DateOnly.FromDateTime(DateTime.Today)
-                : DateOnly.FromDateTime(TestSummary.DateTestReviewComplete.Value);
-
-            NewComplianceReview = new SourceTestReviewCreateDto
-            {
-                ReferenceNumber = ReferenceNumber,
-                TestReportIsClosed = TestSummary.ReportClosed,
-                FacilityId = TestSummary.Facility?.FacilityId,
-                ReceivedByComplianceDate = defaultReceivedDate,
-                ResponsibleStaffId = defaultStaffId,
-            };
-
-            await PopulateSelectListsAsync(token);
-        }
-        else
-        {
-            CaseFileIds = await service.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            CaseFileIds = await compliance.GetCaseFileIdsAsync(ComplianceReview.Id, token);
 
             CommentSection = new CommentsSectionModel
             {
@@ -101,7 +78,33 @@ public class DetailsModel(
                 CanAddComment = UserCan[ComplianceOperation.AddComment],
                 CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
             };
+
+            return Page();
         }
+
+        var defaultStaff = await staff.FindByEmailAsync(TestSummary.IaipComplianceAssignment);
+
+        var defaultStaffId =
+            defaultStaff != null &&
+            await staff.IsInRoleAsync(defaultStaff.Id, ComplianceRole.ComplianceStaffRole,
+                ComplianceRole.ComplianceManagerRole)
+                ? defaultStaff.Id
+                : (await staff.GetCurrentUserAsync()).Id;
+
+        var defaultReceivedDate = TestSummary.DateTestReviewComplete is null
+            ? DateOnly.FromDateTime(DateTime.Today)
+            : DateOnly.FromDateTime(TestSummary.DateTestReviewComplete.Value);
+
+        NewComplianceReview = new SourceTestReviewCreateDto
+        {
+            ReferenceNumber = ReferenceNumber,
+            TestReportIsClosed = TestSummary.ReportClosed,
+            FacilityId = TestSummary.Facility?.FacilityId,
+            ReceivedByComplianceDate = defaultReceivedDate,
+            ResponsibleStaffId = defaultStaffId,
+        };
+
+        await PopulateSelectListsAsync(token);
 
         return Page();
     }
@@ -130,7 +133,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await service.CreateAsync(newComplianceReview, token);
+        var result = await compliance.CreateAsync(newComplianceReview, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
@@ -142,13 +145,13 @@ public class DetailsModel(
     {
         if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
 
-        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        var id = (await compliance.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
         if (id is null) return BadRequest();
 
-        var item = await service.FindSummaryAsync(id.Value, token);
+        var item = await compliance.FindSummaryAsync(id.Value, token);
         if (item is null || !User.CanClose(item)) return BadRequest();
 
-        var result = await service.CloseAsync(id.Value, token);
+        var result = await compliance.CloseAsync(id.Value, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been closed.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
 
@@ -160,13 +163,13 @@ public class DetailsModel(
     {
         if (ReferenceNumber == 0 || !ModelState.IsValid) return BadRequest();
 
-        var id = (await service.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
+        var id = (await compliance.FindSourceTestReviewAsync(ReferenceNumber, token))?.Id;
         if (id is null) return BadRequest();
 
-        var item = await service.FindSummaryAsync(id.Value, token);
+        var item = await compliance.FindSummaryAsync(id.Value, token);
         if (item is null || !User.CanReopen(item)) return BadRequest();
 
-        var result = await service.ReopenAsync(id.Value, token);
+        var result = await compliance.ReopenAsync(id.Value, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, $"The {item.ItemName} has been reopened.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
 
@@ -180,7 +183,7 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
-        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await compliance.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(token);
@@ -188,7 +191,7 @@ public class DetailsModel(
 
         if (!ModelState.IsValid)
         {
-            CaseFileIds = await service.GetCaseFileIdsAsync(ComplianceReview.Id, token);
+            CaseFileIds = await compliance.GetCaseFileIdsAsync(ComplianceReview.Id, token);
 
             CommentSection = new CommentsSectionModel
             {
@@ -201,7 +204,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await service.AddCommentAsync(ComplianceReview.Id, newComment, token);
+        var result = await compliance.AddCommentAsync(ComplianceReview.Id, newComment, token);
         NewCommentId = result.Id;
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
         return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
@@ -213,13 +216,13 @@ public class DetailsModel(
         TestSummary = await testService.FindSummaryAsync(ReferenceNumber);
         if (TestSummary is null) return BadRequest();
 
-        ComplianceReview = await service.FindSourceTestReviewAsync(ReferenceNumber, token);
+        ComplianceReview = await compliance.FindSourceTestReviewAsync(ReferenceNumber, token);
         if (ComplianceReview is null || ComplianceReview.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(token);
         if (!UserCan[ComplianceOperation.DeleteComment]) return BadRequest();
 
-        await service.DeleteCommentAsync(commentId, token);
+        await compliance.DeleteCommentAsync(commentId, token);
         return RedirectToPage(DetailsPageName, pageHandler: null, routeValues: new { ReferenceNumber },
             fragment: "comments");
     }
@@ -230,12 +233,12 @@ public class DetailsModel(
         CanAddNewReview = ComplianceReview is null &&
                           await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff) &&
                           TestSummary is { ReportClosed: true } &&
-                          !await service.SourceTestReviewExistsAsync(ReferenceNumber, token);
+                          !await compliance.SourceTestReviewExistsAsync(ReferenceNumber, token);
         if (ComplianceReview is not null)
             UserCan = await authorization.SetPermissions(ComplianceOperation.AllOperations, User, ComplianceReview);
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token) =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
+        StaffSelectList = (await staff.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
 }

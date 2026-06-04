@@ -103,8 +103,8 @@ public class IndexModel(
             PaginationDefaults.ComplianceSummary, token: token);
 
     private async Task LoadStaffSourceTests() =>
-        StaffSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(UserEmail,
-            PaginationDefaults.SourceTestSummary);
+        StaffSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentUser: UserId,
+            assignmentOffice: null, PaginationDefaults.SourceTestSummary);
 
     private async Task LoadStaffCaseFiles(CancellationToken token) =>
         StaffCaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults.StaffOpenEnforcement(UserId!),
@@ -125,12 +125,11 @@ public class IndexModel(
             PaginationDefaults.ComplianceSummary, token: token);
     }
 
-    // FUTURE: This shows all open source tests, not just those limited to the user's office.
     private async Task LoadOfficeSourceTests()
     {
         if (UserOfficeId is null) return;
-        OfficeSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentEmail: null,
-            PaginationDefaults.SourceTestSummary);
+        OfficeSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentUser: null,
+            assignmentOffice: UserOfficeId, paging: PaginationDefaults.SourceTestSummary);
     }
 
     // Load enforcement reviewer tables

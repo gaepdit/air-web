@@ -31,12 +31,20 @@ public class TestSourceTestService : ISourceTestService
             .ThenByDescending(report => report.ReferenceNumber)
             .Select(report => new SourceTestSummary(report)).ToList());
 
+    private readonly Guid _officeId = new("10000000-0000-0000-0000-000000000011");
+
+    // While the `IaipSourceTestService` can join the `AirWeb` database, this class does not have access to
+    // the test office data, so all tests are assumed to be assigned to one office for demonstration purposes.
     public Task<(IReadOnlyCollection<SourceTestSummary>, int)> GetOpenSourceTestsForComplianceAsync(
-        string? assignmentEmail, int skip, int take)
+        string? assignmentUser, Guid? assignmentOffice, int skip, int take)
     {
+        var assignedOffice = _officeId;
+        var staff = StaffData.GetData.SingleOrDefault(s => s.IdAsGuid.ToString() == assignmentUser);
+
         var allTests = Items
             .Where(report => report is { ReportClosed: true, IaipComplianceComplete: false })
-            .Where(report => assignmentEmail is null || report.IaipComplianceAssignment == assignmentEmail)
+            .Where(report => assignmentUser is null || report.IaipComplianceAssignment == staff.EmailAddress)
+            .Where(_ => assignmentOffice is null || assignmentOffice == assignedOffice)
             .OrderByDescending(report => report.DateTestReviewComplete)
             .ThenByDescending(report => report.ReferenceNumber).ToList();
 
@@ -44,6 +52,18 @@ public class TestSourceTestService : ISourceTestService
 
         return Task.FromResult<(IReadOnlyCollection<SourceTestSummary>, int)>((testsPage, allTests.Count));
     }
+
+    // For demonstration purposes, this method returns all active users and only one office.
+    public Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync() =>
+        Task.FromResult<IReadOnlyCollection<SourceTestAssignment>>(StaffData.GetData.Select(staff =>
+            new SourceTestAssignment
+            {
+                UserId = staff.IdAsGuid.ToString(),
+                GivenName = staff.Name.GivenName,
+                FamilyName = staff.Name.FamilyName,
+                OfficeId = _officeId,
+                OfficeName = "Branch Office",
+            }).ToList());
 
     public Task UpdateSourceTestAsync(int referenceNumber, string assignmentEmail, DateOnly? reviewDate)
     {

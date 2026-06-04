@@ -13,7 +13,7 @@ public interface IUserService : IDisposable
     Task<string?> GetUserEmailAsync(string id);
     Task<ApplicationUser?> FindUserAsync(string id);
     ClaimsPrincipal? GetCurrentPrincipal();
-    Task<bool> UserIsInRoleAsync(ApplicationUser user, params string[] roles);
+    Task<bool> IsInRoleAsync(ApplicationUser user, params string[] roles);
 }
 
 public sealed class UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
@@ -34,7 +34,7 @@ public sealed class UserService(UserManager<ApplicationUser> userManager, IHttpC
 
     public ClaimsPrincipal? GetCurrentPrincipal() => httpContextAccessor.HttpContext?.User;
 
-    public async Task<bool> UserIsInRoleAsync(ApplicationUser user, params string[] roles)
+    public async Task<bool> IsInRoleAsync(ApplicationUser user, params string[] roles)
     {
         foreach (var role in roles)
             if (await userManager.IsInRoleAsync(user, role).ConfigureAwait(false))

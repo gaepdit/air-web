@@ -17,6 +17,7 @@ When        Who                 What
 2025-09-25  DWaldron            Use the new source test compliance assignment columns in IAIP (#359)
 2025-11-03  DWaldron            IAIP compliance assignment is saved as email instead of User ID (iaip#1334)
 2026-05-28  DWaldron            Indicate whether any info has been marked as confidential (#624)
+2026-06-03  DWaldron            Include Air Web User ID and Office ID (#613)
 
 ***************************************************************************************************/
 
@@ -33,6 +34,8 @@ select convert(int, r.STRREFERENCENUMBER)                      as ReferenceNumbe
        convert(date, r.DATRECEIVEDDATE)                        as DateReceivedByApb,
        convert(date, nullif(r.DATCOMPLETEDATE, '1776-07-04'))  as DateTestReviewComplete,
        r.ComplianceAssignment                                  as IaipComplianceAssignment,
+       u.Id                                                    as AirWebUserId,
+       u.OfficeId                                              as AirWebOfficeId,
        convert(bit, IIF(r.ComplianceReviewDate is null, 0, 1)) as IaipComplianceComplete,
 
        -- Facility Summary
@@ -64,6 +67,9 @@ from dbo.ISMPREPORTINFORMATION r
         on f.STRAIRSNUMBER = i.STRAIRSNUMBER
     left join dbo.LOOKUPCOUNTYINFORMATION lc
         on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
+
+    left join AirWeb.dbo.AspNetUsers u
+        on r.ComplianceAssignment = u.Email
 
 where r.STRDOCUMENTTYPE <> '001'
   and r.STRDELETE is null;
