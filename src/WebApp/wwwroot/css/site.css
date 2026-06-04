@@ -709,3 +709,73 @@ Print styles
         background-color: var(--bs-body-bg) !important;
     }
 }
+
+/* Collapsible tables
+-------------------------------------------------- */
+@media screen and (max-width: 768px) {
+    .table-collapsible {
+        border: 0;
+    }
+
+    .table-collapsible thead th {
+        display: none;
+    }
+
+    .table-collapsible thead tr.sortable::before {
+        content: "Sort by:";
+        display: inline-block;
+        padding: .5rem 0.5rem;
+        font-weight: 700;
+    }
+
+    .table-collapsible thead th.sortable {
+        display: inline-block;
+        border-bottom: none;
+    }
+
+    .table-collapsible tr {
+        display: block;
+    }
+
+    .table-collapsible tfoot tr,
+    .table-collapsible tbody tr {
+        margin-bottom: 1rem;
+        border-top: 2px solid #5b616b;
+    }
+
+    .table-collapsible tbody th {
+        background-color: rgb(var(--bs-secondary-bg-rgb));
+    }
+
+    .table-collapsible th,
+    .table-collapsible td {
+        display: block;
+        text-align: left;
+        border-bottom: 1px solid #aeb0b5;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .table-collapsible th::after,
+    .table-collapsible td::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+    .table-collapsible th:last-child,
+    .table-collapsible td:last-child {
+        border-bottom: none;
+    }
+
+    .table-collapsible tbody th:before, .table-collapsible td:before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+    }
+
+    .table-collapsible tbody th .btn {
+        vertical-align: baseline;
+    }
+} 

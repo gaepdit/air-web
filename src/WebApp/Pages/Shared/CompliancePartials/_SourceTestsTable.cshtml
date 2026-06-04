@@ -3,12 +3,11 @@
 @{
     var simpleTableFormat = (bool?)ViewData["SimpleTableFormat"] ?? false;
     var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
-    var rowCss = simpleTableFormat ? "" : "align-middle";
-    var linkCss = simpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+    var linkCss = simpleTableFormat ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary ms-1 ms-md-0";
 }
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="Source Tests for this facility">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="Source Tests for this facility">
         <thead>
         <tr>
             <th scope="col">Reference Number</th>
@@ -26,29 +25,29 @@
         @foreach (var summary in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss">
+                <th scope="row" data-label="Reference Number">
                     <a asp-page="/Compliance/SourceTest/Details" class="@linkCss"
                        asp-route-referenceNumber="@summary.ReferenceNumber">
                         @summary.ReferenceNumber.ToString()
                     </a>
                 </th>
-                <td>
+                <td data-label="Test Review Status">
                     @Html.DisplayFor(_ => summary.ReportClosed, DisplayTemplate.BoolComplete)
                     @if (summary.DateTestReviewComplete != null)
                     {
-                        <br />
-                        @Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)
+                        <span class="d-md-block">@Html.DisplayFor(_ => summary.DateTestReviewComplete, DisplayTemplate.DateTimeNullableLong)</span>
                     }
                 </td>
                 @if (!hideFacility)
                 {
-                    <td>
-                        <span class="text-nowrap">@summary.Facility?.FacilityId</span><br />@summary.Facility?.Name
+                    <td data-label="Facility">
+                        <span class="text-nowrap">@summary.Facility?.FacilityId</span>
+                        <span class="d-md-block">@summary.Facility?.Name</span>
                     </td>
                 }
-                <td>@summary.Source</td>
-                <td>@summary.Pollutant</td>
-                <td>@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</td>
+                <td data-label="Source Tested">@summary.Source</td>
+                <td data-label="Pollutant">@summary.Pollutant</td>
+                <td data-label="Test Dates">@Html.DisplayFor(_ => summary.TestDates, DisplayTemplate.IaipDateRange, additionalViewData: new { Connector = " – " })</td>
             </tr>
         }
         </tbody>

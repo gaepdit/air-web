@@ -6,14 +6,13 @@
     var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
     var hideStaff = (bool?)ViewData["HideStaff"] ?? false;
     var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
-    var rowCss = searchSpec is null ? "" : "align-middle";
-    var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+    var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary ms-1 ms-md-0";
 }
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="Compliance Work results table">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="Compliance Work results table">
         <thead>
-        <tr>
+        <tr class="@(searchSpec is null ? "" : "sortable")">
             @if (searchSpec is null)
             {
                 <th scope="col" class="text-nowrap">Tracking #</th>
@@ -50,7 +49,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss">
+                <th scope="row" data-label="Tracking #">
                     <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                        class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
@@ -58,28 +57,28 @@
                         <span class="text-danger-emphasis">DELETED</span>
                     }
                 </th>
-                <td>
-                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
-                    @item.EventDateName
+                <td data-label="Event Date">
+                    <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span>
+                    <span class="d-md-block">@item.EventDateName</span>
                 </td>
                 @if (!hideFacility)
                 {
-                    <td>
-                        <span class="text-nowrap">@item.FacilityId</span><br />@item.FacilityName
+                    <td data-label="Facility">
+                        <span class="text-nowrap">@item.FacilityId</span>
+                        <span class="d-md-block">@item.FacilityName</span>
                     </td>
                 }
-                <td>@item.ComplianceWorkType.GetDisplayName()</td>
-                <td class="text-nowrap">
+                <td data-label="Work Type">@item.ComplianceWorkType.GetDisplayName()</td>
+                <td class="text-nowrap" data-label="Status">
                     @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                     @if (item.IsClosed)
                     {
-                        <br />
-                        @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                        <span class="d-md-block">@Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)</span>
                     }
                 </td>
                 @if (!hideStaff)
                 {
-                    <td>@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                    <td data-label="Responsible Staff">@Html.DisplayFor(_ => item.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
                 }
             </tr>
         }
