@@ -7,19 +7,24 @@ namespace AirWeb.AppServices.Compliance.Compliance.SourceTests;
 
 public interface ISourceTestAppService
 {
-    Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default);
+    Task<bool> SourceTestExistsAsync(int referenceNumber);
 
-    Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
+    Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
         PaginatedRequest paging);
 
-    Task<bool> SourceTestExistsAsync(int referenceNumber);
+    Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentUser,
+        Guid? assignmentOffice, PaginatedRequest paging);
+
+    Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync();
 }
 
 public class SourceTestAppService(ISourceTestService sourceTestService) : ISourceTestAppService
 {
+    public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
+        sourceTestService.SourceTestExistsAsync(referenceNumber);
+
     public async Task<IPaginatedResult<SourceTestSummary>> GetSourceTestsForFacilityAsync(FacilityId facilityId,
-        PaginatedRequest paging, bool forceRefresh = false, CancellationToken token = default)
+        PaginatedRequest paging)
     {
         var tests = await sourceTestService.GetSourceTestsForFacilityAsync(facilityId)
             .ConfigureAwait(false);
@@ -28,16 +33,16 @@ public class SourceTestAppService(ISourceTestService sourceTestService) : ISourc
             tests.Count, paging);
     }
 
-    public async Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentEmail,
-        PaginatedRequest paging)
+    public async Task<IPaginatedResult<SourceTestSummary>> GetOpenSourceTestsForComplianceAsync(string? assignmentUser,
+        Guid? assignmentOffice, PaginatedRequest paging)
     {
         var tests = await sourceTestService
-            .GetOpenSourceTestsForComplianceAsync(assignmentEmail, paging.Skip, paging.Take)
+            .GetOpenSourceTestsForComplianceAsync(assignmentUser, assignmentOffice, paging.Skip, paging.Take)
             .ConfigureAwait(false);
 
         return new PaginatedResult<SourceTestSummary>(tests.Item1, tests.Item2, paging);
     }
 
-    public Task<bool> SourceTestExistsAsync(int referenceNumber) =>
-        sourceTestService.SourceTestExistsAsync(referenceNumber);
+    public async Task<IReadOnlyCollection<SourceTestAssignment>> GetOpenSourceTestAssignmentsAsync() =>
+        await sourceTestService.GetOpenSourceTestAssignmentsAsync().ConfigureAwait(false);
 }

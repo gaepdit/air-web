@@ -18,6 +18,21 @@ using Microsoft.Identity.Web;
 
 namespace AirWeb.AppServices.Core.EntityServices.Staff;
 
+public interface IStaffService : IDisposable, IAsyncDisposable
+{
+    Task<StaffViewDto> GetCurrentUserAsync();
+    Task<StaffViewDto?> FindAsync(string id);
+    Task<StaffViewDto?> FindByEmailAsync(string? email);
+    Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging);
+    Task<IReadOnlyList<ListItem<string>>> GetAllStaffAsync(CancellationToken token = default);
+    Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(CancellationToken token, params AppRole[] roles);
+    Task<bool> IsInRoleAsync(string id, params AppRole[] roles);
+    Task<IList<string>> GetRolesAsync(string id);
+    Task<IReadOnlyList<AppRole>> GetAppRolesAsync(string id);
+    Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles);
+    Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource);
+}
+
 public sealed class StaffService(
     IUserService userService,
     UserManager<ApplicationUser> userManager,
@@ -70,16 +85,16 @@ public sealed class StaffService(
             .ConfigureAwait(false);
 
     public async Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(CancellationToken token,
-        params AppRole[] role) =>
-        await cache.GetOrCreateAsync($"StaffList.{role.Select(r => r.Name).OrderBy(n => n).ConcatWithSeparator("+")}",
-                factory: async _ => await GetStaffInRoleFromStore(role).ConfigureAwait(false),
+        params AppRole[] roles) =>
+        await cache.GetOrCreateAsync($"StaffList.{roles.Select(r => r.Name).OrderBy(n => n).ConcatWithSeparator("+")}",
+                factory: async _ => await GetStaffInRoleFromStore(roles).ConfigureAwait(false),
                 expiration: CacheConstants.StaffServiceCacheTime, logger, tag: CachedStaffLists, token)
             .ConfigureAwait(false);
 
-    private async Task<List<ListItem<string>>> GetStaffInRoleFromStore(AppRole[] role)
+    private async Task<List<ListItem<string>>> GetStaffInRoleFromStore(AppRole[] roles)
     {
         IList<IList<ApplicationUser>> userSets = [];
-        foreach (var appRole in role)
+        foreach (var appRole in roles)
             userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name).ConfigureAwait(false));
 
         var users = userSets.Aggregate((current, union) => current.Union(union).ToList());
@@ -90,10 +105,11 @@ public sealed class StaffService(
             .OrderBy(e => e.Name).ToList();
     }
 
-    public async Task<bool> IsInRoleAsync(string id, AppRole role)
+    public async Task<bool> IsInRoleAsync(string id, params AppRole[] roles)
     {
         var user = await userManager.FindByIdAsync(id).ConfigureAwait(false);
-        return user is not null && await userManager.IsInRoleAsync(user, role.Name).ConfigureAwait(false);
+        return user is not null && await userService.IsInRoleAsync(user, roles.Select(role => role.Name).ToArray())
+            .ConfigureAwait(false);
     }
 
     public async Task<IList<string>> GetRolesAsync(string id)

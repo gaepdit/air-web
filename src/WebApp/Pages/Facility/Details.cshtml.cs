@@ -61,7 +61,7 @@ public class DetailsModel(
 
         // Source Test service can be run in parallel with the search services.
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
-            PaginationDefaults.SourceTestSummary, RefreshIaipData, token);
+            PaginationDefaults.SourceTestSummary);
 
         // Search services cannot be run in parallel with each other when using Entity Framework.
         ComplianceWork = await searchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
