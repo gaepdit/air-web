@@ -1,17 +1,13 @@
-﻿using AirWeb.Domain.Compliance;
-using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
-using FluentValidation;
+﻿using FluentValidation;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.Search;
 
 public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
 {
-    private readonly IFacilityService _service;
 
     public CaseFileSearchValidator(IFacilityService service)
     {
-        _service = service;
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         RuleFor(dto => dto.DiscoveryDateFrom)
@@ -19,10 +15,8 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
             .WithMessage("The Discovery Date cannot be in the future");
 
         RuleFor(dto => dto.DiscoveryDateTo)
-            .Cascade(CascadeMode.Stop)
-            .Must(date => date <= today || date == null)
-            .WithMessage("The Discovery To Date cannot be in the future")
-            .Must((dto, date) => dto.DiscoveryDateFrom == default || date >= dto.DiscoveryDateFrom || date == null)
+            .Must((dto, date) => date >= dto.DiscoveryDateFrom)
+            .When(dto => dto.DiscoveryDateFrom.HasValue && dto.DiscoveryDateTo.HasValue)
             .WithMessage("The Discovery To Date must be later than the From Date");
 
         RuleFor(dto => dto.EnforcementDateFrom)
@@ -30,10 +24,8 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
             .WithMessage("The Enforcement Date cannot be in the future");
 
         RuleFor(dto => dto.EnforcementDateTo)
-            .Cascade(CascadeMode.Stop)
-            .Must(date => date <= today || date == null)
-            .WithMessage("The Enforcement To Date cannot be in the future")
-            .Must((dto, date) => dto.EnforcementDateFrom == default || date >= dto.EnforcementDateFrom || date == null)
+            .Must((dto, date) => date >= dto.EnforcementDateFrom)
+            .When(dto => dto.EnforcementDateFrom.HasValue && dto.EnforcementDateTo.HasValue)
             .WithMessage("The Enforcement To Date must be later than the From Date");
 
         RuleFor(dto => dto.FacilityId)
@@ -49,7 +41,7 @@ public class CaseFileSearchValidator : AbstractValidator<CaseFileSearchDto>
                 if (!FacilityId.TryParse(id, out var facilityId))
                     return false;
 
-                return await _service.ExistsAsync(facilityId).ConfigureAwait(false);
+                return await service.ExistsAsync(facilityId).ConfigureAwait(false);
             })
             .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.");
     }

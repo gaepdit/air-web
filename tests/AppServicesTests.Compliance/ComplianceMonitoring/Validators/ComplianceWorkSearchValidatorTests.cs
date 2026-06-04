@@ -8,9 +8,9 @@ namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
 public class ComplianceWorkSearchValidatorTests
 {
     private IFacilityService _service = null!;
-    private ComplianceWorkValidator _sut;
+    private ComplianceWorkSearchValidator _sut;
     private IFacilityService _serviceFalse = null!;
-    private ComplianceWorkValidator _sutFalse;
+    private ComplianceWorkSearchValidator _sutFalse;
 
     [SetUp]
     public void SetUp()
@@ -19,12 +19,12 @@ public class ComplianceWorkSearchValidatorTests
         _service = Substitute.For<IFacilityService>();
         _service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
-        _sut = new ComplianceWorkValidator(_service);
+        _sut = new ComplianceWorkSearchValidator(_service);
 
         _serviceFalse = Substitute.For<IFacilityService>();
         _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sutFalse = new ComplianceWorkValidator(_serviceFalse);
+        _sutFalse = new ComplianceWorkSearchValidator(_serviceFalse);
     }
 
     [Test]
