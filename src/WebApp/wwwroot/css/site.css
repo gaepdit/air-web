@@ -778,4 +778,8 @@ Print styles
         content: attr(data-label) ": ";
         font-weight: 700;
     }
+
+    .table-collapsible tbody th .btn {
+        vertical-align: baseline;
+    }
 } 

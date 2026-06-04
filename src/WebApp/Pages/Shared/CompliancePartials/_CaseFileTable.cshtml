@@ -6,8 +6,7 @@
     var searchSpec = (ISearchDto?)ViewData["SearchSpec"];
     var hideStaff = (bool?)ViewData["HideStaff"] ?? false;
     var hideFacility = (bool?)ViewData["HideFacility"] ?? false;
-    var rowCss = searchSpec is null ? "" : "align-middle";
-    var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary";
+    var linkCss = searchSpec is null ? "fw-normal link-offset-1" : "btn btn-sm btn-outline-primary ms-1 ms-md-0";
 }
 
 <div class="table-responsive">
@@ -51,7 +50,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="@rowCss" data-label="Tracking #">
+                <th scope="row" data-label="Tracking #">
                     <a asp-page="/Enforcement/Details" asp-route-id="@item.Id.ToString()"
                        class="@linkCss">@item.Id.ToString()</a>
                     @if (item.IsDeleted)
