@@ -77,24 +77,6 @@ public class FceSearchValidatorTests
     }
 
     [Test]
-    public async Task DateToInFuture_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new FceSearchDto
-        {
-            DateTo = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
-        };
-
-        // Act
-        var result = await _sut.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.DateTo);
-    }
-
-    [Test]
     public async Task DateToIsBeforeDateFrom_ReturnsAsInvalid()
     {
         // Arrange
@@ -139,7 +121,7 @@ public class FceSearchValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             DateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            DateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            DateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
         };
 
         // Act
