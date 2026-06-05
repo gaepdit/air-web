@@ -226,10 +226,10 @@ The login provider(s) must be enabled and configured.
     ```json
     {
       "DuoSSO": {
+        "CallbackPath": "/signin-oidc-duo",
         "Authority ": "[Enter the Duo application endpoint: https://{duo-subdomain}.sso.duosecurity.com/oidc/{ClientId}]",
         "ClientId": "[Enter the Duo Client ID]",
-        "ClientSecret": "[Enter the Duo Client Secret]",
-        "CallbackPath": "/signin-oidc-duo"
+        "ClientSecret": "[Enter the Duo Client Secret]"
       }
     }
     ```
