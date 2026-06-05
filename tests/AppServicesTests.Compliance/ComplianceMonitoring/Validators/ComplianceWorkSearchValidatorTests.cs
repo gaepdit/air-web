@@ -140,7 +140,7 @@ public class ComplianceWorkSearchValidatorTests
         // Arrange
         var model = new ComplianceWorkSearchDto
         {
-            FacilityId = "00999999",
+            FacilityId = SampleText.ValidFacilityId
         };
 
         // Act
