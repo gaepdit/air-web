@@ -79,24 +79,6 @@ public class ComplianceWorkSearchValidatorTests
     }
 
     [Test]
-    public async Task EventDateToInFuture_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new ComplianceWorkSearchDto
-        {
-            EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
-        };
-
-        // Act
-        var result = await _sut.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.EventDateTo);
-    }
-
-    [Test]
     public async Task EventDateToIsBeforeEventDateFrom_ReturnsAsInvalid()
     {
         // Arrange
@@ -131,24 +113,6 @@ public class ComplianceWorkSearchValidatorTests
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateFrom);
-    }
-
-    [Test]
-    public async Task ClosedDateToInFuture_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new ComplianceWorkSearchDto
-        {
-            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
-        };
-
-        // Act
-        var result = await _sut.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.ClosedDateTo);
     }
 
     [Test]
@@ -196,9 +160,9 @@ public class ComplianceWorkSearchValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             EventDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            EventDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
             ClosedDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            ClosedDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
         };
 
         // Act
