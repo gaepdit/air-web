@@ -20,7 +20,6 @@ public class FceIndexModel(
     IFceService fceService,
     IStaffService staff,
     IOfficeService offices,
-    IAuthorizationService authorization,
     IValidator<FceSearchDto> validator) : PageModel
 {
     [BindProperty]

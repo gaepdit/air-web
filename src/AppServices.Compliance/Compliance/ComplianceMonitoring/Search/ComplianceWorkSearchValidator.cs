@@ -11,38 +11,32 @@ public class ComplianceWorkSearchValidator : AbstractValidator<ComplianceWorkSea
 
         RuleFor(dto => dto.EventDateFrom)
             .Must(date => date <= today || date == null)
-            .WithMessage("The Event From Date cannot be in the future.");
+            .WithMessage("The beginning search date cannot be in the future");
 
         RuleFor(dto => dto.EventDateTo)
             .Must((dto, date) => date >= dto.EventDateFrom)
             .When(dto => dto.EventDateFrom.HasValue && dto.EventDateTo.HasValue)
-            .WithMessage("The Event To Date must be later than the From Date");
+            .WithMessage("The end search date must be later than the beginning date");
 
         RuleFor(dto => dto.ClosedDateFrom)
             .Must(date => date <= today || date == null)
-            .WithMessage("The Closed From Date cannot be in the future");
+            .WithMessage("The beginning search date cannot be in the future");
 
         RuleFor(dto => dto.ClosedDateTo)
             .Must((dto, date) => date >= dto.ClosedDateFrom)
             .When(dto => dto.ClosedDateFrom.HasValue && dto.ClosedDateTo.HasValue)
-            .WithMessage("The Closed To Date must be later than the From Date");
+            .WithMessage("The end search date must be later than the beginning date");
 
         RuleFor(dto => dto.FacilityId)
             .Cascade(CascadeMode.Stop)
-            .Must(id => string.IsNullOrWhiteSpace(id) ||
-                FacilityId.TryParse(id, out _))
+            .Must(id => string.IsNullOrWhiteSpace(id) || FacilityId.TryParse(id, out _))
             .WithMessage(FacilityId.FacilityIdFormatError)
-            .MustAsync(async (id, cancellation) =>
+            .MustAsync(async (id, _) =>
             {
-                if (string.IsNullOrWhiteSpace(id))
-                    return true;
-
-                if (!FacilityId.TryParse(id, out var facilityId))
-                    return false;
-
+                if (string.IsNullOrWhiteSpace(id)) return true;
+                if (!FacilityId.TryParse(id, out var facilityId)) return false;
                 return await service.ExistsAsync(facilityId).ConfigureAwait(false);
             })
-            .WithMessage("A Facility with that AIRS Number does not exist or has not been approved in the IAIP.");
+            .WithMessage(FacilityId.FacilityNotExistsError);
     }
 }
-

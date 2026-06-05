@@ -7,24 +7,22 @@ namespace AppServicesTests.Compliance.Enforcement.Validators;
 
 public class CaseFileSearchValidatorTests
 {
-    private IFacilityService _service = null!;
     private CaseFileSearchValidator _sut;
-    private IFacilityService _serviceFalse = null!;
     private CaseFileSearchValidator _sutFalse;
 
     [SetUp]
     public void SetUp()
     {
         // Arrange
-        _service = Substitute.For<IFacilityService>();
-        _service.ExistsAsync(Arg.Any<FacilityId>())
+        var service = Substitute.For<IFacilityService>();
+        service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
-        _sut = new CaseFileSearchValidator(_service);
+        _sut = new CaseFileSearchValidator(service);
 
-        _serviceFalse = Substitute.For<IFacilityService>();
-        _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
+        var serviceFalse = Substitute.For<IFacilityService>();
+        serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sutFalse = new CaseFileSearchValidator(_serviceFalse);
+        _sutFalse = new CaseFileSearchValidator(serviceFalse);
     }
 
     [Test]

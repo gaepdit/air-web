@@ -40,8 +40,7 @@ public class IndexModel(IFacilityService service) : PageModel
         if (FindId == null || !FacilityId.IsValidFormat(FindId))
             ModelState.AddModelError(nameof(FindId), FacilityId.FacilityIdFormatError);
         else if (!await service.ExistsAsync((FacilityId)FindId))
-            ModelState.AddModelError(nameof(FindId),
-                "A Facility with that ID does not exist or has not been approved in the IAIP.");
+            ModelState.AddModelError(nameof(FindId), FacilityId.FacilityNotExistsError);
 
         if (ModelState.IsValid)
             return RedirectToPage("Details", routeValues: new { id = FindId });

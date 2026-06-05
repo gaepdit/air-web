@@ -7,24 +7,22 @@ namespace AppServicesTests.Compliance.Fces.Validators;
 
 public class FceSearchValidatorTests
 {
-    private IFacilityService _service = null!;
     private FceSearchValidator _sut;
-    private IFacilityService _serviceFalse = null!;
     private FceSearchValidator _sutFalse;
 
     [SetUp]
     public void SetUp()
     {
         // Arrange
-        _service = Substitute.For<IFacilityService>();
-        _service.ExistsAsync(Arg.Any<FacilityId>())
+        var service = Substitute.For<IFacilityService>();
+        service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
-        _sut = new FceSearchValidator(_service);
+        _sut = new FceSearchValidator(service);
 
-        _serviceFalse = Substitute.For<IFacilityService>();
-        _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
+        var serviceFalse = Substitute.For<IFacilityService>();
+        serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sutFalse = new FceSearchValidator(_serviceFalse);
+        _sutFalse = new FceSearchValidator(serviceFalse);
     }
 
     [Test]

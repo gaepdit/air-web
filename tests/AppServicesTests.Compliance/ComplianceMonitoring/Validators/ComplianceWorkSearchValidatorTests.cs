@@ -3,28 +3,26 @@ using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 using IaipDataService.Facilities;
 
-namespace AppServicesTests.Compliance.ComplianceMonitoring.Search;
+namespace AppServicesTests.Compliance.ComplianceMonitoring.Validators;
 
 public class ComplianceWorkSearchValidatorTests
 {
-    private IFacilityService _service = null!;
     private ComplianceWorkSearchValidator _sut;
-    private IFacilityService _serviceFalse = null!;
     private ComplianceWorkSearchValidator _sutFalse;
 
     [SetUp]
     public void SetUp()
     {
         // Arrange
-        _service = Substitute.For<IFacilityService>();
-        _service.ExistsAsync(Arg.Any<FacilityId>())
+        var service = Substitute.For<IFacilityService>();
+        service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
-        _sut = new ComplianceWorkSearchValidator(_service);
+        _sut = new ComplianceWorkSearchValidator(service);
 
-        _serviceFalse = Substitute.For<IFacilityService>();
-        _serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
+        var serviceFalse = Substitute.For<IFacilityService>();
+        serviceFalse.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(false);
-        _sutFalse = new ComplianceWorkSearchValidator(_serviceFalse);
+        _sutFalse = new ComplianceWorkSearchValidator(serviceFalse);
     }
 
     [Test]
@@ -140,7 +138,7 @@ public class ComplianceWorkSearchValidatorTests
         // Arrange
         var model = new ComplianceWorkSearchDto
         {
-            FacilityId = SampleText.ValidFacilityId
+            FacilityId = SampleText.ValidFacilityId,
         };
 
         // Act
