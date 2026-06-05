@@ -42,7 +42,7 @@ public partial record FacilityId
     /// The 3-digit FIPS county code.
     /// </summary>
     public string CountyCode => Id[..3];
-    
+
     public const string PortableSourceCountyCode = "777";
 
     // Operators
@@ -76,6 +76,9 @@ public partial record FacilityId
 
     // Format validation
     public const string FacilityIdFormatError = "The Facility ID entered is not valid.";
+
+    public const string FacilityNotExistsError =
+        "A Facility with that ID does not exist or has not been approved in the IAIP.";
 
     private static string Normalize(string input)
     {
