@@ -65,6 +65,27 @@
                     }
                 </div>
 
+                <h2 class="h5">Details</h2>
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Spec.FacilityId" name="@nameof(Model.Spec.FacilityId)" class="form-control" />
+                            <label asp-for="Spec.FacilityId" class="form-label"></label>
+                            <span asp-validation-for="Spec.FacilityId" class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="col-md mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
+                                   aria-describedby="NotesHelpBlock" />
+                            <label asp-for="Spec.Notes" class="form-label"></label>
+                        </div>
+                        <small id="NotesHelpBlock" class="form-text text-body-secondary d-block px-2">
+                            (A word or phrase to search for within the Notes field.)
+                        </small>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="form-floating">
@@ -85,11 +106,13 @@
                                 <input asp-for="Spec.DiscoveryDateFrom" name="@nameof(Model.Spec.DiscoveryDateFrom)"
                                        class="form-control" />
                                 <label asp-for="Spec.DiscoveryDateFrom" class="form-label"></label>
+                                <span asp-validation-for="Spec.DiscoveryDateFrom" class="invalid-feedback"></span>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.DiscoveryDateTo" name="@nameof(Model.Spec.DiscoveryDateTo)"
                                        class="form-control" />
                                 <label asp-for="Spec.DiscoveryDateTo" class="form-label"></label>
+                                <span asp-validation-for="Spec.DiscoveryDateTo" class="invalid-feedback"></span>
                             </div>
                         </div>
                     </div>
@@ -103,33 +126,15 @@
                                 <input asp-for="Spec.EnforcementDateFrom" name="@nameof(Model.Spec.EnforcementDateFrom)"
                                        class="form-control" />
                                 <label asp-for="Spec.EnforcementDateFrom" class="form-label"></label>
+                                <span asp-validation-for="Spec.EnforcementDateFrom" class="invalid-feedback"></span>
                             </div>
                             <div class="form-floating">
                                 <input asp-for="Spec.EnforcementDateTo" name="@nameof(Model.Spec.EnforcementDateTo)"
                                        class="form-control" />
                                 <label asp-for="Spec.EnforcementDateTo" class="form-label"></label>
+                                <span asp-validation-for="Spec.EnforcementDateTo" class="invalid-feedback"></span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md mb-3">
-                        <div class="form-floating">
-                            <input asp-for="Spec.FacilityId" name="@nameof(Model.Spec.FacilityId)" class="form-control" />
-                            <label asp-for="Spec.FacilityId" class="form-label"></label>
-                            <span asp-validation-for="Spec.FacilityId" class="invalid-feedback"></span>
-                        </div>
-                    </div>
-                    <div class="col-md mb-3">
-                        <div class="form-floating">
-                            <input asp-for="Spec.Notes" name="@nameof(Model.Spec.Notes)" class="form-control"
-                                   aria-describedby="NotesHelpBlock" />
-                            <label asp-for="Spec.Notes" class="form-label"></label>
-                        </div>
-                        <small id="NotesHelpBlock" class="form-text text-body-secondary d-block px-2">
-                            (A word or phrase to search for within the Notes field.)
-                        </small>
                     </div>
                 </div>
 

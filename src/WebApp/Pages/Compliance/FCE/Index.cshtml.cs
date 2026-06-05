@@ -7,6 +7,7 @@ using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
+using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,8 @@ public class FceIndexModel(
     IFceSearchService searchService,
     IFceService fceService,
     IStaffService staff,
-    IOfficeService offices) : PageModel
+    IOfficeService offices,
+    IValidator<FceSearchDto> validator) : PageModel
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter an FCE ID.")]
@@ -46,6 +48,7 @@ public class FceIndexModel(
 
     public async Task OnGetSearchAsync(FceSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
+        await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
         UserCanViewDeletedRecords = User.CanManageDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };

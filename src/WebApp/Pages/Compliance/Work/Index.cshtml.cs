@@ -6,6 +6,7 @@ using AirWeb.AppServices.Core.EntityServices.Offices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
+using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,8 @@ public class ComplianceIndexModel(
     IComplianceWorkSearchService searchService,
     IComplianceWorkService complianceService,
     IStaffService staff,
-    IOfficeService offices) : PageModel
+    IOfficeService offices,
+    IValidator<ComplianceWorkSearchDto> validator) : PageModel
 {
     [BindProperty]
     [Required(ErrorMessage = "Enter a Compliance ID.")]
@@ -43,6 +45,7 @@ public class ComplianceIndexModel(
     public async Task OnGetSearchAsync(ComplianceWorkSearchDto spec, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
+        await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
         UserCanViewDeletedRecords = User.CanManageDeletions();
         if (!UserCanViewDeletedRecords) Spec = Spec with { DeleteStatus = null };
