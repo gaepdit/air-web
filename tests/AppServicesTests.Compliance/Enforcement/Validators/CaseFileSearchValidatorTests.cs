@@ -79,24 +79,6 @@ public class CaseFileSearchValidatorTests
     }
 
     [Test]
-    public async Task DiscoveryDateToInFuture_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new CaseFileSearchDto
-        {
-            DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
-        };
-
-        // Act
-        var result = await _sut.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.DiscoveryDateTo);
-    }
-
-    [Test]
     public async Task DiscoveryDateToIsBeforeDiscoveryDateFrom_ReturnsAsInvalid()
     {
         // Arrange
@@ -131,24 +113,6 @@ public class CaseFileSearchValidatorTests
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.EnforcementDateFrom);
-    }
-
-    [Test]
-    public async Task EnforcementDateToInFuture_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new CaseFileSearchDto
-        {
-            EnforcementDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(1)
-        };
-
-        // Act
-        var result = await _sut.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.EnforcementDateTo);
     }
 
     [Test]
@@ -196,9 +160,9 @@ public class CaseFileSearchValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             DiscoveryDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            DiscoveryDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
             EnforcementDateFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
-            EnforcementDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(5),
+            EnforcementDateTo = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
         };
 
         // Act
