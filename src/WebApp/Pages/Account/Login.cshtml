@@ -34,7 +34,7 @@
                 <div class="py-3 px-4 bg-light-subtle border rounded-3">
                     <h1 class="display-6">Sign in as a test user</h1>
 
-                    <form asp-page-handler="@LoginProviders.TestUserScheme" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <form asp-route-scheme="@LoginProviders.TestUserScheme" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                         <button type="submit" class="btn btn-lg btn-outline-primary btn-img icon-link my-3 py-3 px-4"
                                 title="Sign in as a test user">
                             <partial name="Shared/_AppIconsPartial" model="@AppIcon.Badge" />
@@ -75,12 +75,12 @@
                         </button>
                     </form>
 
-                    @if (AppSettings.EntraIdPhaseOut.Enabled)
+                    @if (Model.EntraIdPhaseOut.Enabled)
                     {
-                        var cssClass = DateOnly.FromDateTime(DateTime.Today) > AppSettings.EntraIdPhaseOut.EndDate.AddDays(-30) ? "callout-danger" : "callout-warning";
+                        var cssClass = DateOnly.FromDateTime(DateTime.Today) > Model.EntraIdPhaseOut.EndDate.AddDays(-30) ? "callout-danger" : "callout-warning";
                         <div class="callout @cssClass">
                             The SOG work account login is being phased out for EPD-IT applications and will be
-                            completely removed by @AppSettings.EntraIdPhaseOut.EndDate.ToLongDateString(). Information
+                            completely removed by @Model.EntraIdPhaseOut.EndDate.ToLongDateString(). Information
                             on a replacement will be provided when available. For more information or assistance,
                             contact <a asp-page="/Support">EPD-IT support</a>.
                         </div>

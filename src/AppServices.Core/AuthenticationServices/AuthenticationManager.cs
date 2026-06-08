@@ -71,6 +71,8 @@ public sealed class AuthenticationManager(
         return await AddLoginProviderAndSignInAsync(user, externalLoginInfo).ConfigureAwait(false);
     }
 
+    private static bool TestUserRolesPopulated { get; set; }
+
     public async Task<IdentityResult> LogInAsTestUserAsync(string[] testUserRoles)
     {
         const string userId = "00000001-0000-0000-0000-000000000000";
@@ -92,12 +94,14 @@ public sealed class AuthenticationManager(
             await userManager.CreateAsync(user).ConfigureAwait(false);
         }
 
-        logger.ZLogInformation($"Local user with ID {userId} signed in");
+        if (!TestUserRolesPopulated)
+        {
+            foreach (var role in testUserRoles.Where(role => !string.IsNullOrWhiteSpace(role)))
+                await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
+            TestUserRolesPopulated = true;
+        }
 
-        foreach (var pair in AppRole.AllRoles)
-            await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
-        foreach (var role in testUserRoles.Where(role => !string.IsNullOrWhiteSpace(role)))
-            await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
+        logger.ZLogInformation($"Local user with ID {userId} signed in");
 
         await signInManager.SignInWithClaimsAsync(user, isPersistent: false,
                 additionalClaims: [new Claim(ClaimTypes.AuthenticationMethod, LoginProviders.TestUserScheme)])
@@ -122,8 +126,8 @@ public sealed class AuthenticationManager(
         if (!createUserResult.Succeeded)
             return UnableToCreateUser(info.ProviderKey);
 
-        logger.ZLogInformation($"Created new user with ID {info.ProviderKey}");
         await SeedRolesAsync(user).ConfigureAwait(false);
+        logger.ZLogInformation($"Created new user with ID {info.ProviderKey}");
 
         return await AddLoginProviderAndSignInAsync(user, info).ConfigureAwait(false);
     }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
-internal static partial class DataPersistence
+internal static class DataPersistence
 {
     public static async Task ConfigureDataPersistenceAsync(this IHostApplicationBuilder builder)
     {

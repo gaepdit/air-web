@@ -19,11 +19,11 @@ using AirWeb.MemRepository.SbeapRepositories;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
-internal static partial class DataPersistence
+internal static class Repositories
 {
     extension(IServiceCollection services)
     {
-        private void AddEntityFrameworkRepositories() => services
+        public void AddEntityFrameworkRepositories() => services
             // Common
             .AddScoped<IEmailLogRepository, EmailLogRepository>()
             .AddScoped<INotificationTypeRepository, NotificationTypeRepository>()
@@ -46,7 +46,7 @@ internal static partial class DataPersistence
             .AddScoped<IContactRepository, ContactRepository>()
             .AddScoped<ICustomerRepository, CustomerRepository>();
 
-        private void AddInMemoryRepositories() => services
+        public void AddInMemoryRepositories() => services
             // Common
             .AddSingleton<IEmailLogRepository, EmailLogMemRepository>()
             .AddSingleton<INotificationTypeRepository, NotificationTypeMemRepository>()
