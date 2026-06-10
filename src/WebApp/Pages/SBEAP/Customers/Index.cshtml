@@ -77,7 +77,7 @@
     }
     else
     {
-        <table class="table" aria-label="User search results">
+        <table class="table table-collapsible" aria-label="User search results">
             <caption class="caption-top">
                 <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             </caption>
@@ -99,7 +99,7 @@
             @foreach (var item in Model.SearchResults.Items)
             {
                 <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
-                    <th scope="row" class="fw-normal">
+                    <th scope="row" data-label="Name">
                         @Html.DisplayFor(m => item.Name, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })
                         @if (item.IsDeleted)
                         {
