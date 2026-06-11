@@ -7,13 +7,13 @@ for the Air Protection Branch.
 
 ## Air Reports App
 
-Printable reports were moved out of the IAIP into a 
-[standalone web application](https://github.com/gaepdit-archive/airbranch-reports/) in 2022.
+Printable reports were moved out of the IAIP into a standalone web application 
+[on 23-Mar-2022](https://github.com/gaepdit-archive/airbranch-reports/releases/tag/prod%2F2022.3.23).
 
 ## Small Business Environmental Assistance Program
 
-IAIP tools for the Small Business Environmental Assistance Program were moved to 
-[a separate application](https://github.com/gaepdit-archive/sbeap/) in 2023.
+IAIP tools for the Small Business Environmental Assistance Program were moved to a seprate application
+[on 5-Sep-2023](https://github.com/gaepdit-archive/sbeap/releases/tag/prod%2F2023.9.5).
 
 ## Air Web Application — Stationary Source Compliance Program
 
@@ -24,5 +24,5 @@ Reports App as well.
 
 ## SBEAP consolidation
 
-[On 9-Apr-2026](https://github.com/gaepdit/air-web/releases/tag/v2026.4.9), the SBEAP application code was folded into
-the Air Web App codebase. 
+The SBEAP application code was folded into the Air Web App codebase
+[on 9-Apr-2026](https://github.com/gaepdit/air-web/releases/tag/v2026.4.9).
