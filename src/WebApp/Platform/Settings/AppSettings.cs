@@ -12,15 +12,9 @@ internal static partial class AppSettings
     public static string ShortEnv => Env switch { "Production" => "prod", "Staging" => "uat", _ => "dev" };
 
     public static Support Support { get; } = new();
-    public static Raygun RaygunSettings { get; } = new();
     public static DataDog DataDogSettings { get; } = new();
     public static OrganizationInfo OrganizationInfo { get; } = new();
     public static string? OrgNotificationsApiUrl { get; private set; }
-
-    public record Raygun
-    {
-        public string? ApiKey { get; [UsedImplicitly] init; }
-    }
 
     public record DataDog
     {
