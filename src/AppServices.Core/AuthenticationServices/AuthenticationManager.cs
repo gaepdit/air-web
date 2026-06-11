@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.Core.AppRoles;
 using AirWeb.Domain.Core.Entities;
+using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -77,22 +78,7 @@ public sealed class AuthenticationManager(
     {
         const string userId = "00000001-0000-0000-0000-000000000000";
         var user = await userManager.FindByIdAsync(userId).ConfigureAwait(false);
-
-        if (user is null)
-        {
-            const string email = "test@example.com";
-            user = new ApplicationUser
-            {
-                Id = userId,
-                GivenName = "First",
-                FamilyName = "Last",
-                Email = email,
-                UserName = email.ToLowerInvariant(),
-                NormalizedEmail = email.ToUpperInvariant(),
-                NormalizedUserName = email.ToUpperInvariant(),
-            };
-            await userManager.CreateAsync(user).ConfigureAwait(false);
-        }
+        if (user is null) throw new EntityNotFoundException<ApplicationUser>(userId);
 
         if (!TestUserRolesPopulated)
         {
