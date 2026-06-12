@@ -52,8 +52,17 @@ builder.AddIaipDataServices(AppSettings.ConnectToIaip);
 var app = builder.Build();
 
 // Configure the application pipeline.
-app.UseSecurityHeaders().UseErrorHandling().UseStatusCodePagesWithReExecute("/Error/{0}").UseHttpsRedirection()
-    .UseWebOptimizer().UseStaticFiles().UseAppUrlRedirects().UseRouting().UseAuthentication().UseAuthorization()
+app
+    .UseSecurityHeaders()
+    .UseErrorHandling()
+    .UseStatusCodePagesWithReExecute("/Error/{0}")
+    .UseHttpsRedirection()
+    .UseWebOptimizer()
+    .UseStaticFiles()
+    .UseAppUrlRedirects()
+    .UseRouting()
+    .UseAuthentication()
+    .UseAuthorization()
     .UseApiDocumentation();
 
 // Map endpoints.
