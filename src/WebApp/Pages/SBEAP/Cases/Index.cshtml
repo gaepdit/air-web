@@ -141,7 +141,7 @@
     }
     else
     {
-        <table class="table" aria-label="User search results">
+        <table class="table table-collapsible" aria-label="User search results">
             <caption class="caption-top">
                 <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             </caption>
@@ -165,13 +165,13 @@
             @foreach (var item in Model.SearchResults.Items)
             {
                 <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
-                    <th scope="row" class="fw-normal">
+                    <th scope="row" class="fw-normal" data-label="Customer Name">
                         @Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })
                     </th>
-                    <td>@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</td>
-                    <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnlyNullable, additionalViewData: new { Placeholder = "" })</td>
-                    <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 150 })</td>
-                    <td>
+                    <td data-label="Date Opened">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</td>
+                    <td data-label="Date Closed">@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.ShortDateOnlyNullable, additionalViewData: new { Placeholder = "" })</td>
+                    <td data-label="Case Description">@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 150 })</td>
+                    <td data-label="Case Status">
                         @if (item.IsDeleted)
                         {
                             <strong>DELETED</strong>
@@ -181,7 +181,7 @@
                             @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
                         }
                     </td>
-                    <td>
+                    <td data-label="Link">
                         <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                     </td>
                 </tr>

@@ -1,4 +1,4 @@
-@page "{handler?}"
+﻿@page "{handler?}"
 @using AirWeb.AppServices.Core.EntityServices.Staff.Dto
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model UsersIndexModel
@@ -70,7 +70,7 @@
     }
     else
     {
-        <table class="table table-hover" aria-label="User search results">
+        <table class="table table-hover table-collapsible" aria-label="User search results">
             <caption class="caption-top">
                 <partial name="_PaginationNavAndCount" model="Model.ResultsDisplay" />
             </caption>
@@ -93,17 +93,17 @@
             @foreach (var item in Model.SearchResults.Items)
             {
                 <tr class="@(item.Active ? "" : "bg-secondary-subtle border-secondary-subtle")">
-                    <td>
+                    <td data-label="Name">
                         @item.SortableFullName
                         @if (item.Email?.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()) ?? false)
                         {
                             <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis text-uppercase rounded-pill">You</span>
                         }
                     </td>
-                    <td>@Html.DisplayFor(_ => item.Email, DisplayTemplate.TextOrPlaceholder)</td>
-                    <td>@Html.DisplayFor(_ => item.OfficeName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
-                    <td>@Html.DisplayFor(_ => item.Active, DisplayTemplate.BoolActive)</td>
-                    <td>
+                    <td data-label="Email">@Html.DisplayFor(_ => item.Email, DisplayTemplate.TextOrPlaceholder)</td>
+                    <td data-label="Office">@Html.DisplayFor(_ => item.OfficeName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
+                    <td data-label="Status">@Html.DisplayFor(_ => item.Active, DisplayTemplate.BoolActive)</td>
+                    <td data-label="Link">
                         <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">View</a>
                     </td>
                 </tr>
