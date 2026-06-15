@@ -5,7 +5,6 @@
 :root, [data-bs-theme="light"] {
     --base-hue: 200deg;
     --callout-link: 10, 88, 202;
-    --bs-warning-rgb: 145, 107, 0;
     --bs-danger-text-emphasis: hsl(355, 65%, 40%);
     --bs-gradient: linear-gradient(180deg,
     hsl(200, 93%, 73%) 0%,
@@ -69,7 +68,6 @@
 [data-bs-theme="dark"] {
     --callout-link: 110, 168, 254;
     --bs-success-bg-subtle: hsl(153, 92%, 10%);
-    --bs-warning-rgb: 255, 193, 7;
     --bs-danger-text-emphasis: #ea868f;
     --bs-gradient: linear-gradient(180deg,
     hsl(212, 72%, 30%) 0%,
@@ -152,9 +150,25 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
     color: hsl(355, 98%, 24%) !important;
 }
 
-html:not([data-bs-theme="dark"]) .link-warning:focus, .link-warning:hover {
-    color: RGBA(140, 110, 33, var(--bs-link-opacity, 1)) !important;
-    text-decoration-color: RGBA(140, 110, 33, var(--bs-link-underline-opacity, 1)) !important;
+.link-warning, .text-warning {
+    color: rgb(145, 107, 0) !important;
+}
+
+[data-bs-theme="dark"] .link-warning,
+[data-bs-theme="dark"] .text-warning {
+    color: rgb(255, 193, 7) !important;
+}
+
+.link-warning:focus,
+.link-warning:hover {
+    color: rgb(123, 95, 24) !important;
+    text-decoration-color: rgb(123, 95, 24) !important;
+}
+
+[data-bs-theme="dark"] .link-warning:focus,
+[data-bs-theme="dark"] .link-warning:hover {
+    color: rgb(229, 174, 8) !important;
+    text-decoration-color: rgb(229, 174, 8) !important;
 }
 
 /* Accessibility fixes for outlined buttons */
