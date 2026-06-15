@@ -437,11 +437,13 @@ a[target].no-external-link::after {
 /* Accordion/Dashboard cards
 -------------------------------------------------- */
 
-.accordion-body tbody tr:last-of-type th,
-.accordion-body tbody tr:last-of-type td,
-.card-body tbody tr:last-of-type th,
-.card-body tbody tr:last-of-type td {
-    border: none;
+@media screen and (min-width: 769px) {
+    .accordion-body tbody tr:last-of-type th,
+    .accordion-body tbody tr:last-of-type td,
+    .card-body tbody tr:last-of-type th,
+    .card-body tbody tr:last-of-type td {
+        border: none;
+    }
 }
 
 /* Details/Summary
