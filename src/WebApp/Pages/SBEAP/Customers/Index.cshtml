@@ -83,7 +83,7 @@
             </caption>
 
             <thead>
-            <tr>
+            <tr class="sortable">
                 <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Name")" view-data-Ascender="@nameof(CustomerSortBy.Name)" view-data-Descender="@nameof(CustomerSortBy.NameDesc)" />
                 <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"

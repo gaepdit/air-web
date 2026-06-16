@@ -76,7 +76,7 @@
             </caption>
 
             <thead>
-            <tr>
+            <tr class="sortable">
                 <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Name")" view-data-Ascender="@nameof(StaffSortBy.NameAsc)" view-data-Descender="@nameof(StaffSortBy.NameDesc)" />
                 <th scope="col">@Html.DisplayNameFor(m => m.Spec.Email)</th>
