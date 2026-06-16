@@ -19,8 +19,8 @@
                 <th data-label="Date Opened" scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</th>
                 <td data-label="Customer">@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
                 <td data-label="Case Description">@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
-                <td data-label="Link"class="pe-3">
-                    <a asp-page="SBEAP/Cases/Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                <td data-label="Link" class="text-md-end">
+                    <a asp-page="SBEAP/Cases/Details" class="btn btn-sm btn-outline-primary ms-1 ms-md-0" asp-route-id="@item.Id.ToString()">View</a>
                 </td>
             </tr>
         }

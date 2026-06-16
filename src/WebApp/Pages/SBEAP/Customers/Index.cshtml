@@ -109,8 +109,8 @@
                     </th>
                     <td data-label="Description">@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 50 })</td>
                     <td data-label="County">@Html.DisplayFor(m => item.County, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
-                    <td data-label="Link">
-                        <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    <td data-label="Link" class="text-md-end">
+                        <a asp-page="Details" class="btn btn-sm btn-outline-primary ms-1 ms-md-0" asp-route-id="@item.Id.ToString()">View</a>
                     </td>
                 </tr>
             }

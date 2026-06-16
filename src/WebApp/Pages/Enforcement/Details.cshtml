@@ -198,7 +198,7 @@
                                     <h3 class="h5 col-md" id="discovery-events">Linked Discovery Events</h3>
                                     @if (Model.UserCan[CaseFileOperation.EditCaseFile])
                                     {
-                                        <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                                        <div class="col-md-auto d-print-none ms-md-3 mb-2">
                                             <a asp-page="LinkedEvents" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
                                                 Edit Linked Events
                                             </a>
@@ -225,7 +225,7 @@
                                         <h3 class="h5 col-md" id="pollutants-programs">Associated Pollutants & Air Programs</h3>
                                         @if (Model.UserCan[CaseFileOperation.EditCaseFile])
                                         {
-                                            <div class="col-md-auto d-print-none ms-md-3 mb-1 ">
+                                            <div class="col-md-auto d-print-none ms-md-3 mb-2">
                                                 <a asp-page="PollutantsPrograms" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
                                                     Edit Pollutants & Programs
                                                 </a>

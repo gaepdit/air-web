@@ -181,8 +181,8 @@
                             @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
                         }
                     </td>
-                    <td data-label="Link">
-                        <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    <td data-label="Link" class="text-md-end">
+                        <a asp-page="Details" class="btn btn-sm btn-outline-primary ms-1 ms-md-0" asp-route-id="@item.Id.ToString()">View</a>
                     </td>
                 </tr>
             }
