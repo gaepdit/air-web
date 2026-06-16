@@ -449,8 +449,7 @@ a[target].no-external-link::after {
 
 /* Details/Summary
 -------------------------------------------------- */
-footer summary:hover, footer summary:focus,
-.card-footer summary:hover, .card-footer summary:focus {
+summary:hover, summary:focus {
     background: hsla(0, 0%, 100%, 0.04);
 }
 
