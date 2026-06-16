@@ -2,7 +2,7 @@
 @model IList<AirWeb.AppServices.Sbeap.Cases.Dto.CaseworkSearchResultDto>
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="SBEAP Cases">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="SBEAP Cases">
         <thead>
         <tr>
             <th scope="col">Date Opened</th>
@@ -16,11 +16,11 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</th>
-                <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
-                <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
-                <td class="pe-3">
-                    <a asp-page="SBEAP/Cases/Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                <th data-label="Date Opened" scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.ShortDateOnly)</th>
+                <td data-label="Customer">@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
+                <td data-label="Case Description">@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                <td data-label="Link" class="text-md-end">
+                    <a asp-page="SBEAP/Cases/Details" class="btn btn-sm btn-outline-primary ms-1 ms-md-0" asp-route-id="@item.Id.ToString()">View</a>
                 </td>
             </tr>
         }

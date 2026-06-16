@@ -451,11 +451,13 @@ a[target].no-external-link::after {
 /* Accordion/Dashboard cards
 -------------------------------------------------- */
 
-.accordion-body tbody tr:last-of-type th,
-.accordion-body tbody tr:last-of-type td,
-.card-body tbody tr:last-of-type th,
-.card-body tbody tr:last-of-type td {
-    border: none;
+@media screen and (min-width: 769px) {
+    .accordion-body tbody tr:last-of-type th,
+    .accordion-body tbody tr:last-of-type td,
+    .card-body tbody tr:last-of-type th,
+    .card-body tbody tr:last-of-type td {
+        border: none;
+    }
 }
 
 /* Details/Summary
@@ -731,6 +733,10 @@ Print styles
         border: 0;
     }
 
+    .table-collapsible thead tr {
+        padding: 0 .5rem;
+    }
+
     .table-collapsible thead th {
         display: none;
     }
@@ -738,13 +744,18 @@ Print styles
     .table-collapsible thead tr.sortable::before {
         content: "Sort by:";
         display: inline-block;
-        padding: .5rem 0.5rem;
+        padding: 0 .5rem .5rem;
         font-weight: 700;
     }
 
     .table-collapsible thead th.sortable {
         display: inline-block;
         border-bottom: none;
+        padding: 0 .5rem .5rem;
+    }
+
+    .table-collapsible thead th.sortable a {
+        padding: .5rem 0;
     }
 
     .table-collapsible tr {
@@ -757,7 +768,8 @@ Print styles
         border-top: 2px solid #5b616b;
     }
 
-    .table-collapsible tbody th {
+    .table-collapsible tbody th,
+    .table-collapsible tbody td:first-child {
         background-color: rgb(var(--bs-secondary-bg-rgb));
     }
 
@@ -769,7 +781,7 @@ Print styles
         border-left: none;
         border-right: none;
         border-top: none;
-        padding: 0.5rem 0.5rem;
+        padding: 0.5rem 1rem;
     }
 
     .table-collapsible th::after,
@@ -789,7 +801,7 @@ Print styles
         font-weight: 700;
     }
 
-    .table-collapsible tbody th .btn {
+    .table-collapsible tbody .btn {
         vertical-align: baseline;
     }
 } 

@@ -29,7 +29,7 @@
     {
         <div class="table-responsive mb-3">
             <form method="post" asp-page-handler="UnlinkEvent">
-                <table class="table table-hover mb-0" aria-label="Compliance Events linked to the Enforcement Case">
+                <table class="table table-hover mb-0 table-collapsible" aria-label="Compliance Events linked to the Enforcement Case">
                     <thead>
                     <tr>
                         <th scope="col" class="text-nowrap">Tracking #</th>
@@ -44,28 +44,27 @@
                     @foreach (var item in Model.LinkedComplianceEvents)
                     {
                         <tr>
-                            <th scope="row" class="align-middle">
+                            <th data-label="Tracking #" scope="row">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
-                                   class="btn btn-sm btn-outline-primary" target="_blank">
+                                   class="btn btn-sm btn-outline-primary ms-1 ms-md-0" target="_blank">
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
-                            <td>
-                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
-                                @item.EventDateName
+                            <td data-label="Work Type">@item.ComplianceWorkType.GetDisplayName()</td>
+                            <td data-label="Event Date">
+                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span>
+                                <span class="d-md-block">@item.EventDateName</span>
                             </td>
-                            <td class="text-nowrap">
+                            <td data-label="Status" class="text-nowrap">
                                 @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                                 @if (item.IsClosed)
                                 {
-                                    <br />
-                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                                    <span class="d-md-block">@Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)</span>
                                 }
                             </td>
-                            <td class="text-center align-middle">
-                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger"
-                                        title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink Event
+                            <td data-label="Actions" class="text-md-end">
+                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1 ms-md-0"
+                                        title="Unlink Event from Enforcement Case">🡳&nbsp;Unlink&nbsp;Event
                                 </button>
                             </td>
                         </tr>
@@ -89,7 +88,7 @@
     {
         <div class="table-responsive mb-3">
             <form method="post" asp-page-handler="LinkEvent">
-                <table class="table table-hover mb-0" aria-label="Compliance Events available to link">
+                <table class="table table-hover mb-0 table-collapsible" aria-label="Compliance Events available to link">
                     <thead>
                     <tr>
                         <th scope="col" class="text-nowrap">Tracking #</th>
@@ -104,28 +103,27 @@
                     @foreach (var item in Model.AvailableComplianceEvents)
                     {
                         <tr>
-                            <th scope="row" class="align-middle">
+                            <th data-label="Tracking #" scope="row">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
-                                   class="btn btn-sm btn-outline-primary" target="_blank">
+                                   class="btn btn-sm btn-outline-primary ms-1 ms-md-0" target="_blank">
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td>@item.ComplianceWorkType.GetDisplayName()</td>
-                            <td>
-                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span><br />
-                                @item.EventDateName
+                            <td data-label="Work Type" >@item.ComplianceWorkType.GetDisplayName()</td>
+                            <td data-label="Event Date">
+                                <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span>
+                                <span class="d-md-block">@item.EventDateName</span>
                             </td>
-                            <td class="text-nowrap">
+                            <td data-label="Status" class="text-nowrap">
                                 @Html.DisplayFor(_ => item.IsClosed, DisplayTemplate.BoolClosed)
                                 @if (item.IsClosed)
                                 {
-                                    <br />
-                                    @Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)
+                                    <span class="d-md-block">@Html.DisplayFor(_ => item.ClosedDate, DisplayTemplate.ShortDateOnly)</span>
                                 }
                             </td>
-                            <td class="text-center align-middle">
-                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success"
-                                        title="Link Event to Enforcement Case">🡱&nbsp;Link Event
+                            <td data-label="Actions" class="text-md-end">
+                                <button type="submit" name="eventId" value="@item.Id.ToString()" class="btn btn-sm btn-outline-success ms-1 ms-md-0"
+                                        title="Link Event to Enforcement Case">🡱&nbsp;Link&nbsp;Event
                                 </button>
                             </td>
                         </tr>
