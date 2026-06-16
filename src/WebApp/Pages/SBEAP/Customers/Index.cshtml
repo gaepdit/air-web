@@ -77,13 +77,13 @@
     }
     else
     {
-        <table class="table" aria-label="User search results">
+        <table class="table table-collapsible" aria-label="User search results">
             <caption class="caption-top">
                 <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
             </caption>
 
             <thead>
-            <tr>
+            <tr class="sortable">
                 <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
                          view-data-Heading="@("Name")" view-data-Ascender="@nameof(CustomerSortBy.Name)" view-data-Descender="@nameof(CustomerSortBy.NameDesc)" />
                 <partial name="Shared/_SortableTableColHead" model="Model.Spec" view-data="new ViewDataDictionary(ViewData)"
@@ -99,7 +99,7 @@
             @foreach (var item in Model.SearchResults.Items)
             {
                 <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
-                    <th scope="row" class="fw-normal">
+                    <th scope="row" data-label="Name">
                         @Html.DisplayFor(m => item.Name, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })
                         @if (item.IsDeleted)
                         {
@@ -107,10 +107,10 @@
                             <strong>DELETED</strong>
                         }
                     </th>
-                    <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 50 })</td>
-                    <td>@Html.DisplayFor(m => item.County, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
-                    <td>
-                        <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    <td data-label="Description">@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, additionalViewData: new { MaxLength = 50 })</td>
+                    <td data-label="County">@Html.DisplayFor(m => item.County, DisplayTemplate.TextOrPlaceholder, additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</td>
+                    <td data-label="Link" class="text-md-end">
+                        <a asp-page="Details" class="btn btn-sm btn-outline-primary ms-1 ms-md-0" asp-route-id="@item.Id.ToString()">View</a>
                     </td>
                 </tr>
             }

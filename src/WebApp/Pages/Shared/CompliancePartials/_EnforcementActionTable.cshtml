@@ -2,7 +2,7 @@
 @model IList<AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery.ActionViewDto>
 
 <div class="table-responsive">
-    <table class="table table-hover mb-0" aria-label="Enforcement Action results table">
+    <table class="table table-hover mb-0 table-collapsible" aria-label="Enforcement Action results table">
         <thead>
         <tr>
             <th scope="col" class="text-nowrap">Tracking #</th>
@@ -16,17 +16,17 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row" class="align-middle">
+                <th data-label="Tracking #" scope="row" class="align-middle">
                     <a asp-page="/Enforcement/Details" asp-route-id="@item.CaseFileId" asp-fragment="@item.Id"
                        class="fw-normal link-offset-1">
                         @item.CaseFileId.ToString()
                     </a>
                 </th>
-                <td>
+                <td data-label="Review Requested Date">
                     <span class="text-nowrap">@Html.DisplayFor(_ => item.ReviewRequestedDate, DisplayTemplate.ShortDateOnlyNullable)</span>
                 </td>
-                <td>@item.ActionType.GetDisplayName()</td>
-                <td>@Html.DisplayFor(_ => item.CaseFileResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
+                <td data-label="Item">@item.ActionType.GetDisplayName()</td>
+                <td data-label="Responsible Staff">@Html.DisplayFor(_ => item.CaseFileResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</td>
             </tr>
         }
         </tbody>

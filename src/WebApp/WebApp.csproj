@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <InformationalVersion>2026.6.4</InformationalVersion>
+        <InformationalVersion>2026.6.5</InformationalVersion>
         <RootNamespace>AirWeb.WebApp</RootNamespace>
         <AssemblyName>AirWeb.WebApp</AssemblyName>
     </PropertyGroup>
@@ -10,8 +10,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
-        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
-        <PackageReference Include="Mindscape.Raygun4Net.Extensions.Logging"/>
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers"/>
         <PackageReference Include="Swashbuckle.AspNetCore" />
