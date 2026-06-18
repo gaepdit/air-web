@@ -390,4 +390,23 @@ internal static class AppDbContextConfiguration
         builder.Entity<ViolationType>(e => e.HasData(ViolationTypeData.GetAll()));
         return builder;
     }
+
+    internal static ModelBuilder ConfigureTemporalTables(this ModelBuilder builder)
+    {
+        // Refs:
+        // https://learn.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables?view=sql-server-ver16
+        // https://learn.microsoft.com/en-us/ef/core/providers/sql-server/temporal-tables
+
+        builder.ConfigureTemporalTable<CaseFile>(nameof(AppDbContext.EnforcementCaseFiles));
+
+        builder.ConfigureTemporalTable<EnforcementAction>(nameof(Domain.Compliance.EnforcementEntities
+            .EnforcementActions));
+
+        return builder;
+    }
+
+    private static void ConfigureTemporalTable<TEntity>(this ModelBuilder builder, string tableName)
+        where TEntity : class =>
+        builder.Entity<TEntity>().ToTable(tableName,
+            table => table.IsTemporal(ttb => ttb.UseHistoryTable($"{tableName}_History")));
 }

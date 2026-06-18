@@ -1,5 +1,13 @@
 # Changelog
 
+## [2026.6.18] - 2026-06-18
+
+- Boring back end code updates.
+
+## [2026.6.16] - 2026-06-16
+
+- Made additional tables "collapsible" at small screen sizes.
+
 ## [2026.6.5] - 2026-06-05
 
 - Update the compliance search forms to help avoid invalid search terms.
@@ -7,7 +15,6 @@
 ## [2026.6.4] - 2026-06-04
 
 - Add search filters to the source test page.
-- Improve the layout of the "Find By ID" menu.
 - Implement "collapsible" tables for search results (makes them easier to read on small screens).
 
 ## [2026.6.2] - 2026-06-02
@@ -167,3 +174,5 @@
 [2026.6.2]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.2
 [2026.6.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.4
 [2026.6.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.5
+[2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
+[2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18

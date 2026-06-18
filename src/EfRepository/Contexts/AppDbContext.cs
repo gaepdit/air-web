@@ -102,7 +102,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureLookupTableNameMaxLength()
             .ConfigureCollectionPropertySerialization()
             .ConfigureDataExchangeIndexes()
-            .ConfigureModelManagedData();
+            .ConfigureModelManagedData()
+            .ConfigureTemporalTables();
 
         // SQLite-only configuration
         if (Database.ProviderName == SqliteProvider)
