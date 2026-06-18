@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.6.18] - 2026-06-18
+
+- Boring back end code updates.
+
 ## [2026.6.16] - 2026-06-16
 
 - Made additional tables "collapsible" at small screen sizes.
@@ -171,3 +175,4 @@
 [2026.6.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.4
 [2026.6.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.5
 [2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
+[2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18
