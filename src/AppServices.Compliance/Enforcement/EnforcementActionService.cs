@@ -322,7 +322,13 @@ public sealed class EnforcementActionService(
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var action = await actionRepository
-            .GetAsync(id, includeProperties: [nameof(EnforcementAction.Reviews), nameof(EnforcementAction.CaseFile)],
+            .GetAsync(id,
+                includeProperties:
+                [
+                    nameof(EnforcementAction.Reviews),
+                    nameof(EnforcementAction.CaseFile),
+                    nameof(EnforcementAction.CurrentReviewer),
+                ],
                 token: token).ConfigureAwait(false);
 
         var nextReviewer = resource is { Result: ReviewResult.Forwarded, RequestedOfId: not null }
