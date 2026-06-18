@@ -114,10 +114,13 @@
                         <div class="form-floating">
                             <input asp-for="Spec.ReferredFrom" name="@nameof(Model.Spec.ReferredFrom)" class="form-control" />
                             <label asp-for="Spec.ReferredFrom" class="form-label"></label>
+                            <span asp-validation-for="Spec.ReferredFrom" class="invalid-feedback"></span>
                         </div>
                         <div class="form-floating">
                             <input asp-for="Spec.ReferredThrough" name="@nameof(Model.Spec.ReferredThrough)" class="form-control" />
                             <label asp-for="Spec.ReferredThrough" class="form-label"></label>
+                            <span asp-validation-for="Spec.ReferredThrough" class="invalid-feedback"></span>
+
                         </div>
                     </div>
                 </div>
