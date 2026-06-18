@@ -13,7 +13,8 @@ public class MapModel(IFacilityService service) : PageModel
 
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
 
-    public static List<CityLocation> CityLocations => CityLocationData.GetAll;
+    public static List<NameLocation> CityLocations => CityLocationData.GetAll;
+    public static List<NameLocation> CountyLocations => CountyLocationData.GetAll;
 
     [TempData]
     public bool RefreshIaipData { get; set; }

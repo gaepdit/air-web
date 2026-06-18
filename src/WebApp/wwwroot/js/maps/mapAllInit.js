@@ -31,6 +31,9 @@ function initMap() {
         for (const f of facilities) if (f.GeoCoordinates) markers.addLayer(newMarker(f));
         map.addLayer(markers);
     });
+
+    document.getElementById('city-selector').selectedIndex = -1;
+    document.getElementById('county-selector').selectedIndex = -1;
 }
 
 // Alert functions.
@@ -71,12 +74,29 @@ function newMarker(f) {
 
 initMap();
 
-function initCitySelector() {
+function initZoomTool() {
     const citySelector = document.getElementById('city-selector');
+    const countySelector = document.getElementById('county-selector');
     citySelector.addEventListener('change', function () {
         const selectedView = citySelector.value;
-        if (selectedView) globalThis.location.hash = selectedView;
+        if (selectedView) {
+            globalThis.location.hash = selectedView;
+            countySelector.selectedIndex = -1;
+        }
     });
+    countySelector.addEventListener('change', function () {
+        const selectedView = countySelector.value;
+        if (selectedView) {
+            globalThis.location.hash = selectedView;
+            citySelector.selectedIndex = -1;
+        }
+    });
+    document.getElementById('state-selector')
+        .addEventListener('click', function () {
+            citySelector.selectedIndex = -1;
+            countySelector.selectedIndex = -1;
+            globalThis.location.hash = '#32.9,-83.3,7z';
+        })
 }
 
-initCitySelector();
+initZoomTool();

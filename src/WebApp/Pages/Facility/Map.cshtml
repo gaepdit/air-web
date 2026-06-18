@@ -20,20 +20,33 @@
     it can be corrected in the IAIP.
 </p>
 
-<div class="px-3 py-2 rounded-3 bg-light-subtle border mb-3 d-md-inline-block">
-    <div class="row row-cols-sm-auto align-items-center d-print-none">
-        <div>
-            <label for="city-selector" class="col-form-label">Zoom to:</label>
+<div class="px-3 py-1 rounded-3 bg-light-subtle border mb-3 d-md-inline-block d-print-none">
+    <div class="row row-cols-md-auto g-2 align-items-center my-1">
+        <div class="my-0">
+            Zoom to:
+            <button id="state-selector" type="button" class="btn btn-outline-secondary ms-3">State</button>
         </div>
-        <div>
-            <select id="city-selector" class="form-select" aria-label="Zoom the map to a specific city">
-                <option value="#32.9,-83.3,7z">State of Georgia</option>
-                <hr />
-                @foreach (var city in MapModel.CityLocations)
-                {
-                    <option value="#@(city.Location)">@city.Name</option>
-                }
-            </select>
+        <div class="row row-cols-auto g-2 align-items-center mt-2 my-md-0 ms-md-2">
+            <div class="my-0"><label for="city-selector" class="col-form-label">City</label></div>
+            <div class="my-0">
+                <select id="city-selector" class="form-select border-secondary" aria-label="Zoom the map to a specific city">
+                    @foreach (var nl in MapModel.CityLocations)
+                    {
+                        <option value="#@(nl.Location)">@nl.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row row-cols-auto g-2 align-items-center mt-2 my-md-0 ms-md-2">
+            <div class="my-0"><label for="county-selector" class="col-form-label">County</label></div>
+            <div class="my-0">
+                <select id="county-selector" class="form-select border-secondary" aria-label="Zoom the map to a specific county">
+                    @foreach (var nl in MapModel.CountyLocations)
+                    {
+                        <option value="#@(nl.Location)">@nl.Name</option>
+                    }
+                </select>
+            </div>
         </div>
     </div>
 </div>

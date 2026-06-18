@@ -1,13 +1,11 @@
 ﻿namespace AirWeb.Domain.Core.Data;
 
-public record CityLocation(string Name, string Location);
-
 public static class CityLocationData
 {
-    public static List<CityLocation> GetAll { get; } = CityLocations.OrderBy(cl => cl.Name).ToList();
+    public static List<NameLocation> GetAll { get; } = CityLocations.OrderBy(nl => nl.Name).ToList();
 
     // ReSharper disable StringLiteralTypo
-    private static IEnumerable<CityLocation> CityLocations =>
+    private static IEnumerable<NameLocation> CityLocations =>
     [
         new(Name: "Acworth", Location: "34.0530515,-84.673576,13z"),
         new(Name: "Adairsville", Location: "34.367064,-84.9184889,13z"),
