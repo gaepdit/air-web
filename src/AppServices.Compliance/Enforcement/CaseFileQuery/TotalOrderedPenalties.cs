@@ -12,13 +12,14 @@ public sealed class TotalOrderedPenaties
     private readonly short[] orderedPenaltyIds = [];
     private readonly Guid[] stipulatedPenaltyIds = [];
 
-    public decimal totalOrderedPenaltySum { get; private set; }
+    public decimal totalOrderedPenaltySum { get; private set; } 
     public decimal totalStipulatedPenaltySum { get; private set; }
 
     public TotalOrderedPenaties(AppDbContext dbContext, int caseId)
     {
         this.dbContext = dbContext;
         this.caseId = caseId;
+
         if (caseId == 0) return;
 
         orderedPenaltyIds = GetAllPenaltyIdsFromCaseId().GetAwaiter().GetResult();

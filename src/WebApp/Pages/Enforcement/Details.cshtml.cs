@@ -77,6 +77,7 @@ public class DetailsModel(
             CaseFile.EnforcementActions.RemoveAll(dto => dto.IsDeleted);
 
         orderedPenaties = new TotalOrderedPenaties(dbContext, Id);
+        
         return InitializePage();
     }
 
