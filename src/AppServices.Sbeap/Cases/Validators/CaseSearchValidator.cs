@@ -1,12 +1,11 @@
-﻿using IaipDataService.Facilities;
-using AirWeb.AppServices.Sbeap.Cases.Dto;
+﻿using AirWeb.AppServices.Sbeap.Cases.Dto;
 using FluentValidation;
 
 namespace AirWeb.AppServices.Sbeap.Cases.Validators;
 
 public class CaseSearchValidator : AbstractValidator<CaseworkSearchDto>
 {
-    public CaseSearchValidator(IFacilityService service)
+    public CaseSearchValidator()
     {
         var today = DateOnly.FromDateTime(DateTime.Today);
 

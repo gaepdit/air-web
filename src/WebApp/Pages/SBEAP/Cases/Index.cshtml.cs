@@ -6,11 +6,16 @@ using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
+using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.SBEAP.Cases;
 
 [Authorize(Policy = nameof(SbeapPolicies.SbeapStaff))]
-public class IndexModel(ICaseworkService service, IAgencyService agencyService, IAuthorizationService authorization)
+public class IndexModel(
+    ICaseworkService service, 
+    IAgencyService agencyService, 
+    IAuthorizationService authorization,
+    IValidator<CaseworkSearchDto> validator)
     : PageModel
 {
     // Properties
@@ -34,6 +39,7 @@ public class IndexModel(ICaseworkService service, IAgencyService agencyService, 
 
     public async Task<IActionResult> OnGetSearchAsync(CaseworkSearchDto spec, [FromQuery] int p = 1)
     {
+        await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
 
         ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
