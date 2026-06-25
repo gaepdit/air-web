@@ -9,6 +9,5 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Domain.Sbeap\Domain.Sbeap.csproj" />
-        <ProjectReference Include="..\IaipDataService\IaipDataService.csproj" />
     </ItemGroup>
 </Project>
