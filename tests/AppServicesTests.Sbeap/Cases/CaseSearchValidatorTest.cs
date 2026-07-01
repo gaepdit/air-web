@@ -3,11 +3,11 @@ using AirWeb.AppServices.Sbeap.Cases.Validators;
 using AwesomeAssertions.Execution;
 using FluentValidation.TestHelper;
 
-namespace AppServicesTests.Compliance.Enforcement.Validators;
+namespace AppServicesTests.Sbeap.Cases;
 
 public class CaseSearchValidatorTests
 {
-    private CaseSearchValidator _sut = null;
+    private CaseSearchValidator _sut;
 
     [SetUp]
     public void SetUp()
@@ -15,6 +15,7 @@ public class CaseSearchValidatorTests
         // Arrange
         _sut = new CaseSearchValidator();
     }
+
     [Test]
     public async Task EmptyDto_ReturnsAsValid()
     {
@@ -39,7 +40,7 @@ public class CaseSearchValidatorTests
             ClosedFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
             ClosedThrough = DateOnly.FromDateTime(DateTime.Today),
             ReferredFrom = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)),
-            ReferredThrough = DateOnly.FromDateTime(DateTime.Today)
+            ReferredThrough = DateOnly.FromDateTime(DateTime.Today),
         };
 
         // Act
@@ -48,6 +49,7 @@ public class CaseSearchValidatorTests
         // Assert
         result.IsValid.Should().BeTrue();
     }
+
     [Test]
     public async Task OpenedFromInFuture_ReturnsAsInvalid()
     {
@@ -73,7 +75,7 @@ public class CaseSearchValidatorTests
         var model = new CaseworkSearchDto
         {
             OpenedFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
-            OpenedThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+            OpenedThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5),
         };
 
         // Act
@@ -84,6 +86,7 @@ public class CaseSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.OpenedThrough);
     }
+
     [Test]
     public async Task ClosedFromInFuture_ReturnsAsInvalid()
     {
@@ -109,7 +112,7 @@ public class CaseSearchValidatorTests
         var model = new CaseworkSearchDto
         {
             ClosedFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
-            ClosedThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+            ClosedThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5),
         };
 
         // Act
@@ -120,6 +123,7 @@ public class CaseSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.ClosedThrough);
     }
+
     [Test]
     public async Task ReferredFromInFuture_ReturnsAsInvalid()
     {
@@ -145,7 +149,7 @@ public class CaseSearchValidatorTests
         var model = new CaseworkSearchDto
         {
             ReferredFrom = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
-            ReferredThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5)
+            ReferredThrough = DateOnly.FromDateTime(DateTime.Today).AddDays(-5),
         };
 
         // Act
@@ -156,5 +160,4 @@ public class CaseSearchValidatorTests
         results.IsValid.Should().BeFalse();
         results.ShouldHaveValidationErrorFor(dto => dto.ReferredThrough);
     }
-
 }

@@ -13,7 +13,7 @@ public class CaseFileSearchValidatorTests
     [SetUp]
     public void SetUp()
     {
-        // Arrange           
+        // Arrange
         var service = Substitute.For<IFacilityService>();
         service.ExistsAsync(Arg.Any<FacilityId>())
             .Returns(true);
