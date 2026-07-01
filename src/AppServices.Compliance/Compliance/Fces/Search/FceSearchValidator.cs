@@ -11,12 +11,12 @@ public class FceSearchValidator : AbstractValidator<FceSearchDto>
 
         RuleFor(dto => dto.DateFrom)
             .Must(date => date <= today || date == null)
-            .WithMessage("The beginning search date cannot be in the future");
+            .WithMessage("The beginning search date cannot be in the future.");
 
         RuleFor(dto => dto.DateTo)
             .Must((dto, date) => date >= dto.DateFrom)
             .When(dto => dto.DateFrom.HasValue && dto.DateTo.HasValue)
-            .WithMessage("The end search date must be later than the beginning date");
+            .WithMessage("The end search date must be later than the beginning date.");
 
         RuleFor(dto => dto.FacilityId)
             .Cascade(CascadeMode.Stop)

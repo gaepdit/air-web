@@ -49,10 +49,12 @@
                         <div class="form-floating">
                             <input asp-for="Spec.OpenedFrom" name="@nameof(Model.Spec.OpenedFrom)" class="form-control" />
                             <label asp-for="Spec.OpenedFrom" class="form-label"></label>
+                            <span asp-validation-for="Spec.OpenedFrom" class="invalid-feedback"></span>
                         </div>
                         <div class="form-floating">
                             <input asp-for="Spec.OpenedThrough" name="@nameof(Model.Spec.OpenedThrough)" class="form-control" />
                             <label asp-for="Spec.OpenedThrough" class="form-label"></label>
+                            <span asp-validation-for="Spec.OpenedThrough" class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>
@@ -62,10 +64,12 @@
                         <div class="form-floating">
                             <input asp-for="Spec.ClosedFrom" name="@nameof(Model.Spec.ClosedFrom)" class="form-control" />
                             <label asp-for="Spec.ClosedFrom" class="form-label"></label>
+                            <span asp-validation-for="Spec.ClosedFrom" class="invalid-feedback"></span>
                         </div>
                         <div class="form-floating">
                             <input asp-for="Spec.ClosedThrough" name="@nameof(Model.Spec.ClosedThrough)" class="form-control" />
                             <label asp-for="Spec.ClosedThrough" class="form-label"></label>
+                            <span asp-validation-for="Spec.ClosedThrough" class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>
@@ -114,10 +118,12 @@
                         <div class="form-floating">
                             <input asp-for="Spec.ReferredFrom" name="@nameof(Model.Spec.ReferredFrom)" class="form-control" />
                             <label asp-for="Spec.ReferredFrom" class="form-label"></label>
+                            <span asp-validation-for="Spec.ReferredFrom" class="invalid-feedback"></span>
                         </div>
                         <div class="form-floating">
                             <input asp-for="Spec.ReferredThrough" name="@nameof(Model.Spec.ReferredThrough)" class="form-control" />
                             <label asp-for="Spec.ReferredThrough" class="form-label"></label>
+                            <span asp-validation-for="Spec.ReferredThrough" class="invalid-feedback"></span>
                         </div>
                     </div>
                 </div>

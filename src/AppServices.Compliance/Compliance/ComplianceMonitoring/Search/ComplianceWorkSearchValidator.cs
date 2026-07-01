@@ -11,21 +11,21 @@ public class ComplianceWorkSearchValidator : AbstractValidator<ComplianceWorkSea
 
         RuleFor(dto => dto.EventDateFrom)
             .Must(date => date <= today || date == null)
-            .WithMessage("The beginning search date cannot be in the future");
+            .WithMessage("The beginning search date cannot be in the future.");
 
         RuleFor(dto => dto.EventDateTo)
             .Must((dto, date) => date >= dto.EventDateFrom)
             .When(dto => dto.EventDateFrom.HasValue && dto.EventDateTo.HasValue)
-            .WithMessage("The end search date must be later than the beginning date");
+            .WithMessage("The end search date must be later than the beginning date.");
 
         RuleFor(dto => dto.ClosedDateFrom)
             .Must(date => date <= today || date == null)
-            .WithMessage("The beginning search date cannot be in the future");
+            .WithMessage("The beginning search date cannot be in the future.");
 
         RuleFor(dto => dto.ClosedDateTo)
             .Must((dto, date) => date >= dto.ClosedDateFrom)
             .When(dto => dto.ClosedDateFrom.HasValue && dto.ClosedDateTo.HasValue)
-            .WithMessage("The end search date must be later than the beginning date");
+            .WithMessage("The end search date must be later than the beginning date.");
 
         RuleFor(dto => dto.FacilityId)
             .Cascade(CascadeMode.Stop)
