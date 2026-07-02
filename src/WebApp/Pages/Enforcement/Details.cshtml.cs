@@ -6,6 +6,7 @@ using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
+using AirWeb.EfRepository.Contexts;
 using AirWeb.WebApp.Models;
 using FluentValidation;
 
@@ -18,7 +19,8 @@ public class DetailsModel(
     IAuthorizationService authorization,
     IValidator<MaxDateOnlyDto> maxDateValidator,
     IValidator<MaxDateAndCommentDto> addResponseValidator,
-    IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
+    IValidator<MaxDateAndBooleanDto> resolveActionValidator,
+    AppDbContext dbContext) : PageModel
 {
     // Case File
     [FromRoute]
@@ -58,6 +60,8 @@ public class DetailsModel(
     [TempData]
     public Guid? HighlightEnforcementId { get; set; }
 
+    public TotalOrderedPenaties orderedPenaties { get; private set; } = null!;
+
     // Methods
     public async Task<IActionResult> OnGetAsync()
     {
@@ -72,6 +76,8 @@ public class DetailsModel(
         if (!UserCan[CaseFileOperation.ViewDeleted])
             CaseFile.EnforcementActions.RemoveAll(dto => dto.IsDeleted);
 
+        orderedPenaties = new TotalOrderedPenaties(dbContext, Id);
+        
         return InitializePage();
     }
 
