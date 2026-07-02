@@ -803,4 +803,14 @@ Print styles
     .table-collapsible tbody .btn {
         vertical-align: baseline;
     }
-} 
+}
+
+dt, dd {
+    margin-bottom: 0.5rem;
+}
+
+dt {
+    text-indent: -0.5rem;
+    position: relative;
+    left: 0.5rem;
+}
