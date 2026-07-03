@@ -49,10 +49,20 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public IList<AirProgram> AirPrograms { get; } = [];
 
     [Display(Name = "Total Ordered Penalaties")]
-    public decimal? totlaOrderedPenaltyAmount { get; set; }
+    public decimal TotalOrderedPenaltiesAmount =>
+        EnforcementActions 
+            .OfType<CoViewDto>()
+            .Where(co => !co.IsDeleted)
+            .Sum(co => co.PenaltyAmount ?? 0m);
 
     [Display(Name = "Total Stipulated Penalaties")]
-    public decimal? totlaStipulatedPenaltyAmount { get; set; }
+    public decimal TotalStipulatedPenaltiesAmount =>
+        EnforcementActions
+            .OfType<CoViewDto>()
+            .Where(co => !co.IsDeleted)
+            .Sum(co => co.StipulatedPenalties
+                .Where(sp => !sp.IsDeleted)
+                .Sum(sp => sp.Amount));
 
     public IEnumerable<string> AirProgramsAsStrings => AirPrograms.Select(program => program.Description);
 

@@ -164,10 +164,10 @@
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.ResponsibleStaff, DisplayTemplate.NameOrPlaceholder)</dd>
                 <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.DiscoveryDate)</dt>
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.DiscoveryDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
-                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.totlaOrderedPenaltyAmount)</dt>
-                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.totlaOrderedPenaltyAmount, DisplayTemplate.Currency)</dd>
-                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.totlaStipulatedPenaltyAmount)</dt>
-                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.totlaStipulatedPenaltyAmount, DisplayTemplate.Currency)</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.TotalOrderedPenaltiesAmount)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.TotalOrderedPenaltiesAmount, DisplayTemplate.Currency)</dd>
+                <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => caseFile.TotalStipulatedPenaltiesAmount)</dt>
+                <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => caseFile.TotalStipulatedPenaltiesAmount, DisplayTemplate.Currency)</dd>
                 @if (caseFile.HasReportableEnforcement)
                 {
                     @if (caseFile.ViolationType is { Severity: ViolationSeverity.HPV })
