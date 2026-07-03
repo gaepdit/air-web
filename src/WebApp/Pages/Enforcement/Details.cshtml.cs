@@ -72,8 +72,41 @@ public class DetailsModel(
         if (!UserCan[CaseFileOperation.ViewDeleted])
             CaseFile.EnforcementActions.RemoveAll(dto => dto.IsDeleted);
 
+
+        CaseFile.totlaOrderedPenaltyAmount = GetAllOrderedPenaltiesAsync();
+        CaseFile.totlaStipulatedPenaltyAmount = GetAllStipulatedPenaltiesAsync();
+
         return InitializePage();
     }
+
+    private decimal? GetAllOrderedPenaltiesAsync()
+    {
+        var sumPenaltyAmmount = 0m;
+        var coList = CaseFile.EnforcementActions.OfType<AppServices.Compliance.Enforcement.EnforcementActionQuery.CoViewDto>().ToList();
+        coList = coList.Where(co => co.PenaltyAmount != null).ToList();
+
+        if (coList != null)
+            foreach (var co in coList)
+            {
+                sumPenaltyAmmount += co.PenaltyAmount.Value;
+            }
+            return sumPenaltyAmmount;
+    }
+
+    private decimal? GetAllStipulatedPenaltiesAsync()
+    {
+        var sumStipulatedPenaltyAmount = 0m;
+        var coList = CaseFile.EnforcementActions.OfType<AppServices.Compliance.Enforcement.EnforcementActionQuery.CoViewDto>().ToList();
+        var coArray = coList.Where(co => co.StipulatedPenalties != null).ToArray();
+
+        if (coArray != null)
+            foreach (var co in coArray)
+            {
+                sumStipulatedPenaltyAmount += co.StipulatedPenalties.Sum(sp => sp.Amount);
+            }
+            return sumStipulatedPenaltyAmount;
+    }
+
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
     {

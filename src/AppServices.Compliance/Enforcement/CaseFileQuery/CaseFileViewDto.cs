@@ -48,6 +48,12 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Air Programs")]
     public IList<AirProgram> AirPrograms { get; } = [];
 
+    [Display(Name = "Total Ordered Penalaties")]
+    public decimal? totlaOrderedPenaltyAmount { get; set; }
+
+    [Display(Name = "Total Stipulated Penalaties")]
+    public decimal? totlaStipulatedPenaltyAmount { get; set; }
+
     public IEnumerable<string> AirProgramsAsStrings => AirPrograms.Select(program => program.Description);
 
     public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
