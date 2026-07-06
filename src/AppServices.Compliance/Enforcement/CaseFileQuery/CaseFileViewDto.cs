@@ -48,24 +48,6 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Air Programs")]
     public IList<AirProgram> AirPrograms { get; } = [];
 
-    [Display(Name = "Total Ordered Penalties")]
-    public decimal TotalOrderedPenaltiesAmount =>
-        EnforcementActions
-            .OfType<CoViewDto>()
-            .Where(co => !co.IsDeleted)
-            .Where(co => ((IActionViewDto)co).IsIssued)
-            .Sum(co => co.PenaltyAmount ?? 0m);
-
-    [Display(Name = "Total Stipulated Penalties")]
-    public decimal TotalStipulatedPenaltiesAmount =>
-        EnforcementActions
-            .OfType<CoViewDto>()
-            .Where(co => !co.IsDeleted)
-            .Where(co => ((IActionViewDto)co).IsIssued)
-            .Sum(co => co.StipulatedPenalties
-                .Where(sp => !sp.IsDeleted)
-                .Sum(sp => sp.Amount));
-
     public IEnumerable<string> AirProgramsAsStrings => AirPrograms.Select(program => program.Description);
 
     public IList<ComplianceWorkSearchResultDto> ComplianceEvents { get; } = [];
@@ -81,6 +63,25 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
 
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
+
+    public bool HasIssuedConsentOrder => EnforcementActions.OfType<CoViewDto>()
+        .Any(co => (IActionViewDto)co is { IsDeleted: false, IsIssued: true });
+
+    public bool MightHaveStipulatedPenalties => EnforcementActions.OfType<CoViewDto>()
+        .Any(co => (IActionViewDto)co is { IsDeleted: false, IsIssued: true } &&
+                   (co.StipulatedPenaltiesDefined ||
+                    co.StipulatedPenalties.Any(sp => sp is { Amount: > 0, IsDeleted: false })));
+
+    [Display(Name = "Total Ordered Penalties")]
+    public decimal TotalOrderedPenaltiesAmount => EnforcementActions.OfType<CoViewDto>()
+        .Where(co => (IActionViewDto)co is { IsDeleted: false, IsIssued: true })
+        .Sum(co => co.PenaltyAmount ?? 0m);
+
+    [Display(Name = "Total Stipulated Penalties Received")]
+    public decimal TotalStipulatedPenaltiesAmount => EnforcementActions.OfType<CoViewDto>()
+        .Where(co => (IActionViewDto)co is { IsDeleted: false, IsIssued: true })
+        .Sum(co => co.StipulatedPenalties.Where(sp => !sp.IsDeleted)
+            .Sum(decimal (sp) => sp.Amount)); // Specify return type of nested lambda to avoid CS9236.
 
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
