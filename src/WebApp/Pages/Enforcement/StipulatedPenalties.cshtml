@@ -13,7 +13,7 @@
 }
 
 <p class="d-print-none">
-    <a asp-page="Details" asp-route-id="@caseFile.Id" class="lead icon-link">
+    <a asp-page="Details" asp-route-id="@caseFile.Id" asp-fragment="@Model.Id" class="lead icon-link">
         <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Back to Enforcement Case #@caseFile.Id
     </a>

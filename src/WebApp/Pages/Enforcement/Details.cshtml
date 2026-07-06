@@ -382,7 +382,7 @@
                 var includeAppealedOrderModal = false;
                 var includeDeleteActionModal = false;
 
-                @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate))
+                @foreach (var action in caseFile.EnforcementActions.OrderBy(dto => dto.StatusDate).ThenBy(dto => dto.CreatedAt))
                 {
                     string eaBorder;
                     if (action.Id == Model.HighlightEnforcementId)
@@ -438,7 +438,7 @@
                                                 {
                                                     <li>
                                                         <a asp-page="StipulatedPenalties" asp-route-id="@action.Id.ToString()" class="dropdown-item">
-                                                            Edit stipulated penalties
+                                                            Add/edit stipulated penalties
                                                         </a>
                                                     </li>
                                                 }
