@@ -64,8 +64,6 @@ public class DetailsModel(
         if (Id == 0) return RedirectToPage("Index");
         CaseFile = await caseFileService.FindDetailedAsync(Id);
         if (CaseFile is null) return NotFound();
-        
-        
 
         await SetPermissionsAsync();
         if (CaseFile.IsDeleted && !UserCan[CaseFileOperation.ViewDeleted]) return NotFound();
@@ -74,11 +72,8 @@ public class DetailsModel(
         if (!UserCan[CaseFileOperation.ViewDeleted])
             CaseFile.EnforcementActions.RemoveAll(dto => dto.IsDeleted);
 
-
-
         return InitializePage();
     }
-
 
     public async Task<IActionResult> OnPostAddEnforcementActionAsync(CancellationToken token)
     {
