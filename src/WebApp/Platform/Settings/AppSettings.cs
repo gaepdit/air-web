@@ -8,7 +8,7 @@ internal static partial class AppSettings
     public static string? Version { get; private set; }
     public static string? SimpleVersion => Version?.Split('+')[0];
 
-    public static string Env { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";
+    internal static string Env { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";
     public static string ShortEnv => Env switch { "Production" => "prod", "Staging" => "uat", _ => "dev" };
 
     public static Support Support { get; } = new();
@@ -21,11 +21,6 @@ internal static partial class AppSettings
         public string? ClientToken { get; [UsedImplicitly] init; }
         public string? ApplicationId { get; [UsedImplicitly] init; }
     }
-
-    // Dev-related settings
-    public static bool ConnectToIaip => DevSettings is not { UseDevSettings: true, ConnectToIaipDatabase: false };
-    public static bool TestUserEnabled => DevSettings is { UseDevSettings: true, EnableTestUser: true };
-    public static bool UseSecurityHeaders => DevSettings is not { UseDevSettings: true, EnableSecurityHeaders: false };
 }
 
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]

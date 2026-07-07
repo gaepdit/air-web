@@ -12,7 +12,6 @@
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers"/>
-        <PackageReference Include="Okta.AspNetCore"/>
         <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
@@ -24,10 +23,6 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Content Update="appsettings.Development.json">
-            <DependentUpon>appsettings.json</DependentUpon>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </Content>
         <Content Update="libman.json">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
@@ -52,9 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Platform\AppConfiguration\DataPersistence.Repositories.cs">
-            <DependentUpon>DataPersistence.cs</DependentUpon>
-        </Compile>
         <Compile Update="Platform\Settings\AppSettings.DevSettings.cs">
             <DependentUpon>AppSettings.cs</DependentUpon>
         </Compile>

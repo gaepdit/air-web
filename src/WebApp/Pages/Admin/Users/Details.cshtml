@@ -30,15 +30,15 @@
 }
 
 <dl class="row">
-    <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
+    <dt class="col-sm-2">Email</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
 
-    <dt class="col-sm-3">Phone</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder,
+    <dt class="col-sm-2">Phone</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder,
                 additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 
-    <dt class="col-sm-3">Office</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
+    <dt class="col-sm-2">Office</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
                 additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 </dl>
 <hr />
