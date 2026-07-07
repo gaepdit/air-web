@@ -1,5 +1,10 @@
 # Changelog
 
+## Next
+
+- Display total collected penalties in the Case File summary section.
+- Update the SBEAP search forms to help avoid invalid search terms.
+
 ## [2026.6.18] - 2026-06-18
 
 - Boring back end code updates.
