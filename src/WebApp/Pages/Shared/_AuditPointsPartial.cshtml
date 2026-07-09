@@ -11,15 +11,15 @@
                     {
                         <li>
                             @audit.What
-                            @if (!string.IsNullOrWhiteSpace(audit.MoreInfo))
-                            {
-                                @:(@audit.MoreInfo)
-                            }
                             by
                             @Html.DisplayFor(_ => audit.WhoFullName, DisplayTemplate.TextOrPlaceholder,
                                 additionalViewData: new { Placeholder = DefaultText.NotAvailable })
                             on
                             @Html.DisplayFor(_ => audit.When, DisplayTemplate.LongDateTimeOffset)
+                            @if (!string.IsNullOrWhiteSpace(audit.MoreInfo))
+                            {
+                                @:(@audit.MoreInfo)
+                            }
                         </li>
                     }
                 </ul>
