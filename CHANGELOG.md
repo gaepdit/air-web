@@ -1,6 +1,6 @@
 # Changelog
 
-## Next
+## [2026.7.9] - 2026-07-09
 
 - Display total collected penalties in the Case File summary section.
 - Update the SBEAP search forms to help avoid invalid search terms.
@@ -181,3 +181,5 @@
 [2026.6.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.5
 [2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
 [2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18
+
+[2026.7.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.9
