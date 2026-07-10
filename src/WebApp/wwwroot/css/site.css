@@ -790,4 +790,30 @@ Print styles
     .table-collapsible tbody .btn {
         vertical-align: baseline;
     }
-} 
+}
+
+/* Accommodate longer terms in definition lists
+-------------------------------------------------- */
+@media (min-width: 576px) {
+    dt[class*='col-sm-'],
+    dd[class*='col-sm-'] {
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+}
+
+dl[class*="row-cols-"] dt,
+dl[class*="row-cols-"] dd {
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+dd {
+    margin-bottom: 1rem;
+}
+
+dt {
+    text-indent: -0.5rem;
+    position: relative;
+    left: 0.5rem;
+}

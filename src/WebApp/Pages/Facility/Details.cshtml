@@ -108,7 +108,7 @@
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.FacilityAddress, DisplayTemplate.IaipAddress)</dd>
                 @if (facility.FacilityAddress.HasValue)
                 {
-                    <div class="col-sm-12 mb-2">
+                    <div class="col-sm-12 mb-3">
                         <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                             <small>
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.MapPin" />
@@ -135,7 +135,7 @@
                 </dd>
                 @if (facility is { IsPortableSource: false, GeoCoordinates: not null })
                 {
-                    <div class="col-sm-12 mb-2">
+                    <div class="col-sm-12 mb-3">
                         <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                             <small>
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.GeoPin" />
@@ -192,13 +192,13 @@
             <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.ProgramClassificationsAsStrings, DisplayTemplate.StringConcatOrPlaceholder)</dd>
             <dt class="col-sm-4 col-lg-3">Nonattainment status</dt>
             <dd class="col-sm-8 col-lg-9">
-                <dl class="row">
-                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.OneHourOzoneNonattainment)</dt>
-                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.OneHourOzoneNonattainment)</dd>
-                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.EightHourOzoneNonattainment)</dt>
-                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.EightHourOzoneNonattainment)</dd>
-                    <dt class="col-sm-4 col-md-3">@Html.DisplayNameFor(_ => regulatoryData.PmFineNonattainment)</dt>
-                    <dd class="col-sm-8 col-md-9">@Html.DisplayFor(_ => regulatoryData.PmFineNonattainment)</dd>
+                <dl class="row mb-0">
+                    <dt class="col-3">@Html.DisplayNameFor(_ => regulatoryData.OneHourOzoneNonattainment)</dt>
+                    <dd class="col-9">@Html.DisplayFor(_ => regulatoryData.OneHourOzoneNonattainment)</dd>
+                    <dt class="col-3">@Html.DisplayNameFor(_ => regulatoryData.EightHourOzoneNonattainment)</dt>
+                    <dd class="col-9">@Html.DisplayFor(_ => regulatoryData.EightHourOzoneNonattainment)</dd>
+                    <dt class="col-3">@Html.DisplayNameFor(_ => regulatoryData.PmFineNonattainment)</dt>
+                    <dd class="col-9">@Html.DisplayFor(_ => regulatoryData.PmFineNonattainment)</dd>
                 </dl>
             </dd>
         </dl>
