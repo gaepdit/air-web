@@ -1,4 +1,4 @@
-using GaEpd.AppLibrary.Extensions;
+﻿using GaEpd.AppLibrary.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 
@@ -36,6 +36,8 @@ public sealed class ApplicationUser : IdentityUser, IEntity<string>
     // Display properties
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
     public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator();
+
+    public UserPreferences UserPreferences { get; set; }
 
     public string SortableNameWithInactive
     {
