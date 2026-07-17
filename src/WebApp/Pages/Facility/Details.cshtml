@@ -1,4 +1,5 @@
 ﻿@page "{id?}"
+@using AirWeb.AppServices.Compliance.DataExchange
 @using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model DetailsModel
@@ -298,15 +299,18 @@
                     <dt>Most Recent EPA Data Exchange Submittal</dt>
                     <dd>@Html.DisplayFor(_ => Model.EpaDxDate, DisplayTemplate.LongDateTimeNullable,
                             additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
-                    <dt>Trigger EPA data exchange for all facility data</dt>
-                    <dd>
-                        <form method="post" asp-page-handler="RefreshEpa">
-                            <button class="btn btn-sm btn-outline-info mt-1" type="submit">
-                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpToCloud" />
-                                Update EPA Data Exchange
-                            </button>
-                        </form>
-                    </dd>
+                    @if (User.CanRefreshEpaDataExchange())
+                    {
+                        <dt>Trigger EPA data exchange for all facility data</dt>
+                        <dd>
+                            <form method="post" asp-page-handler="RefreshEpa">
+                                <button class="btn btn-sm btn-outline-info mt-1" type="submit">
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpToCloud" />
+                                    Update EPA Data Exchange
+                                </button>
+                            </form>
+                        </dd>
+                    }
                 </dl>
             </details>
         </div>
