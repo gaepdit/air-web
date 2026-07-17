@@ -28,15 +28,9 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
     [TempData]
     public bool RefreshIaipData { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (Id == 0) return RedirectToPage("Index");
-
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
 
         FceView = await fceService.FindAsync(Id, token);
         if (FceView is null) return NotFound();
@@ -57,6 +51,12 @@ public class DetailsModel(IFceService fceService, IAuthorizationService authoriz
             CanDeleteComment = UserCan[ComplianceOperation.DeleteComment],
         };
         return Page();
+    }
+
+    public IActionResult OnPostRefreshIaipAsync()
+    {
+        RefreshIaipData = true;
+        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment, CancellationToken token)

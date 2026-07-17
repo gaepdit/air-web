@@ -17,16 +17,16 @@ public class IndexModel(IFacilityService service) : PageModel
     [RegularExpression(FacilityId.FacilityIdEnclosedPattern, ErrorMessage = FacilityId.FacilityIdFormatError)]
     public string? FindId { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
-
         Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
         return Page();
+    }
+
+    public IActionResult OnPostRefreshIaipAsync()
+    {
+        RefreshIaipData = true;
+        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)

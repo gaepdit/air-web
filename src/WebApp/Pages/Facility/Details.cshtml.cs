@@ -45,15 +45,9 @@ public class DetailsModel(
     // Permissions
     public bool IsComplianceStaff { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
-
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
 
         if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
 
@@ -62,11 +56,13 @@ public class DetailsModel(
         Facility = await facilityService.FindFacilityAsync(facilityId, RefreshIaipData, token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        // Source Test service can be run in parallel with the search services.
+        // Dapper service can be run in parallel.
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
             PaginationDefaults.SourceTestSummary);
 
-        // Search services cannot be run in parallel with each other when using Entity Framework.
+        var epaDxDateTask = facilityService.GetFacilityEpaDxDateAsync(facilityId, token);
+
+        // EF services cannot be run in parallel.
         ComplianceWork = await searchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
             PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
@@ -76,13 +72,19 @@ public class DetailsModel(
         CaseFiles = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
             PaginationDefaults.EnforcementSummary, loadFacilities: false, token: token);
 
-        SourceTests = await sourceTestsForFacilityTask;
-
-        EpaDxDate = await facilityService.GetFacilityEpaDxDateAsync(facilityId, token);
-
         IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
 
+        SourceTests = await sourceTestsForFacilityTask;
+
+        EpaDxDate = await epaDxDateTask;
+
         return Page();
+    }
+
+    public IActionResult OnPostRefreshIaipAsync()
+    {
+        RefreshIaipData = true;
+        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostRefreshEpaAsync()
