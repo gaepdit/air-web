@@ -29,6 +29,19 @@ public interface IFacilityService
     Task<ushort> GetNextActionNumberAsync(FacilityId id);
 
     /// <summary>
+    /// Gets the latest EPA Data Exchange date a given Facility.
+    /// </summary>
+    /// <param name="id">The Facility ID.</param>
+    /// <param name="token"></param>
+    Task<DateTime?> GetFacilityEpaDxDateAsync(FacilityId id, CancellationToken token = default);
+
+    /// <summary>
+    /// Sets the EPA Data Exchange status indicator to "Pending" (U).
+    /// </summary>
+    /// <param name="id">The Facility ID.</param>
+    Task<bool> RefreshEpaDataExchange(FacilityId id);
+
+    /// <summary>
     /// Retrieves all facilities as a Facility summary.
     /// </summary>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>

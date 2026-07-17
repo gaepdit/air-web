@@ -21,8 +21,9 @@ public sealed class IaipFacilityService(
         if (!await ExistsAsync(id).ConfigureAwait(false)) return null;
 
         var key = $"IaipFacilityDetails.{id}";
+        var tag = $"IaipFacility.{id}";
 
-        if (forceRefresh) await cache.RemoveByTagAsync([id.ToString(), FacilityLists], token).ConfigureAwait(false);
+        if (forceRefresh) await cache.RemoveByTagAsync(tags: [tag, FacilityLists], token).ConfigureAwait(false);
         else logger.LogCacheSearch(key);
 
         return await cache.GetOrCreateAsync(key, factory: async _ =>
@@ -30,13 +31,13 @@ public sealed class IaipFacilityService(
                 if (forceRefresh) logger.LogCacheRefresh(key);
                 else logger.LogCacheMiss(key);
 
-                return await GetFacilityFromDb(id).ConfigureAwait(false);
+                return await GetFacilityInternal(id).ConfigureAwait(false);
             },
             CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityExpiration),
-            tags: [id.ToString(), FacilityLists], token).ConfigureAwait(false);
+            tags: [tag, FacilityLists], token).ConfigureAwait(false);
     }
 
-    private async Task<Facility> GetFacilityFromDb(FacilityId id)
+    private async Task<Facility> GetFacilityInternal(FacilityId id)
     {
         using var db = dbf.Create();
 
@@ -79,6 +80,44 @@ public sealed class IaipFacilityService(
         using var db = dbf.Create();
         return await db.ExecuteScalarAsync<ushort>("air.GetIaipFacilityNextActionNumber",
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+    }
+
+    public async Task<DateTime?> GetFacilityEpaDxDateAsync(FacilityId id, CancellationToken token = default)
+    {
+        if (!await ExistsAsync(id).ConfigureAwait(false)) return null;
+
+        var key = $"IaipFacilityEpaDxDate.{id}";
+        var tag = $"IaipFacility.{id}";
+
+        logger.LogCacheSearch(key);
+
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                logger.LogCacheMiss(key);
+                return await GetFacilityEpaDxDateInternal(id).ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityExpiration),
+            tags: [tag], token).ConfigureAwait(false);
+    }
+
+    private async Task<DateTime?> GetFacilityEpaDxDateInternal(FacilityId id)
+    {
+        using var db = dbf.Create();
+        return await db.ExecuteScalarAsync<DateTime?>("etl.GetFacilityEpaDxDate",
+            param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+    }
+
+    public async Task<bool> RefreshEpaDataExchange(FacilityId id)
+    {
+        using var db = dbf.Create();
+
+        var parameters = new DynamicParameters(new { AirsNumber = id.IaipDbId });
+        parameters.Add("@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+        await db.ExecuteAsync("etl.TriggerDataUpdateAtEPA", parameters, commandType: CommandType.StoredProcedure)
+            .ConfigureAwait(false);
+
+        return parameters.Get<int>("@returnValue") == 0;
     }
 
     public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
