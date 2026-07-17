@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Compliance.SourceTests;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
@@ -26,6 +27,8 @@ public class DetailsModel(
     public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public string? EpaFacilityId => Facility?.Id.EpaFacilityId;
+    public DateTime? EpaDxDate { get; private set; }
     public FacilitySummary? FacilitySummary => Facility is null ? null : new FacilitySummary(Facility);
     public string FacilityJson => JsonSerializer.Serialize(FacilitySummary);
 
@@ -75,7 +78,22 @@ public class DetailsModel(
 
         SourceTests = await sourceTestsForFacilityTask;
 
+        EpaDxDate = await facilityService.GetFacilityEpaDxDateAsync(facilityId, token);
+
         IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
+
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostRefreshEpaAsync()
+    {
+        if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
+
+        if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
+        await facilityService.RefreshEpaDataExchange(facilityId);
+
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            "Data for this facility will be sent to EPA the next time the data exchange service runs.");
+        return RedirectToPage();
     }
 }

@@ -1,0 +1,13 @@
+﻿@using AirWeb.AppServices.Core.Utilities
+@model DateTime?
+@{
+    var placeholder = (string?)ViewData["Placeholder"] ?? DefaultText.PlaceholderNotEntered;
+}
+@if (Model is null)
+{
+    <span class="text-body-secondary fw-lighter">@placeholder</span>
+}
+else
+{
+    @Model.Value.ToString(DateTimeFormats.LongDateTime)
+}

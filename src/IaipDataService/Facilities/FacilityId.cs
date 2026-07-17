@@ -39,6 +39,13 @@ public partial record FacilityId
     public string EpaFacilityId => $"GA00000013{Id}";
 
     /// <summary>
+    /// The ID used by the AIRBRANCH database.
+    /// </summary>
+    public string IaipDbId => $"{IaipDbFacilityPrefix}{Id}";
+
+    private const string IaipDbFacilityPrefix = "0413";
+
+    /// <summary>
     /// The 3-digit FIPS county code.
     /// </summary>
     public string CountyCode => Id[..3];
@@ -92,7 +99,7 @@ public partial record FacilityId
             return value.Length switch
             {
                 8 => value,
-                12 when value.StartsWith("0413") => value[4..],
+                12 when value.StartsWith(IaipDbFacilityPrefix) => value[4..],
                 _ => throw new ArgumentException(FacilityIdFormatError),
             };
         }

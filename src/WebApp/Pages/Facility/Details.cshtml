@@ -288,5 +288,29 @@
 }
 
 @section Footer {
+    <div class="bg-body-tertiary border-bottom border-light-subtle text-body-secondary small py-2 d-print-none">
+        <div class="container">
+            <details>
+                <summary class="rounded-1 p-1"><span class="ps-1">Show EPA data exchange info</span></summary>
+                <dl class="mt-2 mb-0 ms-sm-2">
+                    <dt>EPA Facility ID</dt>
+                    <dd>@Model.EpaFacilityId</dd>
+                    <dt>Most Recent EPA Data Exchange Submittal</dt>
+                    <dd>@Html.DisplayFor(_ => Model.EpaDxDate, DisplayTemplate.LongDateTimeNullable,
+                            additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+                    <dt>Trigger EPA data exchange for all facility data</dt>
+                    <dd>
+                        <form method="post" asp-page-handler="RefreshEpa">
+                            <button class="btn btn-sm btn-outline-info mt-1" type="submit">
+                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpToCloud" />
+                                Update EPA Data Exchange
+                            </button>
+                        </form>
+                    </dd>
+                </dl>
+            </details>
+        </div>
+    </div>
+
     <partial name="Shared/_IaipReloadPartial" />
 }
