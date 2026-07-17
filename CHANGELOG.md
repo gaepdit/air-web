@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.7.17] - 2026-07-17
+
+- Add the ability to trigger an update of the EPA data exchange for a facility.
+
 ## [2026.7.9] - 2026-07-09
 
 - Display total collected penalties in the Case File summary section.
@@ -181,5 +185,6 @@
 [2026.6.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.5
 [2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
 [2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18
-
 [2026.7.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.9
+
+[2026.7.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.17
