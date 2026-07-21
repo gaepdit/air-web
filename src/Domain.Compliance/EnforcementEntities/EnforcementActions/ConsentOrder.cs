@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
-using AirWeb.Domain.Core.Data.DataAttributes;
 using AirWeb.Domain.Core.Entities;
+using GaEpd.AppLibrary.DataAttributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;

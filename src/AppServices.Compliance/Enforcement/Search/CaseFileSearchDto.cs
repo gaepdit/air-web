@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 

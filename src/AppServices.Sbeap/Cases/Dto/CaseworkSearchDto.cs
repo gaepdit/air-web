@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

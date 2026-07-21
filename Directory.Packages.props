@@ -10,7 +10,7 @@
     <PackageVersion Include="EfCore.TestSupport" Version="10.0.0" />
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageVersion Include="GaEpd.AppLibrary" Version="7.2.2" />
+      <PackageVersion Include="GaEpd.AppLibrary" Version="7.3.0" />
     <PackageVersion Include="GaEpd.EmailService" Version="1.5.0" />
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageVersion Include="LigerShark.WebOptimizer.Core" Version="3.0.477" />

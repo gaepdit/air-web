@@ -1,5 +1,5 @@
 ﻿using AirWeb.AppServices.Core.Utilities;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
