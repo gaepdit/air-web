@@ -97,7 +97,14 @@ public class BeginModel(
         var result = await caseFileService.CreateAsync(NewCaseFile, token);
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case File successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
-        return RedirectToPage("Details", new { result.Id });
+
+        var caseFile = await caseFileService.FindDetailedAsync(result.Id, token);
+        if (caseFile is null) return BadRequest();
+
+        return caseFile.HasReportableEnforcement &&
+               (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType)
+            ? RedirectToPage("PollutantsPrograms", new { result.Id })
+            : RedirectToPage("Details", new { result.Id });
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token) =>

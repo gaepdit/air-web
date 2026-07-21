@@ -42,11 +42,53 @@
 
         <div class="row">
             <div class="mb-3">
-                @Html.EditorFor(m => m.NewCaseFile.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
+                @Html.EditorFor(m => m.NewCaseFile.CaseFileNotes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
             </div>
         </div>
+
+        <div class="form-floating mb-3">
+            <select class="form-select" asp-for="NewCaseFile.ActionType">
+                <option value="">[None]</option>
+                <option value="LetterOfNoncompliance">Letter of Noncompliance</option>
+                <option value="NoticeOfViolation">Notice of Violation</option>
+                <option value="NovNfaLetter">Combined NOV/NFA Letter</option>
+                <option value="ProposedConsentOrder">Proposed Consent Order</option>
+            </select>
+            <label class="form-label" asp-for="NewCaseFile.ActionType"></label>
+        </div>
+
+        <div class="@(Model.NewCaseFile.ActionType is null ? "d-none" : "") mb-3" id="eaDetails">
+            @Html.EditorFor(m => m.NewCaseFile.EnforcementActionNotes, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
+            <div class="mt-2">
+                @Html.EditorFor(m => m.NewCaseFile.ResponseRequested, EditorTemplate.Checkbox)
+            </div>
+        </div>
+
         <partial name="Shared/_SubmitCancelButtons" />
         <input asp-for="NewCaseFile.FacilityId" type="hidden" />
         <input asp-for="NewCaseFile.EventId" type="hidden" />
     </form>
+
+    <script asp-add-content-to-csp>
+        document.addEventListener('DOMContentLoaded', function () {
+            const eaSelect = document.getElementById('NewCaseFile_ActionType');
+            const eaDetails = document.getElementById('eaDetails');
+            const responseRequestedCheckbox = document.getElementById('NewCaseFile_ResponseRequested').closest('.form-check');
+
+            eaSelect.addEventListener('change', e => {
+                const actionType = e.currentTarget.value;
+                if (actionType === '') {
+                    eaDetails.classList.add('d-none');
+                } else {
+                    eaDetails.classList.remove('d-none');
+                }
+
+                if (['LetterOfNoncompliance', 'NovNfaLetter'].includes(actionType)) {
+                    responseRequestedCheckbox.classList.remove('d-none');
+                } else {
+                    responseRequestedCheckbox.classList.add('d-none');
+                }
+            })
+        });
+    </script>
 </div>
