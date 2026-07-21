@@ -105,6 +105,7 @@ public sealed class CaseFileService(
             var enforcementAction = actionManager.Create(caseFile, actionType, currentUser);
 
             enforcementAction.Notes = resource.EnforcementActionNotes;
+
             if (enforcementAction is IResponseRequested responseRequestedAction)
                 responseRequestedAction.ResponseRequested = resource.ResponseRequested;
         }

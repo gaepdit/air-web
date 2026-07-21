@@ -73,28 +73,11 @@ public class BeginModel(
         if (NewCaseFile.FacilityId is null) return NotFound(FacilityIdNotFound);
         await validator.ApplyValidationAsync(NewCaseFile, ModelState);
 
-        if (NewCaseFile.EventId != null && NewCaseFile.EventId != EventId)
-            return BadRequest();
-
-        if (!ModelState.IsValid)
-        {
-            Facility = await facilityService.FindFacilityAsync((FacilityId)NewCaseFile.FacilityId, token: token);
-            if (Facility is null) return BadRequest(FacilityIdNotFound);
-
-            if (EventId != null)
-            {
-                ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
-
-                if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
-                    !User.CanBeginEnforcement(ComplianceEvent))
-                    return BadRequest();
-            }
-
-            await PopulateSelectListsAsync(token);
-            return Page();
-        }
+        if (NewCaseFile.EventId != null && NewCaseFile.EventId != EventId) return BadRequest();
+        if (!ModelState.IsValid) return await RebuildPageAsync(token);
 
         var result = await caseFileService.CreateAsync(NewCaseFile, token);
+
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement Case File successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
 
@@ -105,6 +88,23 @@ public class BeginModel(
                (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType)
             ? RedirectToPage("PollutantsPrograms", new { result.Id })
             : RedirectToPage("Details", new { result.Id });
+    }
+
+    private async Task<IActionResult> RebuildPageAsync(CancellationToken token)
+    {
+        Facility = await facilityService.FindFacilityAsync((FacilityId)NewCaseFile.FacilityId!, token: token);
+        if (Facility is null) return BadRequest(FacilityIdNotFound);
+
+        if (EventId != null)
+        {
+            ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
+
+            if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
+                !User.CanBeginEnforcement(ComplianceEvent)) return BadRequest();
+        }
+
+        await PopulateSelectListsAsync(token);
+        return Page();
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token) =>
