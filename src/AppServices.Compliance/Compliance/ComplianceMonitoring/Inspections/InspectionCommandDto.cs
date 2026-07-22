@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.DataAttributes;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
 

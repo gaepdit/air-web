@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Core.Utilities;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 
