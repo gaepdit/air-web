@@ -29,7 +29,9 @@ public class LoginModel(
     public async Task<IActionResult> OnPostAsync(string scheme, string? returnUrl = null)
     {
         if (User.Identity is { IsAuthenticated: true }) return RedirectToPage("Logout");
-        if (scheme == LoginProviders.TestUserScheme) return await LogInAsTestUserAsync(returnUrl);
+
+        if (AppSettings.TestUserEnabled && scheme == LoginProviders.TestUserScheme)
+            return await LogInAsTestUserAsync(returnUrl);
 
         if (!configuration.ValidateLoginProvider(scheme))
             throw new ArgumentException("Invalid scheme", nameof(scheme));
