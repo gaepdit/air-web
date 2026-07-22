@@ -3,6 +3,7 @@ using AirWeb.Domain.Core.Entities;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace AirWeb.WebApp.Pages.Account;
 
@@ -20,7 +21,7 @@ public class LoginModel(
 
     public IActionResult OnGet(string? returnUrl = null)
     {
-        ReturnUrl = returnUrl;
+        ReturnUrl = WebUtility.HtmlEncode(returnUrl);
         ConfigurePageVariables();
         if (User.Identity is not { IsAuthenticated: true }) return Page();
         return User.IsActive() ? LocalRedirectOrHome() : RedirectToPage("Logout");
@@ -44,10 +45,9 @@ public class LoginModel(
 
     public async Task<IActionResult> LogInAsTestUserAsync(string? returnUrl = null)
     {
-        if (!AppSettings.TestUserEnabled) return BadRequest();
         if (!AppSettings.DevSettings.TestUserIsAuthenticated) return Forbid();
 
-        ReturnUrl = returnUrl;
+        ReturnUrl = WebUtility.HtmlEncode(returnUrl);
         await authenticationManager.LogInAsTestUserAsync(AppSettings.DevSettings.TestUserRoles);
         return LocalRedirectOrHome();
     }
@@ -55,7 +55,7 @@ public class LoginModel(
     // The callback method is called by the external login provider.
     public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
     {
-        ReturnUrl = returnUrl;
+        ReturnUrl = WebUtility.HtmlEncode(returnUrl);
         if (remoteError is not null)
             return LoginPageWithError($"Error from account provider: {remoteError}");
         var result = await authenticationManager.LogInUsingExternalProviderAsync();
