@@ -82,8 +82,8 @@ public class DetailsModel(
 
         HighlightEnforcementId = await actionService.CreateAsync(Id, CreateEnforcementAction, token);
 
-        return (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType) &&
-               CreateEnforcementAction.IsReportableAction
+        return CreateEnforcementAction.IsReportableAction &&
+               (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType)
             ? RedirectToPage("PollutantsPrograms", new { Id })
             : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
