@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.7.22] - 2026-07-22
+
+- Updated some back-end code.
+
 ## [2026.7.17] - 2026-07-17
 
 - Add the ability to trigger an update of the EPA data exchange for a facility.
@@ -11,7 +15,7 @@
 
 ## [2026.6.18] - 2026-06-18
 
-- Boring back end code updates.
+- Updated some back-end code.
 
 ## [2026.6.16] - 2026-06-16
 
@@ -186,5 +190,5 @@
 [2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
 [2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18
 [2026.7.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.9
-
 [2026.7.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.17
+[2026.7.22]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.22
