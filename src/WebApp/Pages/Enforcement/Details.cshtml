@@ -561,11 +561,11 @@
                                 case CoViewDto dto:
                                     <partial name="_Partials/_CoDetails" model="dto" />
                                     break;
-                                case ProposedCoViewDto dto:
-                                    <partial name="_Partials/_ProposedCoDetails" model="dto" />
-                                    break;
                                 case ResponseRequestedViewDto dto:
                                     <partial name="_Partials/_ResponseRequestedDetails" model="dto" />
+                                    break;
+                                case ResponseViewDto dto:
+                                    <partial name="_Partials/_ResponseDetails" model="dto" />
                                     break;
                             }
                         </div>
