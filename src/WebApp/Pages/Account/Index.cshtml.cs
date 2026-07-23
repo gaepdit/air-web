@@ -1,8 +1,10 @@
-using AirWeb.AppServices.Core.AuthorizationServices;
+﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Domain.Core.AppRoles;
+using AirWeb.Domain.Core.Entities;
 using AirWeb.WebApp.Models;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace AirWeb.WebApp.Pages.Account;
 
@@ -10,6 +12,7 @@ namespace AirWeb.WebApp.Pages.Account;
 public class AccountIndexModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = null!;
+    public UserPreferences Preferences { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
     public IReadOnlyList<AppRole> Roles { get; private set; } = null!;
 
@@ -17,6 +20,7 @@ public class AccountIndexModel : PageModel
     {
         DisplayStaff = await staffService.GetCurrentUserAsync();
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
+        
 
         if (DisplayStaff.Office is null)
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,

@@ -31,6 +31,7 @@ public interface IStaffService : IDisposable, IAsyncDisposable
     Task<IReadOnlyList<AppRole>> GetAppRolesAsync(string id);
     Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles);
     Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource);
+    Task<UserPreferences> GetPreferencesAsync();
 }
 
 public sealed class StaffService(
@@ -175,7 +176,13 @@ public sealed class StaffService(
         await cache.RemoveByTagAsync(CachedStaffLists).ConfigureAwait(false);
         return await userManager.UpdateAsync(user).ConfigureAwait(false);
     }
+    public async Task<UserPreferences> GetPreferencesAsync()
+    {
+        var user = await userService.GetCurrentUserAsync().ConfigureAwait(false)
+                   ?? throw new CurrentUserNotFoundException();
 
+        return user.Preferences ?? new UserPreferences();
+    }
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()
