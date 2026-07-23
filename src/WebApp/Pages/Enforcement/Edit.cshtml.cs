@@ -7,7 +7,6 @@ using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Enforcement;

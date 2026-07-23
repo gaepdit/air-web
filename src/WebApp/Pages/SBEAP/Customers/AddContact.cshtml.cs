@@ -3,7 +3,6 @@ using AirWeb.AppServices.Sbeap.Customers;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
 using AirWeb.Domain.Core.Data;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.SBEAP.Customers;
 

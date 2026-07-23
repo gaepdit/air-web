@@ -7,7 +7,6 @@ using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.Facilities;
 

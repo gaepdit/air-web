@@ -4,7 +4,6 @@ using AirWeb.AppServices.Sbeap.Customers.Dto;
 using AirWeb.AppServices.Sbeap.Customers.Permissions;
 using AirWeb.Domain.Core.Data;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.SBEAP.Customers;
