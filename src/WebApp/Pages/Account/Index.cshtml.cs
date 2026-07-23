@@ -20,7 +20,7 @@ public class AccountIndexModel : PageModel
     {
         DisplayStaff = await staffService.GetCurrentUserAsync();
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-        
+        Preferences = await staffService.GetPreferencesAsync();
 
         if (DisplayStaff.Office is null)
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
