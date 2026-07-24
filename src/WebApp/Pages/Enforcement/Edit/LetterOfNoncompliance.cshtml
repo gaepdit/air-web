@@ -34,10 +34,6 @@
             @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
         </div>
 
-        <div class="mb-3">
-            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
-        </div>
-
         @if (Model.ShowIssueDate)
         {
             <div class="row">
@@ -49,6 +45,42 @@
                 </div>
             </div>
         }
+
+        <h3 class="h5">Response Details</h3>
+
+        <div class="mb-3">
+            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
+        </div>
+
+        @if (Model.ShowResponse)
+        {
+            <div class="mb-3">
+                @Html.EditorFor(m => m.Item.IsResponseReceived, EditorTemplate.Checkbox)
+            </div>
+            <div class="@(Model.Item.IsResponseReceived ? "" : "d-none")" id="responseDetails">
+                <div class="mb-3">
+                    @Html.EditorFor(model => model.Item.ResponseReceived, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(m => m.Item.ResponseComment, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
+                </div>
+            </div>
+        }
+        
+        <script asp-add-content-to-csp>
+            document.addEventListener('DOMContentLoaded', function () {
+                const responseCheck = document.getElementById('Item_IsResponseReceived');
+                const responseDetails = document.getElementById('responseDetails');
+
+                responseCheck.addEventListener('change', function () {
+                    if (this.checked) {
+                        responseDetails.classList.remove('d-none');
+                    } else {
+                        responseDetails.classList.add('d-none');
+                    }
+                })
+            });
+        </script>
 
         <partial name="Shared/_SubmitCancelButtons" />
     </form>

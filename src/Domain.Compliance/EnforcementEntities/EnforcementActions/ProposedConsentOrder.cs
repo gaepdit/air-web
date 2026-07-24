@@ -3,7 +3,7 @@ using AirWeb.Domain.Core.Entities;
 
 namespace AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 
-public class ProposedConsentOrder : DxActionEnforcementAction, IInformalEnforcementAction, IResponseRequested
+public class ProposedConsentOrder : DxActionEnforcementAction, IInformalEnforcementAction, IResponse
 {
     // Constructors
     [UsedImplicitly] // Used by ORM.

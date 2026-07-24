@@ -176,7 +176,8 @@ public class AutoMapperProfile : Profile
         CreateMap<InformationalLetter, ResponseRequestedViewDto>();
         CreateMap<LetterOfNoncompliance, LonViewDto>();
         CreateMap<LonViewDto, LetterOfNoncomplianceEditDto>();
-        CreateMap<LetterOfNoncomplianceEditDto, LetterOfNoncompliance>(MemberList.Source);
+        CreateMap<LetterOfNoncomplianceEditDto, LetterOfNoncompliance>(MemberList.Source)
+            .ForSourceMember(dto => dto.IsResponseReceived, expression => expression.DoNotValidate());
 
         CreateMap<NoFurtherActionLetter, ActionViewDto>();
         CreateMap<NoticeOfViolation, NovViewDto>();
