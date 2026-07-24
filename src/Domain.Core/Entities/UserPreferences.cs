@@ -10,12 +10,7 @@ public class UserPreferences
 }
 public enum ThemePreference
 {
-    [Display(Name = "Auto")]
     Auto = 0,
-
-    [Display(Name = "Light")]
     Light = 1,
-
-    [Display(Name = "Dark")]
     Dark = 2,
 }
