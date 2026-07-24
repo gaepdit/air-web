@@ -6,7 +6,7 @@ namespace AirWeb.Domain.Core.Entities;
 
 public class UserPreferences
 {
-    public ThemePreference Theme { get; set; } = ThemePreference.Auto;
+    public ThemePreference Theme { get; set; } = ThemePreference.Dark;
 }
 public enum ThemePreference
 {

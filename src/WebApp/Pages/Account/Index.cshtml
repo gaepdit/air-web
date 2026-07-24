@@ -27,8 +27,13 @@
     <dt class="col-sm-3">Office</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
                 additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+    <dt class="col-sm-3">Theme</dt>
+    <dd class="col-sm-9">
+        @Model.Preferences.Theme
+    </dd>
 </dl>
 <div class="mb-3">
+
     <label class="form-label">Theme</label>
 
     <div class="btn-group" role="group" aria-label="Theme selection">
