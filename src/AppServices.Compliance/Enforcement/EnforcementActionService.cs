@@ -37,6 +37,7 @@ public sealed class EnforcementActionService(
         var enforcementAction = actionManager.Create(caseFile, resource.ActionType, currentUser);
 
         enforcementAction.Notes = resource.Notes;
+
         if (enforcementAction is IResponseRequested responseRequestedAction)
             responseRequestedAction.ResponseRequested = resource.ResponseRequested;
 
@@ -130,8 +131,25 @@ public sealed class EnforcementActionService(
             entity.IssueDate = resource.IssueDate;
 
         entity.Notes = resource.Notes;
+
         if (entity is IResponseRequested responseRequested)
             responseRequested.ResponseRequested = resource.ResponseRequested;
+
+        if (entity is IResponse response)
+        {
+            // Only save response data if the EA has been issued.
+            if (entity.IsIssued && resource.IsResponseReceived)
+            {
+                response.ResponseReceived = resource.ResponseReceived;
+                response.ResponseComment = resource.ResponseComment;
+            }
+            else
+            {
+                response.ResponseReceived = null;
+                response.ResponseComment = null;
+            }
+        }
+
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 
@@ -142,10 +160,23 @@ public sealed class EnforcementActionService(
                 token: token).ConfigureAwait(false);
 
         // Don't allow issued date to be changed from null to not-null or vice versa.
-        if (entity.IsIssued) resource.IssueDate ??= entity.IssueDate;
-        else resource.IssueDate = null;
+        if (entity.IssueDate.HasValue && resource.IssueDate.HasValue)
+            entity.IssueDate = resource.IssueDate;
 
         mapper.Map(resource, entity);
+
+        // Only save response data if the LON has been issued.
+        if (entity.IsIssued && resource.IsResponseReceived)
+        {
+            entity.ResponseReceived = resource.ResponseReceived;
+            entity.ResponseComment = resource.ResponseComment;
+        }
+        else
+        {
+            entity.ResponseReceived = null;
+            entity.ResponseComment = null;
+        }
+
         await FinishUpdateAsync(entity, token).ConfigureAwait(false);
     }
 

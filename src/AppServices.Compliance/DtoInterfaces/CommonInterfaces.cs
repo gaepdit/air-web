@@ -18,8 +18,3 @@ public interface IHasOwner
 {
     public string OwnerId { get; }
 }
-
-public interface IResponseRequested
-{
-    public bool ResponseRequested { get; init; }
-}

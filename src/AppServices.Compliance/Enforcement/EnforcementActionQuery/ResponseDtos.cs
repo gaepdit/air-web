@@ -1,8 +1,6 @@
-﻿using AirWeb.AppServices.Compliance.DtoInterfaces;
+﻿namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 
-namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
-
-public record ResponseRequestedViewDto : ResponseViewDto, IResponseRequested
+public record ResponseRequestedViewDto : ResponseViewDto
 {
     [Display(Name = "Response Requested")]
     public bool ResponseRequested { get; init; }

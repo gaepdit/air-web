@@ -69,9 +69,11 @@ public class ConsentOrderEditModel(
         }
 
         await actionService.UpdateAsync(Id, Item, token);
+
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
+
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
             fragment: Id.ToString());
     }

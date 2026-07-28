@@ -5,15 +5,16 @@ namespace AppServicesTests.Compliance.Enforcement.Validators;
 
 public class LetterOfNoncomplianceValidatorTests
 {
+    private readonly LetterOfNoncomplianceEditValidator _validator = new(new EnforcementActionEditValidator());
+
     [Test]
     public async Task DefaultValuedDto_ReturnsAsValid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto();
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -23,7 +24,6 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task DtoWithValidDates_ReturnsAsValid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today),
@@ -31,7 +31,7 @@ public class LetterOfNoncomplianceValidatorTests
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -41,14 +41,13 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task DtoWithOnlyIssuedDate_ReturnsAsValid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeTrue();
@@ -58,14 +57,13 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task IssueDateInFuture_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeFalse();
@@ -75,7 +73,6 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task ResolvedDateInFuture_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today),
@@ -83,7 +80,7 @@ public class LetterOfNoncomplianceValidatorTests
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeFalse();
@@ -93,14 +90,13 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task ResolvedWhenNotIssued_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             ResolvedDate = DateOnly.FromDateTime(DateTime.Today),
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeFalse();
@@ -110,7 +106,6 @@ public class LetterOfNoncomplianceValidatorTests
     public async Task ResolvedDateBeforeIssued_ReturnsAsInvalid()
     {
         // Arrange
-        var validator = new LetterOfNoncomplianceEditValidator();
         var model = new LetterOfNoncomplianceEditDto
         {
             IssueDate = DateOnly.FromDateTime(DateTime.Today),
@@ -118,7 +113,97 @@ public class LetterOfNoncomplianceValidatorTests
         };
 
         // Act
-        var result = await validator.TestValidateAsync(model);
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task ResponseDateInFuture_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new LetterOfNoncomplianceEditDto
+        {
+            IssueDate = DateOnly.FromDateTime(DateTime.Today),
+            IsResponseReceived = true,
+            ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task ResponseDateBeforeIssueDate_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new LetterOfNoncomplianceEditDto
+        {
+            IssueDate = DateOnly.FromDateTime(DateTime.Today),
+            IsResponseReceived = true,
+            ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task ResponseDateBeforeIssueDate_WhenIsResponseReceivedIsFalse_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new LetterOfNoncomplianceEditDto
+        {
+            IssueDate = DateOnly.FromDateTime(DateTime.Today),
+            IsResponseReceived = false,
+            ResponseReceived = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task ResponseDateNull_WhenIsResponseReceived_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new LetterOfNoncomplianceEditDto
+        {
+            IssueDate = DateOnly.FromDateTime(DateTime.Today),
+            IsResponseReceived = true,
+            ResponseReceived = null,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task IsResponseReceived_WhenNotIssued_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new LetterOfNoncomplianceEditDto
+        {
+            IssueDate = null,
+            IsResponseReceived = true,
+            ResponseReceived = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
 
         // Assert
         result.IsValid.Should().BeFalse();

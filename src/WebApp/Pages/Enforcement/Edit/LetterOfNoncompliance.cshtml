@@ -34,10 +34,6 @@
             @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, new { Rows = 5 })
         </div>
 
-        <div class="mb-3">
-            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
-        </div>
-
         @if (Model.ShowIssueDate)
         {
             <div class="row">
@@ -48,6 +44,31 @@
                     @Html.EditorFor(model => model.Item.ResolvedDate, EditorTemplate.InputDateOnlyNullable)
                 </div>
             </div>
+        }
+
+        <h3 class="h5">Response Details</h3>
+
+        <div class="mb-3">
+            @Html.EditorFor(m => m.Item.ResponseRequested, EditorTemplate.Checkbox)
+        </div>
+
+        @if (Model.ShowResponse)
+        {
+            <div class="mb-3">
+                @Html.EditorFor(m => m.Item.IsResponseReceived, EditorTemplate.Checkbox)
+            </div>
+            <div class="@(Model.Item.IsResponseReceived ? "" : "d-none")" id="responseDetails">
+                <div class="mb-3">
+                    @Html.EditorFor(model => model.Item.ResponseReceived, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(m => m.Item.ResponseComment, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
+                </div>
+            </div>
+        }
+
+        @section Scripts {
+            <script src="~/js/compliance/responseDetailsSection.js"></script>
         }
 
         <partial name="Shared/_SubmitCancelButtons" />
