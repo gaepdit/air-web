@@ -36,7 +36,7 @@ public class EnforcementActionManager(
     // Common update methods
     public void AddResponse(EnforcementAction action, DateOnly responseDate, string? comment, ApplicationUser? user)
     {
-        if (action is not IResponseRequested responseRequested) throw new InvalidOperationException();
+        if (action is not IResponse responseRequested) throw new InvalidOperationException();
         action.SetUpdater(user?.Id);
         responseRequested.ResponseReceived = responseDate;
         responseRequested.ResponseComment = comment;
