@@ -184,7 +184,7 @@ public sealed class EnforcementActionService(
         await actionRepository.UpdateAsync(entity, token: token).ConfigureAwait(false);
     }
 
-    public async Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default)
+    public async Task AddResponse(Guid id, EnforcementActionAddResponseDto resource, CancellationToken token = default)
     {
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var enforcementAction = await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
