@@ -49,7 +49,7 @@ public class BeginModel(
 
         if (EventId != null)
         {
-            ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
+            ComplianceEvent = await service.FindAsync(EventId.Value, includeComments: false, token);
             if (ComplianceEvent is null) return NotFound("Compliance event not found.");
             if (ComplianceEvent.FacilityId != FacilityId) return BadRequest();
             if (!User.CanBeginEnforcement(ComplianceEvent)) return Forbid();
@@ -82,7 +82,7 @@ public class BeginModel(
 
             if (EventId != null)
             {
-                ComplianceEvent = await service.FindAsync(EventId!.Value, includeComments: false, token);
+                ComplianceEvent = await service.FindAsync(EventId.Value, includeComments: false, token);
 
                 if (ComplianceEvent is null || ComplianceEvent.FacilityId != FacilityId ||
                     !User.CanBeginEnforcement(ComplianceEvent))

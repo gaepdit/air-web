@@ -309,7 +309,7 @@ public sealed class EnforcementActionService(
         Guard.NotNull(resource.ReceivedDate);
         var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var consentOrder = (ConsentOrder)await actionRepository.GetAsync(id, token: token).ConfigureAwait(false);
-        var penalty = actionManager.AddStipulatedPenalty(consentOrder, resource.Amount, resource.ReceivedDate!.Value,
+        var penalty = actionManager.AddStipulatedPenalty(consentOrder, resource.Amount, resource.ReceivedDate.Value,
             currentUser);
         penalty.Notes = resource.Notes;
         await actionRepository.UpdateAsync(consentOrder, token: token).ConfigureAwait(false);
