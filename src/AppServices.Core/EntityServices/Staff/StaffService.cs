@@ -32,6 +32,8 @@ public interface IStaffService : IDisposable, IAsyncDisposable
     Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles);
     Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource);
     Task<UserPreferences> GetPreferencesAsync();
+    Task UpdateThemePreferenceAsync(ThemePreference theme);
+    
 }
 
 public sealed class StaffService(
@@ -182,6 +184,14 @@ public sealed class StaffService(
                    ?? throw new CurrentUserNotFoundException();
 
         return user.Preferences ?? new UserPreferences();
+    }
+    public async Task UpdateThemePreferenceAsync(ThemePreference theme)
+    {
+        var user = await userService.GetCurrentUserAsync()
+            ?? throw new CurrentUserNotFoundException();
+
+        user.Preferences.Theme = theme;
+        await userManager.UpdateAsync(user);
     }
     #region IDisposable,  IAsyncDisposable
 
