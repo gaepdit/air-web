@@ -1,5 +1,6 @@
 ﻿@page
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using AirWeb.Domain.Core.Entities
 @model AccountIndexModel
 @{
     ViewData["Title"] = "Account Profile";
@@ -27,32 +28,59 @@
     <dt class="col-sm-3">Office</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
                 additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+    
     <dt class="col-sm-3">Theme</dt>
     <dd class="col-sm-9">
         @Model.Preferences.Theme
     </dd>
 </dl>
-<div class="mb-3">
+
+<form method = "post">
 
     <label class="form-label">Theme</label>
 
     <div class="btn-group" role="group" aria-label="Theme selection">
-        <input type="radio" class="btn-check" name="Theme" id="themeLight" value="light">
+
+        <input class="btn-check"
+               type="radio"
+               name="theme"
+               id="themeLight"
+               value="@ThemePreference.Light"
+               checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
+        
         <label class="btn btn-outline-secondary" for="themeLight">
             Light
         </label>
 
-        <input type="radio" class="btn-check" name="Theme" id="themeDark" value="dark">
+        <input class="btn-check"
+               type="radio"
+               name="theme"
+               id="themeDark"
+               value="@ThemePreference.Dark"
+               checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
+        
         <label class="btn btn-outline-secondary" for="themeDark">
             Dark
         </label>
 
-        <input type="radio" class="btn-check" name="Theme" id="themeAuto" value="auto">
+        <input class="btn-check"
+               type="radio"
+               name="theme"
+               id="themeAuto"
+               value="@ThemePreference.Auto"
+               checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
+        
         <label class="btn btn-outline-secondary" for="themeAuto">
             Auto
         </label>
     </div>
-</div>
+
+    <button type="submit" class="btn btn-primary">
+        Save THeme
+    </button>
+
+</form>
+
 <div class="mb-3">
     @if (Model.DisplayStaff is { Active: true, Email: not null })
     {
