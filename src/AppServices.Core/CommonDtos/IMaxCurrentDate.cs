@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace AirWeb.AppServices.Core.CommonDtos;
+﻿namespace AirWeb.AppServices.Core.CommonDtos;
 
 public interface IMaxCurrentDate
 {

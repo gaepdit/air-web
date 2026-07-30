@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 
 public record CustomerSearchResultDto

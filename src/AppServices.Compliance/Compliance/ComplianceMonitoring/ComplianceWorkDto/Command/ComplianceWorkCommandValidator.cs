@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 
 // Used by both ComplianceWork create and update validators.

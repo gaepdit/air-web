@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AirWeb.AppServices.Sbeap.Cases.Dto;
+﻿namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 
 public record ActionItemUpdateDto
 {

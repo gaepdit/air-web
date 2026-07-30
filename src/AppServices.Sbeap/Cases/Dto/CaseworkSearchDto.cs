@@ -3,7 +3,6 @@ using AirWeb.AppServices.Sbeap.Customers.Dto;
 using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Sbeap.Cases.Dto;

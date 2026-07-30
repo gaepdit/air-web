@@ -1,5 +1,4 @@
 ﻿using AirWeb.Domain.Core.ValueObjects;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 

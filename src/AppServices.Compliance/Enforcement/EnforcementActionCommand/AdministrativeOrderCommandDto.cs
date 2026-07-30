@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.Utilities;
-using FluentValidation;
 using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;

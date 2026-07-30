@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Sbeap.Customers.Dto;
 using AirWeb.Domain.Core.Data;
 using AirWeb.Domain.Sbeap.Entities.Customers;
-using FluentValidation;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Validators;
 

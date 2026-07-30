@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Sbeap.Cases.Dto;
-using FluentValidation;
 
 namespace AirWeb.AppServices.Sbeap.Cases.Validators;
 

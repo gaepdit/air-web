@@ -6,7 +6,6 @@ using AirWeb.Domain.Sbeap.Entities.ActionItemTypes;
 using AirWeb.Domain.Sbeap.Entities.Agencies;
 using AirWeb.Domain.Sbeap.Entities.Cases;
 using AirWeb.Domain.Sbeap.Entities.Customers;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.Sbeap;

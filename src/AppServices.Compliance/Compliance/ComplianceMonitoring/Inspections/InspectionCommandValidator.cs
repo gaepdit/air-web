@@ -1,5 +1,4 @@
 using AirWeb.Domain.Compliance;
-using FluentValidation;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
 
@@ -20,7 +19,8 @@ public class InspectionCommandValidator : AbstractValidator<InspectionCommandDto
             .Must(date => date <= today)
             .WithMessage("The Inspection End Date cannot be in the future.")
             .Must(date => date.Year >= ComplianceConstants.EarliestComplianceWorkYear)
-            .WithMessage($"The Inspection End Date cannot be earlier than {ComplianceConstants.EarliestComplianceWorkYear}.")
+            .WithMessage(
+                $"The Inspection End Date cannot be earlier than {ComplianceConstants.EarliestComplianceWorkYear}.")
             .Must((dto, date) => date.ToDateTime(dto.InspectionEndedTime) >=
                                  dto.InspectionStartedDate.ToDateTime(dto.InspectionStartedTime))
             .WithMessage("The Inspection End Date must be later than the Start Date.");
