@@ -28,4 +28,9 @@ public class AccountIndexModel : PageModel
 
         return Page();
     }
+    public async Task<IActionResult> OnPostAsync(ThemePreference theme, [FromServices] IStaffService staffservice)
+    {
+        await staffservice.UpdateThemePreferenceAsync(theme);
+        return RedirectToPage();
+    }
 }
