@@ -30,12 +30,8 @@ public class LoginModel(
     public async Task<IActionResult> OnPostAsync(string scheme, string? returnUrl = null)
     {
         if (User.Identity is { IsAuthenticated: true }) return RedirectToPage("Logout");
-
-        if (AppSettings.TestUserEnabled && scheme == LoginProviders.TestUserScheme)
-            return await LogInAsTestUserAsync(returnUrl);
-
-        if (!configuration.ValidateLoginProvider(scheme))
-            throw new ArgumentException("Invalid scheme", nameof(scheme));
+        if (scheme == LoginProviders.TestUserScheme) return await LogInAsTestUserAsync(returnUrl);
+        if (!configuration.ValidateLoginProvider(scheme)) throw new ArgumentException("Invalid scheme", nameof(scheme));
 
         // Request a redirect to the external login provider.
         var redirectUrl = Url.Page("Login", pageHandler: "Callback", values: new { returnUrl });
@@ -45,6 +41,7 @@ public class LoginModel(
 
     public async Task<IActionResult> LogInAsTestUserAsync(string? returnUrl = null)
     {
+        if (!AppSettings.TestUserEnabled) return BadRequest();
         if (!AppSettings.DevSettings.TestUserIsAuthenticated) return Forbid();
 
         ReturnUrl = WebUtility.HtmlEncode(returnUrl);
