@@ -24,6 +24,17 @@ public record CaseFileCreateDto
 
     [DataType(DataType.MultilineText)]
     [StringLength(7000)]
-    [Display(Name = "Notes")]
-    public string? Notes { get; init; }
+    [Display(Name = "Case File Notes")]
+    public string? CaseFileNotes { get; init; }
+
+    [Display(Name = "Initial Enforcement Action (optional)")]
+    public string? ActionType { get; init; }
+
+    [Display(Name = "Response Requested")]
+    public bool ResponseRequested { get; init; } = true;
+
+    [DataType(DataType.MultilineText)]
+    [StringLength(7000)]
+    [Display(Name = "Enforcement Action Notes")]
+    public string? EnforcementActionNotes { get; init; }
 }

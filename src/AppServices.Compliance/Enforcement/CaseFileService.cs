@@ -22,6 +22,7 @@ public sealed class CaseFileService(
     IMapper mapper,
     ICaseFileRepository caseFileRepository,
     ICaseFileManager caseFileManager,
+    IEnforcementActionManager actionManager,
     IComplianceWorkRepository repository,
     ICaseFileCommentService commentService,
     IFacilityService facilityService,
@@ -87,13 +88,26 @@ public sealed class CaseFileService(
 
         caseFile.ResponsibleStaff = await userService.FindUserAsync(resource.ResponsibleStaffId!).ConfigureAwait(false);
         caseFile.DiscoveryDate = resource.DiscoveryDate;
-        caseFile.Notes = resource.Notes ?? string.Empty;
+        caseFile.Notes = resource.CaseFileNotes ?? string.Empty;
 
         if (resource.EventId != null &&
             await repository.GetAsync(resource.EventId.Value, token: token).ConfigureAwait(false)
                 is ComplianceEvent complianceEvent)
         {
             caseFileManager.LinkComplianceEvent(caseFile, complianceEvent, currentUser);
+        }
+
+        string[] allowedAction = ["LetterOfNoncompliance", "NoticeOfViolation", "NovNfaLetter", "ProposedConsentOrder"];
+
+        if (allowedAction.Contains(resource.ActionType) &&
+            Enum.TryParse(resource.ActionType, out EnforcementActionType actionType))
+        {
+            var enforcementAction = actionManager.Create(caseFile, actionType, currentUser);
+
+            enforcementAction.Notes = resource.EnforcementActionNotes;
+
+            if (enforcementAction is IResponseRequested responseRequestedAction)
+                responseRequestedAction.ResponseRequested = resource.ResponseRequested;
         }
 
         await caseFileRepository.InsertAsync(caseFile, token: token).ConfigureAwait(false);

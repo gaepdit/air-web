@@ -46,7 +46,6 @@ internal static class SecurityHeaders
     private static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
         policies
-            .AddFrameOptionsDeny()
             .AddContentTypeOptionsNoSniff()
             .AddReferrerPolicyStrictOriginWhenCrossOrigin()
             .RemoveServerHeader()
@@ -81,7 +80,10 @@ internal static class SecurityHeaders
         builder.AddFormAction().Self()
             .From("https://login.microsoftonline.com");
         builder.AddManifestSrc().Self();
-        builder.AddFrameAncestors().None();
+        builder.AddFrameAncestors()
+            .From("https://aux.gaepd.org")
+            .From("https://uat-aux.gaepd.org")
+            .From("https://dev-aux.gaepd.org");
         builder.AddWorkerSrc().Blob()
             .From("https://www.datadoghq-browser-agent.com/us3/v6/");
 
