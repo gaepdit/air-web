@@ -18,7 +18,43 @@
 <h1>Compliance Event Linking</h1>
 
 <section class="mt-4">
-    <h2 class="h4">Linked Discovery Events</h2>
+    <div class="row justify-content-between align-items-baseline mb-2">
+        <div class="col-md">
+            <h2 class="h4">Linked Discovery Events</h2>
+        </div>
+        <div class="col-md-auto mt-2 mt-md-0 ms-md-3 btn-group d-print-none">
+            <div class="btn-group">
+                <button class="btn btn-outline-primary btn-sm dropdown-toggle icon-link" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Plus" />
+                    New Compliance Work
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/ACC" asp-route-caseFileId="@Model.Id">
+                            New ACC
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-caseFileId="@Model.Id">
+                            New Inspection
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Inspection" asp-route-caseFileId="@Model.Id" asp-route-isRmp="true">
+                            New RMP Inspection
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-page="/Compliance/Work/Add/Report" asp-route-caseFileId="@Model.Id">
+                            New Report
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     @if (!Model.LinkedComplianceEvents.Any())
     {
         <p class="border rounded-3 p-3 mt-3">
@@ -43,7 +79,7 @@
                     <tbody>
                     @foreach (var item in Model.LinkedComplianceEvents)
                     {
-                        <tr>
+                        <tr class="@(item.Id == Model.HighlightId ? "table-info border-info" : "")">
                             <th data-label="Tracking #" scope="row">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-sm btn-outline-primary ms-1 ms-md-0" target="_blank">
@@ -102,14 +138,14 @@
                     <tbody>
                     @foreach (var item in Model.AvailableComplianceEvents)
                     {
-                        <tr>
+                        <tr class="@(item.Id == Model.HighlightId ? "table-info border-info" : "")">
                             <th data-label="Tracking #" scope="row">
                                 <a asp-page="/Compliance/Work/Details" asp-route-id="@item.Id.ToString()"
                                    class="btn btn-sm btn-outline-primary ms-1 ms-md-0" target="_blank">
                                     @item.Id.ToString()
                                 </a>
                             </th>
-                            <td data-label="Work Type" >@item.ComplianceWorkType.GetDisplayName()</td>
+                            <td data-label="Work Type">@item.ComplianceWorkType.GetDisplayName()</td>
                             <td data-label="Event Date">
                                 <span class="text-nowrap">@Html.DisplayFor(_ => item.EventDate, DisplayTemplate.ShortDateOnly)</span>
                                 <span class="d-md-block">@item.EventDateName</span>

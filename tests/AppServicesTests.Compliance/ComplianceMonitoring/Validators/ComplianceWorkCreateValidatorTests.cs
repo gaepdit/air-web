@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.ComplianceWorkDto.Command;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.PermitRevocations;
+using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
 using AirWeb.TestData.SampleData;
 using FluentValidation.TestHelper;
 
@@ -11,7 +12,7 @@ public class ComplianceWorkCreateValidatorTests
     private static readonly ComplianceWorkCreateValidator CreateValidator = new(ComplianceWorkCommandValidator);
 
     [Test]
-    public async Task ValidDto_ReturnsAsValid()
+    public async Task ValidDtoWithFacilityId_ReturnsAsValid()
     {
         // Arrange
         var model = new PermitRevocationCreateDto
@@ -28,7 +29,24 @@ public class ComplianceWorkCreateValidatorTests
     }
 
     [Test]
-    public async Task MissingFacilityId_ReturnsAsInvalid()
+    public async Task ValidDtoWithCaseFileId_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new ReportCreateDto
+        {
+            CaseFileId = 1,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+        };
+
+        // Act
+        var result = await CreateValidator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task MissingFacilityIdAndCaseFileId_ReturnsAsInvalid()
     {
         // Arrange
         var model = new PermitRevocationCreateDto
@@ -42,7 +60,6 @@ public class ComplianceWorkCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.FacilityId);
     }
 
     [Test]

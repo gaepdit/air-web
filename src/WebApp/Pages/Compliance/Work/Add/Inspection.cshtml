@@ -9,10 +9,16 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<p class="lead">
-    For Facility:
+<p class="lead">For Facility:
     <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
 </p>
+@if (Model.CaseFile is not null)
+{
+    <div class="p-3 border border-info rounded-3 bg-info-subtle mb-3">
+        This @Model.WorkType.GetDisplayName() will be linked to Enforcement Case #@Model.CaseFileId.
+        <a asp-route-facilityId="@Model.FacilityId" class="btn btn-outline-primary btn-sm ms-2 align-baseline">Continue without linking</a>
+    </div>
+}
 
 <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle">
     <form method="post">
@@ -93,7 +99,7 @@
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />
-        <input asp-for="Item.FacilityId" type="hidden" />
+        <input asp-for="Item.CaseFileId" type="hidden" />
         <input asp-for="Item.IsRmpInspection" type="hidden" />
     </form>
 </div>

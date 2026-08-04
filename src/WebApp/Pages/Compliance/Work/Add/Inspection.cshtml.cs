@@ -1,20 +1,21 @@
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
+using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using IaipDataService.Facilities;
+using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class InspectionAddModel(
-    IComplianceWorkService service,
     IFacilityService facilityService,
+    IComplianceWorkService complianceService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<InspectionCreateDto> validator)
-    : AddBase(facilityService, staffService)
+    : AddBase(facilityService, complianceService, caseFileService, staffService)
 {
-    private readonly IStaffService _staffService = staffService;
-
     [BindProperty]
     public InspectionCreateDto Item { get; set; } = null!;
 
@@ -24,11 +25,11 @@ public class InspectionAddModel(
 
         Item = new InspectionCreateDto
         {
-            FacilityId = FacilityId,
-            ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
+            ResponsibleStaffId = User.GetNameIdentifierId(),
             IsRmpInspection = isRmp,
             InspectionReason = isRmp ? InspectionReason.PlannedAnnounced : InspectionReason.PlannedUnannounced,
             FacilityOperating = isRmp,
+            CaseFileId = CaseFileId,
         };
 
         return await DoGetAsync(token);
@@ -37,6 +38,6 @@ public class InspectionAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         WorkType = Item.IsRmpInspection ? ComplianceWorkType.RmpInspection : ComplianceWorkType.Inspection;
-        return await DoPostAsync(Item, service, validator, token);
+        return await DoPostAsync(Item, validator, token);
     }
 }

@@ -31,7 +31,6 @@ erDiagram
     REV["Permit Revocation"]
     STR |o--|| CME: "is a type of"
     ACC |o--|| CME: "is a type of"
-    BINS |o--|| CME: "is a type of"
     INS |o--|| CME: "is a type of"
     REP |o--|| CME: "is a type of"
     CME |o--|| WRK: "is a subset of"

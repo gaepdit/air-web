@@ -1,20 +1,21 @@
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
+using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using IaipDataService.Facilities;
+using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class AccAddModel(
-    IComplianceWorkService service,
     IFacilityService facilityService,
+    IComplianceWorkService complianceService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<AccCreateDto> validator)
-    : AddBase(facilityService, staffService)
+    : AddBase(facilityService, complianceService, caseFileService, staffService)
 {
-    private readonly IStaffService _staffService = staffService;
-
     [BindProperty]
     public AccCreateDto Item { get; set; } = null!;
 
@@ -24,8 +25,8 @@ public class AccAddModel(
 
         Item = new AccCreateDto
         {
-            FacilityId = FacilityId,
-            ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
+            ResponsibleStaffId = User.GetNameIdentifierId(),
+            CaseFileId = CaseFileId,
         };
 
         return await DoGetAsync(token);
@@ -34,6 +35,6 @@ public class AccAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         WorkType = ComplianceWorkType.AnnualComplianceCertification;
-        return await DoPostAsync(Item, service, validator, token);
+        return await DoPostAsync(Item, validator, token);
     }
 }

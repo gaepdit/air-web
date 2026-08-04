@@ -16,13 +16,15 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     public IEnumerable<ComplianceWorkSearchResultDto> LinkedComplianceEvents { get; private set; } = [];
     public IEnumerable<ComplianceWorkSearchResultDto> AvailableComplianceEvents { get; private set; } = [];
 
+    [TempData]
+    public int HighlightId { get; set; }
+
     public async Task<IActionResult> OnGetAsync(CancellationToken token)
     {
         if (Id == 0) return RedirectToPage("Index");
 
         var item = await service.FindSummaryAsync(Id, token);
         if (item is null) return NotFound();
-        if (item.IsClosed) return BadRequest();
         if (!User.CanEditCaseFile(item)) return Forbid();
 
         LinkedComplianceEvents = await service.GetLinkedEventsAsync(Id, token);
@@ -35,21 +37,18 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
     {
         if (Id == 0 || eventId == 0) return BadRequest();
         var item = await service.FindSummaryAsync(Id, token);
-        if (item is null || item.IsClosed || !User.CanEditCaseFile(item)) return BadRequest();
+        if (item is null || !User.CanEditCaseFile(item)) return BadRequest();
 
         var result = await service.LinkComplianceEventAsync(Id, eventId, token);
 
         if (result)
-        {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
                 $"Compliance Event #{eventId} successfully linked.");
-        }
         else
-        {
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
                 $"There was an error linking Compliance Event #{eventId}.");
-        }
 
+        HighlightId = eventId;
         return RedirectToPage("LinkedEvents", null, new { Id });
     }
 
@@ -72,6 +71,7 @@ public class LinkedEventsModel(ICaseFileService service) : PageModel
                 $"There was an error unlinking Compliance Event #{eventId}.");
         }
 
+        HighlightId = eventId;
         return RedirectToPage("LinkedEvents", null, new { Id });
     }
 }

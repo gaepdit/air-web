@@ -1,20 +1,21 @@
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Reports;
+using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using IaipDataService.Facilities;
+using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Add;
 
 public class ReportAddModel(
-    IComplianceWorkService service,
     IFacilityService facilityService,
+    IComplianceWorkService complianceService,
+    ICaseFileService caseFileService,
     IStaffService staffService,
     IValidator<ReportCreateDto> validator)
-    : AddBase(facilityService, staffService)
+    : AddBase(facilityService, complianceService, caseFileService, staffService)
 {
-    private readonly IStaffService _staffService = staffService;
-
     [BindProperty]
     public ReportCreateDto Item { get; set; } = null!;
 
@@ -25,10 +26,10 @@ public class ReportAddModel(
         var yesterday = DateOnly.FromDateTime(DateTime.Today).AddDays(-1);
         Item = new ReportCreateDto
         {
-            FacilityId = FacilityId,
-            ResponsibleStaffId = (await _staffService.GetCurrentUserAsync()).Id,
+            ResponsibleStaffId = User.GetNameIdentifierId(),
             ReportingPeriodStart = yesterday,
             ReportingPeriodEnd = yesterday,
+            CaseFileId = CaseFileId,
         };
 
         return await DoGetAsync(token);
@@ -37,6 +38,6 @@ public class ReportAddModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         WorkType = ComplianceWorkType.Report;
-        return await DoPostAsync(Item, service, validator, token);
+        return await DoPostAsync(Item, validator, token);
     }
 }

@@ -59,6 +59,21 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes,
         IsComplianceEvent && !IsDeleted && ComplianceWorkType != ComplianceWorkType.RmpInspection;
 }
 
+public static class ComplianceWorkExtensions
+{
+    public static bool IsComplianceEventWorkType(this ComplianceWorkType complianceWorkType) =>
+        ComplianceEventWorkTypes.Contains(complianceWorkType);
+
+    private static readonly IEnumerable<ComplianceWorkType> ComplianceEventWorkTypes =
+    [
+        ComplianceWorkType.AnnualComplianceCertification,
+        ComplianceWorkType.Inspection,
+        ComplianceWorkType.Report,
+        ComplianceWorkType.RmpInspection,
+        ComplianceWorkType.SourceTestReview,
+    ];
+}
+
 // Enums
 public enum ComplianceWorkType
 {

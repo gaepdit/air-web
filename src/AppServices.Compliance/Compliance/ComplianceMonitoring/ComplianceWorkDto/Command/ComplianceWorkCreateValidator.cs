@@ -4,7 +4,7 @@ public class ComplianceWorkCreateValidator : AbstractValidator<IComplianceWorkCr
 {
     public ComplianceWorkCreateValidator(IValidator<IComplianceWorkCommandDto> complianceWorkCommandValidator)
     {
-        RuleFor(dto => dto.FacilityId).NotEmpty();
+        RuleFor(dto => dto).Must(dto => dto.FacilityId != null || dto.CaseFileId != null);
         RuleFor(dto => dto).SetValidator(complianceWorkCommandValidator);
     }
 }

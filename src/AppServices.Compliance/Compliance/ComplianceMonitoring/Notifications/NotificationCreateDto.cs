@@ -5,6 +5,7 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifica
 public record NotificationCreateDto : NotificationCommandDto, IComplianceWorkCreateDto
 {
     [Required]
-    [Display(Name = "Facility")]
-    public string? FacilityId { get; init; }
+    public string? FacilityId { get; set; }
+
+    public int? CaseFileId => null;
 }

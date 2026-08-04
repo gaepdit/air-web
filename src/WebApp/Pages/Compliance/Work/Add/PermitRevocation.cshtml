@@ -8,8 +8,7 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<p class="lead">
-    For Facility:
+<p class="lead">For Facility:
     <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
 </p>
 
@@ -66,6 +65,5 @@
         </div>
 
         <partial name="Shared/_SubmitCancelButtons" />
-        <input asp-for="Item.FacilityId" type="hidden" />
     </form>
 </div>

@@ -132,7 +132,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await compliance.CreateAsync(newComplianceReview, token);
+        var result = await compliance.CreateAsync(newComplianceReview, User, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);

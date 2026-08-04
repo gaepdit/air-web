@@ -2,5 +2,6 @@
 
 public interface IComplianceWorkCreateDto : IComplianceWorkCommandDto
 {
-    public string? FacilityId { get; }
+    public string? FacilityId { get; set; }
+    public int? CaseFileId { get; }
 }

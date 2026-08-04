@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestRe
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 
@@ -23,7 +24,9 @@ public interface IComplianceWorkService : IDisposable, IAsyncDisposable
     Task<SourceTestReviewViewDto?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default);
 
     // Command
-    Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource, CancellationToken token = default);
+    Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource, ClaimsPrincipal principal,
+        CancellationToken token = default);
+
     Task<CommandResult> UpdateAsync(int id, IComplianceWorkCommandDto resource, CancellationToken token = default);
     Task<CommandResult> CloseAsync(int id, CancellationToken token = default);
     Task<CommandResult> ReopenAsync(int id, CancellationToken token = default);
