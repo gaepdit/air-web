@@ -53,9 +53,8 @@
     }
 
     globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        const storedTheme = getStoredTheme()
-        if (storedTheme !== 'light' && storedTheme !== 'dark') {
-            setTheme(getPreferredTheme())
+        if (getPreferredTheme() === 'auto') {
+            setTheme('auto')
         }
     })
 
