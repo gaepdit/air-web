@@ -28,6 +28,9 @@ public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspect
     [Display(Name = "End Time")]
     public TimeOnly InspectionEndedTime { get; init; } = new(16, 0);
 
+    [Display(Name = "Multiple Days")]
+    public bool MultiDayInspection { get; init; }
+
     [Display(Name = "Inspection Reason")]
     [RequiredLabel]
     public InspectionReason InspectionReason { get; init; }

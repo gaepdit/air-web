@@ -102,7 +102,9 @@ public class AutoMapperProfile : Profile
             .ForMember(dto => dto.InspectionEndedDate, expression =>
                 expression.MapFrom(dto => DateOnly.FromDateTime(dto.InspectionEnded.Date)))
             .ForMember(dto => dto.InspectionEndedTime, expression =>
-                expression.MapFrom(dto => TimeOnly.FromTimeSpan(dto.InspectionEnded.TimeOfDay)));
+                expression.MapFrom(dto => TimeOnly.FromTimeSpan(dto.InspectionEnded.TimeOfDay)))
+            .ForMember(dto => dto.MultiDayInspection, expression =>
+                expression.MapFrom(dto => dto.InspectionStarted.Date != dto.InspectionEnded.Date));
         CreateMap<Inspection, InspectionViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
     }

@@ -35,15 +35,28 @@
         <div class="container">
             <fieldset class="row mb-3 border rounded-3 pt-2">
                 <div class="col">
-                    <legend class="h6 mb-3">Inspection Date</legend>
+                    <div class="mb-3 d-flex">
+                        <legend class="h6 float-none w-auto me-4">Inspection Date</legend>
+                        <div class="form-check form-switch">
+                            <input asp-for="Item.MultiDayInspection" class="form-check-input" switch>
+                            <label asp-for="Item.MultiDayInspection" class="form-check-label"></label>
+                        </div>
+                    </div>
                     <div class="row">
-                        <div class="col-md input-group mb-3">
+                        <div class="input-group mb-3 @(Model.Item.MultiDayInspection ? "col-md" : "")" id="date-multi-off">
                             @Html.EditorFor(m => m.Item.InspectionStartedDate, EditorTemplate.InputDateOnly)
                             @Html.EditorFor(m => m.Item.InspectionStartedTime, EditorTemplate.InputTimeOnly)
+                            @if (!Model.Item.MultiDayInspection)
+                            {
+                                @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
+                            }
                         </div>
-                        <div class="col-md input-group mb-3">
+                        <div class="col-md input-group mb-3 @(Model.Item.MultiDayInspection ? "" : "d-none")" id="date-multi-on">
                             @Html.EditorFor(m => m.Item.InspectionEndedDate, EditorTemplate.InputDateOnly)
-                            @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
+                            @if (Model.Item.MultiDayInspection)
+                            {
+                                @Html.EditorFor(m => m.Item.InspectionEndedTime, EditorTemplate.InputTimeOnly)
+                            }
                         </div>
                     </div>
                 </div>
@@ -73,12 +86,12 @@
                     </legend>
                     <div class="row">
                         <div class="col-md mb-3">
-                                @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
-                            </div>
-                            <div class="col-md mb-3">
-                                @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
-                            </div>
+                            @Html.EditorFor(m => m.Item.FacilityOperating, EditorTemplate.Checkbox)
                         </div>
+                        <div class="col-md mb-3">
+                            @Html.EditorFor(m => m.Item.DeviationsNoted, EditorTemplate.Checkbox)
+                        </div>
+                    </div>
                 </div>
             </fieldset>
         </div>
@@ -103,3 +116,7 @@
         <input asp-for="Item.IsRmpInspection" type="hidden" />
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/js/compliance/setMultidayEntry.js"></script>
+}

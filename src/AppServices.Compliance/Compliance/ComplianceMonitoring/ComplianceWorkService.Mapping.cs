@@ -128,7 +128,9 @@ public sealed partial class ComplianceWorkService
     {
         work.InspectionReason = resource.InspectionReason;
         work.InspectionStarted = resource.InspectionStartedDate.ToDateTime(resource.InspectionStartedTime);
-        work.InspectionEnded = resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime);
+        work.InspectionEnded = resource.MultiDayInspection
+            ? resource.InspectionEndedDate.ToDateTime(resource.InspectionEndedTime)
+            : resource.InspectionStartedDate.ToDateTime(resource.InspectionEndedTime);
         work.WeatherConditions = resource.WeatherConditions ?? string.Empty;
         work.InspectionGuide = resource.InspectionGuide ?? string.Empty;
         work.FacilityOperating = resource.FacilityOperating;

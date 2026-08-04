@@ -36,7 +36,25 @@ public class InspectionCreateValidatorTests
     }
 
     [Test]
-    public async Task InspectionStartedDateInFuture_ReturnsAsInvalid()
+    public async Task ValidMultidayDto_ReturnsAsValid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            MultiDayInspection = true,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task InspectionStartedDateInFuture_IsInvalid()
     {
         // Arrange
         var model = new InspectionCreateDto
@@ -44,6 +62,7 @@ public class InspectionCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            MultiDayInspection = false,
         };
 
         // Act
@@ -56,7 +75,7 @@ public class InspectionCreateValidatorTests
     }
 
     [Test]
-    public async Task InspectionStartedDateTooOld_ReturnsAsInvalid()
+    public async Task InspectionStartedDateTooOld_IsInvalid()
     {
         // Arrange
         var model = new InspectionCreateDto
@@ -64,6 +83,7 @@ public class InspectionCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             InspectionStartedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
+            MultiDayInspection = false,
         };
 
         // Act
@@ -76,14 +96,16 @@ public class InspectionCreateValidatorTests
     }
 
     [Test]
-    public async Task InspectionEndedDateInFuture_ReturnsAsInvalid()
+    public async Task InspectionEndedDateInFuture_IsInvalid()
     {
         // Arrange
         var model = new InspectionCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
             InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            MultiDayInspection = true,
         };
 
         // Act
@@ -96,14 +118,16 @@ public class InspectionCreateValidatorTests
     }
 
     [Test]
-    public async Task InspectionEndedDateTooOld_ReturnsAsInvalid()
+    public async Task InspectionEndedDateTooOld_IsInvalid()
     {
         // Arrange
         var model = new InspectionCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
             InspectionEndedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
+            MultiDayInspection = true,
         };
 
         // Act
@@ -116,7 +140,29 @@ public class InspectionCreateValidatorTests
     }
 
     [Test]
-    public async Task InspectionEndedDateBeforeStartedDate_ReturnsAsInvalid()
+    public async Task InspectionEndedDateBeforeStartedDate_IsInvalid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            MultiDayInspection = true,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.InspectionEndedDate);
+    }
+
+    [Test]
+    public async Task AcknowledgmentLetterDateBeforeInspectionEndedDate_IsInvalid()
     {
         // Arrange
         var model = new InspectionCreateDto
@@ -124,28 +170,9 @@ public class InspectionCreateValidatorTests
             FacilityId = SampleText.ValidFacilityId,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
-            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-3),
-        };
-
-        // Act
-        var result = await _validator.TestValidateAsync(model);
-
-        // Assert
-        using var scope = new AssertionScope();
-        result.IsValid.Should().BeFalse();
-        result.ShouldHaveValidationErrorFor(dto => dto.InspectionEndedDate);
-    }
-
-    [Test]
-    public async Task AcknowledgmentLetterDateBeforeInspectionEndedDate_ReturnsAsInvalid()
-    {
-        // Arrange
-        var model = new InspectionCreateDto
-        {
-            FacilityId = SampleText.ValidFacilityId,
-            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
-            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
-            AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            MultiDayInspection = true,
         };
 
         // Act
@@ -155,5 +182,179 @@ public class InspectionCreateValidatorTests
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
         result.ShouldHaveValidationErrorFor(dto => dto.AcknowledgmentLetterDate);
+    }
+
+    [Test]
+    public async Task NotMultiday_InspectionEndedDateInFuture_Ignored()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task NotMultiday_InspectionEndedDateTooOld_Ignored()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionEndedDate = new DateOnly(ComplianceConstants.EarliestComplianceWorkYear - 1, 1, 1),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task NotMultiday_InspectionEndedDateBeforeStartedDate_Ignored()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task NotMultiday_AcknowledgmentLetterDateBeforeInspectionEndedDate_Ignored()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task NotMultiday_AcknowledgmentLetterDateBeforeInspectionStart_IsInvalid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-2),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.AcknowledgmentLetterDate);
+    }
+
+    [Test]
+    public async Task NotMultiday_EndTimeBeforeStartTime_IsInvalid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionStartedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-1)),
+            InspectionEndedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-2)),
+            MultiDayInspection = false,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.InspectionEndedTime);
+    }
+
+    [Test]
+    public async Task Multiday_EndTimeBeforeStartTime_EndDateLaterThanStartDate_IsValid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionStartedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-1)),
+            InspectionEndedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-2)),
+            MultiDayInspection = true,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Test]
+    public async Task Multiday_EndTimeBeforeStartTime_EndDateSameAsStartDate_IsInvalid()
+    {
+        // Arrange
+        var model = new InspectionCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            InspectionStartedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionEndedDate = DateOnly.FromDateTime(DateTime.Today),
+            InspectionStartedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-1)),
+            InspectionEndedTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-2)),
+            MultiDayInspection = true,
+        };
+
+        // Act
+        var result = await _validator.TestValidateAsync(model);
+
+        // Assert
+        using var scope = new AssertionScope();
+        result.IsValid.Should().BeFalse();
+        result.ShouldHaveValidationErrorFor(dto => dto.InspectionEndedTime);
     }
 }

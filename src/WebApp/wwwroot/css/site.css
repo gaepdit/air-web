@@ -646,7 +646,7 @@ svg:not(:root) {
     (Use JavaScript to add this class to briefly flash an animated outline.)
 -------------------------------------------------- */
 .flashOutline {
-    animation: flashOutline 1s cubic-bezier(.4, 0, .8, .8);
+    animation: flashOutline 1.5s cubic-bezier(.4, 0, .8, .8);
 }
 
 @keyframes flashOutline {
@@ -654,7 +654,7 @@ svg:not(:root) {
         outline: 4px solid rgba(var(--bs-warning-rgb), 0);
     }
     50% {
-        outline: 4px solid rgba(var(--bs-warning-rgb), 30%);
+        outline: 4px solid rgba(var(--bs-warning-rgb), 80%);
     }
     100% {
         outline: 4px solid rgba(var(--bs-warning-rgb), 0);
