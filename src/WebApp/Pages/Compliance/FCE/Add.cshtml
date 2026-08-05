@@ -1,4 +1,5 @@
 @page "{facilityId?}"
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AddModel
 @{
@@ -16,9 +17,8 @@
     @* ID `new-fce-form` is used by "verifyFceYearSelection.js". *@
     <form method="post" id="new-fce-form">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi me-2" role="img" aria-label="Danger:">
-                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-            </svg>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                     view-data-CssClass="@("me-2")" />
         </div>
         <div class="row">
             <div class="col-md mb-3">
