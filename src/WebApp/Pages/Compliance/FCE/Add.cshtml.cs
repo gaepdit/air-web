@@ -1,17 +1,22 @@
 using AirWeb.AppServices.Compliance.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Compliance.Fces;
+using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.WebApp.Models;
+using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.ListItems;
+using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
+using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages.Compliance.FCE;
 
 [Authorize(Policy = nameof(CompliancePolicies.ComplianceStaff))]
 public class AddModel(
     IFceService fceService,
+    IFceSearchService searchService,
     IFacilityService facilityService,
     IStaffService staffService,
     IValidator<FceCreateDto> validator)
@@ -28,6 +33,8 @@ public class AddModel(
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     private const string FacilityIdNotFound = "Facility ID not found.";
 
+    public IPaginatedResult<FceSearchResultDto> FceList { get; private set; } = null!;
+
     // Form buttons
     public string SubmitText => "Add New FCE";
     public string CancelRoute => "/Facility/Details";
@@ -36,13 +43,14 @@ public class AddModel(
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (FacilityId is null) return RedirectToPage("Index");
-        
+
         Facility = await facilityService.FindFacilityAsync((FacilityId)FacilityId, token: token);
         if (Facility is null) return NotFound(FacilityIdNotFound);
 
-        await PopulateSelectListsAsync(token);
-        var currentUserId = (await staffService.GetCurrentUserAsync()).Id;
-        Item = new FceCreateDto((FacilityId)FacilityId, currentUserId);
+        var currentUserId = User.GetNameIdentifierId();
+        Item = new FceCreateDto((FacilityId)FacilityId, currentUserId!);
+
+        await PopulateSupportingDataAsync(token);
         return Page();
     }
 
@@ -56,7 +64,7 @@ public class AddModel(
             Facility = await facilityService.FindFacilityAsync((FacilityId)Item.FacilityId, token: token);
             if (Facility is null) return BadRequest(FacilityIdNotFound);
 
-            await PopulateSelectListsAsync(token);
+            await PopulateSupportingDataAsync(token);
             return Page();
         }
 
@@ -66,7 +74,12 @@ public class AddModel(
         return RedirectToPage("Details", new { result.Id });
     }
 
-    private async Task PopulateSelectListsAsync(CancellationToken token) =>
+    private async Task PopulateSupportingDataAsync(CancellationToken token)
+    {
         StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
             ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+
+        FceList = await searchService.SearchAsync(SearchDefaults.FacilityFces(FacilityId!),
+            PaginationDefaults.FceSummary, loadFacilities: false, token: token);
+    }
 }

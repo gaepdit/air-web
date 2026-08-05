@@ -44,6 +44,20 @@
     </form>
 </div>
 
+<section class="my-4 p-3 border rounded-3 bg-light-subtle">
+    <h2 class="h4 mb-3">Recent FCEs</h2>
+
+    @if (!Model.FceList.Items.Any())
+    {
+        <p class="mb-0"><em>None found.</em></p>
+    }
+    else
+    {
+        <partial name="Shared/CompliancePartials/_FceTable" model="Model.FceList.Items"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+    }
+</section>
+
 @section Scripts {
     <script src="~/js/compliance/verifyFceYearSelection.js"></script>
 }
