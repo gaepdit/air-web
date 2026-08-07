@@ -5,6 +5,7 @@ using AirWeb.WebApp.Platform.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using ZLogger;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
@@ -50,6 +51,9 @@ internal static class DataPersistence
         builder.Services.AddEntityFrameworkRepositories();
     }
 
+    private static readonly ILoggerFactory ZLoggerFactory =
+        LoggerFactory.Create(builder => builder.AddZLoggerConsole(options => options.UseJsonFormatter()));
+
     private static DbContextOptionsBuilder<AppDbContext> GetMigrationDbOpts(IConfiguration configuration)
     {
         var migConnString = configuration.GetConnectionString("MigrationConnection");
@@ -57,6 +61,7 @@ internal static class DataPersistence
             throw new InvalidOperationException("No migration connection string found.");
 
         return new DbContextOptionsBuilder<AppDbContext>()
+            .UseLoggerFactory(ZLoggerFactory)
             .UseSqlServer(migConnString, sqlServerOpts => sqlServerOpts.MigrationsAssembly(nameof(EfRepository)));
     }
 
@@ -64,7 +69,7 @@ internal static class DataPersistence
     {
         // Initialize any new roles.
         var roleManager = services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
-        foreach (var role in AppRole.AllRoles!.Keys)
+        foreach (var role in AppRole.AllRoles.Keys)
             if (!await migrationContext.Roles.AnyAsync(idRole => idRole.Name == role))
                 await roleManager.CreateAsync(new IdentityRole(role));
     }

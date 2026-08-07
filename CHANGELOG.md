@@ -1,5 +1,11 @@
 # Changelog
 
+## [2026.8.6] - 2026-08-06
+
+- Enable creating linked compliance work directly from enforcement.
+- Simplify entering dates for a single-day inspection.
+- Show recent FCEs on the new FCE page.
+
 ## [2026.7.30] - 2026-07-30
 
 - Enable adding an initial Enforcement Action when starting a new Case File.
@@ -198,3 +204,4 @@
 [2026.7.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.17
 [2026.7.22]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.22
 [2026.7.30]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.30
+[2026.8.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.6
