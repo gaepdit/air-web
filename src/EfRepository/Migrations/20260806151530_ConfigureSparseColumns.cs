@@ -11,35 +11,6 @@ namespace AirWeb.EfRepository.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // First drop indexes (see https://github.com/dotnet/efcore/issues/38760)
-            
-            migrationBuilder.DropIndex(
-                name: "IX_ComplianceWork_DeletedById",
-                table: "ComplianceWork");
-            migrationBuilder.DropIndex(
-                name: "IX_EnforcementActions_DeletedById",
-                table: "EnforcementActions");
-            migrationBuilder.DropIndex(
-                name: "IX_EnforcementCaseFiles_DeletedById",
-                table: "EnforcementCaseFiles");
-            migrationBuilder.DropIndex(
-                name: "IX_Fces_DeletedById",
-                table: "Fces");
-            migrationBuilder.DropIndex(
-                name: "IX_Comments_CaseFileId",
-                table: "Comments");
-            migrationBuilder.DropIndex(
-                name: "IX_Comments_FceId",
-                table: "Comments");
-            migrationBuilder.DropIndex(
-                name: "IX_AuditPoints_CaseFileId",
-                table: "AuditPoints");
-            migrationBuilder.DropIndex(
-                name: "IX_AuditPoints_FceId",
-                table: "AuditPoints");
-
-            // Then alter the columns
-            
             migrationBuilder.AlterColumn<string>(
                 name: "DeletedById",
                 table: "StipulatedPenalties",
@@ -495,42 +466,6 @@ namespace AirWeb.EfRepository.Migrations
                 oldType: "int",
                 oldNullable: true)
                 .Annotation("SqlServer:Sparse", true);
-            
-            // Finally, recreate the indexes
-            
-            migrationBuilder.CreateIndex(
-                name: "IX_ComplianceWork_DeletedById",
-                table: "ComplianceWork",
-                column: "DeletedById");
-            migrationBuilder.CreateIndex(
-                name: "IX_EnforcementActions_DeletedById",
-                table: "EnforcementActions",
-                column: "DeletedById");
-            migrationBuilder.CreateIndex(
-                name: "IX_EnforcementCaseFiles_DeletedById",
-                table: "EnforcementCaseFiles",
-                column: "DeletedById");
-            migrationBuilder.CreateIndex(
-                name: "IX_Fces_DeletedById",
-                table: "Fces",
-                column: "DeletedById");
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_CaseFileId",
-                table: "Comments",
-                column: "CaseFileId");
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_FceId",
-                table: "Comments",
-                column: "FceId");
-            migrationBuilder.CreateIndex(
-                name: "IX_AuditPoints_CaseFileId",
-                table: "AuditPoints",
-                column: "CaseFileId");
-            migrationBuilder.CreateIndex(
-                name: "IX_AuditPoints_FceId",
-                table: "AuditPoints",
-                column: "FceId");
-
         }
 
         /// <inheritdoc />
