@@ -440,38 +440,7 @@ internal static class AppDbContextConfiguration
         builder.Entity<Report>().Property(e => e.ReportingPeriodComment).IsSparse();
         builder.Entity<SourceTestReview>().Property(e => e.ReceivedByComplianceDate).IsSparse();
         builder.Entity<SourceTestReview>().Property(e => e.ReferenceNumber).IsSparse();
-
-        // EnforcementAction table
-        builder.Entity<AdministrativeOrder>().Property(e => e.AppealedDate).IsSparse();
-        builder.Entity<AdministrativeOrder>().Property(e => e.ExecutedDate).IsSparse();
-        builder.Entity<AdministrativeOrder>().Property(e => e.ResolvedDate).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.ExecutedDate).IsSparse(); // Also AdministrativeOrder
-        builder.Entity<ConsentOrder>().Property(e => e.OrderId).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.PenaltyAmount).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.PenaltyComment).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.ReceivedFromDirectorsOffice).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.ReceivedFromFacility).IsSparse();
-        builder.Entity<ConsentOrder>().Property(e => e.ResolvedDate).IsSparse();
-        builder.Entity<EnforcementAction>().Property(e => e.DeleteComments).IsSparse();
-        builder.Entity<EnforcementAction>().Property(e => e.DeletedAt).IsSparse();
-        builder.Entity<EnforcementAction>().Property(e => e.DeletedById).IsSparse();
-        builder.Entity<InformationalLetter>().Property(e => e.ResponseComment).IsSparse();
-        builder.Entity<InformationalLetter>().Property(e => e.ResponseReceived).IsSparse();
-        builder.Entity<LetterOfNoncompliance>().Property(e => e.ResolvedDate).IsSparse();
-        builder.Entity<LetterOfNoncompliance>().Property(e => e.ResponseComment).IsSparse();
-        builder.Entity<LetterOfNoncompliance>().Property(e => e.ResponseReceived).IsSparse();
-        builder.Entity<NoticeOfViolation>().Property(e => e.ResponseComment).IsSparse();
-        builder.Entity<NoticeOfViolation>().Property(e => e.ResponseReceived).IsSparse();
-        builder.Entity<NovNfaLetter>().Property(e => e.ResponseComment).IsSparse();
-        builder.Entity<NovNfaLetter>().Property(e => e.ResponseReceived).IsSparse();
-        builder.Entity<ProposedConsentOrder>().Property(e => e.ResponseComment).IsSparse();
-        builder.Entity<ProposedConsentOrder>().Property(e => e.ResponseReceived).IsSparse();
-
-        // EnforcementCaseFile table
-        builder.Entity<CaseFile>().Property(e => e.DeleteComments).IsSparse();
-        builder.Entity<CaseFile>().Property(e => e.DeletedAt).IsSparse();
-        builder.Entity<CaseFile>().Property(e => e.DeletedById).IsSparse();
-
+        
         // Fce table
         builder.Entity<Fce>().Property(e => e.DeleteComments).IsSparse();
         builder.Entity<Fce>().Property(e => e.DeletedAt).IsSparse();
