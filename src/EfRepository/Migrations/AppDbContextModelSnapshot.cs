@@ -17,7 +17,7 @@ namespace AirWeb.EfRepository.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.10")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -54,17 +54,11 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeleteComments"));
-
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(450)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<DateOnly>("EventDate")
                         .HasColumnType("date");
@@ -143,17 +137,11 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeleteComments"));
-
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(450)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<string>("FacilityId")
                         .IsRequired()
@@ -242,17 +230,11 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeleteComments"));
-
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(450)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<DateOnly?>("DiscoveryDate")
                         .HasColumnType("date");
@@ -408,12 +390,8 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(max)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -473,17 +451,11 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeleteComments"));
-
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(450)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<string>("FacilityId")
                         .IsRequired()
@@ -1042,8 +1014,6 @@ namespace AirWeb.EfRepository.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("MoreInfo"));
-
                     b.Property<string>("What")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1080,12 +1050,8 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTimeOffset?>("DeletedAt"));
-
                     b.Property<string>("DeletedById")
                         .HasColumnType("nvarchar(max)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("DeletedById"));
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -1655,12 +1621,8 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateOnly?>("PermitRevocationDate")
                         .HasColumnType("date");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("PermitRevocationDate"));
-
                     b.Property<DateOnly?>("PhysicalShutdownDate")
                         .HasColumnType("date");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("PhysicalShutdownDate"));
 
                     b.Property<DateOnly>("ReceivedDate")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1693,14 +1655,10 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ResponseComment");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ResponseComment"));
-
                     b.Property<DateOnly?>("ResponseReceived")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResponseReceived");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResponseReceived"));
 
                     b.Property<bool>("ResponseRequested")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1719,22 +1677,16 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("date")
                         .HasColumnName("ResolvedDate");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResolvedDate"));
-
                     b.Property<string>("ResponseComment")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ResponseComment");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ResponseComment"));
-
                     b.Property<DateOnly?>("ResponseReceived")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResponseReceived");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResponseReceived"));
 
                     b.Property<bool>("ResponseRequested")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1750,8 +1702,6 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<int>("CaseFileId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int>("CaseFileId"));
 
                     b.HasIndex("CaseFileId");
 
@@ -1777,8 +1727,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<int>("FceId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int>("FceId"));
-
                     b.HasIndex("FceId");
 
                     b.HasDiscriminator().HasValue("FceAuditPoint");
@@ -1790,8 +1738,6 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<int>("CaseFileId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int>("CaseFileId"));
 
                     b.HasIndex("CaseFileId");
 
@@ -1816,8 +1762,6 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<int>("FceId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int>("FceId"));
 
                     b.HasIndex("FceId");
 
@@ -1859,8 +1803,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<int?>("AccReportingYear")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int?>("AccReportingYear"));
-
                     b.Property<bool?>("CorrectlyCompleted")
                         .HasColumnType("bit");
 
@@ -1880,8 +1822,6 @@ namespace AirWeb.EfRepository.Migrations
 
                     b.Property<DateOnly?>("PostmarkDate")
                         .HasColumnType("date");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("PostmarkDate"));
 
                     b.Property<bool?>("PostmarkedOnTime")
                         .HasColumnType("bit");
@@ -1934,34 +1874,24 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("InspectionEnded");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTime>("InspectionEnded"));
-
                     b.Property<string>("InspectionGuide")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("InspectionGuide");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("InspectionGuide"));
 
                     b.Property<string>("InspectionReason")
                         .HasMaxLength(18)
                         .HasColumnType("nvarchar(18)")
                         .HasColumnName("InspectionReason");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("InspectionReason"));
-
                     b.Property<DateTime>("InspectionStarted")
                         .HasColumnType("datetime2")
                         .HasColumnName("InspectionStarted");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateTime>("InspectionStarted"));
 
                     b.Property<string>("WeatherConditions")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("WeatherConditions");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("WeatherConditions"));
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring.Report", b =>
@@ -1989,8 +1919,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<string>("ReportingPeriodComment")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ReportingPeriodComment"));
 
                     b.Property<DateOnly?>("ReportingPeriodEnd")
                         .HasColumnType("date");
@@ -2038,12 +1966,8 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateOnly>("ReceivedByComplianceDate")
                         .HasColumnType("date");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly>("ReceivedByComplianceDate"));
-
                     b.Property<int?>("ReferenceNumber")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<int?>("ReferenceNumber"));
 
                     b.HasDiscriminator().HasValue("SourceTestReview");
                 });
@@ -2059,21 +1983,15 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateOnly?>("AppealedDate")
                         .HasColumnType("date");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("AppealedDate"));
-
                     b.Property<DateOnly?>("ExecutedDate")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ExecutedDate");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ExecutedDate"));
-
                     b.Property<DateOnly?>("ResolvedDate")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResolvedDate");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResolvedDate"));
 
                     b.HasDiscriminator().HasValue("AdministrativeOrder");
                 });
@@ -2091,41 +2009,27 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("date")
                         .HasColumnName("ExecutedDate");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ExecutedDate"));
-
                     b.Property<short?>("OrderId")
                         .HasColumnType("smallint");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<short?>("OrderId"));
 
                     b.Property<decimal?>("PenaltyAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<decimal?>("PenaltyAmount"));
-
                     b.Property<string>("PenaltyComment")
                         .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("PenaltyComment"));
-
                     b.Property<DateOnly?>("ReceivedFromDirectorsOffice")
                         .HasColumnType("date");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ReceivedFromDirectorsOffice"));
-
                     b.Property<DateOnly?>("ReceivedFromFacility")
                         .HasColumnType("date");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ReceivedFromFacility"));
 
                     b.Property<DateOnly?>("ResolvedDate")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResolvedDate");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResolvedDate"));
 
                     b.Property<bool>("StipulatedPenaltiesDefined")
                         .HasColumnType("bit");
@@ -2154,14 +2058,10 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ResponseComment");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ResponseComment"));
-
                     b.Property<DateOnly?>("ResponseReceived")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResponseReceived");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResponseReceived"));
 
                     b.Property<bool>("ResponseRequested")
                         .ValueGeneratedOnUpdateSometimes()
@@ -2185,14 +2085,10 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ResponseComment");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ResponseComment"));
-
                     b.Property<DateOnly?>("ResponseReceived")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResponseReceived");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResponseReceived"));
 
                     b.Property<bool>("ResponseRequested")
                         .ValueGeneratedOnUpdateSometimes()
@@ -2216,14 +2112,10 @@ namespace AirWeb.EfRepository.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ResponseComment");
 
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<string>("ResponseComment"));
-
                     b.Property<DateOnly?>("ResponseReceived")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("date")
                         .HasColumnName("ResponseReceived");
-
-                    SqlServerPropertyBuilderExtensions.IsSparse(b.Property<DateOnly?>("ResponseReceived"));
 
                     b.Property<bool>("ResponseRequested")
                         .ValueGeneratedOnUpdateSometimes()
