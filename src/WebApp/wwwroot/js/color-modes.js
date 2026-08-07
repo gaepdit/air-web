@@ -13,7 +13,8 @@
 
     const setTheme = theme => {
         if (theme === 'auto') {
-            document.documentElement.dataset.bsTheme = globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            document.documentElement.dataset.bsTheme =
+                globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         } else {
             document.documentElement.dataset.bsTheme = theme
         }
