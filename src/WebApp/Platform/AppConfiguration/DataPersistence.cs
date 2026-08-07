@@ -69,7 +69,7 @@ internal static class DataPersistence
     {
         // Initialize any new roles.
         var roleManager = services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
-        foreach (var role in AppRole.AllRoles!.Keys)
+        foreach (var role in AppRole.AllRoles.Keys)
             if (!await migrationContext.Roles.AnyAsync(idRole => idRole.Name == role))
                 await roleManager.CreateAsync(new IdentityRole(role));
     }
