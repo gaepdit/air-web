@@ -22,6 +22,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
+    [Display(Name = "Status")]
     public CaseFileStatus CaseFileStatus { get; init; }
 
     public string CaseStatusClass => CaseFileStatus switch
