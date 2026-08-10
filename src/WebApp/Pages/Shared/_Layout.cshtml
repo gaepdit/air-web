@@ -1,11 +1,16 @@
 ﻿@inject AirWeb.AppServices.Core.EntityServices.Staff.IStaffService StaffService
 @{
     var displayMessages = TempData.GetDisplayMessages();
-    var preferences = await StaffService.GetPreferencesAsync();
+    var themePreference = "auto";
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        var preferences = await StaffService.GetPreferencesAsync();
+        themePreference = preferences.Theme.ToString().ToLower();
+    }
 }
 <!DOCTYPE html>
 <html lang="en"
-      data-theme-preference="@preferences.Theme.ToString().ToLower()">
+      data-theme-preference="@themePreference">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

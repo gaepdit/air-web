@@ -180,8 +180,8 @@ public sealed class StaffService(
     }
     public async Task<UserPreferences> GetPreferencesAsync()
     {
-        var user = await userService.GetCurrentUserAsync().ConfigureAwait(false)
-                   ?? throw new CurrentUserNotFoundException();
+        var user = await userService.GetCurrentUserAsync()
+            ?? throw new CurrentUserNotFoundException();
 
         return user.Preferences;
     }
