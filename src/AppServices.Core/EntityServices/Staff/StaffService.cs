@@ -183,7 +183,7 @@ public sealed class StaffService(
         var user = await userService.GetCurrentUserAsync().ConfigureAwait(false)
                    ?? throw new CurrentUserNotFoundException();
 
-        return user.Preferences ?? new UserPreferences();
+        return user.Preferences;
     }
     public async Task UpdateThemePreferenceAsync(ThemePreference theme)
     {
@@ -191,7 +191,7 @@ public sealed class StaffService(
             ?? throw new CurrentUserNotFoundException();
 
         user.Preferences.Theme = theme;
-        await userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user).ConfigureAwait(false);
     }
     #region IDisposable,  IAsyncDisposable
 
