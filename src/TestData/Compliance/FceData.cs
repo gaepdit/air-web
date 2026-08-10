@@ -24,7 +24,7 @@ internal static class FceData
             ReviewedBy = UserData.Users[2],
             CompletedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-12)),
             OnsiteInspection = false,
-            Notes = string.Empty,
+            Notes = "Reviewed by inactive user",
         },
         new(403, DomainData.GetRandomFacility().Id, 2022)
         {

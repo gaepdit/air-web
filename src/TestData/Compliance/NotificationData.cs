@@ -50,5 +50,18 @@ internal static partial class ComplianceMonitoringData
 
             ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
         },
+        new(7004, DomainData.GetRandomFacility().Id, UserData.GetRandomUser())
+        {
+            ComplianceWorkType = ComplianceWorkType.Notification,
+            NotificationType = DomainData.GetRandomNotificationType(),
+            ResponsibleStaff = UserData.Users[2],
+            Notes = "Assigned to inactive user",
+            ClosedDate = null,
+
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2).AddDays(-15)),
+            DueDate = null,
+            SentDate = null,
+            FollowupTaken = false,
+        },
     ];
 }

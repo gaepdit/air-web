@@ -28,7 +28,8 @@ internal static class CaseFileData
         new(302, DomainData.GetRandomFacility().Id, null)
         {
             ActionNumber = 302,
-            Notes = "LON - open",
+            ResponsibleStaff = UserData.Users[2],
+            Notes = "LON - open; Assigned to inactive user",
             DiscoveryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1).AddDays(-20)),
         },
         new(303, DomainData.GetRandomFacility().Id, null)
@@ -139,7 +140,7 @@ internal static class CaseFileData
 
             foreach (var caseFile in _caseFiles)
             {
-                caseFile.ResponsibleStaff = UserData.GetRandomUser();
+                caseFile.ResponsibleStaff ??= UserData.GetRandomUser();
                 caseFile.Comments.AddRange(CommentData.GetRandomCommentsList(1)
                     .Select(comment => new CaseFileComment(comment, caseFile.Id)));
 
