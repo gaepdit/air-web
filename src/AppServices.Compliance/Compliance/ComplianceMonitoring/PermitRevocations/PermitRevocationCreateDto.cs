@@ -4,8 +4,6 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.PermitRe
 
 public record PermitRevocationCreateDto : PermitRevocationCommandDto, IComplianceWorkCreateDto
 {
-    [Required]
     public string? FacilityId { get; set; }
-
     public int? CaseFileId => null;
 }
