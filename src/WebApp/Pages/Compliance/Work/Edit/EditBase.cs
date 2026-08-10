@@ -67,6 +67,8 @@ public abstract class EditBase(IComplianceWorkService service, IStaffService sta
 
     // FUTURE: Allow for editing a Compliance Work entry previously reviewed by a currently inactive user.
     protected virtual async Task PopulateSelectListsAsync(CancellationToken token) =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+        StaffSelectList = (await staffService.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], token: token).ConfigureAwait(false)).ToSelectList();
 }

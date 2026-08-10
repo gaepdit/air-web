@@ -25,7 +25,10 @@ public interface IStaffService : IDisposable, IAsyncDisposable
     Task<StaffViewDto?> FindByEmailAsync(string? email);
     Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging);
     Task<IReadOnlyList<ListItem<string>>> GetAllStaffAsync(CancellationToken token = default);
-    Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(CancellationToken token, params AppRole[] roles);
+
+    Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(AppRole[] roles, string? forceIncludeUser = null,
+        CancellationToken token = default);
+
     Task<bool> IsInRoleAsync(string id, params AppRole[] roles);
     Task<IList<string>> GetRolesAsync(string id);
     Task<IReadOnlyList<AppRole>> GetAppRolesAsync(string id);
@@ -84,23 +87,27 @@ public sealed class StaffService(
                 expiration: CacheConstants.StaffServiceCacheTime, logger, tag: CachedStaffLists, token)
             .ConfigureAwait(false);
 
-    public async Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(CancellationToken token,
-        params AppRole[] roles) =>
-        await cache.GetOrCreateAsync($"StaffList.{roles.Select(r => r.Name).OrderBy(n => n).ConcatWithSeparator("+")}",
-                factory: async _ => await GetStaffInRoleFromStore(roles).ConfigureAwait(false),
+    public async Task<IReadOnlyList<ListItem<string>>> GetStaffInRoleAsync(AppRole[] roles,
+        string? forceIncludeUser = null, CancellationToken token = default) =>
+        await cache.GetOrCreateAsync(
+                $"StaffList.{roles.Select(r => r.Name).OrderBy(n => n).ConcatWithSeparator("+")}.{forceIncludeUser}",
+                factory: async _ => await GetStaffInRoleFromStore(roles, forceIncludeUser).ConfigureAwait(false),
                 expiration: CacheConstants.StaffServiceCacheTime, logger, tag: CachedStaffLists, token)
             .ConfigureAwait(false);
 
-    private async Task<List<ListItem<string>>> GetStaffInRoleFromStore(AppRole[] roles)
+    private async Task<List<ListItem<string>>> GetStaffInRoleFromStore(AppRole[] roles, string? forceIncludeUser)
     {
         IList<IList<ApplicationUser>> userSets = [];
         foreach (var appRole in roles)
             userSets.Add(await userManager.GetUsersInRoleAsync(appRole.Name).ConfigureAwait(false));
 
+        if (forceIncludeUser is not null)
+            userSets.Add([await userService.GetUserAsync(forceIncludeUser).ConfigureAwait(false)]);
+
         var users = userSets.Aggregate((current, union) => current.Union(union).ToList());
 
         return mapper.Map<IReadOnlyList<StaffViewDto>>(users)
-            .Where(user => user.Active)
+            .Where(user => user.Active || forceIncludeUser == user.Id)
             .Select(user => new ListItem<string>(user.Id, user.SortableNameWithOffice))
             .OrderBy(e => e.Name).ToList();
     }
