@@ -35,51 +35,45 @@
     </dd>
 </dl>
 
-<form method = "post">
 
-    <label class="form-label">Theme</label>
+<label class="form-label">Theme</label>
 
-    <div class="btn-group" role="group" aria-label="Theme selection">
+<div class="btn-group" role="group" aria-label="Theme selection">
 
-        <input class="btn-check"
-               type="radio"
-               name="theme"
-               id="themeLight"
-               value="@ThemePreference.Light"
-               checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
-        
-        <label class="btn btn-outline-secondary" for="themeLight">
-            Light
-        </label>
+    <input class="btn-check"
+           type="radio"
+           name="theme"
+           id="themeLight"
+           value="@ThemePreference.Light"
+           checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
 
-        <input class="btn-check"
-               type="radio"
-               name="theme"
-               id="themeDark"
-               value="@ThemePreference.Dark"
-               checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
-        
-        <label class="btn btn-outline-secondary" for="themeDark">
-            Dark
-        </label>
+    <label class="btn btn-outline-secondary" for="themeLight">
+        Light
+    </label>
 
-        <input class="btn-check"
-               type="radio"
-               name="theme"
-               id="themeAuto"
-               value="@ThemePreference.Auto"
-               checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
-        
-        <label class="btn btn-outline-secondary" for="themeAuto">
-            Auto
-        </label>
-    </div>
+    <input class="btn-check"
+           type="radio"
+           name="theme"
+           id="themeDark"
+           value="@ThemePreference.Dark"
+           checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
 
-    <button type="submit" class="btn btn-primary">
-        Save Theme
-    </button>
+    <label class="btn btn-outline-secondary" for="themeDark">
+        Dark
+    </label>
 
-</form>
+    <input class="btn-check"
+           type="radio"
+           name="theme"
+           id="themeAuto"
+           value="@ThemePreference.Auto"
+           checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
+
+    <label class="btn btn-outline-secondary" for="themeAuto">
+        Auto
+    </label>
+</div>
+
 
 <div class="mb-3">
     @if (Model.DisplayStaff is { Active: true, Email: not null })

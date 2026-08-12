@@ -33,7 +33,7 @@
             .forEach(radio => {
                 radio.addEventListener('change', () => {
                     const theme = radio.value;
-                    setTHeme(theme);
+                    setTheme(theme);
                 })
             })
     })
