@@ -44,7 +44,7 @@
            type="radio"
            name="theme"
            id="themeLight"
-           value="@ThemePreference.Light"
+           value="light"
            checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
 
     <label class="btn btn-outline-secondary" for="themeLight">
@@ -55,7 +55,7 @@
            type="radio"
            name="theme"
            id="themeDark"
-           value="@ThemePreference.Dark"
+           value="dark"
            checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
 
     <label class="btn btn-outline-secondary" for="themeDark">
@@ -66,7 +66,7 @@
            type="radio"
            name="theme"
            id="themeAuto"
-           value="@ThemePreference.Auto"
+           value="dark"
            checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
 
     <label class="btn btn-outline-secondary" for="themeAuto">

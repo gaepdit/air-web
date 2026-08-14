@@ -29,7 +29,7 @@
     })
 
     globalThis.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('input[name="Theme"]')
+        document.querySelectorAll('input[name="theme"]')
             .forEach(radio => {
                 radio.addEventListener('change', () => {
                     const theme = radio.value;
