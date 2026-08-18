@@ -107,11 +107,11 @@
     <partial name="Shared/_TableOfContentsPartial" />
 
     <div class="col-12 col-md-9">
-        @if (caseFile.AttentionNeeded && Model.UserCan[CaseFileOperation.EditCaseFile])
+        @if (caseFile.AttentionNeeded && User.CouldEditCaseFile(caseFile))
         {
             <div class="callout callout-warning p-3">
                 <p><strong>Attention needed:</strong>
-                    This enforcement case requires
+                    This enforcement case @(caseFile.IsClosed ? "required" : "requires")
                     @if (caseFile.LacksLinkedCompliance)
                     {
                         @:a linked <a href="#discovery-events">discovery event</a>

@@ -87,13 +87,13 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
     public bool MissingViolationType => ViolationType == null;
-    public bool LacksViolationType => !IsClosed && HasReportableEnforcement && MissingViolationType;
+    public bool LacksViolationType => HasReportableEnforcement && MissingViolationType;
 
     private bool MissingLinkedCompliance => ComplianceEvents.All(dto => dto.IsDeleted);
-    public bool LacksLinkedCompliance => !IsClosed && HasReportableEnforcement && MissingLinkedCompliance;
+    public bool LacksLinkedCompliance => HasReportableEnforcement && MissingLinkedCompliance;
 
     public bool MissingPollutantsOrPrograms => Pollutants.Count == 0 || AirPrograms.Count == 0;
-    public bool LacksPollutantsOrPrograms => !IsClosed && HasReportableEnforcement && MissingPollutantsOrPrograms;
+    public bool LacksPollutantsOrPrograms => HasReportableEnforcement && MissingPollutantsOrPrograms;
 
     public bool MissingData => MissingLinkedCompliance || MissingPollutantsOrPrograms || MissingViolationType;
 

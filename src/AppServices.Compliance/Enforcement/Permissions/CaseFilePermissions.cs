@@ -23,7 +23,10 @@ public static class CaseFilePermissions
             !item.IsDeleted && user.CanManageCaseFileDeletions() && !item.HasIssuedEnforcement;
 
         public bool CanEditCaseFile<T>(T item) where T : IIsClosed, IIsDeleted, IHasOwner =>
-            item is { IsClosed: false, IsDeleted: false } && user.IsComplianceStaff();
+            user.CouldEditCaseFile(item) && !item.IsClosed;
+
+        public bool CouldEditCaseFile<T>(T item) where T : IIsClosed, IIsDeleted, IHasOwner =>
+            !item.IsDeleted && user.IsComplianceStaff();
 
         public bool CanReopenCaseFile<T>(T item) where T : IIsClosed, IIsDeleted =>
             item is { IsClosed: true, IsDeleted: false } && user.IsEnforcementManager();
