@@ -122,11 +122,12 @@ public partial record FacilityId
     public static bool IsValidFormat(string id) => FacilityIdRegex.IsMatch(id);
 
     // language:regex
-    public const string StandardFormat = "[0-9]{3}-?[0-9]{5}";
+    public const string DisplayIdFormat = "[0-9]{3}-?[0-9]{5}";
 
     // language:regex
-    public const string SimplifiedFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
-    public const string SimplifiedFormatError = "Invalid AIRS Number format.";
+    public const string LooseIdFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
+
+    public const string LooseIdFormatError = "Invalid AIRS Number format.";
 
     // Format as Facility ID if possible, otherwise return original input.
     public static string? TryFormat(string? input) =>

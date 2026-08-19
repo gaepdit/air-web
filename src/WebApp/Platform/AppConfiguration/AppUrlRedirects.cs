@@ -21,13 +21,13 @@ public static class AppUrlRedirects
                 .AddRedirect(regex: "^new$", replacement: "/").AddRedirect(regex: "^new/(.*)$", replacement: "$1")
 
                 // Old report pages
-                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/acc-report/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/acc-report/{IntPattern}$",
                     replacement: "print/acc/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/stack-test/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/stack-test/{IntPattern}$",
                     replacement: "print/source-test/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.StandardFormat}/fce/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/fce/{IntPattern}$",
                     replacement: "print/fce/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
 
