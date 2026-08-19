@@ -111,7 +111,7 @@ public partial record FacilityId
 
     // Regex
     [GeneratedRegex(FacilityIdEnclosedPattern)]
-    private static partial Regex FacilityIdRegex();
+    private static partial Regex FacilityIdRegex { get; }
 
     // Test at https://regex101.com/r/2uYyHl/9
     // language:regex
@@ -119,7 +119,7 @@ public partial record FacilityId
         @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})";
 
     public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
-    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
+    public static bool IsValidFormat(string id) => FacilityIdRegex.IsMatch(id);
 
     // language:regex
     public const string StandardFormat = "[0-9]{3}-?[0-9]{5}";

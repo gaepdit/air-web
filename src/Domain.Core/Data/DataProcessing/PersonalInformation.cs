@@ -7,8 +7,8 @@ public static class PersonalInformation
         if (string.IsNullOrWhiteSpace(input)) return input;
 
         // Replacement email based on https://tools.ietf.org/html/rfc2606#section-2
-        input = Regexes.EmailRegex().Replace(input, "[email@removed.invalid]");
-        input = Regexes.PhoneRegex().Replace(input, "[phone number removed]");
+        input = Regexes.EmailRegex.Replace(input, "[email@removed.invalid]");
+        input = Regexes.PhoneRegex.Replace(input, "[phone number removed]");
 
         return input;
     }
