@@ -34,6 +34,7 @@
                 radio.addEventListener('change', () => {
                     const theme = radio.value;
                     setTheme(theme);
+                    document.querySelector('#themeForm').submit();
                 })
             })
     })
