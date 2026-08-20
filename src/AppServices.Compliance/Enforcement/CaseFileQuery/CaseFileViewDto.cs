@@ -37,6 +37,8 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Violation Type")]
     public ViolationType? ViolationType { get; init; }
 
+    private bool ViolationIsHpv => ViolationType is { Severity: ViolationSeverity.HPV };
+
     [Display(Name = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
 
@@ -61,6 +63,10 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
 
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
+
+    public bool MandatoryAttentionNeeded => LacksViolationType || (AttentionNeeded && ViolationIsHpv);
+
+    public bool ShowAttentionNeeded => (!IsClosed && AttentionNeeded) || MandatoryAttentionNeeded;
 
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });

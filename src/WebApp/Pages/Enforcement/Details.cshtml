@@ -88,7 +88,7 @@
                 {
                     <a asp-page="Edit" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Edit</a>
                 }
-                @if (Model.UserCan[CaseFileOperation.CloseCaseFile] && !caseFile.AttentionNeeded)
+                @if (Model.UserCan[CaseFileOperation.CloseCaseFile] && !caseFile.MandatoryAttentionNeeded)
                 {
                     <a asp-page="Close" asp-route-id="@Model.Id.ToString()" class="btn btn-outline-primary">Close</a>
                 }
@@ -107,7 +107,7 @@
     <partial name="Shared/_TableOfContentsPartial" />
 
     <div class="col-12 col-md-9">
-        @if (caseFile.AttentionNeeded && User.CouldEditCaseFile(caseFile))
+        @if (caseFile.ShowAttentionNeeded && User.CouldEditCaseFile(caseFile))
         {
             <div class="callout callout-warning p-3">
                 <p><strong>Attention needed:</strong>
@@ -198,11 +198,11 @@
             <div id="supportingDataAccordion" class="accordion">
                 <div class="accordion-item">
                     <h3 class="accordion-header no-anchor">
-                        <button class="accordion-button shadow-sm @(caseFile.AttentionNeeded ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#supportingDataBody" aria-expanded="@(caseFile.AttentionNeeded ? "true" : "false")" aria-controls="supportingDataBody">
+                        <button class="accordion-button shadow-sm @(caseFile.ShowAttentionNeeded ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#supportingDataBody" aria-expanded="@(caseFile.AttentionNeeded ? "true" : "false")" aria-controls="supportingDataBody">
                             Related Details
                         </button>
                     </h3>
-                    <div id="supportingDataBody" class="accordion-collapse collapse @(caseFile.AttentionNeeded ? "show" : "")" data-bs-parent="supportingDataAccordion">
+                    <div id="supportingDataBody" class="accordion-collapse collapse @(caseFile.ShowAttentionNeeded ? "show" : "")" data-bs-parent="supportingDataAccordion">
                         <div class="accordion-body">
 
                             <section class="mt-2">
@@ -760,7 +760,7 @@
                                             Issued</label>
                                         <span asp-validation-for="IssueEnforcementAction.Date" class="invalid-feedback"></span>
                                     </div>
-                                    @if (Model.UserCan[CaseFileOperation.CloseCaseFile] && !caseFile.MissingData)
+                                    @if (Model.IssueEnforcementAction.Option)
                                     {
                                         <div class="form-check mt-2" id="issueEnforcementCloseOption">
                                             <input asp-for="IssueEnforcementAction.Option" class="form-check-input" />
