@@ -25,7 +25,7 @@ public class DetailsModel(
     // Facility
     [FromRoute]
     public string? Id { get; set; }
-
+    public CommentsSectionModel CommentSection { get; set; } = null!;
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public string? EpaFacilityId => Facility?.Id.EpaFacilityId;
     public DateTime? EpaDxDate { get; private set; }

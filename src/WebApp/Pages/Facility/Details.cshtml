@@ -273,6 +273,9 @@
              view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
 </section>
 
+<partial name="Shared/_CommentsSectionPartial" model="Model.CommentSection"
+         view-data="new ViewDataDictionary(ViewData)" view-data-CommentsTitle="@("Case File Comments")" />
+
 @if (facility is { IsPortableSource: false, GeoCoordinates: not null })
 {
     @section Scripts {
