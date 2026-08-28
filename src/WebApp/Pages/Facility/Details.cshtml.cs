@@ -1,15 +1,20 @@
-﻿using AirWeb.AppServices.Compliance.AuthorizationPolicies;
+﻿using System.Text.Json;
+using AirWeb.AppServices.Compliance.AuthorizationPolicies;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Compliance.SourceTests;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.AppServices.Core.CommonDtos;
+using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests.Models;
-using System.Text.Json;
 
 namespace AirWeb.WebApp.Pages.Facility;
 
@@ -97,5 +102,29 @@ public class DetailsModel(
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             "Data for this facility will be sent to EPA the next time the data exchange service runs.");
         return RedirectToPage();
+    }
+
+    private PageResult InitializePage(CommentAddDto? newComment = null)
+    {
+        CommentSection = new CommentsSectionModel
+        {
+            Comments = CaseFile!.Comments,
+            NewComment = newComment ?? new CommentAddDto(Id),
+            NewCommentId = NewCommentId,
+            NotificationFailureMessage = NotificationFailureMessage,
+            CanAddComment = UserCan[CaseFileOperation.AddComment],
+            CanDeleteComment = UserCan[CaseFileOperation.DeleteComment],
+        };
+
+        CreateEnforcementAction = new EnforcementActionCreateDto();
+        IssueEnforcementAction = new MaxDateAndBooleanDto
+        { Option = UserCan[CaseFileOperation.CloseCaseFile] && !CaseFile.MissingData };
+        AddEnforcementActionResponse = new EnforcementActionAddResponseDto();
+        ExecuteOrder = new MaxDateOnlyDto();
+        AppealOrder = new MaxDateOnlyDto();
+        ResolveEnforcementAction = new MaxDateAndBooleanDto
+        { Option = UserCan[CaseFileOperation.CloseCaseFile] && !CaseFile.AttentionNeeded };
+
+        return Page();
     }
 }
