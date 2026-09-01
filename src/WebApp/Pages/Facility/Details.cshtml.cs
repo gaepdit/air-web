@@ -31,6 +31,13 @@ public class DetailsModel(
     [FromRoute]
     public string? Id { get; set; }
     public CommentsSectionModel CommentSection { get; set; } = null!;
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
+    [TempData]
+    public string? NotificationFailureMessage { get; set; }
+
+    [TempData]
+    public Guid NewCommentId { get; set; }
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
     public string? EpaFacilityId => Facility?.Id.EpaFacilityId;
     public DateTime? EpaDxDate { get; private set; }
@@ -108,7 +115,7 @@ public class DetailsModel(
     {
         CommentSection = new CommentsSectionModel
         {
-            Comments = CaseFile!.Comments,
+            Comments = Facility!.Comments,
             NewComment = newComment ?? new CommentAddDto(Id),
             NewCommentId = NewCommentId,
             NotificationFailureMessage = NotificationFailureMessage,

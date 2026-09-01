@@ -45,4 +45,5 @@ public record Facility : IFacilityIdName
 
     // Data Exchange
     public ushort NextActionNumber { get; set; } = 1;
+
 }
