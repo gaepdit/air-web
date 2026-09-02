@@ -20,4 +20,4 @@ public record FacilityComment : Comment, ISetCommentItemId<FacilityId>
     public void SetItemId(FacilityId facilityId) => FacilityId = facilityId;
 }
 
-public interface IFacilityCommentRepository : ICommentRepository<CaseFileComment>;
+public interface IFacilityCommentRepository : ICommentRepository<FacilityComment>;
