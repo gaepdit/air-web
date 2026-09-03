@@ -1,4 +1,4 @@
-using AirWeb.Domain.Compliance.Comments;
+﻿using AirWeb.Domain.Compliance.Comments;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
@@ -37,6 +37,7 @@ internal static class Repositories
             .AddScoped<ICaseFileCommentRepository, CaseFileCommentRepository>()
             .AddScoped<IComplianceWorkCommentRepository, ComplianceWorkCommentRepository>()
             .AddScoped<IFceCommentRepository, FceCommentRepository>()
+            .AddScoped<IFacilityCommentRepository, FacilityCommentRepository>()
 
             // SBEAP
             .AddScoped<IActionItemRepository, ActionItemRepository>()
@@ -58,8 +59,11 @@ internal static class Repositories
             .AddSingleton<IEnforcementActionRepository, EnforcementActionMemRepository>()
             .AddSingleton<ICaseFileRepository, CaseFileMemRepository>()
             .AddSingleton<ICaseFileCommentRepository, CaseFileCommentMemRepository>()
+            .AddScoped<IFacilityCommentRepository, FacilityCommentRepository>()
             .AddSingleton<IComplianceWorkCommentRepository, ComplianceWorkCommentMemRepository>()
             .AddSingleton<IFceCommentRepository, FceCommentMemRepository>()
+            .AddScoped<IFacilityCommentRepository, FacilityCommentRepository>()
+
 
             // SBEAP
             .AddSingleton<IActionItemRepository, ActionItemMemRepository>()

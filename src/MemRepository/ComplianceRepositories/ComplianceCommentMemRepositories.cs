@@ -15,3 +15,4 @@ public class ComplianceWorkCommentMemRepository(IComplianceWorkRepository reposi
 
 public class FceCommentMemRepository(IFceRepository repository)
     : CommentMemRepository<Fce, FceComment>(repository), IFceCommentRepository;
+

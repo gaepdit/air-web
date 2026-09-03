@@ -4,6 +4,7 @@ using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.EfRepository.CommonRepositories;
 using AirWeb.EfRepository.Contexts;
+using IaipDataService.Facilities;
 
 namespace AirWeb.EfRepository.ComplianceRepositories;
 
@@ -15,3 +16,5 @@ public class ComplianceWorkCommentRepository(AppDbContext context)
 
 public class FceCommentRepository(AppDbContext context)
     : CommentRepository<Fce, FceComment, AppDbContext>(context), IFceCommentRepository;
+public class FacilityCommentRepository(AppDbContext context) 
+    : CommentRepository<FacilityId, FacilityComment, AppDbContext>(context), IFacilityCommentRepository;
