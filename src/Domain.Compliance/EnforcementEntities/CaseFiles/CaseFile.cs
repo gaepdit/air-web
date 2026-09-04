@@ -130,7 +130,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public List<string> AirProgramCodes { get; } = [];
 
     public bool MissingData =>
-        !IsClosed && IsReportable &&
+        !IsClosed && ActionNumber.HasValue && // Is reportable (compliance event types notwithstanding)
         (PollutantIds.Count == 0 || AirProgramCodes.Count == 0 ||
          ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
@@ -155,11 +155,11 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Data exchange properties
 
-    // Data exchange is not used for LONs, Cases with no linked compliance event,
-    // or Cases where the only linked compliance event is an RMP inspection.
-    // (This is equivalent to `ActionNumber.HasValue` and is set in the Case File Manager.)
-    public bool IsReportable { get; internal set; }
-
+    // The data exchange is not used for LONs or Case Files where the only linked compliance event is an RMP inspection.
+    // - `ActionNumber` is initially set in the Case File Manager when a reportable enforcement action is first added
+    //   (i.e., an inheritor of `DxActionEnforcementAction`.)
+    // - The `ActionNumber` is set without regard to the Compliance Events. If an RMP inspection is the only linked
+    //   Compliance Event, then the Case File is filtered out by the data exchange staging script.
     [JsonIgnore]
     public ushort? ActionNumber { get; set; }
 

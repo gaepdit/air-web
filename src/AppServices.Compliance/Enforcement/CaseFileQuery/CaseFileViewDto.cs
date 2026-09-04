@@ -129,5 +129,5 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public ushort? ActionNumber { get; set; }
     public DataExchangeStatus DataExchangeStatus { get; set; }
     public DateTimeOffset? DataExchangeStatusDate { get; set; }
-    public bool IsReportable { get; init; }
+    public bool IsReportable => ActionNumber.HasValue && ComplianceEvents.All(dto => dto.IsReportable);
 }
