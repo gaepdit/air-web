@@ -157,22 +157,8 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Data exchange is not used for LONs, Cases with no linked compliance event,
     // or Cases where the only linked compliance event is an RMP inspection.
-    public bool IsReportable
-    {
-        // FUTURE: This is probably equivalent to `get => ActionNumber.HasValue;`
-        // which would allow `CaseFileService.UpdateAsync` to be simplified.  
-        get => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
-               EnforcementActions.Exists(action => action.IsReportable);
-
-        [UsedImplicitly]
-        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
-        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
-        private set
-        {
-            // Method intentionally left empty. This allows storing read-only properties in the database.
-            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
-        }
-    }
+    // (This is equivalent to `ActionNumber.HasValue` and is set in the Case File Manager.)
+    public bool IsReportable { get; internal set; }
 
     [JsonIgnore]
     public ushort? ActionNumber { get; set; }

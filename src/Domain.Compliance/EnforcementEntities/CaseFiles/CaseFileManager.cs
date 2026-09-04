@@ -29,8 +29,11 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         if (action is not DxActionEnforcementAction) return;
 
         if (caseFile.ActionNumber is null)
+        {
             caseFile.InitializeDataExchange(await facilityService
                 .GetNextActionNumberAsync((FacilityId)action.FacilityId).ConfigureAwait(false));
+            caseFile.IsReportable = true;
+        }
         else
             caseFile.UpdateDataExchange();
     }
