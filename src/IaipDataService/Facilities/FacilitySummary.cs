@@ -30,4 +30,7 @@ public record FacilitySummary : IFacilityIdName
     // The `FacilityId` property is needed to satisfy the `IFacilityIdName` interface.
     [JsonIgnore]
     public string FacilityId => Id;
+
+    [JsonIgnore]
+    public string ShortFacilityId => $"{Id[..3]}{Id[5..]}";
 }
