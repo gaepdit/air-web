@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.9.4] - 2026-09-04
+
+- The facility list can now be filtered by typing the Facility ID with or without the hyphen, i.e., "00100001" or
+  "001-00001".
+
 ## [2026.8.20] - 2026-08-20
 
 - Further refined the Case File UI to reflect that discovery events are only strictly required for HPVs.
