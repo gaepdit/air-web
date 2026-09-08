@@ -49,4 +49,10 @@ public interface IFacilityService
     /// <param name="token"></param>
     Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default);
+
+    /// <summary>
+    /// Retrieves a list of all facilities with only names and IDs.
+    /// </summary>
+    /// <param name="token"></param>
+    Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default);
 }
