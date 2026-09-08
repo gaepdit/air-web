@@ -1,0 +1,64 @@
+﻿@page "{handler?}"
+@model PermitSearchIndex
+@{
+    ViewData["Title"] = "Air Permit Search";
+    ViewData["NoValidate"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <label asp-for="Id" class="form-label"></label>
+                        <div class="autocomplete">
+                            <input asp-for="Id" name="@nameof(Model.Id)" class="form-control" />
+                            <ul class="suggestions-list list-group border"></ul>
+                            <span asp-validation-for="Id" class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="col-md mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <div class="autocomplete">
+                            <input asp-for="Name" name="@nameof(Model.Name)" class="form-control" />
+                            <ul class="suggestions-list list-group"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
+                    <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3">Clear Form</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/autocomplete.js"></script>
+    <script asp-add-content-to-csp>
+        const facilities = @Html.Raw(Model.FacilitiesAsJson);
+    </script>
+    <script asp-add-content-to-csp>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Autocomplete({
+                input: document.getElementById('Id'),
+                data: facilities,
+                searchProperties: ['Id', 'ShortId'],
+                displayProperties: ['Id', 'Name'],
+                fillProperty: ['Id'],
+            });
+            new Autocomplete({
+                input: document.getElementById('Name'),
+                data: facilities,
+                searchProperties: ['Name'],
+                displayProperties: ['Id', 'Name'],
+                fillProperty: ['Name'],
+            });
+        });
+    </script>
+}
