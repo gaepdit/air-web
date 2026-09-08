@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using IaipDataService.Caching;
 using IaipDataService.DbConnection;
+using IaipDataService.Permits;
 using IaipDataService.Structs;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
@@ -169,5 +170,25 @@ public sealed class IaipFacilityService(
             },
             CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityListExpiration),
             tags: [FacilityLists], token).ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
+        CancellationToken token = default)
+    {
+        const string sql = "select ApplicationNumber, AIRS, FacilityName, PermitNumber, IssuanceDate, FileType, " +
+                           " VNarrative, VFinal, PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal, " +
+                           " OtherNarrative, OtherPermit " +
+                           " from dbo.VW_GA_PERMITS " +
+                           " where (@id is null or AIRSNumber = @id or AIRS = @id) " +
+                           "   and (@name is null or FacilityName like concat('%', @name, '%')) " +
+                           " order by 1";
+
+        using var db = dbf.Create();
+
+        return (await db.QueryAsync<PermitSummary>(
+            sql: sql,
+            param: new { id, name },
+            commandType: CommandType.Text
+        ).ConfigureAwait(false)).ToList();
     }
 }

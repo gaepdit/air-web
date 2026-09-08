@@ -1,4 +1,5 @@
 ﻿using IaipDataService.Facilities;
+using IaipDataService.Permits;
 
 namespace IaipDataService.TestData;
 
@@ -55,4 +56,10 @@ public sealed class TestFacilityService : IFacilityService
         Task.FromResult<IReadOnlyCollection<FacilityList>>([
             .. Items.Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id),
         ]);
+
+    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
+        CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
 }
