@@ -822,3 +822,29 @@ dt {
     position: relative;
     left: 0.5rem;
 }
+
+/* Autocomplete textbox 
+----------------------- */
+
+.autocomplete {
+    position: relative;
+}
+
+.suggestions-list {
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    display: none;
+}
+
+.suggestions-list li {
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    color: var(--bs-list-group-active-color);
+    background-color: var(--bs-list-group-active-bg);
+    border-color: var(--bs-list-group-active-border-color);
+}
+
