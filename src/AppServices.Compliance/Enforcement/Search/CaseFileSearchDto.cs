@@ -3,6 +3,7 @@ using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
+using IaipDataService.Facilities;
 using System.ComponentModel;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.Search;
@@ -28,8 +29,8 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    [RegularExpression(IaipDataService.Facilities.FacilityId.LooseIdFormat,
-        ErrorMessage = IaipDataService.Facilities.FacilityId.LooseIdFormatError)]
+    [RegularExpression(FacilityIdRegex.SearchFormat,
+        ErrorMessage = FacilityIdRegex.SearchFormatError)]
     public string? FacilityId
     {
         get;

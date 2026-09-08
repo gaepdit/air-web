@@ -1,5 +1,4 @@
-﻿using IaipDataService.Facilities;
-using Microsoft.AspNetCore.Rewrite;
+﻿using Microsoft.AspNetCore.Rewrite;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
@@ -9,6 +8,9 @@ public static class AppUrlRedirects
 {
     // language=regex
     private const string IntPattern = @"(\d+)";
+
+    // language:regex
+    private const string FacilityIdFormat = "[0-9]{3}-?[0-9]{5}";
 
     public static IApplicationBuilder UseAppUrlRedirects(this IApplicationBuilder app)
     {
@@ -21,13 +23,13 @@ public static class AppUrlRedirects
                 .AddRedirect(regex: "^new$", replacement: "/").AddRedirect(regex: "^new/(.*)$", replacement: "$1")
 
                 // Old report pages
-                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/acc-report/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityIdFormat}/acc-report/{IntPattern}$",
                     replacement: "print/acc/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/stack-test/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityIdFormat}/stack-test/{IntPattern}$",
                     replacement: "print/source-test/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
-                .AddRedirect(regex: $"^facility/{FacilityId.DisplayIdFormat}/fce/{IntPattern}$",
+                .AddRedirect(regex: $"^facility/{FacilityIdFormat}/fce/{IntPattern}$",
                     replacement: "print/fce/$1",
                     statusCode: StatusCodes.Status301MovedPermanently)
 
