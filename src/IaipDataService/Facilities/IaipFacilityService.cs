@@ -172,23 +172,42 @@ public sealed class IaipFacilityService(
             tags: [FacilityLists], token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
-        CancellationToken token = default)
+    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? facilityId, string? name,
+        int skip, int take, CancellationToken token = default)
     {
-        const string sql = "select ApplicationNumber, AIRS, FacilityName, PermitNumber, IssuanceDate, FileType, " +
-                           " VNarrative, VFinal, PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal, " +
-                           " OtherNarrative, OtherPermit " +
-                           " from dbo.VW_GA_PERMITS " +
-                           " where (@id is null or AIRSNumber = @id or AIRS = @id) " +
-                           "   and (@name is null or FacilityName like concat('%', @name, '%')) " +
-                           " order by 1";
+        const string sql =
+            "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
+            " VNarrative, VFinal, OtherNarrative, OtherPermit, " +
+            " PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal " +
+            " from dbo.VW_GA_PERMITS " +
+            " where (@id is null or AIRSNumber = @id or AIRS = @id) " +
+            "   and (@name is null or FacilityName like concat('%', @name, '%')) " +
+            " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
+            " offset @skip rows fetch next @take rows only";
 
         using var db = dbf.Create();
 
         return (await db.QueryAsync<PermitSummary>(
             sql: sql,
-            param: new { id, name },
+            param: new { id = facilityId, name, skip, take },
             commandType: CommandType.Text
         ).ConfigureAwait(false)).ToList();
+    }
+
+    public async Task<int> CountPermitsAsync(string? facilityId, string? name, CancellationToken token = default)
+    {
+        const string sql =
+            "select count(*) " +
+            " from dbo.VW_GA_PERMITS " +
+            " where (@id is null or AIRSNumber = @id or AIRS = @id) " +
+            "   and (@name is null or FacilityName like concat('%', @name, '%'))";
+
+        using var db = dbf.Create();
+
+        return await db.ExecuteScalarAsync<int>(
+            sql: sql,
+            param: new { id = facilityId, name },
+            commandType: CommandType.Text
+        ).ConfigureAwait(false);
     }
 }

@@ -59,11 +59,21 @@ public interface IFacilityService
     Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default);
 
     /// <summary>
-    /// Searches for permits for a facility ID or partial name.
+    /// Searches for permits for a facility ID or partial facility name.
     /// </summary>
-    /// <param name="id">A Facility ID.</param>
+    /// <param name="facilityId">A Facility ID.</param>
+    /// <param name="name">The facility name to search for.</param>
+    /// <param name="skip">The number of permits search results to skip (for pagination).</param>
+    /// <param name="take">The number of permits search results to take (for pagination).</param>
+    /// <param name="token"></param>
+    Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? facilityId, string? name, int skip, int take,
+        CancellationToken token = default);
+
+    /// <summary>
+    /// Counts the number of permits for a facility ID or partial facility name.
+    /// </summary>
+    /// <param name="facilityId">A Facility ID.</param>
     /// <param name="name">The facility name to search for.</param>
     /// <param name="token"></param>
-    Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
-        CancellationToken token = default);
+    Task<int> CountPermitsAsync(string? facilityId, string? name, CancellationToken token = default);
 }

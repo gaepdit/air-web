@@ -57,8 +57,13 @@ public sealed class TestFacilityService : IFacilityService
             .. Items.Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id),
         ]);
 
-    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
-        CancellationToken token = default)
+    public async Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? facilityId, string? name, int skip,
+        int take, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<int> CountPermitsAsync(string? facilityId, string? name, CancellationToken token = default)
     {
         throw new NotImplementedException();
     }
