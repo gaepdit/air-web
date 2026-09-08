@@ -44,8 +44,15 @@ public sealed class TestFacilityService : IFacilityService
 
     public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default) =>
-        Task.FromResult<IReadOnlyCollection<FacilitySummary>>(Items
-            .Where(f => includePortableSources || f.Id.CountyCode != "777")
-            .Select(f => new FacilitySummary(f))
-            .ToList());
+        Task.FromResult<IReadOnlyCollection<FacilitySummary>>([
+            .. Items
+                .Where(f => includePortableSources || f.Id.CountyCode != "777")
+                .Select(f => new FacilitySummary(f))
+                .OrderBy(f => f.Id),
+        ]);
+
+    public Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default) =>
+        Task.FromResult<IReadOnlyCollection<FacilityList>>([
+            .. Items.Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id),
+        ]);
 }
