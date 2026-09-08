@@ -32,5 +32,5 @@ public record FacilitySummary : IFacilityIdName
     public string FacilityId => Id;
 
     [JsonIgnore]
-    public string ShortFacilityId => $"{Id[..3]}{Id[4..]}";
+    public string ShortId => $"{Id[..3]}{Id[4..]}";
 }
