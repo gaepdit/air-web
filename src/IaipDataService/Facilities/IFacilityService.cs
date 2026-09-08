@@ -1,4 +1,6 @@
-﻿namespace IaipDataService.Facilities;
+﻿using IaipDataService.Permits;
+
+namespace IaipDataService.Facilities;
 
 public interface IFacilityService
 {
@@ -55,4 +57,13 @@ public interface IFacilityService
     /// </summary>
     /// <param name="token"></param>
     Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// Searches for permits for a facility ID or partial name.
+    /// </summary>
+    /// <param name="id">A Facility ID.</param>
+    /// <param name="name">The facility name to search for.</param>
+    /// <param name="token"></param>
+    Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? id, string? name,
+        CancellationToken token = default);
 }
