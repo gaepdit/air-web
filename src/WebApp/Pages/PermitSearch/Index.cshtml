@@ -15,7 +15,7 @@
                     <div class="col-md mb-3">
                         <label asp-for="Id" class="form-label"></label>
                         <div class="autocomplete">
-                            <input asp-for="Id" name="@nameof(Model.Id)" class="form-control" />
+                            <input asp-for="Id" name="@nameof(Model.Id)" class="form-control" data-1p-ignore />
                             <ul class="suggestions-list list-group border"></ul>
                             <span asp-validation-for="Id" class="invalid-feedback"></span>
                         </div>
@@ -23,7 +23,7 @@
                     <div class="col-md mb-3">
                         <label asp-for="Name" class="form-label"></label>
                         <div class="autocomplete">
-                            <input asp-for="Name" name="@nameof(Model.Name)" class="form-control" />
+                            <input asp-for="Name" name="@nameof(Model.Name)" class="form-control" data-1p-ignore />
                             <ul class="suggestions-list list-group"></ul>
                         </div>
                     </div>
