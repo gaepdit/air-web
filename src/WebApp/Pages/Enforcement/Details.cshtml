@@ -110,8 +110,8 @@
         @if (caseFile.ShowAttentionNeeded && User.CouldEditCaseFile(caseFile))
         {
             <div class="callout callout-warning p-3">
-                <p><strong>Attention needed:</strong>
-                    This enforcement case @(caseFile.IsClosed ? "required" : "requires")
+                <div><strong>Attention needed:</strong>
+                    This enforcement case is missing
                     @if (caseFile.LacksLinkedCompliance)
                     {
                         @:a linked <a href="#discovery-events">discovery event</a>
@@ -133,7 +133,7 @@
                         @:a <a href="#violation-type">violation type</a>
                     }
                     .
-                </p>
+                </div>
             </div>
         }
 
