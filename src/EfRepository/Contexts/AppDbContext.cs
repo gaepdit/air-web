@@ -97,7 +97,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureComplianceWorkTphMapping()
             .ConfigureEnforcementActionTphMapping()
             .ConfigureCommonTphMapping()
-            .ConfigureEnumValues()
             .ConfigureImpliedAddedChildEntities()
             .ConfigureLookupTableNameMaxLength()
             .ConfigureCollectionPropertySerialization()
@@ -124,5 +123,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // Ref: https://jonathancrozier.com/blog/a-better-way-to-convert-enums-to-strings-with-entity-framework-core
+        base.ConfigureConventions(configurationBuilder);
+        configurationBuilder.Properties<Enum>().HaveConversion<string>();
     }
 }
