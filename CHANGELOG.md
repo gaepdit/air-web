@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.9.9] - 2026-09-09
+
+- This update changes some things on the back end to improve how it's determined which Case Files get sent to the EPA
+  data exchange.
+
 ## [2026.9.4] - 2026-09-04
 
 - The facility list can now be filtered by typing the Facility ID with or without the hyphen, i.e., "00100001" or
@@ -229,3 +234,5 @@
 [2026.8.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.10
 [2026.8.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.18
 [2026.8.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.20
+[2026.9.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.4
+[2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9
