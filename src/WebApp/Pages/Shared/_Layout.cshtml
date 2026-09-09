@@ -1,16 +1,15 @@
-﻿@inject AirWeb.AppServices.Core.EntityServices.Staff.IStaffService StaffService
+﻿@using AirWeb.AppServices.Core.EntityServices.Staff
+@inject IStaffService StaffService
 @{
     var displayMessages = TempData.GetDisplayMessages();
     var themePreference = "auto";
     if (User.Identity?.IsAuthenticated == true)
     {
-        var preferences = await StaffService.GetPreferencesAsync();
-        themePreference = preferences.Theme.ToString().ToLower();
+        themePreference = (await StaffService.GetPreferencesAsync()).Theme.GetDescription();
     }
 }
 <!DOCTYPE html>
-<html lang="en"
-      data-theme-preference="@themePreference">
+<html lang="en" data-theme-preference="@themePreference">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -54,19 +53,19 @@
                      <a asp-page="/Support" class="btn-subtle">Support</a>
                     <span class="text-body-secondary">|</span>
                     <a href="https://epd.georgia.gov/" target="_blank" rel="noopener"
-                         class="btn-subtle">Environmental Protection Division</a>
+                       class="btn-subtle">Environmental Protection Division</a>
                 </span>
                 <br />&copy; @DateTime.Now.Year.ToString() State of Georgia
                 <span class="d-print-none ms-1">
                     <span class="text-body-secondary">|</span>
                     <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener"
-                         class="btn-subtle">Accessibility</a>
+                       class="btn-subtle">Accessibility</a>
                     <span class="text-body-secondary">|</span>
                     <a href="https://gadnr.org/ada" target="_blank" rel="noopener"
-                         class="btn-subtle">DNR Accessibility Notice</a>
+                       class="btn-subtle">DNR Accessibility Notice</a>
                     <span class="text-body-secondary">|</span>
                     <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener"
-                         class="btn-subtle">Privacy/Security</a>
+                       class="btn-subtle">Privacy/Security</a>
                 </span>
             </small>
         </div>

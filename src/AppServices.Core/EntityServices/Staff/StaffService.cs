@@ -33,7 +33,6 @@ public interface IStaffService : IDisposable, IAsyncDisposable
     Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource);
     Task<UserPreferences> GetPreferencesAsync();
     Task UpdateThemePreferenceAsync(ThemePreference theme);
-    
 }
 
 public sealed class StaffService(
@@ -178,21 +177,20 @@ public sealed class StaffService(
         await cache.RemoveByTagAsync(CachedStaffLists).ConfigureAwait(false);
         return await userManager.UpdateAsync(user).ConfigureAwait(false);
     }
-    public async Task<UserPreferences> GetPreferencesAsync()
-    {
-        var user = await userService.GetCurrentUserAsync()
-            ?? throw new CurrentUserNotFoundException();
 
-        return user.Preferences;
-    }
+    public async Task<UserPreferences> GetPreferencesAsync() =>
+        (await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Preferences
+        ?? throw new CurrentUserNotFoundException();
+
     public async Task UpdateThemePreferenceAsync(ThemePreference theme)
     {
-        var user = await userService.GetCurrentUserAsync()
-            ?? throw new CurrentUserNotFoundException();
+        var user = await userService.GetCurrentUserAsync().ConfigureAwait(false)
+                   ?? throw new CurrentUserNotFoundException();
 
         user.Preferences.Theme = theme;
         await userManager.UpdateAsync(user).ConfigureAwait(false);
     }
+
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()

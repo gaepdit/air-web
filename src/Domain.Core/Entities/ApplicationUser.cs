@@ -37,7 +37,7 @@ public sealed class ApplicationUser : IdentityUser, IEntity<string>
     public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
     public string FullName => new[] { GivenName, FamilyName }.ConcatWithSeparator();
 
-    public UserPreferences Preferences { get; set; } = new();
+    public UserPreferences Preferences { get; init; } = new();
 
     public string SortableNameWithInactive
     {

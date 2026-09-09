@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace AirWeb.Domain.Core.Entities;
 
-public class UserPreferences
+public record UserPreferences
 {
-    public ThemePreference Theme { get; set; } = ThemePreference.Dark;
+    public ThemePreference Theme { get; set; } = ThemePreference.Auto;
 }
+
 public enum ThemePreference
 {
-    Auto = 0,
-    Light = 1,
-    Dark = 2,
+    [Description("auto")] Auto,
+    [Description("light")] Light,
+    [Description("dark")] Dark,
 }

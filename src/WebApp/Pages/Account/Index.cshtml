@@ -1,6 +1,6 @@
 ﻿@page
-@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.Domain.Core.Entities
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model AccountIndexModel
 @{
     ViewData["Title"] = "Account Profile";
@@ -23,55 +23,11 @@
 
     <dt class="col-sm-3">Phone</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.DisplayStaff.PhoneNumber, DisplayTemplate.TextOrPlaceholder,
-                additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+            additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 
     <dt class="col-sm-3">Office</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
-                additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
-    
-    <dt class="col-sm-3">Theme</dt>
-    <dd class="col-sm-9">
-        <form method="post" id="themeForm">
-
-            <div class="btn-group" role="group" aria-label="Theme selection">
-
-                <input class="btn-check"
-                       type="radio"
-                       name="theme"
-                       id="themeLight"
-                       value="light"
-                       checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
-
-                <label class="btn btn-outline-secondary" for="themeLight">
-                    Light
-                </label>
-
-                <input class="btn-check"
-                       type="radio"
-                       name="theme"
-                       id="themeDark"
-                       value="dark"
-                       checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
-
-                <label class="btn btn-outline-secondary" for="themeDark">
-                    Dark
-                </label>
-
-                <input class="btn-check"
-                       type="radio"
-                       name="theme"
-                       id="themeAuto"
-                       value="auto"
-                       checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
-
-                <label class="btn btn-outline-secondary" for="themeAuto">
-                    Auto
-                </label>
-
-            </div>
-
-        </form>
-    </dd>
+            additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 </dl>
 
 <div class="mb-3">
@@ -84,6 +40,28 @@
     </form>
 </div>
 
+<h3 class="mt-4">Preferences</h3>
+
+<form method="post" id="themeForm">
+    <fieldset>
+        <legend class="col-form-label fw-bold">Appearance</legend>
+        <div class="btn-group">
+            <input class="btn-check" type="radio" name="theme" autocomplete="off"
+                   id="themeAuto" value="auto" checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
+            <label class="btn btn-outline-secondary" for="themeAuto">Auto</label>
+
+            <input class="btn-check" type="radio" name="theme" autocomplete="off"
+                   id="themeLight" value="light" checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
+            <label class="btn btn-outline-secondary" for="themeLight">Light</label>
+
+            <input class="btn-check" type="radio" name="theme" autocomplete="off"
+                   id="themeDark" value="dark" checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
+            <label class="btn btn-outline-secondary" for="themeDark">Dark</label>
+        </div>
+    </fieldset>
+</form>
+
+<h3 class="mt-4">Roles</h3>
 <partial name="Shared/_UserRolesPartial" model="Model.Roles" />
 
 <environment include="Local, Development">

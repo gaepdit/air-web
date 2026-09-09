@@ -4,23 +4,22 @@ using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Domain.Core.AppRoles;
 using AirWeb.Domain.Core.Entities;
 using AirWeb.WebApp.Models;
-using DocumentFormat.OpenXml.Presentation;
 
 namespace AirWeb.WebApp.Pages.Account;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
-public class AccountIndexModel : PageModel
+public class AccountIndexModel([FromServices] IStaffService staffService) : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = null!;
-    public UserPreferences Preferences { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
+    public UserPreferences Preferences { get; private set; } = null!;
     public IReadOnlyList<AppRole> Roles { get; private set; } = null!;
 
-    public async Task<IActionResult> OnGetAsync([FromServices] IStaffService staffService)
+    public async Task<IActionResult> OnGetAsync()
     {
         DisplayStaff = await staffService.GetCurrentUserAsync();
-        Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
         Preferences = await staffService.GetPreferencesAsync();
+        Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
 
         if (DisplayStaff.Office is null)
             TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning,
@@ -28,9 +27,10 @@ public class AccountIndexModel : PageModel
 
         return Page();
     }
-    public async Task<IActionResult> OnPostAsync(ThemePreference theme, [FromServices] IStaffService staffservice)
+
+    public async Task<IActionResult> OnPostAsync(ThemePreference theme)
     {
-        await staffservice.UpdateThemePreferenceAsync(theme);
+        await staffService.UpdateThemePreferenceAsync(theme);
         return RedirectToPage();
     }
 }
