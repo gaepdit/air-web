@@ -2,7 +2,7 @@
 using AirWeb.AppServices.Core.DataAttributes;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
-using AirWeb.Domain.Core.Data.DataAttributes;
+using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspections;
 
@@ -27,6 +27,9 @@ public abstract record InspectionCommandDto : ComplianceWorkCommandDto, IInspect
     [DataType(DataType.Time)]
     [Display(Name = "End Time")]
     public TimeOnly InspectionEndedTime { get; init; } = new(16, 0);
+
+    [Display(Name = "Multiple Days")]
+    public bool MultiDayInspection { get; init; }
 
     [Display(Name = "Inspection Reason")]
     [RequiredLabel]

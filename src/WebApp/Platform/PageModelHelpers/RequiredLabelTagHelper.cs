@@ -20,8 +20,8 @@ public class RequiredLabelTagHelper : TagHelper
     [HtmlAttributeName(ForAttributeName)]
     public ModelExpression For
     {
-        set;
         get => field ?? throw new InvalidOperationException("Uninitialized Model.");
+        set;
     }
 
     /// <inheritdoc />

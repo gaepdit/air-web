@@ -1,0 +1,27 @@
+﻿@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@model AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery.ResponseViewDto
+
+@if (Model.IsResponseReceived)
+{
+    <div class="mt-2">
+        @if (string.IsNullOrWhiteSpace(Model.ResponseComment))
+        {
+            <div class="mb-1">
+                <em>
+                    Response received
+                    @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable)@(".")
+                </em>
+            </div>
+        }
+        else
+        {
+            <div class="mb-1">
+                <em>
+                    Response received
+                    @Html.DisplayFor(_ => Model.ResponseReceived, DisplayTemplate.ShortDateOnlyNullable)@(":")
+                </em>
+            </div>
+            <blockquote class="ps-2 border-start border-3 text-break text-pre-line">@Model.ResponseComment</blockquote>
+        }
+    </div>
+}

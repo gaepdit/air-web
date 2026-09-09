@@ -5,7 +5,6 @@ using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
 using AutoMapper;
-using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
@@ -21,6 +20,7 @@ public class LetterOfNoncomplianceEditModel(
     [BindProperty]
     public LetterOfNoncomplianceEditDto Item { get; set; } = null!;
 
+    public bool ShowResponse { get; private set; }
     public bool ShowIssueDate { get; private set; }
     public CaseFileSummaryDto? CaseFile { get; set; }
 
@@ -48,6 +48,7 @@ public class LetterOfNoncomplianceEditModel(
         if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
         Item = mapper.Map<LetterOfNoncomplianceEditDto>(itemView);
+        if (itemView.CanEditResponse()) ShowResponse = true;
 
         return Page();
     }
@@ -67,13 +68,16 @@ public class LetterOfNoncomplianceEditModel(
         if (!ModelState.IsValid)
         {
             if (itemView.IsIssued) ShowIssueDate = true;
+            if (itemView.CanEditResponse()) ShowResponse = true;
             return Page();
         }
 
         await actionService.UpdateAsync(Id, Item, token);
+
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             $"{itemView.ActionType.GetDisplayName()} successfully updated.");
         HighlightEnforcementId = Id;
+
         return RedirectToPage("../Details", pageHandler: null, routeValues: new { Id = itemView.CaseFileId },
             fragment: Id.ToString());
     }

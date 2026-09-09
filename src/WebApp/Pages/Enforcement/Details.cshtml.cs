@@ -7,7 +7,6 @@ using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
 
@@ -17,7 +16,7 @@ public class DetailsModel(
     IEnforcementActionService actionService,
     IAuthorizationService authorization,
     IValidator<MaxDateOnlyDto> maxDateValidator,
-    IValidator<MaxDateAndCommentDto> addResponseValidator,
+    IValidator<EnforcementActionAddResponseDto> addResponseValidator,
     IValidator<MaxDateAndBooleanDto> resolveActionValidator) : PageModel
 {
     // Case File
@@ -44,7 +43,7 @@ public class DetailsModel(
     public MaxDateAndBooleanDto IssueEnforcementAction { get; set; } = null!;
 
     [BindProperty]
-    public MaxDateAndCommentDto AddEnforcementActionResponse { get; set; } = null!;
+    public EnforcementActionAddResponseDto AddEnforcementActionResponse { get; set; } = null!;
 
     [BindProperty]
     public MaxDateOnlyDto ExecuteOrder { get; set; } = null!;
@@ -82,8 +81,8 @@ public class DetailsModel(
 
         HighlightEnforcementId = await actionService.CreateAsync(Id, CreateEnforcementAction, token);
 
-        return (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType) &&
-               CreateEnforcementAction.IsReportableAction
+        return CreateEnforcementAction.IsReportableAction &&
+               (caseFile.MissingPollutantsOrPrograms || caseFile.MissingViolationType)
             ? RedirectToPage("PollutantsPrograms", new { Id })
             : RedirectToFragment(HighlightEnforcementId.ToString()!);
     }
@@ -94,11 +93,16 @@ public class DetailsModel(
         CaseFile = await caseFileService.FindDetailedAsync(Id, token);
         if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
-        await addResponseValidator.ApplyValidationAsync(AddEnforcementActionResponse, ModelState);
+        var action = CaseFile.EnforcementActions.Find(action => action.Id == enforcementActionId);
+        if (action is null) return BadRequest();
+
+        await addResponseValidator.ApplyValidationAsync(AddEnforcementActionResponse, ModelState, action.IssueDate);
 
         if (!ModelState.IsValid)
         {
             await SetPermissionsAsync();
+            foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+                TempData.AddDisplayMessage(DisplayMessage.AlertContext.Danger, error.ErrorMessage);
             return InitializePage();
         }
 
@@ -292,7 +296,7 @@ public class DetailsModel(
         CreateEnforcementAction = new EnforcementActionCreateDto();
         IssueEnforcementAction = new MaxDateAndBooleanDto
             { Option = UserCan[CaseFileOperation.CloseCaseFile] && !CaseFile.MissingData };
-        AddEnforcementActionResponse = new MaxDateAndCommentDto();
+        AddEnforcementActionResponse = new EnforcementActionAddResponseDto();
         ExecuteOrder = new MaxDateOnlyDto();
         AppealOrder = new MaxDateOnlyDto();
         ResolveEnforcementAction = new MaxDateAndBooleanDto

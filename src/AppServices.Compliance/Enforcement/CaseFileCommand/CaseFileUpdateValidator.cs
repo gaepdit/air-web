@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 
 public class CaseFileUpdateValidator : AbstractValidator<CaseFileUpdateDto>

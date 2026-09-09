@@ -1,9 +1,9 @@
 ﻿@page "{id:Guid?}"
 @using AirWeb.AppServices.Core.Utilities
-@using AirWeb.Domain.Core.Data.DataAttributes
 @using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
+@using GaEpd.AppLibrary.DataAttributes
 @model StipulatedPenaltiesEditModel
 @{
     var caseFile = Model.CaseFile!;
@@ -13,7 +13,7 @@
 }
 
 <p class="d-print-none">
-    <a asp-page="Details" asp-route-id="@caseFile.Id" class="lead icon-link">
+    <a asp-page="Details" asp-route-id="@caseFile.Id" asp-fragment="@Model.Id" class="lead icon-link">
         <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Back to Enforcement Case #@caseFile.Id
     </a>

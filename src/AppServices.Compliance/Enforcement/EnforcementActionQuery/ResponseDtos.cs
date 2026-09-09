@@ -1,12 +1,13 @@
-﻿using AirWeb.AppServices.Compliance.DtoInterfaces;
+﻿namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 
-namespace AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
-
-public record ResponseRequestedViewDto : ActionViewDto, IResponseRequested
+public record ResponseRequestedViewDto : ResponseViewDto
 {
     [Display(Name = "Response Requested")]
     public bool ResponseRequested { get; init; }
+}
 
+public record ResponseViewDto : ActionViewDto
+{
     [Display(Name = "Response Received")]
     public DateOnly? ResponseReceived { get; init; }
 

@@ -8,5 +8,7 @@ public record SourceTestReviewCreateDto : SourceTestReviewCommandDto, IComplianc
 
     [Required]
     [Display(Name = "Facility")]
-    public string? FacilityId { get; init; }
+    public string? FacilityId { get; set; }
+
+    public int? CaseFileId => null;
 }

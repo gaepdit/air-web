@@ -73,5 +73,27 @@ internal static partial class ComplianceMonitoringData
             AccReportingYear = 2002,
             PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-3).AddDays(-21)),
         },
+        new(5004, DomainData.GetRandomFacility().Id)
+        {
+            ActionNumber = 5004,
+            ComplianceWorkType = ComplianceWorkType.AnnualComplianceCertification,
+            ResponsibleStaff = UserData.Users[2],
+            Notes = "Assigned to inactive user",
+
+            ReceivedDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-11)),
+            ReviewedDate = null,
+            AccReportingYear = 2000,
+            PostmarkDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-4).AddDays(-21)),
+            PostmarkedOnTime = true,
+            SignedByRo = true,
+            OnCorrectForms = true,
+            IncludesAllTvConditions = true,
+            CorrectlyCompleted = true,
+            ReportsDeviations = false,
+            IncludesPreviouslyUnreportedDeviations = true,
+            ReportsAllKnownDeviations = true,
+            ResubmittalRequired = false,
+            EnforcementNeeded = false,
+        },
     ];
 }

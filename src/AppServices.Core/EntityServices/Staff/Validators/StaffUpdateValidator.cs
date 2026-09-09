@@ -1,6 +1,5 @@
 using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
 using AirWeb.Domain.Core.Entities;
-using FluentValidation;
 
 namespace AirWeb.AppServices.Core.EntityServices.Staff.Validators;
 

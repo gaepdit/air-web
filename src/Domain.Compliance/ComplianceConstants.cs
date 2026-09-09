@@ -1,4 +1,4 @@
-﻿using AirWeb.Domain.Core.Data.DataAttributes;
+﻿using GaEpd.AppLibrary.DataAttributes;
 
 namespace AirWeb.Domain.Compliance;
 

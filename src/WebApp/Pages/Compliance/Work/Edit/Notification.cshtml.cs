@@ -3,7 +3,6 @@ using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Notifications;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AutoMapper;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Compliance.Work.Edit;
@@ -33,9 +32,9 @@ public class NotificationEditModel(
     public async Task<IActionResult> OnPostAsync(CancellationToken token) =>
         await DoPostAsync(Item, validator, token);
 
-    protected override async Task PopulateSelectListsAsync(CancellationToken token)
+    protected override async Task PopulateSelectListsAsync(string? forceInclude, CancellationToken token)
     {
-        await base.PopulateSelectListsAsync(token);
+        await base.PopulateSelectListsAsync(forceInclude, token);
         NotificationTypeSelectList = (await notificationTypeService.GetAsListItemsAsync(token: token)).ToSelectList();
     }
 }

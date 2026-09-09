@@ -11,10 +11,12 @@
                     </small>
                 </div>
                 <div class="col-sm-auto my-2 my-sm-0 ms-0 ms-sm-3">
-                    <a asp-route-refresh="true" class="btn btn-sm btn-outline-info icon-link">
-                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
-                        Refresh IAIP Data
-                    </a>
+                    <form method="post" asp-page-handler="RefreshIaip">
+                        <button class="btn btn-sm btn-outline-info mt-1" type="submit">
+                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.Refresh" />
+                            Refresh IAIP Data
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

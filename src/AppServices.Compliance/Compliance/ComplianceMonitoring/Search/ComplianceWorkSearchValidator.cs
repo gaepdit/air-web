@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using IaipDataService.Facilities;
+﻿using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 

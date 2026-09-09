@@ -121,11 +121,6 @@ public sealed class LocalUserStore :
         return Task.FromResult<IList<ApplicationUser>>(usersInRole);
     }
 
-    public void Dispose()
-    {
-        // Method intentionally left empty.
-    }
-
     public Task AddLoginAsync(ApplicationUser user, UserLoginInfo login, CancellationToken cancellationToken)
     {
         UserLogins.Add(new UserLogin
@@ -159,14 +154,6 @@ public sealed class LocalUserStore :
         var userId = UserLogins
             .SingleOrDefault(ul => ul.LoginProvider == loginProvider && ul.ProviderKey == providerKey)?.UserId;
         return Task.FromResult(UserData.Users.SingleOrDefault(user => user.Id == userId));
-    }
-
-    private sealed class UserLogin
-    {
-        public string LoginProvider { get; init; } = string.Empty;
-        public string ProviderKey { get; init; } = string.Empty;
-        public string? ProviderDisplayName { get; init; }
-        public string UserId { get; init; } = string.Empty;
     }
 
     public Task SetEmailAsync(ApplicationUser user, string? email, CancellationToken cancellationToken)
@@ -204,5 +191,18 @@ public sealed class LocalUserStore :
     {
         user.NormalizedEmail = normalizedEmail;
         return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        // Method intentionally left empty.
+    }
+
+    private sealed class UserLogin
+    {
+        public string LoginProvider { get; init; } = string.Empty;
+        public string ProviderKey { get; init; } = string.Empty;
+        public string? ProviderDisplayName { get; init; }
+        public string UserId { get; init; } = string.Empty;
     }
 }

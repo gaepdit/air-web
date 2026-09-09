@@ -4,9 +4,7 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspecti
 
 public record InspectionCreateDto : InspectionCommandDto, IComplianceWorkCreateDto
 {
-    [Required]
-    [Display(Name = "Facility")]
-    public string? FacilityId { get; init; }
-
+    public string? FacilityId { get; set; }
+    public int? CaseFileId { get; init; }
     public bool IsRmpInspection { get; init; }
 }

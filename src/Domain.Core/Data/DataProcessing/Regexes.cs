@@ -11,8 +11,8 @@ public static partial class Regexes
     private const string SimplePhonePattern = @"\b\d{3}[- .]\d{4}\b";
 
     [GeneratedRegex(SimpleEmailPattern)]
-    public static partial Regex EmailRegex();
+    public static partial Regex EmailRegex { get; }
 
     [GeneratedRegex(SimplePhonePattern)]
-    public static partial Regex PhoneRegex();
+    public static partial Regex PhoneRegex { get; }
 }

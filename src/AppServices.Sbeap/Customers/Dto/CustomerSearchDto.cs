@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;

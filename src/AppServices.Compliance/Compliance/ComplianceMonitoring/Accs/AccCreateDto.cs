@@ -4,7 +4,6 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Accs;
 
 public record AccCreateDto : AccCommandDto, IComplianceWorkCreateDto
 {
-    [Required]
-    [Display(Name = "Facility")]
-    public string? FacilityId { get; init; }
+    public string? FacilityId { get; set; }
+    public int? CaseFileId { get; init; }
 }

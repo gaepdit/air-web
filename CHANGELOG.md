@@ -1,8 +1,58 @@
 # Changelog
 
+## [2026.9.9] - 2026-09-09
+
+- This update changes some things on the back end to improve how it's determined which Case Files get sent to the EPA
+  data exchange.
+
+## [2026.9.4] - 2026-09-04
+
+- The facility list can now be filtered by typing the Facility ID with or without the hyphen, i.e., "00100001" or
+  "001-00001".
+
+## [2026.8.20] - 2026-08-20
+
+- Further refined the Case File UI to reflect that discovery events are only strictly required for HPVs.
+- Facilities can now be opened using the EPA ICIS-Air Facility ID.
+
+## [2026.8.18] - 2026-08-18
+
+- Made some UI changes to discourage closing a Case File if it still lacks required data (linked discovery event,
+  pollutants, etc.).
+
+## [2026.8.10] - 2026-08-10
+
+- Fix a bug preventing new notifications and permit revocations from being added.
+- Fix the edit pages so that if the original responsible staff is no longer active (or no longer has the correct roles),
+  the item can still be edited without needing to change the responsible staff.
+
+## [2026.8.6] - 2026-08-06
+
+- Enable creating linked compliance work directly from enforcement.
+- Simplify entering dates for a single-day inspection.
+- Show recent FCEs on the new FCE page.
+
+## [2026.7.30] - 2026-07-30
+
+- Enable adding an initial Enforcement Action when starting a new Case File.
+- Enable editing enforcement action responses.
+
+## [2026.7.22] - 2026-07-22
+
+- Updated some back-end code.
+
+## [2026.7.17] - 2026-07-17
+
+- Add the ability to trigger an update of the EPA data exchange for a facility.
+
+## [2026.7.9] - 2026-07-09
+
+- Display total collected penalties in the Case File summary section.
+- Update the SBEAP search forms to help avoid invalid search terms.
+
 ## [2026.6.18] - 2026-06-18
 
-- Boring back end code updates.
+- Updated some back-end code.
 
 ## [2026.6.16] - 2026-06-16
 
@@ -176,3 +226,13 @@
 [2026.6.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.5
 [2026.6.16]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.16
 [2026.6.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.6.18
+[2026.7.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.9
+[2026.7.17]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.17
+[2026.7.22]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.22
+[2026.7.30]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.30
+[2026.8.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.6
+[2026.8.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.10
+[2026.8.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.18
+[2026.8.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.20
+[2026.9.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.4
+[2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9

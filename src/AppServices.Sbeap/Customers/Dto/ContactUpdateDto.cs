@@ -1,6 +1,5 @@
 ﻿using AirWeb.Domain.Sbeap.ValueObjects;
 using GaEpd.AppLibrary.Extensions;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace AirWeb.AppServices.Sbeap.Customers.Dto;

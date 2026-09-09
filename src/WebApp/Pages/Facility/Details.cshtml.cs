@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Compliance.Fces.Search;
 using AirWeb.AppServices.Compliance.Compliance.SourceTests;
 using AirWeb.AppServices.Compliance.Enforcement.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
+using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
@@ -26,6 +27,8 @@ public class DetailsModel(
     public string? Id { get; set; }
 
     public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public string? EpaFacilityId => Facility?.Id.EpaFacilityId;
+    public DateTime? EpaDxDate { get; private set; }
     public FacilitySummary? FacilitySummary => Facility is null ? null : new FacilitySummary(Facility);
     public string FacilityJson => JsonSerializer.Serialize(FacilitySummary);
 
@@ -42,15 +45,9 @@ public class DetailsModel(
     // Permissions
     public bool IsComplianceStaff { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
         if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
-
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
 
         if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
 
@@ -59,11 +56,13 @@ public class DetailsModel(
         Facility = await facilityService.FindFacilityAsync(facilityId, RefreshIaipData, token);
         if (Facility is null) return NotFound("Facility ID not found.");
 
-        // Source Test service can be run in parallel with the search services.
+        // Dapper service can be run in parallel.
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
             PaginationDefaults.SourceTestSummary);
 
-        // Search services cannot be run in parallel with each other when using Entity Framework.
+        var epaDxDateTask = facilityService.GetFacilityEpaDxDateAsync(facilityId, token);
+
+        // EF services cannot be run in parallel.
         ComplianceWork = await searchService.SearchAsync(SearchDefaults.FacilityCompliance(Id),
             PaginationDefaults.ComplianceSummary, loadFacilities: false, token: token);
 
@@ -73,9 +72,30 @@ public class DetailsModel(
         CaseFiles = await caseFileService.SearchAsync(SearchDefaults.FacilityEnforcement(Id),
             PaginationDefaults.EnforcementSummary, loadFacilities: false, token: token);
 
+        IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
+
         SourceTests = await sourceTestsForFacilityTask;
 
-        IsComplianceStaff = await authorization.Succeeded(User, CompliancePolicies.ComplianceStaff);
+        EpaDxDate = await epaDxDateTask;
+
         return Page();
+    }
+
+    public IActionResult OnPostRefreshIaipAsync()
+    {
+        RefreshIaipData = true;
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostRefreshEpaAsync()
+    {
+        if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
+
+        if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
+        await facilityService.RefreshEpaDataExchange(facilityId);
+
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            "Data for this facility will be sent to EPA the next time the data exchange service runs.");
+        return RedirectToPage();
     }
 }

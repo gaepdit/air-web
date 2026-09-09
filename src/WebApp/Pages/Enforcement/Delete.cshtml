@@ -23,7 +23,9 @@
         <dd class="col-sm-8 col-lg-9">
             <span class="text-body-secondary">@Model.ItemSummary.FacilityId –</span> @Model.ItemSummary.FacilityName
         </dd>
-        <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ItemSummary.CaseFileStatus)</dt>
+        <dt class="col-sm-4 col-lg-3">
+            <span class="badge fs-6 text-reset px-2">@Html.DisplayNameFor(m => m.ItemSummary.CaseFileStatus)</span>
+        </dt>
         <dd class="col-sm-8 col-lg-9">
             <span class="badge fs-6 fw-medium @(Model.ItemSummary.CaseStatusClass)">@Model.ItemSummary.CaseFileStatus.GetDisplayName()</span>
         </dd>

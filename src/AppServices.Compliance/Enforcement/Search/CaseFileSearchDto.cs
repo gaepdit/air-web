@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
+using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 
@@ -27,8 +28,8 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
-        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
+    [RegularExpression(IaipDataService.Facilities.FacilityId.LooseIdFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.LooseIdFormatError)]
     public string? FacilityId
     {
         get;
@@ -57,11 +58,13 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
     public DateOnly? DiscoveryDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
     public DateOnly? DiscoveryDateTo { get; init; }
 
     // == Initial enforcement date ==
@@ -69,11 +72,13 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
     public DateOnly? EnforcementDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
     public DateOnly? EnforcementDateTo { get; init; }
 
     // UI Routing

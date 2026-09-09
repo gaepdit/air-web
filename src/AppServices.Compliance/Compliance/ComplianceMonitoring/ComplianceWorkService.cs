@@ -17,6 +17,8 @@ using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AutoMapper;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
+using Microsoft.Identity.Web;
+using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
 
@@ -98,11 +100,25 @@ public sealed partial class ComplianceWorkService(
             .ConfigureAwait(false));
 
     // Command
-    public async Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource,
+    public async Task<CreateResult<int>> CreateAsync(IComplianceWorkCreateDto resource, ClaimsPrincipal principal,
         CancellationToken token = default)
     {
-        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
-        var work = await CreateComplianceWorkFromDtoAsync(resource, currentUser, token).ConfigureAwait(false);
+        if (resource.FacilityId is null && resource.CaseFileId is null ||
+            (resource.FacilityId is not null && resource.CaseFileId is not null))
+            throw new InvalidOperationException();
+
+        var user = await userService.GetUserAsync(principal.GetNameIdentifierId() ?? throw new
+            InvalidOperationException()).ConfigureAwait(false);
+
+        if (resource.CaseFileId is not null)
+        {
+            var caseFile = await caseFileService.FindSummaryAsync(resource.CaseFileId.Value, token)
+                .ConfigureAwait(false);
+            if (caseFile is null) throw new InvalidOperationException();
+            resource.FacilityId = caseFile.FacilityId;
+        }
+
+        var work = await CreateComplianceWorkFromDtoAsync(resource, user, token).ConfigureAwait(false);
         await repository.InsertAsync(work, token: token).ConfigureAwait(false);
 
         if (work is SourceTestReview str)
@@ -115,7 +131,12 @@ public sealed partial class ComplianceWorkService(
 
         var notificationResult = await appNotificationService
             .SendNotificationAsync(ComplianceTemplate.WorkCreated, work.ResponsibleStaff, token,
-                work.Id, work.FacilityId, currentUser?.FullName).ConfigureAwait(false);
+                work.Id, work.FacilityId, user.FullName).ConfigureAwait(false);
+
+        if (resource.CaseFileId is not null)
+            await caseFileService.LinkComplianceEventAsync(resource.CaseFileId.Value, work.Id, token)
+                .ConfigureAwait(false);
+
         return CreateResult<int>.Create(work.Id, notificationResult.FailureReason);
     }
 

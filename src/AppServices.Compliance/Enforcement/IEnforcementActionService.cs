@@ -25,7 +25,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
     Task UpdateAsync(Guid id, AdministrativeOrderCommandDto resource, CancellationToken token = default);
 
     // Other actions
-    Task AddResponse(Guid id, MaxDateAndCommentDto resource, CancellationToken token = default);
+    Task AddResponse(Guid id, EnforcementActionAddResponseDto resource, CancellationToken token = default);
     Task<bool> IssueAsync(Guid id, MaxDateAndBooleanDto resource, CancellationToken token = default);
     Task CancelAsync(Guid id, CancellationToken token);
     Task ExecuteOrderAsync(Guid id, MaxDateOnlyDto resource, CancellationToken token);

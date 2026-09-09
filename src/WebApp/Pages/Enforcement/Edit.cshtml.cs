@@ -7,7 +7,6 @@ using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.Enforcement;
@@ -44,7 +43,7 @@ public class EditModel(
         ItemView = itemView;
         Item = new CaseFileUpdateDto(ItemView);
 
-        await PopulateSelectListsAsync(token);
+        await PopulateSelectListsAsync(ItemView.ResponsibleStaff?.Id, token);
         return Page();
     }
 
@@ -57,7 +56,7 @@ public class EditModel(
         if (!ModelState.IsValid)
         {
             ItemView = itemView;
-            await PopulateSelectListsAsync(token);
+            await PopulateSelectListsAsync(ItemView.ResponsibleStaff?.Id, token);
             return Page();
         }
 
@@ -66,10 +65,12 @@ public class EditModel(
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task PopulateSelectListsAsync(CancellationToken token)
+    private async Task PopulateSelectListsAsync(string? forceInclude, CancellationToken token)
     {
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+        StaffSelectList = (await staffService.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], forceInclude, token: token).ConfigureAwait(false)).ToSelectList();
 
         ViolationTypeSelectList = new SelectList(ViolationTypeData.GetCurrent(),
             dataValueField: nameof(ViolationType.Code), dataTextField: nameof(ViolationType.Display),

@@ -7,7 +7,6 @@ using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Staff;
 using AirWeb.Domain.Compliance.AppRoles;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 using IaipDataService.SourceTests;
 using IaipDataService.SourceTests.Models;
@@ -133,7 +132,7 @@ public class DetailsModel(
             return Page();
         }
 
-        var result = await compliance.CreateAsync(newComplianceReview, token);
+        var result = await compliance.CreateAsync(newComplianceReview, User, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Compliance Review successfully created.");
         if (result.HasWarning) TempData.AddDisplayMessage(DisplayMessage.AlertContext.Warning, result.WarningMessage);
@@ -239,6 +238,8 @@ public class DetailsModel(
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token) =>
-        StaffSelectList = (await staff.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+        StaffSelectList = (await staff.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], token: token).ConfigureAwait(false)).ToSelectList();
 }

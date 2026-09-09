@@ -31,10 +31,21 @@ public sealed class TestFacilityService : IFacilityService
             : facility.NextActionNumber++;
     }
 
+    public Task<DateTime?> GetFacilityEpaDxDateAsync(FacilityId id,
+        CancellationToken token = default)
+    {
+        var start = new DateTime(2020, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
+        var totalDays = Convert.ToInt32((DateTime.Today - start).TotalDays);
+        var dxDate = start.AddDays(Random.Shared.Next(totalDays)).AddMinutes(Random.Shared.Next(1440));
+        return Task.FromResult<DateTime?>(dxDate);
+    }
+
+    public Task<bool> RefreshEpaDataExchange(FacilityId id) => Task.FromResult(true);
+
     public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default) =>
-        Task.FromResult(Items
+        Task.FromResult<IReadOnlyCollection<FacilitySummary>>(Items
             .Where(f => includePortableSources || f.Id.CountyCode != "777")
             .Select(f => new FacilitySummary(f))
-            .ToList() as IReadOnlyCollection<FacilitySummary>);
+            .ToList());
 }

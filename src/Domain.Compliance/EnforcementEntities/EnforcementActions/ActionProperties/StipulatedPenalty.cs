@@ -1,5 +1,5 @@
-﻿using AirWeb.Domain.Core.Data.DataAttributes;
-using AirWeb.Domain.Core.Entities;
+﻿using AirWeb.Domain.Core.Entities;
+using GaEpd.AppLibrary.DataAttributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;

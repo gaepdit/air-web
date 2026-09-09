@@ -9,11 +9,14 @@ using AirWeb.Domain.Core.Entities;
 using AirWeb.TestData.SampleData;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
+using System.Security.Claims;
 
 namespace AppServicesTests.Compliance.ComplianceMonitoring.Service;
 
 public class CreateTests
 {
+    private const string NameIdentifierId = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+
     [Test]
     public async Task OnSuccessfulInsert_ReturnsSuccessfully()
     {
@@ -29,12 +32,10 @@ public class CreateTests
             .Returns(work);
 
         var userServiceMock = Substitute.For<IUserService>();
-        userServiceMock.GetCurrentUserAsync()
-            .Returns(user);
         userServiceMock.GetUserAsync(Arg.Any<string>())
             .Returns(user);
-        userServiceMock.FindUserAsync(Arg.Any<string>())
-            .Returns(user);
+        userServiceMock.GetUserEmailAsync(Arg.Any<string>())
+            .Returns(SampleText.ValidEmail);
 
         var notificationMock = Substitute.For<IAppNotificationService>();
         notificationMock
@@ -55,8 +56,11 @@ public class CreateTests
             ResponsibleStaffId = user.Id,
         };
 
+        var principle = new ClaimsPrincipal(new ClaimsIdentity(
+            [new Claim(NameIdentifierId, SampleText.UnassignedGuid.ToString())]));
+
         // Act
-        var result = await service.CreateAsync(item, CancellationToken.None);
+        var result = await service.CreateAsync(item, principle, CancellationToken.None);
 
         // Assert
         using var scope = new AssertionScope();

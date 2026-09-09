@@ -2,7 +2,8 @@
 GO
 
 CREATE OR ALTER PROCEDURE air.GetIaipFacilityNextActionNumber
-    @FacilityId varchar(8)
+    @FacilityId   varchar(12),
+    @ActionNumber smallint = null output
 AS
 
 /**************************************************************************************************
@@ -17,13 +18,15 @@ Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2025-12-22  DWaldron            Initial version (air-web#455)
+2026-07-09  DWaldron            - Allow different AIRS number formats as input
+                                - Return action number as output parameter (epa-dx#105)
 
 ***************************************************************************************************/
 
     SET XACT_ABORT, NOCOUNT ON
 BEGIN TRY
 
-    declare @Previous
+    declare @previous
         table
         (
             [ActionNumber] smallint
@@ -31,12 +34,17 @@ BEGIN TRY
 
     BEGIN TRANSACTION;
 
+    -- Increment the action number for the facility and remember the previous value for use by the caller.
     update dbo.APBSUPPLAMENTALDATA
     set STRAFSACTIONNUMBER = convert(smallint, STRAFSACTIONNUMBER) + 1
-    output convert(smallint, deleted.STRAFSACTIONNUMBER) as ActionNumber into @Previous
-    where STRAIRSNUMBER = concat('0413', @FacilityId);
+    output convert(smallint, deleted.STRAFSACTIONNUMBER) as ActionNumber into @previous
+    where STRAIRSNUMBER = iaip_facility.DbFormatAirsNumber(@FacilityId);
 
-    select ActionNumber from @Previous;
+    -- Store the action number in the output parameter.
+    select @ActionNumber = ActionNumber from @previous;
+
+    -- Select the action number.
+    select @ActionNumber;
 
     COMMIT TRANSACTION;
     RETURN 0;

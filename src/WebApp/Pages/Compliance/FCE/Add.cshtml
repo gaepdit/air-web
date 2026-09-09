@@ -1,4 +1,5 @@
 @page "{facilityId?}"
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model AddModel
 @{
@@ -16,9 +17,8 @@
     @* ID `new-fce-form` is used by "verifyFceYearSelection.js". *@
     <form method="post" id="new-fce-form">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi me-2" role="img" aria-label="Danger:">
-                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-            </svg>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                     view-data-CssClass="@("me-2")" />
         </div>
         <div class="row">
             <div class="col-md mb-3">
@@ -43,6 +43,20 @@
         <input asp-for="Item.FacilityId" type="hidden" />
     </form>
 </div>
+
+<section class="my-4 p-3 border rounded-3 bg-light-subtle">
+    <h2 class="h4 mb-3">Recent FCEs</h2>
+
+    @if (!Model.FceList.Items.Any())
+    {
+        <p class="mb-0"><em>None found.</em></p>
+    }
+    else
+    {
+        <partial name="Shared/CompliancePartials/_FceTable" model="Model.FceList.Items"
+                 view-data="new ViewDataDictionary(ViewData)" view-data-HideFacility="true" />
+    }
+</section>
 
 @section Scripts {
     <script src="~/js/compliance/verifyFceYearSelection.js"></script>

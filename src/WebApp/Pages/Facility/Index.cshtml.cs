@@ -14,29 +14,22 @@ public class IndexModel(IFacilityService service) : PageModel
 
     [BindProperty]
     [Required(ErrorMessage = "Enter a facility ID.")]
-    [RegularExpression(FacilityId.FacilityIdEnclosedPattern, ErrorMessage = FacilityId.FacilityIdFormatError)]
     public string? FindId { get; set; }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] bool refresh = false, CancellationToken token = default)
+    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
-        if (refresh)
-        {
-            RefreshIaipData = true;
-            return RedirectToPage();
-        }
-
         Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
         return Page();
     }
 
+    public IActionResult OnPostRefreshIaipAsync()
+    {
+        RefreshIaipData = true;
+        return RedirectToPage();
+    }
+
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        if (!ModelState.IsValid)
-        {
-            Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
-            return Page();
-        }
-
         if (FindId == null || !FacilityId.IsValidFormat(FindId))
             ModelState.AddModelError(nameof(FindId), FacilityId.FacilityIdFormatError);
         else if (!await service.ExistsAsync((FacilityId)FindId))

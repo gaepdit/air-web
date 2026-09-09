@@ -1,10 +1,10 @@
 ﻿using AirWeb.Domain.Core.AppRoles;
 using AirWeb.Domain.Core.Entities;
+using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Web;
 using System.Security.Claims;
 using ZLogger;
 
@@ -31,12 +31,11 @@ public sealed class AuthenticationManager(
             return MissingExternalLoginInfo();
 
         var loginProvider = externalLoginInfo.LoginProvider;
-        var identityProviderId = externalLoginInfo.Principal.GetIdentityProviderId();
+        var identityProviderId = externalLoginInfo.Principal.GetIdentityProviderId() ?? string.Empty;
         var userEmail = externalLoginInfo.Principal.GetEmail();
         var providerKey = externalLoginInfo.ProviderKey;
 
-        if (identityProviderId is null || userEmail is null)
-            return MissingExternalLoginInfo();
+        if (userEmail is null) return MissingExternalLoginInfo();
 
         if (!configuration.ValidateLoginProviderId(loginProvider, identityProviderId))
             return InvalidLoginProvider(loginProvider, identityProviderId);
@@ -73,33 +72,22 @@ public sealed class AuthenticationManager(
         return await AddLoginProviderAndSignInAsync(user, externalLoginInfo).ConfigureAwait(false);
     }
 
+    private static bool TestUserRolesPopulated { get; set; }
+
     public async Task<IdentityResult> LogInAsTestUserAsync(string[] testUserRoles)
     {
         const string userId = "00000001-0000-0000-0000-000000000000";
         var user = await userManager.FindByIdAsync(userId).ConfigureAwait(false);
+        if (user is null) throw new EntityNotFoundException<ApplicationUser>(userId);
 
-        if (user is null)
+        if (!TestUserRolesPopulated)
         {
-            const string email = "test@example.com";
-            user = new ApplicationUser
-            {
-                Id = userId,
-                GivenName = "First",
-                FamilyName = "Last",
-                Email = email,
-                UserName = email.ToLowerInvariant(),
-                NormalizedEmail = email.ToUpperInvariant(),
-                NormalizedUserName = email.ToUpperInvariant(),
-            };
-            await userManager.CreateAsync(user).ConfigureAwait(false);
+            foreach (var role in testUserRoles.Where(role => !string.IsNullOrWhiteSpace(role)))
+                await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
+            TestUserRolesPopulated = true;
         }
 
         logger.ZLogInformation($"Local user with ID {userId} signed in");
-
-        foreach (var pair in AppRole.AllRoles)
-            await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
-        foreach (var role in testUserRoles.Where(role => !string.IsNullOrWhiteSpace(role)))
-            await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
 
         await signInManager.SignInWithClaimsAsync(user, isPersistent: false,
                 additionalClaims: [new Claim(ClaimTypes.AuthenticationMethod, LoginProviders.TestUserScheme)])
@@ -111,7 +99,7 @@ public sealed class AuthenticationManager(
     {
         var user = new ApplicationUser
         {
-            UserName = info.Principal.GetDisplayName(),
+            UserName = info.Principal.GetEmail(),
             Email = info.Principal.GetEmail(),
             GivenName = info.Principal.GetGivenName(),
             FamilyName = info.Principal.GetFamilyName(),
@@ -124,8 +112,8 @@ public sealed class AuthenticationManager(
         if (!createUserResult.Succeeded)
             return UnableToCreateUser(info.ProviderKey);
 
-        logger.ZLogInformation($"Created new user with ID {info.ProviderKey}");
         await SeedRolesAsync(user).ConfigureAwait(false);
+        logger.ZLogInformation($"Created new user with ID {info.ProviderKey}");
 
         return await AddLoginProviderAndSignInAsync(user, info).ConfigureAwait(false);
     }
@@ -195,7 +183,7 @@ public sealed class AuthenticationManager(
             FamilyName = user.FamilyName,
         };
 
-        user.UserName = info.Principal.GetDisplayName();
+        user.UserName = info.Principal.GetEmail();
         user.Email = info.Principal.GetEmail();
         user.GivenName = info.Principal.GetGivenName();
         user.FamilyName = info.Principal.GetFamilyName();

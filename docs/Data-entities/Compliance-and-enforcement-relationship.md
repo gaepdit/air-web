@@ -9,9 +9,10 @@
     - Compliance Event (a subset of Compliance Work)
         - Annual Compliance Certification (ACC)
         - Inspection
+      - Report
         - Risk Management Plan Inspection
+      - RMP Inspection
         - Source Test Compliance Review
-        - Report
     - Notification
     - Permit revocation
 - Case File

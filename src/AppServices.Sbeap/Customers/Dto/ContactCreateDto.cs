@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AirWeb.AppServices.Sbeap.Customers.Dto;
+﻿namespace AirWeb.AppServices.Sbeap.Customers.Dto;
 
 public record ContactCreateDto(Guid CustomerId)
 {

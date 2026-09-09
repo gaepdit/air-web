@@ -12,7 +12,10 @@ public static class EnforcementActionPermissions
     {
         public bool CanAddResponse() =>
             item is { IsIssued: true, IsDeleted: false }
-                and ResponseRequestedViewDto { IsResponseReceived: false };
+                and ResponseViewDto { IsResponseReceived: false };
+
+        public bool CanEditResponse() =>
+            item is { IsIssued: true, IsDeleted: false } and ResponseViewDto;
 
         public bool CanBeAppealed() =>
             item is { IsIssued: true, IsDeleted: false }
@@ -53,8 +56,7 @@ public static class EnforcementActionPermissions
 
         public bool CanResolve(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is { IsIssued: true }
-                and IIsResolved { IsResolved: false };
+            item is { IsIssued: true } and IIsResolved { IsResolved: false };
 
         public bool CanResolveWithNfa(IActionViewDto item) =>
             user.CanEdit(item) &&

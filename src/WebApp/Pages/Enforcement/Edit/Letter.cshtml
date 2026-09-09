@@ -1,4 +1,5 @@
 ﻿@page "{id:Guid?}"
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @using AirWeb.WebApp.Pages.Shared.EditorTemplates
 @model LetterEditModel
@@ -13,9 +14,8 @@
 <div class="p-3 border border-primary-subtle rounded-3 bg-light-subtle mb-3">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi me-2" role="img" aria-label="Danger:">
-                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-            </svg>
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.WarningIcon" view-data="new ViewDataDictionary(ViewData)"
+                     view-data-CssClass="@("me-2")" />
         </div>
         <dl class="row">
             <dt class="col-sm-4 col-lg-3">Enforcement Case #</dt>
@@ -34,6 +34,18 @@
             @Html.EditorFor(m => m.Item.Notes, EditorTemplate.Textarea, additionalViewData: new { Rows = 5 })
         </div>
 
+        @if (Model.ShowIssueDate)
+        {
+            <div class="mb-3">
+                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+            </div>
+        }
+
+        @if (Model.ShowResponseRequested || Model.ShowResponse)
+        {
+            <h3 class="h5">Response Details</h3>
+        }
+
         @if (Model.ShowResponseRequested)
         {
             <div class="mb-3">
@@ -41,11 +53,23 @@
             </div>
         }
 
-        @if (Model.ShowIssueDate)
+        @if (Model.ShowResponse)
         {
             <div class="mb-3">
-                @Html.EditorFor(model => model.Item.IssueDate, EditorTemplate.InputDateOnlyNullable)
+                @Html.EditorFor(m => m.Item.IsResponseReceived, EditorTemplate.Checkbox)
             </div>
+            <div class="@(Model.Item.IsResponseReceived ? "" : "d-none")" id="responseDetails">
+                <div class="mb-3">
+                    @Html.EditorFor(model => model.Item.ResponseReceived, EditorTemplate.InputDateOnlyNullable)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(m => m.Item.ResponseComment, EditorTemplate.Textarea, additionalViewData: new { Rows = 4 })
+                </div>
+            </div>
+
+            @section Scripts {
+                <script src="~/js/compliance/responseDetailsSection.js"></script>
+            }
         }
 
         <partial name="Shared/_SubmitCancelButtons" />

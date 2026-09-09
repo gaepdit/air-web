@@ -46,7 +46,6 @@ internal static class SecurityHeaders
     private static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
         policies
-            .AddFrameOptionsDeny()
             .AddContentTypeOptionsNoSniff()
             .AddReferrerPolicyStrictOriginWhenCrossOrigin()
             .RemoveServerHeader()
@@ -66,7 +65,7 @@ internal static class SecurityHeaders
         builder.AddBaseUri().None();
         builder.AddObjectSrc().None();
         builder.AddScriptSrc().Self()
-            .From("https://www.datadoghq-browser-agent.com/us3/v6/")
+            .From("https://www.datadoghq-browser-agent.com/us3/")
             .WithHashTagHelper()
             .WithNonce()
             .ReportSample();
@@ -79,12 +78,14 @@ internal static class SecurityHeaders
             .From("https://browser-intake-us3-datadoghq.com");
         builder.AddFontSrc().Self().Data();
         builder.AddFormAction().Self()
-            .From("https://*.okta.com")
             .From("https://login.microsoftonline.com");
         builder.AddManifestSrc().Self();
-        builder.AddFrameAncestors().None();
+        builder.AddFrameAncestors()
+            .From("https://aux.gaepd.org")
+            .From("https://uat-aux.gaepd.org")
+            .From("https://dev-aux.gaepd.org");
         builder.AddWorkerSrc().Blob()
-            .From("https://www.datadoghq-browser-agent.com/us3/v6/");
+            .From("https://www.datadoghq-browser-agent.com/us3/");
 
         builder.AddReportTo("csp-endpoint");
 #pragma warning restore S1075

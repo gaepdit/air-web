@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Core.AuthenticationServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Identity.Web;
-using Okta.AspNetCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace AirWeb.WebApp.Platform.AppConfiguration;
 
@@ -22,17 +22,30 @@ public static class AuthenticationServices
 
         var configuration = builder.Configuration;
 
-        if (configuration.LoginProviderNames().Contains(LoginProviders.OktaScheme))
+        if (configuration.LoginProviderNames().Contains(LoginProviders.DuoScheme))
         {
-            // Requires an Okta account
-            authenticationBuilder.AddOktaMvc(authenticationScheme: LoginProviders.OktaScheme, new OktaMvcOptions
-            {
-                OktaDomain = configuration.GetValue<string>("Okta:OktaDomain"),
-                AuthorizationServerId = configuration.GetValue<string>("Okta:AuthorizationServerId"),
-                ClientId = configuration.GetValue<string>("Okta:ClientId"),
-                ClientSecret = configuration.GetValue<string>("Okta:ClientSecret"),
-                Scope = new List<string> { "openid", "profile", "email" },
-            });
+            // Requires a Duo account
+            authenticationBuilder.AddOpenIdConnect(authenticationScheme: LoginProviders.DuoScheme,
+                displayName: "Duo SSO",
+                configureOptions: options =>
+                {
+                    var configSection = builder.Configuration.GetSection("DuoSSO");
+
+                    options.Authority = configSection["Authority"];
+                    options.ClientId = configSection["ClientId"];
+                    options.ClientSecret = configSection["ClientSecret"];
+                    // (Each OIDC provider must have a unique callback path.)
+                    options.CallbackPath = configSection["CallbackPath"];
+
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+
+                    // `SignInScheme = null` is mandatory.
+                    // See https://github.com/AzureAD/microsoft-identity-web/issues/133#issuecomment-739550416
+                    options.SignInScheme = null;
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+                    options.MapInboundClaims = false;
+                });
         }
 
         if (configuration.LoginProviderNames().Contains(LoginProviders.EntraIdScheme))

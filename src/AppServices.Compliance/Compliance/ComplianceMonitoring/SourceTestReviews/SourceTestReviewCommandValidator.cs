@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestReviews;
 
 public class SourceTestReviewCommandValidator : AbstractValidator<SourceTestReviewCommandDto>

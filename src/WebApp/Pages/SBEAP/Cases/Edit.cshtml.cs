@@ -4,7 +4,6 @@ using AirWeb.AppServices.Sbeap.Cases;
 using AirWeb.AppServices.Sbeap.Cases.Dto;
 using AirWeb.AppServices.Sbeap.Cases.Permissions;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 using GaEpd.AppLibrary.ListItems;
 
 namespace AirWeb.WebApp.Pages.SBEAP.Cases;

@@ -1,10 +1,9 @@
-﻿using AirWeb.AppServices.Compliance.DtoInterfaces;
-using AirWeb.AppServices.Compliance.Enforcement;
+﻿using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
 using AirWeb.WebApp.Models;
-using FluentValidation;
 
 namespace AirWeb.WebApp.Pages.Enforcement.Edit;
 
@@ -20,6 +19,7 @@ public class LetterEditModel(
     public EnforcementActionEditDto Item { get; set; } = null!;
 
     public bool ShowResponseRequested { get; private set; }
+    public bool ShowResponse { get; private set; }
     public bool ShowIssueDate { get; private set; }
     public string ItemName { get; private set; } = null!;
     public CaseFileSummaryDto? CaseFile { get; set; }
@@ -51,10 +51,18 @@ public class LetterEditModel(
             IssueDate = itemView.IssueDate,
         };
 
-        if (itemView is IResponseRequested responseRequested)
+        if (itemView is ResponseRequestedViewDto responseRequested)
         {
             Item.ResponseRequested = responseRequested.ResponseRequested;
             ShowResponseRequested = true;
+        }
+
+        if (itemView.CanEditResponse() && itemView is ResponseViewDto response)
+        {
+            Item.IsResponseReceived = response.IsResponseReceived;
+            Item.ResponseReceived = response.ResponseReceived;
+            Item.ResponseComment = response.ResponseComment;
+            ShowResponse = true;
         }
 
         ItemName = itemView.ActionType.GetDisplayName();
@@ -74,6 +82,8 @@ public class LetterEditModel(
         if (!ModelState.IsValid)
         {
             if (itemView.IsIssued) ShowIssueDate = true;
+            if (itemView is ResponseRequestedViewDto) ShowResponseRequested = true;
+            if (itemView.CanEditResponse() && itemView is ResponseViewDto) ShowResponse = true;
             return Page();
         }
 

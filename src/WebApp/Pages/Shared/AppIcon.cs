@@ -27,6 +27,7 @@ public enum AppIcon
     Search,
     Switch,
     Trash,
+    UpToCloud,
     UpTop,
     WarningIcon,
 }

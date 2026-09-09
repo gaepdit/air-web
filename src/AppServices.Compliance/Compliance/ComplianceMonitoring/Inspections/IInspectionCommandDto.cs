@@ -8,6 +8,7 @@ public interface IInspectionCommandDto
     public TimeOnly InspectionStartedTime { get; }
     public DateOnly InspectionEndedDate { get; }
     public TimeOnly InspectionEndedTime { get; }
+    public bool MultiDayInspection { get; }
     public InspectionReason InspectionReason { get; }
     public string? WeatherConditions { get; }
     public string? InspectionGuide { get; }

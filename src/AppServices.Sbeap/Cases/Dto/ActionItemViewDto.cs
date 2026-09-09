@@ -1,5 +1,4 @@
 ﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 

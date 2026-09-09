@@ -36,7 +36,7 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
         ItemView = itemView;
         Item = new FceUpdateDto(ItemView);
 
-        await PopulateSelectListsAsync(token);
+        await PopulateSelectListsAsync(ItemView.ReviewedBy?.Id, token);
         return Page();
     }
 
@@ -48,7 +48,7 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
         if (!ModelState.IsValid)
         {
             ItemView = itemView;
-            await PopulateSelectListsAsync(token);
+            await PopulateSelectListsAsync(ItemView.ReviewedBy?.Id, token);
             return Page();
         }
 
@@ -59,8 +59,9 @@ public class EditModel(IFceService fceService, IStaffService staffService) : Pag
         return RedirectToPage("Details", new { Id });
     }
 
-    // FUTURE: Allow for editing an FCE previously reviewed by a currently inactive user.
-    private async Task PopulateSelectListsAsync(CancellationToken token) =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+    private async Task PopulateSelectListsAsync(string? forceInclude, CancellationToken token) =>
+        StaffSelectList = (await staffService.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], forceInclude, token: token).ConfigureAwait(false)).ToSelectList();
 }
