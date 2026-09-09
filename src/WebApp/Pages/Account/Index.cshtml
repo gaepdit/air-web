@@ -1,5 +1,6 @@
 ﻿@page
 @using AirWeb.Domain.Core.Entities
+@using AirWeb.WebApp.Pages.Shared
 @using AirWeb.WebApp.Pages.Shared.DisplayTemplates
 @model AccountIndexModel
 @{
@@ -48,15 +49,24 @@
         <div class="btn-group">
             <input class="btn-check" type="radio" name="theme" autocomplete="off"
                    id="themeAuto" value="auto" checked="@(Model.Preferences.Theme == ThemePreference.Auto)" />
-            <label class="btn btn-outline-secondary" for="themeAuto">Auto</label>
+            <label class="btn btn-outline-primary" for="themeAuto">
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" />
+                Auto
+            </label>
 
             <input class="btn-check" type="radio" name="theme" autocomplete="off"
                    id="themeLight" value="light" checked="@(Model.Preferences.Theme == ThemePreference.Light)" />
-            <label class="btn btn-outline-secondary" for="themeLight">Light</label>
+            <label class="btn btn-outline-primary" for="themeLight">
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" />
+                Light
+            </label>
 
             <input class="btn-check" type="radio" name="theme" autocomplete="off"
                    id="themeDark" value="dark" checked="@(Model.Preferences.Theme == ThemePreference.Dark)" />
-            <label class="btn btn-outline-secondary" for="themeDark">Dark</label>
+            <label class="btn btn-outline-primary" for="themeDark">
+                <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" />
+                Dark
+            </label>
         </div>
     </fieldset>
 </form>
