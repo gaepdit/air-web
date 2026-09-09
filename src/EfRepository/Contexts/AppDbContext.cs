@@ -99,6 +99,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureCommonTphMapping()
             .ConfigureImpliedAddedChildEntities()
             .ConfigureLookupTableNameMaxLength()
+            .ConfigureComplexProperties()
             .ConfigureCollectionPropertySerialization()
             .ConfigureDataExchangeIndexes()
             .ConfigureModelManagedData()

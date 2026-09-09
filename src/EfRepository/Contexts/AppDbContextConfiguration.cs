@@ -258,6 +258,15 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
+    internal static ModelBuilder ConfigureComplexProperties(this ModelBuilder builder)
+    {
+        // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/complex-types?tabs=data-annotations#mapping-complex-types-to-json
+        builder.Entity<ApplicationUser>(entityTypeBuilder => entityTypeBuilder
+            .ComplexProperty(user => user.Preferences, propertyBuilder => propertyBuilder.ToJson()));
+
+        return builder;
+    }
+
     internal static ModelBuilder ConfigureCollectionPropertySerialization(this ModelBuilder builder)
     {
         // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#collections-of-primitives
