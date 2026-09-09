@@ -77,3 +77,17 @@
         </dl>
     </details>
 </environment>
+
+@section Scripts
+{
+    <script asp-add-content-to-csp>
+        (() => {
+            globalThis.addEventListener('DOMContentLoaded', () => {
+                const themeForm = document.querySelector('#themeForm')
+                themeForm
+                    .querySelectorAll('input[name="theme"]')
+                    .forEach(radio => radio.addEventListener('change', () => themeForm.submit()))
+            })
+        })()
+    </script>
+}

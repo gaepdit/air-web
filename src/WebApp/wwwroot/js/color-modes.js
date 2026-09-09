@@ -24,10 +24,4 @@
     globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (getPreferredTheme() === 'auto') setTheme('auto')
     })
-
-    globalThis.addEventListener('DOMContentLoaded', () => {
-        const themeForm = document.querySelector('#themeForm')
-        themeForm.querySelectorAll('input[name="theme"]')
-            .forEach(radio => radio.addEventListener('change', () => themeForm.submit()))
-    })
 })()
