@@ -130,7 +130,7 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
     public List<string> AirProgramCodes { get; } = [];
 
     public bool MissingData =>
-        !IsClosed && IsReportable &&
+        !IsClosed && ActionNumber.HasValue && // Is reportable (compliance event types notwithstanding)
         (PollutantIds.Count == 0 || AirProgramCodes.Count == 0 ||
          ComplianceEvents.All(dto => dto.IsDeleted) || ViolationType == null);
 
@@ -155,25 +155,11 @@ public class CaseFile : ClosableEntity<int>, INotes, IDataExchangeAction, IComme
 
     // Data exchange properties
 
-    // Data exchange is not used for LONs, Cases with no linked compliance event,
-    // or Cases where the only linked compliance event is an RMP inspection.
-    public bool IsReportable
-    {
-        // FUTURE: This is probably equivalent to `get => ActionNumber.HasValue;`
-        // which would allow `CaseFileService.UpdateAsync` to be simplified.  
-        get => ComplianceEvents.Any(complianceEvent => complianceEvent.IsReportable) &&
-               EnforcementActions.Exists(action => action.IsReportable);
-
-        [UsedImplicitly]
-        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
-        [SuppressMessage("Blocker Code Smell", "S3237:\"value\" contextual keyword should be used")]
-        private set
-        {
-            // Method intentionally left empty. This allows storing read-only properties in the database.
-            // See: https://github.com/dotnet/efcore/issues/13316#issuecomment-421052406
-        }
-    }
-
+    // The data exchange is not used for LONs or Case Files where the only linked compliance event is an RMP inspection.
+    // - `ActionNumber` is initially set in the Case File Manager when a reportable enforcement action is first added
+    //   (i.e., an inheritor of `DxActionEnforcementAction`.)
+    // - The `ActionNumber` is set without regard to the Compliance Events. If an RMP inspection is the only linked
+    //   Compliance Event, then the Case File is filtered out by the data exchange staging script.
     [JsonIgnore]
     public ushort? ActionNumber { get; set; }
 

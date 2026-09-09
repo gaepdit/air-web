@@ -28,7 +28,11 @@ internal static class DataExchangeExtensions
 {
     extension(IDataExchange dx)
     {
-        public void UpdateDataExchange() => dx.SetDataExchangeStatus(DataExchangeStatus.U);
+        public void UpdateDataExchange()
+        {
+            if (dx.DataExchangeStatus != DataExchangeStatus.N)
+                dx.SetDataExchangeStatus(DataExchangeStatus.U);
+        }
 
         public void DeleteDataExchange()
         {
@@ -48,7 +52,7 @@ internal static class DataExchangeExtensions
         public void InitializeDataExchange(ushort actionNumber)
         {
             dx.ActionNumber = actionNumber;
-            dx.UpdateDataExchange();
+            dx.SetDataExchangeStatus(DataExchangeStatus.U);
         }
     }
 }

@@ -56,8 +56,7 @@ public static class EnforcementActionPermissions
 
         public bool CanResolve(IActionViewDto item) =>
             user.CanEdit(item) &&
-            item is { IsIssued: true }
-                and IIsResolved { IsResolved: false };
+            item is { IsIssued: true } and IIsResolved { IsResolved: false };
 
         public bool CanResolveWithNfa(IActionViewDto item) =>
             user.CanEdit(item) &&

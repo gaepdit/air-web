@@ -28,8 +28,8 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    [RegularExpression(IaipDataService.Facilities.FacilityId.SimplifiedFormat,
-        ErrorMessage = IaipDataService.Facilities.FacilityId.SimplifiedFormatError)]
+    [RegularExpression(IaipDataService.Facilities.FacilityId.LooseIdFormat,
+        ErrorMessage = IaipDataService.Facilities.FacilityId.LooseIdFormatError)]
     public string? FacilityId
     {
         get;

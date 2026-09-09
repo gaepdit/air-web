@@ -42,6 +42,8 @@ public class FacilityIdTests
     [TestCase("01-10")]
     [TestCase("01-99999")]
     [TestCase("041300100001")]
+    [TestCase("GA0000001300100001")]
+    [TestCase("GA0000001377799999")]
     public void IsValidFormat_ValidIdFormat_Accepted(string input)
     {
         FacilityId.IsValidFormat(input).Should().BeTrue();
@@ -76,6 +78,10 @@ public class FacilityIdTests
     [TestCase("001-00000")]
     [TestCase("001-0")]
     [TestCase("1-0")]
+    [TestCase("GA0000001300000000")]
+    [TestCase("GA00000013001-00001")]
+    [TestCase("GA000000130010001")]
+    [TestCase("GA0000001300000001")]
     public void IsValidFormat_InvalidIdFormat_Rejected(string input)
     {
         FacilityId.IsValidFormat(input).Should().BeFalse();
@@ -92,6 +98,16 @@ public class FacilityIdTests
     }
 
     [Test]
+    public void Normalize_ValidEpaDxIdFormat_SucceedsAndNormalizesId()
+    {
+        var result = new FacilityId("GA0000001300100001");
+        result.Id.Should().Be("00100001");
+        result.FormattedId.Should().Be("001-00001");
+        result.ToString().Should().Be("001-00001");
+        result.EpaFacilityId.Should().Be("GA0000001300100001");
+    }
+
+    [Test]
     public void Normalize_InvalidIdFormat_Throws()
     {
         var func = () => new FacilityId("0-1");
@@ -101,6 +117,7 @@ public class FacilityIdTests
     [Test]
     [TestCase("00100001")]
     [TestCase("001-00001")]
+    [TestCase("GA0000001300100001")]
     public void ImplicitOperator_Succeeds(string input)
     {
         var result = (FacilityId)input;
@@ -110,6 +127,7 @@ public class FacilityIdTests
     [Test]
     [TestCase("00100001")]
     [TestCase("001-00001")]
+    [TestCase("GA0000001300100001")]
     public void ExplicitOperator_Succeeds(string input)
     {
         string result = new FacilityId(input);
@@ -125,6 +143,14 @@ public class FacilityIdTests
     }
 
     [Test]
+    public void Equals_WhenEpaDxIdEqual_ReturnsTrue()
+    {
+        var value1 = new FacilityId("1-1");
+        var value2 = new FacilityId("GA0000001300100001");
+        value1.Equals(value2).Should().BeTrue();
+    }
+
+    [Test]
     public void Equals_WhenNotEqual_ReturnsFalse()
     {
         var value1 = new FacilityId("1-1");
@@ -136,6 +162,15 @@ public class FacilityIdTests
     public void TryParse_ValidIdFormat_Succeeds()
     {
         var result = FacilityId.TryParse("1-1", out var facilityId);
+        result.Should().BeTrue();
+        facilityId.Should().NotBeNull();
+        facilityId.Id.Should().Be("00100001");
+    }
+
+    [Test]
+    public void TryParse_ValidEpaDxIdFormat_Succeeds()
+    {
+        var result = FacilityId.TryParse("GA0000001300100001", out var facilityId);
         result.Should().BeTrue();
         facilityId.Should().NotBeNull();
         facilityId.Id.Should().Be("00100001");
@@ -161,6 +196,13 @@ public class FacilityIdTests
     public void TryFormat_ValidIdFormat_ReturnsFormatted()
     {
         var result = FacilityId.TryFormat("1-1");
+        result.Should().Be("001-00001");
+    }
+
+    [Test]
+    public void TryFormat_ValidEpaDxIdFormat_ReturnsFormatted()
+    {
+        var result = FacilityId.TryFormat("GA0000001300100001");
         result.Should().Be("001-00001");
     }
 

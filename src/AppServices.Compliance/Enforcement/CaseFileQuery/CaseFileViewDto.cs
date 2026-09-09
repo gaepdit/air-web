@@ -22,6 +22,7 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     [Display(Name = "Staff Responsible")]
     public StaffViewDto? ResponsibleStaff { get; init; }
 
+    [Display(Name = "Status")]
     public CaseFileStatus CaseFileStatus { get; init; }
 
     public string CaseStatusClass => CaseFileStatus switch
@@ -35,6 +36,8 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
 
     [Display(Name = "Violation Type")]
     public ViolationType? ViolationType { get; init; }
+
+    private bool ViolationIsHpv => ViolationType is { Severity: ViolationSeverity.HPV };
 
     [Display(Name = "Discovery Date")]
     public DateOnly? DiscoveryDate { get; init; }
@@ -61,6 +64,10 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     // Attention needed
     public bool AttentionNeeded => LacksLinkedCompliance || LacksPollutantsOrPrograms || LacksViolationType;
 
+    public bool MandatoryAttentionNeeded => LacksViolationType || (AttentionNeeded && ViolationIsHpv);
+
+    public bool ShowAttentionNeeded => (!IsClosed && AttentionNeeded) || MandatoryAttentionNeeded;
+
     public bool HasIssuedEnforcement =>
         EnforcementActions.Exists(action => action is { IssueDate: not null, IsDeleted: false });
 
@@ -86,13 +93,13 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public bool HasReportableEnforcement => EnforcementActions.Exists(action => action.IsReportableAction);
 
     public bool MissingViolationType => ViolationType == null;
-    public bool LacksViolationType => !IsClosed && HasReportableEnforcement && MissingViolationType;
+    public bool LacksViolationType => HasReportableEnforcement && MissingViolationType;
 
     private bool MissingLinkedCompliance => ComplianceEvents.All(dto => dto.IsDeleted);
-    public bool LacksLinkedCompliance => !IsClosed && HasReportableEnforcement && MissingLinkedCompliance;
+    public bool LacksLinkedCompliance => HasReportableEnforcement && MissingLinkedCompliance;
 
     public bool MissingPollutantsOrPrograms => Pollutants.Count == 0 || AirPrograms.Count == 0;
-    public bool LacksPollutantsOrPrograms => !IsClosed && HasReportableEnforcement && MissingPollutantsOrPrograms;
+    public bool LacksPollutantsOrPrograms => HasReportableEnforcement && MissingPollutantsOrPrograms;
 
     public bool MissingData => MissingLinkedCompliance || MissingPollutantsOrPrograms || MissingViolationType;
 
@@ -122,5 +129,5 @@ public record CaseFileViewDto : IIsClosed, IIsDeleted, IHasOwner, IDeleteComment
     public ushort? ActionNumber { get; set; }
     public DataExchangeStatus DataExchangeStatus { get; set; }
     public DateTimeOffset? DataExchangeStatusDate { get; set; }
-    public bool IsReportable { get; init; }
+    public bool IsReportable => ActionNumber.HasValue && ComplianceEvents.All(dto => dto.IsReportable);
 }

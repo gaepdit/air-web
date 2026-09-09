@@ -1,5 +1,31 @@
 # Changelog
 
+## [2026.9.9] - 2026-09-09
+
+- This update changes some things on the back end to improve how it's determined which Case Files get sent to the EPA
+  data exchange.
+
+## [2026.9.4] - 2026-09-04
+
+- The facility list can now be filtered by typing the Facility ID with or without the hyphen, i.e., "00100001" or
+  "001-00001".
+
+## [2026.8.20] - 2026-08-20
+
+- Further refined the Case File UI to reflect that discovery events are only strictly required for HPVs.
+- Facilities can now be opened using the EPA ICIS-Air Facility ID.
+
+## [2026.8.18] - 2026-08-18
+
+- Made some UI changes to discourage closing a Case File if it still lacks required data (linked discovery event,
+  pollutants, etc.).
+
+## [2026.8.10] - 2026-08-10
+
+- Fix a bug preventing new notifications and permit revocations from being added.
+- Fix the edit pages so that if the original responsible staff is no longer active (or no longer has the correct roles),
+  the item can still be edited without needing to change the responsible staff.
+
 ## [2026.8.6] - 2026-08-06
 
 - Enable creating linked compliance work directly from enforcement.
@@ -205,3 +231,8 @@
 [2026.7.22]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.22
 [2026.7.30]: https://github.com/gaepdit/air-web/releases/tag/v2026.7.30
 [2026.8.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.6
+[2026.8.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.10
+[2026.8.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.18
+[2026.8.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.20
+[2026.9.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.4
+[2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9

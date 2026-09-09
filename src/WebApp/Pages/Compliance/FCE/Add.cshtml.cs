@@ -76,8 +76,10 @@ public class AddModel(
 
     private async Task PopulateSupportingDataAsync(CancellationToken token)
     {
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+        StaffSelectList = (await staffService.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], token: token).ConfigureAwait(false)).ToSelectList();
 
         FceList = await searchService.SearchAsync(SearchDefaults.FacilityFces(FacilityId!),
             PaginationDefaults.FceSummary, loadFacilities: false, token: token);

@@ -8,7 +8,7 @@
 }
 else
 {
-    @if (Regexes.EmailRegex().IsMatch(Model))
+    @if (Regexes.EmailRegex.IsMatch(Model))
     {
         <a href="mailto:@Model">@Model</a>
     }

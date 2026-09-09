@@ -17,7 +17,6 @@ public partial record FacilityId
 
     // Properties
 
-
     /// <summary>
     /// The short form of the Facility ID without a hyphen, e.g. "00123456".
     /// </summary>
@@ -34,7 +33,7 @@ public partial record FacilityId
     public string FormattedId => $"{Id[..3]}-{Id[3..8]}";
 
     /// <summary>
-    /// The ID used by EPA.
+    /// The ID used by the EPA data exchange.
     /// </summary>
     public string EpaFacilityId => $"GA00000013{Id}";
 
@@ -91,7 +90,8 @@ public partial record FacilityId
     {
         var value = input.Trim();
 
-        if (!IsValidFormat(value)) throw new ArgumentException(FacilityIdFormatError);
+        if (IsValidEpaDxFormat(value)) return input[10..];
+        if (!IsValidStandardFormat(value)) throw new ArgumentException(FacilityIdFormatError);
 
         var dashIndex = value.IndexOf('-');
         if (dashIndex == -1)
@@ -99,36 +99,51 @@ public partial record FacilityId
             return value.Length switch
             {
                 8 => value,
-                12 when value.StartsWith(IaipDbFacilityPrefix) => value[4..],
+                12 => value[4..],
                 _ => throw new ArgumentException(FacilityIdFormatError),
             };
         }
 
-        var countyPart = value[..dashIndex].PadLeft(3, '0');
-        var restPart = value[(dashIndex + 1)..].PadLeft(5, '0');
-        return countyPart + restPart;
+        return value[..dashIndex].PadLeft(3, '0') +
+               value[(dashIndex + 1)..].PadLeft(5, '0');
     }
 
-    // Regex
-    [GeneratedRegex(FacilityIdEnclosedPattern)]
-    private static partial Regex FacilityIdRegex();
-
-    // Test at https://regex101.com/r/2uYyHl/9
-    // language:regex
-    private const string FacilityIdPattern =
-        @"(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})";
-
-    public const string FacilityIdEnclosedPattern = $"^{FacilityIdPattern}$";
-    public static bool IsValidFormat(string id) => FacilityIdRegex().IsMatch(id);
-
-    // language:regex
-    public const string StandardFormat = "[0-9]{3}-?[0-9]{5}";
-
-    // language:regex
-    public const string SimplifiedFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
-    public const string SimplifiedFormatError = "Invalid AIRS Number format.";
+    public static bool IsValidFormat(string id) => IsValidStandardFormat(id) || IsValidEpaDxFormat(id);
 
     // Format as Facility ID if possible, otherwise return original input.
     public static string? TryFormat(string? input) =>
         TryParse(input, out var facilityId) ? facilityId.FormattedId : input;
+
+    // --- Regex ---
+
+    // == Standard Format
+    [GeneratedRegex(FacilityIdPattern)]
+    private static partial Regex FacilityIdRegex { get; }
+
+    // Test at https://regex101.com/r/2uYyHl/10
+    // language:regex
+    private const string FacilityIdPattern =
+        "^(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})$";
+
+    private static bool IsValidStandardFormat(string id) => FacilityIdRegex.IsMatch(id);
+
+    // == EPA Data Exchange Format
+    [GeneratedRegex(EpaFacilityIdPattern)]
+    private static partial Regex EpaFacilityIdRegex { get; }
+
+    // Test at https://regex101.com/r/gZ9Go3/3
+    // language:regex
+    private const string EpaFacilityIdPattern =
+        "^GA00000013(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5}$";
+
+    private static bool IsValidEpaDxFormat(string id) => EpaFacilityIdRegex.IsMatch(id);
+
+    // === Simplified Formats
+    // language:regex
+    public const string DisplayIdFormat = "[0-9]{3}-?[0-9]{5}";
+
+    // language:regex
+    public const string LooseIdFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
+
+    public const string LooseIdFormatError = "Invalid AIRS Number format.";
 }

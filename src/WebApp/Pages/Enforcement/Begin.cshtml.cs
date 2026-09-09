@@ -107,6 +107,8 @@ public class BeginModel(
     }
 
     private async Task PopulateSelectListsAsync(CancellationToken token) =>
-        StaffSelectList = (await staffService.GetStaffInRoleAsync(token, ComplianceRole.ComplianceStaffRole,
-            ComplianceRole.ComplianceManagerRole).ConfigureAwait(false)).ToSelectList();
+        StaffSelectList = (await staffService.GetStaffInRoleAsync([
+            ComplianceRole.ComplianceStaffRole,
+            ComplianceRole.ComplianceManagerRole,
+        ], token: token).ConfigureAwait(false)).ToSelectList();
 }
