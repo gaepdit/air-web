@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.9.10] - 2026-09-10
+
+- The color theme switcher has been moved from the main toolbar to a preferences section on the user account page.
+
 ## [2026.9.9] - 2026-09-09
 
 - This update changes some things on the back end to improve how it's determined which Case Files get sent to the EPA
@@ -236,3 +240,4 @@
 [2026.8.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.8.20
 [2026.9.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.4
 [2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9
+[2026.9.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.10
