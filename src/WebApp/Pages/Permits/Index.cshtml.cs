@@ -23,7 +23,8 @@ public class PermitSearchIndex(IFacilityService service) : PageModel
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
     public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults);
+    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
+    public Dictionary<string, string?> RouteValues => new() { { nameof(Id), Id }, { nameof(Name), Name } };
 
     public async Task OnGetAsync(CancellationToken token = default) => Facilities = await service.GetListAsync(token);
 
