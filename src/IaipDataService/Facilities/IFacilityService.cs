@@ -76,4 +76,11 @@ public interface IFacilityService
     /// <param name="name">The facility name to search for.</param>
     /// <param name="token"></param>
     Task<int> CountPermitsAsync(string? facilityId, string? name, CancellationToken token = default);
+
+    /// <summary>
+    /// Get a permit document.
+    /// </summary>
+    /// <param name="fileName">The ID of the permit document.</param>
+    /// <returns>A byte array of the permit document.</returns>
+    Task<byte[]?> GetPermitFileAsync(string fileName);
 }
