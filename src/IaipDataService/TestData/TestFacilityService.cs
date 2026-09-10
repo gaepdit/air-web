@@ -67,7 +67,8 @@ public sealed class TestFacilityService : IFacilityService
 
     private static IEnumerable<PermitSummary> FilteredPermitSummaries(string? facilityId, string? name) =>
         PermitData.GetData
-            .Where(ps => string.IsNullOrWhiteSpace(facilityId) || ps.FacilityId.Equals(facilityId))
+            .Where(ps =>
+                string.IsNullOrWhiteSpace(facilityId) || ps.FacilityId.Equals(FacilityId.TryFormat(facilityId)))
             .Where(ps => string.IsNullOrWhiteSpace(name) ||
                          ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase));
 

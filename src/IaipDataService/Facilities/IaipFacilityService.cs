@@ -185,11 +185,13 @@ public sealed class IaipFacilityService(
             " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
             " offset @skip rows fetch next @take rows only";
 
+        var id = FacilityId.TryFormat(facilityId);
+
         using var db = dbf.Create();
 
         return (await db.QueryAsync<PermitSummary>(
             sql: sql,
-            param: new { id = facilityId, name, skip, take },
+            param: new { id, name, skip, take },
             commandType: CommandType.Text
         ).ConfigureAwait(false)).ToList();
     }
