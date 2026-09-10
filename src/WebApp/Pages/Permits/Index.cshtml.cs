@@ -25,26 +25,24 @@ public class PermitSearchIndex(IFacilityService service) : PageModel
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(SearchResults);
 
-    public async Task OnGetAsync(CancellationToken token = default) =>
-        Facilities = await service.GetListAsync(token);
+    public async Task OnGetAsync(CancellationToken token = default) => Facilities = await service.GetListAsync(token);
 
     public async Task OnGetSearchAsync(string? id, string? name, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Id = id;
         Name = name;
+        Facilities = await service.GetListAsync(token);
 
-        if (Id != null && !FacilityIdRegex.IsValidSearchFormat(Id))
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-
-        if (Id != null && !await service.ExistsAsync((FacilityId)Id))
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsError);
-
-        if (!ModelState.IsValid)
+        if (Id != null)
         {
-            Facilities = await service.GetListAsync(token);
-            return;
+            if (!FacilityIdRegex.IsValidSearchFormat(Id))
+                ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
+            if (!await service.ExistsAsync((FacilityId)Id))
+                ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsError);
         }
+
+        if (!ModelState.IsValid) return;
 
         var paging = PaginationDefaults.DefaultSearch(p);
         var permits = await service.GetPermitListAsync(Id, Name, paging.Skip, paging.Take, token);
