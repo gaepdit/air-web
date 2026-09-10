@@ -269,6 +269,18 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
     fill: var(--bs-btn-hover-color);
 }
 
+.btn-check + .btn:hover svg,
+.btn-check + .btn:active svg,
+.btn-check + .btn:focus-visible svg {
+    fill: var(--bs-btn-color);
+}
+
+.btn-check:checked + .btn:hover svg,
+.btn-check:checked + .btn:active svg,
+.btn-check:checked + .btn:focus-visible svg {
+    fill: var(--bs-btn-active-color);
+}
+
 /* Text utilities
 -------------------------------------------------- */
 .font-weight-medium {

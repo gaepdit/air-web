@@ -1,4 +1,4 @@
-@model MainMenuViewComponent.MenuParams
+﻿@model MainMenuViewComponent.MenuParams
 
 <header role="banner">
     <nav id="main-nav" aria-label="Main site navigation"
@@ -130,44 +130,6 @@
                                 <a class="nav-link text-body-secondary" asp-page="/Account/Login">Agency&nbsp;Login</a>
                             </li>
                         }
-                        <!-- Dropdown selector for color mode -->
-                        <li class="nav-item dropdown">
-                            <button class="nav-link dropdown-toggle" id="bd-theme" type="button"
-                                    aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                                <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
-                                         view-data-CssClass="@("me-1 theme-icon-active")" />
-                                <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-                                <li>
-                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.LightMode" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("me-2 opacity-50")" />
-                                        Light
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.DarkMode" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("me-2 opacity-50")" />
-                                        Dark
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.AutoDarkMode" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("me-2 opacity-50")" />
-                                        Auto
-                                        <partial name="Shared/_AppIconsPartial" model="@AppIcon.CheckMark" view-data="new ViewDataDictionary(ViewData)"
-                                                 view-data-CssClass="@("ms-auto theme-checkmark d-none")" />
-                                    </button>
-                                </li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>

@@ -22,13 +22,6 @@
     }
 </h2>
 
-@if (Model.CanEdit)
-{
-    <p>
-        <a asp-page="Edit" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit Profile</a>
-    </p>
-}
-
 <dl class="row">
     <dt class="col-sm-2">Email</dt>
     <dd class="col-sm-10">@Html.DisplayFor(m => m.DisplayStaff.Email, DisplayTemplate.TextOrPlaceholder)</dd>
@@ -41,14 +34,20 @@
     <dd class="col-sm-10">@Html.DisplayFor(m => m.OfficeName, DisplayTemplate.TextOrPlaceholder,
                 additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
 </dl>
-<hr />
-
-<h3>Roles</h3>
 
 @if (Model.CanEdit)
 {
     <p>
-        <a asp-page="EditRoles" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary btn-sm">Edit User Roles</a>
+        <a asp-page="Edit" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary">Edit Profile</a>
+    </p>
+}
+
+<h3 class="mt-4">Roles</h3>
+
+@if (Model.CanEdit)
+{
+    <p>
+        <a asp-page="EditRoles" asp-route-id="@Model.DisplayStaff.Id" class="btn btn-outline-primary">Edit User Roles</a>
     </p>
 }
 

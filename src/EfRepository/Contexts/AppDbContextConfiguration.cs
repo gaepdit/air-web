@@ -232,36 +232,6 @@ internal static class AppDbContextConfiguration
         return builder;
     }
 
-    internal static ModelBuilder ConfigureEnumValues(this ModelBuilder builder)
-    {
-        // == Let's save enums in the database as strings.
-        // See https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions?tabs=data-annotations#pre-defined-conversions
-
-        // Compliance Work
-        builder.Entity<ComplianceWork>().Property(e => e.ComplianceWorkType).HasConversion<string>();
-        builder.Entity<BaseInspection>().Property(e => e.InspectionReason).HasConversion<string>();
-        builder.Entity<Report>().Property(e => e.ReportingPeriodType).HasConversion<string>();
-
-        // Case Files/Enforcement
-        builder.Entity<CaseFile>().Property(e => e.CaseFileStatus).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.ActionType).HasConversion<string>();
-        builder.Entity<EnforcementAction>().Property(e => e.Status).HasConversion<string>();
-        builder.Entity<EnforcementActionReview>().Property(e => e.Result).HasConversion<string>();
-        builder.Entity<ViolationType>().Property(e => e.Severity).HasConversion<string>();
-
-        // Data exchange status
-        builder.Entity<CaseFile>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<ComplianceEvent>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<DxEnforcementAction>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-        builder.Entity<Fce>().Property(e => e.DataExchangeStatus).HasConversion<string>();
-
-        // SBEAP
-        builder.Entity<Contact>().OwnsMany(contact => contact.PhoneNumbers,
-            owned => owned.Property(phoneNumber => phoneNumber.Type).HasConversion<string>());
-
-        return builder;
-    }
-
     internal static ModelBuilder ConfigureImpliedAddedChildEntities(this ModelBuilder builder)
     {
         // See https://github.com/dotnet/efcore/issues/35090#issuecomment-2485974295
@@ -284,6 +254,15 @@ internal static class AppDbContextConfiguration
             builder.Entity(entityType).Property<string>(nameof(StandardNamedEntity.Name))
                 .HasMaxLength(AppConstants.MaximumNameLength);
         }
+
+        return builder;
+    }
+
+    internal static ModelBuilder ConfigureComplexProperties(this ModelBuilder builder)
+    {
+        // Ref: https://learn.microsoft.com/en-us/ef/core/modeling/complex-types?tabs=data-annotations#mapping-complex-types-to-json
+        builder.Entity<ApplicationUser>(entityTypeBuilder => entityTypeBuilder
+            .ComplexProperty(user => user.Preferences, propertyBuilder => propertyBuilder.ToJson()));
 
         return builder;
     }
