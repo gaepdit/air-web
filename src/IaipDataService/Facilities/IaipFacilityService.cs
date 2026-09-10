@@ -210,4 +210,17 @@ public sealed class IaipFacilityService(
             commandType: CommandType.Text
         ).ConfigureAwait(false);
     }
+
+    public async Task<byte[]?> GetPermitFileAsync(string fileName)
+    {
+        const string sql = "SELECT PDFPERMITDATA FROM dbo.APBPERMITS WHERE STRFILENAME = @fileName";
+
+        using var db = dbf.Create();
+
+        return await db.ExecuteScalarAsync<byte[]?>(
+            sql: sql,
+            param: new { fileName },
+            commandType: CommandType.Text
+        ).ConfigureAwait(false);
+    }
 }

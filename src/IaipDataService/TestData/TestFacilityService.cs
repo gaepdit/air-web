@@ -67,4 +67,9 @@ public sealed class TestFacilityService : IFacilityService
     {
         throw new NotImplementedException();
     }
+
+    public async Task<byte[]?> GetPermitFileAsync(string fileName)
+    {
+        throw new NotImplementedException();
+    }
 }
