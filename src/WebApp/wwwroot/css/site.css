@@ -237,6 +237,13 @@ html:not([data-bs-theme="dark"]) .btn-outline-warning {
     top: .2rem;
 }
 
+/* Button group radio buttons
+-------------------------------------------------- */
+.btn-check:not(:checked) + .btn:hover {
+    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-btn-hover-border-color);
+}
+
 /* Button with image 
 -------------------------------------------------- */
 .btn-img {
