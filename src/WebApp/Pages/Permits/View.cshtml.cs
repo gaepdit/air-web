@@ -2,6 +2,7 @@
 
 namespace AirWeb.WebApp.Pages.Permits;
 
+[AllowAnonymous]
 public class View : PageModel
 {
     public async Task<IActionResult> OnGetAsync([FromServices] IFacilityService service, [FromRoute] string? fileName)

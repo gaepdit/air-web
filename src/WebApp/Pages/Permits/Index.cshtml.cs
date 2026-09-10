@@ -8,6 +8,7 @@ using System.Text.Json;
 
 namespace AirWeb.WebApp.Pages.Permits;
 
+[AllowAnonymous]
 public class PermitSearchIndex(IFacilityService service) : PageModel
 {
     [Display(Name = "Facility ID/AIRS Number")]
