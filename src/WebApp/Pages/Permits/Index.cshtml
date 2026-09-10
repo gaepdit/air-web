@@ -75,7 +75,7 @@
                             <td data-label="Permit" class="text-nowrap">
                                 @if (item.PermitFile is not null)
                                 {
-                                    <a asp-page="View" asp-route-permitId="@item.PermitFile">@item.PermitNumber</a>
+                                    <a asp-page="View" asp-route-fileName="@item.PermitFile">@item.PermitNumber</a>
                                 }
                             </td>
                             <td data-label="Issuance Date">@Html.DisplayFor(_ => item.IssuanceDate, DisplayTemplate.DateTimeNullableShort)</td>
@@ -86,25 +86,25 @@
                                         @if (item.NarrativeFile is not null)
                                         {
                                             <li>
-                                                <a asp-page="View" asp-route-permitId="@item.NarrativeFile">Narrative</a>
+                                                <a asp-page="View" asp-route-fileName="@item.NarrativeFile">Narrative</a>
                                             </li>
                                         }
                                         @if (item.PsdPrelim is not null)
                                         {
                                             <li>
-                                                <a asp-page="View" asp-route-permitId="@item.PsdPrelim">Preliminary Determination</a>
+                                                <a asp-page="View" asp-route-fileName="@item.PsdPrelim">Preliminary Determination</a>
                                             </li>
                                         }
                                         @if (item.PsdFinalDet is not null)
                                         {
                                             <li>
-                                                <a asp-page="View" asp-route-permitId="@item.PsdFinalDet">Final Determination</a>
+                                                <a asp-page="View" asp-route-fileName="@item.PsdFinalDet">Final Determination</a>
                                             </li>
                                         }
                                         @if (item.PsdAppSum is not null)
                                         {
                                             <li>
-                                                <a asp-page="View" asp-route-permitId="@item.PsdAppSum">Application Summary</a>
+                                                <a asp-page="View" asp-route-fileName="@item.PsdAppSum">Application Summary</a>
                                             </li>
                                         }
                                     </ul>
@@ -113,7 +113,7 @@
                                 {
                                     @if (item.NarrativeFile is not null)
                                     {
-                                        <a asp-page="View" asp-route-permitId="@item.NarrativeFile">Narrative</a>
+                                        <a asp-page="View" asp-route-fileName="@item.NarrativeFile">Narrative</a>
                                     }
                                 }
                             </td>
