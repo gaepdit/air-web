@@ -41,7 +41,7 @@ public class PermitSearchIndex(IFacilityService service) : PageModel
             if (!FacilityIdRegex.IsValidSearchFormat(Id))
                 ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
             if (!await service.ExistsAsync((FacilityId)Id))
-                ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsError);
+                ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
         }
 
         if (!ModelState.IsValid) return;

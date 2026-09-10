@@ -86,6 +86,8 @@ public record FacilityId
     public const string FacilityNotExistsError =
         "A Facility with that ID does not exist or has not been approved in the IAIP.";
 
+    public const string FacilityNotExistsShortError = "A Facility with that ID does not exist.";
+
     private static string Normalize(string input)
     {
         var value = input.Trim();
