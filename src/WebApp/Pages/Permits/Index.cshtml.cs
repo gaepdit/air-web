@@ -6,7 +6,7 @@ using IaipDataService.Permits;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
-namespace AirWeb.WebApp.Pages.PermitSearch;
+namespace AirWeb.WebApp.Pages.Permits;
 
 public class PermitSearchIndex(IFacilityService service) : PageModel
 {
