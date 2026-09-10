@@ -11,7 +11,6 @@ namespace AirWeb.WebApp.Pages.Permits;
 [AllowAnonymous]
 public class PermitSearchIndex(IFacilityService service) : PageModel
 {
-    [Display(Name = "Facility ID/AIRS Number")]
     [StringLength(9)]
     public string? Id { get; set; }
 
@@ -40,7 +39,7 @@ public class PermitSearchIndex(IFacilityService service) : PageModel
         {
             if (!FacilityIdRegex.IsValidSearchFormat(Id))
                 ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-            if (!await service.ExistsAsync((FacilityId)Id))
+            else if (!await service.ExistsAsync((FacilityId)Id))
                 ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
         }
 
