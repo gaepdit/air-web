@@ -25,7 +25,7 @@ public record PermitSummary
     {
         FileTypes.Psd => PsdFinal,
         FileTypes.Sip => OtherPermit,
-        FileTypes.Tv => VFinal,
+        FileTypes.TitleV => VFinal,
         _ => throw new ArgumentOutOfRangeException()
     };
 
@@ -33,7 +33,7 @@ public record PermitSummary
     {
         FileTypes.Psd => PsdNarrative,
         FileTypes.Sip => OtherNarrative,
-        FileTypes.Tv => VNarrative,
+        FileTypes.TitleV => VNarrative,
         _ => throw new ArgumentOutOfRangeException()
     };
 
@@ -41,6 +41,6 @@ public record PermitSummary
     {
         public const string Psd = "PSD/NSR";
         public const string Sip = "SIP";
-        public const string Tv = "Title V";
+        public const string TitleV = "Title V";
     }
 }
