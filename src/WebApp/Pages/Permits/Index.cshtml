@@ -9,35 +9,39 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="container">
-    <div class="row">
-        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
-            <form method="get" asp-page-handler="Search">
-                <div class="row">
-                    <div class="col-md mb-3">
-                        <label asp-for="Id" class="form-label"></label>
-                        <div class="autocomplete">
-                            <input asp-for="Id" name="@nameof(Model.Id)" class="form-control" data-1p-ignore />
-                            <ul class="suggestions-list list-group border"></ul>
-                            <span asp-validation-for="Id" class="invalid-feedback"></span>
-                        </div>
-                    </div>
-                    <div class="col-md mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <div class="autocomplete">
-                            <input asp-for="Name" name="@nameof(Model.Name)" class="form-control" data-1p-ignore />
-                            <ul class="suggestions-list list-group"></ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-2">
-                    <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
-                    <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3">Clear Form</a>
-                </div>
-            </form>
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 me-md-3 d-md-inline-block">
+    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility ID">
+        <div class="mb-2">
+            <label asp-for="Id">Find by facility ID (AIRS Number)</label>
         </div>
-    </div>
+        <div class="input-group">
+            <input id="Id" asp-for="Id" class="form-control" type="search" placeholder="Enter ID" aria-describedby="idHelpBlock" />
+            <ul class="suggestions-list list-group border shadow"></ul>
+            <button class="btn btn-primary" type="submit">Open</button>
+        </div>
+        <div id="idHelpBlock" class="form-text">
+            Exact match. Format "123-12345".
+        </div>
+        <div class="mt-2 mt-sm-0"><span asp-validation-for="Id" class="text-danger-emphasis"></span></div>
+    </form>
+</div>
+
+<div class="mt-3 mb-4 me-3 d-md-inline-block align-text-bottom">Or</div>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
+    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility Name">
+        <div class="mb-2">
+            <label asp-for="Name">Search by facility name</label>
+        </div>
+        <div class="input-group">
+            <input asp-for="Name" class="form-control" type="search" placeholder="Enter Name" aria-describedby="nameHelpBlock" />
+            <ul class="suggestions-list list-group border shadow"></ul>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <div id="nameHelpBlock" class="form-text">
+            Partial match.
+        </div>
+    </form>
 </div>
 
 @if (Model.ShowResults)

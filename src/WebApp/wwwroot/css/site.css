@@ -839,6 +839,10 @@ dt {
     display: none;
 }
 
+.input-group .suggestions-list {
+    top: 36px;
+}
+
 .suggestions-list li {
     cursor: pointer;
 }
@@ -848,4 +852,3 @@ dt {
     background-color: var(--bs-list-group-active-bg);
     border-color: var(--bs-list-group-active-border-color);
 }
-
