@@ -29,7 +29,6 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         public bool ShowUsersPage { get; init; }
         public bool ShowSbeap { get; init; }
         public bool ShowAccountMenu { get; init; }
-        public bool ShowPublicMenu => !ShowAccountMenu;
         public bool ShowLoginLink { get; init; }
         public string? ReturnUrl { get; init; }
     }
