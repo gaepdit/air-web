@@ -74,11 +74,11 @@ class Autocomplete {
     handleKeydown(e) {
         const items = this.suggestionsList.getElementsByTagName('li');
 
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        if (e.key === 'ArrowDown') {
             this.currentFocus++;
             this.addActive(items);
             e.preventDefault();
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        } else if (e.key === 'ArrowUp') {
             this.currentFocus--;
             this.addActive(items);
             e.preventDefault();
