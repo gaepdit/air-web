@@ -18,13 +18,6 @@
 
             <div class="navbar-collapse collapse d-sm-inline-flex" id="main-nav-content">
                 <div class="flex-grow-1">
-                    @if (Model.ShowPublicMenu)
-                    {
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link" asp-page="/Permits/Index">Permit Search Tool</a>
-                            </li>
-                        </ul>
-                    }
                     @if (Model.ShowStaffOptions)
                     {
                         <ul class="navbar-nav">
@@ -87,6 +80,13 @@
                                     <partial name="Shared/_AppIconsPartial" model="@AppIcon.FindBy" />
                                     Find <span class="d-sm-none d-md-inline">By ID</span>
                                 </button>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" asp-page="/Permits/Index">Permit Search Tool</a>
                             </li>
                         </ul>
                     }
