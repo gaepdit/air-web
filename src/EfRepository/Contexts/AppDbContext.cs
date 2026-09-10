@@ -91,7 +91,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     {
         base.OnModelCreating(builder);
 
-        // Configure Model Builder
+        // Configure model builder
         builder
             .ConfigureNavigationAutoIncludes()
             .ConfigureComplianceWorkTphMapping()
@@ -105,12 +105,22 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
             .ConfigureModelManagedData()
             .ConfigureTemporalTables();
 
-        // SQLite-only configuration
-        if (Database.ProviderName == SqliteProvider)
-            builder
-                .ConfigureDateTimeOffsetHandling()
-                .ConfigureOwnedTypeCollections()
-                .ConfigureIdentityPasskeyData();
+        // DB provider-specific configuration
+        switch (Database.ProviderName)
+        {
+            // SQL Server-only
+            case SqlServerProvider:
+                builder.ConfigureSparseColumns();
+                break;
+
+            // SQLite-only
+            case SqliteProvider:
+                builder
+                    .ConfigureDateTimeOffsetHandling()
+                    .ConfigureOwnedTypeCollections()
+                    .ConfigureIdentityPasskeyData();
+                break;
+        }
 
 #pragma warning disable S125
         // // FUTURE: == Convert Facility ID to a string for use as primary key.

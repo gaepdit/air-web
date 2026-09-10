@@ -1,4 +1,6 @@
-﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+﻿using AirWeb.Domain.Compliance.AuditPoints;
+using AirWeb.Domain.Compliance.Comments;
+using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
@@ -385,7 +387,48 @@ internal static class AppDbContextConfiguration
     }
 
     private static void ConfigureTemporalTable<TEntity>(this ModelBuilder builder, string tableName)
-        where TEntity : class =>
-        builder.Entity<TEntity>().ToTable(tableName,
-            table => table.IsTemporal(ttb => ttb.UseHistoryTable($"{tableName}_History")));
+        where TEntity : class => builder.Entity<TEntity>().ToTable(tableName,
+        table => table.IsTemporal(ttb => ttb.UseHistoryTable($"{tableName}_History")));
+
+    internal static ModelBuilder ConfigureSparseColumns(this ModelBuilder builder)
+    {
+        // AuditPoint table
+        builder.Entity<AuditPoint>().Property(e => e.MoreInfo).IsSparse();
+        builder.Entity<CaseFileAuditPoint>().Property(e => e.CaseFileId).IsSparse();
+        builder.Entity<FceAuditPoint>().Property(e => e.FceId).IsSparse();
+
+        // Comments table
+        builder.Entity<CaseFileComment>().Property(e => e.CaseFileId).IsSparse();
+        builder.Entity<Comment>().Property(e => e.DeletedAt).IsSparse();
+        builder.Entity<Comment>().Property(e => e.DeletedById).IsSparse();
+        builder.Entity<FceComment>().Property(e => e.FceId).IsSparse();
+
+        // ComplianceWork table
+        builder.Entity<AnnualComplianceCertification>().Property(e => e.AccReportingYear).IsSparse();
+        builder.Entity<AnnualComplianceCertification>().Property(e => e.PostmarkDate).IsSparse();
+        builder.Entity<BaseInspection>().Property(e => e.InspectionEnded).IsSparse();
+        builder.Entity<BaseInspection>().Property(e => e.InspectionGuide).IsSparse();
+        builder.Entity<BaseInspection>().Property(e => e.InspectionReason).IsSparse();
+        builder.Entity<BaseInspection>().Property(e => e.InspectionStarted).IsSparse();
+        builder.Entity<BaseInspection>().Property(e => e.WeatherConditions).IsSparse();
+        builder.Entity<ComplianceWork>().Property(e => e.DeleteComments).IsSparse();
+        builder.Entity<ComplianceWork>().Property(e => e.DeletedAt).IsSparse();
+        builder.Entity<ComplianceWork>().Property(e => e.DeletedById).IsSparse();
+        builder.Entity<PermitRevocation>().Property(e => e.PermitRevocationDate).IsSparse();
+        builder.Entity<PermitRevocation>().Property(e => e.PhysicalShutdownDate).IsSparse();
+        builder.Entity<Report>().Property(e => e.ReportingPeriodComment).IsSparse();
+        builder.Entity<SourceTestReview>().Property(e => e.ReceivedByComplianceDate).IsSparse();
+        builder.Entity<SourceTestReview>().Property(e => e.ReferenceNumber).IsSparse();
+        
+        // Fce table
+        builder.Entity<Fce>().Property(e => e.DeleteComments).IsSparse();
+        builder.Entity<Fce>().Property(e => e.DeletedAt).IsSparse();
+        builder.Entity<Fce>().Property(e => e.DeletedById).IsSparse();
+
+        // StipulatedPenalty table
+        builder.Entity<StipulatedPenalty>().Property(e => e.DeletedAt).IsSparse();
+        builder.Entity<StipulatedPenalty>().Property(e => e.DeletedById).IsSparse();
+
+        return builder;
+    }
 }
