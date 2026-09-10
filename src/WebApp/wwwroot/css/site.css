@@ -322,6 +322,7 @@ a[target]::after,
 /* Suppress some external link icons */
 footer a[target]::after,
 #facility-map a::after,
+.document-results a::after,
 a[target].no-external-link::after {
     content: none;
 }
