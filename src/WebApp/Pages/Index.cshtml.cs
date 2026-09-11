@@ -121,7 +121,7 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeComplianceWork = await complianceSearchService.SearchAsync(
-            SearchDefaults.OfficeOpenCompliance(UserOfficeId!.Value),
+            SearchDefaults.OfficeOpenCompliance(UserOfficeId.Value),
             PaginationDefaults.ComplianceSummary, token: token);
     }
 
@@ -151,7 +151,7 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeCaseFiles = await caseFileSearchService.SearchAsync(
-            SearchDefaults.OfficeOpenEnforcement(UserOfficeId!.Value),
+            SearchDefaults.OfficeOpenEnforcement(UserOfficeId.Value),
             PaginationDefaults.EnforcementSummary, token: token);
     }
 
