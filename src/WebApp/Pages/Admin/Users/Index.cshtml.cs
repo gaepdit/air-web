@@ -27,7 +27,7 @@ public class UsersIndexModel(IOfficeService officeService, IStaffService staffSe
     {
         Spec = spec.TrimAll();
         await PopulateSelectListsAsync();
-        var paging = new PaginatedRequest(p, SearchDefaults.PageSize, Spec.Sort.GetDescription());
+        var paging = new PaginatedRequest(p, SearchDefaults.SearchPageSize, Spec.Sort.GetDescription());
         SearchResults = await staffService.SearchAsync(Spec, paging);
         ShowResults = true;
         return Page();
@@ -36,7 +36,7 @@ public class UsersIndexModel(IOfficeService officeService, IStaffService staffSe
     private async Task PopulateSelectListsAsync()
     {
         OfficesSelectList = (await officeService.GetAsListItemsAsync(includeInactive: true)).ToSelectList();
-        RolesSelectList = AppRole.AllRoles!
+        RolesSelectList = AppRole.AllRoles
             .Select(pair => new ListItem<string>(pair.Key, pair.Value.DisplayName))
             .ToSelectList();
     }

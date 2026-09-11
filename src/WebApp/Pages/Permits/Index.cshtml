@@ -1,0 +1,160 @@
+﻿@page "{handler?}"
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using IaipDataService.Permits
+@model PermitSearchIndex
+@{
+    ViewData["Title"] = "Air Permit Search";
+    ViewData["NoValidate"] = "True";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 me-md-3 d-md-inline-block">
+    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility ID">
+        <div class="mb-2">
+            <label asp-for="Id">Find by facility ID (AIRS Number)</label>
+        </div>
+        <div class="input-group">
+            <input id="Id" asp-for="Id" class="form-control" type="search" placeholder="Enter ID" aria-describedby="idHelpBlock" />
+            <ul class="suggestions-list list-group border shadow"></ul>
+            <button class="btn btn-primary" type="submit">Open</button>
+        </div>
+        <div id="idHelpBlock" class="form-text fst-italic">
+            (Exact match)
+        </div>
+        <div class="mt-2 mt-sm-0"><span asp-validation-for="Id" class="text-danger-emphasis"></span></div>
+    </form>
+</div>
+
+<div class="mt-3 mb-4 me-3 d-md-inline-block align-text-bottom">Or</div>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
+    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility Name">
+        <div class="mb-2">
+            <label asp-for="Name">Search by facility name</label>
+        </div>
+        <div class="input-group">
+            <input asp-for="Name" class="form-control" type="search" placeholder="Enter Name" aria-describedby="nameHelpBlock" />
+            <ul class="suggestions-list list-group border shadow"></ul>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <div id="nameHelpBlock" class="form-text fst-italic">
+            (Partial match)
+        </div>
+    </form>
+</div>
+
+@if (Model.ShowResults)
+{
+    <div id="SearchResults" class="mt-4">
+        <h3>Search Results</h3>
+
+        @if (Model.SearchResults.TotalCount == 0)
+        {
+            <p class="lead text-info">No matching results found.</p>
+        }
+        else
+        {
+            <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
+
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 table-collapsible document-results" aria-label="Permit search results table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-nowrap">Facility ID</th>
+                        <th scope="col" class="text-nowrap">Facility Name</th>
+                        <th scope="col" class="text-nowrap">Permit</th>
+                        <th scope="col" class="text-nowrap">Issuance Date</th>
+                        <th scope="col" class="text-nowrap">Other Documents</th>
+                        <th scope="col" class="text-nowrap">Permit Type</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach (var item in Model.SearchResults.Items)
+                    {
+                        <tr>
+                            <th scope="row" class="text-nowrap fw-normal" data-label="Facility ID">@item.FacilityId</th>
+                            <td data-label="Facility Name">@item.FacilityName</td>
+                            <td data-label="Permit" class="text-nowrap">
+                                @if (item.PermitFile is not null)
+                                {
+                                    <a asp-page="View" target="_blank" asp-route-fileName="@item.PermitFile">@item.PermitNumber</a>
+                                }
+                            </td>
+                            <td data-label="Issuance Date">@Html.DisplayFor(_ => item.IssuanceDate, DisplayTemplate.DateTimeNullableShort)</td>
+                            <td data-label="Other Documents">
+                                @if (item.FileType == PermitSummary.FileTypes.Psd)
+                                {
+                                    <ul>
+                                        @if (item.NarrativeFile is not null)
+                                        {
+                                            <li>
+                                                <a asp-page="View" target="_blank" asp-route-fileName="@item.NarrativeFile">Narrative</a>
+                                            </li>
+                                        }
+                                        @if (item.PsdPrelim is not null)
+                                        {
+                                            <li>
+                                                <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdPrelim">Preliminary Determination</a>
+                                            </li>
+                                        }
+                                        @if (item.PsdFinalDet is not null)
+                                        {
+                                            <li>
+                                                <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdFinalDet">Final Determination</a>
+                                            </li>
+                                        }
+                                        @if (item.PsdAppSum is not null)
+                                        {
+                                            <li>
+                                                <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdAppSum">Application Summary</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    @if (item.NarrativeFile is not null)
+                                    {
+                                        <a asp-page="View" target="_blank" asp-route-fileName="@item.NarrativeFile">Narrative</a>
+                                    }
+                                }
+                            </td>
+                            <td data-label="Permit Type">@item.FileType</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+
+            <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
+        }
+    </div>
+}
+
+@section Scripts {
+    <script src="~/js/formSearch.js"></script>
+    <script src="~/js/autocomplete.js"></script>
+    <script asp-add-content-to-csp>
+        const facilities = @Html.Raw(Model.FacilitiesAsJson);
+    </script>
+    <script asp-add-content-to-csp>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Autocomplete({
+                input: document.getElementById('Id'),
+                data: facilities,
+                searchProperties: ['Id', 'ShortId'],
+                displayProperties: ['Id', 'Name'],
+                fillProperty: ['Id'],
+            });
+            new Autocomplete({
+                input: document.getElementById('Name'),
+                data: facilities,
+                searchProperties: ['Name'],
+                displayProperties: ['Id', 'Name'],
+                fillProperty: ['Name'],
+            });
+        });
+    </script>
+}

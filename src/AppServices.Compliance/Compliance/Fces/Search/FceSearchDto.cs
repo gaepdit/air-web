@@ -2,6 +2,7 @@
 using AirWeb.AppServices.Core.Utilities;
 using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
+using IaipDataService.Facilities;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
@@ -18,8 +19,8 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
 
     [Display(Name = "Facility AIRS Number")]
     [StringLength(9)]
-    [RegularExpression(IaipDataService.Facilities.FacilityId.LooseIdFormat,
-        ErrorMessage = IaipDataService.Facilities.FacilityId.LooseIdFormatError)]
+    [RegularExpression(FacilityIdRegex.SearchFormat,
+        ErrorMessage = FacilityIdRegex.SearchFormatError)]
     public string? FacilityId
     {
         get;

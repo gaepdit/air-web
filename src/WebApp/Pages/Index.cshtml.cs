@@ -104,7 +104,7 @@ public class IndexModel(
 
     private async Task LoadStaffSourceTests() =>
         StaffSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentUser: UserId,
-            assignmentOffice: null, PaginationDefaults.SourceTestSummary);
+            assignmentOffice: null, PaginationDefaults.DefaultSummary);
 
     private async Task LoadStaffCaseFiles(CancellationToken token) =>
         StaffCaseFiles = await caseFileSearchService.SearchAsync(SearchDefaults.StaffOpenEnforcement(UserId!),
@@ -121,7 +121,7 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeComplianceWork = await complianceSearchService.SearchAsync(
-            SearchDefaults.OfficeOpenCompliance(UserOfficeId!.Value),
+            SearchDefaults.OfficeOpenCompliance(UserOfficeId.Value),
             PaginationDefaults.ComplianceSummary, token: token);
     }
 
@@ -129,7 +129,7 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeSourceTests = await sourceTestService.GetOpenSourceTestsForComplianceAsync(assignmentUser: null,
-            assignmentOffice: UserOfficeId, paging: PaginationDefaults.SourceTestSummary);
+            assignmentOffice: UserOfficeId, paging: PaginationDefaults.DefaultSummary);
     }
 
     // Load enforcement reviewer tables
@@ -151,7 +151,7 @@ public class IndexModel(
     {
         if (UserOfficeId is null) return;
         OfficeCaseFiles = await caseFileSearchService.SearchAsync(
-            SearchDefaults.OfficeOpenEnforcement(UserOfficeId!.Value),
+            SearchDefaults.OfficeOpenEnforcement(UserOfficeId.Value),
             PaginationDefaults.EnforcementSummary, token: token);
     }
 

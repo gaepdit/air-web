@@ -55,7 +55,7 @@ public class SourceTestIndexModel(ISourceTestAppService testsService, IStaffServ
 
     private async Task<IActionResult> PageWithSearchResultsAsync(int p)
     {
-        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.PageSize, sorting: "default");
+        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.SearchPageSize, sorting: "default");
 
         SearchResults = await testsService.GetOpenSourceTestsForComplianceAsync(assignmentUser: Staff,
             assignmentOffice: Office, paging: paging);

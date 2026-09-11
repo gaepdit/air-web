@@ -58,7 +58,7 @@ public class DetailsModel(
 
         // Dapper service can be run in parallel.
         var sourceTestsForFacilityTask = sourceTestService.GetSourceTestsForFacilityAsync(facilityId,
-            PaginationDefaults.SourceTestSummary);
+            PaginationDefaults.DefaultSummary);
 
         var epaDxDateTask = facilityService.GetFacilityEpaDxDateAsync(facilityId, token);
 
