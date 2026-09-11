@@ -9,7 +9,7 @@ using System.Text.Json;
 namespace AirWeb.WebApp.Pages.Permits;
 
 [AllowAnonymous]
-public class PermitSearchIndex(IFacilityService service) : PageModel
+public class PermitSearchIndex(IPermitService service, IFacilityService facilityService) : PageModel
 {
     [StringLength(9)]
     public string? Id { get; set; }
@@ -26,28 +26,29 @@ public class PermitSearchIndex(IFacilityService service) : PageModel
     public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
     public Dictionary<string, string?> RouteValues => new() { { nameof(Id), Id }, { nameof(Name), Name } };
 
-    public async Task OnGetAsync(CancellationToken token = default) => Facilities = await service.GetListAsync(token);
+    public async Task OnGetAsync(CancellationToken token = default) =>
+        Facilities = await facilityService.GetListAsync(token);
 
     public async Task OnGetSearchAsync(string? id, string? name, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Id = id;
         Name = name;
-        Facilities = await service.GetListAsync(token);
+        Facilities = await facilityService.GetListAsync(token);
 
         if (Id != null)
         {
             if (!FacilityIdRegex.IsValidSearchFormat(Id))
                 ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-            else if (!await service.ExistsAsync((FacilityId)Id))
+            else if (!await facilityService.ExistsAsync((FacilityId)Id))
                 ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
         }
 
         if (!ModelState.IsValid) return;
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.GetPermitListAsync(Id, Name, paging.Skip, paging.Take, token);
-        var permitCount = await service.CountPermitsAsync(Id, Name, token);
+        var permits = await service.GetPermitListAsync(Id, Name, paging.Skip, paging.Take);
+        var permitCount = await service.CountPermitsAsync(Id, Name);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
     }

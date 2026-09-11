@@ -1,11 +1,11 @@
-﻿using IaipDataService.Facilities;
+﻿using IaipDataService.Permits;
 
 namespace AirWeb.WebApp.Pages.Permits;
 
 [AllowAnonymous]
 public class View : PageModel
 {
-    public async Task<IActionResult> OnGetAsync([FromServices] IFacilityService service, [FromRoute] string? fileName)
+    public async Task<IActionResult> OnGetAsync([FromServices] IPermitService service, [FromRoute] string? fileName)
     {
         if (string.IsNullOrWhiteSpace(fileName)) return RedirectToPage("Index");
 
