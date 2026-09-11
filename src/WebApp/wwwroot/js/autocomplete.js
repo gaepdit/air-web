@@ -83,11 +83,14 @@ class Autocomplete {
             this.addActive(items);
             e.preventDefault();
         } else if (e.key === 'Enter') {
-            if(this.suggestionsList.style.display === 'none') return;
+            if (this.suggestionsList.style.display === 'none') return;
             e.preventDefault();
             if (this.currentFocus > -1 && items[this.currentFocus]) {
                 this.selectItem(items[this.currentFocus].dataset.fill);
             }
+        } else if (e.key === 'Escape') {
+            this.closeSuggestions();
+            e.preventDefault();
         }
     }
 
