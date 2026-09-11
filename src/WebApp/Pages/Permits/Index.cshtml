@@ -8,39 +8,50 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 me-md-3 d-md-inline-block">
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
     <form method="get" asp-page-handler="Facility" role="search" class="my-1" aria-label="Search by Facility ID">
-        <div class="mb-2">
-            <label asp-for="Id">Find by facility ID (AIRS Number)</label>
-        </div>
-        <div class="input-group">
-            <input id="Id" asp-for="Id" class="form-control" type="search" placeholder="Enter ID" aria-describedby="idHelpBlock" />
-            <ul class="suggestions-list list-group border shadow"></ul>
-            <button class="btn btn-primary" type="submit">Open</button>
-        </div>
-        <div id="idHelpBlock" class="form-text fst-italic">
-            (Exact match)
+        <div class="row row-cols-sm-auto align-items-center">
+            <div class="col-12 mb-2 mb-sm-0">
+                <label asp-for="Id">Find by Facility ID (AIRS Number)</label>
+            </div>
+            <div class="col-12">
+                <div class="input-group">
+                    <input asp-for="Id" class="form-control" type="search" placeholder="Enter Facility ID" autocomplete="off" data-1p-ignore />
+                    <ul class="suggestions-list list-group border shadow"></ul>
+                    <button class="btn btn-primary" type="submit">Find</button>
+                </div>
+            </div>
         </div>
         <div class="mt-2 mt-sm-0"><span asp-validation-for="Id" class="text-danger-emphasis"></span></div>
     </form>
 </div>
 
-<div class="mt-3 mb-4 me-3 d-md-inline-block align-text-bottom">Or</div>
+<div class="container">
+    <div class="row">
+        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
+            <div class="text-body-secondary pb-2"><em>All fields are optional.</em></div>
+            <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by facility name, permit number, or SIC code">
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <div class="position-relative">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" autocomplete="off" data-1p-ignore />
+                            <ul class="suggestions-list list-group border shadow"></ul>
+                        </div>
+                    </div>
+                    <div class="col-md mb-3">
+                        <label asp-for="Permit" class="form-label"></label>
+                        <input asp-for="Permit" class="form-control" autocomplete="off" data-1p-ignore />
+                    </div>
+                </div>
 
-<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
-    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility Name">
-        <div class="mb-2">
-            <label asp-for="Name">Search by facility name</label>
+                <div class="mt-2">
+                    <button id="SearchButton" type="submit" class="btn btn-lg btn-primary col-4 me-2">Search</button>
+                    <a asp-page="Index" class="btn btn-lg btn-outline-secondary col-4 col-md-3">Clear Form</a>
+                </div>
+            </form>
         </div>
-        <div class="input-group">
-            <input asp-for="Name" class="form-control" type="search" placeholder="Enter Name" aria-describedby="nameHelpBlock" />
-            <ul class="suggestions-list list-group border shadow"></ul>
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
-        <div id="nameHelpBlock" class="form-text fst-italic">
-            (Partial match)
-        </div>
-    </form>
+    </div>
 </div>
 
 @if (Model.ShowResults)

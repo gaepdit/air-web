@@ -15,10 +15,11 @@ public interface IPermitService
     /// <summary>
     /// Searches for permits by partial facility name.
     /// </summary>
-    /// <param name="name">The facility name to search for.</param>
+    /// <param name="name">A partial facility name to search for.</param>
+    /// <param name="permit">A partial permit number (or SIC code) to search for.</param>
     /// <param name="skip">The number of permits search results to skip (for pagination).</param>
     /// <param name="take">The number of permits search results to take (for pagination).</param>
-    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, int skip, int take);
+    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit, int skip, int take);
 
     /// <summary>
     /// Counts the number of permits for a facility.
@@ -29,8 +30,9 @@ public interface IPermitService
     /// <summary>
     /// Counts the number of permits by searching by partial facility name.
     /// </summary>
-    /// <param name="name">The facility name to search for.</param>
-    Task<int> CountPermitsAsync(string? name);
+    /// <param name="name">A partial facility name to search for.</param>
+    /// <param name="permit">A partial permit number (or SIC code) to search for.</param>
+    Task<int> CountPermitsAsync(string? name, string? permit);
 
     /// <summary>
     /// Get a permit document.
