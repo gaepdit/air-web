@@ -151,7 +151,7 @@ public partial record FacilityIdRegex
     private static partial Regex SearchFormatRegex { get; }
 
     // language:regex
-    public const string SearchFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
+    public const string SearchFormat = "^[0-9]{1,3}-[0-9]{1,5}$|^[0-9]{8}$";
     public static bool IsValidSearchFormat(string id) => SearchFormatRegex.IsMatch(id);
 
     public const string SearchFormatError = "Invalid AIRS Number format.";
