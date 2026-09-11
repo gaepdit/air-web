@@ -16,12 +16,13 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             " from dbo.VW_GA_PERMITS " +
             " where FacilityId = @facilityId " +
             " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
-            " offset @skip rows fetch next @take rows only";
+            " offset @skip rows fetch next @take rows only ";
 
         using var db = dbf.Create();
 
         return (await db
-            .QueryAsync<PermitSummary>(sql: sql, param: new { facilityId, skip, take }, commandType: CommandType.Text)
+            .QueryAsync<PermitSummary>(sql: sql, param: new { facilityId = facilityId.ToString(), skip, take },
+                commandType: CommandType.Text)
             .ConfigureAwait(false)).ToList();
     }
 
@@ -34,8 +35,9 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             " PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal " +
             " from dbo.VW_GA_PERMITS " +
             " where (@name is null or FacilityName like concat('%', @name, '%')) " +
+            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
             " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
-            " offset @skip rows fetch next @take rows only";
+            " offset @skip rows fetch next @take rows only ";
 
         using var db = dbf.Create();
 
@@ -50,7 +52,8 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
 
         using var db = dbf.Create();
 
-        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { facilityId }, commandType: CommandType.Text)
+        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { facilityId = facilityId.ToString() },
+                commandType: CommandType.Text)
             .ConfigureAwait(false);
     }
 
@@ -59,17 +62,18 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
         const string sql =
             "select count(*) " +
             " from dbo.VW_GA_PERMITS " +
-            " where (@name is null or FacilityName like concat('%', @name, '%'))";
+            " where (@name is null or FacilityName like concat('%', @name, '%')) " +
+            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) ";
 
         using var db = dbf.Create();
 
-        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { name }, commandType: CommandType.Text)
+        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { name, permit }, commandType: CommandType.Text)
             .ConfigureAwait(false);
     }
 
     public async Task<byte[]?> GetPermitFileAsync(string fileName)
     {
-        const string sql = "SELECT PDFPERMITDATA FROM dbo.APBPERMITS WHERE STRFILENAME = @fileName";
+        const string sql = "SELECT PDFPERMITDATA FROM dbo.APBPERMITS WHERE STRFILENAME = @fileName ";
 
         using var db = dbf.Create();
 
