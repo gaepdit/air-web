@@ -12,20 +12,26 @@ public class TestPermitService : IPermitService
             .Skip(skip).Take(take)
             .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
 
-    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, int skip, int take) =>
-        Task.FromResult<IReadOnlyCollection<PermitSummary>>(PermitData.GetData
-            .Where(ps => string.IsNullOrWhiteSpace(name) ||
-                         ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+    public Task<IReadOnlyCollection<PermitSummary>>
+        SearchPermitsAsync(string? name, string? permit, int skip, int take) =>
+        Task.FromResult<IReadOnlyCollection<PermitSummary>>(FilterPermits(name, permit)
             .Skip(skip).Take(take)
             .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
 
     public Task<int> CountPermitsAsync(FacilityId facilityId) =>
         Task.FromResult(PermitData.GetData.Count(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId))));
 
-    public Task<int> CountPermitsAsync(string? name) =>
-        Task.FromResult(PermitData.GetData.Count(ps =>
-            string.IsNullOrWhiteSpace(name) ||
-            ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase)));
+    public Task<int> CountPermitsAsync(string? name, string? permit) =>
+        Task.FromResult(FilterPermits(name, permit).Count());
+
+    private static IEnumerable<PermitSummary> FilterPermits(string? name, string? permit)
+    {
+        return PermitData.GetData
+            .Where(ps => string.IsNullOrWhiteSpace(name) ||
+                         ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+            .Where(ps => string.IsNullOrWhiteSpace(permit) ||
+                         ps.PermitNumber.Contains(permit, StringComparison.InvariantCultureIgnoreCase));
+    }
 
     public Task<byte[]?> GetPermitFileAsync(string fileName) =>
         Task.FromResult(PermitData.GetData.Any(ps => AllFiles(ps).Contains(fileName))
