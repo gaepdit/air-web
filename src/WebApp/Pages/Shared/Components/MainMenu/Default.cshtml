@@ -1,3 +1,4 @@
+@using IaipDataService.Facilities
 @model MainMenuViewComponent.MenuParams
 
 <header role="banner">
@@ -203,7 +204,7 @@
                     <label for="FindIdFacility" class="input-group-text visually-hidden">Facility</label>
                     <div class="input-group">
                         <input id="FindIdFacility" class="form-control" type="search" placeholder="Facility AIRS #"
-                               aria-label="Find Compliance Work" data-val="true" data-val-required="Enter a Facility ID" name="FindId" value="">
+                               aria-label="Find Compliance Work" data-val="true" data-val-required="@FacilityId.FacilityIdBlankError" name="FindId" value="">
                         <button class="btn btn-primary" type="submit">Open</button>
                     </div>
                 </form>

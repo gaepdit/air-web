@@ -1,4 +1,5 @@
-﻿using AirWeb.WebApp.Models;
+﻿using AirWeb.AppServices.Core.DataAttributes;
+using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
@@ -12,6 +13,8 @@ namespace AirWeb.WebApp.Pages.Permits;
 public class PermitSearchIndex(IPermitService service, IFacilityService facilityService) : PageModel
 {
     [StringLength(9)]
+    [Required(ErrorMessage = FacilityId.FacilityIdBlankError)]
+    [RequiredNoLabel]
     public string? Id { get; set; }
 
     [Display(Name = "Facility Name")]
@@ -29,26 +32,57 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     public async Task OnGetAsync(CancellationToken token = default) =>
         Facilities = await facilityService.GetListAsync(token);
 
-    public async Task OnGetSearchAsync(string? id, string? name, [FromQuery] int p = 1,
+    public async Task<IActionResult> OnGetFacilityAsync(string id, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Id = id;
+        Facilities = await facilityService.GetListAsync(token);
+        ModelState.Clear();
+
+        if (Id == null) return RedirectToPage();
+
+        if (!FacilityIdRegex.IsValidSearchFormat(Id))
+        {
+            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
+            return Page();
+        }
+
+        // This is a public page. If the user enters a Facility ID that matches the correct format, but does not
+        // comply with the business rules (e.g., "000-00001" or "002-00001"), the most comprehensible response is that
+        // a facility with that ID doesn't exist. I.e., don't say that the ID format is invalid.
+        if (!FacilityIdRegex.IsValidStandardFormat(Id))
+        {
+            ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
+            return Page();
+        }
+
+        if (!ModelState.IsValid) return Page();
+
+        var facilityId = (FacilityId)Id;
+
+        if (!await facilityService.ExistsAsync(facilityId))
+        {
+            ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
+            return Page();
+        }
+
+        var paging = PaginationDefaults.DefaultSearch(p);
+        var permits = await service.SearchPermitsAsync(facilityId, paging.Skip, paging.Take);
+        var permitCount = await service.CountPermitsAsync(facilityId);
+        SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
+        ShowResults = true;
+        return Page();
+    }
+
+    public async Task OnGetSearchAsync(string? name, [FromQuery] int p = 1,
+        CancellationToken token = default)
+    {
         Name = name;
         Facilities = await facilityService.GetListAsync(token);
 
-        if (Id != null)
-        {
-            if (!FacilityIdRegex.IsValidSearchFormat(Id))
-                ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-            else if (!await facilityService.ExistsAsync((FacilityId)Id))
-                ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
-        }
-
-        if (!ModelState.IsValid) return;
-
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.GetPermitListAsync(Id, Name, paging.Skip, paging.Take);
-        var permitCount = await service.CountPermitsAsync(Id, Name);
+        var permits = await service.SearchPermitsAsync(Name, paging.Skip, paging.Take);
+        var permitCount = await service.CountPermitsAsync(Name);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
     }

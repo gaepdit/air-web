@@ -81,6 +81,8 @@ public record FacilityId
     }
 
     // Format validation
+    public const string FacilityIdBlankError = "Enter a facility ID.";
+
     public const string FacilityIdFormatError = "The Facility ID entered is not valid.";
 
     public const string FacilityNotExistsError =
@@ -131,7 +133,7 @@ public partial record FacilityIdRegex
     private const string StandardIdPattern =
         "^(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})$";
 
-    internal static bool IsValidStandardFormat(string id) => StandardIdRegex.IsMatch(id);
+    public static bool IsValidStandardFormat(string id) => StandardIdRegex.IsMatch(id);
 
     // == EPA Data Exchange Format
     [GeneratedRegex(EpaIdPattern)]

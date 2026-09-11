@@ -4,13 +4,12 @@
 @model PermitSearchIndex
 @{
     ViewData["Title"] = "Air Permit Search";
-    ViewData["NoValidate"] = "True";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 me-md-3 d-md-inline-block">
-    <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by Facility ID">
+    <form method="get" asp-page-handler="Facility" role="search" class="my-1" aria-label="Search by Facility ID">
         <div class="mb-2">
             <label asp-for="Id">Find by facility ID (AIRS Number)</label>
         </div>

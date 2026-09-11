@@ -1,28 +1,43 @@
 ﻿using IaipDataService.Facilities;
 using IaipDataService.Permits;
+using IaipDataService.Utilities;
 
 namespace IaipDataService.TestData;
 
 public class TestPermitService : IPermitService
 {
-    public Task<IReadOnlyCollection<PermitSummary>> GetPermitListAsync(string? facilityId, string? name, int skip,
-        int take) =>
-        Task.FromResult<IReadOnlyCollection<PermitSummary>>(FilteredPermitSummaries(facilityId, name)
+    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take) =>
+        Task.FromResult<IReadOnlyCollection<PermitSummary>>(PermitData.GetData
+            .Where(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId)))
             .Skip(skip).Take(take)
             .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
 
-    public Task<int> CountPermitsAsync(string? facilityId, string? name) =>
-        Task.FromResult(FilteredPermitSummaries(facilityId, name).Count());
-
-    private static IEnumerable<PermitSummary> FilteredPermitSummaries(string? facilityId, string? name) =>
-        PermitData.GetData
-            .Where(ps =>
-                string.IsNullOrWhiteSpace(facilityId) || ps.FacilityId.Equals(FacilityId.TryFormat(facilityId)))
+    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, int skip, int take) =>
+        Task.FromResult<IReadOnlyCollection<PermitSummary>>(PermitData.GetData
             .Where(ps => string.IsNullOrWhiteSpace(name) ||
-                         ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase));
+                         ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+            .Skip(skip).Take(take)
+            .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
+
+    public Task<int> CountPermitsAsync(FacilityId facilityId) =>
+        Task.FromResult(PermitData.GetData.Count(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId))));
+
+    public Task<int> CountPermitsAsync(string? name) =>
+        Task.FromResult(PermitData.GetData.Count(ps =>
+            string.IsNullOrWhiteSpace(name) ||
+            ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase)));
 
     public Task<byte[]?> GetPermitFileAsync(string fileName) =>
-        Task.FromResult<byte[]?>(Convert.FromBase64String(EncodedPdfFile));
+        Task.FromResult(PermitData.GetData.Any(ps => AllFiles(ps).Contains(fileName))
+            ? Convert.FromBase64String(EncodedPdfFile)
+            : null);
+
+    private static string AllFiles(PermitSummary ps) => new[]
+        {
+            ps.VNarrative, ps.VFinal, ps.PsdAppSum, ps.PsdPrelim, ps.PsdNarrative, ps.PsdFinalDet, ps.PsdFinal,
+            ps.OtherNarrative, ps.OtherPermit,
+        }
+        .ConcatWithSeparator("|");
 
     #region Encoded binary data
 

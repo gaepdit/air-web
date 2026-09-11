@@ -13,7 +13,7 @@ public class IndexModel(IFacilityService service) : PageModel
     public bool RefreshIaipData { get; set; }
 
     [BindProperty]
-    [Required(ErrorMessage = "Enter a facility ID.")]
+    [Required(ErrorMessage = FacilityId.FacilityIdBlankError)]
     public string? FindId { get; set; }
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
