@@ -25,7 +25,8 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             .ConfigureAwait(false)).ToList();
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, int skip, int take)
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit, int skip,
+        int take)
     {
         const string sql =
             "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
@@ -39,7 +40,7 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
         using var db = dbf.Create();
 
         return (await db
-            .QueryAsync<PermitSummary>(sql: sql, param: new { name, skip, take }, commandType: CommandType.Text)
+            .QueryAsync<PermitSummary>(sql: sql, param: new { name, permit, skip, take }, commandType: CommandType.Text)
             .ConfigureAwait(false)).ToList();
     }
 
@@ -53,7 +54,7 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             .ConfigureAwait(false);
     }
 
-    public async Task<int> CountPermitsAsync(string? name)
+    public async Task<int> CountPermitsAsync(string? name, string? permit)
     {
         const string sql =
             "select count(*) " +

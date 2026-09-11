@@ -21,13 +21,23 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     [StringLength(100)]
     public string? Name { get; set; }
 
+    [Display(Name = "Permit Number/SIC Code")]
+    [StringLength(20)]
+    public string? Permit { get; set; }
+
     public bool ShowResults { get; private set; }
 
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
     public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
     public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
-    public Dictionary<string, string?> RouteValues => new() { { nameof(Id), Id }, { nameof(Name), Name } };
+
+    public Dictionary<string, string?> RouteValues => new()
+    {
+        { nameof(Id), Id },
+        { nameof(Name), Name },
+        { nameof(Permit), Permit },
+    };
 
     public async Task OnGetAsync(CancellationToken token = default) =>
         Facilities = await facilityService.GetListAsync(token);
@@ -74,15 +84,16 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         return Page();
     }
 
-    public async Task OnGetSearchAsync(string? name, [FromQuery] int p = 1,
+    public async Task OnGetSearchAsync(string? name, string? permit, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
         Name = name;
+        Permit = permit;
         Facilities = await facilityService.GetListAsync(token);
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.SearchPermitsAsync(Name, paging.Skip, paging.Take);
-        var permitCount = await service.CountPermitsAsync(Name);
+        var permits = await service.SearchPermitsAsync(Name, Permit, paging.Skip, paging.Take);
+        var permitCount = await service.CountPermitsAsync(Name, Permit);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
     }
