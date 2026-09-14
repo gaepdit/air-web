@@ -26,6 +26,7 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     public string? Permit { get; set; }
 
     public bool ShowResults { get; private set; }
+    public string HighlightForm { get; private set; } = string.Empty;
 
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
     public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
@@ -81,6 +82,7 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         var permitCount = await service.CountPermitsAsync(facilityId);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
+        HighlightForm = "Facility";
         return Page();
     }
 
@@ -96,5 +98,6 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         var permitCount = await service.CountPermitsAsync(Name, Permit);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
+        HighlightForm = "Search";
     }
 }

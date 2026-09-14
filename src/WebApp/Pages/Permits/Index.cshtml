@@ -4,19 +4,21 @@
 @model PermitSearchIndex
 @{
     ViewData["Title"] = "Air Permit Search";
+    ViewData["NoValidate"] = "True";
+    ViewData["NoAnchors"] = "True";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
-    <form method="get" asp-page-handler="Facility" role="search" class="my-1" aria-label="Search by Facility ID">
+<div class="px-3 py-2 rounded-3 border bg-light-subtle @(Model.HighlightForm == "Facility" ? "border-info" : "") mt-3 mb-4 d-md-inline-block">
+    <form method="get" asp-page-handler="Facility" asp-fragment="SearchResults" role="search" class="my-1" aria-label="Search by Facility ID">
         <div class="row row-cols-sm-auto align-items-center">
             <div class="col-12 mb-2 mb-sm-0">
                 <label asp-for="Id">Find by Facility ID (AIRS Number)</label>
             </div>
             <div class="col-12">
                 <div class="input-group">
-                    <input asp-for="Id" class="form-control" type="search" placeholder="Enter Facility ID" autocomplete="off" data-1p-ignore />
+                    <input asp-for="Id" class="form-control" type="search" autocomplete="off" data-1p-ignore />
                     <ul class="suggestions-list list-group border shadow"></ul>
                     <button class="btn btn-primary" type="submit">Find</button>
                 </div>
@@ -28,9 +30,10 @@
 
 <div class="container">
     <div class="row">
-        <div class="p-3 rounded-3 bg-light-subtle border col-lg-9">
+        <div class="p-3 rounded-3 border bg-light-subtle @(Model.HighlightForm == "Search" ? "border-info" : "") col-lg-9">
+            <h2 class="h5">Search by permit details</h2>
             <div class="text-body-secondary pb-2"><em>All fields are optional.</em></div>
-            <form method="get" asp-page-handler="Search" role="search" class="my-1" aria-label="Search by facility name, permit number, or SIC code">
+            <form method="get" asp-page-handler="Search" asp-fragment="SearchResults" role="search" class="my-1" aria-label="Search by facility and permit details">
                 <div class="row">
                     <div class="col-md mb-3">
                         <div class="position-relative">
@@ -57,7 +60,13 @@
 @if (Model.ShowResults)
 {
     <div id="SearchResults" class="mt-4">
-        <h3>Search Results</h3>
+        <h3 id="search-results">
+            Search Results
+            <span class="visually-hidden">
+                @(Model.HighlightForm == "Search" ? "for permit details" : "")
+                @(Model.HighlightForm == "Facility" ? "for Facility ID" : "")
+            </span>
+        </h3>
 
         @if (Model.SearchResults.TotalCount == 0)
         {
