@@ -44,7 +44,10 @@
                     </div>
                     <div class="col-md mb-3">
                         <label asp-for="Permit" class="form-label"></label>
-                        <input asp-for="Permit" class="form-control" autocomplete="off" data-1p-ignore />
+                        <input asp-for="Permit" class="form-control" aria-describedby="sicHelpBlock" autocomplete="off" data-1p-ignore />
+                        <div id="sicHelpBlock" class="form-text">
+                            <a href="https://www.osha.gov/data/sic-manual" target="_blank">Look up SIC codes</a>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
