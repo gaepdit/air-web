@@ -1,6 +1,8 @@
 ﻿using AirWeb.AppServices.Core.DataAttributes;
+using AirWeb.AppServices.Core.Utilities;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
+using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.Permits;
@@ -12,19 +14,34 @@ namespace AirWeb.WebApp.Pages.Permits;
 [AllowAnonymous]
 public class PermitSearchIndex(IPermitService service, IFacilityService facilityService) : PageModel
 {
+    // Facility ID search form
     [StringLength(9)]
     [Required(ErrorMessage = FacilityId.FacilityIdBlankError)]
     [RequiredNoLabel]
     public string? Id { get; set; }
 
+    // Permit details search form
     [Display(Name = "Facility Name")]
     [StringLength(100)]
-    public string? Name { get; set; }
+    public string? Name { get; private set; }
 
     [Display(Name = "Permit Number/SIC Code")]
     [StringLength(20)]
-    public string? Permit { get; set; }
+    public string? Permit { get; private set; }
 
+    [Display(Name = "From")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
+    public DateOnly? DateFrom { get; private set; }
+
+    [Display(Name = "Until")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
+    [MaxDate]
+    public DateOnly? DateTo { get; private set; }
+
+    // Page properties and data
     public bool ShowResults { get; private set; }
     public string HighlightForm { get; private set; } = string.Empty;
 
@@ -38,6 +55,8 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         { nameof(Id), Id },
         { nameof(Name), Name },
         { nameof(Permit), Permit },
+        { nameof(DateFrom), DateFrom?.ToString("d") },
+        { nameof(DateTo), DateTo?.ToString("d") },
     };
 
     public async Task OnGetAsync(CancellationToken token = default) =>
@@ -46,11 +65,17 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     public async Task<IActionResult> OnGetFacilityAsync(string id, [FromQuery] int p = 1,
         CancellationToken token = default)
     {
-        Id = id;
+        Id = FacilityId.TryFormat(id);
+        if (Id != id) return RedirectToPage(new { handler = "Facility", Id });
+
         Facilities = await facilityService.GetListAsync(token);
         ModelState.Clear();
 
-        if (Id == null) return RedirectToPage();
+        if (Id == null)
+        {
+            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdBlankError);
+            return Page();
+        }
 
         if (!FacilityIdRegex.IsValidSearchFormat(Id))
         {
@@ -86,16 +111,18 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         return Page();
     }
 
-    public async Task OnGetSearchAsync(string? name, string? permit, [FromQuery] int p = 1,
-        CancellationToken token = default)
+    public async Task OnGetSearchAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo,
+        [FromQuery] int p = 1, CancellationToken token = default)
     {
         Name = name;
         Permit = permit;
+        DateTo = dateTo;
+        DateFrom = dateFrom;
         Facilities = await facilityService.GetListAsync(token);
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.SearchPermitsAsync(Name, Permit, paging.Skip, paging.Take);
-        var permitCount = await service.CountPermitsAsync(Name, Permit);
+        var permits = await service.SearchPermitsAsync(Name, Permit, dateFrom, dateTo, paging.Skip, paging.Take);
+        var permitCount = await service.CountPermitsAsync(Name, Permit, dateFrom, dateTo);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
         HighlightForm = "Search";

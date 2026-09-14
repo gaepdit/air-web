@@ -26,8 +26,8 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             .ConfigureAwait(false)).ToList();
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit, int skip,
-        int take)
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit,
+        DateOnly? dateFrom, DateOnly? dateTo, int skip, int take)
     {
         const string sql =
             "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
@@ -36,13 +36,20 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             " from dbo.VW_GA_PERMITS " +
             " where (@name is null or FacilityName like concat('%', @name, '%')) " +
             " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
+            " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
+            " and (@dateTo is null or IssuanceDate <= @dateTo) " +
             " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
             " offset @skip rows fetch next @take rows only ";
+
+        var fromDate = dateFrom?.ToDateTime(TimeOnly.MinValue);
+        var toDate = dateTo?.ToDateTime(TimeOnly.MinValue);
 
         using var db = dbf.Create();
 
         return (await db
-            .QueryAsync<PermitSummary>(sql: sql, param: new { name, permit, skip, take }, commandType: CommandType.Text)
+            .QueryAsync<PermitSummary>(sql: sql,
+                param: new { name, permit, dateFrom = fromDate, dateTo = toDate, skip, take },
+                commandType: CommandType.Text)
             .ConfigureAwait(false)).ToList();
     }
 
@@ -57,17 +64,23 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             .ConfigureAwait(false);
     }
 
-    public async Task<int> CountPermitsAsync(string? name, string? permit)
+    public async Task<int> CountPermitsAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo)
     {
         const string sql =
             "select count(*) " +
             " from dbo.VW_GA_PERMITS " +
             " where (@name is null or FacilityName like concat('%', @name, '%')) " +
-            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) ";
+            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
+            " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
+            " and (@dateTo is null or IssuanceDate <= @dateTo) ";
+
+        var fromDate = dateFrom?.ToDateTime(TimeOnly.MinValue);
+        var toDate = dateTo?.ToDateTime(TimeOnly.MinValue);
 
         using var db = dbf.Create();
 
-        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { name, permit }, commandType: CommandType.Text)
+        return await db.ExecuteScalarAsync<int>(sql: sql,
+                param: new { name, dateFrom = fromDate, dateTo = toDate, permit }, commandType: CommandType.Text)
             .ConfigureAwait(false);
     }
 
