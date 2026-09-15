@@ -43,12 +43,12 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
 
     // Page properties and data
     public bool ShowResults { get; private set; }
-    public string HighlightForm { get; private set; } = string.Empty;
+    public string SearchHandler { get; private set; } = string.Empty;
 
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
     public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
+    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchHandler, SearchResults);
 
     public Dictionary<string, string?> RouteValues => new()
     {
@@ -103,11 +103,11 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         }
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.SearchPermitsAsync(facilityId, paging.Skip, paging.Take);
+        var permits = await service.SearchPermitsAsync(facilityId, paging.Skip, paging.Take, token);
         var permitCount = await service.CountPermitsAsync(facilityId);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
-        HighlightForm = "Facility";
+        SearchHandler = "Facility";
         return Page();
     }
 
@@ -125,6 +125,6 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         var permitCount = await service.CountPermitsAsync(Name, Permit, dateFrom, dateTo);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
-        HighlightForm = "Search";
+        SearchHandler = "Search";
     }
 }

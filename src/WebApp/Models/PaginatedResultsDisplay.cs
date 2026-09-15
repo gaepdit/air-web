@@ -27,6 +27,15 @@ public record PaginatedResultsDisplay
         RouteValues = routeValues;
     }
 
+    public PaginatedResultsDisplay(IDictionary<string, string?> routeValues, string searchHandler,
+        IPaginatedResult searchResults)
+    {
+        SearchResults = searchResults;
+        SortByName = "default";
+        RouteValues = routeValues;
+        SearchHandler = searchHandler;
+    }
+
     public PaginatedResultsDisplay(IPaginatedResult searchResults)
     {
         SearchResults = searchResults;
@@ -36,5 +45,6 @@ public record PaginatedResultsDisplay
 
     public string SortByName { get; }
     public IDictionary<string, string?> RouteValues { get; }
-    public IPaginatedResult SearchResults { get; init; }
+    public string SearchHandler { get; } = "Search";
+    public IPaginatedResult SearchResults { get; }
 }
