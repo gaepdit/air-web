@@ -6,7 +6,8 @@ namespace IaipDataService.TestData;
 
 public class TestPermitService : IPermitService
 {
-    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take) =>
+    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take,
+        CancellationToken token = default) =>
         Task.FromResult<IReadOnlyCollection<PermitSummary>>(PermitData.GetData
             .Where(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId)))
             .Skip(skip).Take(take)

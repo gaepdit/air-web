@@ -10,7 +10,9 @@ public interface IPermitService
     /// <param name="facilityId">A Facility ID.</param>
     /// <param name="skip">The number of permits search results to skip (for pagination).</param>
     /// <param name="take">The number of permits search results to take (for pagination).</param>
-    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take);
+    /// <param name="token"></param>
+    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take,
+        CancellationToken token = default);
 
     /// <summary>
     /// Searches for permits by partial facility name.

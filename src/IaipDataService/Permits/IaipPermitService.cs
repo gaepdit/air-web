@@ -1,13 +1,18 @@
 ﻿using Dapper;
+using IaipDataService.Caching;
 using IaipDataService.DbConnection;
 using IaipDataService.Facilities;
+using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Logging;
 using System.Data;
 
 namespace IaipDataService.Permits;
 
-public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
+public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cache, ILogger<IaipPermitService> logger)
+    : IPermitService
 {
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take)
+    private async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsByFacilityIdInternal(FacilityId facilityId,
+        int skip, int take)
     {
         const string sql =
             "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
@@ -24,6 +29,23 @@ public class IaipPermitService(IDbConnectionFactory dbf) : IPermitService
             .QueryAsync<PermitSummary>(sql: sql, param: new { facilityId = facilityId.ToString(), skip, take },
                 commandType: CommandType.Text)
             .ConfigureAwait(false)).ToList();
+    }
+
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take,
+        CancellationToken token = default)
+    {
+        var key = $"SearchPermitsByFacilityId.{facilityId}|skip:{skip}|take:{take}";
+        var tag = $"IaipFacility.{facilityId}";
+
+        logger.LogCacheSearch(key);
+
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                logger.LogCacheMiss(key);
+                return await SearchPermitsByFacilityIdInternal(facilityId, skip, take).ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityExpiration),
+            tags: [tag], token).ConfigureAwait(false);
     }
 
     public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit,
