@@ -8,7 +8,7 @@
             {
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
-                       asp-all-route-data="Model.RouteValues" asp-route-handler="search"
+                       asp-all-route-data="Model.RouteValues" asp-route-handler="@Model.SearchHandler"
                        asp-route-p="@Model.SearchResults.PreviousPageNumber.ToString()">
                         Previous
                     </a>
@@ -45,7 +45,7 @@
                 {
                     <li class="page-item">
                         <a class="page-link" asp-fragment="SearchResults"
-                           asp-all-route-data="@Model.RouteValues" asp-route-handler="search"
+                           asp-all-route-data="@Model.RouteValues" asp-route-handler="@Model.SearchHandler"
                            asp-route-p="@index.ToString()">
                             @index.ToString()
                         </a>
@@ -64,7 +64,7 @@
             {
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
-                       asp-all-route-data="@Model.RouteValues" asp-route-handler="search"
+                       asp-all-route-data="@Model.RouteValues" asp-route-handler="@Model.SearchHandler"
                        asp-route-p="@(Model.SearchResults.NextPageNumber.ToString())">
                         Next
                     </a>
