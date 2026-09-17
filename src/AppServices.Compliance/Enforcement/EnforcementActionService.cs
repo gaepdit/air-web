@@ -5,6 +5,7 @@ using AirWeb.AppServices.Core.AppNotifications;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.AppRoles;
+using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
@@ -119,6 +120,11 @@ public sealed class EnforcementActionService(
         coViewDto?.StipulatedPenalties.RemoveAll(p => p.IsDeleted);
         return coViewDto;
     }
+
+    public async Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default) =>
+        (await actionRepository.FindDxActionEnforcementAsync(
+                dx => dx.FacilityId == epaId.FacilityId && dx.ActionNumber == epaId.ActionNumber, token)
+            .ConfigureAwait(false))?.CaseFile.Id ?? 0;
 
     public async Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default)
     {

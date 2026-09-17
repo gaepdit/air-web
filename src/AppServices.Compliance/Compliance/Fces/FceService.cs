@@ -10,6 +10,7 @@ using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.Domain.Compliance.ComplianceEntities.Fces;
+using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AutoMapper;
 using GaEpd.AppLibrary.Extensions;
@@ -127,6 +128,11 @@ public sealed class FceService(
             CacheUtilities.GetHybridCacheOptions(FceExpiration),
             tags: [$"Fce.{facilityId}"], token).ConfigureAwait(false);
     }
+
+    public async Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default) =>
+        (await fceRepository
+            .FindAsync(fce => fce.FacilityId == epaId.FacilityId && fce.ActionNumber == epaId.ActionNumber, token)
+            .ConfigureAwait(false))?.Id ?? 0;
 
     private async Task<SupportingDataDetails> GetSupportingDataFromDb(FacilityId facilityId, DateOnly completedDate,
         CancellationToken token)

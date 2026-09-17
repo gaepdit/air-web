@@ -299,7 +299,7 @@ internal static class AppDbContextConfiguration
     internal static ModelBuilder ConfigureDataExchangeIndexes(this ModelBuilder builder)
     {
         // Configure composite unique indexes for FacilityId + ActionNumber
-        // These ensure that ActionNumber is sequential and unique per FacilityId
+        // These help ensure that ActionNumber is sequential and unique per FacilityId.
 
         // ComplianceEvent (ComplianceWork) - ActionNumber must be unique per FacilityId
         builder.Entity<ComplianceEvent>()
@@ -313,6 +313,11 @@ internal static class AppDbContextConfiguration
 
         // CaseFile - ActionNumber must be unique per FacilityId
         builder.Entity<CaseFile>()
+            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
+            .IsUnique();
+
+        // Enforcement Action - ActionNumber must be unique per FacilityId
+        builder.Entity<DxActionEnforcementAction>()
             .HasIndex(e => new { e.FacilityId, e.ActionNumber })
             .IsUnique();
 

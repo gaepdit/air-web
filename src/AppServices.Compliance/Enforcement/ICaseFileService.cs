@@ -3,6 +3,7 @@ using AirWeb.AppServices.Compliance.Enforcement.CaseFileCommand;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.Domain.Compliance.DataExchange;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Enforcement;
@@ -13,6 +14,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
     Task<CaseFileViewDto?> FindDetailedAsync(int id, CancellationToken token = default);
     Task<CaseFileSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<bool> ExistsAsync(int id, CancellationToken token = default);
+    Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default);
 
     // Case File commands
     Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource, CancellationToken token = default);

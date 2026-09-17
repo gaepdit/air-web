@@ -1,5 +1,6 @@
 ﻿using AirWeb.Domain.Compliance.AuditPoints;
 using AirWeb.Domain.Compliance.Comments;
+using System.Linq.Expressions;
 
 namespace AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 
@@ -23,6 +24,16 @@ public interface IComplianceWorkRepository : IRepositoryWithMapping<ComplianceWo
     /// <returns>A ComplianceWork entry of type TWork or null.</returns>
     Task<TWork?> FindAsync<TWork>(int id, bool includeExtras, CancellationToken token = default)
         where TWork : ComplianceWork;
+
+    /// <summary>
+    /// Returns the <see cref="ComplianceWork"/> matching the conditions of the <paramref name="predicate"/>, but only
+    /// if it is a <see cref="ComplianceEvent"/> type. Returns null if no matching entity exists.
+    /// </summary>
+    /// <param name="predicate">The search conditions.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns></returns>
+    Task<ComplianceEvent?> FindComplianceEventAsync(Expression<Func<ComplianceEvent, bool>> predicate,
+        CancellationToken token = default);
 
     /// <summary>
     /// Gets the <see cref="ComplianceWorkType"/> for the <see cref="ComplianceWork"/> with the specified ID.

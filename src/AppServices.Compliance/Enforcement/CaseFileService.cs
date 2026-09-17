@@ -9,6 +9,7 @@ using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AutoMapper;
@@ -78,6 +79,11 @@ public sealed class CaseFileService(
 
     public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
         caseFileRepository.ExistsAsync(id, token);
+
+    public async Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default) =>
+        (await caseFileRepository.FindAsync(
+            caseFile => caseFile.FacilityId == epaId.FacilityId && caseFile.ActionNumber == epaId.ActionNumber,
+            token).ConfigureAwait(false))?.Id ?? 0;
 
     public async Task<CreateResult<int>> CreateAsync(CaseFileCreateDto resource,
         CancellationToken token = default)

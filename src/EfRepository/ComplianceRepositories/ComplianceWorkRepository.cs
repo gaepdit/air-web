@@ -1,5 +1,6 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.EfRepository.Contexts;
+using System.Linq.Expressions;
 
 namespace AirWeb.EfRepository.ComplianceRepositories;
 
@@ -24,6 +25,10 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
             : query;
         return include.SingleOrDefaultAsync(work => work.Id.Equals(id), token);
     }
+
+    public Task<ComplianceEvent?> FindComplianceEventAsync(Expression<Func<ComplianceEvent, bool>> predicate,
+        CancellationToken token = default) =>
+        Context.Set<ComplianceEvent>().AsNoTracking().Where(predicate).SingleOrDefaultAsync(token);
 
     public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceWork>().AsNoTracking()

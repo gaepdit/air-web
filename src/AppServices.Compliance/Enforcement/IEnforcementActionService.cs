@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Core.CommonDtos;
+using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using GaEpd.AppLibrary.Pagination;
 
@@ -17,6 +18,7 @@ public interface IEnforcementActionService : IDisposable, IAsyncDisposable
     Task<IActionViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<EnforcementActionType?> GetEnforcementActionType(Guid id, CancellationToken token = default);
     Task<CoViewDto?> FindConsentOrderAsync(Guid id, CancellationToken token = default);
+    Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default);
 
     // Update
     Task UpdateAsync(Guid id, EnforcementActionEditDto resource, CancellationToken token = default);

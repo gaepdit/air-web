@@ -2,11 +2,12 @@
 
 namespace AirWeb.Domain.Compliance.DataExchange;
 
-public partial class EpaActionId
+public partial class EpaActivityId
 {
-    public EpaActionId(string id)
+    public EpaActivityId(string id)
     {
-        if (!IsValidFormat(id)) throw new ArgumentException($"Invalid EpaActionId format: {id}", nameof(id));
+        if (!IsValidFormat(id))
+            throw new ArgumentException($"Invalid {nameof(EpaActivityId)} format: {id}", nameof(id));
         FacilityId = (FacilityId)id[12..20];
         ActionNumber = Convert.ToInt32(id[20..]);
     }
