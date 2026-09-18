@@ -15,7 +15,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
     {
         var query = Context.Set<TWork>().AsNoTracking();
         var include = includeExtras
-            ? query
+            ? query.AsSplitQuery()
                 .Include(work => work.Comments
                     .Where(comment => !comment.DeletedAt.HasValue)
                     .OrderBy(comment => comment.CommentedAt)
@@ -39,7 +39,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
             .AnyAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
-        Context.Set<SourceTestReview>().AsNoTracking()
+        Context.Set<SourceTestReview>().AsNoTracking().AsSplitQuery()
             .Include(review => review.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt)
