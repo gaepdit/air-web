@@ -6,10 +6,10 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Inspecti
 
 public record InspectionViewDto : ComplianceEventViewDto
 {
-    [Display(Name = "Start")]
+    [Display(Name = "Inspection Start")]
     public DateTime InspectionStarted { get; init; }
 
-    [Display(Name = "End")]
+    [Display(Name = "Inspection End")]
     public DateTime InspectionEnded { get; init; }
 
     [Display(Name = "Date")]
