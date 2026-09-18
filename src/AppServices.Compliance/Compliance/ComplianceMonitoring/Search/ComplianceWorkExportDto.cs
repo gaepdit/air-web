@@ -8,20 +8,22 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record ComplianceWorkExportDto : IFacilitySearchResult
 {
-    public ComplianceWorkExportDto(ComplianceWork complianceWork)
+    public ComplianceWorkExportDto(ComplianceWork work)
     {
-        ComplianceWorkId = complianceWork.Id;
-        FacilityId = complianceWork.FacilityId;
-        ComplianceWorkType = complianceWork.ComplianceWorkType.GetDisplayName();
-        EventDate = complianceWork.EventDate;
-        EventDateName = complianceWork.EventDateName;
-        AdditionalDate = complianceWork.AdditionalDate;
-        AdditionalDateName = complianceWork.AdditionalDateName;
-        ResponsibleStaff = complianceWork.ResponsibleStaff?.SortableFullName;
-        Status = complianceWork.IsClosed ? "Closed" : "Open";
-        ClosedDate = complianceWork.ClosedDate;
-        Notes = complianceWork.Notes;
-        Deleted = complianceWork.IsDeleted ? "Deleted" : "No";
+        ComplianceWorkId = work.Id;
+        FacilityId = work.FacilityId;
+        ComplianceWorkType = work is Report report
+            ? $"{report.ComplianceWorkType.GetDisplayName()}: {report.ReportingPeriodType.GetDisplayName()}"
+            : work.ComplianceWorkType.GetDisplayName();
+        EventDate = work.EventDate;
+        EventDateName = work.EventDateName;
+        AdditionalDate = work.AdditionalDate;
+        AdditionalDateName = work.AdditionalDateName;
+        ResponsibleStaff = work.ResponsibleStaff?.SortableFullName;
+        Status = work.IsClosed ? "Closed" : "Open";
+        ClosedDate = work.ClosedDate;
+        Notes = work.Notes;
+        Deleted = work.IsDeleted ? "Deleted" : "No";
     }
 
     [XLColumn(Header = "Compliance Work ID")]
