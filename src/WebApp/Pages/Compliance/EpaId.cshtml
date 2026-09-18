@@ -1,0 +1,22 @@
+﻿@page "{epaId?}"
+@model EpaIdModel
+@{
+    ViewData["Title"] = "EPA Identifier";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="px-3 py-2 rounded-3 bg-light-subtle border mt-3 mb-4 d-md-inline-block">
+    <form method="post" role="search" class="my-1">
+        <div class="mb-2">
+            <label for="FindId">Find by EPA Identifier</label>
+        </div>
+        <div>
+            <div class="input-group input-group-sm">
+                <input id="FindId" asp-for="EpaId" class="form-control" type="search" placeholder="Enter ID" aria-label="Search" aria-describedby="epaIdHelpBlock" />
+                <button class="btn btn-primary" type="submit">Open</button>
+            </div>
+        </div>
+        <div class="mt-2 mt-sm-0"><span asp-validation-for="EpaId" class="text-danger-emphasis"></span></div>
+        <div class="form-text" id="epaIdHelpBlock">An EPA Identifier can refer to a Facility, Compliance Monitoring Event, Case File, or Enforcement Action.</div>
+    </form>
+</div>

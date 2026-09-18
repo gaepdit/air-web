@@ -1,5 +1,6 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Compliance;
+using System.Linq.Expressions;
 
 namespace AirWeb.MemRepository.ComplianceRepositories;
 
@@ -13,6 +14,10 @@ public sealed class ComplianceWorkMemRepository()
         CancellationToken token = default)
         where TWork : ComplianceWork =>
         (TWork?)await FindAsync(id, token: token).ConfigureAwait(false);
+
+    public Task<ComplianceEvent?> FindComplianceEventAsync(Expression<Func<ComplianceEvent, bool>> predicate,
+        CancellationToken token = default) =>
+        Task.FromResult(Items.OfType<ComplianceEvent>().SingleOrDefault(predicate.Compile()));
 
     public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Task.FromResult(Items.Single(work => work.Id.Equals(id)).ComplianceWorkType);

@@ -8,7 +8,7 @@ public sealed class CustomerRepository(AppDbContext context)
 {
     public async Task<Customer?> FindIncludeAllAsync(
         Guid id, bool includeDeletedCases, CancellationToken token = default) =>
-        await Context.Set<Customer>()
+        await Context.Set<Customer>().AsSplitQuery()
             .Include(e => e.Contacts
                 .Where(i => !i.IsDeleted)
                 .OrderByDescending(i => i.EnteredOn))
@@ -17,6 +17,5 @@ public sealed class CustomerRepository(AppDbContext context)
                 .Where(i => includeDeletedCases || !i.IsDeleted)
                 .OrderByDescending(item => item.CaseOpenedDate))
             .ThenInclude(e => e.ReferralAgency)
-            .AsSplitQuery()
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);
 }

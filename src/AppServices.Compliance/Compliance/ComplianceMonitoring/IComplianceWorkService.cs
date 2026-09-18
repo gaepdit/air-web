@@ -4,6 +4,7 @@ using AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTestRe
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.DataExchange;
 using System.Security.Claims;
 
 namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring;
@@ -15,6 +16,7 @@ public interface IComplianceWorkService : IDisposable, IAsyncDisposable
     Task<ComplianceWorkSummaryDto?> FindSummaryAsync(int id, CancellationToken token = default);
     Task<ComplianceWorkType?> GetComplianceWorkTypeAsync(int id, CancellationToken token = default);
     Task<bool> ExistsAsync(int id, CancellationToken token = default);
+    Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default);
 
     // Enforcement Cases
     Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default);

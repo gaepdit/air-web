@@ -14,6 +14,7 @@ using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.AppServices.Core.EntityServices.Users;
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
+using AirWeb.Domain.Compliance.DataExchange;
 using AutoMapper;
 using IaipDataService.Facilities;
 using IaipDataService.SourceTests;
@@ -83,6 +84,11 @@ public sealed partial class ComplianceWorkService(
 
     public Task<bool> ExistsAsync(int id, CancellationToken token = default) =>
         repository.ExistsAsync(id, token);
+
+    public async Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default) =>
+        (await repository
+            .FindComplianceEventAsync(ce => ce.FacilityId == epaId.FacilityId && ce.ActionNumber == epaId.ActionNumber,
+                token).ConfigureAwait(false))?.Id ?? 0;
 
     // Enforcement Cases
     public async Task<IEnumerable<int>> GetCaseFileIdsAsync(int id, CancellationToken token = default) =>

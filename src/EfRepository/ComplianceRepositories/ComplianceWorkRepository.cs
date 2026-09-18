@@ -1,5 +1,6 @@
 using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.EfRepository.Contexts;
+using System.Linq.Expressions;
 
 namespace AirWeb.EfRepository.ComplianceRepositories;
 
@@ -14,7 +15,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
     {
         var query = Context.Set<TWork>().AsNoTracking();
         var include = includeExtras
-            ? query
+            ? query.AsSplitQuery()
                 .Include(work => work.Comments
                     .Where(comment => !comment.DeletedAt.HasValue)
                     .OrderBy(comment => comment.CommentedAt)
@@ -25,6 +26,10 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
         return include.SingleOrDefaultAsync(work => work.Id.Equals(id), token);
     }
 
+    public Task<ComplianceEvent?> FindComplianceEventAsync(Expression<Func<ComplianceEvent, bool>> predicate,
+        CancellationToken token = default) =>
+        Context.Set<ComplianceEvent>().AsNoTracking().Where(predicate).SingleOrDefaultAsync(token);
+
     public Task<ComplianceWorkType> GetComplianceWorkTypeAsync(int id, CancellationToken token = default) =>
         Context.Set<ComplianceWork>().AsNoTracking()
             .Where(work => work.Id.Equals(id)).Select(work => work.ComplianceWorkType).SingleAsync(token);
@@ -34,7 +39,7 @@ public sealed class ComplianceWorkRepository(AppDbContext context)
             .AnyAsync(str => str.ReferenceNumber.Equals(referenceNumber) && !str.IsDeleted, token);
 
     public Task<SourceTestReview?> FindSourceTestReviewAsync(int referenceNumber, CancellationToken token = default) =>
-        Context.Set<SourceTestReview>().AsNoTracking()
+        Context.Set<SourceTestReview>().AsNoTracking().AsSplitQuery()
             .Include(review => review.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt)

@@ -1,6 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Compliance.Fces.SupportingData;
 using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
+using AirWeb.Domain.Compliance.DataExchange;
 using IaipDataService.Facilities;
 
 namespace AirWeb.AppServices.Compliance.Compliance.Fces;
@@ -16,6 +17,8 @@ public interface IFceService : IDisposable, IAsyncDisposable
 
     Task<SupportingDataDetails> GetSupportingDetailsAsync(FacilityId facilityId, DateOnly completedDate,
         bool forceRefresh = false, CancellationToken token = default);
+
+    Task<int> LookUpEpaIdAsync(EpaActivityId epaId, CancellationToken token = default);
 
     // Command
     Task<CreateResult<int>> CreateAsync(FceCreateDto resource, CancellationToken token = default);

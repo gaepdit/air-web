@@ -199,6 +199,18 @@
                     </div>
                 </form>
             </div>
+
+            <div class="container-fluid mb-4">
+                <form role="search" asp-page="/Compliance/EpaId" method="post" aria-label="EPA Identifier quick find form">
+                    <label for="FindEpaId" class="input-group-text visually-hidden">EPA ID</label>
+                    <div class="input-group">
+                        <input id="FindEpaId" class="form-control" type="search" placeholder="EPA ID" aria-describedby="epaIdHelpBlock"
+                               aria-label="Find a facility or activity by EPA ID" data-val="true" data-val-required="Enter an EPA ID" name="EpaId" value="">
+                        <button class="btn btn-primary" type="submit">Open</button>
+                    </div>
+                    <div class="form-text" id="epaIdHelpBlock">An EPA Identifier can refer to a Facility, Compliance Monitoring Event, Case File, or Enforcement Action.</div>
+                </form>
+            </div>
         </div>
     </div>
 }
