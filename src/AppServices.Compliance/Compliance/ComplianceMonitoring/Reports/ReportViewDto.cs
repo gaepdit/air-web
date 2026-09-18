@@ -14,10 +14,10 @@ public record ReportViewDto : ComplianceEventViewDto, IReviewedDate
     [Display(Name = "Report Type")]
     public ReportingPeriodType ReportingPeriodType { get; init; }
 
-    [Display(Name = "Start")]
+    [Display(Name = "Reporting Period Start")]
     public DateOnly ReportingPeriodStart { get; init; }
 
-    [Display(Name = "End")]
+    [Display(Name = "Reporting Period End")]
     public DateOnly? ReportingPeriodEnd { get; init; }
 
     [Display(Name = "Date")]

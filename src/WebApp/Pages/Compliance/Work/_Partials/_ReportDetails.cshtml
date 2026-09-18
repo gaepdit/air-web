@@ -4,13 +4,10 @@
 <dl class="row mt-3 mb-0">
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodType)</dt>
     <dd class="col-sm-8 col-lg-9">
-        <strong
-            class="text-info-emphasis">
+        <strong class="text-info-emphasis">
             @Model.ReportingPeriodType.GetDisplayName()
         </strong>
     </dd>
-    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
-    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodStart)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReportingPeriodStart, DisplayTemplate.ShortDateOnly)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportingPeriodEnd)</dt>
@@ -21,6 +18,8 @@
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.DueDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.SentDate)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.SentDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
+    <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReceivedDate)</dt>
+    <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReceivedDate, DisplayTemplate.ShortDateOnlyNullable)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportComplete)</dt>
     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(m => m.ReportComplete, DisplayTemplate.BoolYesNo)</dd>
     <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.ReportsDeviations)</dt>

@@ -7,7 +7,7 @@ public record SourceTestReviewViewDto : ComplianceEventViewDto
     [Display(Name = "Reference Number")]
     public int? ReferenceNumber { get; init; }
 
-    [Display(Name = "Date Received")]
+    [Display(Name = "Date Received By Compliance")]
     public DateOnly ReceivedByComplianceDate { get; init; }
 
     [Display(Name = "Test Due Date")]

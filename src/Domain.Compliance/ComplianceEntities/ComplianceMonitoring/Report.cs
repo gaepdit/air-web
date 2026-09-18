@@ -29,6 +29,7 @@ public class Report : ComplianceEvent, IDataExchangeAction
     }
 
     public DateOnly? ReviewedDate { get; set; }
+    public override DateOnly? AdditionalDate => ReviewedDate;
 
     [StringLength(29)]
     public ReportingPeriodType ReportingPeriodType { get; set; }

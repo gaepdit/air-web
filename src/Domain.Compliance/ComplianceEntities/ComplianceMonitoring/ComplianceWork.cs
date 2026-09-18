@@ -3,6 +3,7 @@ using AirWeb.Domain.Compliance.Comments;
 using AirWeb.Domain.Compliance.Facility;
 using AirWeb.Domain.Core.BaseEntities;
 using AirWeb.Domain.Core.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 
@@ -43,6 +44,17 @@ public abstract class ComplianceWork : ClosableEntity<int>, IFacilityId, INotes,
         ComplianceWorkType.Inspection or ComplianceWorkType.RmpInspection => "Inspection Date",
         ComplianceWorkType.SourceTestReview => "Received By Compliance",
         _ => "Error",
+    };
+
+    [NotMapped]
+    public virtual DateOnly? AdditionalDate => null;
+
+    [UsedImplicitly]
+    public string? AdditionalDateName => ComplianceWorkType switch
+    {
+        ComplianceWorkType.Report or ComplianceWorkType.AnnualComplianceCertification => "Date Reviewed",
+        ComplianceWorkType.PermitRevocation => "Permit Revocation Date",
+        _ => null,
     };
 
     // Comments

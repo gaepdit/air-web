@@ -8,18 +8,22 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.Search;
 [UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public record ComplianceWorkExportDto : IFacilitySearchResult
 {
-    public ComplianceWorkExportDto(ComplianceWork complianceWork)
+    public ComplianceWorkExportDto(ComplianceWork work)
     {
-        ComplianceWorkId = complianceWork.Id;
-        FacilityId = complianceWork.FacilityId;
-        ComplianceWorkType = complianceWork.ComplianceWorkType.GetDisplayName();
-        EventDate = complianceWork.EventDate;
-        EventDateName = complianceWork.EventDateName;
-        ResponsibleStaff = complianceWork.ResponsibleStaff?.SortableFullName;
-        Closed = complianceWork.IsClosed ? "Closed" : "Open";
-        ClosedDate = complianceWork.ClosedDate;
-        Notes = complianceWork.Notes;
-        Deleted = complianceWork.IsDeleted ? "Deleted" : "No";
+        ComplianceWorkId = work.Id;
+        FacilityId = work.FacilityId;
+        ComplianceWorkType = work is Report report
+            ? $"{report.ComplianceWorkType.GetDisplayName()}: {report.ReportingPeriodType.GetDisplayName()}"
+            : work.ComplianceWorkType.GetDisplayName();
+        EventDate = work.EventDate;
+        EventDateName = work.EventDateName;
+        AdditionalDate = work.AdditionalDate;
+        AdditionalDateName = work.AdditionalDateName;
+        ResponsibleStaff = work.ResponsibleStaff?.SortableFullName;
+        Status = work.IsClosed ? "Closed" : "Open";
+        ClosedDate = work.ClosedDate;
+        Notes = work.Notes;
+        Deleted = work.IsDeleted ? "Deleted" : "No";
     }
 
     [XLColumn(Header = "Compliance Work ID")]
@@ -34,17 +38,23 @@ public record ComplianceWorkExportDto : IFacilitySearchResult
     [XLColumn(Header = "Compliance Work Type")]
     public string ComplianceWorkType { get; init; }
 
-    [XLColumn(Header = "Date Description")]
+    [XLColumn(Header = "Key Date")]
     public DateOnly EventDate { get; init; }
 
-    [XLColumn(Header = "Event")]
+    [XLColumn(Header = "Key Date Description")]
     public string EventDateName { get; init; }
+
+    [XLColumn(Header = "Additional Date")]
+    public DateOnly? AdditionalDate { get; init; }
+
+    [XLColumn(Header = "Additional Date Description")]
+    public string? AdditionalDateName { get; init; }
 
     [XLColumn(Header = "Staff Responsible")]
     public string? ResponsibleStaff { get; init; }
 
-    [XLColumn(Header = "Closed?")]
-    public string Closed { get; init; }
+    [XLColumn(Header = "Status")]
+    public string Status { get; init; }
 
     [XLColumn(Header = "Date Closed")]
     public DateOnly? ClosedDate { get; init; }
