@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.9.18] - 2026-09-18
+
+- A search form has been added to find records by EPA Facility Identifier or Activity Identifier.
+- Additional info is now shown on the Compliance Monitoring search page and also in the Excel export.
+
 ## [2026.9.10] - 2026-09-10
 
 - The color theme switcher has been moved from the main toolbar to a preferences section on the user account page.
@@ -241,3 +246,4 @@
 [2026.9.4]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.4
 [2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9
 [2026.9.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.10
+[2026.9.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.18
