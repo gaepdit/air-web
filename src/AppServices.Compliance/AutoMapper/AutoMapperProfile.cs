@@ -19,6 +19,7 @@ using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.ActionProperties;
 using AutoMapper;
+using GaEpd.AppLibrary.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AirWeb.AppServices.Compliance.AutoMapper;
@@ -68,8 +69,14 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<ComplianceWork, ComplianceWorkSummaryDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+
         CreateMap<ComplianceWork, ComplianceWorkSearchResultDto>()
-            .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
+            .ForMember(dto => dto.FacilityName, member => member.Ignore())
+            .ForMember(dto => dto.ComplianceWorkType, member =>
+                member.MapFrom(work => work.ComplianceWorkType == ComplianceWorkType.Report
+                    ? $"{work.ComplianceWorkType.GetDisplayName()}: {((Report)work).ReportingPeriodType.GetDisplayName()}"
+                    : work.ComplianceWorkType.GetDisplayName()))
+            .ForMember(dto => dto.AdditionalDate, member => member.MapFrom(work => work.AdditionalDate));
 
         Accs();
         Inspections();
