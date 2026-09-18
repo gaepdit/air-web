@@ -56,9 +56,9 @@ public sealed class IaipFacilityService(
 
         facility.RegulatoryData!.AirPrograms.AddRange(
             await multi.ReadAsync<AirProgram>().ConfigureAwait(false));
-        facility.RegulatoryData!.ProgramClassifications.AddRange(
+        facility.RegulatoryData.ProgramClassifications.AddRange(
             await multi.ReadAsync<AirProgramClassification>().ConfigureAwait(false));
-        facility.RegulatoryData!.Pollutants.AddRange(
+        facility.RegulatoryData.Pollutants.AddRange(
             await multi.ReadAsync<Pollutant>().ConfigureAwait(false));
 
         return facility;
@@ -123,7 +123,7 @@ public sealed class IaipFacilityService(
     public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default)
     {
-        var key = $"IaipFacilityList{(includePortableSources ? "" : "_ExcludingPortable")}";
+        var key = $"IaipFacilitySummaryList{(includePortableSources ? "" : "_ExcludingPortable")}";
 
         if (forceRefresh) await cache.RemoveByTagAsync(FacilityLists, token).ConfigureAwait(false);
         else logger.LogCacheSearch(key);
@@ -154,5 +154,20 @@ public sealed class IaipFacilityService(
             splitOn: "GeoCoordinatesId",
             commandType: CommandType.StoredProcedure
         ).ConfigureAwait(false)).ToList();
+    }
+
+    public async Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default)
+    {
+        const string key = "IaipFacilityList";
+        logger.LogCacheSearch(key);
+
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                logger.LogCacheMiss(key);
+                return (await GetAllAsync(token: token).ConfigureAwait(false))
+                    .Select(f => new FacilityList(f.Id, f.Name, f.ShortId)).ToList();
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityListExpiration),
+            tags: [FacilityLists], token).ConfigureAwait(false);
     }
 }

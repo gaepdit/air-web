@@ -18,11 +18,8 @@ public class MapModel(IFacilityService service) : PageModel
     [TempData]
     public bool RefreshIaipData { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
-    {
+    public async Task OnGetAsync(CancellationToken token = default) =>
         Facilities = await service.GetAllAsync(RefreshIaipData, includePortableSources: false, token);
-        return Page();
-    }
 
     public IActionResult OnPostRefreshIaipAsync()
     {

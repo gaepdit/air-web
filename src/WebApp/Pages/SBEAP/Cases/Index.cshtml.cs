@@ -11,8 +11,8 @@ namespace AirWeb.WebApp.Pages.SBEAP.Cases;
 
 [Authorize(Policy = nameof(SbeapPolicies.SbeapStaff))]
 public class IndexModel(
-    ICaseworkService service, 
-    IAgencyService agencyService, 
+    ICaseworkService service,
+    IAgencyService agencyService,
     IAuthorizationService authorization,
     IValidator<CaseworkSearchDto> validator)
     : PageModel
@@ -44,7 +44,7 @@ public class IndexModel(
         ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
         if (!ShowDeletionSearchOptions) Spec = Spec with { DeletedStatus = null, CustomerDeletedStatus = null };
 
-        var paging = new PaginatedRequest(p, SearchDefaults.PageSize, Spec.Sort.GetDescription());
+        var paging = new PaginatedRequest(p, SearchDefaults.SearchPageSize, Spec.Sort.GetDescription());
         SearchResults = await service.SearchAsync(Spec, paging);
 
         ShowResults = true;
