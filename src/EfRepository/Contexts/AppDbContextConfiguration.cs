@@ -316,11 +316,6 @@ internal static class AppDbContextConfiguration
             .HasIndex(e => new { e.FacilityId, e.ActionNumber })
             .IsUnique();
 
-        // Enforcement Action - ActionNumber must be unique per FacilityId
-        builder.Entity<DxActionEnforcementAction>()
-            .HasIndex(e => new { e.FacilityId, e.ActionNumber })
-            .IsUnique();
-
         return builder;
     }
 

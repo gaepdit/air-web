@@ -59,6 +59,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<NovNfaLetter> NovNfaLetters { get; set; } = null!;
     public DbSet<ProposedConsentOrder> ProposedConsentOrders { get; set; } = null!;
 
+    // -- A subset of Enforcement Actions are reportable to the Data Exchange and have an Action Number.
+    //    This DbSet is only needed here to enable querying on the Action Number (used by the EpaId page). 
+    public DbSet<DxActionEnforcementAction> DxActionEnforcementActions { get; set; } = null!;
+
     // Case File/Enforcement Action property entities
     public DbSet<EnforcementActionReview> EnforcementActionReviews { get; set; } = null!;
     public DbSet<StipulatedPenalty> StipulatedPenalties { get; set; } = null!;

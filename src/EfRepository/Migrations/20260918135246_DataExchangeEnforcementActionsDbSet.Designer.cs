@@ -13,8 +13,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirWeb.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260917210600_AddEnforcementActionNumberIndex")]
-    partial class AddEnforcementActionNumberIndex
+    [Migration("20260918135246_DataExchangeEnforcementActionsDbSet")]
+    partial class DataExchangeEnforcementActionsDbSet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1661,10 +1661,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateTimeOffset?>("DataExchangeStatusDate")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset");
-
-                    b.HasIndex("FacilityId", "ActionNumber")
-                        .IsUnique()
-                        .HasFilter("[ActionNumber] IS NOT NULL");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.InformationalLetter", b =>

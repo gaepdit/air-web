@@ -1658,10 +1658,6 @@ namespace AirWeb.EfRepository.Migrations
                     b.Property<DateTimeOffset?>("DataExchangeStatusDate")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("datetimeoffset");
-
-                    b.HasIndex("FacilityId", "ActionNumber")
-                        .IsUnique()
-                        .HasFilter("[ActionNumber] IS NOT NULL");
                 });
 
             modelBuilder.Entity("AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions.InformationalLetter", b =>
