@@ -15,6 +15,8 @@ public record ComplianceWorkExportDto : IFacilitySearchResult
         ComplianceWorkType = complianceWork.ComplianceWorkType.GetDisplayName();
         EventDate = complianceWork.EventDate;
         EventDateName = complianceWork.EventDateName;
+        AdditionalDate = complianceWork.AdditionalDate;
+        AdditionalDateName = complianceWork.AdditionalDateName;
         ResponsibleStaff = complianceWork.ResponsibleStaff?.SortableFullName;
         Status = complianceWork.IsClosed ? "Closed" : "Open";
         ClosedDate = complianceWork.ClosedDate;
@@ -34,11 +36,17 @@ public record ComplianceWorkExportDto : IFacilitySearchResult
     [XLColumn(Header = "Compliance Work Type")]
     public string ComplianceWorkType { get; init; }
 
-    [XLColumn(Header = "Date")]
+    [XLColumn(Header = "Key Date")]
     public DateOnly EventDate { get; init; }
 
-    [XLColumn(Header = "Date Description")]
+    [XLColumn(Header = "Key Date Description")]
     public string EventDateName { get; init; }
+
+    [XLColumn(Header = "Additional Date")]
+    public DateOnly? AdditionalDate { get; init; }
+
+    [XLColumn(Header = "Additional Date Description")]
+    public string? AdditionalDateName { get; init; }
 
     [XLColumn(Header = "Staff Responsible")]
     public string? ResponsibleStaff { get; init; }

@@ -29,6 +29,7 @@ public class AnnualComplianceCertification : ComplianceEvent, IDataExchangeActio
     }
 
     public DateOnly? ReviewedDate { get; set; }
+    public override DateOnly? AdditionalDate => ReviewedDate;
 
     // The following are required for new data but nullable for historical data.
     public int? AccReportingYear { get; set; }

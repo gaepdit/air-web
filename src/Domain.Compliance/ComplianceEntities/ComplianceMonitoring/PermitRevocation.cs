@@ -29,6 +29,7 @@ public class PermitRevocation : ComplianceWork
 
     // Required for new data but nullable for historical data.
     public DateOnly? PermitRevocationDate { get; set; }
+    public override DateOnly? AdditionalDate => PermitRevocationDate;
 
     public DateOnly? PhysicalShutdownDate { get; set; }
     public bool FollowupTaken { get; set; }
