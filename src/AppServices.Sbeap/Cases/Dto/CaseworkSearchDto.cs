@@ -1,6 +1,5 @@
 using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -40,25 +39,21 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? OpenedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? OpenedThrough { get; init; }
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedThrough { get; init; }
 
     // Referral
@@ -69,13 +64,11 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ReferredFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ReferredThrough { get; init; }
 
     // UI Routing
