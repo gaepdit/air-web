@@ -10,7 +10,8 @@ public class FindOfType
     {
         // Arrange
         await using var repository = RepositoryHelper.GetComplianceWorkRepository();
-        var work = ComplianceWorkData.GetData.First(complianceWork => complianceWork.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
+        var work = ComplianceWorkData.GetData.First(complianceWork =>
+            complianceWork.ComplianceWorkType.Equals(ComplianceWorkType.Notification));
 
         // Act
         var result = await repository.FindAsync<Notification>(work.Id, includeExtras: true);
@@ -18,7 +19,7 @@ public class FindOfType
         // Assert
         using var scope = new AssertionScope();
         result.Should().BeEquivalentTo(work);
-        result!.ComplianceWorkType.Should().Be(ComplianceWorkType.Notification);
+        result.ComplianceWorkType.Should().Be(ComplianceWorkType.Notification);
         result.Should().BeOfType<Notification>();
     }
 

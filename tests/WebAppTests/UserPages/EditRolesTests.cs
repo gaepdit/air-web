@@ -50,7 +50,7 @@ public class EditRolesTests
         var pageModel = new EditRolesModel(staffServiceMock)
             { TempData = WebAppTestsSetup.PageTempData(), Id = new Guid(StaffViewTest.Id) };
 
-        var expectedRoleSettings = AppRole.AllRoles!
+        var expectedRoleSettings = AppRole.AllRoles
             .Select(r => new EditRolesModel.RoleSetting
             {
                 Name = r.Key,

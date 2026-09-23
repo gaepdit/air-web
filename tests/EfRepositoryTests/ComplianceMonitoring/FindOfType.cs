@@ -27,7 +27,7 @@ public class FindOfType
         // Assert
         using var scope = new AssertionScope();
         result.Should().BeEquivalentTo(expected, options => options.Excluding(work => work.Comments));
-        result!.ComplianceWorkType.Should().Be(ComplianceWorkType.Notification);
+        result.ComplianceWorkType.Should().Be(ComplianceWorkType.Notification);
         result.Should().BeOfType<Notification>();
     }
 
