@@ -58,7 +58,7 @@ public class FindIncludeProperty
         if (expected is null) Assert.Inconclusive("Test can only run if at least one Compliance Work has comments.");
 
         // Act
-        var result = await _repository.FindAsync(expected!.Id, includeProperties: []);
+        var result = await _repository.FindAsync(expected.Id, includeProperties: []);
 
         // Assert
         using var scope = new AssertionScope();
