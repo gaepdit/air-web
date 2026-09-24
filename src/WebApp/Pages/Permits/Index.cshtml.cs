@@ -85,9 +85,16 @@ public class PermitSearchIndex(
             return Page();
         }
 
+        var permitCount = await service.CountPermitsAsync(facilityId);
+
+        if (permitCount == 0)
+        {
+            ModelState.AddModelError(nameof(Id), "No permits were found for that facility. ");
+            return Page();
+        }
+
         var paging = PaginationDefaults.DefaultSearch(p);
         var permits = await service.SearchPermitsAsync(facilityId, paging.Skip, paging.Take, token);
-        var permitCount = await service.CountPermitsAsync(facilityId);
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
         SearchHandler = "Facility";
