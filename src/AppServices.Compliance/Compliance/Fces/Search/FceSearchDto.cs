@@ -60,8 +60,8 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
         { nameof(Year), Year.ToString() },
         { nameof(ReviewedBy), ReviewedBy },
         { nameof(Office), Office.ToString() },
-        { nameof(DateFrom), DateFrom?.ToString("d") },
-        { nameof(DateTo), DateTo?.ToString("d") },
+        { nameof(DateFrom), DateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(DateTo), DateTo?.ToString(DateTimeFormats.RouteValue) },
         { nameof(Onsite), Onsite?.ToString() },
         { nameof(Notes), Notes },
     };

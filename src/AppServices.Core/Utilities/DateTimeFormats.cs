@@ -2,15 +2,16 @@
 
 public static class DateTimeFormats
 {
-    // Format strings
+    // Display strings
     public const string LongDateTime = "MMMM\u00a0d, yyyy h:mm\u00a0tt";
     public const string LongDate = "MMMM\u00a0d, yyyy";
     public const string ShortDate = "d\u2011MMM\u2011yyyy";
     public const string ShortDateTime = "d\u2011MMM\u2011yyyy h:mm\u00a0tt";
     public const string ShortDateTimeNoBreak = "d\u2011MMM\u2011yyyy\u00a0h:mm\u00a0tt";
 
-    // Composite format strings
+    // Search form strings
     public const string DateOnlyInput = "{0:yyyy-MM-dd}";
+    public const string RouteValue = "yyyy-MM-dd";
 
     // Extension methods
 

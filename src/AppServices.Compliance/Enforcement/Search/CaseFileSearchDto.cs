@@ -88,10 +88,10 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
         { nameof(Office), Office.ToString() },
         { nameof(Notes), Notes },
         { nameof(ViolationType), ViolationType },
-        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString("d") },
-        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString("d") },
-        { nameof(EnforcementDateFrom), EnforcementDateFrom?.ToString("d") },
-        { nameof(EnforcementDateTo), EnforcementDateTo?.ToString("d") },
+        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(EnforcementDateFrom), EnforcementDateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(EnforcementDateTo), EnforcementDateTo?.ToString(DateTimeFormats.RouteValue) },
     };
 
     public CaseFileSearchDto TrimAll() => this with

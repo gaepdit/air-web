@@ -1,4 +1,5 @@
 using AirWeb.AppServices.Core.Search;
+using AirWeb.AppServices.Core.Utilities;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
@@ -78,15 +79,15 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
         { nameof(Status), Status?.ToString() },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
         { nameof(CustomerDeletedStatus), CustomerDeletedStatus?.ToString() },
-        { nameof(OpenedFrom), OpenedFrom?.ToString("d") },
-        { nameof(OpenedThrough), OpenedThrough?.ToString("d") },
-        { nameof(ClosedFrom), ClosedFrom?.ToString("d") },
-        { nameof(ClosedThrough), ClosedThrough?.ToString("d") },
+        { nameof(OpenedFrom), OpenedFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(OpenedThrough), OpenedThrough?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ClosedFrom), ClosedFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ClosedThrough), ClosedThrough?.ToString(DateTimeFormats.RouteValue) },
         { nameof(CustomerName), CustomerName },
         { nameof(Description), Description },
         { nameof(ReferralAgency), ReferralAgency.ToString() },
-        { nameof(ReferredFrom), ReferredFrom?.ToString("d") },
-        { nameof(ReferredThrough), ReferredThrough?.ToString("d") },
+        { nameof(ReferredFrom), ReferredFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ReferredThrough), ReferredThrough?.ToString(DateTimeFormats.RouteValue) },
     };
 
     public CaseworkSearchDto TrimAll() => this with

@@ -82,10 +82,10 @@ public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISe
             { nameof(FacilityId), FacilityId },
             { nameof(Staff), Staff },
             { nameof(Office), Office.ToString() },
-            { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
-            { nameof(EventDateTo), EventDateTo?.ToString("d") },
-            { nameof(ClosedDateFrom), ClosedDateFrom?.ToString("d") },
-            { nameof(ClosedDateTo), ClosedDateTo?.ToString("d") },
+            { nameof(EventDateFrom), EventDateFrom?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(EventDateTo), EventDateTo?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(ClosedDateFrom), ClosedDateFrom?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(ClosedDateTo), ClosedDateTo?.ToString(DateTimeFormats.RouteValue) },
             { nameof(Notes), Notes },
         };
 
