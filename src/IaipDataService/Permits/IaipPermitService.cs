@@ -24,7 +24,6 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " offset @skip rows fetch next @take rows only ";
 
         using var db = dbf.Create();
-
         return (await db
             .QueryAsync<PermitSummary>(sql: sql, param: new { facilityId = facilityId.ToString(), skip, take },
                 commandType: CommandType.Text)
@@ -36,7 +35,6 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
     {
         var key = $"SearchPermitsByFacilityId.{facilityId}|skip:{skip}|take:{take}";
         var tag = $"IaipFacility.{facilityId}";
-
         logger.LogCacheSearch(key);
 
         return await cache.GetOrCreateAsync(key, factory: async _ =>
@@ -63,27 +61,17 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
             " offset @skip rows fetch next @take rows only ";
 
-        var fromDate = dateFrom?.ToDateTime(TimeOnly.MinValue);
-        var toDate = dateTo?.ToDateTime(TimeOnly.MinValue);
-
         using var db = dbf.Create();
-
-        return (await db
-            .QueryAsync<PermitSummary>(sql: sql,
-                param: new { name, permit, dateFrom = fromDate, dateTo = toDate, skip, take },
-                commandType: CommandType.Text)
-            .ConfigureAwait(false)).ToList();
+        return (await db.QueryAsync<PermitSummary>(sql: sql, param: new { name, permit, dateFrom, dateTo, skip, take },
+            commandType: CommandType.Text).ConfigureAwait(false)).ToList();
     }
 
     public async Task<int> CountPermitsAsync(FacilityId facilityId)
     {
         const string sql = "select count(*) from dbo.VW_GA_PERMITS where FacilityId = @facilityId ";
-
         using var db = dbf.Create();
-
         return await db.ExecuteScalarAsync<int>(sql: sql, param: new { facilityId = facilityId.ToString() },
-                commandType: CommandType.Text)
-            .ConfigureAwait(false);
+            commandType: CommandType.Text).ConfigureAwait(false);
     }
 
     public async Task<int> CountPermitsAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo)
@@ -96,22 +84,15 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
             " and (@dateTo is null or IssuanceDate <= @dateTo) ";
 
-        var fromDate = dateFrom?.ToDateTime(TimeOnly.MinValue);
-        var toDate = dateTo?.ToDateTime(TimeOnly.MinValue);
-
         using var db = dbf.Create();
-
-        return await db.ExecuteScalarAsync<int>(sql: sql,
-                param: new { name, dateFrom = fromDate, dateTo = toDate, permit }, commandType: CommandType.Text)
-            .ConfigureAwait(false);
+        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { name, dateFrom, dateTo, permit },
+            commandType: CommandType.Text).ConfigureAwait(false);
     }
 
     public async Task<byte[]?> GetPermitFileAsync(string fileName)
     {
         const string sql = "SELECT PDFPERMITDATA FROM dbo.APBPERMITS WHERE STRFILENAME = @fileName ";
-
         using var db = dbf.Create();
-
         return await db.ExecuteScalarAsync<byte[]?>(sql: sql, param: new { fileName }, commandType: CommandType.Text)
             .ConfigureAwait(false);
     }
