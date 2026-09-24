@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Core.Utilities;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -39,13 +38,11 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? DateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? DateTo { get; init; }
 
     [Display(Name = "On-Site Inspection Conducted")]
@@ -63,8 +60,8 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
         { nameof(Year), Year.ToString() },
         { nameof(ReviewedBy), ReviewedBy },
         { nameof(Office), Office.ToString() },
-        { nameof(DateFrom), DateFrom?.ToString("d") },
-        { nameof(DateTo), DateTo?.ToString("d") },
+        { nameof(DateFrom), DateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(DateTo), DateTo?.ToString(DateTimeFormats.RouteValue) },
         { nameof(Onsite), Onsite?.ToString() },
         { nameof(Notes), Notes },
     };

@@ -1,6 +1,6 @@
 using AirWeb.AppServices.Core.Search;
+using AirWeb.AppServices.Core.Utilities;
 using AirWeb.AppServices.Sbeap.Customers.Dto;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -40,25 +40,21 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? OpenedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? OpenedThrough { get; init; }
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedThrough { get; init; }
 
     // Referral
@@ -69,13 +65,11 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ReferredFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ReferredThrough { get; init; }
 
     // UI Routing
@@ -85,15 +79,15 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
         { nameof(Status), Status?.ToString() },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
         { nameof(CustomerDeletedStatus), CustomerDeletedStatus?.ToString() },
-        { nameof(OpenedFrom), OpenedFrom?.ToString("d") },
-        { nameof(OpenedThrough), OpenedThrough?.ToString("d") },
-        { nameof(ClosedFrom), ClosedFrom?.ToString("d") },
-        { nameof(ClosedThrough), ClosedThrough?.ToString("d") },
+        { nameof(OpenedFrom), OpenedFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(OpenedThrough), OpenedThrough?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ClosedFrom), ClosedFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ClosedThrough), ClosedThrough?.ToString(DateTimeFormats.RouteValue) },
         { nameof(CustomerName), CustomerName },
         { nameof(Description), Description },
         { nameof(ReferralAgency), ReferralAgency.ToString() },
-        { nameof(ReferredFrom), ReferredFrom?.ToString("d") },
-        { nameof(ReferredThrough), ReferredThrough?.ToString("d") },
+        { nameof(ReferredFrom), ReferredFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(ReferredThrough), ReferredThrough?.ToString(DateTimeFormats.RouteValue) },
     };
 
     public CaseworkSearchDto TrimAll() => this with

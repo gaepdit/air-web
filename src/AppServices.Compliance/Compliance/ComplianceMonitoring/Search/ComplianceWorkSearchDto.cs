@@ -1,6 +1,5 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Core.Utilities;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
@@ -50,25 +49,21 @@ public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? EventDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? EventDateTo { get; init; }
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? ClosedDateTo { get; init; }
 
     // == Text ==
@@ -87,10 +82,10 @@ public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISe
             { nameof(FacilityId), FacilityId },
             { nameof(Staff), Staff },
             { nameof(Office), Office.ToString() },
-            { nameof(EventDateFrom), EventDateFrom?.ToString("d") },
-            { nameof(EventDateTo), EventDateTo?.ToString("d") },
-            { nameof(ClosedDateFrom), ClosedDateFrom?.ToString("d") },
-            { nameof(ClosedDateTo), ClosedDateTo?.ToString("d") },
+            { nameof(EventDateFrom), EventDateFrom?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(EventDateTo), EventDateTo?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(ClosedDateFrom), ClosedDateFrom?.ToString(DateTimeFormats.RouteValue) },
+            { nameof(ClosedDateTo), ClosedDateTo?.ToString(DateTimeFormats.RouteValue) },
             { nameof(Notes), Notes },
         };
 

@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Core.Search;
 using AirWeb.AppServices.Core.Utilities;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Extensions;
 using System.ComponentModel;
 
@@ -58,13 +57,11 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? DiscoveryDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? DiscoveryDateTo { get; init; }
 
     // == Initial enforcement date ==
@@ -72,13 +69,11 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     [Display(Name = "From")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? EnforcementDateFrom { get; init; }
 
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
     public DateOnly? EnforcementDateTo { get; init; }
 
     // UI Routing
@@ -93,10 +88,10 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
         { nameof(Office), Office.ToString() },
         { nameof(Notes), Notes },
         { nameof(ViolationType), ViolationType },
-        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString("d") },
-        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString("d") },
-        { nameof(EnforcementDateFrom), EnforcementDateFrom?.ToString("d") },
-        { nameof(EnforcementDateTo), EnforcementDateTo?.ToString("d") },
+        { nameof(DiscoveryDateFrom), DiscoveryDateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(DiscoveryDateTo), DiscoveryDateTo?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(EnforcementDateFrom), EnforcementDateFrom?.ToString(DateTimeFormats.RouteValue) },
+        { nameof(EnforcementDateTo), EnforcementDateTo?.ToString(DateTimeFormats.RouteValue) },
     };
 
     public CaseFileSearchDto TrimAll() => this with
