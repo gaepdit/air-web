@@ -1,3 +1,4 @@
+using FluentValidation;
 using IaipDataService.DbConnection;
 using IaipDataService.Facilities;
 using IaipDataService.PermitFees;
@@ -12,6 +13,9 @@ namespace IaipDataService;
 
 public static class IaipServiceRegistration
 {
+    public static IServiceCollection AddIaipValidators(this IServiceCollection services) =>
+        services.AddScoped<IValidator<PermitSearchDto>, PermitSearchValidator>();
+
     public static void AddIaipDataServices(this IHostApplicationBuilder builder, bool connectToIaipDatabase)
     {
         if (connectToIaipDatabase)

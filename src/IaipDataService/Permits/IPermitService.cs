@@ -17,14 +17,10 @@ public interface IPermitService
     /// <summary>
     /// Searches for permits by partial facility name.
     /// </summary>
-    /// <param name="name">A partial facility name to search for.</param>
-    /// <param name="permit">A partial permit number (or SIC code) to search for.</param>
-    /// <param name="dateFrom">A starting permit issuance date to search from.</param>
-    /// <param name="dateTo">An ending permit issuance date to search through.</param>
+    /// <param name="spec">The search spec.</param>
     /// <param name="skip">The number of permits search results to skip (for pagination).</param>
     /// <param name="take">The number of permits search results to take (for pagination).</param>
-    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit, DateOnly? dateFrom,
-        DateOnly? dateTo, int skip, int take);
+    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take);
 
     /// <summary>
     /// Counts the number of permits for a facility.
@@ -35,11 +31,8 @@ public interface IPermitService
     /// <summary>
     /// Counts the number of permits by searching by partial facility name.
     /// </summary>
-    /// <param name="name">A partial facility name to search for.</param>
-    /// <param name="permit">A partial permit number (or SIC code) to search for.</param>
-    /// <param name="dateFrom">A starting permit issuance date to search from.</param>
-    /// <param name="dateTo">An ending permit issuance date to search through.</param>
-    Task<int> CountPermitsAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo);
+    /// <param name="spec">The search spec.</param>
+    Task<int> CountPermitsAsync(PermitSearchDto spec);
 
     /// <summary>
     /// Get a permit document.

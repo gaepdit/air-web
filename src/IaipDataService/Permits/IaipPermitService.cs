@@ -46,8 +46,7 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             tags: [tag], token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit,
-        DateOnly? dateFrom, DateOnly? dateTo, int skip, int take)
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take)
     {
         const string sql =
             "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
@@ -62,7 +61,8 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " offset @skip rows fetch next @take rows only ";
 
         using var db = dbf.Create();
-        return (await db.QueryAsync<PermitSummary>(sql: sql, param: new { name, permit, dateFrom, dateTo, skip, take },
+        return (await db.QueryAsync<PermitSummary>(sql: sql,
+            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo, skip, take },
             commandType: CommandType.Text).ConfigureAwait(false)).ToList();
     }
 
@@ -74,7 +74,7 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             commandType: CommandType.Text).ConfigureAwait(false);
     }
 
-    public async Task<int> CountPermitsAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo)
+    public async Task<int> CountPermitsAsync(PermitSearchDto spec)
     {
         const string sql =
             "select count(*) " +
@@ -85,7 +85,8 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " and (@dateTo is null or IssuanceDate <= @dateTo) ";
 
         using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { name, dateFrom, dateTo, permit },
+        return await db.ExecuteScalarAsync<int>(sql: sql,
+            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo },
             commandType: CommandType.Text).ConfigureAwait(false);
     }
 

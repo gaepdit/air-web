@@ -1,8 +1,6 @@
 ﻿using AirWeb.AppServices.Core.DataAttributes;
-using AirWeb.AppServices.Core.Utilities;
 using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
-using GaEpd.AppLibrary.DataAttributes;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
 using IaipDataService.Permits;
@@ -12,7 +10,10 @@ using System.Text.Json;
 namespace AirWeb.WebApp.Pages.Permits;
 
 [AllowAnonymous]
-public class PermitSearchIndex(IPermitService service, IFacilityService facilityService) : PageModel
+public class PermitSearchIndex(
+    IPermitService service,
+    IFacilityService facilityService,
+    IValidator<PermitSearchDto> validator) : PageModel
 {
     // Facility ID search form
     [StringLength(9)]
@@ -21,25 +22,7 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     public string? Id { get; set; }
 
     // Permit details search form
-    [Display(Name = "Facility Name")]
-    [StringLength(100)]
-    public string? Name { get; private set; }
-
-    [Display(Name = "Permit Number/SIC Code")]
-    [StringLength(20)]
-    public string? Permit { get; private set; }
-
-    [Display(Name = "From")]
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
-    public DateOnly? DateFrom { get; private set; }
-
-    [Display(Name = "Until")]
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
-    [MaxDate]
-    public DateOnly? DateTo { get; private set; }
+    public PermitSearchDto Spec { get; private set; } = null!;
 
     // Page properties and data
     public bool ShowResults { get; private set; }
@@ -53,10 +36,10 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
     public Dictionary<string, string?> RouteValues => new()
     {
         { nameof(Id), Id },
-        { nameof(Name), Name },
-        { nameof(Permit), Permit },
-        { nameof(DateFrom), DateFrom?.ToString("d") },
-        { nameof(DateTo), DateTo?.ToString("d") },
+        { nameof(Spec.Name), Spec.Name },
+        { nameof(Spec.Permit), Spec.Permit },
+        { nameof(Spec.DateFrom), Spec.DateFrom?.ToString("yyyy-MM-dd") },
+        { nameof(Spec.DateTo), Spec.DateTo?.ToString("yyyy-MM-dd") },
     };
 
     public async Task OnGetAsync(CancellationToken token = default) =>
@@ -108,22 +91,22 @@ public class PermitSearchIndex(IPermitService service, IFacilityService facility
         SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
         ShowResults = true;
         SearchHandler = "Facility";
+        Spec = new PermitSearchDto();
         return Page();
     }
 
-    public async Task OnGetSearchAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo,
-        [FromQuery] int p = 1, CancellationToken token = default)
+    public async Task OnGetSearchAsync(PermitSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
-        Name = name;
-        Permit = permit;
-        DateTo = dateTo;
-        DateFrom = dateFrom;
         Facilities = await facilityService.GetListAsync(token);
+        await validator.ApplyValidationAsync(spec, ModelState);
+        Spec = spec.TrimAll();
+        if (!ModelState.IsValid) return;
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.SearchPermitsAsync(Name, Permit, dateFrom, dateTo, paging.Skip, paging.Take);
-        var permitCount = await service.CountPermitsAsync(Name, Permit, dateFrom, dateTo);
-        SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
+        var permitSearchTask = service.SearchPermitsAsync(Spec, paging.Skip, paging.Take);
+        var permitCountTask = service.CountPermitsAsync(Spec);
+
+        SearchResults = new PaginatedResult<PermitSummary>(await permitSearchTask, await permitCountTask, paging);
         ShowResults = true;
         SearchHandler = "Search";
     }

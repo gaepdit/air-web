@@ -13,30 +13,28 @@ public class TestPermitService : IPermitService
             .Skip(skip).Take(take)
             .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
 
-    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(string? name, string? permit, DateOnly? dateFrom,
-        DateOnly? dateTo, int skip, int take) =>
-        Task.FromResult<IReadOnlyCollection<PermitSummary>>(FilterPermits(name, permit, dateFrom, dateTo)
+    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take) =>
+        Task.FromResult<IReadOnlyCollection<PermitSummary>>(FilterPermits(spec)
             .Skip(skip).Take(take)
             .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
 
     public Task<int> CountPermitsAsync(FacilityId facilityId) =>
         Task.FromResult(PermitData.GetData.Count(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId))));
 
-    public Task<int> CountPermitsAsync(string? name, string? permit, DateOnly? dateFrom, DateOnly? dateTo) =>
-        Task.FromResult(FilterPermits(name, permit, dateFrom, dateTo).Count());
+    public Task<int> CountPermitsAsync(PermitSearchDto spec) =>
+        Task.FromResult(FilterPermits(spec).Count());
 
-    private static IEnumerable<PermitSummary> FilterPermits(string? name, string? permit, DateOnly? dateFrom,
-        DateOnly? dateTo)
+    private static IEnumerable<PermitSummary> FilterPermits(PermitSearchDto spec)
     {
         return PermitData.GetData
-            .Where(ps => string.IsNullOrWhiteSpace(name) ||
-                         ps.FacilityName.Contains(name, StringComparison.InvariantCultureIgnoreCase))
-            .Where(ps => string.IsNullOrWhiteSpace(permit) ||
-                         ps.PermitNumber.Contains(permit, StringComparison.InvariantCultureIgnoreCase))
-            .Where(ps => dateFrom is null ||
-                         ps.IssuanceDate >= dateFrom.Value.ToDateTime(TimeOnly.MinValue))
-            .Where(ps => dateTo is null ||
-                         ps.IssuanceDate <= dateTo.Value.ToDateTime(TimeOnly.MinValue));
+            .Where(ps => string.IsNullOrWhiteSpace(spec.Name) ||
+                         ps.FacilityName.Contains(spec.Name, StringComparison.InvariantCultureIgnoreCase))
+            .Where(ps => string.IsNullOrWhiteSpace(spec.Permit) ||
+                         ps.PermitNumber.Contains(spec.Permit, StringComparison.InvariantCultureIgnoreCase))
+            .Where(ps => spec.DateFrom is null ||
+                         ps.IssuanceDate >= spec.DateFrom.Value.ToDateTime(TimeOnly.MinValue))
+            .Where(ps => spec.DateTo is null ||
+                         ps.IssuanceDate <= spec.DateTo.Value.ToDateTime(TimeOnly.MinValue));
     }
 
     public Task<byte[]?> GetPermitFileAsync(string fileName) =>

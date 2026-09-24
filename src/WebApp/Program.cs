@@ -29,6 +29,7 @@ builder.Services.AddRazorPages();
 // Add common services.
 builder.Services
     .AddAppServices()
+    .AddIaipValidators()
     .AddIdentityStores()
     .AddAutoMapperProfiles()
     .AddEmailService()
