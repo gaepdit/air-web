@@ -11,7 +11,7 @@ namespace AirWeb.WebApp.Platform.Settings;
 internal static class SearchDefaults
 {
     // Default pagination size for search results, etc.
-    public const int PageSize = 25;
+    public const int SearchPageSize = 25;
 
     // Default pagination size for summary tables.
     public const int SummaryTableSize = 15;
@@ -43,12 +43,15 @@ internal static class SearchDefaults
 
 internal static class PaginationDefaults
 {
+    public static PaginatedRequest DefaultSummary { get; } =
+        new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize, sorting: "default");
+
+    public static PaginatedRequest DefaultSearch(int pageNumber) =>
+        new(pageNumber, pageSize: SearchDefaults.SearchPageSize, sorting: "default");
+
     public static PaginatedRequest ComplianceSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
             sorting: ComplianceWorkSortBy.EventDateDesc.GetDescription());
-
-    public static PaginatedRequest SourceTestSummary { get; } =
-        new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize, "default");
 
     public static PaginatedRequest FceSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
