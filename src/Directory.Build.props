@@ -7,7 +7,7 @@
 
     <PropertyGroup>
         <UseArtifactsOutput>true</UseArtifactsOutput>
-        <ArtifactsPath>$(MSBuildThisFileDirectory)_artifacts</ArtifactsPath>
+        <ArtifactsPath>$(MSBuildThisFileDirectory)..\_artifacts</ArtifactsPath>
     </PropertyGroup>
 
     <PropertyGroup>
