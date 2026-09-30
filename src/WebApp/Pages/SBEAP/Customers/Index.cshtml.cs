@@ -40,7 +40,7 @@ public class IndexModel(ICustomerService service, IAuthorizationService authoriz
         ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
         if (!ShowDeletionSearchOptions) Spec = Spec with { DeletedStatus = null };
 
-        var paging = new PaginatedRequest(p, SearchDefaults.PageSize, Spec.Sort.GetDescription());
+        var paging = new PaginatedRequest(p, SearchDefaults.SearchPageSize, Spec.Sort.GetDescription());
         SearchResults = await service.SearchAsync(Spec, paging);
 
         ShowResults = true;

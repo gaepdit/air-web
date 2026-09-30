@@ -41,6 +41,13 @@ public class RequiredLabelTagHelper : TagHelper
                 .FirstOrDefault() is not RequiredLabelAttribute)
             return;
 
+        // Don't label required fields if the property has the RequiredNoLabelAttribute.
+        if (For.Metadata.ContainerType?
+                .GetProperty(For.Metadata.PropertyName ?? string.Empty)?
+                .GetCustomAttributes(typeof(RequiredNoLabelAttribute), inherit: true)
+                .FirstOrDefault() is RequiredNoLabelAttribute)
+            return;
+
         output.PreContent.AppendHtml("""<span title="Required" class="text-danger-emphasis">*</span> """);
     }
 }

@@ -1,6 +1,8 @@
+using FluentValidation;
 using IaipDataService.DbConnection;
 using IaipDataService.Facilities;
 using IaipDataService.PermitFees;
+using IaipDataService.Permits;
 using IaipDataService.SourceTests;
 using IaipDataService.TestData;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +13,9 @@ namespace IaipDataService;
 
 public static class IaipServiceRegistration
 {
+    public static IServiceCollection AddIaipValidators(this IServiceCollection services) =>
+        services.AddScoped<IValidator<PermitSearchDto>, PermitSearchValidator>();
+
     public static void AddIaipDataServices(this IHostApplicationBuilder builder, bool connectToIaipDatabase)
     {
         if (connectToIaipDatabase)
@@ -26,6 +31,7 @@ public static class IaipServiceRegistration
                 .AddTransient<IDbConnectionFactory, DbConnectionFactory>(_ => new DbConnectionFactory(connectionString))
                 .AddSingleton<IFacilityService, IaipFacilityService>()
                 .AddSingleton<ISourceTestService, IaipSourceTestService>()
+                .AddSingleton<IPermitService, IaipPermitService>()
                 .AddSingleton<IPermitFeesService, IaipPermitFeesService>();
         }
         else
@@ -33,7 +39,8 @@ public static class IaipServiceRegistration
             builder.Services
                 .AddSingleton<IFacilityService, TestFacilityService>()
                 .AddSingleton<ISourceTestService, TestSourceTestService>()
-                .AddSingleton<IPermitFeesService, TestPermitFeesService>();
+                .AddSingleton<IPermitFeesService, TestPermitFeesService>()
+                .AddSingleton<IPermitService, TestPermitService>();
         }
     }
 }

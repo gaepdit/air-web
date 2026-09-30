@@ -5,6 +5,7 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper"/>
+        <PackageReference Include="FluentValidation" />
         <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Microsoft.Data.SqlClient"/>
         <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />

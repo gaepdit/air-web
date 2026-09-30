@@ -1,0 +1,171 @@
+﻿using IaipDataService.Facilities;
+
+namespace IaipDataServiceTests.Models;
+
+[TestFixture]
+[TestOf(typeof(FacilityIdRegex))]
+public class FacilityIdRegexTests
+{
+    [Test]
+    [TestCase("00100001")]
+    [TestCase("00110000")]
+    [TestCase("00199999")]
+    [TestCase("32100001")]
+    [TestCase("32110000")]
+    [TestCase("32199999")]
+    [TestCase("77700001")]
+    [TestCase("77710000")]
+    [TestCase("77799999")]
+    [TestCase("001-00001")]
+    [TestCase("001-10000")]
+    [TestCase("001-99999")]
+    [TestCase("321-00001")]
+    [TestCase("321-10000")]
+    [TestCase("321-99999")]
+    [TestCase("777-00001")]
+    [TestCase("777-10000")]
+    [TestCase("777-99999")]
+    [TestCase("1-1")]
+    [TestCase("1-10")]
+    [TestCase("1-10000")]
+    [TestCase("1-99999")]
+    [TestCase("321-1")]
+    [TestCase("777-1")]
+    [TestCase("321-10")]
+    [TestCase("777-10")]
+    [TestCase("1-01")]
+    [TestCase("1-10")]
+    [TestCase("1-001")]
+    [TestCase("1-0001")]
+    [TestCase("1-00001")]
+    [TestCase("01-1")]
+    [TestCase("01-10")]
+    [TestCase("01-99999")]
+    [TestCase("041300100001")]
+    public void IsValidStandardFormat_ValidAccepted(string input)
+    {
+        FacilityIdRegex.IsValidStandardFormat(input).Should().BeTrue();
+    }
+
+    [Test]
+    [TestCase("")]
+    [TestCase("111")]
+    [TestCase("ABC")]
+    [TestCase("04130010000")]
+    [TestCase("041300200001")]
+    [TestCase("041332300001")]
+    [TestCase("041300000001")]
+    [TestCase("041300100000")]
+    [TestCase("04-13-001-00001")]
+    [TestCase("0413-001-0001")]
+    [TestCase("abc-defgh")]
+    [TestCase("001-0000a")]
+    [TestCase("0100001")]
+    [TestCase("0010001")]
+    [TestCase("00200001")]
+    [TestCase("002-00001")]
+    [TestCase("2-1")]
+    [TestCase("32300001")]
+    [TestCase("323-00001")]
+    [TestCase("323-1")]
+    [TestCase("00000001")]
+    [TestCase("000-00001")]
+    [TestCase("000-99999")]
+    [TestCase("0-1")]
+    [TestCase("00100000")]
+    [TestCase("001-00000")]
+    [TestCase("001-0")]
+    [TestCase("1-0")]
+    [TestCase("GA0000001300100001")]
+    [TestCase("1-1a")]
+    public void IsValidStandardFormat_InvalidRejected(string input)
+    {
+        FacilityIdRegex.IsValidStandardFormat(input).Should().BeFalse();
+    }
+
+    [TestCase("GA0000001300100001")]
+    [TestCase("GA0000001377799999")]
+    public void IsValidEpaFormat_ValidAccepted(string input)
+    {
+        FacilityIdRegex.IsValidEpaFormat(input).Should().BeTrue();
+    }
+
+    [TestCase("GA0000001300000000")]
+    [TestCase("GA00000013001-00001")]
+    [TestCase("GA000000130010001")]
+    [TestCase("GA0000001300000001")]
+    [TestCase("00100001")]
+    [TestCase("GA0000001300100001a")]
+    public void IsValidEpaFormat_InvalidRejected(string input)
+    {
+        FacilityIdRegex.IsValidEpaFormat(input).Should().BeFalse();
+    }
+
+    [TestCase("00100001")]
+    [TestCase("00110000")]
+    [TestCase("00199999")]
+    [TestCase("32100001")]
+    [TestCase("32110000")]
+    [TestCase("32199999")]
+    [TestCase("77700001")]
+    [TestCase("77710000")]
+    [TestCase("77799999")]
+    [TestCase("001-00001")]
+    [TestCase("001-10000")]
+    [TestCase("001-99999")]
+    [TestCase("321-00001")]
+    [TestCase("321-10000")]
+    [TestCase("321-99999")]
+    [TestCase("777-00001")]
+    [TestCase("777-10000")]
+    [TestCase("777-99999")]
+    [TestCase("1-1")]
+    [TestCase("1-10")]
+    [TestCase("1-10000")]
+    [TestCase("1-99999")]
+    [TestCase("321-1")]
+    [TestCase("777-1")]
+    [TestCase("321-10")]
+    [TestCase("777-10")]
+    [TestCase("1-01")]
+    [TestCase("1-10")]
+    [TestCase("1-001")]
+    [TestCase("1-0001")]
+    [TestCase("1-00001")]
+    [TestCase("01-1")]
+    [TestCase("01-10")]
+    [TestCase("01-99999")]
+    [TestCase("00200001")]
+    [TestCase("002-00001")]
+    [TestCase("2-1")]
+    [TestCase("32300001")]
+    [TestCase("323-00001")]
+    [TestCase("323-1")]
+    [TestCase("00000001")]
+    [TestCase("000-00001")]
+    [TestCase("000-99999")]
+    [TestCase("0-1")]
+    [TestCase("00100000")]
+    [TestCase("001-00000")]
+    [TestCase("001-0")]
+    [TestCase("1-0")]
+    public void IsValidSearchFormat_ValidAccepted(string input)
+    {
+        FacilityIdRegex.IsValidSearchFormat(input).Should().BeTrue();
+    }
+
+    [TestCase("")]
+    [TestCase("111")]
+    [TestCase("ABC")]
+    [TestCase("abc-defgh")]
+    [TestCase("001-0000a")]
+    [TestCase("0100001")]
+    [TestCase("0010001")]
+    [TestCase("041300100001")]
+    [TestCase("GA0000001300100001")]
+    [TestCase("1-1a")]
+    public void IsValidSearchFormat_InvalidRejected(string input)
+    {
+        FacilityIdRegex.IsValidSearchFormat(input).Should().BeFalse();
+    }
+}
