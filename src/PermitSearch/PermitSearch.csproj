@@ -1,11 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
     <PropertyGroup>
         <InformationalVersion>2026.9.30</InformationalVersion>
     </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="ZLogger" />
     </ItemGroup>
-
+    <ItemGroup>
+        <None Update="Properties\PublishProfiles\*.pubxml">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <MsDeploySkipRules Include="SkipAppSettings">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>appsettings.*.json</AbsolutePath>
+        </MsDeploySkipRules>
+        <MsDeploySkipRules Include="SkipWebConfig">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>web.config</AbsolutePath>
+        </MsDeploySkipRules>
+    </ItemGroup>
 </Project>
