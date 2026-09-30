@@ -9,5 +9,6 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 app.UseHttpsRedirection().UseRewriter(AppUrlRewrite.Options);
 app.MapRazorPages();
+app.MapGet("/version", () => Results.Ok(new { version = AppSettings.GetVersion() }));
 
 await app.RunAsync();

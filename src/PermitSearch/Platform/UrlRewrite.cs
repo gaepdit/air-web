@@ -23,5 +23,6 @@ internal static class AppUrlRewrite
             replacement: "/?id=$1", skipRemainingRules: true)
         .AddRewrite(regex: $"^AirsNumber/({UrlRegex.AirsFormat})$",
             replacement: "/?AirsNumber=$1", skipRemainingRules: true)
+        .AddRewrite(regex: "version", replacement: "version", skipRemainingRules: true)
         .AddRewrite(regex: ".*", replacement: "/", skipRemainingRules: true);
 }
