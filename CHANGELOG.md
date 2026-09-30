@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.9.30] - 2026-09-30
+
+- Try out the new Permit Search page! This page will soon replace the old Permit Search Engine. But don't worry, all 
+  your old bookmarks will still work. They'll just redirect to the new page.
+
 ## [2026.9.18] - 2026-09-18
 
 - A search form has been added to find records by EPA Facility Identifier or Activity Identifier.
@@ -247,3 +252,4 @@
 [2026.9.9]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.9
 [2026.9.10]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.10
 [2026.9.18]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.18
+[2026.9.30]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.30

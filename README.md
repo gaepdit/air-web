@@ -31,16 +31,16 @@ the Branch.
 
 ## Solution organization
 
-The solution contains the following projects:
+The `air-web` solution contains the following projects:
 
 * **Domain.&ast;** — Class libraries containing the data models, business logic, and repository interfaces.
     * *Domain.Core* — Core data models, etc.
-  * *Domain.Compliance* — Compliance/enforcement models
-  * *Domain.Sbeap* — SBEAP models
+    * *Domain.Compliance* — Compliance/enforcement models
+    * *Domain.Sbeap* — SBEAP models
 * **AppServices.&ast;** — Class libraries containing the services used by an application to interact with the Domains.
     * *AppServices.Core* — Core app services
     * *AppServices.Compliance* — Compliance/enforcement app services
-  * *AppServices.Sbeap* — SBEAP app services
+    * *AppServices.Sbeap* — SBEAP app services
 * **IaipDataService** — A class library implementing data services for IAIP data.
 * **MemRepository** — A class library implementing the repositories and data stores using static in-memory test data
   (for local development).
@@ -50,6 +50,11 @@ The solution contains the following projects:
 * **TestData** — A class library containing test data for development and testing.
 
 There are also corresponding unit test projects for each (not counting the `TestData` project).
+
+### Permit search engine
+
+The [**PermitSearch**](src/PermitSearch/Readme.md) project (include in the `permit-search` solution) is a standalone app
+to redirect links from the old Permit Search Engine website to the new permit search page.
 
 ### Project dependency diagram
 
@@ -205,7 +210,7 @@ Connection Strings for both a `DefaultConnection` and a `MigrationConnection` mu
 
 ### Authentication settings
 
-The login provider(s) must be enabled and configured.
+The login providers must be enabled and configured.
 
 1. To enable authentication using Entra ID, the app must be registered in the Azure portal and configured in the
    `AzureAd` settings section.
