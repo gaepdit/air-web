@@ -116,6 +116,7 @@ public record FacilityId
         FacilityIdRegex.IsValidStandardFormat(id) || FacilityIdRegex.IsValidEpaFormat(id);
 
     // Format as Facility ID if possible, otherwise return original input.
+    [return: NotNullIfNotNull(nameof(input))]
     public static string? TryFormat(string? input) =>
         TryParse(input, out var facilityId) ? facilityId.FormattedId : input;
 }
