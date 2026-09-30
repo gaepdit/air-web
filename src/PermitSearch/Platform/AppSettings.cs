@@ -1,4 +1,6 @@
-﻿namespace PermitSearch.Platform;
+﻿using System.Reflection;
+
+namespace PermitSearch.Platform;
 
 internal static class AppSettings
 {
@@ -9,5 +11,13 @@ internal static class AppSettings
     {
         BaseUrl = builder.Configuration.GetValue<string>("BaseUrl") + "/Permits";
         IsDevelopment = builder.Environment.IsDevelopment();
+    }
+
+    public static string GetVersion()
+    {
+        var entryAssembly = Assembly.GetEntryAssembly();
+        var segments = (entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion ?? entryAssembly?.GetName().Version?.ToString() ?? "").Split('+');
+        return segments[0] + (segments.Length > 0 ? $"+{segments[1][..Math.Min(7, segments[1].Length)]}" : "");
     }
 }
