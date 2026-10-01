@@ -35,7 +35,6 @@ public static class Policies
             .AddPolicy(nameof(SiteMaintainer), SiteMaintainer)
             .AddPolicy(nameof(Staff), Staff)
             .AddPolicy(nameof(UserAdministrator), UserAdministrator)
-            .AddPolicy(nameof(ViewAdminPages), ViewAdminPages)
             .AddPolicy(nameof(ViewSiteMaintenancePage), ViewSiteMaintenancePage)
             .AddPolicy(nameof(ViewUsersPage), ViewUsersPage);
         return services;
@@ -62,10 +61,6 @@ public static class Policies
         .RequireRole(GeneralRole.AppUserAdmin).Build();
 
     // -- Admin page access
-
-    public static AuthorizationPolicy ViewAdminPages { get; } = ActiveUserPolicyBuilder
-        .RequireAssertion(context =>
-            context.User.IsStaff() || context.User.IsSiteMaintainer() || context.User.IsUserAdmin()).Build();
 
     public static AuthorizationPolicy ViewSiteMaintenancePage { get; } = ActiveUserPolicyBuilder
         .RequireAssertion(context => context.User.IsStaff() || context.User.IsSiteMaintainer()).Build();

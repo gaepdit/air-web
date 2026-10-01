@@ -96,18 +96,35 @@
 
                 <div class="flex-grow-0">
                     <ul class="navbar-nav">
-                        @if (Model.ShowAdminOptions)
+                        @if (Model.ShowAccountMenu)
                         {
                             <li class="nav-item dropdown">
-                                <button class="nav-link dropdown-toggle" id="moreDropdownMenuLink" type="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of additional options">
+                                <button class="nav-link dropdown-toggle icon-link" id="moreDropdownMenuLink" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false"
+                                        title="View menu of additional options">
+                                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.MoreMenu" />
                                     More
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreDropdownMenuLink">
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/Account/Index">Your Profile</a>
+                                    </li>
+                                    @if (Model.ShowStaffOptions || Model.ShowUsersPage || Model.ShowSiteMaintenancePage)
+                                    {
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                    }
+                                    @if (Model.ShowStaffOptions)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-page="/Admin/Reports/Index">Reports</a>
+                                        </li>
+                                    }
                                     @if (Model.ShowUsersPage)
                                     {
                                         <li>
-                                            <a class="dropdown-item" asp-page="/Admin/Users/Index">App Users</a>
+                                            <a class="dropdown-item" asp-page="/Admin/Users/Index">Other App Users</a>
                                         </li>
                                     }
                                     @if (Model.ShowSiteMaintenancePage)
@@ -116,26 +133,12 @@
                                             <a class="dropdown-item" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
                                         </li>
                                     }
-                                </ul>
-                            </li>
-                        }
-                        @if (Model.ShowAccountMenu)
-                        {
-                            <li class="nav-item dropdown">
-                                <button class="nav-link dropdown-toggle" id="accountDropdownMenuLink" type="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View account menu">
-                                    Account
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
-                                    <li>
-                                        <a class="dropdown-item" asp-page="/Account/Index">Your profile</a>
-                                    </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>
                                         <form class="py-0 px-2" asp-page="/Account/Logout" method="post" asp-route-returnUrl="@Model.ReturnUrl">
-                                            <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
                                         </form>
                                     </li>
                                 </ul>

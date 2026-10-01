@@ -13,7 +13,7 @@ Shown when user is not logged in.
 
 ## Air Web Dashboard
 
-Shown when staff is logged in and viewing the Air Web dashboard.
+Shown when staff is logged in and viewing the Air Web dashboard. Some menu items require particular roles.
 
 * {Logo} Dashboard (`/`)
 * 🔍︎ Search ▼
@@ -24,9 +24,9 @@ Shown when staff is logged in and viewing the Air Web dashboard.
     * Compliance FCEs (`/Compliance/FCE`)
     * Enforcement Cases (`/Enforcement`)
     * —
-    * SBEAP Cases (`/SBEAP/Cases`) *(SBEAP staff only)*
-    * SBEAP Customers (`/SBEAP/Customers`) *(SBEAP staff only)*
-    * &plus; New Customer (`/SBEAP/Customers/Add`) *(SBEAP staff only)*
+  * SBEAP Cases (`/SBEAP/Cases`)
+  * SBEAP Customers (`/SBEAP/Customers`)
+  * &plus; New Customer (`/SBEAP/Customers/Add`)
     * —
     * Permits (`/Permits`)
 * 🔖 Find By ID *(off canvas)*
@@ -39,8 +39,10 @@ Shown when staff is logged in and viewing the Air Web dashboard.
 - ▭ *(flexible space)*
 
 * More ▼
+    * Your Profile (`/Account`)
+    * —
+    * Reports (`/Admin/Reports`)
     * App Users (`/Admin/Users`)
     * Site Maintenance (`/Admin/Maintenance`)
-* Account ▼
-    * Your profile (`/Account`)
-  * [Sign out] *(form button)*
+    * —
+    * [Sign out] *(form button)*
