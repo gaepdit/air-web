@@ -1,26 +1,27 @@
 ﻿using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionCommand;
+using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery;
 using AirWeb.AppServices.Compliance.Enforcement.Permissions;
-using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
-using AutoMapper;
 
-namespace AirWeb.WebApp.Pages.Enforcement.Edit;
+namespace AirWeb.WebApp.Pages.Enforcement.EditAction;
 
-public class ConsentOrderEditModel(
+public class LetterEditModel(
     IEnforcementActionService actionService,
     ICaseFileService caseFileService,
-    IValidator<ConsentOrderCommandDto> validator,
-    IMapper mapper) : PageModel, ISubmitCancelButtons
+    IValidator<EnforcementActionEditDto> validator) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } // Enforcement Action ID
 
     [BindProperty]
-    public ConsentOrderCommandDto Item { get; set; } = null!;
+    public EnforcementActionEditDto Item { get; set; } = null!;
 
+    public bool ShowResponseRequested { get; private set; }
+    public bool ShowResponse { get; private set; }
     public bool ShowIssueDate { get; private set; }
+    public string ItemName { get; private set; } = null!;
     public CaseFileSummaryDto? CaseFile { get; set; }
 
     // Form buttons
@@ -37,8 +38,6 @@ public class ConsentOrderEditModel(
 
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null) return NotFound();
-        if (itemView.ActionType != EnforcementActionType.ConsentOrder)
-            return RedirectToPage("Index", new { Id });
         if (!User.CanEdit(itemView)) return Forbid();
         if (itemView.IsIssued) ShowIssueDate = true;
 
@@ -46,25 +45,45 @@ public class ConsentOrderEditModel(
         if (CaseFile is null) return NotFound();
         if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
-        Item = mapper.Map<ConsentOrderCommandDto>(itemView);
+        Item = new EnforcementActionEditDto
+        {
+            Notes = itemView.Notes,
+            IssueDate = itemView.IssueDate,
+        };
+
+        if (itemView is ResponseRequestedViewDto responseRequested)
+        {
+            Item.ResponseRequested = responseRequested.ResponseRequested;
+            ShowResponseRequested = true;
+        }
+
+        if (itemView.CanEditResponse() && itemView is ResponseViewDto response)
+        {
+            Item.IsResponseReceived = response.IsResponseReceived;
+            Item.ResponseReceived = response.ResponseReceived;
+            Item.ResponseComment = response.ResponseComment;
+            ShowResponse = true;
+        }
+
+        ItemName = itemView.ActionType.GetDisplayName();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
         var itemView = await actionService.FindAsync(Id, token);
-        if (itemView is null || !User.CanEdit(itemView) ||
-            itemView.ActionType != EnforcementActionType.ConsentOrder)
-            return BadRequest();
+        if (itemView is null || !User.CanEdit(itemView)) return BadRequest();
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
         if (CaseFile is null || !User.CanEditCaseFile(CaseFile)) return BadRequest();
 
-        await validator.ApplyValidationAsync(Item, ModelState, Id);
+        await validator.ApplyValidationAsync(Item, ModelState);
 
         if (!ModelState.IsValid)
         {
             if (itemView.IsIssued) ShowIssueDate = true;
+            if (itemView is ResponseRequestedViewDto) ShowResponseRequested = true;
+            if (itemView.CanEditResponse() && itemView is ResponseViewDto) ShowResponse = true;
             return Page();
         }
 

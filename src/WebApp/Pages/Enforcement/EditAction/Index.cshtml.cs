@@ -1,7 +1,7 @@
 ﻿using AirWeb.AppServices.Compliance.Enforcement;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 
-namespace AirWeb.WebApp.Pages.Enforcement.Edit;
+namespace AirWeb.WebApp.Pages.Enforcement.EditAction;
 
 public class EditEnforcementActionRedirectModel : PageModel
 {

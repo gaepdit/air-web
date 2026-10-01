@@ -1,49 +1,37 @@
-﻿# EPA Data Exchange
+﻿# EPA Data Exchange Data Elements
 
-## Data flow
+Information and code for the EPA/ICIS-Air data exchange is found in
+the [epa-dx repo](https://github.com/gaepdit/epa-dx).
 
-```mermaid
-flowchart TD
-    A(Air Branch Applications) --> B
-    B[(Air Branch App DB)] -- " ETL Stored Procedures " --> C
-    C[(NetworkNodeFlow DB)] -- " Web service (VESA) " --> D
-    D(EPA System)
-```
-
-* ETLs runs daily.
-* Web service runs weekly.
-
-## Data elements
-
-### Compliance Monitoring
+## Compliance Monitoring
 
 | Compliance Work Type                  | Not reportable | Reportable |
 |---------------------------------------|:--------------:|:----------:|
-| Annual Compliance Certification (ACC) |                |     ✓      |
-| Inspection                            |                |     ✓      |
-| Notification                          |       ✓        |            |
-| Permit revocation                     |       ✓        |            |
-| Report                                |                |     ✓      |
-| Risk Management Plan (RMP) Inspection |       ✓        |            |
-| Source Test Compliance Review         |                |     ✓      |
+| Annual Compliance Certification (ACC) |                |     ✓     |
+| Inspection                            |                |     ✓     |
+| Notification                          |       ✓       |            |
+| Permit revocation                     |       ✓       |            |
+| Report                                |                |     ✓     |
+| Risk Management Plan (RMP) Inspection |       ✓       |            |
+| Source Test Compliance Review         |                |     ✓     |
 
-### Enforcement
+## Enforcement
 
 | Enforcement Action type    | Not reportable | Reportable as "informal" | Reportable as "formal" |
 |----------------------------|:--------------:|:------------------------:|:----------------------:|
-| Letter of Noncompliance    |       ✓        |                          |                        |
-| Notice of Violation        |                |            ✓             |                        |
-| No Further Action Letter   |      ✓ *       |                          |                        |
-| Combined NOV/NFA Letter    |                |            ✓             |                        |
-| Proposed Consent Order     |                |            ✓             |                        |
-| Consent Order              |                |                          |           ✓            |
-| Administrative Order       |                |                          |           ✓            |
-| Order Resolved  (CO or AO) |       ✓        |                          |                        |
-| Informational Letter       |       ✓        |                          |                        |
+| Letter of Noncompliance    |       ✓       |                          |                        |
+| Notice of Violation        |                |            ✓            |                        |
+| No Further Action Letter   |      ✓ *      |                          |                        |
+| Combined NOV/NFA Letter    |                |            ✓            |                        |
+| Proposed Consent Order     |                |            ✓            |                        |
+| Consent Order              |                |                          |           ✓           |
+| Administrative Order       |                |                          |           ✓           |
+| Order Resolved  (CO or AO) |       ✓       |                          |                        |
+| Informational Letter       |       ✓       |                          |                        |
 
 <span>*</span> NFA letters are not reportable on their own but are sent as Addressing & Resolving Pathway Activities.
 
-#### ICIS-Air Pathway Activities
+### ICIS-Air Pathway Activities
 
 | Item                          | ICIS-Air Data Type    | Pathway Activity                  |
 |-------------------------------|-----------------------|-----------------------------------|

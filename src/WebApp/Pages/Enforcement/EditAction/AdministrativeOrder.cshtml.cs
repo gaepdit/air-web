@@ -6,21 +6,20 @@ using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.WebApp.Models;
 using AutoMapper;
 
-namespace AirWeb.WebApp.Pages.Enforcement.Edit;
+namespace AirWeb.WebApp.Pages.Enforcement.EditAction;
 
-public class LetterOfNoncomplianceEditModel(
+public class AdministrativeOrderEditModel(
     IEnforcementActionService actionService,
     ICaseFileService caseFileService,
-    IValidator<LetterOfNoncomplianceEditDto> validator,
+    IValidator<AdministrativeOrderCommandDto> validator,
     IMapper mapper) : PageModel, ISubmitCancelButtons
 {
     [FromRoute]
     public Guid Id { get; set; }
 
     [BindProperty]
-    public LetterOfNoncomplianceEditDto Item { get; set; } = null!;
+    public AdministrativeOrderCommandDto Item { get; set; } = null!;
 
-    public bool ShowResponse { get; private set; }
     public bool ShowIssueDate { get; private set; }
     public CaseFileSummaryDto? CaseFile { get; set; }
 
@@ -38,7 +37,7 @@ public class LetterOfNoncomplianceEditModel(
 
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null) return NotFound();
-        if (itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+        if (itemView.ActionType != EnforcementActionType.AdministrativeOrder)
             return RedirectToPage("Index", new { Id });
         if (!User.CanEdit(itemView)) return Forbid();
         if (itemView.IsIssued) ShowIssueDate = true;
@@ -47,9 +46,7 @@ public class LetterOfNoncomplianceEditModel(
         if (CaseFile is null) return NotFound();
         if (!User.CanEditCaseFile(CaseFile)) return Forbid();
 
-        Item = mapper.Map<LetterOfNoncomplianceEditDto>(itemView);
-        if (itemView.CanEditResponse()) ShowResponse = true;
-
+        Item = mapper.Map<AdministrativeOrderCommandDto>(itemView);
         return Page();
     }
 
@@ -57,7 +54,7 @@ public class LetterOfNoncomplianceEditModel(
     {
         var itemView = await actionService.FindAsync(Id, token);
         if (itemView is null || !User.CanEdit(itemView) ||
-            itemView.ActionType != EnforcementActionType.LetterOfNoncompliance)
+            itemView.ActionType != EnforcementActionType.AdministrativeOrder)
             return BadRequest();
 
         CaseFile = await caseFileService.FindSummaryAsync(itemView.CaseFileId, token);
@@ -68,7 +65,6 @@ public class LetterOfNoncomplianceEditModel(
         if (!ModelState.IsValid)
         {
             if (itemView.IsIssued) ShowIssueDate = true;
-            if (itemView.CanEditResponse()) ShowResponse = true;
             return Page();
         }
 

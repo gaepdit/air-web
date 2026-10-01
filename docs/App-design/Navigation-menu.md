@@ -4,57 +4,43 @@
 
 Shown when user is not logged in.
 
-* {Logo} Title (`/`)
+* {Logo} Air Web (`/`)
+* Permit Search Tool (`/Permits`)
+
 - ▭ *(flexible space)*
-* Agency Login (`/Account/Login`)
-* ◐ ▼ *(Theme toggle)*
+
+* Agency Login (`/Account/Login`) *(hidden on login page)*
 
 ## Air Web Dashboard
 
 Shown when staff is logged in and viewing the Air Web dashboard.
 
-* 🔀 Switch Dashboard *(offcanvas)*
-    * Air Web Dashboard 
-    * SBEAP Dashboard
 * {Logo} Dashboard (`/`)
 * 🔍︎ Search ▼
-    * Facilities (`/Facility`)
-    * Map (`/Map`)
+    * Facility List (`/Facility`)
+    * Facility Map (`/Map`)
     * —
     * Compliance Monitoring (`/Compliance/Work`)
     * Compliance FCEs (`/Compliance/FCE`)
-    * Enforcement (`/Compliance/Enforcement`)
-* 🔖 Find By ID *(offcanvas)*
+    * Enforcement Cases (`/Enforcement`)
+    * —
+    * SBEAP Cases (`/SBEAP/Cases`) *(SBEAP staff only)*
+    * SBEAP Customers (`/SBEAP/Customers`) *(SBEAP staff only)*
+    * &plus; New Customer (`/SBEAP/Customers/Add`) *(SBEAP staff only)*
+    * —
+    * Permits (`/Permits`)
+* 🔖 Find By ID *(off canvas)*
     * Facility
     * Compliance
     * FCE
     * Case File
     * Source Test
-* 🡽 Go To ▼ *(not implemented)*
-    * Facility *(form)*
-    * —
-    * Compliance Event *(form)*
-    * Source Test *(form)*
-    * Enforcement *(form)*
-* ▭ *(flexible space)*
+
+- ▭ *(flexible space)*
+
 * More ▼
-    * Reports (`/Admin/Reporting`) *(not implemented)*
-    * Users (`/Admin/Users`)
+    * App Users (`/Admin/Users`)
     * Site Maintenance (`/Admin/Maintenance`)
-    * Public Portal (`/`) *(not implemented)*
 * Account ▼
     * Your profile (`/Account`)
-  * Settings (`/Account/Settings`) *(not implemented)*
-    * —
-  * Sign out *(button)*
-* ◐ ▼ *(Theme toggle)*
-
-## SBEAP Dashboard Search Menu Item
-
-Shown when staff is logged in and switched to the SBEAP dashboard.
-
-* 🔍︎ Search ▼
-    * Customer Search (`/SBEAP/Customers`)
-    * Case Search (`/SBEAP/Cases`)
-    * —
-    * `+` New Customer (`/SBEAP/Customers/Add`)
+  * [Sign out] *(form button)*
