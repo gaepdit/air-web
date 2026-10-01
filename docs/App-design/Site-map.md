@@ -1,13 +1,12 @@
 # Site Map
 
-* `/` Home page with application description and sign-in options.
-* `/Support` Help/support page.
-
----
-
 ## Public Pages
 
-These pages are available to the public.
+These pages are available to all visitors.
+
+* `/` Home page shows dashboard when logged in or redirects to login page.
+* `/Support` Help/support page.
+* `/Permits` Permit search page.
 
 ### Report Printouts
 
@@ -17,11 +16,35 @@ These pages are available to the public.
 
 ---
 
-## Staff Pages — Compliance
+## Staff Pages
 
-These pages are only available to logged-in staff.
+These pages are only available to logged-in staff. Access to individual pages depends on staff roles.
 
 * `/` Staff dashboard.
+
+### User Account
+
+* `/Account` View profile.
+* `/Account/Login` Work account login form.
+* `/Account/Edit` Edit contact info.
+
+### Admin pages
+
+#### User Management
+
+* `/Admin/Users` User search page.
+* `/Admin/Users/Details/{userId}` View user profile.
+* `/Admin/Users/Edit/{userId}` Edit contact info.
+* `/Admin/Users/EditRoles/{userId}` Edit roles.
+
+#### Site Maintenance
+
+Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists.
+
+* `/Admin/Maintenance` List of maintenance item types.
+* `/Admin/Maintenance/[type]` List of items of given type.
+* `/Admin/Maintenance/[type]/Add` Add new item.
+* `/Admin/Maintenance/[type]/Edit/{itemId}` Edit item.
 
 ### Facility
 
@@ -29,9 +52,7 @@ These pages are only available to logged-in staff.
 * `/Facility/Details/{facilityId}` Facility details page (some data retrieved from the IAIP database).
 * `/Facility/Map` Facility location search form.
 
-### Compliance
-
-#### FCEs
+### FCEs
 
 * `/Compliance/FCE` FCE search form.
 * `/Compliance/FCE/Details/{fceId}` FCE details page.
@@ -39,7 +60,7 @@ These pages are only available to logged-in staff.
 * `/Compliance/FCE/Edit/{fceId}` Edit an FCE.
 * `/Compliance/FCE/[Delete|Restore]/{fceId}` Delete/restore an FCE.
 
-#### Compliance Monitoring
+### Compliance Monitoring
 
 * `/Compliance/Work` Compliance monitoring search form.
 * `/Compliance/Work/Details/{entryId}` Compliance monitoring details page.
@@ -58,12 +79,12 @@ These pages are only available to logged-in staff.
 * `/Compliance/SourceTest/Details/{referenceNumber}#compliance-review` Source test compliance review or embedded form
   for adding a review.
 
-### Case Files
+### Enforcement Case Files
 
 * `/Enforcement` Enforcement case search form.
 * `/Enforcement/Details/{caseFileId}` Enforcement case details page.
 
-#### Case File Workflow
+#### Enforcement Case File Workflow
 
 * `/Enforcement/Begin/{facilityId}/{eventId?}` Start a new case file for the specified facility and, if included, the
   specified compliance event.
@@ -88,9 +109,7 @@ These pages are only available to logged-in staff.
 **NOTE:** `/Enforcement/Edit/{id}` can result in editing either a case file or enforcement action depending on whether
 the ID is an integer or GUID.
 
-## Staff Pages — SBEAP
-
-### Customers
+### SBEAP Customers
 
 * `/SBEAP/Customers` (Customer search)
 * `/SBEAP/Customers/Add` (Add new Customer with Contact)
@@ -102,7 +121,7 @@ the ID is an integer or GUID.
 * `/SBEAP/Customers/EditContact/{contactId}` (Edit Contact)
 * `/SBEAP/Customers/DeleteContact/{contactId}` (Delete Contact)
 
-### Cases
+### SBEAP Cases
 
 * `/SBEAP/Cases` (Case search)
 * `/SBEAP/Cases/Details/{id}` (Case details with list of Action Items and a new Action Item form)
@@ -111,27 +130,3 @@ the ID is an integer or GUID.
 * `/SBEAP/Cases/Restore/{id}` (Restore Case)
 * `/SBEAP/Cases/EditAction/{actionId}` (Edit Action Item)
 * `/SBEAP/Cases/DeleteAction/{actionId}` (Delete Action Item)
-
-## User Account
-
-* `/Account` View profile.
-* `/Account/Login` Work account login form.
-* `/Account/Edit` Edit contact info.
-
-## Admin pages
-
-### User Management
-
-* `/Admin/Users` User search page.
-* `/Admin/Users/Details/{userId}` View user profile.
-* `/Admin/Users/Edit/{userId}` Edit contact info.
-* `/Admin/Users/EditRoles/{userId}` Edit roles.
-
-### Site Maintenance
-
-Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists.
-
-* `/Admin/Maintenance` List of maintenance item types.
-* `/Admin/Maintenance/[type]` List of items of given type.
-* `/Admin/Maintenance/[type]/Add` Add new item.
-* `/Admin/Maintenance/[type]/Edit/{itemId}` Edit item.
