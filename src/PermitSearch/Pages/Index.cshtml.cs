@@ -18,7 +18,7 @@ public class IndexModel(ILogger<IndexModel> logger) : PageModel
             return RedirectMaybePermanent(pathAndQuery, destination: $"/View/{id}");
 
         if (airsNumber != null && UrlRegex.IsValidAirs(airsNumber))
-            return RedirectMaybePermanent(pathAndQuery, destination: $"/Facility?Id={airsNumber}");
+            return RedirectMaybePermanent(pathAndQuery, destination: $"/Facility/{airsNumber}");
 
         return RedirectMaybePermanent(pathAndQuery, destination: "");
     }

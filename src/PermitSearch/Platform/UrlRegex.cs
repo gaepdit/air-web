@@ -13,7 +13,7 @@ internal static partial class UrlRegex
     public static bool IsValidPermit(string id) => PermitRegex.IsMatch(id);
 
     // language=regex
-    public const string AirsFormat = "[0-9]{3}-[0-9]{5}|[0-9]{8}";
+    public const string AirsFormat = "[0-9]{1,3}-[0-9]{1,5}|[0-9]{8}";
 
     [GeneratedRegex(AirsFormat)]
     private static partial Regex AirsRegex { get; }
