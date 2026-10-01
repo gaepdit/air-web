@@ -1,0 +1,26 @@
+﻿@page "{handler?}"
+@using AirWeb.WebApp.Pages.Shared
+@model ReportsIndexModel
+
+@if (Model.CurrentView == "Menu")
+{
+    ViewData["Title"] = "Reports";
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="list-group mb-4">
+        <a asp-page-handler="MostRecentFCEs" class="list-group-item list-group-item-action">Most Recent FCEs</a>
+    </div>
+}
+else
+{
+    ViewData["Title"] = "Report: Most Recent FCEs";
+
+    <p class="d-print-none">
+        <a asp-page="Index" class="lead link-offset-2">
+            <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+            Reports
+        </a>
+    </p>
+    <h1 id="table-description">Report: Most Recent FCEs</h1>
+}
