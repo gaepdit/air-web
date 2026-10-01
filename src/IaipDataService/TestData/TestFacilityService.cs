@@ -51,7 +51,8 @@ public sealed class TestFacilityService : IFacilityService
                 .OrderBy(f => f.Id),
         ]);
 
-    public Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default) =>
+    public Task<IReadOnlyCollection<FacilityList>> GetListAsync(bool forceRefresh = false,
+        CancellationToken token = default) =>
         Task.FromResult<IReadOnlyCollection<FacilityList>>(Items
             .Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id).ToList());
 }

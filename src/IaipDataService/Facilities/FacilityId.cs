@@ -81,7 +81,7 @@ public record FacilityId
     }
 
     // Format validation
-    public const string FacilityIdBlankError = "Enter a facility ID.";
+    public const string FacilityIdBlankError = "Enter a Facility ID.";
 
     public const string FacilityIdFormatError = "The Facility ID entered is not valid.";
 

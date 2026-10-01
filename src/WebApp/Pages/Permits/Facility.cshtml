@@ -1,0 +1,109 @@
+﻿@page "{id?}"
+@using AirWeb.WebApp.Pages.Shared
+@using AirWeb.WebApp.Pages.Shared.DisplayTemplates
+@using IaipDataService.Permits
+@model FacilityPermitsIndex
+@{
+    ViewData["Title"] = $"Facility {Model.Id} Air Permits";
+    ViewData["NoValidate"] = "True";
+    ViewData["NoAnchors"] = "True";
+}
+
+<div class="mb-3">
+    <a asp-page="Index" class="lead icon-link">
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+        Return to the Permit Search page
+    </a>
+</div>
+
+<div class="row justify-content-between align-items-baseline">
+    <div class="col">
+        <h1>Air Permits for Facility:</h1>
+        <h2>
+            <partial name="Shared/FacilityPartials/_FacilityAirsName" model="Model.Facility" />
+        </h2>
+    </div>
+    <div class="col-auto ms-3 d-print-none text-end">
+        <a asp-page="/Facility/Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary mb-2">Facility Details</a>
+    </div>
+</div>
+
+<div id="SearchResults">
+    @if (Model.SearchResults.TotalCount == 0)
+    {
+        <p class="lead text-info">No permits found.</p>
+    }
+    else
+    {
+        <partial name="Shared/_PaginationNavAndCount" model="Model.ResultsDisplay" />
+
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 table-collapsible document-results" aria-label="Permit search results table">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-nowrap">Permit</th>
+                    <th scope="col" class="text-nowrap">Issuance Date</th>
+                    <th scope="col" class="text-nowrap">Other Documents</th>
+                    <th scope="col" class="text-nowrap">Permit Type</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var item in Model.SearchResults.Items)
+                {
+                    <tr>
+                        <th data-label="Permit" class="text-nowrap fw-normal">
+                            @if (item.PermitFile is not null)
+                            {
+                                <a asp-page="View" target="_blank" asp-route-fileName="@item.PermitFile">@item.PermitNumber</a>
+                            }
+                        </th>
+                        <td data-label="Issuance Date">@Html.DisplayFor(_ => item.IssuanceDate, DisplayTemplate.DateTimeNullableShort)</td>
+                        <td data-label="Other Documents">
+                            @if (item.FileType == PermitSummary.FileTypes.Psd)
+                            {
+                                <ul>
+                                    @if (item.NarrativeFile is not null)
+                                    {
+                                        <li>
+                                            <a asp-page="View" target="_blank" asp-route-fileName="@item.NarrativeFile">Narrative</a>
+                                        </li>
+                                    }
+                                    @if (item.PsdPrelim is not null)
+                                    {
+                                        <li>
+                                            <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdPrelim">Preliminary Determination</a>
+                                        </li>
+                                    }
+                                    @if (item.PsdFinalDet is not null)
+                                    {
+                                        <li>
+                                            <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdFinalDet">Final Determination</a>
+                                        </li>
+                                    }
+                                    @if (item.PsdAppSum is not null)
+                                    {
+                                        <li>
+                                            <a asp-page="View" target="_blank" asp-route-fileName="@item.PsdAppSum">Application Summary</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                @if (item.NarrativeFile is not null)
+                                {
+                                    <a asp-page="View" target="_blank" asp-route-fileName="@item.NarrativeFile">Narrative</a>
+                                }
+                            }
+                        </td>
+                        <td data-label="Permit Type">@item.FileType</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <partial name="Shared/_PaginationNav" model="Model.ResultsDisplay" />
+    }
+</div>
