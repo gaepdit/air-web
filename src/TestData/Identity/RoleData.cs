@@ -47,7 +47,7 @@ internal static partial class UserData
                 ComplianceRole.AddRoles();
             }
 
-            field = AppRole.AllRoles!
+            field = AppRole.AllRoles
                 .Select(pair => new IdentityRole(pair.Value.Name) { NormalizedName = pair.Key.ToUpperInvariant() })
                 .ToList();
             return field;
