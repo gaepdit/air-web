@@ -130,7 +130,7 @@ public partial record FacilityIdRegex
     private static partial Regex StandardIdRegex { get; }
 
     // Test at https://regex101.com/r/2uYyHl/10
-    // language:regex
+    // language=regex
     private const string StandardIdPattern =
         "^(?:^(?:0413)?(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5})$|(?:^(?:777|321|3[0-1][13579]|[0-2]?[0-9]?[13579])-(?!0{1,5}$)[0-9]{1,5})$";
 
@@ -141,7 +141,8 @@ public partial record FacilityIdRegex
     private static partial Regex EpaIdRegex { get; }
 
     // Test at https://regex101.com/r/gZ9Go3/3
-    // language:regex
+
+    // language=regex
     private const string EpaIdPattern = "^GA00000013(?:777|321|3[0-1][13579]|[0-2][0-9][13579])(?!00000)[0-9]{5}$";
 
     internal static bool IsValidEpaFormat(string id) => EpaIdRegex.IsMatch(id);
@@ -151,8 +152,9 @@ public partial record FacilityIdRegex
     [GeneratedRegex(SearchFormat)]
     private static partial Regex SearchFormatRegex { get; }
 
-    // language:regex
+    // language=regex
     public const string SearchFormat = "^[0-9]{1,3}-[0-9]{1,5}$|^[0-9]{8}$";
+
     public static bool IsValidSearchFormat(string id) => SearchFormatRegex.IsMatch(id);
 
     public const string SearchFormatError = "Invalid AIRS Number format.";
