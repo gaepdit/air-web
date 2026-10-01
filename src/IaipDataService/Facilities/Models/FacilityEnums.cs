@@ -47,6 +47,19 @@ public enum FacilityCmsClassification
 }
 
 /// <summary>
+/// The CMS classification of a facility.
+/// </summary>
+/// <remarks>
+/// The value of each enumeration member is significant because the members are stored
+/// and retrieved from the IAIP database in a coded string.
+/// </remarks>
+public enum AirProgramClassification
+{
+    [Display(Name = "NSR/PSD Major")] NsrMajor = 1,
+    [Display(Name = "HAPs Major")] HapMajor = 2,
+}
+
+/// <summary>
 /// Specifies whether a facility is located within a one-hour ozone nonattainment area.
 /// </summary>
 /// <remarks>
