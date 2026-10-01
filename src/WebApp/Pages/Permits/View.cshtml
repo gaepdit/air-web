@@ -4,11 +4,12 @@
 @{
     ViewData["Title"] = "Permit file not found";
 }
-<h1>@ViewData["Title"]</h1>
 
-<div>
+<div class="mb-3">
     <a asp-page="Index" class="lead icon-link">
         <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
         Return to the Permit Search page
     </a>
 </div>
+
+<h1>@ViewData["Title"]</h1>
