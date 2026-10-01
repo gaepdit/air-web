@@ -7,6 +7,7 @@ These pages are available to all visitors.
 * `/` Home page shows dashboard when logged in or redirects to login page.
 * `/Support` Help/support page.
 * `/Permits` Permit search page.
+* `/Permits/Facility/{facilityId}` Facility permits page.
 
 ### Report Printouts
 

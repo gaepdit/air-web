@@ -156,14 +156,19 @@ public sealed class IaipFacilityService(
         ).ConfigureAwait(false)).ToList();
     }
 
-    public async Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default)
+    public async Task<IReadOnlyCollection<FacilityList>> GetListAsync(bool forceRefresh = false,
+        CancellationToken token = default)
     {
         const string key = "IaipFacilityList";
-        logger.LogCacheSearch(key);
+
+        if (forceRefresh) await cache.RemoveByTagAsync(FacilityLists, token).ConfigureAwait(false);
+        else logger.LogCacheSearch(key);
 
         return await cache.GetOrCreateAsync(key, factory: async _ =>
             {
-                logger.LogCacheMiss(key);
+                if (forceRefresh) logger.LogCacheRefresh(key);
+                else logger.LogCacheMiss(key);
+
                 return (await GetAllAsync(token: token).ConfigureAwait(false))
                     .Select(f => new FacilityList(f.Id, f.Name, f.ShortId)).ToList();
             },

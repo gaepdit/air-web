@@ -45,6 +45,7 @@ public record PaginatedResultsDisplay
 
     public string SortByName { get; }
     public IDictionary<string, string?> RouteValues { get; }
-    public string SearchHandler { get; } = "Search";
+    public string SearchHandler { get; init; } = "Search";
+    public string SearchFragment { get; init; } = "SearchResults";
     public IPaginatedResult SearchResults { get; }
 }

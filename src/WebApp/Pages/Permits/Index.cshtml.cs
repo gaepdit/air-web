@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Core.DataAttributes;
-using AirWeb.WebApp.Models;
+﻿using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
@@ -16,10 +15,10 @@ public class PermitSearchIndex(
     IValidator<PermitSearchDto> validator) : PageModel
 {
     // Facility ID search form
+    [BindProperty]
     [StringLength(9)]
     [Required(ErrorMessage = FacilityId.FacilityIdBlankError)]
-    [RequiredNoLabel]
-    public string? Id { get; set; }
+    public string? FindId { get; set; }
 
     // Permit details search form
     public PermitSearchDto Spec { get; private set; } = null!;
@@ -35,7 +34,6 @@ public class PermitSearchIndex(
 
     public Dictionary<string, string?> RouteValues => new()
     {
-        { nameof(Id), Id },
         { nameof(Spec.Name), Spec.Name },
         { nameof(Spec.Permit), Spec.Permit },
         { nameof(Spec.DateFrom), Spec.DateFrom?.ToString("yyyy-MM-dd") },
@@ -43,68 +41,40 @@ public class PermitSearchIndex(
     };
 
     public async Task OnGetAsync(CancellationToken token = default) =>
-        Facilities = await facilityService.GetListAsync(token);
+        Facilities = await facilityService.GetListAsync(token: token);
 
-    public async Task<IActionResult> OnGetFacilityAsync(string id, [FromQuery] int p = 1,
-        CancellationToken token = default)
+    public async Task<IActionResult> OnPostAsync(CancellationToken token = default)
     {
-        Id = FacilityId.TryFormat(id);
-        if (Id != id) return RedirectToPage(new { handler = "Facility", Id });
-
-        Facilities = await facilityService.GetListAsync(token);
         ModelState.Clear();
 
-        if (Id == null)
+        if (FindId == null)
+            ModelState.AddModelError(nameof(FindId), FacilityId.FacilityIdBlankError);
+        else if (!FacilityIdRegex.IsValidSearchFormat(FindId))
+            ModelState.AddModelError(nameof(FindId), FacilityId.FacilityIdFormatError);
+        else if (!FacilityIdRegex.IsValidStandardFormat(FindId))
+            // This is a public page. If the user enters a Facility ID that matches the correct format, but does not
+            // comply with the business rules (e.g., "000-00001" or "002-00001"), the most comprehensible response is that
+            // a facility with that ID doesn't exist. I.e., don't just say that the ID format is invalid.
+            ModelState.AddModelError(nameof(FindId), FacilityId.FacilityNotExistsShortError);
+        else
         {
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdBlankError);
-            return Page();
+            var facilityId = (FacilityId)FindId;
+            if (!await facilityService.ExistsAsync(facilityId))
+                ModelState.AddModelError(nameof(FindId), FacilityId.FacilityNotExistsShortError);
+            else if (await service.CountPermitsAsync(facilityId) == 0)
+                ModelState.AddModelError(nameof(FindId), "No permits were found for that facility. ");
         }
 
-        if (!FacilityIdRegex.IsValidSearchFormat(Id))
-        {
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityIdFormatError);
-            return Page();
-        }
+        if (ModelState.IsValid) return RedirectToPage("Facility", routeValues: new { id = FindId });
 
-        // This is a public page. If the user enters a Facility ID that matches the correct format, but does not
-        // comply with the business rules (e.g., "000-00001" or "002-00001"), the most comprehensible response is that
-        // a facility with that ID doesn't exist. I.e., don't say that the ID format is invalid.
-        if (!FacilityIdRegex.IsValidStandardFormat(Id))
-        {
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
-            return Page();
-        }
-
-        if (!ModelState.IsValid) return Page();
-
-        var facilityId = (FacilityId)Id;
-
-        if (!await facilityService.ExistsAsync(facilityId))
-        {
-            ModelState.AddModelError(nameof(Id), FacilityId.FacilityNotExistsShortError);
-            return Page();
-        }
-
-        var permitCount = await service.CountPermitsAsync(facilityId);
-
-        if (permitCount == 0)
-        {
-            ModelState.AddModelError(nameof(Id), "No permits were found for that facility. ");
-            return Page();
-        }
-
-        var paging = PaginationDefaults.DefaultSearch(p);
-        var permits = await service.SearchPermitsAsync(facilityId, paging.Skip, paging.Take, token);
-        SearchResults = new PaginatedResult<PermitSummary>(permits, permitCount, paging);
-        ShowResults = true;
         SearchHandler = "Facility";
-        Spec = new PermitSearchDto();
+        Facilities = await facilityService.GetListAsync(token: token);
         return Page();
     }
 
     public async Task OnGetSearchAsync(PermitSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
-        Facilities = await facilityService.GetListAsync(token);
+        Facilities = await facilityService.GetListAsync(token: token);
         await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
         if (!ModelState.IsValid) return;

@@ -53,6 +53,7 @@ public interface IFacilityService
     /// <summary>
     /// Retrieves a list of all facilities with only names and IDs.
     /// </summary>
+    /// <param name="forceRefresh">Whether to refresh cached data.</param>
     /// <param name="token"></param>
-    Task<IReadOnlyCollection<FacilityList>> GetListAsync(CancellationToken token = default);
+    Task<IReadOnlyCollection<FacilityList>> GetListAsync(bool forceRefresh = false, CancellationToken token = default);
 }

@@ -82,7 +82,7 @@
     <div class="row justify-content-between mb-3">
         <div class="col-lg">
             <h2 class="h3">Facility Status</h2>
-            <dl class="row">
+            <dl class="row mb-0">
                 <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(_ => facility.Description)</dt>
                 <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => facility.Description)</dd>
                 @if (facility.RegulatoryData != null)
@@ -100,6 +100,15 @@
                     <dd class="col-sm-8 col-lg-9">@Html.DisplayFor(_ => regulatoryData.PermitRevocationDate, DisplayTemplate.DateTimeNullableShort)</dd>
                 }
             </dl>
+            <div class="p-1 ps-2 mb-4 bg-body-tertiary rounded-1">
+                <small>
+                    <partial name="Shared/_AppIconsPartial" model="@AppIcon.Folder" />
+                    <span class="ms-1">Open facility in</span>
+                    <span class="d-inline-block">
+                        <a class="btn-subtle" asp-page="/Permits/Facility" asp-route-id="@Model.Facility.Id">Permit Search</a>
+                    </span>
+                </small>
+            </div>
 
             <h2 class="h3">Location</h2>
             <dl class="row">
@@ -113,12 +122,12 @@
                         <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                             <small>
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.MapPin" />
-                                Open address in:
+                                <span class="ms-1">Open address in:</span>
                                 <span class="d-inline-block">
-                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
-                                                <span class="px-1 text-body-secondary">|</span>
-                                                <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
-                                                    </span>
+                                    <a class="btn-subtle" href="@facility.FacilityAddress.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
+                                    <span class="px-1 text-body-secondary">|</span>
+                                    <a class="btn-subtle" href="@facility.FacilityAddress.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
+                                </span>
                             </small>
                         </div>
                     </div>
@@ -140,12 +149,12 @@
                         <div class="p-1 ps-2 bg-body-tertiary rounded-1">
                             <small>
                                 <partial name="Shared/_AppIconsPartial" model="@AppIcon.GeoPin" />
-                                Open coordinates in:
+                                <span class="ms-1">Open coordinates in:</span>
                                 <span class="d-inline-block">
-                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
-                                        <span class="px-1 text-body-secondary">|</span>
-                                        <a class="btn-subtle" href="@facility.GeoCoordinates.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
-                                    </span>
+                                    <a class="btn-subtle" href="@facility.GeoCoordinates.Value.GoogleMapsUrl()" target="_blank">Google Maps</a>
+                                    <span class="px-1 text-body-secondary">|</span>
+                                    <a class="btn-subtle" href="@facility.GeoCoordinates.Value.AppleMapsUrl()" target="_blank">Apple Maps</a>
+                                </span>
                             </small>
                         </div>
                     </div>

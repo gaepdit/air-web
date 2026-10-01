@@ -7,7 +7,7 @@ namespace AirWeb.WebApp.Pages.Facility;
 [Authorize(Policy = nameof(Policies.Staff))]
 public class IndexModel(IFacilityService service) : PageModel
 {
-    public IReadOnlyCollection<FacilitySummary> Facilities { get; private set; } = null!;
+    public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
 
     [TempData]
     public bool RefreshIaipData { get; set; }
@@ -18,7 +18,7 @@ public class IndexModel(IFacilityService service) : PageModel
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)
     {
-        Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
+        Facilities = await service.GetListAsync(RefreshIaipData, token: token);
         return Page();
     }
 
@@ -38,7 +38,7 @@ public class IndexModel(IFacilityService service) : PageModel
         if (ModelState.IsValid)
             return RedirectToPage("Details", routeValues: new { id = FindId });
 
-        Facilities = await service.GetAllAsync(RefreshIaipData, token: token);
+        Facilities = await service.GetListAsync(RefreshIaipData, token: token);
         return Page();
     }
 }

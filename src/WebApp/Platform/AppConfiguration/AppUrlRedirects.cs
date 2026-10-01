@@ -9,7 +9,7 @@ public static class AppUrlRedirects
     // language=regex
     private const string IntPattern = @"(\d+)";
 
-    // language:regex
+    // language=regex
     private const string FacilityIdFormat = "[0-9]{3}-?[0-9]{5}";
 
     public static IApplicationBuilder UseAppUrlRedirects(this IApplicationBuilder app)

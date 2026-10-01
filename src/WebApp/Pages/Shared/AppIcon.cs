@@ -10,6 +10,7 @@ public enum AppIcon
     DarkMode,
     Download,
     FindBy,
+    Folder,
     GeoPin,
     GoBack,
     InfoIcon,

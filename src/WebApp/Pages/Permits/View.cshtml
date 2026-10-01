@@ -1,7 +1,15 @@
 ﻿@page "{fileName?}"
+@using AirWeb.WebApp.Pages.Shared
 @model PermitView
 @{
     ViewData["Title"] = "Permit file not found";
 }
+
+<div class="mb-3">
+    <a asp-page="Index" class="lead icon-link">
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+        Return to the Permit Search page
+    </a>
+</div>
+
 <h1>@ViewData["Title"]</h1>
-<p class="lead">Return to the <a asp-page="Index">Permit Search</a> page.</p>
