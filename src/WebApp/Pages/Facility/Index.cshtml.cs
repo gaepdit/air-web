@@ -1,5 +1,6 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace AirWeb.WebApp.Pages.Facility;

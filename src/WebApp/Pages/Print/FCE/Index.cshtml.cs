@@ -8,7 +8,7 @@ public class IndexModel : PageModel
 {
     public FceViewDto? FceView { get; private set; }
     public SupportingDataPrintout SupportingData { get; set; } = null!;
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     public bool ShowReturnLink { get; private set; }
 
     public async Task<ActionResult> OnGetAsync(

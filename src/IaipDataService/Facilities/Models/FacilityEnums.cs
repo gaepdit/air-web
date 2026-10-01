@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace IaipDataService.Facilities;
+namespace IaipDataService.Facilities.Models;
 
 /// <summary>
 /// The operational status of a facility.

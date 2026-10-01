@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.EfRepository.Contexts;
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.EfRepository.ComplianceRepositories;
 

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using IaipDataService.Caching;
 using IaipDataService.DbConnection;
+using IaipDataService.Facilities.Models;
 using IaipDataService.Structs;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;

@@ -2,6 +2,7 @@
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using IaipDataService.Permits;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;

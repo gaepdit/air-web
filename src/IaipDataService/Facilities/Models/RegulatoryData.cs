@@ -1,7 +1,7 @@
 ﻿using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;
 
-namespace IaipDataService.Facilities;
+namespace IaipDataService.Facilities.Models;
 
 public record RegulatoryData
 {

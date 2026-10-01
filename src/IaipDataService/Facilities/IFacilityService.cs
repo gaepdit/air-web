@@ -1,4 +1,6 @@
-﻿namespace IaipDataService.Facilities;
+﻿using IaipDataService.Facilities.Models;
+
+namespace IaipDataService.Facilities;
 
 public interface IFacilityService
 {

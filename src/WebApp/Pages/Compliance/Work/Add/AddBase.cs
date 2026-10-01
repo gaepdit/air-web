@@ -27,7 +27,7 @@ public abstract class AddBase(
     public int? CaseFileId { get; set; }
 
     public ComplianceWorkType WorkType { get; protected set; }
-    public IaipDataService.Facilities.Facility? Facility { get; protected set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; protected set; }
     public CaseFileSummaryDto? CaseFile { get; protected set; }
 
     public SelectList StaffSelectList { get; private set; } = null!;

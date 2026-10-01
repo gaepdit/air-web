@@ -29,7 +29,7 @@ public class BeginModel(
     [BindProperty]
     public CaseFileCreateDto NewCaseFile { get; set; } = null!;
 
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     public IComplianceWorkSummaryDto? ComplianceEvent { get; private set; }
     public SelectList StaffSelectList { get; private set; } = null!;
     private const string FacilityIdNotFound = "Facility not found.";

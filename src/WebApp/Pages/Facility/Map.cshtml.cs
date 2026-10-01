@@ -2,6 +2,7 @@
 using AirWeb.Domain.Core.Data;
 using AirWeb.WebApp.Platform.Settings;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using System.Text.Json;
 
 namespace AirWeb.WebApp.Pages.Facility;

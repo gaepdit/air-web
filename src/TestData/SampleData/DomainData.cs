@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Compliance.ComplianceEntities.ComplianceMonitoring;
 using AirWeb.TestData.Compliance;
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using IaipDataService.TestData;
 
 namespace AirWeb.TestData.SampleData;
