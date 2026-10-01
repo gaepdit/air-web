@@ -99,15 +99,13 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 * `/Enforcement/Details/{caseFileId}#enforcement-actions` List of enforcement actions with details.
 * `/Enforcement/Details/{caseFileId}` `[modal dialog]` Add a simple enforcement action to a case file.
 * `/Enforcement/Add/{action-type}/{caseFileId}` Add a complex enforcement action to a case file.
-* `/Enforcement/Edit/{actionId}` Edit enforcement action details.
+* `/Enforcement/Edit/{int}` Edit enforcement case details.
+* `/Enforcement/EditAction/[type]/{actionId}` Edit enforcement action details.
 * `/Enforcement/RequestReview/{actionId}` Request review for an enforcement action.
 * `/Enforcement/SubmitReview/{actionId}` Submit review for an enforcement action.
 * `/Enforcement/StipulatedPenalties/{actionId}` Edit stipulated penalties for a Consent Order.
 * `/Enforcement/Details/{caseFileId}` `[modal dialogs]` Issue/cancel/add response/resolve/execute/delete an enforcement
   action.
-
-**NOTE:** `/Enforcement/Edit/{id}` can result in editing either a case file or enforcement action depending on whether
-the ID is an integer or GUID.
 
 ### SBEAP Customers
 
