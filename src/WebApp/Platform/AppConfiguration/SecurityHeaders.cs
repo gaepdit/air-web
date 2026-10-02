@@ -4,7 +4,7 @@ namespace AirWeb.WebApp.Platform.AppConfiguration;
 
 internal static class SecurityHeaders
 {
-    public static IHostApplicationBuilder AddHttpSecurity(this IHostApplicationBuilder builder)
+    public static void AddHttpSecurity(this IHostApplicationBuilder builder)
     {
         if (builder.Environment.IsDevelopment())
         {
@@ -22,8 +22,6 @@ internal static class SecurityHeaders
                 })
                 .AddAntiforgery(options => options.Cookie.SecurePolicy = CookieSecurePolicy.Always);
         }
-
-        return builder;
     }
 
     public static WebApplication UseSecurityHeaders(this WebApplication app)
