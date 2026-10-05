@@ -8,7 +8,7 @@ jobs:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
     if: ${{ true }}
     # ↑ Change to "true" (or delete) to enable the workflow.
-    
+
     name: Run unit tests
     runs-on: windows-latest
     permissions:
@@ -30,7 +30,7 @@ jobs:
         run: dotnet build air-web.slnx --no-restore
 
       - name: Test
-        run: dotnet test air-web.slnx --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --report-spekt-nunit "LogFileName=TestResults.{assembly}.xml"
+        run: dotnet test air-web.slnx --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --report-spekt-nunit "LogFilePath=TestResults/TestResults.{assembly}.xml"
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
