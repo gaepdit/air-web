@@ -57,4 +57,4 @@ jobs:
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3
         with:
-          files: test-results/**/TestResults.xml
+          files: test-results/**/TestResults.*.xml
