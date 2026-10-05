@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.10.5] - 2026-10-05
+
+- Improved routing for the new permit search page.
+
 ## [2026.9.30] - 2026-09-30
 
 - Try out the new Permit Search page! This page will soon replace the old Permit Search Engine. But don't worry, all 
