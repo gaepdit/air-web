@@ -30,13 +30,13 @@ jobs:
         run: dotnet build air-web.slnx --no-restore
 
       - name: Test
-        run: dotnet test air-web.slnx --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --report-spekt-nunit
+        run: dotnet test air-web.slnx --no-build --verbosity normal --filter FullyQualifiedName!~IaipDataServiceTests.DbTests --report-spekt-nunit "LogFileName=TestResults.{assembly}.xml"
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          path: _artifacts/bin/**/debug/TestResults/TestResults.xml
+          path: TestResults/TestResults.*.xml
 
   publish-test-results:
     name: Publish test results
