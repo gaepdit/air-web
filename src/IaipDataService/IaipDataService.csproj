@@ -4,6 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ClosedXML" />
         <PackageReference Include="Dapper"/>
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="JetBrains.Annotations"/>

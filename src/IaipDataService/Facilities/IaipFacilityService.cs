@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using IaipDataService.Caching;
 using IaipDataService.DbConnection;
+using IaipDataService.Facilities.Models;
 using IaipDataService.Structs;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
@@ -174,5 +175,26 @@ public sealed class IaipFacilityService(
             },
             CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityListExpiration),
             tags: [FacilityLists], token).ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyCollection<FacilityFceInspectionStatus>> GetFceInspectionStatusReportAsync(
+        CancellationToken token = default)
+    {
+        const string key = "FceInspectionStatusReport";
+        logger.LogCacheSearch(key);
+        return await cache.GetOrCreateAsync(key, factory: async _ =>
+            {
+                logger.LogCacheMiss(key);
+                return await GetFceInspectionStatusReportFromDb().ConfigureAwait(false);
+            },
+            CacheUtilities.GetHybridCacheOptions(CacheConstants.FacilityListExpiration),
+            tags: [FacilityLists], token).ConfigureAwait(false);
+    }
+
+    private async Task<List<FacilityFceInspectionStatus>> GetFceInspectionStatusReportFromDb()
+    {
+        using var db = dbf.Create();
+        return (await db.QueryAsync<FacilityFceInspectionStatus>(sql: "air.GetIaipFceInspectionStatusReport",
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
     }
 }

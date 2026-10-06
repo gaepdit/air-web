@@ -15,6 +15,7 @@ using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AutoMapper;
 using GaEpd.AppLibrary.Extensions;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.AppServices.Compliance.Enforcement;
 

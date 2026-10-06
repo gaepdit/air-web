@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using IaipDataService.DbConnection;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using IaipDataService.SourceTests.Models;
 using IaipDataService.SourceTests.Models.TestRun;
 using IaipDataService.Structs;

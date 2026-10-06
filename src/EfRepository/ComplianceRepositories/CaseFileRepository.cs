@@ -1,7 +1,7 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.EnforcementActions;
 using AirWeb.EfRepository.Contexts;
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.EfRepository.ComplianceRepositories;
 
@@ -12,7 +12,7 @@ public sealed class CaseFileRepository(AppDbContext context)
     public int? GetNextId() => null;
 
     public Task<CaseFile?> FindWithDetailsAsync(int id, CancellationToken token = default) =>
-        Context.Set<CaseFile>().AsNoTracking()
+        Context.Set<CaseFile>().AsNoTracking().AsSplitQuery()
             .Include(caseFile => caseFile.Comments
                 .Where(comment => !comment.DeletedAt.HasValue)
                 .OrderBy(comment => comment.CommentedAt).ThenBy(comment => comment.Id))

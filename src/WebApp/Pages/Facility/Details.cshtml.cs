@@ -8,6 +8,7 @@ using AirWeb.WebApp.Models;
 using AirWeb.WebApp.Platform.Settings;
 using GaEpd.AppLibrary.Pagination;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using IaipDataService.SourceTests.Models;
 using System.Text.Json;
 
@@ -26,7 +27,7 @@ public class DetailsModel(
     [FromRoute]
     public string? Id { get; set; }
 
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     public string? EpaFacilityId => Facility?.Id.EpaFacilityId;
     public DateTime? EpaDxDate { get; private set; }
     public FacilitySummary? FacilitySummary => Facility is null ? null : new FacilitySummary(Facility);

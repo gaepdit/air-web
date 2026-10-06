@@ -1,3 +1,3 @@
-﻿namespace IaipDataService.Facilities;
+﻿namespace IaipDataService.Facilities.Models;
 
 public record FacilityList(string Id, string Name, string ShortId);

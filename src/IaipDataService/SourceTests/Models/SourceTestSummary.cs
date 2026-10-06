@@ -1,4 +1,4 @@
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 using IaipDataService.Structs;
 using IaipDataService.Utilities;
 using System.ComponentModel.DataAnnotations;

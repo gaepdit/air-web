@@ -5,6 +5,14 @@
     ViewData["Title"] = "Downloading FCE Search Results";
 }
 
+<p class="d-print-none">
+    <a asp-page="../Compliance/FCE/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
+       class="lead icon-link">
+        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
+        Return to search
+    </a>
+</p>
+
 <h1>@ViewData["Title"]</h1>
 
 @if (Model.ResultsCount == 0)
@@ -25,11 +33,3 @@ else
         <script asp-add-content-to-csp>window.location = document.getElementById("download-link").href;</script>
     }
 }
-
-<p class="d-print-none">
-    <a asp-page="../Compliance/FCE/Index" asp-page-handler="Search" asp-all-route-data="Model.Spec.AsRouteValues()"
-       class="lead icon-link">
-        <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
-        Return to search
-    </a>
-</p>

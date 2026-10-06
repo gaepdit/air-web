@@ -19,7 +19,7 @@ These pages are available to all visitors.
 
 ## Staff Pages
 
-These pages are only available to logged-in staff. Access to individual pages depends on staff roles.
+These pages are only available to logged-in staff. Access to some pages requires particular roles.
 
 * `/` Staff dashboard.
 

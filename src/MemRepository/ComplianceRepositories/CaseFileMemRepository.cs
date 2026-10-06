@@ -1,6 +1,6 @@
 ﻿using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.TestData.Enforcement;
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.MemRepository.ComplianceRepositories;
 

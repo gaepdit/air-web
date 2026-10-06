@@ -7,49 +7,54 @@ AS
 /**************************************************************************************************
 
 Author:     Doug Waldron
-Overview:
-  Consolidates Facility info from several tables and formats it to be compatible with Dapper.
+Overview:   Consolidates Facility info from several tables and formats it to be compatible with
+            Dapper.
 
 Modification History:
 When        Who                 What
 ----------  ------------------  -------------------------------------------------------------------
 2024-10-04  DWaldron            Initial version (#162)
+2026-10-05  DWaldron            Add District-related columns (#700)
 
 ***************************************************************************************************/
 
-select right(f.STRAIRSNUMBER, 8)     as Id,
-       trim(f.STRFACILITYNAME)       as Name,
+select right(f.STRAIRSNUMBER, 8)              as Id,
+       iaip_facility.FormatAirsNumber(f.STRAIRSNUMBER)
+                                              as FacilityId,
+       trim(f.STRFACILITYNAME)                as Name,
        trim(char(13) + char(10) + ' ' from h.STRPLANTDESCRIPTION)
-                                     as Description,
-       lc.STRCOUNTYNAME              as County,
-       'FacilityAddress'             as FacilityAddressId,
+                                              as Description,
+       lc.STRCOUNTYNAME                       as County,
+       ld.STRDISTRICTNAME                     as District,
+       convert(bit, r.STRDISTRICTRESPONSIBLE) as IsDistrictResponsible,
+       'FacilityAddress'                      as FacilityAddressId,
        dbo.NullIfNaOrEmpty(f.STRFACILITYSTREET1)
-                                     as Street,
+                                              as Street,
        dbo.NullIfNaOrEmpty(f.STRFACILITYSTREET2)
-                                     as Street2,
-       trim(f.STRFACILITYCITY)       as City,
-       f.STRFACILITYSTATE            as State,
-       f.STRFACILITYZIPCODE          as PostalCode,
-       'GeoCoordinates'              as GeoCoordinatesId,
-       f.NUMFACILITYLATITUDE         as Latitude,
-       f.NUMFACILITYLONGITUDE        as Longitude,
-       'RegulatoryData'              as RegulatoryDataId,
-       h.STROPERATIONALSTATUS        as OperatingStatusCode,
-       h.DATSTARTUPDATE              as StartupDate,
-       h.DATSHUTDOWNDATE             as PermitRevocationDate,
-       h.STRCLASS                    as ClassificationCode,
-       COALESCE(s.STRCMSMEMBER, 'X') as CmsClassificationCode,
+                                              as Street2,
+       trim(f.STRFACILITYCITY)                as City,
+       f.STRFACILITYSTATE                     as State,
+       f.STRFACILITYZIPCODE                   as PostalCode,
+       'GeoCoordinates'                       as GeoCoordinatesId,
+       f.NUMFACILITYLATITUDE                  as Latitude,
+       f.NUMFACILITYLONGITUDE                 as Longitude,
+       'RegulatoryData'                       as RegulatoryDataId,
+       h.STROPERATIONALSTATUS                 as OperatingStatusCode,
+       h.DATSTARTUPDATE                       as StartupDate,
+       h.DATSHUTDOWNDATE                      as PermitRevocationDate,
+       h.STRCLASS                             as ClassificationCode,
+       COALESCE(s.STRCMSMEMBER, 'X')          as CmsClassificationCode,
        IIF(s.FacilityOwnershipTypeCode = 'FDF', 'Federal Facility (U.S. Government)', '')
-                                     as OwnershipType,
-       h.STRSICCODE                  as Sic,
-       h.STRNAICSCODE                as Naics,
-       s.STRRMPID                    as RmpId,
+                                              as OwnershipType,
+       h.STRSICCODE                           as Sic,
+       h.STRNAICSCODE                         as Naics,
+       s.STRRMPID                             as RmpId,
        convert(int, substring(coalesce(h.STRATTAINMENTSTATUS, '00000'), 2, 1))
-                                     as OneHourOzoneNonattainment,
+                                              as OneHourOzoneNonattainment,
        convert(int, substring(coalesce(h.STRATTAINMENTSTATUS, '00000'), 3, 1))
-                                     as EightHourOzoneNonattainment,
+                                              as EightHourOzoneNonattainment,
        convert(int, substring(coalesce(h.STRATTAINMENTSTATUS, '00000'), 4, 1))
-                                     as PmFineNonattainment,
+                                              as PmFineNonattainment,
        s.NspsFeeExempt
 from dbo.APBFACILITYINFORMATION f
     inner join dbo.APBHEADERDATA h
@@ -60,6 +65,12 @@ from dbo.APBFACILITYINFORMATION f
         on f.STRAIRSNUMBER = a.STRAIRSNUMBER
     left join dbo.LOOKUPCOUNTYINFORMATION lc
         on substring(f.STRAIRSNUMBER, 5, 3) = lc.STRCOUNTYCODE
-where STRUPDATESTATUS in ('A', 'C');
+    left join dbo.LOOKUPDISTRICTINFORMATION as li
+        on SUBSTRING(h.STRAIRSNUMBER, 5, 3) = li.STRDISTRICTCOUNTY
+    inner join dbo.LOOKUPDISTRICTS as ld
+        on li.STRDISTRICTCODE = ld.STRDISTRICTCODE
+    left join dbo.SSCPDISTRICTRESPONSIBLE as r
+        on h.STRAIRSNUMBER = r.STRAIRSNUMBER
+where a.STRUPDATESTATUS in ('A', 'C');
 
 GO

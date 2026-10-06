@@ -1,4 +1,5 @@
 ﻿using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace IaipDataService.TestData;
 
@@ -55,4 +56,10 @@ public sealed class TestFacilityService : IFacilityService
         CancellationToken token = default) =>
         Task.FromResult<IReadOnlyCollection<FacilityList>>(Items
             .Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id).ToList());
+
+    public async Task<IReadOnlyCollection<FacilityFceInspectionStatus>> GetFceInspectionStatusReportAsync(
+        CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
 }

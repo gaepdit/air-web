@@ -4,6 +4,8 @@ namespace AirWeb.AppServices.Core.DataExport;
 
 public static class DataExportUtilities
 {
+    public const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
     /// <summary>
     /// Creates an Excel spreadsheet from <see cref="IEnumerable{T}"/> records. 
     /// </summary>
@@ -15,7 +17,7 @@ public static class DataExportUtilities
     /// <returns>A <see cref="MemoryStream"/> containing an Excel spreadsheet with a worksheet named
     /// <paramref name="sheetName"/> containing the data in <paramref name="records"/> as a table.</returns>
     public static MemoryStream ToExcel<T>(this IEnumerable<T> records, string sheetName,
-        bool removeLastColumn)
+        bool removeLastColumn = false)
     {
         using var xlWorkbook = new XLWorkbook();
 

@@ -12,7 +12,7 @@ public class FacilityPermitsIndex(IPermitService permitService, IFacilityService
     [FromRoute]
     public string? Id { get; set; }
 
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
 
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
 

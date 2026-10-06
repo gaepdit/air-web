@@ -30,7 +30,7 @@ public class AddModel(
 
     public SelectList StaffSelectList { get; private set; } = null!;
     public static SelectList YearSelectList { get; } = new(Fce.ValidFceYears);
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     private const string FacilityIdNotFound = "Facility ID not found.";
 
     public IPaginatedResult<FceSearchResultDto> FceList { get; private set; } = null!;

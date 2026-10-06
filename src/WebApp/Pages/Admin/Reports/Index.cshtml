@@ -1,0 +1,26 @@
+﻿@page "{handler?}"
+@model ReportsIndexModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.DownloadHandler))
+{
+    <div class="callout callout-info">
+        <p>Your report should download automatically. Depending on the number of results, it may take some time to generate.</p>
+        <p>
+            If the download fails,
+            <a id="download-link" asp-page-handler="@Model.DownloadHandler">click here to try again.</a>
+        </p>
+    </div>
+
+    @section Scripts {
+        <script asp-add-content-to-csp>window.location = document.getElementById("download-link").href;</script>
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="list-group mb-4">
+    <a asp-page-handler="FceInspectionStatus" class="list-group-item list-group-item-action">FCE/Inspection Status Report</a>
+</div>

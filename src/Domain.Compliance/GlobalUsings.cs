@@ -1,5 +1,6 @@
 ﻿global using GaEpd.AppLibrary.Domain.Entities;
 global using GaEpd.AppLibrary.Domain.Repositories;
 global using IaipDataService.Facilities;
+global using IaipDataService.Facilities.Models;
 global using JetBrains.Annotations;
 global using System.ComponentModel.DataAnnotations;

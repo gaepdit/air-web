@@ -11,7 +11,7 @@ public class SourceTestsModel(IFacilityService facilityService, ISourceTestServi
     [FromRoute]
     public string? Id { get; set; }
 
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     public IList<SourceTestSummary> SourceTests { get; private set; } = [];
 
     public async Task<IActionResult> OnGetAsync(CancellationToken token = default)

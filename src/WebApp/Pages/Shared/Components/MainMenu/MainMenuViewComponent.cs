@@ -11,7 +11,6 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
         View("Default", new MenuParams
         {
             ShowStaffOptions = await authorization.Succeeded(User, Policies.Staff),
-            ShowAdminOptions = await authorization.Succeeded(User, Policies.ViewAdminPages),
             ShowSiteMaintenancePage = await authorization.Succeeded(User, Policies.ViewSiteMaintenancePage),
             ShowUsersPage = await authorization.Succeeded(User, Policies.ViewUsersPage),
             ShowSbeap = await authorization.Succeeded(User, SbeapPolicies.SbeapStaffOrMaintainer),
@@ -24,7 +23,6 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
     public record MenuParams
     {
         public bool ShowStaffOptions { get; init; }
-        public bool ShowAdminOptions { get; init; }
         public bool ShowSiteMaintenancePage { get; init; }
         public bool ShowUsersPage { get; init; }
         public bool ShowSbeap { get; init; }

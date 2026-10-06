@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace IaipDataService.Facilities;
+namespace IaipDataService.Facilities.Models;
 
 public record Facility : IFacilityIdName
 {

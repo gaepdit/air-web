@@ -5,6 +5,7 @@ using AirWeb.AppServices.Core.CommonDtos;
 using AirWeb.AppServices.Core.EntityServices.Comments;
 using AirWeb.Domain.Compliance.DataExchange;
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.AppServices.Compliance.Enforcement;
 

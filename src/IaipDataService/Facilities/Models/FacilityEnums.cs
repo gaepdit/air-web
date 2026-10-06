@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace IaipDataService.Facilities;
+namespace IaipDataService.Facilities.Models;
 
 /// <summary>
 /// The operational status of a facility.
@@ -44,6 +44,19 @@ public enum FacilityCmsClassification
     [Display(Name = "SM")] S,
     [Display(Name = "None")] X,
     [Display(Name = "Mega-site")] M,
+}
+
+/// <summary>
+/// The CMS classification of a facility.
+/// </summary>
+/// <remarks>
+/// The value of each enumeration member is significant because the members are stored
+/// and retrieved from the IAIP database in a coded string.
+/// </remarks>
+public enum AirProgramClassification
+{
+    [Display(Name = "NSR/PSD Major")] NsrMajor = 1,
+    [Display(Name = "HAPs Major")] HapMajor = 2,
 }
 
 /// <summary>

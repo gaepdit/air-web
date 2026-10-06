@@ -8,7 +8,7 @@ using AirWeb.Domain.Compliance.DataExchange;
 using AirWeb.Domain.Compliance.EnforcementEntities.CaseFiles;
 using AirWeb.Domain.Compliance.EnforcementEntities.ViolationTypes;
 using AirWeb.Domain.Core.BaseEntities;
-using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace AirWeb.AppServices.Compliance.Enforcement.CaseFileQuery;
 

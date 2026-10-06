@@ -1,4 +1,5 @@
 using IaipDataService.Facilities;
+using IaipDataService.Facilities.Models;
 
 namespace IaipDataServiceTests.DbTests.Facilities;
 

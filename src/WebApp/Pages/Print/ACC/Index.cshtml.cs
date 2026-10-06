@@ -9,7 +9,7 @@ namespace AirWeb.WebApp.Pages.Print.ACC;
 public class IndexModel : PageModel
 {
     public AccViewDto? Report { get; set; }
-    public IaipDataService.Facilities.Facility? Facility { get; private set; }
+    public IaipDataService.Facilities.Models.Facility? Facility { get; private set; }
     public MemoHeader MemoHeader { get; private set; }
     public bool ShowReturnLink { get; private set; }
 

@@ -1,4 +1,6 @@
-﻿namespace IaipDataService.Facilities;
+﻿using IaipDataService.Facilities.Models;
+
+namespace IaipDataService.Facilities;
 
 public interface IFacilityService
 {
@@ -7,7 +9,7 @@ public interface IFacilityService
     /// </summary>
     /// <param name="id">The Facility ID.</param>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
-    /// <param name="token"></param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     Task<Facility?> FindFacilityAsync(FacilityId id, bool forceRefresh = false, CancellationToken token = default);
 
     /// <summary>
@@ -32,7 +34,7 @@ public interface IFacilityService
     /// Gets the latest EPA Data Exchange date a given Facility.
     /// </summary>
     /// <param name="id">The Facility ID.</param>
-    /// <param name="token"></param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     Task<DateTime?> GetFacilityEpaDxDateAsync(FacilityId id, CancellationToken token = default);
 
     /// <summary>
@@ -46,7 +48,7 @@ public interface IFacilityService
     /// </summary>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
     /// <param name="includePortableSources">Whether to include Portable Sources (county code of "777").</param>
-    /// <param name="token"></param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default);
 
@@ -54,6 +56,15 @@ public interface IFacilityService
     /// Retrieves a list of all facilities with only names and IDs.
     /// </summary>
     /// <param name="forceRefresh">Whether to refresh cached data.</param>
-    /// <param name="token"></param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     Task<IReadOnlyCollection<FacilityList>> GetListAsync(bool forceRefresh = false, CancellationToken token = default);
+
+    /// <summary>
+    /// Retrieves a report of most recent FCE, most recent Inspection, assignments, and other data useful for
+    /// inspection year planning.
+    /// </summary>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>A list of Facilities with inspection planning data.</returns>
+    Task<IReadOnlyCollection<FacilityFceInspectionStatus>> GetFceInspectionStatusReportAsync(
+        CancellationToken token = default);
 }
