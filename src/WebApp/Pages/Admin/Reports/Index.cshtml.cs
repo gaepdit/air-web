@@ -1,20 +1,23 @@
 ﻿using AirWeb.AppServices.Core.AuthorizationServices;
+using IaipDataService.Facilities;
 
 namespace AirWeb.WebApp.Pages.Admin.Reports;
 
 [Authorize(Policy = nameof(Policies.Staff))]
-public class ReportsIndexModel() : PageModel
+public class ReportsIndexModel(IFacilityService facilityService) : PageModel
 {
-    public string CurrentView { get; private set; } = "Menu";
-    // public IReadOnlyCollection<FacilityFceStatus> FacilityFces { get; private set; } = null!;
+    [TempData]
+    public string DownloadHandler { get; set; } = string.Empty;
 
-    public void OnGet()
+    public IActionResult OnGetFceInspectionStatus(CancellationToken token = default)
     {
-        // Method intentionally left empty.
+        DownloadHandler = "FceInspectionFile";
+        return RedirectToPage("Index");
     }
 
-    public async Task OnGetMostRecentFCEs()
+    public async Task<IActionResult> OnGetFceInspectionFileAsync(CancellationToken token = default)
     {
-        CurrentView = nameof(OnGetMostRecentFCEs);
+        var report = await facilityService.GetFceInspectionStatusReportAsync(token);
+        return this.ExcelFile(report, "FCE Inspection Status", "FCE_Inspection_Status");
     }
 }

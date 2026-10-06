@@ -1,26 +1,26 @@
 ﻿@page "{handler?}"
-@using AirWeb.WebApp.Pages.Shared
 @model ReportsIndexModel
-
-@if (Model.CurrentView == "Menu")
-{
+@{
     ViewData["Title"] = "Reports";
-
-    <h1>@ViewData["Title"]</h1>
-
-    <div class="list-group mb-4">
-        <a asp-page-handler="MostRecentFCEs" class="list-group-item list-group-item-action">Most Recent FCEs</a>
-    </div>
 }
-else
+
+@if (!string.IsNullOrWhiteSpace(Model.DownloadHandler))
 {
-    ViewData["Title"] = "Report: Most Recent FCEs";
+    <div class="callout callout-info">
+        <p>Your report should download automatically. Depending on the number of results, it may take some time to generate.</p>
+        <p>
+            If the download fails,
+            <a id="download-link" asp-page-handler="@Model.DownloadHandler">click here to try again.</a>
+        </p>
+    </div>
 
-    <p class="d-print-none">
-        <a asp-page="Index" class="lead link-offset-2">
-            <partial name="Shared/_AppIconsPartial" model="@AppIcon.GoBack" />
-            Reports
-        </a>
-    </p>
-    <h1 id="table-description">Report: Most Recent FCEs</h1>
+    @section Scripts {
+        <script asp-add-content-to-csp>window.location = document.getElementById("download-link").href;</script>
+    }
 }
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="list-group mb-4">
+    <a asp-page-handler="FceInspectionStatus" class="list-group-item list-group-item-action">FCE/Inspection Status Report</a>
+</div>

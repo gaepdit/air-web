@@ -1,7 +1,6 @@
 ﻿using AirWeb.AppServices.Compliance.FacilitySearch;
 using AirWeb.AppServices.Compliance.Search;
 using AirWeb.AppServices.Core.AuthorizationServices;
-using AirWeb.AppServices.Core.DataExport;
 using AirWeb.AppServices.Core.Search;
 
 namespace AirWeb.WebApp.Pages.DownloadSearch;
@@ -17,7 +16,6 @@ public abstract class DownloadBase<TSearchDto, TResultDto, TExportDto>(
 {
     public IRouteValues Spec { get; private set; } = null!;
     public int ResultsCount { get; private set; }
-    private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     protected async Task<IActionResult> DoGetAsync(TSearchDto? spec, CancellationToken token)
     {
@@ -31,8 +29,6 @@ public abstract class DownloadBase<TSearchDto, TResultDto, TExportDto>(
     {
         if (spec is null) return BadRequest();
         var exportList = await searchService.ExportAsync(spec, token);
-        var excel = exportList.ToExcel(sheetName: $"{name} Search Results", spec.DeleteStatus == null);
-        var fileDownloadName = $"{name}_Search_{DateTime.Now:yyyy-MM-dd--HH-mm-ss}.xlsx";
-        return File(excel, ExcelContentType, fileDownloadName);
+        return this.ExcelFile(exportList, $"{name} Search Results", $"{name}_Search");
     }
 }
