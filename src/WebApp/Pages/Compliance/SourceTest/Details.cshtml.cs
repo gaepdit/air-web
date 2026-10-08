@@ -124,6 +124,7 @@ public class DetailsModel(
         if (!CanAddNewReview) return BadRequest();
 
         newComplianceReview.TestReportIsClosed = TestSummary.ReportClosed;
+        newComplianceReview.DateTestReviewComplete = TestSummary.DateTestReviewComplete;
         await validator.ApplyValidationAsync(newComplianceReview, ModelState);
 
         if (!ModelState.IsValid)

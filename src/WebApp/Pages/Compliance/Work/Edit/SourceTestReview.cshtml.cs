@@ -38,13 +38,11 @@ public class SourceTestReviewEditModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken token)
     {
-        var result = await DoPostAsync(Item, validator, token);
-        if (result is not PageResult) return result;
-
         var testSummary = await sourceTestService.FindSummaryAsync(Item.ReferenceNumber);
         if (testSummary is null || testSummary.ReferenceNumber != Item.ReferenceNumber) return BadRequest();
         TestSummary = testSummary;
 
-        return result;
+        Item.DateTestReviewComplete = TestSummary.DateTestReviewComplete;
+        return await DoPostAsync(Item, validator, token);
     }
 }

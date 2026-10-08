@@ -24,4 +24,7 @@ public abstract record SourceTestReviewCommandDto : ComplianceWorkCommandDto, IS
 
     [Display(Name = "Follow-up Action Taken")]
     public bool FollowupTaken { get; init; }
+
+    // Validation fields
+    public DateTime? DateTestReviewComplete { get; set; }
 }
