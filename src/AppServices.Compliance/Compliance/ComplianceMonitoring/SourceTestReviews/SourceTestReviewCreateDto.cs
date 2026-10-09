@@ -4,6 +4,7 @@ namespace AirWeb.AppServices.Compliance.Compliance.ComplianceMonitoring.SourceTe
 
 public record SourceTestReviewCreateDto : SourceTestReviewCommandDto, IComplianceWorkCreateDto
 {
+    // Validation fields
     public bool TestReportIsClosed { get; set; }
 
     [Required]

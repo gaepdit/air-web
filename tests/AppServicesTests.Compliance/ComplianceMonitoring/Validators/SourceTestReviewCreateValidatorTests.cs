@@ -26,6 +26,7 @@ public class SourceTestReviewCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             TestReportIsClosed = true,
+            DateTestReviewComplete = DateTime.Today,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
@@ -51,6 +52,7 @@ public class SourceTestReviewCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             TestReportIsClosed = false,
+            DateTestReviewComplete = DateTime.Today,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
@@ -71,6 +73,32 @@ public class SourceTestReviewCreateValidatorTests
     }
 
     [Test]
+    public async Task SourceTestHasNoCompletionDate_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new SourceTestReviewCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
+            DateTestReviewComplete = null,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        var service = Substitute.For<IComplianceWorkService>();
+        service.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        var validator = GetCreateValidator(service);
+
+        // Act
+        var result = await validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
     public async Task ReviewAlreadyExists_ReturnsAsInvalid()
     {
         // Arrange
@@ -78,6 +106,7 @@ public class SourceTestReviewCreateValidatorTests
         {
             FacilityId = SampleText.ValidFacilityId,
             TestReportIsClosed = true,
+            DateTestReviewComplete = DateTime.Today,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
         };
@@ -94,8 +123,7 @@ public class SourceTestReviewCreateValidatorTests
         // Assert
         using var scope = new AssertionScope();
         result.IsValid.Should().BeFalse();
-        result
-            .ShouldHaveValidationErrorFor(dto => dto.ReferenceNumber)
+        result.ShouldHaveValidationErrorFor(dto => dto.ReferenceNumber)
             .WithErrorMessage("A compliance review already exists for this reference number.");
     }
 
@@ -106,9 +134,37 @@ public class SourceTestReviewCreateValidatorTests
         var model = new SourceTestReviewCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
+            DateTestReviewComplete = DateTime.Today,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             AcknowledgmentLetterDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today),
+        };
+
+        var service = Substitute.For<IComplianceWorkService>();
+        service.SourceTestReviewExistsAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(false);
+
+        var validator = GetCreateValidator(service);
+
+        // Act
+        var result = await validator.TestValidateAsync(model);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task DateReceivedByComplianceBeforeReviewDate_ReturnsAsInvalid()
+    {
+        // Arrange
+        var model = new SourceTestReviewCreateDto
+        {
+            FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
+            DateTestReviewComplete = DateTime.Today,
+            ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
+            ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(-1),
         };
 
         var service = Substitute.For<IComplianceWorkService>();
@@ -131,6 +187,8 @@ public class SourceTestReviewCreateValidatorTests
         var model = new SourceTestReviewCreateDto
         {
             FacilityId = SampleText.ValidFacilityId,
+            TestReportIsClosed = true,
+            DateTestReviewComplete = DateTime.Today,
             ResponsibleStaffId = SampleText.UnassignedGuid.ToString(),
             ReceivedByComplianceDate = DateOnly.FromDateTime(DateTime.Today).AddDays(1),
         };
