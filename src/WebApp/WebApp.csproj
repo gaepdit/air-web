@@ -6,12 +6,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" />
         <PackageReference Include="LigerShark.WebOptimizer.Core" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
-        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers"/>
+        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" />
         <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
