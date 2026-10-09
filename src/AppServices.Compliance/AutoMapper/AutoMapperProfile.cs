@@ -147,7 +147,8 @@ public class AutoMapperProfile : Profile
 
     private void SourceTestReviews()
     {
-        CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>();
+        CreateMap<SourceTestReviewViewDto, SourceTestReviewUpdateDto>()
+            .ForMember(dto => dto.DateTestReviewComplete, expression => expression.Ignore());
         CreateMap<SourceTestReview, SourceTestReviewViewDto>()
             .ForMember(dto => dto.FacilityName, expression => expression.Ignore());
         CreateMap<SourceTestReview, SourceTestSummaryDto>()
