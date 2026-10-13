@@ -1,4 +1,6 @@
-﻿namespace AirWeb.AppServices.Sbeap.Cases.Dto;
+﻿using AirWeb.AppServices.Core.Utilities;
+
+namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 
 public record CaseworkUpdateDto
 {
@@ -11,14 +13,14 @@ public record CaseworkUpdateDto
 
     [Display(Name = "Date Opened")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly CaseOpenedDate { get; [UsedImplicitly] init; }
 
     public string Description { get; [UsedImplicitly] init; } = string.Empty;
 
     [Display(Name = "Date Closed")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? CaseClosedDate { get; [UsedImplicitly] init; }
 
     [Display(Name = "Closure Notes")]
@@ -29,7 +31,7 @@ public record CaseworkUpdateDto
 
     [Display(Name = "Date Referred")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ReferralDate { get; [UsedImplicitly] init; }
 
     [Display(Name = "Referral Notes")]

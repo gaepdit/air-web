@@ -1,4 +1,6 @@
-﻿namespace AirWeb.AppServices.Sbeap.Cases.Dto;
+﻿using AirWeb.AppServices.Core.Utilities;
+
+namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 
 public record ActionItemCreateDto(Guid CaseworkId)
 {
@@ -8,7 +10,7 @@ public record ActionItemCreateDto(Guid CaseworkId)
 
     [Display(Name = "Action Date")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly ActionDate { get; init; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]

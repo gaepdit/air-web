@@ -39,22 +39,22 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? OpenedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? OpenedThrough { get; init; }
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ClosedFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ClosedThrough { get; init; }
 
     // Referral
@@ -64,12 +64,12 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
 
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ReferredFrom { get; init; }
 
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly? ReferredThrough { get; init; }
 
     // UI Routing

@@ -1,4 +1,6 @@
-﻿namespace AirWeb.AppServices.Sbeap.Cases.Dto;
+﻿using AirWeb.AppServices.Core.Utilities;
+
+namespace AirWeb.AppServices.Sbeap.Cases.Dto;
 
 public record ActionItemUpdateDto
 {
@@ -16,7 +18,7 @@ public record ActionItemUpdateDto
 
     [Display(Name = "Action Date")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = DateTimeFormats.DateOnlyInput, ApplyFormatInEditMode = true)]
     public DateOnly ActionDate { get; [UsedImplicitly] init; }
 
     [Required]

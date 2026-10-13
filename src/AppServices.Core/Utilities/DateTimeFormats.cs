@@ -10,7 +10,7 @@ public static class DateTimeFormats
     public const string ShortDateTimeNoBreak = "d\u2011MMM\u2011yyyy\u00a0h:mm\u00a0tt";
 
     // Search form strings
-    public const string DateOnlyInput = "{0:yyyy-MM-dd}";
+    public const string DateOnlyInput = "{0:O}";
     public const string RouteValue = "yyyy-MM-dd";
 
     // Extension methods
