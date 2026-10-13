@@ -53,8 +53,8 @@ There are also corresponding unit test projects for each (not counting the `Test
 
 ### Permit search engine
 
-The [**PermitSearch**](src/PermitSearch/Readme.md) project (include in the `permit-search` solution) is a standalone app
-to redirect links from the old Permit Search Engine website to the new permit search page.
+The [**PermitSearch**](src/PermitSearch/Readme.md) project (not included in the main solution file) is a standalone
+app to redirect links from the old Permit Search Engine website to the new permit search page.
 
 ### Project dependency diagram
 
