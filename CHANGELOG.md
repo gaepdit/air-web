@@ -1,5 +1,11 @@
 # Changelog
 
+## [2026.10.14] - 2026-10-14
+
+- Added some additional date validations when adding an STR compliance review.
+- Fixed an issue where you couldn't view permit files if you had the Adobe Acrobat Chrome extension installed.
+- Updated dependencies.
+
 ## [2026.10.6] - 2026-10-06
 
 - Added an FCE/Inpsection Status report.
@@ -263,3 +269,4 @@
 [2026.9.30]: https://github.com/gaepdit/air-web/releases/tag/v2026.9.30
 [2026.10.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.5
 [2026.10.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.6
+[2026.10.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.14
