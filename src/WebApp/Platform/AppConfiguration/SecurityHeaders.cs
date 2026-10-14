@@ -51,7 +51,6 @@ internal static class SecurityHeaders
             .RemoveServerHeader()
             .AddContentSecurityPolicyReportOnly(builder => builder.CspBuilder())
             .AddCrossOriginOpenerPolicy(builder => builder.SameOrigin())
-            .AddCrossOriginEmbedderPolicy(builder => builder.Credentialless())
             .AddCrossOriginResourcePolicy(builder => builder.SameSite());
 
         if (string.IsNullOrEmpty(AppSettings.DataDogSettings.ClientToken)) return;
