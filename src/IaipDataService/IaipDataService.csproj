@@ -12,6 +12,7 @@
         <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
+        <PackageReference Include="System.Security.Cryptography.Pkcs" />
         <PackageReference Include="ZLogger"/>
     </ItemGroup>
 </Project>
