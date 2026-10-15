@@ -1,10 +1,24 @@
-﻿using System.Reflection;
+﻿using Azure.Identity;
+using System.Reflection;
 
 namespace AirWeb.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
-    public static IHostApplicationBuilder BindAppSettings(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddKeyVault(this IHostApplicationBuilder builder)
+    {
+        if (!UseKeyVault) return builder;
+
+        var keyVaultName = builder.Configuration.GetValue<string>("AzureKeyVaultName");
+        if (keyVaultName is null) return builder;
+
+        var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net");
+        builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential());
+
+        return builder;
+    }
+
+    public static IHostApplicationBuilder LoadAppSettings(this IHostApplicationBuilder builder)
     {
         // Set default timeout for regular expressions.
         // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
@@ -17,7 +31,7 @@ internal static partial class AppSettings
         builder.Configuration.GetSection(nameof(DataDogSettings)).Bind(DataDogSettings);
         OrgNotificationsApiUrl = builder.Configuration.GetValue<string>(nameof(OrgNotificationsApiUrl));
 
-        return builder.BindDevAppSettings();
+        return builder;
     }
 
     private static string GetVersion()

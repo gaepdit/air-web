@@ -8,6 +8,7 @@ internal static partial class AppSettings
     public static bool ConnectToIaip => DevSettings is not { UseDevSettings: true, ConnectToIaipDatabase: false };
     public static bool TestUserEnabled => DevSettings is { UseDevSettings: true, EnableTestUser: true };
     public static bool UseSecurityHeaders => DevSettings is not { UseDevSettings: true, EnableSecurityHeaders: false };
+    private static bool UseKeyVault => DevSettings is not { UseDevSettings: true, UseAzureKeyVault: false };
 
     // DEV configuration settings
     public static DevSettingsSection DevSettings { get; private set; } = new();
@@ -39,6 +40,11 @@ internal static partial class AppSettings
         public bool UseEfMigrations { get; init; }
 
         /// <summary>
+        /// Add Azure Key Vault integration to the Configuration Manager when `true`.
+        /// </summary>
+        public bool UseAzureKeyVault { get; init; }
+
+        /// <summary>
         /// Enable a test user for development (`true`) or disable (`false`).
         /// </summary>
         public bool EnableTestUser { get; init; }
@@ -66,7 +72,7 @@ internal static partial class AppSettings
         public bool EnableWebOptimizer { get; init; }
     }
 
-    private static IHostApplicationBuilder BindDevAppSettings(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder LoadDevAppSettings(this IHostApplicationBuilder builder)
     {
         // Dev settings should only be used in the development or staging environment and when explicitly enabled.
         var devConfig = builder.Configuration.GetSection(nameof(DevSettings));
