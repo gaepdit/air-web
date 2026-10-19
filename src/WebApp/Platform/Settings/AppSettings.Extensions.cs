@@ -7,10 +7,8 @@ internal static partial class AppSettings
 {
     public static IHostApplicationBuilder AddKeyVault(this IHostApplicationBuilder builder)
     {
-        if (!UseKeyVault) return builder;
-
         var keyVaultName = builder.Configuration.GetValue<string>("AzureKeyVaultName");
-        if (keyVaultName is null) return builder;
+        if (string.IsNullOrEmpty(keyVaultName)) return builder;
 
         var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net");
         builder.Configuration.AddAzureKeyVault(keyVaultUri, new DefaultAzureCredential());
