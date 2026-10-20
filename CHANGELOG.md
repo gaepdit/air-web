@@ -1,5 +1,9 @@
 # Changelog
 
+## [2026.10.20] - 2026-10-20
+
+- Updated dependencies.
+
 ## [2026.10.14] - 2026-10-14
 
 - Added some additional date validations when adding an STR compliance review.
@@ -270,3 +274,4 @@
 [2026.10.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.5
 [2026.10.6]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.6
 [2026.10.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.14
+[2026.10.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.20
