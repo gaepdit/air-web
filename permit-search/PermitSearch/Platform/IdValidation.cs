@@ -12,7 +12,10 @@ internal static partial class IdValidation
     [GeneratedRegex(PermitFormat)]
     private static partial Regex PermitRegex { get; }
 
-    private static bool IsValidPermit(string id) => PermitRegex.IsMatch(id);
+    [GeneratedRegex($"^{PermitFormat}$")]
+    private static partial Regex PermitValidationRegex { get; }
+
+    private static bool IsValidPermit(string id) => PermitValidationRegex.IsMatch(id);
 
     // language=regex
     private const string PermitPrefix = "^(PDF-|DOC-)";
