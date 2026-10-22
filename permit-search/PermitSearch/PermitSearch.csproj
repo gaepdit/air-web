@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <InformationalVersion>2026.10.5</InformationalVersion>
+        <InformationalVersion>2026.10.22</InformationalVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="ZLogger" />
