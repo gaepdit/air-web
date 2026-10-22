@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PermitSearch/PermitSearch.csproj" />
+  <Project Path="PermitSearchTests/PermitSearchTests.csproj" />
+</Solution>

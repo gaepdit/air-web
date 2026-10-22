@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using PermitSearch.Platform;
 using System.Diagnostics.CodeAnalysis;
 using ZLogger;
-using UrlRegex = PermitSearch.Platform.UrlRegex;
 
 namespace PermitSearch.Pages;
 
@@ -14,11 +13,11 @@ public class IndexModel(ILogger<IndexModel> logger) : PageModel
     {
         var pathAndQuery = Request.GetEncodedPathAndQuery();
 
-        if (id != null && UrlRegex.IsValidPermit(id))
-            return RedirectMaybePermanent(pathAndQuery, destination: $"/View/{id}");
+        if (id != null && IdValidation.ValidatePermit(id, out var normalizedId))
+            return RedirectMaybePermanent(pathAndQuery, destination: $"/View/{normalizedId}");
 
-        if (airsNumber != null && UrlRegex.IsValidAirs(airsNumber))
-            return RedirectMaybePermanent(pathAndQuery, destination: $"/Facility/{airsNumber}");
+        if (airsNumber != null && IdValidation.ValidateAirs(airsNumber,  out var normalizedAirs))
+            return RedirectMaybePermanent(pathAndQuery, destination: $"/Facility/{normalizedAirs}");
 
         return RedirectMaybePermanent(pathAndQuery, destination: "");
     }

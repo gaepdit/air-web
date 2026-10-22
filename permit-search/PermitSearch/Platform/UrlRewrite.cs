@@ -19,9 +19,9 @@ internal static class AppUrlRewrite
     public static RewriteOptions Options => new RewriteOptions()
         .AddRewrite(regex: @"permit\.aspx", 
             replacement: "/", skipRemainingRules: true)
-        .AddRewrite(regex: $"^Permit/({UrlRegex.PermitFormat})$", 
+        .AddRewrite(regex: $"^Permit/({IdValidation.PermitFormat})$", 
             replacement: "/?id=$1", skipRemainingRules: true)
-        .AddRewrite(regex: $"^AirsNumber/({UrlRegex.AirsFormat})$",
+        .AddRewrite(regex: $"^AirsNumber/({IdValidation.AirsFormat})$",
             replacement: "/?AirsNumber=$1", skipRemainingRules: true)
         .AddRewrite(regex: "version", replacement: "version", skipRemainingRules: true)
         .AddRewrite(regex: ".*", replacement: "/", skipRemainingRules: true);
