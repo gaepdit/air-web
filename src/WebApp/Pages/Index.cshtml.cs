@@ -16,7 +16,7 @@ using Microsoft.Identity.Web;
 
 namespace AirWeb.WebApp.Pages;
 
-[Authorize(Policy = nameof(Policies.ActiveUser))]
+[AllowAnonymous]
 public class IndexModel(
     IComplianceWorkSearchService complianceSearchService,
     ICaseFileSearchService caseFileSearchService,
@@ -27,6 +27,7 @@ public class IndexModel(
 {
     public bool ShowDashboard { get; private set; }
 
+    public bool IsActiveUser { get; private set; }
     public bool IsStaff { get; private set; }
     public bool IsComplianceStaff { get; private set; }
     public bool IsComplianceManager { get; private set; }
@@ -57,6 +58,9 @@ public class IndexModel(
 
     public async Task<IActionResult> OnGet(CancellationToken token = default)
     {
+        IsActiveUser = await authorization.Succeeded(User, Policies.ActiveUser);
+        if (!IsActiveUser) return Page();
+
         IsStaff = await authorization.Succeeded(User, Policies.Staff);
         if (!IsStaff) return Page();
 
