@@ -8,7 +8,17 @@
     ViewData["NoAnchors"] = "True";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Search Issued Air Permits</h1>
+
+<p class="col-lg-9">
+    The Georgia Air Protection Branch issues and amends Air Quality Permits for new and existing stationary air sources.
+    Use this page to search for issued air permits.
+</p>
+<p class="col-lg-9">
+    For more information on the air permitting process, visit the
+    <a href="https://epd.georgia.gov/forms-permits/air-protection-branch-forms-permits/air-permits" target="_blank">Air Permits</a>
+    page on the EPD website.
+</p>
 
 @if (Model.SearchHandler != "Search")
 {
@@ -20,7 +30,8 @@
                 </div>
                 <div class="col-12">
                     <div class="input-group">
-                        <input id="FindId" asp-for="FindId" class="form-control" type="search" placeholder="Enter ID" aria-label="Search" autocomplete="off" data-1p-ignore />
+                        <input id="FindId" asp-for="FindId" class="form-control" type="search" placeholder="Enter ID"
+                               aria-label="Search" autocomplete="off" data-1p-ignore />
                         <ul class="suggestions-list list-group border shadow"></ul>
                         <button class="btn btn-primary" type="submit">Open</button>
                     </div>
@@ -47,10 +58,12 @@
                         <small id="name-help-block" class="form-text text-body-secondary">Partial match allowed</small>
                     </div>
                     <div class="col-md mb-3">
-                        <label asp-for="Spec.Permit" class="form-label pt-2"></label>
+                        <label asp-for="Spec.Permit" class="form-label pt-2">Permit Number or
+                            <abbr title="Standard Industrial Classification" class="link-offset-2">SIC</abbr> Code</label>
                         <input asp-for="Spec.Permit" name="@nameof(Model.Spec.Permit)" class="form-control" aria-describedby="sic-help-block" autocomplete="off" data-1p-ignore />
                         <small id="sic-help-block" class="form-text">
-                            <a href="https://www.osha.gov/data/sic-manual" target="_blank">Look up SIC codes</a>
+                            <a href="https://www.osha.gov/data/sic-manual" target="_blank">Look up
+                                <abbr class="initialism">SIC</abbr> codes</a>
                         </small>
                     </div>
                 </div>

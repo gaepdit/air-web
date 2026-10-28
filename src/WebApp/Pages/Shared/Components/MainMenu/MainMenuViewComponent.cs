@@ -10,18 +10,20 @@ public class MainMenuViewComponent(IAuthorizationService authorization) : ViewCo
     public async Task<IViewComponentResult> InvokeAsync(PageModel model) =>
         View("Default", new MenuParams
         {
+            IsActiveUser = await authorization.Succeeded(User, Policies.ActiveUser),
             ShowStaffOptions = await authorization.Succeeded(User, Policies.Staff),
             ShowSiteMaintenancePage = await authorization.Succeeded(User, Policies.ViewSiteMaintenancePage),
             ShowUsersPage = await authorization.Succeeded(User, Policies.ViewUsersPage),
             ShowSbeap = await authorization.Succeeded(User, SbeapPolicies.SbeapStaffOrMaintainer),
 
             ShowAccountMenu = User.Identity is { IsAuthenticated: true },
-            ShowLoginLink = model is not LoginModel,
+            ShowLoginLink = model is not LoginModel && model is not IndexModel,
             ReturnUrl = Request.GetEncodedPathAndQuery(),
         });
 
     public record MenuParams
     {
+        public bool IsActiveUser { get; init; }
         public bool ShowStaffOptions { get; init; }
         public bool ShowSiteMaintenancePage { get; init; }
         public bool ShowUsersPage { get; init; }
