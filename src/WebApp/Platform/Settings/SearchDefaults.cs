@@ -14,7 +14,7 @@ internal static class SearchDefaults
     public const int SearchPageSize = 25;
 
     // Default pagination size for summary tables.
-    public const int SummaryTableSize = 15;
+    public const int SummaryTableSize = 50;
 
     public static ComplianceWorkSearchDto FacilityCompliance(string facilityId) =>
         new() { FacilityId = facilityId };

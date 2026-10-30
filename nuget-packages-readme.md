@@ -12,4 +12,4 @@ The following NuGet packages have been added directly to work around vulnerable 
   referenced in `EfCore.TestSupport` (via `Microsoft.EntityFrameworkCore.Sqlite`).
 
 - `System.Security.Cryptography.Pkcs` was added to `EfRepository` and `IaipDataService` to avoid a vulnerable version
-  referened in `Microsoft.Data.SqlClient`.
+  referenced in `Microsoft.Data.SqlClient`.
