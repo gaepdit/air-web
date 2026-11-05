@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.11.5] - 2026-11-05
+
+- Enabled sorting on the permit search page.
+- Increased the number of items shown on the dashboard.
+
 ## [2026.10.28] - 2026-10-28
 
 - Improved the experience for visitors who are not logged in.
@@ -280,3 +285,4 @@
 [2026.10.14]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.14
 [2026.10.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.20
 [2026.10.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.28
+[2026.11.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.11.5
