@@ -53,19 +53,19 @@ There are also corresponding unit test projects for each (not counting the `Test
 
 ### Permit search engine
 
-The [**PermitSearch**](src/PermitSearch/Readme.md) project (not included in the main solution file) is a standalone
-app to redirect links from the old Permit Search Engine website to the new permit search page.
+The [**PermitSearch**](permit-search/PermitSearch/Readme.md) project (not included in the main solution file) is a
+standalone app to redirect links from the old Permit Search Engine website to the new permit search page.
 
 ### Project dependency diagram
 
 ```mermaid
 flowchart TB
     I[IaipDataServices]
-    DR[Domain.Core]
+    G[GaEpd.AppLibrary]
     DC[Domain.Compliance] --> I
-    DS[Domain.Sbeap]
+    DR[Domain.Core] --> G
     DC --> DR
-    DS ---> DR
+    DS[Domain.Sbeap] ---> DR
     AR[AppServices.Core] --> DR
     AC[AppServices.Compliance] ---> DC
     AC --> AR
@@ -85,18 +85,18 @@ flowchart TB
     W --> AS
 ```
 
-That's a little complicated; here's a simplified version:
+That's a little complicated. Here's a simplified version:
 
 ```mermaid
 flowchart TB
-    I[IaipDataServices]
-    DC[Domain.Core]
-    DB[Domain.BusinessUnits] --> I
+    I[IAIP Data Services]
+    DC[Core Domain]
+    DB[Business Domains] --> I
     DB --> DC
-    AC[AppServices.Core] ---> DC
-    AB[AppServices.BusinessUnits] ---> DB
+    AC[Core App Services] ---> DC
+    AB[Business App Services] ---> DB
     AB --> AC
-    R[EF/Mem Repository] ---> DB
+    R[Repositories] ---> DB
     W[WebApp] --> R
     W --> AB
 ```
