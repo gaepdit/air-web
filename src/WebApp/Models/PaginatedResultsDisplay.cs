@@ -1,5 +1,4 @@
-﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.AppServices.Core.Search;
+﻿using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Models;
@@ -9,13 +8,6 @@ public record PaginatedResultsDisplay
     public PaginatedResultsDisplay(ISearchDto spec, IPaginatedResult searchResults)
     {
         SortByName = spec.SortByName;
-        SearchResults = searchResults;
-        RouteValues = spec.AsRouteValues();
-    }
-
-    public PaginatedResultsDisplay(StaffSearchDto spec, IPaginatedResult searchResults)
-    {
-        SortByName = spec.Sort.ToString();
         SearchResults = searchResults;
         RouteValues = spec.AsRouteValues();
     }
@@ -34,13 +26,6 @@ public record PaginatedResultsDisplay
         SortByName = "default";
         RouteValues = routeValues;
         SearchHandler = searchHandler;
-    }
-
-    public PaginatedResultsDisplay(IPaginatedResult searchResults)
-    {
-        SearchResults = searchResults;
-        SortByName = "default";
-        RouteValues = new Dictionary<string, string?>();
     }
 
     public string SortByName { get; }
