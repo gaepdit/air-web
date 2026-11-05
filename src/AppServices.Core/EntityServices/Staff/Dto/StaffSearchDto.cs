@@ -20,7 +20,7 @@ public record StaffSearchDto : ISearchDto<StaffSearchDto>, ISearchDto
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
-        { nameof(Sort), Sort.ToString() },
+        { nameof(Sort), SortByName },
         { nameof(Name), Name },
         { nameof(Email), Email },
         { nameof(Role), Role },

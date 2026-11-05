@@ -116,11 +116,23 @@
             <div class="table-responsive">
                 <table class="table table-hover mb-0 table-collapsible document-results" aria-label="Permit search results table">
                     <thead>
-                    <tr>
-                        <th scope="col" class="text-nowrap">Facility ID</th>
-                        <th scope="col" class="text-nowrap">Facility Name</th>
+                    <tr class="sortable">
+                        <partial name="Shared/PermitPartials/_SortableTableColHead" model="Model.Spec"
+                                 view-data="new ViewDataDictionary(ViewData)"
+                                 view-data-Heading="@("Facility ID")"
+                                 view-data-Ascender="@nameof(IPermitService.SortBy.Id)"
+                                 view-data-Descender="@nameof(IPermitService.SortBy.IdDesc)" />
+                        <partial name="Shared/PermitPartials/_SortableTableColHead" model="Model.Spec"
+                                 view-data="new ViewDataDictionary(ViewData)"
+                                 view-data-Heading="@("Facility Name")"
+                                 view-data-Ascender="@nameof(IPermitService.SortBy.Name)"
+                                 view-data-Descender="@nameof(IPermitService.SortBy.NameDesc)" />
                         <th scope="col" class="text-nowrap">Permit</th>
-                        <th scope="col" class="text-nowrap">Issuance Date</th>
+                        <partial name="Shared/PermitPartials/_SortableTableColHead" model="Model.Spec"
+                                 view-data="new ViewDataDictionary(ViewData)"
+                                 view-data-Heading="@("Issuance Date")"
+                                 view-data-Ascender="@nameof(IPermitService.SortBy.Date)"
+                                 view-data-Descender="@nameof(IPermitService.SortBy.DateDesc)" />
                         <th scope="col" class="text-nowrap">Other Documents</th>
                         <th scope="col" class="text-nowrap">Permit Type</th>
                     </tr>

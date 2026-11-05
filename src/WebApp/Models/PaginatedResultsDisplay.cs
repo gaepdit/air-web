@@ -1,51 +1,16 @@
-﻿using AirWeb.AppServices.Core.EntityServices.Staff.Dto;
-using AirWeb.AppServices.Core.Search;
+﻿using AirWeb.AppServices.Core.Search;
 using GaEpd.AppLibrary.Pagination;
 
 namespace AirWeb.WebApp.Models;
 
-public record PaginatedResultsDisplay
+public record PaginatedResultsDisplay(
+    IPaginatedResult SearchResults,
+    IDictionary<string, string?> RouteValues,
+    string SortByName = "default")
 {
-    public PaginatedResultsDisplay(ISearchDto spec, IPaginatedResult searchResults)
-    {
-        SortByName = spec.SortByName;
-        SearchResults = searchResults;
-        RouteValues = spec.AsRouteValues();
-    }
+    public PaginatedResultsDisplay(ISearchDto spec, IPaginatedResult searchResults) :
+        this(searchResults, spec.AsRouteValues(), spec.SortByName) { }
 
-    public PaginatedResultsDisplay(StaffSearchDto spec, IPaginatedResult searchResults)
-    {
-        SortByName = spec.Sort.ToString();
-        SearchResults = searchResults;
-        RouteValues = spec.AsRouteValues();
-    }
-
-    public PaginatedResultsDisplay(IDictionary<string, string?> routeValues, IPaginatedResult searchResults)
-    {
-        SearchResults = searchResults;
-        SortByName = "default";
-        RouteValues = routeValues;
-    }
-
-    public PaginatedResultsDisplay(IDictionary<string, string?> routeValues, string searchHandler,
-        IPaginatedResult searchResults)
-    {
-        SearchResults = searchResults;
-        SortByName = "default";
-        RouteValues = routeValues;
-        SearchHandler = searchHandler;
-    }
-
-    public PaginatedResultsDisplay(IPaginatedResult searchResults)
-    {
-        SearchResults = searchResults;
-        SortByName = "default";
-        RouteValues = new Dictionary<string, string?>();
-    }
-
-    public string SortByName { get; }
-    public IDictionary<string, string?> RouteValues { get; }
     public string SearchHandler { get; init; } = "Search";
     public string SearchFragment { get; init; } = "SearchResults";
-    public IPaginatedResult SearchResults { get; }
 }

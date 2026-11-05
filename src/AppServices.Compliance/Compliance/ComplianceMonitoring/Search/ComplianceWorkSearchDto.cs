@@ -77,7 +77,7 @@ public record ComplianceWorkSearchDto : ISearchDto<ComplianceWorkSearchDto>, ISe
     {
         var asRouteValues = new Dictionary<string, string?>
         {
-            { nameof(Sort), Sort.ToString() },
+            { nameof(Sort), SortByName },
             { nameof(Closed), Closed?.ToString() },
             { nameof(DeleteStatus), DeleteStatus?.ToString() },
             { nameof(FacilityId), FacilityId },

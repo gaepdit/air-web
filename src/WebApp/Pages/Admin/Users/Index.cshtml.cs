@@ -27,7 +27,7 @@ public class UsersIndexModel(IOfficeService officeService, IStaffService staffSe
     {
         Spec = spec.TrimAll();
         await PopulateSelectListsAsync();
-        var paging = new PaginatedRequest(p, SearchDefaults.SearchPageSize, Spec.Sort.GetDescription());
+        var paging = PaginationDefaults.DefaultSearch(p, Spec);
         SearchResults = await staffService.SearchAsync(Spec, paging);
         ShowResults = true;
         return Page();

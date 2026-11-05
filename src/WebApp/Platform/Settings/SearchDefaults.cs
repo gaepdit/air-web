@@ -49,6 +49,9 @@ internal static class PaginationDefaults
     public static PaginatedRequest DefaultSearch(int pageNumber) =>
         new(pageNumber, pageSize: SearchDefaults.SearchPageSize, sorting: "default");
 
+    public static PaginatedRequest DefaultSearch(int pageNumber, ISearchDto spec) =>
+        new(pageNumber, pageSize: SearchDefaults.SearchPageSize, sorting: spec.Sorting);
+
     public static PaginatedRequest ComplianceSummary { get; } =
         new(pageNumber: 1, pageSize: SearchDefaults.SummaryTableSize,
             sorting: ComplianceWorkSortBy.EventDateDesc.GetDescription());

@@ -75,7 +75,7 @@ public record CaseworkSearchDto : ISearchDto<CaseworkSearchDto>, ISearchDto
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
-        { nameof(Sort), Sort.ToString() },
+        { nameof(Sort), SortByName },
         { nameof(Status), Status?.ToString() },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
         { nameof(CustomerDeletedStatus), CustomerDeletedStatus?.ToString() },

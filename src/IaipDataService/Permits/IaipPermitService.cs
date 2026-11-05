@@ -14,20 +14,10 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
     private async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsByFacilityIdInternal(FacilityId facilityId,
         int skip, int take)
     {
-        const string sql =
-            "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
-            " VNarrative, VFinal, OtherNarrative, OtherPermit, " +
-            " PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal " +
-            " from dbo.VW_GA_PERMITS " +
-            " where FacilityId = @facilityId " +
-            " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
-            " offset @skip rows fetch next @take rows only ";
-
         using var db = dbf.Create();
-        return (await db
-            .QueryAsync<PermitSummary>(sql: sql, param: new { facilityId = facilityId.ToString(), skip, take },
-                commandType: CommandType.Text)
-            .ConfigureAwait(false)).ToList();
+        return (await db.QueryAsync<PermitSummary>("air.SearchIaipPermitsByFacilityId",
+            param: new { facilityId = facilityId.FormattedId, skip, take },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
     }
 
     public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(FacilityId facilityId, int skip, int take,
@@ -46,55 +36,36 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             tags: [tag], token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take)
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take,
+        IPermitService.SortBy sortBy)
     {
-        const string sql =
-            "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
-            " VNarrative, VFinal, OtherNarrative, OtherPermit, " +
-            " PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal " +
-            " from dbo.VW_GA_PERMITS " +
-            " where (@name is null or FacilityName like concat('%', @name, '%')) " +
-            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
-            " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
-            " and (@dateTo is null or IssuanceDate <= @dateTo) " +
-            " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
-            " offset @skip rows fetch next @take rows only ";
-
         using var db = dbf.Create();
-        return (await db.QueryAsync<PermitSummary>(sql: sql,
-            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo, skip, take },
-            commandType: CommandType.Text).ConfigureAwait(false)).ToList();
+        return (await db.QueryAsync<PermitSummary>("air.SearchIaipPermits",
+            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo, skip, take, sort = sortBy.ToString() },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false)).ToList();
     }
 
     public async Task<int> CountPermitsAsync(FacilityId facilityId)
     {
-        const string sql = "select count(*) from dbo.VW_GA_PERMITS where FacilityId = @facilityId ";
         using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<int>(sql: sql, param: new { facilityId = facilityId.ToString() },
-            commandType: CommandType.Text).ConfigureAwait(false);
+        return await db.ExecuteScalarAsync<int>("air.CountIaipPermitsByFacilityId",
+            param: new { facilityId = facilityId.FormattedId },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     public async Task<int> CountPermitsAsync(PermitSearchDto spec)
     {
-        const string sql =
-            "select count(*) " +
-            " from dbo.VW_GA_PERMITS " +
-            " where (@name is null or FacilityName like concat('%', @name, '%')) " +
-            " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
-            " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
-            " and (@dateTo is null or IssuanceDate <= @dateTo) ";
-
         using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<int>(sql: sql,
+        return await db.ExecuteScalarAsync<int>("air.CountIaipPermits",
             param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo },
-            commandType: CommandType.Text).ConfigureAwait(false);
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
     public async Task<byte[]?> GetPermitFileAsync(string fileName)
     {
-        const string sql = "SELECT PDFPERMITDATA FROM dbo.APBPERMITS WHERE STRFILENAME = @fileName ";
         using var db = dbf.Create();
-        return await db.ExecuteScalarAsync<byte[]?>(sql: sql, param: new { fileName }, commandType: CommandType.Text)
-            .ConfigureAwait(false);
+        return await db.ExecuteScalarAsync<byte[]?>("air.GetIaipPermitFile",
+            param: new { fileName },
+            commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 }

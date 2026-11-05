@@ -80,7 +80,7 @@ public record CaseFileSearchDto : ISearchDto<CaseFileSearchDto>, ISearchDto, IDe
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
-        { nameof(Sort), Sort.ToString() },
+        { nameof(Sort), SortByName },
         { nameof(Closed), Closed?.ToString() },
         { nameof(DeleteStatus), DeleteStatus?.ToString() },
         { nameof(CaseFileStatus), CaseFileStatus?.ToString() },

@@ -55,7 +55,7 @@ public record FceSearchDto : ISearchDto<FceSearchDto>, ISearchDto, IDeleteStatus
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
-        { nameof(Sort), Sort.ToString() },
+        { nameof(Sort), SortByName },
         { nameof(DeleteStatus), DeleteStatus?.ToString() },
         { nameof(FacilityId), FacilityId },
         { nameof(Year), Year.ToString() },

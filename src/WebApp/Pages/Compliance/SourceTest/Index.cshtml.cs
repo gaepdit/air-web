@@ -27,7 +27,7 @@ public class SourceTestIndexModel(ISourceTestAppService testsService, IStaffServ
     public string? UserId { get; private set; }
 
     public IPaginatedResult<SourceTestSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
+    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults, RouteValues);
 
     public IDictionary<string, string?> RouteValues => new Dictionary<string, string?>
         { { nameof(Office), Office.ToString() }, { nameof(Staff), Staff } };
@@ -55,7 +55,7 @@ public class SourceTestIndexModel(ISourceTestAppService testsService, IStaffServ
 
     private async Task<IActionResult> PageWithSearchResultsAsync(int p)
     {
-        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.SearchPageSize, sorting: "default");
+        var paging = PaginationDefaults.DefaultSearch(p);
 
         SearchResults = await testsService.GetOpenSourceTestsForComplianceAsync(assignmentUser: Staff,
             assignmentOffice: Office, paging: paging);

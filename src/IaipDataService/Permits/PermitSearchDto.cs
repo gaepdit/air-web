@@ -5,7 +5,12 @@ namespace IaipDataService.Permits;
 
 public record PermitSearchDto
 {
-    private const string DateOnlyInput = "{0:yyyy-MM-dd}";
+    // Sorting
+    public IPermitService.SortBy Sort { get; init; } = IPermitService.SortBy.Name;
+    public string SortByName => Sort.ToString();
+
+    private const string InputDateFormat = "{0:yyyy-MM-dd}";
+    private const string RouteDateFormat = "yyyy-MM-dd";
 
     /// <summary>A partial facility name to search for.</summary>
     [Display(Name = "Facility Name")]
@@ -20,19 +25,28 @@ public record PermitSearchDto
     /// <summary>A starting permit issuance date to search from.</summary>
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = DateOnlyInput, ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = InputDateFormat, ApplyFormatInEditMode = true)]
     public DateOnly? DateFrom { get; init; }
 
     /// <summary>An ending permit issuance date to search through.</summary>
     [Display(Name = "Until")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = DateOnlyInput, ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = InputDateFormat, ApplyFormatInEditMode = true)]
     public DateOnly? DateTo { get; init; }
 
     public PermitSearchDto TrimAll() => this with
     {
         Name = Name?.Trim(),
         Permit = Permit?.Trim(),
+    };
+
+    public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
+    {
+        { nameof(Sort), SortByName },
+        { nameof(Name), Name },
+        { nameof(Permit), Permit },
+        { nameof(DateFrom), DateFrom?.ToString(RouteDateFormat) },
+        { nameof(DateTo), DateTo?.ToString(RouteDateFormat) },
     };
 }
 

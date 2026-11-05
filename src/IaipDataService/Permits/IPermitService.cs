@@ -1,4 +1,5 @@
 ﻿using IaipDataService.Facilities;
+using System.Text.Json.Serialization;
 
 namespace IaipDataService.Permits;
 
@@ -20,7 +21,9 @@ public interface IPermitService
     /// <param name="spec">The search spec.</param>
     /// <param name="skip">The number of permits search results to skip (for pagination).</param>
     /// <param name="take">The number of permits search results to take (for pagination).</param>
-    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take);
+    /// <param name="sortBy">The requested ordering of search results.</param>
+    Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take,
+        SortBy sortBy);
 
     /// <summary>
     /// Counts the number of permits for a facility.
@@ -40,4 +43,15 @@ public interface IPermitService
     /// <param name="fileName">The ID of the permit document.</param>
     /// <returns>A byte array of the permit document.</returns>
     Task<byte[]?> GetPermitFileAsync(string fileName);
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum SortBy
+    {
+        Date,
+        DateDesc,
+        Id,
+        IdDesc,
+        Name,
+        NameDesc,
+    }
 }

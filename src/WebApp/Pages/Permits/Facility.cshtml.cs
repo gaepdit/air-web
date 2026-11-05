@@ -16,7 +16,7 @@ public class FacilityPermitsIndex(IPermitService permitService, IFacilityService
 
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
 
-    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults)
+    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults, RouteValues)
         { SearchHandler = "", SearchFragment = "" };
 
     public Dictionary<string, string?> RouteValues => new() { { nameof(Id), Id } };

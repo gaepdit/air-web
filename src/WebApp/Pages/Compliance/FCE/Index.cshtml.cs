@@ -56,8 +56,7 @@ public class FceIndexModel(
 
         if (!ModelState.IsValid) return;
 
-        var paging = new PaginatedRequest(pageNumber: p, SearchDefaults.SearchPageSize,
-            sorting: Spec.Sort.GetDescription());
+        var paging = PaginationDefaults.DefaultSearch(p, Spec);
         SearchResults = await searchService.SearchAsync(Spec, paging, token: token);
         ShowResults = true;
     }
