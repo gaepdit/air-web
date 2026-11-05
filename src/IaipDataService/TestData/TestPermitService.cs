@@ -10,13 +10,45 @@ public class TestPermitService : IPermitService
         CancellationToken token = default) =>
         Task.FromResult<IReadOnlyCollection<PermitSummary>>(PermitData.GetData
             .Where(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId)))
-            .Skip(skip).Take(take)
-            .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
+            .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenByDescending(ps => ps.IssuanceDate)
+            .Skip(skip).Take(take).ToList());
 
-    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take) =>
-        Task.FromResult<IReadOnlyCollection<PermitSummary>>(FilterPermits(spec)
-            .Skip(skip).Take(take)
-            .OrderBy(ps => ps.FacilityName).ThenBy(ps => ps.FacilityId).ThenBy(ps => ps.IssuanceDate).ToList());
+    public Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take,
+        IPermitService.SortBy sortBy)
+    {
+        var permits = FilterPermits(spec).Skip(skip).Take(take);
+
+        var orderedEnumerable = sortBy switch
+        {
+            IPermitService.SortBy.Date => permits
+                .OrderBy(ps => ps.IssuanceDate)
+                .ThenBy(ps => ps.FacilityName)
+                .ThenBy(ps => ps.FacilityId),
+            IPermitService.SortBy.DateDesc => permits
+                .OrderByDescending(ps => ps.IssuanceDate)
+                .ThenBy(ps => ps.FacilityName)
+                .ThenBy(ps => ps.FacilityId),
+            IPermitService.SortBy.Id => permits
+                .OrderBy(ps => ps.FacilityId)
+                .ThenBy(ps => ps.FacilityName)
+                .ThenByDescending(ps => ps.IssuanceDate),
+            IPermitService.SortBy.IdDesc => permits
+                .OrderByDescending(ps => ps.FacilityId)
+                .ThenByDescending(ps => ps.FacilityName)
+                .ThenByDescending(ps => ps.IssuanceDate),
+            IPermitService.SortBy.Name => permits
+                .OrderBy(ps => ps.FacilityName)
+                .ThenBy(ps => ps.FacilityId)
+                .ThenByDescending(ps => ps.IssuanceDate),
+            IPermitService.SortBy.NameDesc => permits
+                .OrderByDescending(ps => ps.FacilityName)
+                .ThenByDescending(ps => ps.FacilityId)
+                .ThenByDescending(ps => ps.IssuanceDate),
+            _ => throw new ArgumentOutOfRangeException(nameof(sortBy), sortBy, null),
+        };
+
+        return Task.FromResult<IReadOnlyCollection<PermitSummary>>([.. orderedEnumerable]);
+    }
 
     public Task<int> CountPermitsAsync(FacilityId facilityId) =>
         Task.FromResult(PermitData.GetData.Count(ps => ps.FacilityId.Equals(FacilityId.TryFormat(facilityId))));

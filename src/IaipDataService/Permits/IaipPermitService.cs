@@ -20,7 +20,7 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " PSDAppSum, PSDPrelim, PSDNarrative, PSDFinalDet, PSDFinal " +
             " from dbo.VW_GA_PERMITS " +
             " where FacilityId = @facilityId " +
-            " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
+            " order by FacilityName, FacilityId, IssuanceDate desc, ApplicationNumber desc" +
             " offset @skip rows fetch next @take rows only ";
 
         using var db = dbf.Create();
@@ -46,7 +46,8 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             tags: [tag], token).ConfigureAwait(false);
     }
 
-    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take)
+    public async Task<IReadOnlyCollection<PermitSummary>> SearchPermitsAsync(PermitSearchDto spec, int skip, int take,
+        IPermitService.SortBy sortBy)
     {
         const string sql =
             "select FacilityId, FacilityName, PermitNumber, IssuanceDate, FileType, " +
@@ -57,12 +58,18 @@ public sealed class IaipPermitService(IDbConnectionFactory dbf, HybridCache cach
             " and (@permit is null or PermitNumber like concat('%', @permit, '%')) " +
             " and (@dateFrom is null or IssuanceDate >= @dateFrom) " +
             " and (@dateTo is null or IssuanceDate <= @dateTo) " +
-            " order by FacilityName, FacilityId, IssuanceDate, ApplicationNumber" +
+            " order by case @sort when 'Id' then FacilityId end, " +
+            " case @sort when 'Date' then IssuanceDate end, " +
+            " case @sort when 'DateDesc' then IssuanceDate end desc, " +
+            " case @sort when 'IdDesc' then FacilityId when 'NameDesc' then FacilityName end desc, " +
+            " case @sort when 'IdDesc' then FacilityName when 'NameDesc' then FacilityId end desc, " +
+            " FacilityName, FacilityId, IssuanceDate desc, ApplicationNumber desc " +
             " offset @skip rows fetch next @take rows only ";
 
+        var sort = sortBy.ToString();
         using var db = dbf.Create();
         return (await db.QueryAsync<PermitSummary>(sql: sql,
-            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo, skip, take },
+            param: new { spec.Name, spec.Permit, spec.DateFrom, spec.DateTo, skip, take, sort },
             commandType: CommandType.Text).ConfigureAwait(false)).ToList();
     }
 

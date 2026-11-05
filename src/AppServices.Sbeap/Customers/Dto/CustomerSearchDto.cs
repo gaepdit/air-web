@@ -26,7 +26,7 @@ public record CustomerSearchDto : ISearchDto<CustomerSearchDto>, ISearchDto
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
-        { nameof(Sort), Sort.ToString() },
+        { nameof(Sort), SortByName },
         { nameof(Name), Name },
         { nameof(Description), Description },
         { nameof(SicCode), SicCode },

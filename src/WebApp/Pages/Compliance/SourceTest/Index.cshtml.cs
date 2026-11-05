@@ -27,7 +27,7 @@ public class SourceTestIndexModel(ISourceTestAppService testsService, IStaffServ
     public string? UserId { get; private set; }
 
     public IPaginatedResult<SourceTestSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchResults);
+    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults, RouteValues);
 
     public IDictionary<string, string?> RouteValues => new Dictionary<string, string?>
         { { nameof(Office), Office.ToString() }, { nameof(Staff), Staff } };

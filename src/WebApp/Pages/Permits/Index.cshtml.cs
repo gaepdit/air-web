@@ -31,15 +31,7 @@ public class PermitSearchIndex(
     public string FacilitiesAsJson => JsonSerializer.Serialize(Facilities, SerializationDefaults.Options);
     public IReadOnlyCollection<FacilityList> Facilities { get; private set; } = null!;
     public IPaginatedResult<PermitSummary> SearchResults { get; private set; } = null!;
-    public PaginatedResultsDisplay ResultsDisplay => new(RouteValues, SearchHandler, SearchResults);
-
-    public Dictionary<string, string?> RouteValues => new()
-    {
-        { nameof(Spec.Name), Spec.Name },
-        { nameof(Spec.Permit), Spec.Permit },
-        { nameof(Spec.DateFrom), Spec.DateFrom?.ToString("yyyy-MM-dd") },
-        { nameof(Spec.DateTo), Spec.DateTo?.ToString("yyyy-MM-dd") },
-    };
+    public PaginatedResultsDisplay ResultsDisplay => new(SearchResults, Spec.AsRouteValues(), Spec.SortByName);
 
     public async Task OnGetAsync(CancellationToken token = default) =>
         Facilities = await facilityService.GetListAsync(token: token);
@@ -76,12 +68,13 @@ public class PermitSearchIndex(
     public async Task OnGetSearchAsync(PermitSearchDto spec, [FromQuery] int p = 1, CancellationToken token = default)
     {
         Facilities = await facilityService.GetListAsync(token: token);
-        await validator.ApplyValidationAsync(spec, ModelState);
         Spec = spec.TrimAll();
+
+        await validator.ApplyValidationAsync(Spec, ModelState);
         if (!ModelState.IsValid) return;
 
         var paging = PaginationDefaults.DefaultSearch(p);
-        var permitSearchTask = service.SearchPermitsAsync(Spec, paging.Skip, paging.Take);
+        var permitSearchTask = service.SearchPermitsAsync(Spec, paging.Skip, paging.Take, Spec.Sort);
         var permitCountTask = service.CountPermitsAsync(Spec);
 
         SearchResults = new PaginatedResult<PermitSummary>(await permitSearchTask, await permitCountTask, paging);
