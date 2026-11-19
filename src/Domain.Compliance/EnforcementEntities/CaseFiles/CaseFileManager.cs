@@ -103,6 +103,14 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         caseFile.AuditPoints.Add(CaseFileAuditPoint.PollutantsAndProgramsUpdated(user));
     }
 
+    public void UpdateDataExchangeAll(CaseFile caseFile)
+    {
+        if (caseFile.ActionNumber is null) return;
+        caseFile.UpdateDataExchange();
+        foreach (var action in caseFile.EnforcementActions.OfType<DxEnforcementAction>())
+            action.UpdateDataExchange();
+    }
+
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose() => repository.Dispose();

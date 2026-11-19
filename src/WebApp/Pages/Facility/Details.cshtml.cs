@@ -93,7 +93,7 @@ public class DetailsModel(
         if (string.IsNullOrEmpty(Id)) return RedirectToPage("Index");
 
         if (!FacilityId.TryParse(Id, out var facilityId)) return NotFound("Facility ID not found.");
-        await facilityService.RefreshEpaDataExchange(facilityId);
+        await facilityService.RefreshEpaDataExchangeAsync(facilityId);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
             "Data for this facility will be sent to EPA the next time the data exchange service runs.");

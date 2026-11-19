@@ -1,4 +1,5 @@
 ﻿@page "{id:int?}"
+@using AirWeb.AppServices.Compliance.DataExchange
 @using AirWeb.AppServices.Compliance.Enforcement.EnforcementActionQuery
 @using AirWeb.AppServices.Compliance.Enforcement.Permissions
 @using AirWeb.Domain.Compliance.DataExchange
@@ -1086,6 +1087,21 @@
                                 <dt class="col-sm-4">Data Exchange Status Date</dt>
                                 <dd class="col-sm-6">@Html.DisplayFor(_ => edx.DataExchangeStatusDate, DisplayTemplate.LongDateTimeOffsetNullable,
                                         additionalViewData: new { Placeholder = DefaultText.PlaceholderNone })</dd>
+                            </dl>
+                        }
+
+                        @if (User.CanRefreshEpaDataExchange())
+                        {
+                            <dl class="mt-2 mb-0 ms-sm-2">
+                                <dt>Trigger EPA data exchange for all enforcement data</dt>
+                                <dd>
+                                    <form method="post" asp-page-handler="RefreshEpa">
+                                        <button class="btn btn-sm btn-outline-info mt-1" type="submit">
+                                            <partial name="Shared/_AppIconsPartial" model="@AppIcon.UpToCloud" />
+                                            Update EPA Data Exchange
+                                        </button>
+                                    </form>
+                                </dd>
                             </dl>
                         }
                     </div>

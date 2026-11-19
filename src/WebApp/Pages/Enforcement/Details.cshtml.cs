@@ -244,6 +244,16 @@ public class DetailsModel(
         return RedirectToPage();
     }
 
+    public async Task<IActionResult> OnPostRefreshEpaAsync(CancellationToken token)
+    {
+        if (Id == 0) return RedirectToPage("Index");
+        await caseFileService.RefreshEpaDataExchangeAsync(Id, token);
+
+        TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success,
+            "Data for this Enforcement Case File will be sent to EPA the next time the data exchange service runs.");
+        return RedirectToPage();
+    }
+
     #region Comments
 
     public async Task<IActionResult> OnPostNewCommentAsync(CommentAddDto newComment, CancellationToken token)
