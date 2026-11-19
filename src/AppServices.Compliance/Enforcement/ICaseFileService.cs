@@ -50,4 +50,7 @@ public interface ICaseFileService : IDisposable, IAsyncDisposable
         CancellationToken token = default);
 
     Task DeleteCommentAsync(Guid commentId, CancellationToken token = default);
+
+    // Data Exchange
+    Task RefreshEpaDataExchangeAsync(int id, CancellationToken token = default);
 }

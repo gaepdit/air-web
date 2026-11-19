@@ -21,8 +21,7 @@ The Case File status depends (in part) on the status of its Enforcement Actions.
 
 - *Draft* - Case File has no issued Enforcement Actions.
 - *Open* - Case File has at least one issued Enforcement Action.
-- *Subject to compliance schedule* - Case File has at least one Formal Enforcement Action (see Data Exchange table
-  below) that has been executed.
+- *Subject to compliance schedule* - Case File has at least one Formal Enforcement Action that has been executed.
 - *Closed* - Case File is closed.
 
 ```mermaid
@@ -47,19 +46,20 @@ flowchart LR
 
 ### Enforcement Action Types
 
-* Informational Letter
-* Letter of Noncompliance (LON)
-* No Further Action Letter (NFA)
-* Notice of Violation (NOV)
-* Combined NOV/NFA Letter
-* Proposed Consent Order (PCO)
-* Consent Order (CO)
-* Administrative Order (AO)
+| Enforcement Action type        | Informal Enforcement Action | Formal Enforcement Action |
+|--------------------------------|:---------------------------:|:-------------------------:|
+| Informational Letter           |                             |                           |
+| Letter of Noncompliance (LON)  |                             |                           |
+| No Further Action Letter (NFA) |                             |                           |
+| Notice of Violation (NOV)      |             ✓              |                           |
+| Combined NOV/NFA Letter        |             ✓              |                           |
+| Proposed Consent Order         |             ✓              |                           |
+| Consent Order (CO)             |                             |            ✓             |
+| Administrative Order (AO)      |                             |            ✓             |
 
 ### Enforcement Action Type-Specific Logic
 
-* An LON or a Combined NOV/NFA letter cannot be added if a reportable Enforcement Action (see Data Exchange table below)
-  has already been issued.
+* An LON or a Combined NOV/NFA letter cannot be added if a reportable Enforcement Action has already been issued.
 * An NFA cannot be added directly to a Case File. It can only be generated from an existing NOV from the Actions menu.
 * A CO cannot be added directly to a Case File. It can only be generated from an existing PCO from the Actions menu.
 * Stipulated Penalties can be added to a Consent Order.

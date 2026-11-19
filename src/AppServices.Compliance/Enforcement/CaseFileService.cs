@@ -302,6 +302,16 @@ public sealed class CaseFileService(
     public Task DeleteCommentAsync(Guid commentId, CancellationToken token = default) =>
         commentService.DeleteCommentAsync(commentId, token);
 
+    public async Task RefreshEpaDataExchangeAsync(int id, CancellationToken token = default)
+    {
+        var caseFile = await caseFileRepository.GetAsync(id,
+            includeProperties: [nameof(CaseFile.EnforcementActions)],
+            token: token).ConfigureAwait(false);
+
+        caseFileManager.UpdateDataExchangeAll(caseFile);
+        await caseFileRepository.UpdateAsync(caseFile, token: token).ConfigureAwait(false);
+    }
+
     #region IDisposable,  IAsyncDisposable
 
     public void Dispose()

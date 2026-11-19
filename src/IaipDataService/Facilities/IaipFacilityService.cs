@@ -108,7 +108,7 @@ public sealed class IaipFacilityService(
             param: new { FacilityId = id.Id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
     }
 
-    public async Task<bool> RefreshEpaDataExchange(FacilityId id)
+    public async Task RefreshEpaDataExchangeAsync(FacilityId id)
     {
         using var db = dbf.Create();
 
@@ -117,8 +117,6 @@ public sealed class IaipFacilityService(
 
         await db.ExecuteAsync("etl.TriggerDataUpdateAtEPA", parameters, commandType: CommandType.StoredProcedure)
             .ConfigureAwait(false);
-
-        return parameters.Get<int>("@returnValue") == 0;
     }
 
     public async Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,

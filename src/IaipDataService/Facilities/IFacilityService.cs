@@ -41,7 +41,7 @@ public interface IFacilityService
     /// Sets the EPA Data Exchange status indicator to "Pending" (U).
     /// </summary>
     /// <param name="id">The Facility ID.</param>
-    Task<bool> RefreshEpaDataExchange(FacilityId id);
+    Task RefreshEpaDataExchangeAsync(FacilityId id);
 
     /// <summary>
     /// Retrieves all facilities as a Facility summary.

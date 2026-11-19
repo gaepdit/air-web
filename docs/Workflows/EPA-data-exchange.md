@@ -17,17 +17,16 @@ the [epa-dx repo](https://github.com/gaepdit/epa-dx).
 
 ## Enforcement
 
-| Enforcement Action type    | Not reportable | Reportable as "informal" | Reportable as "formal" |
-|----------------------------|:--------------:|:------------------------:|:----------------------:|
-| Letter of Noncompliance    |       ✓       |                          |                        |
-| Notice of Violation        |                |            ✓            |                        |
-| No Further Action Letter   |      ✓ *      |                          |                        |
-| Combined NOV/NFA Letter    |                |            ✓            |                        |
-| Proposed Consent Order     |                |            ✓            |                        |
-| Consent Order              |                |                          |           ✓           |
-| Administrative Order       |                |                          |           ✓           |
-| Order Resolved  (CO or AO) |       ✓       |                          |                        |
-| Informational Letter       |       ✓       |                          |                        |
+| Enforcement Action type  | Not reportable | Reportable as "Informal" | Reportable as "Formal" |
+|--------------------------|:--------------:|:------------------------:|:----------------------:|
+| Letter of Noncompliance  |       ✓       |                          |                        |
+| Notice of Violation      |                |            ✓            |                        |
+| No Further Action Letter |      ✓ *      |                          |                        |
+| Combined NOV/NFA Letter  |                |            ✓            |                        |
+| Proposed Consent Order   |                |            ✓            |                        |
+| Consent Order            |                |                          |           ✓           |
+| Administrative Order     |                |                          |           ✓           |
+| Informational Letter     |       ✓       |                          |                        |
 
 <span>*</span> NFA letters are not reportable on their own but are sent as Addressing & Resolving Pathway Activities.
 

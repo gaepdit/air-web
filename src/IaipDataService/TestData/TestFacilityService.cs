@@ -41,7 +41,7 @@ public sealed class TestFacilityService : IFacilityService
         return Task.FromResult<DateTime?>(dxDate);
     }
 
-    public Task<bool> RefreshEpaDataExchange(FacilityId id) => Task.FromResult(true);
+    public Task RefreshEpaDataExchangeAsync(FacilityId id) => Task.CompletedTask;
 
     public Task<IReadOnlyCollection<FacilitySummary>> GetAllAsync(bool forceRefresh = false,
         bool includePortableSources = true, CancellationToken token = default) =>
@@ -49,17 +49,18 @@ public sealed class TestFacilityService : IFacilityService
             .. Items
                 .Where(f => includePortableSources || f.Id.CountyCode != "777")
                 .Select(f => new FacilitySummary(f))
-                .OrderBy(f => f.Id),
+                .OrderBy(f => f.Id, StringComparer.OrdinalIgnoreCase),
         ]);
 
     public Task<IReadOnlyCollection<FacilityList>> GetListAsync(bool forceRefresh = false,
         CancellationToken token = default) =>
-        Task.FromResult<IReadOnlyCollection<FacilityList>>(Items
-            .Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id)).OrderBy(f => f.Id).ToList());
+        Task.FromResult<IReadOnlyCollection<FacilityList>>([
+            .. Items
+                .Select(f => new FacilityList(f.FacilityId, f.Name, f.Id.Id))
+                .OrderBy(f => f.Id, StringComparer.OrdinalIgnoreCase),
+        ]);
 
-    public async Task<IReadOnlyCollection<FacilityFceInspectionStatus>> GetFceInspectionStatusReportAsync(
-        CancellationToken token = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<IReadOnlyCollection<FacilityFceInspectionStatus>> GetFceInspectionStatusReportAsync(
+        CancellationToken token = default) =>
+        Task.FromCanceled<IReadOnlyCollection<FacilityFceInspectionStatus>>(token);
 }

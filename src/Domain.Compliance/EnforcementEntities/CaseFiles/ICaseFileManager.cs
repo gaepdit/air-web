@@ -84,4 +84,11 @@ public interface ICaseFileManager : IDisposable, IAsyncDisposable
     /// <param name="user">The user committing the change.</param>
     void UpdatePollutantsAndPrograms(CaseFile caseFile, IEnumerable<string> pollutants,
         IEnumerable<string> airPrograms, ApplicationUser? user);
+
+    /// <summary>
+    /// Sets the EPA Data Exchange status indicator to "Pending" (U) for the <see cref="CaseFile"/>
+    /// and all reportable <see cref="EnforcementAction"/>.
+    /// </summary>
+    /// <param name="caseFile">The Case File to update.</param>
+    void UpdateDataExchangeAll(CaseFile caseFile);
 }
