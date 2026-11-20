@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026.11.20] - 2026-11-20
+
+- Fixed a bug where Enforcement Actions wouldn't get updated at EPA when the Air Programs or Pollutants were updated.
+- Added a button to the Case File page so compliance/enforcement managers can manually trigger a data exchange update.
+
 ## [2026.11.5] - 2026-11-05
 
 - Enabled sorting on the permit search page.
@@ -286,3 +291,4 @@
 [2026.10.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.20
 [2026.10.28]: https://github.com/gaepdit/air-web/releases/tag/v2026.10.28
 [2026.11.5]: https://github.com/gaepdit/air-web/releases/tag/v2026.11.5
+[2026.11.20]: https://github.com/gaepdit/air-web/releases/tag/v2026.11.20
