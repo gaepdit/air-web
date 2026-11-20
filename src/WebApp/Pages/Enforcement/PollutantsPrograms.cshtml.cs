@@ -71,8 +71,7 @@ public class PollutantsProgramsModel(ICaseFileService caseFileService, IFacility
         await caseFileService.SaveCaseFileExtraDataAsync(Id,
             pollutants: PollutantSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
             airPrograms: AirProgramSettings.Where(setting => setting.IsSelected).Select(setting => setting.Code),
-            violationTypeCode: ViolationTypeCode,
-            token: token);
+            violationTypeCode: ViolationTypeCode, token);
 
         TempData.AddDisplayMessage(DisplayMessage.AlertContext.Success, "Enforcement successfully updated.");
         return RedirectToPage("Details", new { Id });

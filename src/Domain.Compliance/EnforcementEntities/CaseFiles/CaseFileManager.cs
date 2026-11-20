@@ -99,7 +99,7 @@ public sealed class CaseFileManager(ICaseFileRepository repository, IFacilitySer
         caseFile.AirProgramCodes.AddRange(airPrograms);
 
         caseFile.SetUpdater(user?.Id);
-        caseFile.UpdateDataExchange();
+        UpdateDataExchangeAll(caseFile);
         caseFile.AuditPoints.Add(CaseFileAuditPoint.PollutantsAndProgramsUpdated(user));
     }
 
